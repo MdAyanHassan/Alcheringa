@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please Scan this Qr code to generate E-Pass"
+        android:text="Please Scan this Qr to generate E-Pass"
         android:textSize="19sp"
         android:textColor="@color/black"
         android:gravity="center"

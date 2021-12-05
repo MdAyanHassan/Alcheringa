@@ -31,8 +31,9 @@ public class E_pass extends AppCompatActivity {
     }
     private void generateORCode(String name, String email, String phno,String isValid_Pass) {
         String final_string = name + "," + email + "," + phno;
+        String key="2ew1O7DDCKjIImXryfwM";
         try {
-            String encrypt= AESCrypt.encrypt("VIPIN",final_string);
+            String encrypt= AESCrypt.encrypt(key,final_string);
             QRCodeWriter writer = new QRCodeWriter();
             try {
                 BitMatrix bitMatrix = writer.encode(encrypt, BarcodeFormat.QR_CODE, 512, 512);
