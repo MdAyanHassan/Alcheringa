@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.BarcodeFormat;
@@ -25,6 +26,9 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         EpassButton = findViewById(R.id.Epassbutton);
+        Intent intent=getIntent();
+        String category=intent.getStringExtra("Category");
+        Toast.makeText(getApplicationContext(), ""+category, Toast.LENGTH_SHORT).show();
         EpassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
