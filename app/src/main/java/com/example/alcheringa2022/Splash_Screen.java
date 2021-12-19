@@ -21,17 +21,14 @@ public class Splash_Screen extends AppCompatActivity {
         sharedPreferences=getSharedPreferences("USER",MODE_PRIVATE);
         boolean isLoggedIn=sharedPreferences.getBoolean("isLoggedIn",false);
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(isLoggedIn){
-                    startActivity(new Intent(getApplicationContext(),Profile.class));
-                    finish();
-                }
-                else{
-                    startActivity(new Intent(getApplicationContext(),SignUp.class));
-                    finish();
-                }
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if(isLoggedIn){
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
+            }
+            else{
+                startActivity(new Intent(getApplicationContext(),SignUp.class));
+                finish();
             }
         },3000);
     }

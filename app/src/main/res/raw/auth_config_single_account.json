@@ -1,0 +1,15 @@
+{
+"client_id" : "f4017055-9433-4a6f-a2c7-28e8ab1f91a8",
+"authorization_user_agent" : "DEFAULT",
+"redirect_uri" : "msauth://com.example.alcheringa2022/VtdmKBfiwPlV%2BSJn14aQgLZ2Rzg%3D",
+"account_mode" : "SINGLE",
+"authorities" : [
+{
+"type": "AAD",
+"audience": {
+"type": "AzureADMyOrg",
+"tenant_id": "850aa78d-94e1-4bc6-9cf3-8c11b530701c"
+}
+}
+]
+}

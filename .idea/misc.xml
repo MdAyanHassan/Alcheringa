@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_epass.xml" value="0.2477355072463768" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_main.xml" value="0.2477355072463768" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_profile.xml" value="0.4" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_sign_up.xml" value="0.4" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_splash_screen.xml" value="0.2477355072463768" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/drawable/Custom_button.xml" value="0.25833333333333336" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/drawable/Splash_Screen.xml" value="0.22864583333333333" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/drawable/circle.xml" value="0.25833333333333336" />
