@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -63,6 +64,8 @@ public class SignUp extends AppCompatActivity {
     Button callGraphApiInteractiveButton;
     Button callGraphApiSilentButton;
     TextView logTextView;
+    ImageView backbutton;
+
     TextView currentUserTextView;
 
     @Override
@@ -72,13 +75,31 @@ public class SignUp extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
 
-        if(isLoggedIn){
-            startMainActivity();
-        }
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        signInButton=findViewById(R.id.signInButton);
+        TextView textView = (TextView) signInButton.getChildAt(0);
+        textView.setText("Continue with Google");
+        logTextView=findViewById(R.id.login_here);
+        backbutton=findViewById(R.id.back_button);
+        signInButton.setOnClickListener(v -> GooogleSignIn());
+        logTextView.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),Login.class)));
+        backbutton.setOnClickListener(v -> finish());
 
 
-        initializeUI();
+
+
+
+
+
+
+//        if(isLoggedIn){
+//            startMainActivity();
+//        }
+        //initializeUI();
 
         PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
                 R.raw.auth_config_single_account, new IPublicClientApplication.ISingleAccountApplicationCreatedListener() {
@@ -94,12 +115,7 @@ public class SignUp extends AppCompatActivity {
                 });
 
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        signInButton=findViewById(R.id.sign_in_button);
-        signInButton.setOnClickListener(v -> GooogleSignIn());
+
     }
 
     private void GooogleSignIn() {
@@ -185,11 +201,12 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void initializeUI(){
-        signInButtonO = findViewById(R.id.sign_in_outlook);
+        //signInButtonO = findViewById(R.id.sign_in_outlook);
         //signOutButton = findViewById(R.id.clearCache);
 
         //Sign in user
         signInButtonO.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "Outlook Signin  ", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "clicked the button 1");
             if (mSingleAccountApp == null) {
                 return;
