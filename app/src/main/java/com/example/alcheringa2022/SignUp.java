@@ -177,10 +177,11 @@ public class SignUp extends AppCompatActivity {
         if (mSingleAccountApp == null) {
             return;
         }
-
         mSingleAccountApp.getCurrentAccountAsync(new ISingleAccountPublicClientApplication.CurrentAccountCallback() {
             @Override
             public void onAccountLoaded(@Nullable IAccount activeAccount) {
+                Log.d(TAG, "account loaded");
+
                 // You can use the account data to update your UI or your app database.
                 //updateUI(activeAccount);
             }
@@ -211,8 +212,9 @@ public class SignUp extends AppCompatActivity {
             if (mSingleAccountApp == null) {
                 return;
             }
-            mSingleAccountApp.signIn(SignUp.this, null, SCOPES,getAuthInteractiveCallback());
-
+            AuthenticationCallback callback = getAuthInteractiveCallback();
+            mSingleAccountApp.signIn(SignUp.this, null, SCOPES, callback);
+            Log.d(TAG, "signed_in");
         });
 
         //Sign out user
@@ -239,11 +241,10 @@ public class SignUp extends AppCompatActivity {
 
 
     private AuthenticationCallback getAuthInteractiveCallback() {
-        Log.d(TAG, "clicked the button 4");
+        Log.d(TAG, "getAuthInteractiveCallback");
         return new AuthenticationCallback() {
             @Override
             public void onSuccess(IAuthenticationResult authenticationResult) {
-                /* Successfully got a token, use it to call a protected resource - MSGraph */
                 Log.d(TAG, "Successfully authenticated");
                 /* Update UI */
                 String name = "No name found";
@@ -260,7 +261,6 @@ public class SignUp extends AppCompatActivity {
 
                 saveDetails(name, email);
                 startMainActivity();
-
 
                 /* call graph */
                 //callGraphAPI(authenticationResult);
@@ -302,12 +302,9 @@ public class SignUp extends AppCompatActivity {
         IGraphServiceClient graphClient =
                 GraphServiceClient
                         .builder()
-                        .authenticationProvider(new IAuthenticationProvider() {
-                            @Override
-                            public void authenticateRequest(IHttpRequest request) {
-                                Log.d(TAG, "Authenticating request," + request.getRequestUrl());
-                                request.addHeader("Authorization", "Bearer " + accessToken);
-                            }
+                        .authenticationProvider(request -> {
+                            Log.d(TAG, "Authenticating request," + request.getRequestUrl());
+                            request.addHeader("Authorization", "Bearer " + accessToken);
                         })
                         .buildClient();
         graphClient
