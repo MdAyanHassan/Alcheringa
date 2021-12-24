@@ -10,8 +10,10 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -50,7 +52,8 @@ public class SignUp extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 100;
     GoogleSignInClient mGoogleSignInClient;
-    SignInButton signInButton;
+    //SignInButton signInButton;
+    LinearLayout signInButton;
 
     private final static String[] SCOPES = {"user.read"};
     /* Azure AD v2 Configs */
@@ -59,7 +62,7 @@ public class SignUp extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    Button signInButtonO;
+    LinearLayout signInButtonO;
     Button signOutButton;
     Button callGraphApiInteractiveButton;
     Button callGraphApiSilentButton;
@@ -80,9 +83,10 @@ public class SignUp extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        signInButton=findViewById(R.id.signInButton);
-        TextView textView = (TextView) signInButton.getChildAt(0);
-        textView.setText("Continue with Google");
+        signInButton = findViewById(R.id.signInButton);
+        //TextView textView = (TextView) signInButton.getChildAt(0);
+        //textView.setText("Continue with Google");
+        //textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
         logTextView=findViewById(R.id.login_here);
         backbutton=findViewById(R.id.back_button);
         signInButton.setOnClickListener(v -> GooogleSignIn());
@@ -90,16 +94,10 @@ public class SignUp extends AppCompatActivity {
         backbutton.setOnClickListener(v -> finish());
 
 
-
-
-
-
-
-
 //        if(isLoggedIn){
 //            startMainActivity();
 //        }
-        //initializeUI();
+        initializeUI();
 
         PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
                 R.raw.auth_config_single_account, new IPublicClientApplication.ISingleAccountApplicationCreatedListener() {
@@ -202,7 +200,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void initializeUI(){
-        //signInButtonO = findViewById(R.id.sign_in_outlook);
+        signInButtonO = findViewById(R.id.sign_in_outlook);
         //signOutButton = findViewById(R.id.clearCache);
 
         //Sign in user

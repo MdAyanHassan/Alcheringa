@@ -133,7 +133,7 @@
             android:gravity="center"
             android:textSize="18sp"
             android:text="Or"
-
+            android:textColor="@color/White"
             android:textAllCaps="false"
 
             />
@@ -148,19 +148,111 @@
 
     </LinearLayout>
 
-    <com.google.android.gms.common.SignInButton
+<!--    <Button
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:id="@+id/sign_in_outlook"
+        android:layout_width="272dp"
+        android:layout_height="50dp"
+        android:text="Continue with Outlook"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_to_"
+        app:layout_constraintVertical_bias="0.723"
+        android:background="@drawable/login_button_bg"
+        android:textSize="16sp"
+        app:icon="@drawable/outlook_logo"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        />-->
+
+        <LinearLayout
+        android:id="@+id/sign_in_outlook"
+        android:layout_width="272dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_to_"
+        app:layout_constraintVertical_bias="0.723"
+        android:background="@drawable/login_button_bg"
+        android:orientation="horizontal">
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/outlook_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Continue with Outlook"
+                android:textSize="18sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/signInButton"
         android:layout_width="272dp"
         android:layout_height="50dp"
-        android:backgroundTint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_to_"
+        app:layout_constraintVertical_bias="0.887"
+        android:background="@drawable/login_button_bg"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="23dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/google_logo"
+            android:layout_marginRight="13dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="Continue with Google"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+        <!--<com.google.android.gms.common.SignInButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>-->
+
+    </LinearLayout>
+
+
+
+<!--    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signInButton"
+        android:layout_width="272dp"
+        android:layout_height="50dp"
         android:text="Continue with Google"
         app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome_to_"
-        app:layout_constraintVertical_bias="0.851" >
+        app:layout_constraintVertical_bias="0.866"
+        android:background="@drawable/login_button_bg"
+        >
 
-    </com.google.android.gms.common.SignInButton>
+    </com.google.android.gms.common.SignInButton>-->
 
     <TextView
         android:id="@+id/already_have_an_account"
