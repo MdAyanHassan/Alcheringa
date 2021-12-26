@@ -73,9 +73,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create an account"
+        android:fontFamily="@font/clashdisplay"
         android:textColor="@color/White"
         android:textSize="30sp"
-        android:textStyle="bold"
+
         app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
@@ -92,10 +93,10 @@
         android:backgroundTint="#EE6337"
         android:text="Create an Account"
         android:textAllCaps="false"
-
+        android:fontFamily="@font/clashdisplay"
+        android:textFontWeight="700"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -230,9 +231,9 @@
             android:text="Continue with Google"
             android:textSize="18sp"
             android:textColor="@color/black"/>
-        <!--<com.google.android.gms.common.SignInButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>-->
+<!--        <com.google.android.gms.common.SignInButton-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"/>-->
 
     </LinearLayout>
 

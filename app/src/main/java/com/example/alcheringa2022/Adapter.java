@@ -55,18 +55,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        private TextView textView;
-        private TextView textView2;
-        private TextView textview3;
-        private TextView divider;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final ImageView imageView;
+        private final TextView textView;
+        private final TextView textView2;
+        private final TextView textview3;
+        private final TextView divider;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            //here use xml ids
-            //give different name not like constructor
             imageView=itemView.findViewById(R.id.imageview);
             textView=itemView.findViewById(R.id.textview);
             textView2=itemView.findViewById(R.id.textview2);
@@ -75,7 +73,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
 
         }
-
         public void setData(int resource, String name, String msg, String time,String line) {
 
             imageView.setImageResource(resource);
@@ -83,8 +80,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             textView2.setText(msg);
             textview3.setText(time);
             divider.setText(line);
-
-
 
         }
     }

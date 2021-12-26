@@ -11,12 +11,12 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/about"
-        android:name="com.example.alcheringa2022.about"
+        android:name="com.example.alcheringa2022.Events_Fragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/contact_us"
-        android:name="com.example.alcheringa2022.contact_us"
+        android:name="com.example.alcheringa2022.Merch"
         android:label="fragment_contact_us"
         tools:layout="@layout/fragment_contact_us" />
 </navigation>

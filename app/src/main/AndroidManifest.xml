@@ -20,6 +20,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".SignUp"
@@ -45,7 +46,10 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" /> <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="true" >
+
+        </activity><!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -58,6 +62,7 @@
                     android:path="/VtdmKBfiwPlV+SJn14aQgLZ2Rzg="
                     android:scheme="msauth" />
             </intent-filter>
+
         </activity>
     </application>
 

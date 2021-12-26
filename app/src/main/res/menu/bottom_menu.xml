@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/home2" android:title="Home" android:icon="@drawable/ic_home"/>
-    <item android:id="@+id/about" android:title="About Us" android:icon="@drawable/ic_about"/>
-    <item android:id="@+id/contact_us" android:title="Contact Us" android:icon="@drawable/ic_ontact"/>
+    <item android:id="@+id/home_nav" android:title="Home"  android:icon="@drawable/home_alt"/>
+    <item android:id="@+id/events" android:title="Events"  android:icon="@drawable/events"/>
+    <item android:id="@+id/merch" android:title="Merch" android:icon="@drawable/merch"/>
+
+    <item android:id="@+id/schedule" android:title="Schedule"  android:icon="@drawable/schedule"/>
 </menu>
