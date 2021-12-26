@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">Alcheringa2022</string>
+  
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="contact_us">Contact Us</string>
     <string name="already_hav">
         Already have an account?\nLogin here
     </string>
+  
     <string name="or">
         Or
     </string>
@@ -24,5 +29,5 @@
     <string name="continue_with_google">
         Continue with Google
     </string>
-
+  
 </resources>
