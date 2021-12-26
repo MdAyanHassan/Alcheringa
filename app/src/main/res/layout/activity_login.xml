@@ -15,6 +15,8 @@
         android:background="@drawable/custom_edit_text"
         android:hint="Email Address"
         android:padding="15dp"
+        android:textSize="20sp"
+        android:fontFamily="@font/hk_grotesk"
         android:textColorHint="#B7B7B7"
         app:layout_constraintBottom_toTopOf="@+id/signInButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,6 +32,8 @@
         android:background="@drawable/custom_edit_text"
         android:hint="Password"
         android:padding="15dp"
+        android:textSize="20sp"
+        android:fontFamily="@font/hk_grotesk"
         android:textColorHint="#B7B7B7"
         app:layout_constraintBottom_toTopOf="@+id/signInButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,6 +73,7 @@
             android:text="Or"
             android:textAllCaps="false"
             android:textSize="18sp"
+            android:fontFamily="@font/hk_grotesk"
             />
 
         <View
@@ -100,13 +105,13 @@
         android:text="Login"
         android:textColor="@color/White"
         android:textSize="30sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.149" />
+        app:layout_constraintVertical_bias="0.149"
+        android:fontFamily="@font/clash_700"/>
     <LinearLayout
         android:id="@+id/sign_in_outlook"
         android:layout_width="272dp"
@@ -135,7 +140,8 @@
             android:gravity="center"
             android:text="Continue with Outlook"
             android:textSize="18sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:fontFamily="@font/hk_grotesk"/>
     </LinearLayout>
 
 
@@ -148,10 +154,9 @@
         android:backgroundTint="#EE6337"
         android:text="Login"
         android:textAllCaps="false"
-
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/clash_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -188,7 +193,8 @@
             android:gravity="center"
             android:text="Continue with Google"
             android:textSize="18sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:fontFamily="@font/hk_grotesk"/>
         <!--        <com.google.android.gms.common.SignInButton-->
         <!--            android:layout_width="match_parent"-->
         <!--            android:layout_height="match_parent"/>-->
@@ -206,6 +212,7 @@
         android:text="Don’t have an account?"
         android:textColor="@color/White"
         android:textSize="19sp"
+        android:fontFamily="@font/hk_grotesk"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -226,9 +233,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="SignUp here"
+            android:textStyle="bold"
             android:textColor="@color/White"
             android:textSize="19sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/hk_grotesk"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
