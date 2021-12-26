@@ -32,6 +32,14 @@ public class Splash_Screen extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
                     finish();
                 }
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if(isLoggedIn){
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
+            }
+            else{
+                startActivity(new Intent(getApplicationContext(),SignUp.class));
+                finish();
             }
         },3000);
     }
