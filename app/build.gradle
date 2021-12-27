@@ -68,6 +68,7 @@ dependencies {
     implementation 'com.mikhaellopez:circularimageview:4.3.0'
     implementation 'com.scottyab:aescrypt:0.0.1'
     implementation 'com.google.android.gms:play-services-auth:20.0.0'
+    implementation 'dev.shreyaspatil.EasyUpiPayment:EasyUpiPayment:3.0.3'
 
     implementation 'com.microsoft.identity.client:msal:2.+'
     implementation 'com.microsoft.graph:microsoft-graph:1.5.+'
