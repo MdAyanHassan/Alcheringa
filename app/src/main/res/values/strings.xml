@@ -29,5 +29,6 @@
     <string name="continue_with_google">
         Continue with Google
     </string>
+    <string name="title_activity_testing">testing_activity</string>
 
 </resources>

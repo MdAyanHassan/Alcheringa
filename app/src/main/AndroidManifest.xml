@@ -3,27 +3,6 @@
     package="com.example.alcheringa2022">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <queries>
-        <!-- View Intent for UPI apps -->
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="upi" />
-        </intent>
-
-        <!-- Chooser Intent for UPI apps -->
-        <intent>
-            <action android:name="android.intent.action.CHOOSER" />
-            <data android:scheme="upi" />
-        </intent>
-
-        <!-- Package Specific UPI Apps -->
-        <package android:name="in.amazon.mShop.android.shopping" />
-        <package android:name="in.org.npci.upiapp" />
-        <package android:name="com.google.android.apps.nbu.paisa.user" />
-        <package android:name="com.phonepe.app" />
-        <package android:name="net.one97.paytm" />
-    </queries>
-
 
     <application
         android:allowBackup="true"
@@ -32,25 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Alcheringa2022">
-
         <activity
-            android:name=".Greeting_page"
+            android:name=".testing_activity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
-
-        </activity>
-        <activity
-            android:name=".SignUp"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:exported="false" />
-        <activity
-            android:name=".Login"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:exported="false" />
-        <activity
-            android:name=".Category_Activity"
-            android:exported="true" >
+            android:label="@string/title_activity_testing"
+            android:theme="@style/Theme.Alcheringa2022" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,10 +23,23 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Greeting_page"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".SignUp"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Login"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Category_Activity"
+            android:exported="true" />
+        <activity
             android:name=".Splash_Screen"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".E_pass"
             android:exported="false" />
@@ -70,10 +48,10 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:exported="true" >
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
 
-        </activity><!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
+        </activity> <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -86,7 +64,6 @@
                     android:path="/VtdmKBfiwPlV+SJn14aQgLZ2Rzg="
                     android:scheme="msauth" />
             </intent-filter>
-
         </activity>
     </application>
 

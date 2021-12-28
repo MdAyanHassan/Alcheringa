@@ -38,22 +38,25 @@ public class Category_Activity extends AppCompatActivity implements PaymentStatu
         SimpleDateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault());
         String transcId = df.format(c);
         student=findViewById(R.id.IITG_Student);
+
+
         student.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), ""+transcId, Toast.LENGTH_SHORT).show();
-                makePayment("100.00","riteshkumard149@okhdfcbank","Ritesh Kumar","Testing our payment method",transcId);
+                ///Toast.makeText(getApplicationContext(), ""+transcId, Toast.LENGTH_SHORT).show();
+                makePayment("1.00","riteshkumard149@okhdfcbank","Ritesh Kumar","Testing our payment method",transcId);
             }
         });
 
     }
-    private void makePayment(String amount, String upi, String name, String desc, String transactionId) {
+    private void makePayment(String amount, String upi, String name, String desc, String transactionId)  {
 
         // on below line we are calling an easy payment method and passing
         // all parameters to it such as upi id,name, description and others.
         EasyUpiPayment.Builder builder = new EasyUpiPayment.Builder(this)
                 .setPayeeVpa(upi)
                 .setPayeeName(name)
+                .setPayeeMerchantCode("1234")
                 .setTransactionId(transactionId)
                 .setTransactionRefId(transactionId)
                 .setDescription(desc)
@@ -61,23 +64,21 @@ public class Category_Activity extends AppCompatActivity implements PaymentStatu
 
         try {
             easyUpiPayment = builder.build();
+            easyUpiPayment.startPayment();
+            easyUpiPayment.setPaymentStatusListener(this);
         } catch (AppNotFoundException e) {
-            e.printStackTrace();
+            toast("Error: " + e.toString());
+            Log.d("Payment",e.toString());
+
         }
 
-        easyUpiPayment.setPaymentStatusListener(this);
 
-            // Start payment / transaction
-            easyUpiPayment.startPayment();
+        // Start payment / transaction
     }
 
     @Override
     public void onTransactionCompleted(TransactionDetails transactionDetails) {
-        // on below line we are getting details about transaction when complete
-//       String transcDetails = transactionDetails.getStatus().toString() + "\n" + "Transaction ID : " + transactionDetails.getTransactionId();
-//        transactionDetailsTV.setVisibility(View.VISIBLE);
-//        // on below line we are setting details to our text view.
-//        transactionDetailsTV.setText(transcDetails);
+
         switch (transactionDetails.getTransactionStatus()) {
             case SUCCESS:
                 onTransactionSuccess();

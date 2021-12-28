@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //            startActivity(intent);
 //        }
 
-        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setSelectedItemId(R.id.home_nav);
 
 
 
@@ -43,19 +43,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()){
             case R.id.events:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, events_fragment).commit();
+                bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
                 break;
             case R.id.home_nav:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
-
+                bottomNavigationView.getMenu().findItem(R.id.home_nav).setChecked(true);
                 break ;
             case R.id.merch:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Merch()).commit();
+                bottomNavigationView.getMenu().findItem(R.id.merch).setChecked(true);
 
                 break;
             case R.id.schedule:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Schedule()).commit();
-                break;
+                bottomNavigationView.getMenu().findItem(R.id.schedule).setChecked(true);
 
+                break;
         }
         return false;
     }
