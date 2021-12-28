@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
+import org.apache.commons.math3.analysis.FunctionUtils.compose
 
 class testing_activity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

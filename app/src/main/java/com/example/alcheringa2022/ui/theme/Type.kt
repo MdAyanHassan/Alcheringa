@@ -1,18 +1,26 @@
 package com.example.alcheringa2022.ui.theme
 
 import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-
+import com.example.alcheringa2022.R
+val clash= FontFamily(
+        Font(R.font.clashdisplay),
+        Font(R.font.clash_display_bold, FontWeight.Bold)
+)
 // Set of Material typography styles to start with
 val Typography = Typography(
         body1 = TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = clash,
                 fontWeight = FontWeight.Normal,
-                fontSize = 16.sp
-        )
+                fontSize = 14.sp
+        ),
+        h1 = TextStyle(color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold, fontFamily = clash )
         /* Other default text styles to override
     button = TextStyle(
         fontFamily = FontFamily.Default,
