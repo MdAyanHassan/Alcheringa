@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "671924222085",
+    "project_id": "alcheringa2022",
+    "storage_bucket": "alcheringa2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671924222085:android:5b4dac02ba5b5a27c751ec",
+        "android_client_info": {
+          "package_name": "com.example.alcheringa2022"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671924222085-qfskjghpudgv69kk4769et8j4scv98qh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alcheringa2022",
+            "certificate_hash": "49a10de96780b34f7e3abf4afab8ffd3f8f92008"
+          }
+        },
+        {
+          "client_id": "671924222085-as1eeb5n4mf0q88g9sugdri43i09k178.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO4X24aKxH5tChfT0KkKetieNtxuiLsKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671924222085-as1eeb5n4mf0q88g9sugdri43i09k178.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
