@@ -14,12 +14,24 @@
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/layout/fragment_about.xml" value="0.234375" />
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/layout/fragment_home.xml" value="0.234375" />
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/layout/item_design.xml" value="0.234375" />
+
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/drawable/bottom_nav_icon_color_selector.xml" value="0.22864583333333333" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/drawable/ic_alcher_logo_top_nav.xml" value="0.16614583333333333" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_login.xml" value="0.16983695652173914" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_main.xml" value="0.16304347826086957" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/fragment_about.xml" value="0.17395833333333333" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/fragment_contact_us.xml" value="0.19202898550724637" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/fragment_home.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/item_design.xml" value="0.12907608695652173" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/menu/bottom_menu.xml" value="0.4" />
+
         <entry key="app/src/main/res/font/clash_400.xml" value="0.10833333333333334" />
         <entry key="app/src/main/res/font/clash_700.xml" value="0.10833333333333334" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18342391304347827" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.11302083333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23125" />
         <entry key="app/src/main/res/layout/item_design.xml" value="0.38590596516927084" />
+
       </map>
     </option>
   </component>

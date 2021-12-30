@@ -23,8 +23,9 @@
 
             android:name=".Greeting_page"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
             >
+
 
         </activity>
         <activity
