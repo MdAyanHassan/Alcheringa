@@ -19,9 +19,13 @@
 
         </activity>
         <activity
+
+
             android:name=".Greeting_page"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
+            >
+
 
         </activity>
         <activity
@@ -53,7 +57,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
 
         </activity> <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
