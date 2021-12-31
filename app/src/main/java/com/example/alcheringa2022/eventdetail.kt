@@ -5,6 +5,9 @@ import java.sql.Time
 import java.time.LocalDateTime
 
 data class eventdetail(
-    val artist:String, val category:String,
+    val artist:String,
+    val category:String,
     val time: String,
-    val mode: String, val imgurl:Int)
+    val mode: String,
+    val imgurl:Int
+    )

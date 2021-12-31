@@ -16,16 +16,11 @@
             android:exported="true"
             android:label="@string/title_activity_testing"
             android:theme="@style/Theme.Alcheringa2022" >
-
         </activity>
         <activity
-
-
             android:name=".Greeting_page"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            >
-
+            android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
         <activity
             android:name=".SignUp"
@@ -53,7 +48,6 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
