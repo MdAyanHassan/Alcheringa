@@ -35,9 +35,7 @@ import com.example.alcheringa2022.databinding.FragmentHomeBinding
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.example.alcheringa2022.ui.theme.clash
 import com.example.alcheringa2022.ui.theme.hk_grotesk
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.calculateCurrentOffsetForPage
+import com.google.accompanist.pager.*
 import org.intellij.lang.annotations.JdkConstants
 import kotlin.math.absoluteValue
 
@@ -340,96 +338,155 @@ class Home : Fragment() {
     @Composable
     fun horizontalScroll(eventdetails:List<eventdetail>){
 
+        Column() {
+            val pagerState = rememberPagerState()
+            HorizontalPager(
+                count = eventdetails.size, modifier = Modifier
+                    .fillMaxWidth()
+                    .height(473.dp), state = pagerState
+            ) { page ->
+                Card(
+                    Modifier
+                        .graphicsLayer {
+                            // Calculate the absolute offset for the current page from the
+                            // scroll position. We use the absolute value which allows us to mirror
+                            // any effects for both directions
+                            val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
 
-        HorizontalPager(count = eventdetails.size, modifier = Modifier
-            .fillMaxWidth()
-            .height(473.dp)) { page ->
-            Card(
-                Modifier
-                    .graphicsLayer {
-                        // Calculate the absolute offset for the current page from the
-                        // scroll position. We use the absolute value which allows us to mirror
-                        // any effects for both directions
-                        val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-
-                        // We animate the scaleX + scaleY, between 85% and 100%
-                        lerp(
-                            start = 0.85f,
-                            stop = 1f,
-                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                        ).also { scale ->
-                            scaleX = scale
-                            scaleY = scale
-                        }
-
-                        // We animate the alpha, between 50% and 100%
-                        alpha = lerp(
-                            start = 0.5f,
-                            stop = 1f,
-                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                        )
-                    }
-            ) {
-                Box() {
-
-                    Card(modifier = Modifier.fillMaxWidth(),
-
-                        elevation = 5.dp) {
-                        Box(modifier = Modifier
-                            .height(473.dp)
-                            .fillMaxWidth()){
-                            Image(painter = painterResource(id = eventdetails[page].imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
-                            Box(modifier = Modifier
-                                .fillMaxSize()
-                                .background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color.Transparent,
-                                            Color.Black
-                                        ), startY = 100f
-                                    )
-                                ))
-                            Box(modifier = Modifier
-                                .fillMaxSize()
-                                .padding(12.dp), contentAlignment = Alignment.BottomStart){
-                                Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(text = eventdetails[page].artist, color = Color.White, fontWeight = FontWeight.W700, fontSize = 78.sp, fontFamily = FontFamily(Font(R.font.morganitemedium)))
-                                    Spacer(modifier = Modifier.height(11.dp))
-                                    Text(text = eventdetails[page].category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 16.sp))
-                                    Spacer(modifier = Modifier.height(11.dp))
-
-                                    Row {
-                                        Text(text = eventdetails[page].time, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
-                                        Spacer(modifier = Modifier.width(11.dp))
-                                        Box(modifier = Modifier
-                                            .height(20.dp)
-                                            .width(20.dp)) {
-                                            Image(
-                                                painter = if (eventdetails[page].mode.contains("ONLINE")) {
-                                                    painterResource(id = R.drawable.online)
-                                                } else {
-                                                    painterResource(id = R.drawable.onground)
-                                                },
-                                                contentDescription = null, modifier = Modifier.fillMaxSize()
-                                            )
-                                        }
-                                        Spacer(modifier = Modifier.width(4.dp))
-                                        Text(text = eventdetails[page].mode,style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
-                                    }
-                                }
-
+                            // We animate the scaleX + scaleY, between 85% and 100%
+                            lerp(
+                                start = 0.85f,
+                                stop = 1f,
+                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                            ).also { scale ->
+                                scaleX = scale
+                                scaleY = scale
                             }
 
+                            // We animate the alpha, between 50% and 100%
+                            alpha = lerp(
+                                start = 0.5f,
+                                stop = 1f,
+                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                            )
+                        }
+                ) {
+                    Box() {
 
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+
+                            elevation = 5.dp
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .height(473.dp)
+                                    .fillMaxWidth()
+                            ) {
+                                Image(
+                                    painter = painterResource(id = eventdetails[page].imgurl),
+                                    contentDescription = "artist",
+                                    contentScale = ContentScale.Crop
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(
+                                            brush = Brush.verticalGradient(
+                                                colors = listOf(
+                                                    Color.Transparent,
+                                                    Color.Black
+                                                ), startY = 100f
+                                            )
+                                        )
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(12.dp), contentAlignment = Alignment.BottomStart
+                                ) {
+                                    Column(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        Text(
+                                            text = eventdetails[page].artist,
+                                            color = Color.White,
+                                            fontWeight = FontWeight.W700,
+                                            fontSize = 78.sp,
+                                            fontFamily = FontFamily(Font(R.font.morganitemedium))
+                                        )
+                                        Spacer(modifier = Modifier.height(11.dp))
+                                        Text(
+                                            text = eventdetails[page].category,
+                                            style = TextStyle(
+                                                color = colorResource(id = R.color.textGray),
+                                                fontFamily = clash,
+                                                fontWeight = FontWeight.W600,
+                                                fontSize = 16.sp
+                                            )
+                                        )
+                                        Spacer(modifier = Modifier.height(11.dp))
+
+                                        Row {
+                                            Text(
+                                                text = eventdetails[page].time,
+                                                style = TextStyle(
+                                                    color = colorResource(id = R.color.textGray),
+                                                    fontFamily = hk_grotesk,
+                                                    fontWeight = FontWeight.Normal,
+                                                    fontSize = 14.sp
+                                                )
+                                            )
+                                            Spacer(modifier = Modifier.width(11.dp))
+                                            Box(
+                                                modifier = Modifier
+                                                    .height(20.dp)
+                                                    .width(20.dp)
+                                            ) {
+                                                Image(
+                                                    painter = if (eventdetails[page].mode.contains("ONLINE")) {
+                                                        painterResource(id = R.drawable.online)
+                                                    } else {
+                                                        painterResource(id = R.drawable.onground)
+                                                    },
+                                                    contentDescription = null,
+                                                    modifier = Modifier.fillMaxSize()
+                                                )
+                                            }
+                                            Spacer(modifier = Modifier.width(4.dp))
+                                            Text(
+                                                text = eventdetails[page].mode,
+                                                style = TextStyle(
+                                                    color = colorResource(id = R.color.textGray),
+                                                    fontFamily = hk_grotesk,
+                                                    fontWeight = FontWeight.Normal,
+                                                    fontSize = 14.sp
+                                                )
+                                            )
+                                        }
+                                    }
+
+                                }
+
+
+                            }
                         }
                     }
                 }
             }
+            HorizontalPagerIndicator(
+                pagerState = pagerState,
+                activeColor= colorResource(id = R.color.textGray),
+                inactiveColor = colorResource(id = R.color.darkGray),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(16.dp)
+
+            )
+
+
         }
-
-
-
-
 
     }
 }
