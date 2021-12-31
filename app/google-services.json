@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "671924222085-0cr5h2v86f5agjqv7chg2vurc271c9bt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alcheringa2022",
+            "certificate_hash": "2656af7403485ae412892efab3a1d7ae1fbdd2a3"
+          }
+        },
+        {
           "client_id": "671924222085-qfskjghpudgv69kk4769et8j4scv98qh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
