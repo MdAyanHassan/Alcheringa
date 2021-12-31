@@ -1,6 +1,9 @@
 package com.example.alcheringa2022.Model;
 
-public class Merch_model {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Merch_model implements Parcelable {
     String Name_hoddie;
     String Material;
     String Price;
@@ -10,6 +13,34 @@ public class Merch_model {
     Boolean Small;
     Boolean Medium;
     Boolean Large;
+
+    protected Merch_model(Parcel in) {
+        Name_hoddie = in.readString();
+        Material = in.readString();
+        Price = in.readString();
+        Description = in.readString();
+        Image_url = in.readString();
+        byte tmpIs_available = in.readByte();
+        Is_available = tmpIs_available == 0 ? null : tmpIs_available == 1;
+        byte tmpSmall = in.readByte();
+        Small = tmpSmall == 0 ? null : tmpSmall == 1;
+        byte tmpMedium = in.readByte();
+        Medium = tmpMedium == 0 ? null : tmpMedium == 1;
+        byte tmpLarge = in.readByte();
+        Large = tmpLarge == 0 ? null : tmpLarge == 1;
+    }
+
+    public static final Creator<Merch_model> CREATOR = new Creator<Merch_model>() {
+        @Override
+        public Merch_model createFromParcel(Parcel in) {
+            return new Merch_model(in);
+        }
+
+        @Override
+        public Merch_model[] newArray(int size) {
+            return new Merch_model[size];
+        }
+    };
 
     public void setName_hoddie(String name_hoddie) {
         Name_hoddie = name_hoddie;
@@ -93,5 +124,24 @@ public class Merch_model {
 
     public Boolean getLarge() {
         return Large;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Name_hoddie);
+        dest.writeString(Material);
+        dest.writeString(Price);
+        dest.writeString(Description);
+        dest.writeString(Image_url);
+        dest.writeByte((byte) (Is_available == null ? 0 : Is_available ? 1 : 2));
+        dest.writeByte((byte) (Small == null ? 0 : Small ? 1 : 2));
+        dest.writeByte((byte) (Medium == null ? 0 : Medium ? 1 : 2));
+        dest.writeByte((byte) (Large == null ? 0 : Large ? 1 : 2));
     }
 }
