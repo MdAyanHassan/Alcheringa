@@ -11,22 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Alcheringa2022">
+
         <activity
             android:name=".testing_activity"
             android:exported="true"
             android:label="@string/title_activity_testing"
-            android:theme="@style/Theme.Alcheringa2022" >
-
-        </activity>
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
-
-
             android:name=".Greeting_page"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             >
-
-
         </activity>
         <activity
             android:name=".SignUp"
@@ -57,7 +52,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity> <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>
