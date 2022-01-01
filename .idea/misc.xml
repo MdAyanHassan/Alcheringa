@@ -3,10 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_events.xml" value="0.16385135135135134" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_home.xml" value="0.16385135135135134" />
+
         <entry key="../../../../layout/compose-model-1640932221349.xml" value="0.335" />
         <entry key="../../../../layout/compose-model-1640937352447.xml" value="0.1" />
         <entry key="../../../../layout/compose-model-1640937860466.xml" value="1.0" />
         <entry key="../../../../layout/compose-model-1640952454056.xml" value="0.165" />
+
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/font/clash.xml" value="0.28020833333333334" />
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/font/clash_400.xml" value="0.28020833333333334" />
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/font/clash_700.xml" value="0.26458333333333334" />

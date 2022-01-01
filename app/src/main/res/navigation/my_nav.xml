@@ -11,7 +11,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/about"
-        android:name="com.example.alcheringa2022.Events_Fragment"
+        android:name="com.example.alcheringa2022.Events"
         android:label="fragment_about"
         tools:layout="@layout/fragment_events" />
     <fragment
