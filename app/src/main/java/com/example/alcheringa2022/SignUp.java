@@ -158,11 +158,13 @@ public class SignUp extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            finish();
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Log.d(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(getApplicationContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
 
                         }
