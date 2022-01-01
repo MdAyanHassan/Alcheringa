@@ -63,7 +63,7 @@ class Events : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.compose1.setContent {
+        binding.eventsCompose.setContent {
             Full_view()
         }
     }

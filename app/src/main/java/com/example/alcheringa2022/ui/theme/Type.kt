@@ -25,9 +25,7 @@ val Typography = Typography(
                 fontSize = 14.sp
         ),
         h1 = TextStyle(color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold, fontFamily = clash ),
-        h2 = TextStyle(color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Medium, fontFamily = clash)
-
-        h1 = TextStyle(color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W700, fontFamily = clash )
+        h2 = TextStyle(color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Medium, fontFamily = clash),
 
         /* Other default text styles to override
     button = TextStyle(

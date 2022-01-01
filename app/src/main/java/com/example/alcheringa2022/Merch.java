@@ -2,9 +2,14 @@ package com.example.alcheringa2022;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,8 +38,6 @@ public class Merch extends Fragment implements onItemClick{
     Merch_Adapter merch_adapter;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
-    ProgressBar progressBar;
-    Context context=getContext();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -42,7 +45,6 @@ public class Merch extends Fragment implements onItemClick{
         View view= inflater.inflate(R.layout.fragment_merch,container,false);
         recyclerView=view.findViewById(R.id.merch_recyclerview);
         firebaseAuth=FirebaseAuth.getInstance();
-        progressBar=view.findViewById(R.id.progress_bar);
         firestore= FirebaseFirestore.getInstance();
         merch_modelList=new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -50,7 +52,6 @@ public class Merch extends Fragment implements onItemClick{
         merch_adapter=new Merch_Adapter(merch_modelList,getContext(),this);
 
         populate_merch();
-
         return  view;
 
     }
@@ -66,7 +67,6 @@ public class Merch extends Fragment implements onItemClick{
                 }
             }
         });
-        progressBar.setVisibility(View.GONE);
 
 
     }

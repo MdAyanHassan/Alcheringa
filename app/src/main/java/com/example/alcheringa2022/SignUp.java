@@ -12,6 +12,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -71,12 +72,12 @@ public class SignUp extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     LinearLayout signInButtonO;
-    Button signOutButton;
+    Button signOutButton,signupButton;
     Button callGraphApiInteractiveButton;
     Button callGraphApiSilentButton;
     TextView logTextView;
     ImageView backbutton;
-
+    private EditText Name,Email,Password;
     TextView currentUserTextView;
 
     @Override
@@ -85,22 +86,20 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         signInButton = findViewById(R.id.signInButton);
         mAuth=FirebaseAuth.getInstance();
+        signupButton=findViewById(R.id.signupbutton);
+        Name=findViewById(R.id.name);
+        Email=findViewById(R.id.email);
+        Password=findViewById(R.id.password);
 
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
-                .requestEmail()
-                .build();
-
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         logTextView=findViewById(R.id.login_here);
         backbutton=findViewById(R.id.back_button);
         signInButton.setOnClickListener(v -> GooogleSignIn());
         logTextView.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),Login.class)));
         backbutton.setOnClickListener(v -> finish());
+        signupButton.setOnClickListener(v -> CustomSignup());
 
 
 //        if(isLoggedIn){
@@ -121,11 +120,79 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void CustomSignup() {
+
+        if(Name.length()>0 && Email.length() >0 && Password.length()>0 && Password.length()>7){
+            String name= Name.getText().toString();
+            String email= Email.getText().toString();
+            String password= Password.getText().toString();
+            StartCustomSignup(name,email,password);
+        }
+        else if(Name.length()==0){
+               Name.setError("Please fill the name");
+               Name.requestFocus();
+        }
+        else if(Email.length()==0){
+            Email.setError("Please fill the email");
+            Email.requestFocus();
+        }
+        else if(Password.length()==0){
+            Password.setError("Please fill the password");
+            Password.requestFocus();
+        }
+        else if(Password.length()<=7){
+            Password.setError("Password length must be greater than 7");
+            Password.requestFocus();
+        }
 
 
     }
 
+    private void StartCustomSignup(String name, String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "The mail has been sent to your email address please verify", Toast.LENGTH_SHORT).show();
+                            FirebaseUser firebaseUser=mAuth.getCurrentUser();
+                            assert firebaseUser != null;
+                            emailVerification();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                           // updateUI(null);
+                        }
+                    }
+
+                    private void emailVerification() {
+                        FirebaseUser firebaseUser=mAuth.getCurrentUser();
+                        assert firebaseUser != null;
+                        firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                FirebaseAuth.getInstance().signOut();
+                                startActivity(new Intent(getApplicationContext(),Login.class));
+                            }
+                        });
+                    }
+                });
+
+    }
+
     private void GooogleSignIn() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.web_client_id))
+                .requestEmail()
+                .build();
+
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -172,6 +239,7 @@ public class SignUp extends AppCompatActivity {
                 });
     }
 
+    /* ################################ Custom Signup Functions ############################### */
 
 
     private void startMainActivity(){
