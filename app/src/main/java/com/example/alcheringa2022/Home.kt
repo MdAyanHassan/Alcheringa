@@ -180,8 +180,11 @@ class Home : Fragment() {
                     Image(
                         painter = painterResource(id = eventdetail.imgurl),
                         contentDescription = "artist",
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Crop,
+                        alignment = Alignment.Center
+
                     )
+
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -234,7 +237,10 @@ class Home : Fragment() {
                                         } else {
                                             painterResource(id = R.drawable.onground)
                                         },
-                                        contentDescription = null, modifier = Modifier.fillMaxSize()
+                                        contentDescription = null, modifier = Modifier.fillMaxSize(),
+                                        alignment = Alignment.Center,
+                                        contentScale = ContentScale.Crop
+
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(4.dp))
@@ -274,7 +280,9 @@ class Home : Fragment() {
                 Box(modifier = Modifier
                     .height(256.dp)
                     .width(218.dp)){
-                    Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
+                    Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop,
+                        alignment = Alignment.Center
+                    )
                     Box(modifier = Modifier
                         .fillMaxWidth()
                         .height(21.dp)
@@ -314,7 +322,7 @@ class Home : Fragment() {
                                         } else {
                                             painterResource(id = R.drawable.onground)
                                         },
-                                        contentDescription = null, modifier = Modifier.fillMaxSize()
+                                        contentDescription = null, modifier = Modifier.fillMaxSize(),alignment = Alignment.Center, contentScale =ContentScale.Crop
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(4.dp))
@@ -386,7 +394,10 @@ class Home : Fragment() {
                                 Image(
                                     painter = painterResource(id = eventdetails[page].imgurl),
                                     contentDescription = "artist",
+                                    modifier= Modifier.fillMaxWidth().height(473.dp),
+                                    alignment = Alignment.Center,
                                     contentScale = ContentScale.Crop
+
                                 )
                                 Box(
                                     modifier = Modifier
@@ -451,7 +462,9 @@ class Home : Fragment() {
                                                         painterResource(id = R.drawable.onground)
                                                     },
                                                     contentDescription = null,
-                                                    modifier = Modifier.fillMaxSize()
+                                                    modifier = Modifier.fillMaxSize(),
+                                                            alignment = Alignment.Center,
+                                                            contentScale = ContentScale.Crop
                                                 )
                                             }
                                             Spacer(modifier = Modifier.width(4.dp))
