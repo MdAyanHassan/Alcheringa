@@ -13,6 +13,10 @@ val clash= FontFamily(
         Font(R.font.clashdisplay),
         Font(R.font.clash_display_bold, FontWeight.Bold)
 )
+
+val hk_grotesk= FontFamily(
+        Font(R.font.hk_grotesk)
+)
 // Set of Material typography styles to start with
 val Typography = Typography(
         body1 = TextStyle(
@@ -22,6 +26,9 @@ val Typography = Typography(
         ),
         h1 = TextStyle(color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold, fontFamily = clash ),
         h2 = TextStyle(color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Medium, fontFamily = clash)
+
+        h1 = TextStyle(color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W700, fontFamily = clash )
+
         /* Other default text styles to override
     button = TextStyle(
         fontFamily = FontFamily.Default,
