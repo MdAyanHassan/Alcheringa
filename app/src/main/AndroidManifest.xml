@@ -16,6 +16,8 @@
             android:name=".testing_activity"
             android:exported="true"
             android:label="@string/title_activity_testing"
+            android:theme="@style/Theme.Alcheringa2022" >
+        </activity>
             android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".Greeting_page"
@@ -49,7 +51,6 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->

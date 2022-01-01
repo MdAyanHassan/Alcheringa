@@ -46,13 +46,15 @@ import kotlin.math.absoluteValue
  */
 class Home : Fragment() {
 
-    // TODO: Rename and change types of parameters
-    private var mParam1: String? = null
-    private var mParam2: String? = null
     lateinit var binding: FragmentHomeBinding
-    val events=mutableListOf(
+    val events = mutableListOf(
 
         eventdetail(
+            "JUBIN NAUTIYAL",
+            "Pro Nights",
+            "12 Feb, 4 PM",
+            "Online", R.drawable.jubin
+        ),
         "JUBIN NAUTIYAL",
         "Pro Nights",
         "12 Feb, 4 PM",
@@ -67,20 +69,20 @@ class Home : Fragment() {
         ),
         eventdetail(
             "TAYLOR SWIFT",
+            "Pro Nights",
+            "13 Feb, 4 PM",
+            "Online", R.drawable.taylor
+        )
         "Pro Nights",
         "13 Feb, 4 PM",
         "ON GROUND", R.drawable.taylor
     )
 
 
+    )
 
-        )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mParam1 = requireArguments().getString(ARG_PARAM1)
-            mParam2 = requireArguments().getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -88,7 +90,6 @@ class Home : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return (binding.root)
 
@@ -101,6 +102,12 @@ class Home : Fragment() {
 
         binding.compose1.setContent {
             Alcheringa2022Theme() {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(15.dp)
+                ) {
+                    items(events) { dataEach -> UpcomingEvents(eventdetail = dataEach) }
+
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
 
                 horizontalScroll(eventdetails = events)
@@ -129,44 +136,18 @@ class Home : Fragment() {
                     ) {
                         items(events) { dataeach -> upcomingEvents(eventdetail = dataeach) }
                     }
+
                 }
-
-
             }
             }
-        }
-    }
-
-    companion object {
-        // TODO: Rename parameter arguments, choose names that match
-        // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-        private const val ARG_PARAM1 = "param1"
-        private const val ARG_PARAM2 = "param2"
-
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Home.
-         */
-        // TODO: Rename and change types and number of parameters
-        fun newInstance(param1: String?, param2: String?): Home {
-            val fragment = Home()
-            val args = Bundle()
-            args.putString(ARG_PARAM1, param1)
-            args.putString(ARG_PARAM2, param2)
-            fragment.arguments = args
-            return fragment
         }
     }
 
     @Composable
-    fun upcomingEvents(eventdetail: eventdetail) {
+    fun UpcomingEvents(eventdetail: eventdetail) {
 
+        Box {
         Box() {
-
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
@@ -197,6 +178,18 @@ class Home : Fragment() {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
+                            .padding(12.dp),
+                        contentAlignment = Alignment.BottomStart
+                    ) {
+                        Column {
+                            Text(text = eventdetail.artist, style = MaterialTheme.typography.h1)
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Text(
+                                text = eventdetail.time,
+                                style = TextStyle(
+                                    color = colorResource(id = R.color.textGray),
+                                    fontFamily = clash,
+
                             .padding(12.dp), contentAlignment = Alignment.BottomStart
                     ) {
                         Column {
@@ -217,10 +210,12 @@ class Home : Fragment() {
                                 style = TextStyle(
                                     color = colorResource(id = R.color.textGray),
                                     fontFamily = hk_grotesk,
+
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 14.sp
                                 )
                             )
+
                             Spacer(modifier = Modifier.height(2.dp))
                             Row {
                                 Box(
@@ -321,9 +316,9 @@ class Home : Fragment() {
                                 Text(text = eventdetail.mode,style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
                             }
                         }
-
                     }
 
+                }
 
                 }
             }
@@ -488,6 +483,19 @@ class Home : Fragment() {
 
         }
 
+    }
+
+    @Composable
+    @Preview
+    fun PreviewItem(){
+        Alcheringa2022Theme() {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(15.dp)
+            ) {
+                items(events) { dataEach -> UpcomingEvents(eventdetail = dataEach) }
+            }
+        }
     }
 }
 
