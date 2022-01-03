@@ -75,5 +75,21 @@
         <item name="android:fontFamily">@font/clash_display_bold</item>
         <item name="android:layout_marginBottom">16dp</item>
     </style>
+
+    <style name="order_summary_small_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/TextGrey</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/hk_grotesk</item>
+    </style>
+
+    <style name="order_summary_medium_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/hk_grotesk</item>
+    </style>
 </resources>
 

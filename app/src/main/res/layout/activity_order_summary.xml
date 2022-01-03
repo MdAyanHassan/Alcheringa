@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@drawable/top_nav"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/back_button"
@@ -42,85 +44,223 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-        <TextView
-            android:text="Deliver to"
-            style="@style/order_summary_heading_2" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Rishikesh Aryan Choudhary"
-            android:textColor="@color/white"
-            android:fontFamily="@font/hk_grotesk_regular"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="B-315 Lohit Hostel IIT Guwahati, Amingaon\nNorth Guwahati - 781039\n8398077353"
-            android:textColor="@color/TextGrey"
-            android:fontFamily="@font/hk_grotesk"
-            android:layout_marginBottom="24dp" />
-
-        <TextView
-            android:text="Items"
-            style="@style/order_summary_heading_2" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_nav">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/order_summary_item_bg"
-            android:padding="16dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="88dp"
-                android:layout_height="100dp"
-                android:scaleType="fitCenter"
-                tools:src="@drawable/hoodie"/>
-            <LinearLayout
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                style="@style/order_summary_heading_2"
+                android:text="Deliver to" />
+
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="16dp">
-                <TextView
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/hk_grotesk_regular"
+                android:textColor="@color/white"
+                tools:text="Rishikesh Aryan Choudhary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:fontFamily="@font/hk_grotesk"
+                android:textColor="@color/TextGrey"
+                tools:text="B-315 Lohit Hostel IIT Guwahati, Amingaon\nNorth Guwahati - 781039\n8398077353" />
+
+            <TextView
+                style="@style/order_summary_heading_2"
+                android:layout_marginBottom="8dp"
+                android:text="Items" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/order_summary_item_bg"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="88dp"
+                    android:layout_height="100dp"
+                    android:scaleType="fitCenter"
+                    tools:src="@drawable/hoodie" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Lightning"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/clashdisplay"
-                    android:textSize="18sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Hoodie, Large, 2 Qty"
-                    android:fontFamily="@font/hk_grotesk"
-                    android:textSize="16sp"
-                    android:textColor="@color/TextGrey"
-                    android:layout_marginBottom="8dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="₹1598.00"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/clashdisplay"
-                    android:textSize="20sp"
-                    android:layout_marginBottom="8dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Delivery by 7 Jan"
-                    android:textColor="@color/TextGrey"
-                    android:fontFamily="@font/hk_grotesk"
-                    android:textSize="14sp"
-                    />
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/clashdisplay"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        tools:text="Lightning" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/hk_grotesk"
+                        android:textColor="@color/TextGrey"
+                        android:textSize="16sp"
+                        tools:text="Hoodie, Large, 2 Qty" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/clashdisplay"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        tools:text="₹1598.00" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/hk_grotesk"
+                        android:textColor="@color/TextGrey"
+                        android:textSize="14sp"
+                        tools:text="Delivery by 7 Jan" />
+                </LinearLayout>
+
+
             </LinearLayout>
+
+            <TextView
+                style="@style/order_summary_heading_2"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="Price Details" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    style="@style/order_summary_small_text"
+                    android:text="Total MRP"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/order_summary_small_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="₹3995.00" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    style="@style/order_summary_small_text"
+                    android:text="Shipping Charges"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/order_summary_small_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="₹45.00" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="16dp"
+                android:background="#707683" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    style="@style/order_summary_medium_text"
+                    android:text="TOTAL"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/order_summary_medium_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="₹4064.00" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                style="@style/order_summary_medium_text"
+                android:text="Order Total"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:fontFamily="@font/clashdisplay"/>
+
+            <TextView
+                style="@style/order_summary_medium_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="₹4064.00"
+                android:fontFamily="@font/clashdisplay"
+                android:textSize="28sp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pay Securely"
+            android:textAllCaps="false"
+            android:fontFamily="@font/clash_display_bold"
+            android:textSize="18dp"
+            android:background="#EE6337"
+            android:textColor="@color/white"
+            android:padding="16.5dp"/>
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
