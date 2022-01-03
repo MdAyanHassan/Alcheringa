@@ -179,10 +179,16 @@ class Home : Fragment() {
                                 .width(218.dp)
                 ) {
                     Image(
+                        painter = painterResource(id = eventdetail.imgurl),
+                        contentDescription = "artist",
+                        contentScale = ContentScale.Crop,
+                        alignment = Alignment.Center
+
                             painter = painterResource(id = eventdetail.imgurl),
                             contentDescription = "artist",
                             contentScale = ContentScale.Crop
                     )
+
                     Box(
                             modifier = Modifier
                                     .fillMaxSize()
@@ -230,6 +236,15 @@ class Home : Fragment() {
                                                 .width(20.dp)
                                 ) {
                                     Image(
+                                        painter = if (eventdetail.mode.contains("ONLINE")) {
+                                            painterResource(id = R.drawable.online)
+                                        } else {
+                                            painterResource(id = R.drawable.onground)
+                                        },
+                                        contentDescription = null, modifier = Modifier.fillMaxSize(),
+                                        alignment = Alignment.Center,
+                                        contentScale = ContentScale.Crop
+
                                             painter = if (eventdetail.mode.contains("ONLINE")) {
                                                 painterResource(id = R.drawable.online)
                                             } else {
@@ -273,9 +288,15 @@ class Home : Fragment() {
                     shape = RoundedCornerShape(8.dp),
                     elevation = 5.dp) {
                 Box(modifier = Modifier
+                    .height(256.dp)
+                    .width(218.dp)){
+                    Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop,
+                        alignment = Alignment.Center
+                    )
                         .height(256.dp)
                         .width(218.dp)){
                     Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
+
                     Box(modifier = Modifier
                             .fillMaxWidth()
                             .height(21.dp)
@@ -310,12 +331,20 @@ class Home : Fragment() {
                                         .height(20.dp)
                                         .width(20.dp)) {
                                     Image(
+                                        painter = if (eventdetail.mode.contains("ONLINE")) {
+                                            painterResource(id = R.drawable.online)
+                                        } else {
+                                            painterResource(id = R.drawable.onground)
+                                        },
+                                        contentDescription = null, modifier = Modifier.fillMaxSize(),alignment = Alignment.Center, contentScale =ContentScale.Crop
+
                                             painter = if (eventdetail.mode.contains("ONLINE")) {
                                                 painterResource(id = R.drawable.online)
                                             } else {
                                                 painterResource(id = R.drawable.onground)
                                             },
                                             contentDescription = null, modifier = Modifier.fillMaxSize()
+
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(4.dp))
@@ -385,6 +414,12 @@ class Home : Fragment() {
                                             .fillMaxWidth()
                             ) {
                                 Image(
+                                    painter = painterResource(id = eventdetails[page].imgurl),
+                                    contentDescription = "artist",
+                                    modifier= Modifier.fillMaxWidth().height(473.dp),
+                                    alignment = Alignment.Center,
+                                    contentScale = ContentScale.Crop
+
                                         painter = painterResource(id = eventdetails[page].imgurl),
                                         contentDescription = "artist",
                                         contentScale = ContentScale.Crop
@@ -446,6 +481,15 @@ class Home : Fragment() {
                                                             .width(20.dp)
                                             ) {
                                                 Image(
+                                                    painter = if (eventdetails[page].mode.contains("ONLINE")) {
+                                                        painterResource(id = R.drawable.online)
+                                                    } else {
+                                                        painterResource(id = R.drawable.onground)
+                                                    },
+                                                    contentDescription = null,
+                                                    modifier = Modifier.fillMaxSize(),
+                                                            alignment = Alignment.Center,
+                                                            contentScale = ContentScale.Crop
                                                         painter = if (eventdetails[page].mode.contains("ONLINE")) {
                                                             painterResource(id = R.drawable.online)
                                                         } else {
