@@ -18,7 +18,7 @@
         android:textSize="20sp"
         android:fontFamily="@font/hk_grotesk"
         android:textColorHint="#B7B7B7"
-        app:layout_constraintBottom_toTopOf="@+id/signInButton"
+        app:layout_constraintBottom_toTopOf="@+id/google_login_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
         android:textSize="20sp"
         android:fontFamily="@font/hk_grotesk"
         android:textColorHint="#B7B7B7"
-        app:layout_constraintBottom_toTopOf="@+id/signInButton"
+        app:layout_constraintBottom_toTopOf="@+id/google_login_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="4"
-        app:layout_constraintBottom_toTopOf="@+id/signInButton"
+        app:layout_constraintBottom_toTopOf="@+id/google_login_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.303"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,7 @@
         android:text="Login"
         android:textColor="@color/White"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
+        app:layout_constraintBottom_toTopOf="@+id/loginbtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +117,7 @@
         android:id="@+id/sign_in_outlook"
         android:layout_width="272dp"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
+        app:layout_constraintBottom_toTopOf="@+id/loginbtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +147,7 @@
 
 
     <Button
-        android:id="@+id/SignUp_button"
+        android:id="@+id/loginbtn"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:background="@drawable/custom_button"
@@ -165,10 +165,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.806" />
     <LinearLayout
-        android:id="@+id/signInButton"
+        android:id="@+id/google_login_btn"
         android:layout_width="272dp"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
+        app:layout_constraintBottom_toTopOf="@+id/loginbtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -196,9 +196,9 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:fontFamily="@font/hk_grotesk"/>
-        <!--        <com.google.android.gms.common.SignInButton-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"/>-->
+<!--                <com.google.android.gms.common.SignInButton-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"/>-->
 
     </LinearLayout>
 
@@ -217,7 +217,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SignUp_button"
+        app:layout_constraintTop_toBottomOf="@+id/loginbtn"
         app:layout_constraintVertical_bias="0.317" />
     <LinearLayout
         android:layout_width="wrap_content"
