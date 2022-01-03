@@ -11,6 +11,7 @@
 
     <EditText
         android:padding="15dp"
+        android:inputType="text"
         android:id="@+id/name"
         android:layout_width="320dp"
         android:hint="Name"
@@ -29,6 +30,7 @@
 
     <EditText
         android:id="@+id/email"
+        android:inputType="text"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:background="@drawable/custom_edit_text"
@@ -49,6 +51,7 @@
         android:id="@+id/password"
         android:layout_width="320dp"
         android:layout_height="50dp"
+        android:inputType="textPassword"
         android:background="@drawable/custom_edit_text"
         android:hint="Password"
         android:textSize="20sp"
