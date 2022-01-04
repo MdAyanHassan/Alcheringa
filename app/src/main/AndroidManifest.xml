@@ -13,6 +13,8 @@
         android:theme="@style/Theme.Alcheringa2022">
         <activity
             android:name=".OrderSummaryActivity"
+            android:name=".Cart"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="true" >
 
         </activity>
@@ -27,6 +29,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
 
         </activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".SignUp"
             android:exported="true"
@@ -42,6 +45,9 @@
             android:name=".Merch_Description"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        </activity>
         <activity
             android:name=".Splash_Screen"
             android:exported="true" />
@@ -63,6 +69,7 @@
         </activity>
 
         <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
+        </activity> <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity
             android:name="com.microsoft.identity.client.BrowserTabActivity"
             android:exported="true">

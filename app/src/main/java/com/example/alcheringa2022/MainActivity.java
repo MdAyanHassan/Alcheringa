@@ -17,7 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     BottomNavigationView bottomNavigationView;
     Events events_fragment;
-
+    int index;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //        }
 
         bottomNavigationView.setSelectedItemId(R.id.home_nav);
+        index=R.id.home_nav;
 
 
 
@@ -44,22 +45,36 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.events:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, events_fragment).commit();
-                bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
+                if(index!=R.id.events){
+                    index=R.id.events;
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, events_fragment).commit();
+                    bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
+                }
+
                 break;
             case R.id.home_nav:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
-                bottomNavigationView.getMenu().findItem(R.id.home_nav).setChecked(true);
+                if(index!=R.id.home_nav) {
+                    index=R.id.home_nav;
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
+                    bottomNavigationView.getMenu().findItem(R.id.home_nav).setChecked(true);
+                }
                 break ;
             case R.id.merch:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Merch()).commit();
-                bottomNavigationView.getMenu().findItem(R.id.merch).setChecked(true);
+                if(index!=R.id.merch) {
+                    index=R.id.merch;
 
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Merch()).commit();
+                    bottomNavigationView.getMenu().findItem(R.id.merch).setChecked(true);
+                }
                 break;
             case R.id.schedule:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Schedule()).commit();
-                bottomNavigationView.getMenu().findItem(R.id.schedule).setChecked(true);
+                if(index!=R.id.schedule) {
+                    index=R.id.schedule;
 
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Schedule()).commit();
+                    bottomNavigationView.getMenu().findItem(R.id.schedule).setChecked(true);
+                }
                 break;
         }
         return false;
