@@ -48,7 +48,7 @@ public class OrderSummaryAdapter extends ArrayAdapter<Merch_model> {
         //image.setImageResource(currentItem.getImage_url());
         try {
             Glide.with(getContext()).load(currentItem.getImage_url()).into(image);
-            Toast.makeText(getContext(), "Image set successfully",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "Image set successfully",Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "could not load image"+ e.getMessage(),Toast.LENGTH_LONG).show();
