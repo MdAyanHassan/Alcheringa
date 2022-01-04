@@ -30,5 +30,6 @@
         Continue with Google
     </string>
     <string name="title_activity_testing">testing_activity</string>
+    <string name="title_activity_add_address">Add_Address_Activity</string>
 
 </resources>
