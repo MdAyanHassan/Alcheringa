@@ -3,17 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/bottom_orange_button_bg.xml" value="0.1725752508361204" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/ic_baseline_arrow_back.xml" value="0.1725752508361204" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/order_summary_item_bg.xml" value="0.1725752508361204" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/white_border_bg.xml" value="0.1725752508361204" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/white_circle_bg.xml" value="0.1725752508361204" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/font/clash_700.xml" value="0.16180555555555556" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/font/hk_grotesk.xml" value="0.18160535117056856" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_merch_description.xml" value="0.16385135135135134" />
-        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_order_summary.xml" value="0.2" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_order_summary.xml" value="0.18352601156069365" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_events.xml" value="0.16385135135135134" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_home.xml" value="0.16385135135135134" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_merch.xml" value="0.16385135135135134" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/merch_item.xml" value="0.16385135135135134" />
-        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/order_summary_item.xml" value="0.16385135135135134" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/order_summary_item.xml" value="0.264" />
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/font/clash.xml" value="0.28020833333333334" />
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/font/clash_400.xml" value="0.28020833333333334" />
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/font/clash_700.xml" value="0.26458333333333334" />

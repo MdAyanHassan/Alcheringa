@@ -183,10 +183,6 @@ class Home : Fragment() {
                         contentDescription = "artist",
                         contentScale = ContentScale.Crop,
                         alignment = Alignment.Center
-
-                            painter = painterResource(id = eventdetail.imgurl),
-                            contentDescription = "artist",
-                            contentScale = ContentScale.Crop
                     )
 
                     Box(
@@ -244,13 +240,6 @@ class Home : Fragment() {
                                         contentDescription = null, modifier = Modifier.fillMaxSize(),
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Crop
-
-                                            painter = if (eventdetail.mode.contains("ONLINE")) {
-                                                painterResource(id = R.drawable.online)
-                                            } else {
-                                                painterResource(id = R.drawable.onground)
-                                            },
-                                            contentDescription = null, modifier = Modifier.fillMaxSize()
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(4.dp))
@@ -293,9 +282,6 @@ class Home : Fragment() {
                     Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop,
                         alignment = Alignment.Center
                     )
-                        .height(256.dp)
-                        .width(218.dp)){
-                    Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
 
                     Box(modifier = Modifier
                             .fillMaxWidth()
@@ -337,14 +323,6 @@ class Home : Fragment() {
                                             painterResource(id = R.drawable.onground)
                                         },
                                         contentDescription = null, modifier = Modifier.fillMaxSize(),alignment = Alignment.Center, contentScale =ContentScale.Crop
-
-                                            painter = if (eventdetail.mode.contains("ONLINE")) {
-                                                painterResource(id = R.drawable.online)
-                                            } else {
-                                                painterResource(id = R.drawable.onground)
-                                            },
-                                            contentDescription = null, modifier = Modifier.fillMaxSize()
-
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(4.dp))
@@ -419,10 +397,6 @@ class Home : Fragment() {
                                     modifier= Modifier.fillMaxWidth().height(473.dp),
                                     alignment = Alignment.Center,
                                     contentScale = ContentScale.Crop
-
-                                        painter = painterResource(id = eventdetails[page].imgurl),
-                                        contentDescription = "artist",
-                                        contentScale = ContentScale.Crop
                                 )
                                 Box(
                                         modifier = Modifier
@@ -490,13 +464,6 @@ class Home : Fragment() {
                                                     modifier = Modifier.fillMaxSize(),
                                                             alignment = Alignment.Center,
                                                             contentScale = ContentScale.Crop
-                                                        painter = if (eventdetails[page].mode.contains("ONLINE")) {
-                                                            painterResource(id = R.drawable.online)
-                                                        } else {
-                                                            painterResource(id = R.drawable.onground)
-                                                        },
-                                                        contentDescription = null,
-                                                        modifier = Modifier.fillMaxSize()
                                                 )
                                             }
                                             Spacer(modifier = Modifier.width(4.dp))
