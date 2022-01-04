@@ -44,10 +44,14 @@
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/drawable/ic_launcher_background.xml" value="0.25833333333333336" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/drawable/ic_splash_screen.xml" value="0.22864583333333333" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/drawable/ic_untitled.xml" value="0.176" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/drawable/merch_size_btn.xml" value="0.201" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/drawable/merch_size_btn_deselect.xml" value="0.2305" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_category.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_epass.xml" value="0.2421875" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_greeting_page.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_login.xml" value="0.4" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_main.xml" value="0.2421875" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_merch_description.xml" value="0.4" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_profile.xml" value="0.2" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_sign_up.xml" value="0.4" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/Alcheringa2022/app/src/main/res/layout/activity_splash_screen.xml" value="0.20833333333333334" />
