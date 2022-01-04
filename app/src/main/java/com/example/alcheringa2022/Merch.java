@@ -76,4 +76,14 @@ public class Merch extends Fragment implements onItemClick{
         Toast.makeText(getContext(), "Ritesh", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(getActivity(),Merch_Description.class));
     }
+
+    @Override
+    public void OnIncrementClick(int position) {
+
+    }
+
+    @Override
+    public void OnDecrementClick(int position) {
+
+    }
 }

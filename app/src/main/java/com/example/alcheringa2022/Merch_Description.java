@@ -3,6 +3,7 @@ package com.example.alcheringa2022;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,8 @@ import android.widget.Button;
 
 public class Merch_Description extends AppCompatActivity implements View.OnClickListener {
     Button small_btn,medium_btn,large_btn,xlarge_btn;
-    String merch_size="small";
+    String merch_size="S";
+    Button buy_now;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,11 +21,15 @@ public class Merch_Description extends AppCompatActivity implements View.OnClick
         medium_btn=findViewById(R.id.media_size);
         large_btn=findViewById(R.id.large_size);
         xlarge_btn=findViewById(R.id.xlarge_size);
+        buy_now=findViewById(R.id.buy_now);
 
         small_btn.setOnClickListener(this);
         medium_btn.setOnClickListener(this);
         large_btn.setOnClickListener(this);
         xlarge_btn.setOnClickListener(this);
+        buy_now.setOnClickListener(this);
+
+
 
     }
 
@@ -49,6 +55,9 @@ public class Merch_Description extends AppCompatActivity implements View.OnClick
                 deselect_size();
                 select_size(xlarge_btn);
                 merch_size="XL";
+                break;
+            case R.id.buy_now:
+                startActivity(new Intent(getApplicationContext(),Cart.class));
                 break;
         }
 
