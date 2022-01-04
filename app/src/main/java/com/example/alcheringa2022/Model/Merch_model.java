@@ -94,6 +94,15 @@ public class Merch_model implements Parcelable {
         Large = large;
     }
 
+    public Merch_model(String name_hoddie, String price, String image_url, Boolean small, Boolean medium, Boolean large) {
+        Name_hoddie = name_hoddie;
+        Price = price;
+        Image_url = image_url;
+        Small = small;
+        Medium = medium;
+        Large = large;
+    }
+
     public String getMaterial() {
         return Material;
     }
