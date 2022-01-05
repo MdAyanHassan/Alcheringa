@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.example.alcheringa2022"
         minSdk 21
-        targetSdk 28
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -67,7 +67,7 @@ allprojects {
         jcenter()
     }
 }
-
+apply plugin: 'com.google.gms.google-services'
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.4.0'
@@ -83,6 +83,10 @@ dependencies {
     implementation "androidx.compose.ui:ui-util:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-firestore:24.0.0'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.1'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -90,8 +94,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.mikhaellopez:circularimageview:4.3.0'
     implementation 'com.scottyab:aescrypt:0.0.1'
-    implementation 'com.google.android.gms:play-services-auth:20.0.0'
     implementation 'dev.shreyaspatil.EasyUpiPayment:EasyUpiPayment:3.0.3'
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
     implementation "com.google.accompanist:accompanist-pager:0.19.0"
 
@@ -105,7 +109,12 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:1.0.5"
+
+
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
 }
 

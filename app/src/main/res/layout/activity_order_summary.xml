@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00010D"
+    android:orientation="vertical"
+    tools:context=".OrderSummaryActivity"
+    tools:ignore="HardcodedText" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_nav"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/top_nav"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/back_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="back button" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/clash_display_bold"
+            android:text="Order Summary"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_nav"
+         android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="36dp">
+
+                <TextView
+                    android:id="@+id/mid_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:width="30dp"
+                    android:height="30dp"
+                    android:background="@drawable/white_circle_bg"
+                    android:fontFamily="@font/clashdisplay"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/left_line"
+                    android:layout_width="64dp"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="#969696"
+                    app:layout_constraintRight_toLeftOf="@+id/mid_number"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/right_line"
+                    android:layout_width="64dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="14dp"
+                    android:background="#969696"
+                    app:layout_constraintLeft_toRightOf="@+id/mid_number"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/right_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:width="30dp"
+                    android:height="30dp"
+                    android:background="@drawable/white_border_bg"
+                    android:fontFamily="@font/clashdisplay"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintLeft_toRightOf="@+id/right_line"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/left_tick"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/white_circle_bg"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_baseline_check_24"
+                    app:layout_constraintRight_toLeftOf="@+id/left_line"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="tick" />
+
+                <TextView
+                    style="@style/order_summary_very_small_text"
+                    android:text="Address"
+                    app:layout_constraintLeft_toLeftOf="@id/left_tick"
+                    app:layout_constraintRight_toRightOf="@id/left_tick"
+                    app:layout_constraintTop_toBottomOf="@id/left_tick" />
+
+                <TextView
+                    style="@style/order_summary_very_small_text"
+                    android:text="Order Summary"
+                    app:layout_constraintLeft_toLeftOf="@id/mid_number"
+                    app:layout_constraintRight_toRightOf="@id/mid_number"
+                    app:layout_constraintTop_toBottomOf="@id/mid_number" />
+
+                <TextView
+                    style="@style/order_summary_very_small_text"
+                    android:text="Payment"
+                    app:layout_constraintLeft_toLeftOf="@id/right_number"
+                    app:layout_constraintRight_toRightOf="@id/right_number"
+                    app:layout_constraintTop_toBottomOf="@id/right_number" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                style="@style/order_summary_heading_2"
+                android:text="Deliver to" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/hk_grotesk_regular"
+                android:textColor="@color/white"
+                tools:text="Rishikesh Aryan Choudhary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:fontFamily="@font/hk_grotesk"
+                android:textColor="@color/TextGrey"
+                tools:text="B-315 Lohit Hostel IIT Guwahati, Amingaon\nNorth Guwahati - 781039\n8398077353" />
+
+            <TextView
+                style="@style/order_summary_heading_2"
+                android:layout_marginBottom="8dp"
+                android:text="Items" />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/items_list_view"/>
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/list_linear_layout"
+                android:orientation="vertical"/>-->
+
+<!--
+            <include layout="@layout/order_summary_item"/>
+            <include layout="@layout/order_summary_item"/>
+            <include layout="@layout/order_summary_item"/>
+-->
+
+
+            <TextView
+                style="@style/order_summary_heading_2"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Price Details" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    style="@style/order_summary_small_text"
+                    android:text="Total MRP"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/order_summary_small_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="₹3995.00" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    style="@style/order_summary_small_text"
+                    android:text="Shipping Charges"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/order_summary_small_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="₹45.00" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="16dp"
+                android:background="#707683" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    style="@style/order_summary_medium_text"
+                    android:text="TOTAL"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/order_summary_medium_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="₹4064.00" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="240dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottom_part"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00010D"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                style="@style/order_summary_medium_text"
+                android:fontFamily="@font/clashdisplay"
+                android:text="Order Total"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/order_summary_medium_text"
+                android:fontFamily="@font/clashdisplay"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="₹4064.00" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            style="@style/bottom_orange_button"
+            android:text="Pay Securely" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
