@@ -29,6 +29,7 @@
     <color name="Pink">#FFC0CB</color>
     <color name="LightPink">#FFB6C1</color>
     <color name="Orange">#FFA500</color>
+    <color name="btnOrange"> #EE6337</color>
     <color name="LightSalmon">#FFA07A</color>
     <color name="DarkOrange">#FF8C00</color>
     <color name="Coral">#FF7F50</color>
@@ -87,6 +88,11 @@
     <color name="LightBlue">#ADD8E6</color>
     <color name="DarkGray">#A9A9A9</color>
     <color name="ThemeRed">#C80915</color>
+    <color name="LineGray">#969696</color>
+
+    <color name="textbackground">#2B2B2B</color>
+    <color name="textfields">#898989</color>
+    <color name="textgreybehind">#bcbcbc</color>
 
     <color name="textGray">#C7CCD1</color>
     <color name="darkGray">#192A3E</color>
