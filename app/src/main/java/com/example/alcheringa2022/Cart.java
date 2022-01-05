@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.alcheringa2022.Model.Cart_model;
@@ -20,18 +22,26 @@ public class Cart extends AppCompatActivity implements onItemClick {
     List<Cart_model> list;
     TextView amount;
     String total_amount;
+    Button checkout_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         amount=findViewById(R.id.order_total_value);
+        checkout_btn=findViewById(R.id.checkout_button);
         recyclerView=findViewById(R.id.cart_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         list=new ArrayList<>();
         populate_cart();
         calcualte_amount();
+        checkout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),OrderSummaryActivity.class));
+            }
+        });
     }
 
     private void calcualte_amount() {
