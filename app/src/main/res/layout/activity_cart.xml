@@ -105,6 +105,7 @@
             android:id="@+id/checkout_button"
             android:layout_width="360dp"
             android:layout_height="55dp"
+            android:foreground="?android:attr/selectableItemBackground"
             android:background="@drawable/custom_button"
             android:backgroundTint="#EE6337"
             android:text="Proceed to Checkout"

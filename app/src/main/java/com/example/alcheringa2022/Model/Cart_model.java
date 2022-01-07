@@ -7,30 +7,7 @@ public class Cart_model {
     String price;
     String image;
     String count;
-
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public String getCount() {
-        return count;
-    }
+    String Image;
 
     public void setName(String name) {
         this.name = name;
@@ -56,12 +33,37 @@ public class Cart_model {
         this.count = count;
     }
 
-    public Cart_model(String name, String type, String size, String price, String image, String count) {
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public Cart_model(String name, String type, String size, String price, String image, String count, String image1) {
         this.name = name;
         this.type = type;
         this.size = size;
         this.price = price;
         this.image = image;
         this.count = count;
+        Image = image1;
     }
 }

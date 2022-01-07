@@ -97,7 +97,7 @@
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:background="@drawable/custom_button"
-
+        android:foreground="?android:attr/selectableItemBackground"
         android:backgroundTint="#EE6337"
         android:text="Create an Account"
         android:textAllCaps="false"
@@ -180,7 +180,8 @@
         android:id="@+id/sign_in_outlook"
         android:layout_width="272dp"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/signupbutton"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:layout_constraintBottom_toTopOf="@+id/signupbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -211,6 +212,7 @@
     <LinearLayout
         android:id="@+id/signInButton"
         android:layout_width="272dp"
+        android:foreground="?android:attr/selectableItemBackground"
         android:layout_height="50dp"
         app:layout_constraintBottom_toTopOf="@+id/signupbutton"
         app:layout_constraintEnd_toEndOf="parent"

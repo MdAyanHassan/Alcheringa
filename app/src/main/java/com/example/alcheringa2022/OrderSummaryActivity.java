@@ -18,26 +18,29 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.alcheringa2022.Model.Cart_model;
 import com.example.alcheringa2022.Model.Merch_model;
 
 import java.util.ArrayList;
 
 public class OrderSummaryActivity extends AppCompatActivity {
+    DBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_summary);
+        dbHandler=new DBHandler(this);
 
 
         // create a arraylist of the type Merch_model
-        final ArrayList<Merch_model> arrayList = new ArrayList<Merch_model>();
+        final ArrayList<Cart_model> arrayList = dbHandler.readCourses();
 
         // the items are of the type Merch_model
-        String image_url = "https://i.picsum.photos/id/355/200/300.jpg?hmac=CjmRk_yPeMJV6teNYBA4ceaviVpxIl8XM9NL7GQzLMU";
-        arrayList.add(new Merch_model("Lightning", "4300" ,image_url, false, false, true));
-        arrayList.add(new Merch_model("Lightning", "4300" ,image_url, false, false, true));
-        arrayList.add(new Merch_model("Lightning", "4300" ,image_url, false, false, true));
+//        String image_url = "https://i.picsum.photos/id/355/200/300.jpg?hmac=CjmRk_yPeMJV6teNYBA4ceaviVpxIl8XM9NL7GQzLMU";
+//        arrayList.add(new Merch_model("Lightning", "4300" ,image_url, "false", "false", true,true,true,true,true));
+//        arrayList.add(new Merch_model("Lightning", "4300" ,image_url, "false", "false", true,true,true,true,true));
+//        arrayList.add(new Merch_model("Lightning", "4300" ,image_url, "false", "false", true,true,true,true,true));
 
 
         OrderSummaryAdapter adapter = new OrderSummaryAdapter(this, arrayList);

@@ -13,14 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.example.alcheringa2022.Model.Cart_model;
 import com.example.alcheringa2022.Model.Merch_model;
 
 import java.util.ArrayList;
 
-public class OrderSummaryAdapter extends ArrayAdapter<Merch_model> {
+public class OrderSummaryAdapter extends ArrayAdapter<Cart_model> {
 
     // invoke the suitable constructor of the ArrayAdapter class
-    public OrderSummaryAdapter(@NonNull Context context, ArrayList<Merch_model> arrayList) {
+    public OrderSummaryAdapter(@NonNull Context context, ArrayList<Cart_model> arrayList) {
 
         // pass the context and arrayList for the super
         // constructor of the ArrayAdapter class
@@ -40,15 +41,15 @@ public class OrderSummaryAdapter extends ArrayAdapter<Merch_model> {
         }
 
         // get the position of the view from the ArrayAdapter
-        Merch_model currentItem = getItem(position);
+        Cart_model currentItem = getItem(position);
 
         // then according to the position of the view assign the desired image for the same
         ImageView image = currentItemView.findViewById(R.id.merch_image);
         assert currentItem != null;
         //image.setImageResource(currentItem.getImage_url());
         try {
-            Glide.with(getContext()).load(currentItem.getImage_url()).into(image);
-            //Toast.makeText(getContext(), "Image set successfully",Toast.LENGTH_LONG).show();
+            Glide.with(getContext()).load(currentItem.getImage()).into(image);
+            Toast.makeText(getContext(), "Image set successfully",Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "could not load image"+ e.getMessage(),Toast.LENGTH_LONG).show();
@@ -56,13 +57,13 @@ public class OrderSummaryAdapter extends ArrayAdapter<Merch_model> {
 
         // then according to the position of the view assign the desired TextView 1 for the same
         TextView name = currentItemView.findViewById(R.id.name);
-        name.setText(currentItem.getName_hoddie());
+        name.setText(currentItem.getName());
 
         TextView price = currentItemView.findViewById(R.id.price);
         price.setText("₹" + currentItem.getPrice() + ".00");
 
         TextView details = currentItemView.findViewById(R.id.details);
-        details.setText(currentItem.getLarge().toString() + currentItem.getSmall().toString() + currentItem.getMedium().toString());
+        //details.setText(currentItem.getLarge().toString() + currentItem.getSmall().toString() + currentItem.getMedium().toString());
 
         TextView delivery = currentItemView.findViewById(R.id.delivery);
         delivery.setText("Delivery by 7 Jan");

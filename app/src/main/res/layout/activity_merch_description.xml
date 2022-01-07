@@ -185,7 +185,7 @@
                 android:id="@+id/buy_now"
                 android:layout_width="320dp"
                 android:layout_height="60dp"
-
+                android:foreground="?android:attr/selectableItemBackground"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/custom_button"
                 android:backgroundTint="#EE6337"
@@ -204,9 +204,9 @@
                 android:id="@+id/add_to_cart"
                 android:layout_width="320dp"
                 android:layout_height="60dp"
-
                 android:background="@drawable/custom_button"
                 android:backgroundTint="#505050"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:fontFamily="@font/clash_700"
                 android:text="Add to Cart"
                 android:textAllCaps="false"

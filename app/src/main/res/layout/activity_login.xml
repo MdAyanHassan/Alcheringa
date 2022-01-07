@@ -119,6 +119,8 @@
         android:id="@+id/sign_in_outlook"
         android:layout_width="272dp"
         android:layout_height="50dp"
+        android:foreground="?android:attr/selectableItemBackground"
+
         app:layout_constraintBottom_toTopOf="@+id/loginbtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
@@ -153,23 +155,25 @@
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:background="@drawable/custom_button"
-
+        android:foreground="?android:attr/selectableItemBackground"
         android:backgroundTint="#EE6337"
+        android:fontFamily="@font/clash_700"
         android:text="Login"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:fontFamily="@font/clash_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.806" />
+
     <LinearLayout
         android:id="@+id/google_login_btn"
         android:layout_width="272dp"
         android:layout_height="50dp"
+        android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintBottom_toTopOf="@+id/loginbtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"

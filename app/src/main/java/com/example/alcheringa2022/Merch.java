@@ -61,7 +61,11 @@ public class Merch extends Fragment implements onItemClick{
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 for(DocumentSnapshot documentSnapshot : task.getResult()){
-                    merch_modelList.add(new Merch_model("1","1","1","1","1",true,true,true,true));
+                    merch_modelList.add(new Merch_model(documentSnapshot.getString("Name"),documentSnapshot.getString("Material")
+                            ,documentSnapshot.getString("Price"),documentSnapshot.getString("Description"),"1",
+                            documentSnapshot.getBoolean("Available"),documentSnapshot.getBoolean("Small"),
+                            documentSnapshot.getBoolean("Medium"),documentSnapshot.getBoolean("Large"),
+                            documentSnapshot.getBoolean("Large")));
                     recyclerView.setAdapter(merch_adapter);
 
                 }
@@ -74,7 +78,9 @@ public class Merch extends Fragment implements onItemClick{
     @Override
     public void Onclick(int position) {
         Toast.makeText(getContext(), "Ritesh", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(getActivity(),Merch_Description.class));
+        Intent intent=new Intent(getActivity(),Merch_Description.class);
+        intent.putExtra("item",merch_modelList.get(position));
+        startActivity(intent);
     }
 
     @Override

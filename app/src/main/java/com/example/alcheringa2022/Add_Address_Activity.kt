@@ -1,5 +1,6 @@
 package com.example.alcheringa2022
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.ComponentActivity
@@ -379,7 +380,10 @@ class Add_Address_Activity : ComponentActivity() {
                             .constrainAs(btn) { bottom.linkTo(parent.bottom) })
                         {
                         Button(
-                            onClick = {},
+                            onClick = {
+                                startActivity(Intent(applicationContext, OrderSummaryActivity::class.java))
+
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(55.dp),

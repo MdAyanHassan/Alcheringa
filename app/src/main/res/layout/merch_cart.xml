@@ -169,6 +169,7 @@
                 android:id="@+id/subtract"
                 android:layout_width="30dp"
                 android:gravity="center"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:layout_height="wrap_content"
                 android:text="-"
                 android:textColor="@color/white"
@@ -199,6 +200,8 @@
                 android:id="@+id/add"
                 android:gravity="center"
                 android:layout_width="40dp"
+                android:foreground="?android:attr/selectableItemBackground"
+
                 android:layout_height="wrap_content"
                 android:text="+"
                 android:fontFamily="@font/hk_grotesk_regular"
@@ -217,6 +220,8 @@
             android:id="@+id/remove_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
+
             android:text="Remove"
             android:textAllCaps="false"
             android:textColor="#FF6565"

@@ -13,6 +13,7 @@ public class Merch_model implements Parcelable {
     Boolean Small;
     Boolean Medium;
     Boolean Large;
+    Boolean Xlarge;
 
     protected Merch_model(Parcel in) {
         Name_hoddie = in.readString();
@@ -28,6 +29,8 @@ public class Merch_model implements Parcelable {
         Medium = tmpMedium == 0 ? null : tmpMedium == 1;
         byte tmpLarge = in.readByte();
         Large = tmpLarge == 0 ? null : tmpLarge == 1;
+        byte tmpXlarge = in.readByte();
+        Xlarge = tmpXlarge == 0 ? null : tmpXlarge == 1;
     }
 
     public static final Creator<Merch_model> CREATOR = new Creator<Merch_model>() {
@@ -78,29 +81,12 @@ public class Merch_model implements Parcelable {
         Large = large;
     }
 
+    public void setXlarge(Boolean xlarge) {
+        Xlarge = xlarge;
+    }
+
     public String getName_hoddie() {
         return Name_hoddie;
-    }
-
-    public Merch_model(String name_hoddie, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large) {
-        Name_hoddie = name_hoddie;
-        Material = material;
-        Price = price;
-        Description = description;
-        Image_url = image_url;
-        Is_available = is_available;
-        Small = small;
-        Medium = medium;
-        Large = large;
-    }
-
-    public Merch_model(String name_hoddie, String price, String image_url, Boolean small, Boolean medium, Boolean large) {
-        Name_hoddie = name_hoddie;
-        Price = price;
-        Image_url = image_url;
-        Small = small;
-        Medium = medium;
-        Large = large;
     }
 
     public String getMaterial() {
@@ -135,6 +121,22 @@ public class Merch_model implements Parcelable {
         return Large;
     }
 
+    public Boolean getXlarge() {
+        return Xlarge;
+    }
+
+    public Merch_model(String name_hoddie, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge) {
+        Name_hoddie = name_hoddie;
+        Material = material;
+        Price = price;
+        Description = description;
+        Image_url = image_url;
+        Is_available = is_available;
+        Small = small;
+        Medium = medium;
+        Large = large;
+        Xlarge = xlarge;
+    }
 
     @Override
     public int describeContents() {
@@ -152,5 +154,6 @@ public class Merch_model implements Parcelable {
         dest.writeByte((byte) (Small == null ? 0 : Small ? 1 : 2));
         dest.writeByte((byte) (Medium == null ? 0 : Medium ? 1 : 2));
         dest.writeByte((byte) (Large == null ? 0 : Large ? 1 : 2));
+        dest.writeByte((byte) (Xlarge == null ? 0 : Xlarge ? 1 : 2));
     }
 }
