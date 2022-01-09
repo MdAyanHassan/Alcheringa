@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.media.Image;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,6 +39,10 @@ public class DBHandler extends SQLiteOpenHelper {
     // below variable is for our course tracks column.
     private static final String SIZE_COL = "size";
 
+    private static final String IMAGE_COL = "image";
+
+    private static final String TYPE_COL = "type";
+
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -48,7 +53,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 + NAME_COL + " TEXT,"
                 + COUNT_COL + " TEXT,"
                 + PRICE_COL + " TEXT,"
-                + SIZE_COL + " TEXT)";
+                + SIZE_COL +  " TEXT,"
+                + IMAGE_COL+  " TEXT,"
+                + TYPE_COL +  " TEXT)" ;
 
         // at last we are calling a exec sql
         // method to execute above sql query
@@ -71,9 +78,9 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 // on below line we are adding the data from cursor to our array list.
                 courseModalArrayList.add(new Cart_model(cursorcart.getString(1),
-                        "",
+                        cursorcart.getString(6),
                         cursorcart.getString(4),
-                        cursorcart.getString(3),"",cursorcart.getString(2),
+                        cursorcart.getString(3),cursorcart.getString(5),cursorcart.getString(2),
                         "https://i.picsum.photos/id/355/200/300.jpg?hmac=CjmRk_yPeMJV6teNYBA4ceaviVpxIl8XM9NL7GQzLMU"));
             } while (cursorcart.moveToNext());
             // moving our cursor to next.
@@ -83,27 +90,33 @@ public class DBHandler extends SQLiteOpenHelper {
         cursorcart.close();
         return courseModalArrayList;
     }
-    public void addNewitemIncart(String name,String price,String size,String count){
+    public void addNewitemIncart(String name,String price,String size,String count,String Image_url,String Type,Context context){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(NAME_COL, name);
         values.put(SIZE_COL, size);
         values.put(PRICE_COL, price);
+        values.put(TYPE_COL, Type);
+        values.put(IMAGE_COL, Image_url);
         String query="SELECT * FROM "+ TABLE_NAME +" WHERE name = '"+name+"' "+"AND "+"size = '"+size+"'";
         if(getData(query).getCount()>0){
             Cursor cursor= getData(query);
             cursor.moveToFirst();
+          //  Toast.makeText(context, "inside this", Toast.LENGTH_SHORT).show();
             String count1=Long.parseLong(cursor.getString(2))+1+"";
             values.put(COUNT_COL, count1);
             Log.d("vipin",count1+"");
             db.update(TABLE_NAME,values," name=? and size=? ",new String[]{name,size});
         }
         else{
+            //Toast.makeText(context, "new element this "+values.toString(), Toast.LENGTH_SHORT).show();
             values.put(COUNT_COL, count);
             db.insert(TABLE_NAME,null,values);
         }
         db.close();
     }
+
+
     public void RemoveFromCart(String name,String price,String size,String count){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -123,6 +136,7 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         else{
             values.put(COUNT_COL, count);
+
             db.insert(TABLE_NAME,null,values);
         }
         db.close();

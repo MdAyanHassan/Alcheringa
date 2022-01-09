@@ -47,8 +47,8 @@ public class Category_Activity extends AppCompatActivity  {
         student.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbHandler.addNewitemIncart("vipin","500","XL","2");
-                dbHandler.addNewitemIncart("vipin","500","L","2");
+//                dbHandler.addNewitemIncart("vipin","500","XL","2");
+//                dbHandler.addNewitemIncart("vipin","500","L","2");
                 Toast.makeText(getApplicationContext(), "submitted", Toast.LENGTH_SHORT).show();
                 ArrayList<Cart_model> list= dbHandler.readCourses();
                 Toast.makeText(getApplicationContext(), ""+list.toString(), Toast.LENGTH_SHORT).show();

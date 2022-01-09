@@ -106,7 +106,6 @@
             android:layout_width="150dp"
             android:layout_height="180dp"
             android:layout_margin="5dp"
-            android:background="@drawable/hoodie"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.975"

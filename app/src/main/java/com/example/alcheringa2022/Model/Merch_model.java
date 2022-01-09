@@ -3,6 +3,8 @@ package com.example.alcheringa2022.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Merch_model implements Parcelable {
     String Name_hoddie;
     String Material;
@@ -14,6 +16,7 @@ public class Merch_model implements Parcelable {
     Boolean Medium;
     Boolean Large;
     Boolean Xlarge;
+    ArrayList<String> images;
 
     protected Merch_model(Parcel in) {
         Name_hoddie = in.readString();
@@ -31,6 +34,7 @@ public class Merch_model implements Parcelable {
         Large = tmpLarge == 0 ? null : tmpLarge == 1;
         byte tmpXlarge = in.readByte();
         Xlarge = tmpXlarge == 0 ? null : tmpXlarge == 1;
+        images = in.createStringArrayList();
     }
 
     public static final Creator<Merch_model> CREATOR = new Creator<Merch_model>() {
@@ -85,6 +89,10 @@ public class Merch_model implements Parcelable {
         Xlarge = xlarge;
     }
 
+    public void setImages(ArrayList<String> images) {
+        this.images = images;
+    }
+
     public String getName_hoddie() {
         return Name_hoddie;
     }
@@ -125,7 +133,11 @@ public class Merch_model implements Parcelable {
         return Xlarge;
     }
 
-    public Merch_model(String name_hoddie, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge) {
+    public ArrayList<String> getImages() {
+        return images;
+    }
+
+    public Merch_model(String name_hoddie, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, ArrayList<String> images) {
         Name_hoddie = name_hoddie;
         Material = material;
         Price = price;
@@ -136,7 +148,9 @@ public class Merch_model implements Parcelable {
         Medium = medium;
         Large = large;
         Xlarge = xlarge;
+        this.images = images;
     }
+
 
     @Override
     public int describeContents() {
@@ -155,5 +169,6 @@ public class Merch_model implements Parcelable {
         dest.writeByte((byte) (Medium == null ? 0 : Medium ? 1 : 2));
         dest.writeByte((byte) (Large == null ? 0 : Large ? 1 : 2));
         dest.writeByte((byte) (Xlarge == null ? 0 : Xlarge ? 1 : 2));
+        dest.writeStringList(images);
     }
 }

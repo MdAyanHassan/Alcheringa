@@ -28,17 +28,20 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rishikesh Aryan Choudhary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@+id/user_photo"
-            android:fontFamily="@font/clash_400"
+            android:layout_height="25dp"
             android:layout_marginStart="20dp"
-            android:textSize="20sp"
+            android:fontFamily="@font/clash_400"
+            android:lineHeight="51.84sp"
+            android:text="Rishikesh Aryan "
+            android:textColor="@color/white"
             android:textFontWeight="500"
-            android:lineHeight="51.84sp"/>
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.336"
+            app:layout_constraintStart_toEndOf="@+id/user_photo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.506" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -148,6 +151,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/signout_button"
@@ -160,7 +164,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/signoutLogo"
+            android:src="@drawable/signoutlogo"
             android:id="@+id/signout_logo"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

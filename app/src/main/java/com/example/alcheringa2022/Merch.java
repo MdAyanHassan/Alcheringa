@@ -6,11 +6,13 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ public class Merch extends Fragment implements onItemClick{
     List<Merch_model> merch_modelList;
     Merch_Adapter merch_adapter;
     FirebaseAuth firebaseAuth;
+    ImageView cart;
     FirebaseFirestore firestore;
     @Nullable
     @Override
@@ -44,13 +47,19 @@ public class Merch extends Fragment implements onItemClick{
                              @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_merch,container,false);
         recyclerView=view.findViewById(R.id.merch_recyclerview);
+        cart=view.findViewById(R.id.cart);
         firebaseAuth=FirebaseAuth.getInstance();
         firestore= FirebaseFirestore.getInstance();
         merch_modelList=new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         merch_adapter=new Merch_Adapter(merch_modelList,getContext(),this);
-
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),Cart.class));
+            }
+        });
         populate_merch();
         return  view;
 
@@ -61,11 +70,13 @@ public class Merch extends Fragment implements onItemClick{
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 for(DocumentSnapshot documentSnapshot : task.getResult()){
-                    merch_modelList.add(new Merch_model(documentSnapshot.getString("Name"),documentSnapshot.getString("Material")
-                            ,documentSnapshot.getString("Price"),documentSnapshot.getString("Description"),"1",
+                    ArrayList<String> obj= (ArrayList<String>) documentSnapshot.get("Images");
+
+                    merch_modelList.add(new Merch_model(documentSnapshot.getString("Name"),documentSnapshot.getString("Type")
+                            ,documentSnapshot.getString("Price"),documentSnapshot.getString("Description"),documentSnapshot.getString("Image"),
                             documentSnapshot.getBoolean("Available"),documentSnapshot.getBoolean("Small"),
                             documentSnapshot.getBoolean("Medium"),documentSnapshot.getBoolean("Large"),
-                            documentSnapshot.getBoolean("Large")));
+                            documentSnapshot.getBoolean("ExtraLarge"),obj));
                     recyclerView.setAdapter(merch_adapter);
 
                 }

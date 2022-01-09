@@ -1,9 +1,11 @@
 package com.example.alcheringa2022
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -99,7 +101,10 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.account.setOnClickListener {
+            startActivity(Intent(context,Account::class.java));
 
+        }
         binding.compose1.setContent {
             Alcheringa2022Theme() {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {

@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alcheringa2022.Model.Merch_model;
@@ -18,10 +20,13 @@ public class Merch_Description extends AppCompatActivity implements View.OnClick
     Button buy_now,add_to_cart;
     DBHandler dbHandler;
     Merch_model merch_model;
+    TextView name,type,price,description;
+    ImageView cart;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merch_description);
+        cart=findViewById(R.id.cart);
         Intent intent=getIntent();
         merch_model=intent.getExtras().getParcelable("item");
         small_btn=findViewById(R.id.small_size);
@@ -30,12 +35,17 @@ public class Merch_Description extends AppCompatActivity implements View.OnClick
         xlarge_btn=findViewById(R.id.xlarge_size);
         buy_now=findViewById(R.id.buy_now);
         add_to_cart=findViewById(R.id.add_to_cart);
+        name=findViewById(R.id.merch_name);
+        type=findViewById(R.id.merch_type);
+        price=findViewById(R.id.merch_price);
+        description=findViewById(R.id.merch_description);
         small_btn.setOnClickListener(this);
         medium_btn.setOnClickListener(this);
         large_btn.setOnClickListener(this);
         xlarge_btn.setOnClickListener(this);
         buy_now.setOnClickListener(this);
         add_to_cart.setOnClickListener(this);
+        cart.setOnClickListener(this);
         dbHandler=new DBHandler(this);
         small_btn.setVisibility(View.GONE);
         large_btn.setVisibility(View.GONE);
@@ -44,6 +54,23 @@ public class Merch_Description extends AppCompatActivity implements View.OnClick
 
 
         /// setting buttons
+        setting_buttons();
+
+        populate_details();
+        //dbHandler.Delete_all();
+
+
+    }
+
+    private void populate_details() {
+        name.setText(merch_model.getName_hoddie());
+        type.setText(merch_model.getMaterial());
+        price.setText("₹ "+merch_model.getPrice()+".00");
+        description.setText(merch_model.getDescription());
+    }
+
+
+    private void setting_buttons() {
         if(merch_model.getSmall()){
             small_btn.setVisibility(View.VISIBLE);
         }
@@ -56,7 +83,6 @@ public class Merch_Description extends AppCompatActivity implements View.OnClick
         if(merch_model.getLarge()){
             xlarge_btn.setVisibility(View.VISIBLE);
         }
-
     }
 
     @Override
@@ -83,10 +109,16 @@ public class Merch_Description extends AppCompatActivity implements View.OnClick
                 merch_size="XL";
                 break;
             case R.id.buy_now:
+               // dbHandler.addNewitemIncart(merch_model.getName_hoddie(),merch_model.getPrice(),merch_size,"1",merch_model.getImage_url(),merch_model.getMaterial());
                 startActivity(new Intent(getApplicationContext(),Cart.class));
                 break;
             case R.id.add_to_cart:
-                dbHandler.addNewitemIncart(merch_model.getName_hoddie(),merch_model.getPrice(),merch_size,"1");
+                dbHandler.addNewitemIncart(merch_model.getName_hoddie(),merch_model.getPrice(),merch_size,
+                        "1",merch_model.getImage_url(),merch_model.getMaterial(),
+                        getApplicationContext());
+                startActivity(new Intent(getApplicationContext(),Cart.class));
+                break;
+            case R.id.cart:
                 startActivity(new Intent(getApplicationContext(),Cart.class));
                 break;
         }

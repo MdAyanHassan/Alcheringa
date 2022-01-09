@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class Cart extends AppCompatActivity implements onItemClick {
     String total_amount;
     Button checkout_btn;
     DBHandler dbHandler;
+    ImageView cart;
     ArrayList<Cart_model> cart_modelArrayList;
 
     @Override
@@ -33,12 +35,16 @@ public class Cart extends AppCompatActivity implements onItemClick {
         setContentView(R.layout.activity_cart);
         amount=findViewById(R.id.order_total_value);
         checkout_btn=findViewById(R.id.checkout_button);
+
         recyclerView=findViewById(R.id.cart_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         list=new ArrayList<>();
         dbHandler=new DBHandler(getApplicationContext());
         cart_modelArrayList =dbHandler.readCourses();
+        for (int i=0;i<cart_modelArrayList.size();i++){
+            Toast.makeText(getApplicationContext(), ""+cart_modelArrayList.get(i).getPrice(), Toast.LENGTH_SHORT).show();
+        }
 
         populate_cart();
         calcualte_amount();
@@ -61,7 +67,7 @@ public class Cart extends AppCompatActivity implements onItemClick {
     }
 
     private void populate_cart() {
-            cartAdapter=new CartAdapter(cart_modelArrayList,this);
+            cartAdapter=new CartAdapter(cart_modelArrayList,this,getApplicationContext());
             recyclerView.setAdapter(cartAdapter);
     }
 
@@ -78,8 +84,13 @@ public class Cart extends AppCompatActivity implements onItemClick {
         int count=Integer.parseInt(cart_modelArrayList.get(position).getCount());
         count++;
         cart_modelArrayList.get(position).setCount(count+"");
-        dbHandler.addNewitemIncart(cart_modelArrayList.get(position).getName(),cart_modelArrayList.get(position).getPrice(),
-                cart_modelArrayList.get(position).getSize(),cart_modelArrayList.get(position).getCount());
+        dbHandler
+                .addNewitemIncart(cart_modelArrayList.get(position).getName(),
+                cart_modelArrayList.get(position).getPrice(),
+                cart_modelArrayList.get(position).getSize(),
+                cart_modelArrayList.get(position).getCount(),
+                cart_modelArrayList.get(position).getImage(),
+                cart_modelArrayList.get(position).getType(),getApplicationContext());
         cartAdapter.notifyDataSetChanged();
         calcualte_amount();
 
