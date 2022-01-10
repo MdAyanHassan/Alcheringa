@@ -28,7 +28,8 @@ import com.google.android.gms.tasks.Task;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 import android.widget.Button;
@@ -41,6 +42,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.JsonObject;
 
 //Outlook Login imports:
@@ -79,6 +84,7 @@ public class SignUp extends AppCompatActivity {
     ImageView backbutton;
     private EditText Name,Email,Password;
     TextView currentUserTextView;
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +96,8 @@ public class SignUp extends AppCompatActivity {
         Name=findViewById(R.id.name);
         Email=findViewById(R.id.email);
         Password=findViewById(R.id.password);
+
+        firebaseFirestore= FirebaseFirestore.getInstance();
 
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
@@ -160,6 +168,8 @@ public class SignUp extends AppCompatActivity {
                             FirebaseUser firebaseUser=mAuth.getCurrentUser();
                             assert firebaseUser != null;
                             emailVerification();
+                            RegisterUserInDatabase();
+
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -183,6 +193,35 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void RegisterUserInDatabase() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        assert user != null;
+        String email = user.getEmail();
+        assert email != null;
+        firebaseFirestore.collection("USERS").document(email).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                assert value != null;
+                if (!value.exists()) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("Name", "VIPIN");
+                    data.put("Email", email);
+                    firebaseFirestore.collection("USERS").document(email).set(data).
+                            addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
     }
 
     private void GooogleSignIn() {
@@ -226,6 +265,7 @@ public class SignUp extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
+                            RegisterUserInDatabase();
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             finish();
 

@@ -75,7 +75,8 @@ public class Cart extends AppCompatActivity implements onItemClick {
     public void Onclick(int position) {
         dbHandler.DeleteItem(cart_modelArrayList.get(position).getName(),cart_modelArrayList.get(position).getSize());
         cart_modelArrayList.remove(cart_modelArrayList.get(position));
-        cartAdapter.notifyDataSetChanged();
+        cartAdapter=new CartAdapter(cart_modelArrayList,this,getApplicationContext());
+        recyclerView.setAdapter(cartAdapter);
         calcualte_amount();
     }
 

@@ -1,6 +1,7 @@
 package com.example.alcheringa2022;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -27,6 +28,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Login extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
@@ -35,6 +43,7 @@ public class Login extends AppCompatActivity {
     LinearLayout google_login_btn;
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
     private EditText Email,Password;
     Button loginbtn;
     private static final String TAG = "TAG";
@@ -43,6 +52,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         SignuptextView=findViewById(R.id.signup_here);
         backbutton=findViewById(R.id.back_button);
         google_login_btn=findViewById(R.id.google_login_btn);
@@ -160,6 +170,7 @@ public class Login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
+                            RegisterUserInDatabase();
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             finish();
 
@@ -171,6 +182,34 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    private void RegisterUserInDatabase() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        assert user != null;
+        String email = user.getEmail();
+        assert email != null;
+        firebaseFirestore.collection("USERS").document(email).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                assert value != null;
+                if (!value.exists()) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("Name", "VIPIN");
+                    data.put("Email", email);
+                    firebaseFirestore.collection("USERS").document(email).set(data).
+                            addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
     }
 
 

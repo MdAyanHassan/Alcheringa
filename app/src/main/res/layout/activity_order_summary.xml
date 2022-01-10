@@ -129,6 +129,24 @@
                     app:layout_constraintRight_toLeftOf="@+id/left_line"
                     app:layout_constraintTop_toTopOf="parent"
                     android:contentDescription="tick" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:width="30dp"
+                    android:height="30dp"
+                    android:background="@drawable/white_circle_bg"
+                    android:fontFamily="@font/clashdisplay"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_marginEnd="10dp"
+                    android:text="1"
+                   android:padding="5dp"
+                    android:src="@drawable/ic_baseline_check_24"
+                    app:layout_constraintRight_toLeftOf="@+id/left_line"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="tick" />
+
 
                 <TextView
                     style="@style/order_summary_very_small_text"
@@ -158,6 +176,7 @@
                 android:text="Deliver to" />
 
             <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -166,6 +185,7 @@
                 tools:text="Rishikesh Aryan Choudhary" />
 
             <TextView
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
@@ -215,6 +235,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/total_mrp"
                     style="@style/order_summary_small_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -235,11 +256,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/shipping_charge"
                     style="@style/order_summary_small_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="₹45.00" />
+                    android:text="₹45.00" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -262,6 +284,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/total"
                     style="@style/order_summary_medium_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -301,6 +324,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/order_total"
                 style="@style/order_summary_medium_text"
                 android:fontFamily="@font/clashdisplay"
                 android:textSize="28sp"
@@ -312,6 +336,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
+            android:id="@+id/pay_btn"
             style="@style/bottom_orange_button"
             android:foreground="?android:attr/selectableItemBackground"
             android:text="Pay Securely" />
