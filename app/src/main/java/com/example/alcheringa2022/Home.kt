@@ -108,9 +108,7 @@ class Home : Fragment() {
         binding.compose1.setContent {
             Alcheringa2022Theme() {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-
                     horizontalScroll(eventdetails = events)
-
                     Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "ONGOING EVENTS", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                     Box(
                             modifier = Modifier
@@ -119,7 +117,7 @@ class Home : Fragment() {
                     ) {
                         LazyRow(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
                             items(events) { dataeach -> ongoingEvents(eventdetail = dataeach) }
                         }
@@ -131,7 +129,7 @@ class Home : Fragment() {
                     ) {
                         LazyRow(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
                             items(events) { dataeach -> upcomingEvents(eventdetail = dataeach) }
                         }

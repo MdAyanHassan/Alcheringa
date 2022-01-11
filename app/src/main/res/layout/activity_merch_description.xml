@@ -12,23 +12,35 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/top_nav"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0">
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="9dp"
+            android:layout_height="16dp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="32dp"
+            app:layout_constraintRight_toLeftOf="@id/shop">
+
+        </ImageButton>
 
         <ImageView
+            android:id="@+id/shop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_shop"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/cart"
-            app:layout_constraintHorizontal_bias="0.166"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintLeft_toRightOf="@id/backbtn"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="16dp"/>
 
 
         <ImageView
@@ -53,6 +65,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraintLayout">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
@@ -61,6 +74,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+            <androidx.compose.ui.platform.ComposeView
+                android:id="@+id/cv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/merch_name">
+            </androidx.compose.ui.platform.ComposeView>
 
             <TextView
                 android:id="@+id/merch_type"
@@ -212,8 +232,8 @@
                 android:layout_height="60dp"
                 android:background="@drawable/custom_button"
                 android:backgroundTint="#505050"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:fontFamily="@font/clash_700"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:text="Add to Cart"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
@@ -228,7 +248,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -239,11 +258,11 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="36dp"
                     android:fontFamily="@font/clash_400"
                     android:text="Product description"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    android:layout_marginStart="36dp"
 
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -256,16 +275,16 @@
                     android:id="@+id/merch_description"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="36dp"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/hk_grotesk_regular"
-                    android:text="This is a fucking amazing hoodie. I love it and
+                    tools:text="This is a fucking amazing hoodie. I love it and
 I will make sure you buy this. And if not I will
 hunt you down with my AK 47, which I will
 buy later. Thank you and have a nice day."
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="36dp"
                     app:layout_constraintHorizontal_bias="0"
 
                     app:layout_constraintStart_toStartOf="parent"

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00010D"
-    tools:context=".Merch">
+    tools:context=".Events">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_nav"
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,21 +17,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0">
+        <ImageButton
+            android:id="@+id/backbtn2"
+            android:layout_width="9dp"
+            android:layout_height="16dp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="32dp"
+            app:layout_constraintRight_toLeftOf="@id/comp"/>
 
         <ImageView
+            android:id="@+id/comp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:background="@drawable/ic_shop"
+            android:background="@drawable/ic_competition"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintLeft_toRightOf="@id/backbtn2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/cart"
+            android:id="@+id/account"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:background="@drawable/merch"
+            android:background="@drawable/fluent_person_24_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.903"
@@ -39,17 +50,27 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.461" />
 
-
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/fluent_alert_24_regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/account"
+            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.48" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/merch_recyclerview"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/competitions_compose"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_nav" />
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

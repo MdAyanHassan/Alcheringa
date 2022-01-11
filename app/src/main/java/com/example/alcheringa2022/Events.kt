@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -29,32 +30,32 @@ class Events : Fragment() {
     private lateinit var binding: FragmentEventsBinding
     private val events = mutableListOf(
 
-        eventdetail(
-            "JUBIN NAUTIYAL",
-            "Pro Nights",
-            "12 Feb, 4 PM",
-            "Online", R.drawable.jubin
-        ),
+            eventdetail(
+                    "JUBIN NAUTIYAL",
+                    "Pro Nights",
+                    "12 Feb, 4 PM",
+                    "Online", R.drawable.jubin
+            ),
 
-        eventdetail(
-            "DJ SNAKE",
-            "Pro Nights",
-            "11 Feb, 4 PM",
-            "Online", R.drawable.djsnake
-        ),
-        eventdetail(
-            "TAYLOR SWIFT",
-            "Pro Nights",
-            "13 Feb, 4 PM",
-            "Online", R.drawable.taylor
-        )
+            eventdetail(
+                    "DJ SNAKE",
+                    "Pro Nights",
+                    "11 Feb, 4 PM",
+                    "Online", R.drawable.djsnake
+            ),
+            eventdetail(
+                    "TAYLOR SWIFT",
+                    "Pro Nights",
+                    "13 Feb, 4 PM",
+                    "Online", R.drawable.taylor
+            )
 
 
     )
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         //return inflater.inflate(R.layout.fragment_events, container, false)
         binding = FragmentEventsBinding.inflate(layoutInflater)
@@ -78,11 +79,12 @@ class Events : Fragment() {
     fun Full_view() {
         Alcheringa2022Theme {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()).padding(horizontal = 12.dp)
+                    modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
                     /*.background(Color.Black)*/
             ) {
+                Spacer(modifier = Modifier.height(4.dp))
                 Events_row(heading = "Pronites", events_list = events)
                 Events_row(heading = "ProShows", events_list = events)
                 Events_row(heading = "Creator's Camp", events_list = events)
@@ -94,15 +96,13 @@ class Events : Fragment() {
 
     @Composable
     fun Events_row(heading: String, events_list: MutableList<eventdetail>) {
-        Spacer(modifier = Modifier.height(36.dp))
-        Text(text = heading.uppercase(Locale.getDefault()), style = MaterialTheme.typography.h2)
-        Spacer(modifier = Modifier.height(12.dp))
+        Box(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){Text(text = heading.uppercase(Locale.getDefault()), style = MaterialTheme.typography.h2)}
         LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(15.dp)
-        ) {
-            items(events_list) { dataEach -> Event_card(eventdetail = dataEach) }
-        }
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
+        ) { items(events_list) {dataEach -> Event_card(eventdetail = dataEach) } }
+
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
