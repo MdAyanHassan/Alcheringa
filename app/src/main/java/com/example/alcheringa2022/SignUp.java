@@ -24,6 +24,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.security.MessageDigest;
@@ -42,6 +44,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.OAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -96,6 +99,7 @@ public class SignUp extends AppCompatActivity {
         Name=findViewById(R.id.name);
         Email=findViewById(R.id.email);
         Password=findViewById(R.id.password);
+        signInButtonO = findViewById(R.id.sign_in_outlook);
 
         firebaseFirestore= FirebaseFirestore.getInstance();
 
@@ -108,12 +112,17 @@ public class SignUp extends AppCompatActivity {
         logTextView.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),Login.class)));
         backbutton.setOnClickListener(v -> finish());
         signupButton.setOnClickListener(v -> CustomSignup());
+        signInButtonO.setOnClickListener(v -> MicrosoftLogin());
+
+        //signOutButton = findViewById(R.id.clearCache);
+
+
 
 
 //        if(isLoggedIn){
 //            startMainActivity();
 //        }
-        initializeUI();
+/*        initializeUI();
 
         PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
                 R.raw.auth_config_single_account, new IPublicClientApplication.ISingleAccountApplicationCreatedListener() {
@@ -126,8 +135,57 @@ public class SignUp extends AppCompatActivity {
                     public void onError(MsalException exception) {
                         displayError(exception);
                     }
-                });
+                });*/
 
+    }
+
+    private void MicrosoftLogin() {
+        Log.d(TAG, "MicrosoftLogin");
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
+        provider.addCustomParameter("tenant", "850aa78d-94e1-4bc6-9cf3-8c11b530701c");
+
+        mAuth.startActivityForSignInWithProvider(/* activity= */ this, provider.build())
+                .addOnSuccessListener(
+                        authResult -> {
+                            Log.d(TAG, "onSuccess");
+                            // User is signed in.
+                            // IdP data available in
+                            // authResult.getAdditionalUserInfo().getProfile().
+                            // The OAuth access token can also be retrieved:
+                            // authResult.getCredential().getAccessToken().
+                            // The OAuth ID token can also be retrieved:
+                            // authResult.getCredential().getIdToken().
+
+                            Log.d(TAG, "Success: "+ authResult.getAdditionalUserInfo().getProfile().get("displayName").toString());
+
+                            Log.d(TAG, "Successfully authenticated");
+
+                            // Update UI
+                            String name = "No name found";
+                            String email = "No email found";
+                            String rollno = "No Roll No. found";
+                            try{
+                                email = authResult.getAdditionalUserInfo().getProfile().get("mail").toString();
+                            }catch(Exception ignored){}
+                            try{
+                                name = authResult.getAdditionalUserInfo().getProfile().get("displayName").toString();
+                            }catch(Exception ignored){}
+                            try{
+                                rollno = authResult.getAdditionalUserInfo().getProfile().get("surname").toString();
+                            }catch(Exception ignored){}
+                            Log.d(TAG, "Name: " + name);
+                            Log.d(TAG, "Email: " + email);
+                            Log.d(TAG, "Roll No: " + rollno);
+                            Toast.makeText(SignUp.this, "Name: " + name + " \n" + "Email: " + email, Toast.LENGTH_LONG).show();
+
+                            saveDetails(name, email);
+                            startMainActivity();
+                        })
+                .addOnFailureListener(
+                        e -> {
+                            Log.d(TAG, "onFailure"+ e.getMessage());
+                            // Handle failure.
+                        });
     }
 
     private void CustomSignup() {
@@ -285,6 +343,7 @@ public class SignUp extends AppCompatActivity {
     private void startMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void saveDetails(String name, String email){
@@ -300,7 +359,7 @@ public class SignUp extends AppCompatActivity {
     /* ################################ Outlook Signup Functions ############################### */
 
     //When app comes to the foreground, load existing account to determine if user is signed in
-    private void loadAccount() {
+    /*private void loadAccount() {
         if (mSingleAccountApp == null) {
             return;
         }
@@ -345,7 +404,7 @@ public class SignUp extends AppCompatActivity {
         });
 
         //Sign out user
-        /*signOutButton.setOnClickListener(new View.OnClickListener() {
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mSingleAccountApp == null){
@@ -363,7 +422,7 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
             }
-        });*/
+        });
     }
 
 
@@ -373,7 +432,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onSuccess(IAuthenticationResult authenticationResult) {
                 Log.d(TAG, "Successfully authenticated");
-                /* Update UI */
+                // Update UI
                 String name = "No name found";
                 String email = "No email found";
                 try{
@@ -389,19 +448,19 @@ public class SignUp extends AppCompatActivity {
                 saveDetails(name, email);
                 startMainActivity();
 
-                /* call graph */
+                // call graph
                 //callGraphAPI(authenticationResult);
             }
 
             @Override
             public void onError(MsalException exception) {
-                /* Failed to acquireToken */
+                // Failed to acquireToken
                 Log.d(TAG, "Authentication failed: " + exception.toString());
                 //displayError(exception);
             }
             @Override
             public void onCancel() {
-                /* User canceled the authentication */
+                // User canceled the authentication
                 Log.d(TAG, "User cancelled login.");
             }
         };
@@ -484,4 +543,5 @@ public class SignUp extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), signOutText, Toast.LENGTH_SHORT)
                 .show();
     }
+    */
 }
