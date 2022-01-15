@@ -34,6 +34,7 @@
     <string name="title_activity_add_address">Add_Address_Activity</string>
 
     <string name="web_client_id">671924222085-as1eeb5n4mf0q88g9sugdri43i09k178.apps.googleusercontent.com</string>
+    <string name="empty_shopping_cart">Empty Shopping Cart</string>
 
 
 </resources>
