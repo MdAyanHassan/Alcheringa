@@ -24,6 +24,7 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
+            android:exported="true"
             android:name=".Add_Address_Activity"
             android:label="@string/title_activity_add_address"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -91,6 +92,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".MerchantActivity"
+            android:exported="true"/>
+
         <service
             android:name=".services.MyFirebaseInstanceService"
             android:exported="false">
@@ -98,6 +103,37 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity
+            android:exported="true"
+            android:name="com.razorpay.CheckoutActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@style/CheckoutTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <data
+                    android:host="rzp.io"
+                    android:scheme="io.rzp" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="dev.shreyaspatil.easyupipayment.ui.PaymentUiActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:exported="true"/>
+
+        <activity
+            android:name="com.microsoft.identity.common.internal.broker.BrokerActivity"
+            android:exported="true"/>
+
+        <receiver
+            android:exported="true"
+            android:name="com.razorpay.RzpTokenReceiver" >
+            <intent-filter>
+                <action android:name="rzp.device_token.share" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

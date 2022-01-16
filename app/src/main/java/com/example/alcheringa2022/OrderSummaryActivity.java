@@ -1,6 +1,9 @@
 package com.example.alcheringa2022;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,16 +18,25 @@ import com.example.alcheringa2022.Model.Cart_model;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentId;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.razorpay.Checkout;
+import com.razorpay.Order;
+import com.razorpay.PaymentData;
+import com.razorpay.PaymentResultWithDataListener;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class OrderSummaryActivity extends AppCompatActivity {
+public class OrderSummaryActivity extends AppCompatActivity implements PaymentResultWithDataListener {
+    private static final String TAG = "OrderSummaryActivityLog";
     DBHandler dbHandler;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
@@ -35,6 +47,9 @@ public class OrderSummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_summary);
+
+        Checkout.preload(getApplicationContext());
+
         dbHandler=new DBHandler(this);
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
@@ -49,25 +64,21 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
 
         arrayList = dbHandler.readCourses();
-        calcualte_amount();
+        calculate_amount();
         OrderSummaryAdapter adapter = new OrderSummaryAdapter(this, arrayList);
         ListView listView = findViewById(R.id.items_list_view);
         listView.setAdapter(adapter);
         setListViewHeightBasedOnItems(listView);
-        Pay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Add_Order(arrayList);
-            }
-        });
+        Pay.setOnClickListener(v -> Add_Order(arrayList));
     }
 
     private void Add_Order(ArrayList<Cart_model> order_list) {
+        int total_price = 0;
         String email= Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
         String id=firebaseFirestore.collection("USERS").document().getId();
         Map<String,Object> data=new HashMap<>();
-        ArrayList<Map<String,Object>>list=new ArrayList<>();
+        ArrayList<Map<String,Object>> list=new ArrayList<>();
         for(int i=0;i<order_list.size();i++){
             Map<String,Object> map=new HashMap<>();
             map.put("Name",order_list.get(i).getName());
@@ -77,6 +88,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
             map.put("Type",order_list.get(i).getType());
             map.put("isDelivered",false);
             list.add(map);
+            total_price += Integer.parseInt(order_list.get(i).getPrice());
         }
         data.put("orders",list);
         data.put("Name","VIPIN JALUTHRIA");
@@ -113,8 +125,47 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Checkout checkout = new Checkout();
+        //checkout.setKeyID("rzp_test_JR2iDD635lZNVE");
+
+        int finalTotal_price = total_price;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OrderSummaryActivity.this.startPayment(finalTotal_price);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
     }
-    private void calcualte_amount() {
+
+    private void startPayment(int total_price){
+        try {
+            RazorpayClient razorpay = new RazorpayClient("rzp_test_JR2iDD635lZNVE", "W0HOMo0KpOKar9kgugOGkZ5U");
+
+            JSONObject orderRequest = new JSONObject();
+            orderRequest.put("amount", total_price*100); // amount in the smallest currency unit
+            orderRequest.put("currency", "INR");
+
+            Order order = razorpay.Orders.create(orderRequest);
+            Log.d(TAG, order.get("id"));
+            checkoutOrder(order.get("id"), total_price);
+
+
+        } catch (RazorpayException | JSONException e) {
+            // Handle Exception
+            System.out.println(e.getMessage());
+        }
+
+        //checkoutOrder("order_IkQfm5cnZtq9ti");
+    }
+
+    private void calculate_amount() {
         long amt=0;
         for(int i=0;i<arrayList.size();i++){
             Toast.makeText(getApplicationContext(), ""+arrayList.get(i).getCount(), Toast.LENGTH_SHORT).show();
@@ -129,6 +180,42 @@ public class OrderSummaryActivity extends AppCompatActivity {
         total_price.setText(total_amount);
 
     }
+
+    public void checkoutOrder(String order_id, int total_price) {
+
+
+        Checkout checkout = new Checkout();
+        checkout.setKeyID("rzp_test_JR2iDD635lZNVE");
+
+        checkout.setImage(R.drawable.alcheringa_logo);
+
+        final Activity activity = this;
+
+        try {
+            JSONObject options = new JSONObject();
+
+            options.put("name", "Alcheringa 2022");
+            options.put("description", "Merch Order");
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+            options.put("order_id", order_id);
+            options.put("theme.color", "#3399cc");
+            options.put("currency", "INR");
+            options.put("amount", total_price*100);//pass amount in currency subunits
+            options.put("prefill.email", "name@example.com");
+            options.put("prefill.contact","9284823088");
+            JSONObject retryObj = new JSONObject();
+            retryObj.put("enabled", true);
+            retryObj.put("max_count", 4);
+            options.put("retry", retryObj);
+
+            checkout.open(activity, options);
+
+        } catch(Exception e) {
+            Log.e(TAG, "Error in starting Razorpay Checkout", e);
+        }
+    }
+
+
 
     public static boolean setListViewHeightBasedOnItems(ListView listView) {
 
@@ -164,6 +251,19 @@ public class OrderSummaryActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onPaymentSuccess(String razorpayPaymentID, PaymentData paymentData) {
+        Log.d(TAG, "onPaymentSuccess razorpayPaymentID: " + razorpayPaymentID);
+        Toast.makeText(getApplicationContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onPaymentError(int i, String s, PaymentData paymentData) {
+        Log.d(TAG, "onPaymentFailure");
+    }
 }
 
 
