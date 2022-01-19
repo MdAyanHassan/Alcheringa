@@ -40,23 +40,22 @@ class CompetitionsFragment : Fragment() {
         eventdetail(
             "JUBIN NAUTIYAL",
             "Pro Nights",
-            "12 Feb, 4 PM",
-            "Online", R.drawable.jubin
+            OwnTime(11,4),
+            "ONLINE", R.drawable.jubin
         ),
 
         eventdetail(
             "DJ SNAKE",
             "Pro Nights",
-            "11 Feb, 4 PM",
-            "Online", R.drawable.djsnake
+            OwnTime(12,16),
+            "ON GROUND", R.drawable.djsnake
         ),
         eventdetail(
             "TAYLOR SWIFT",
             "Pro Nights",
-            "13 Feb, 4 PM",
-            "Online", R.drawable.taylor
+            OwnTime(12,21),
+            "ON GROUND", R.drawable.taylor
         )
-
 
     )
 

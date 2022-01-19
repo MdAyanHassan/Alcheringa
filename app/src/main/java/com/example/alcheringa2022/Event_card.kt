@@ -35,25 +35,25 @@ import com.example.alcheringa2022.ui.theme.hk_grotesk
 
 val events = mutableListOf(
 
-        eventdetail(
-                "JUBIN NAUTIYAL",
-                "Pro Nights",
-                "12 Feb, 4 PM",
-                "Online", R.drawable.jubin
-        ),
+    eventdetail(
+        "JUBIN NAUTIYAL",
+        "Pro Nights",
+        OwnTime(11,4),
+        "ONLINE", R.drawable.jubin
+    ),
 
-        eventdetail(
-                "DJ SNAKE",
-                "Pro Nights",
-                "11 Feb, 4 PM",
-                "Online", R.drawable.djsnake
-        ),
-        eventdetail(
-                "TAYLOR SWIFT",
-                "Pro Nights",
-                "13 Feb, 4 PM",
-                "Online", R.drawable.taylor
-        )
+    eventdetail(
+        "DJ SNAKE",
+        "Pro Nights",
+        OwnTime(12,16),
+        "ON GROUND", R.drawable.djsnake
+    ),
+    eventdetail(
+        "TAYLOR SWIFT",
+        "Pro Nights",
+        OwnTime(12,21),
+        "ON GROUND", R.drawable.taylor
+    )
 
 
 )
@@ -100,7 +100,7 @@ fun Event_card(eventdetail: eventdetail ) {
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(text = eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = eventdetail.time, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                        Text(text = "${eventdetail.time.date} Feb, ${if(eventdetail.time.hours>12)"${eventdetail.time.hours-12}" else eventdetail.time.hours} ${if (eventdetail.time.hours>=12)"PM" else "AM"}", style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(2.dp))
                         Row {
                             Box(modifier = Modifier

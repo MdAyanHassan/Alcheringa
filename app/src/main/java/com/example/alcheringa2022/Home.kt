@@ -57,20 +57,20 @@ class Home : Fragment() {
             eventdetail(
                     "JUBIN NAUTIYAL",
                     "Pro Nights",
-                    "12 Feb, 4 PM",
+                    OwnTime(11,4),
                     "ONLINE", R.drawable.jubin
             ),
 
             eventdetail(
                     "DJ SNAKE",
                     "Pro Nights",
-                    "11 Feb, 4 PM",
+                OwnTime(12,16),
                     "ON GROUND", R.drawable.djsnake
             ),
             eventdetail(
                     "TAYLOR SWIFT",
                     "Pro Nights",
-                    "13 Feb, 4 PM",
+                OwnTime(12,21),
                     "ON GROUND", R.drawable.taylor
             )
 
@@ -119,7 +119,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(events) { dataeach -> ongoingEvents(eventdetail = dataeach) }
+                            items(events) { dataeach -> Event_card(eventdetail = dataeach) }
                         }
 
                     }
@@ -131,7 +131,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(events) { dataeach -> upcomingEvents(eventdetail = dataeach) }
+                            items(events) { dataeach -> Event_card(eventdetail = dataeach) }
                         }
                     }
 
@@ -166,186 +166,186 @@ class Home : Fragment() {
         }
     }
 
-    @Composable
-    fun upcomingEvents(eventdetail: eventdetail) {
-
-        Box() {
-
-            Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
-                    elevation = 5.dp
-            ) {
-                Box(
-                        modifier = Modifier
-                                .height(256.dp)
-                                .width(218.dp)
-                ) {
-                    Image(
-                            painter = painterResource(id = eventdetail.imgurl),
-                            contentDescription = "artist",
-                            contentScale = ContentScale.Crop,
-                            alignment = Alignment.Center,
-
-                            )
-
-                    Box(
-                            modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(
-                                            brush = Brush.verticalGradient(
-                                                    colors = listOf(
-                                                            Color.Transparent,
-                                                            Color.Black
-                                                    ), startY = 300f
-                                            )
-                                    )
-                    )
-                    Box(
-                            modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(12.dp), contentAlignment = Alignment.BottomStart
-                    ) {
-                        Column {
-                            Text(text = eventdetail.artist, style = MaterialTheme.typography.h1)
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Text(
-                                    text = eventdetail.category,
-                                    style = TextStyle(
-                                            color = colorResource(id = R.color.textGray),
-                                            fontFamily = clash,
-                                            fontWeight = FontWeight.W600,
-                                            fontSize = 14.sp
-                                    )
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                    text = eventdetail.time,
-                                    style = TextStyle(
-                                            color = colorResource(id = R.color.textGray),
-                                            fontFamily = hk_grotesk,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 14.sp
-                                    )
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Row {
-                                Box(
-                                        modifier = Modifier
-                                                .height(20.dp)
-                                                .width(20.dp)
-                                ) {
-                                    Image(
-                                            painter = if (eventdetail.mode.contains("ONLINE")) {
-                                                painterResource(id = R.drawable.online)
-                                            } else {
-                                                painterResource(id = R.drawable.onground)
-                                            },
-                                            contentDescription = null, modifier = Modifier.fillMaxSize(),
-                                            alignment = Alignment.Center,
-                                            contentScale = ContentScale.Crop
-
-                                    )
-                                }
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                        text = eventdetail.mode,
-                                        style = TextStyle(
-                                                color = colorResource(id = R.color.textGray),
-                                                fontFamily = hk_grotesk,
-                                                fontWeight = FontWeight.Normal,
-                                                fontSize = 14.sp
-                                        )
-                                )
-                            }
-                        }
-
-                    }
-
-
-                }
-            }
-        }
-    }
-
-
+//    @Composable
+//    fun upcomingEvents(eventdetail: eventdetail) {
+//
+//        Box() {
+//
+//            Card(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    shape = RoundedCornerShape(8.dp),
+//                    elevation = 5.dp
+//            ) {
+//                Box(
+//                        modifier = Modifier
+//                                .height(256.dp)
+//                                .width(218.dp)
+//                ) {
+//                    Image(
+//                            painter = painterResource(id = eventdetail.imgurl),
+//                            contentDescription = "artist",
+//                            contentScale = ContentScale.Crop,
+//                            alignment = Alignment.Center,
+//
+//                            )
+//
+//                    Box(
+//                            modifier = Modifier
+//                                    .fillMaxSize()
+//                                    .background(
+//                                            brush = Brush.verticalGradient(
+//                                                    colors = listOf(
+//                                                            Color.Transparent,
+//                                                            Color.Black
+//                                                    ), startY = 300f
+//                                            )
+//                                    )
+//                    )
+//                    Box(
+//                            modifier = Modifier
+//                                    .fillMaxSize()
+//                                    .padding(12.dp), contentAlignment = Alignment.BottomStart
+//                    ) {
+//                        Column {
+//                            Text(text = eventdetail.artist, style = MaterialTheme.typography.h1)
+//                            Spacer(modifier = Modifier.height(2.dp))
+//                            Text(
+//                                    text = eventdetail.category,
+//                                    style = TextStyle(
+//                                            color = colorResource(id = R.color.textGray),
+//                                            fontFamily = clash,
+//                                            fontWeight = FontWeight.W600,
+//                                            fontSize = 14.sp
+//                                    )
+//                            )
+//                            Spacer(modifier = Modifier.height(8.dp))
+//                            Text(
+//                                    text = "eventdetail.time",
+//                                    style = TextStyle(
+//                                            color = colorResource(id = R.color.textGray),
+//                                            fontFamily = hk_grotesk,
+//                                            fontWeight = FontWeight.Normal,
+//                                            fontSize = 14.sp
+//                                    )
+//                            )
+//                            Spacer(modifier = Modifier.height(2.dp))
+//                            Row {
+//                                Box(
+//                                        modifier = Modifier
+//                                                .height(20.dp)
+//                                                .width(20.dp)
+//                                ) {
+//                                    Image(
+//                                            painter = if (eventdetail.mode.contains("ONLINE")) {
+//                                                painterResource(id = R.drawable.online)
+//                                            } else {
+//                                                painterResource(id = R.drawable.onground)
+//                                            },
+//                                            contentDescription = null, modifier = Modifier.fillMaxSize(),
+//                                            alignment = Alignment.Center,
+//                                            contentScale = ContentScale.Crop
+//
+//                                    )
+//                                }
+//                                Spacer(modifier = Modifier.width(4.dp))
+//                                Text(
+//                                        text = eventdetail.mode,
+//                                        style = TextStyle(
+//                                                color = colorResource(id = R.color.textGray),
+//                                                fontFamily = hk_grotesk,
+//                                                fontWeight = FontWeight.Normal,
+//                                                fontSize = 14.sp
+//                                        )
+//                                )
+//                            }
+//                        }
+//
+//                    }
+//
+//
+//                }
+//            }
+//        }
+//    }
 
 
 
 
-    @Composable
-    fun ongoingEvents(eventdetail: eventdetail) {
-
-        Box() {
-
-            Card(modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
-                    elevation = 5.dp) {
-                Box(modifier = Modifier
-                        .height(256.dp)
-                        .width(218.dp)){
-                    Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop,
-                            alignment = Alignment.Center
-                    )
-                    Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
-
-                    Box(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(21.dp)
-                            .background(
-                                    color = colorResource(
-                                            id = R.color.ThemeRed
-                                    )
-                            )
-                    ){ Text(text = "⬤ LIVE", color = Color.White, modifier = Modifier.align(alignment = Alignment.Center), fontSize = 12.sp)}
-                    Box(modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                    brush = Brush.verticalGradient(
-                                            colors = listOf(
-                                                    Color.Transparent,
-                                                    Color.Black
-                                            ), startY = 300f
-                                    )
-                            ))
-                    Box(modifier = Modifier
-                            .fillMaxSize()
-                            .padding(12.dp), contentAlignment = Alignment.BottomStart){
-                        Column {
-                            Text(text = eventdetail.artist, style = MaterialTheme.typography.h1)
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Text(text = eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(text = eventdetail.time, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Row {
-                                Box(modifier = Modifier
-                                        .height(20.dp)
-                                        .width(20.dp)) {
-                                    Image(
-                                            painter = if (eventdetail.mode.contains("ONLINE")) {
-                                                painterResource(id = R.drawable.online)
-                                            } else {
-                                                painterResource(id = R.drawable.onground)
-                                            },
-                                            contentDescription = null, modifier = Modifier.fillMaxSize(),alignment = Alignment.Center, contentScale =ContentScale.Crop
-                                    )
-                                }
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(text = eventdetail.mode,style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
-                            }
-                        }
-
-                    }
 
 
-                }
-            }
-        }
-
-
-
-    }
+//    @Composable
+//    fun ongoingEvents(eventdetail: eventdetail) {
+//
+//        Box() {
+//
+//            Card(modifier = Modifier.fillMaxWidth(),
+//                    shape = RoundedCornerShape(8.dp),
+//                    elevation = 5.dp) {
+//                Box(modifier = Modifier
+//                        .height(256.dp)
+//                        .width(218.dp)){
+//                    Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop,
+//                            alignment = Alignment.Center
+//                    )
+//                    Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
+//
+//                    Box(modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(21.dp)
+//                            .background(
+//                                    color = colorResource(
+//                                            id = R.color.ThemeRed
+//                                    )
+//                            )
+//                    ){ Text(text = "⬤ LIVE", color = Color.White, modifier = Modifier.align(alignment = Alignment.Center), fontSize = 12.sp)}
+//                    Box(modifier = Modifier
+//                            .fillMaxSize()
+//                            .background(
+//                                    brush = Brush.verticalGradient(
+//                                            colors = listOf(
+//                                                    Color.Transparent,
+//                                                    Color.Black
+//                                            ), startY = 300f
+//                                    )
+//                            ))
+//                    Box(modifier = Modifier
+//                            .fillMaxSize()
+//                            .padding(12.dp), contentAlignment = Alignment.BottomStart){
+//                        Column {
+//                            Text(text = eventdetail.artist, style = MaterialTheme.typography.h1)
+//                            Spacer(modifier = Modifier.height(2.dp))
+//                            Text(text = eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
+//                            Spacer(modifier = Modifier.height(8.dp))
+//                            Text(text = eventdetail.time, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+//                            Spacer(modifier = Modifier.height(2.dp))
+//                            Row {
+//                                Box(modifier = Modifier
+//                                        .height(20.dp)
+//                                        .width(20.dp)) {
+//                                    Image(
+//                                            painter = if (eventdetail.mode.contains("ONLINE")) {
+//                                                painterResource(id = R.drawable.online)
+//                                            } else {
+//                                                painterResource(id = R.drawable.onground)
+//                                            },
+//                                            contentDescription = null, modifier = Modifier.fillMaxSize(),alignment = Alignment.Center, contentScale =ContentScale.Crop
+//                                    )
+//                                }
+//                                Spacer(modifier = Modifier.width(4.dp))
+//                                Text(text = eventdetail.mode,style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+//                            }
+//                        }
+//
+//                    }
+//
+//
+//                }
+//            }
+//        }
+//
+//
+//
+//    }
 
 
     @OptIn(ExperimentalPagerApi::class)
@@ -447,7 +447,7 @@ class Home : Fragment() {
 
                                         Row {
                                             Text(
-                                                    text = eventdetails[page].time,
+                                                    text = "${eventdetails[page].time.date} Feb, ${if(eventdetails[page].time.hours>12)"${eventdetails[page].time.hours-12}" else eventdetails[page].time.hours} ${if (eventdetails[page].time.hours>=12)"PM" else "AM"}",
                                                     style = TextStyle(
                                                             color = colorResource(id = R.color.textGray),
                                                             fontFamily = hk_grotesk,
