@@ -220,7 +220,7 @@ class Home : Fragment() {
 //                            )
 //                            Spacer(modifier = Modifier.height(8.dp))
 //                            Text(
-//                                    text = "eventdetail.time",
+//                                    text = "eventdetail.Starttime",
 //                                    style = TextStyle(
 //                                            color = colorResource(id = R.color.textGray),
 //                                            fontFamily = hk_grotesk,
@@ -316,7 +316,7 @@ class Home : Fragment() {
 //                            Spacer(modifier = Modifier.height(2.dp))
 //                            Text(text = eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
 //                            Spacer(modifier = Modifier.height(8.dp))
-//                            Text(text = eventdetail.time, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+//                            Text(text = eventdetail.Starttime, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
 //                            Spacer(modifier = Modifier.height(2.dp))
 //                            Row {
 //                                Box(modifier = Modifier
@@ -447,7 +447,7 @@ class Home : Fragment() {
 
                                         Row {
                                             Text(
-                                                    text = "${eventdetails[page].time.date} Feb, ${if(eventdetails[page].time.hours>12)"${eventdetails[page].time.hours-12}" else eventdetails[page].time.hours} ${if (eventdetails[page].time.hours>=12)"PM" else "AM"}",
+                                                    text = "${eventdetails[page].Starttime.date} Feb, ${if(eventdetails[page].Starttime.hours>12)"${eventdetails[page].Starttime.hours-12}" else eventdetails[page].Starttime.hours} ${if (eventdetails[page].Starttime.hours>=12)"PM" else "AM"}",
                                                     style = TextStyle(
                                                             color = colorResource(id = R.color.textGray),
                                                             fontFamily = hk_grotesk,

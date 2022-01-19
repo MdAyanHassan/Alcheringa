@@ -100,7 +100,7 @@ fun Event_card(eventdetail: eventdetail ) {
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(text = eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = "${eventdetail.time.date} Feb, ${if(eventdetail.time.hours>12)"${eventdetail.time.hours-12}" else eventdetail.time.hours} ${if (eventdetail.time.hours>=12)"PM" else "AM"}", style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                        Text(text = "${eventdetail.Starttime.date} Feb, ${if(eventdetail.Starttime.hours>12)"${eventdetail.Starttime.hours-12}" else eventdetail.Starttime.hours} ${if (eventdetail.Starttime.hours>=12)"PM" else "AM"}", style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(2.dp))
                         Row {
                             Box(modifier = Modifier
