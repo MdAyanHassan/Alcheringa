@@ -68,6 +68,10 @@
             android:name=".Profile"
             android:exported="true" />
         <activity
+            android:name=".YourOrders"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">

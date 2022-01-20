@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Account extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
-    View view;
+    View view, your_orders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,5 +27,12 @@ public class Account extends AppCompatActivity {
             }
         });
 
+        your_orders=findViewById(R.id.ur_orders_button);
+        your_orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),YourOrders.class));
+            }
+        });
     }
 }
