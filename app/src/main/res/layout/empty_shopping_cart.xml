@@ -83,6 +83,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="64dp" />
         <Button
+            android:id="@+id/start_shopping"
             android:text="Start Shopping"
             style="@style/bottom_orange_button"
             android:layout_gravity="center"

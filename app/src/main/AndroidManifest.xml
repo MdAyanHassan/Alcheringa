@@ -98,10 +98,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".MerchantActivity"
-            android:exported="true"/>
-
         <service
             android:name=".services.MyFirebaseInstanceService"
             android:exported="false">

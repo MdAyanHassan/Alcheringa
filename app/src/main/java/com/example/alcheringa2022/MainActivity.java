@@ -29,14 +29,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
-//        if(!isLoggedIn){
-//
-//            Intent intent = new Intent(this, SignUp.class);
-//            startActivity(intent);
-//        }
+        /*if(!isLoggedIn){
+            Intent intent = new Intent(this, SignUp.class);
+            startActivity(intent);
+        }*/
+
+
 
         bottomNavigationView.setSelectedItemId(R.id.home_nav);
         index=R.id.home_nav;
+
+        try{
+            Intent intent = getIntent();
+            String fragment_name = intent.getExtras().getString("fragment");
+            if(fragment_name.equals("merch")){
+                bottomNavigationView.setSelectedItemId(R.id.merch);
+                index=R.id.merch;
+            }
+        }catch(Exception ignored){}
 
 
 

@@ -28,32 +28,51 @@ public class Cart extends AppCompatActivity implements onItemClick {
     DBHandler dbHandler;
     ImageView cart;
     ArrayList<Cart_model> cart_modelArrayList;
+    Button startShopping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart);
-        amount=findViewById(R.id.order_total_value);
-        checkout_btn=findViewById(R.id.checkout_button);
 
-        recyclerView=findViewById(R.id.cart_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
         list=new ArrayList<>();
         dbHandler=new DBHandler(getApplicationContext());
         cart_modelArrayList =dbHandler.readCourses();
-        for (int i=0;i<cart_modelArrayList.size();i++){
-            Toast.makeText(getApplicationContext(), ""+cart_modelArrayList.get(i).getPrice(), Toast.LENGTH_SHORT).show();
+
+        if(cart_modelArrayList.size() == 0){
+
+            setContentView(R.layout.empty_shopping_cart);
+            startShopping = findViewById(R.id.start_shopping);
+            startShopping.setOnClickListener((v) -> {
+                Intent i = new Intent(this, MainActivity.class);
+                i.putExtra("fragment", "merch");
+                startActivity(i);
+            });
+
+        }else{
+            setContentView(R.layout.activity_cart);
+
+            for (int i=0;i<cart_modelArrayList.size();i++){
+                Toast.makeText(getApplicationContext(), ""+cart_modelArrayList.get(i).getPrice(), Toast.LENGTH_SHORT).show();
+            }
+
+            amount=findViewById(R.id.order_total_value);
+            checkout_btn=findViewById(R.id.checkout_button);
+
+            recyclerView=findViewById(R.id.cart_recyclerview);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setHasFixedSize(true);
+
+
+            populate_cart();
+            calcualte_amount();
+            checkout_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getApplicationContext(),Add_Address_Activity.class));
+                }
+            });
         }
 
-        populate_cart();
-        calcualte_amount();
-        checkout_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Add_Address_Activity.class));
-            }
-        });
     }
 
     private void calcualte_amount() {

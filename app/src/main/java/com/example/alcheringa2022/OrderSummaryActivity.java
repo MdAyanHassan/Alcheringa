@@ -64,16 +64,29 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
 
         arrayList = dbHandler.readCourses();
-        calculate_amount();
+        long amount = calculate_amount();
         OrderSummaryAdapter adapter = new OrderSummaryAdapter(this, arrayList);
         ListView listView = findViewById(R.id.items_list_view);
         listView.setAdapter(adapter);
         setListViewHeightBasedOnItems(listView);
-        Pay.setOnClickListener(v -> Add_Order(arrayList));
+        //Pay.setOnClickListener(v -> Add_Order(arrayList));
+        Pay.setOnClickListener(v -> {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        OrderSummaryActivity.this.startPayment((int) amount);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+        });
     }
 
     private void Add_Order(ArrayList<Cart_model> order_list) {
-        int total_price = 0;
+        //int total_price = 0;
         String email= Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
         String id=firebaseFirestore.collection("USERS").document().getId();
@@ -88,7 +101,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             map.put("Type",order_list.get(i).getType());
             map.put("isDelivered",false);
             list.add(map);
-            total_price += Integer.parseInt(order_list.get(i).getPrice());
+            //total_price += Integer.parseInt(order_list.get(i).getPrice());
         }
         data.put("orders",list);
         data.put("Name","VIPIN JALUTHRIA");
@@ -111,7 +124,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(getApplicationContext(), "Order is Successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Order added to Firebase", Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 Toast.makeText(getApplicationContext(), "Some Error Occurred Please try again", Toast.LENGTH_SHORT).show();
@@ -126,21 +139,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             }
         });
 
-        //Checkout checkout = new Checkout();
-        //checkout.setKeyID("rzp_test_JR2iDD635lZNVE");
+        //int finalTotal_price = total_price;
 
-        int finalTotal_price = total_price;
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OrderSummaryActivity.this.startPayment(finalTotal_price);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
 
     }
 
@@ -165,7 +165,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         //checkoutOrder("order_IkQfm5cnZtq9ti");
     }
 
-    private void calculate_amount() {
+    private long calculate_amount() {
         long amt=0;
         for(int i=0;i<arrayList.size();i++){
             Toast.makeText(getApplicationContext(), ""+arrayList.get(i).getCount(), Toast.LENGTH_SHORT).show();
@@ -178,6 +178,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         order_total.setText(total_amount);
 
         total_price.setText(total_amount);
+
+        return amt;
 
     }
 
@@ -250,11 +252,13 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
     }
 
+    //RazorPay functions:
 
     @Override
     public void onPaymentSuccess(String razorpayPaymentID, PaymentData paymentData) {
         Log.d(TAG, "onPaymentSuccess razorpayPaymentID: " + razorpayPaymentID);
         Toast.makeText(getApplicationContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
+        Add_Order(arrayList);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
