@@ -72,6 +72,10 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
+            android:name=".ProfilePage"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".Splash_Screen"
             android:exported="true" />
         <activity

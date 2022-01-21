@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Account extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
-    View view, your_orders,contactus_view;
+    View view, your_orders, contactus_view, profile_page;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +41,15 @@ public class Account extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),YourOrders.class));
             }
         });
+
+        profile_page=findViewById(R.id.user_name_button);
+        profile_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ProfilePage.class));
+            }
+        });
+
+
     }
 }
