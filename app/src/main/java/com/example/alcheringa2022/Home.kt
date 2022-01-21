@@ -159,6 +159,7 @@ class Home : Fragment() {
                             items(events) { dataeach -> Event_card(eventdetail = dataeach) }
                         }
                     }
+                    mySchedule(events)
 
 
                 }

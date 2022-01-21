@@ -17,8 +17,11 @@
             android:exported="false" />
         <activity
             android:name=".Account"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
+
+
+        </activity>
         <activity
             android:name=".OrderSummaryActivity"
             android:exported="true"
@@ -34,9 +37,19 @@
             android:label="@string/title_activity_testing"
             android:theme="@style/Theme.Alcheringa2022" />
         <activity
+            android:name=".AlcherActivity"
+            android:exported="true"
+            android:label="@string/title_activity_testing"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".Greeting_page"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
 
         </activity>
         <activity
@@ -68,14 +81,18 @@
             android:name=".Profile"
             android:exported="true" />
         <activity
+            android:name=".YourOrders"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity> <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity
@@ -93,10 +110,6 @@
                     android:scheme="msauth" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".MerchantActivity"
-            android:exported="true"/>
 
         <service
             android:name=".services.MyFirebaseInstanceService"
@@ -124,6 +137,12 @@
             android:name="dev.shreyaspatil.easyupipayment.ui.PaymentUiActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true"/>
+        <activity
+            android:name=".Accordion_Activity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:exported="true">
+
+        </activity>
 
         <activity
             android:name="com.microsoft.identity.common.internal.broker.BrokerActivity"

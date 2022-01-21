@@ -124,6 +124,10 @@ public class SignUp extends AppCompatActivity {
 //        }
 /*        initializeUI();
 
+
+
+        //Old Outlook Code:
+
         PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
                 R.raw.auth_config_single_account, new IPublicClientApplication.ISingleAccountApplicationCreatedListener() {
                     @Override

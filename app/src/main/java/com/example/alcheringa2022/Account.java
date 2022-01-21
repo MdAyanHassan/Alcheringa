@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Account extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
-    View view;
+    View view, your_orders,contactus_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +18,8 @@ public class Account extends AppCompatActivity {
         setContentView(R.layout.activity_account);
         firebaseAuth=FirebaseAuth.getInstance();
         view=findViewById(R.id.signout_button);
+        contactus_view=findViewById(R.id.contact_us_button);
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -26,6 +28,18 @@ public class Account extends AppCompatActivity {
                 finish();
             }
         });
+        contactus_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AlcherActivity.class));
+            }});
 
+        your_orders=findViewById(R.id.ur_orders_button);
+        your_orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),YourOrders.class));
+            }
+        });
     }
 }
