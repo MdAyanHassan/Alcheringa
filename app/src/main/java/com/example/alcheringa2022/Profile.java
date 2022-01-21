@@ -25,7 +25,7 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        EpassButton = findViewById(R.id.Epassbutton);
+//        EpassButton = findViewById(R.id.Epassbutton);
         Intent intent=getIntent();
         String category=intent.getStringExtra("Category");
         Toast.makeText(getApplicationContext(), ""+category, Toast.LENGTH_SHORT).show();
