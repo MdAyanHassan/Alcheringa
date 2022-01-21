@@ -1,8 +1,10 @@
-package com.example.alcheringa2022;
+package com.example.alcheringa2022.Model;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.alcheringa2022.R;
 
 public class Event_Details extends AppCompatActivity {
 

@@ -40,6 +40,8 @@ import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.example.alcheringa2022.ui.theme.clash
 import com.example.alcheringa2022.ui.theme.hk_grotesk
 import com.google.accompanist.pager.*
+import com.skydoves.landscapist.ShimmerParams
+import com.skydoves.landscapist.glide.GlideImage
 import org.intellij.lang.annotations.JdkConstants
 import java.awt.font.NumericShaper
 import kotlin.math.absoluteValue
@@ -62,20 +64,20 @@ class Home : Fragment() {
                     "JUBIN NAUTIYAL",
                     "Pro Nights",
                     OwnTime(11,9,0),
-                    "ONLINE", R.drawable.jubin
+                    "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
             ),
 
             eventdetail(
                     "DJ SNAKE",
                     "Pro Nights",
                 OwnTime(12,12,0),
-                    "ON GROUND", R.drawable.djsnake
+                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
             ),
             eventdetail(
                     "TAYLOR SWIFT",
                     "Pro Nights",
                 OwnTime(12,14,0),
-                    "ON GROUND", R.drawable.taylor, durationInMin = 120
+                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
             )
         ,
 
@@ -83,20 +85,20 @@ class Home : Fragment() {
             "DJ SNAKE2",
             "Pro Nights",
             OwnTime(12,10,0),
-            "ON GROUND", R.drawable.djsnake
+            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
         ),
         eventdetail(
             "TAYLOR SWIFT2",
             "Pro Nights",
             OwnTime(12,15,0),
-            "ON GROUND", R.drawable.taylor, durationInMin = 120
+            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
         )
         ,
         eventdetail(
             "TAYLOR SWIFT3",
             "Pro Nights",
             OwnTime(12,14,30),
-            "ON GROUND", R.drawable.taylor
+            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
         )
 
 
@@ -423,14 +425,49 @@ class Home : Fragment() {
                                         .height(473.dp)
                                         .fillMaxWidth()
                             ) {
-                                Image(
-                                        painter = painterResource(id = eventdetails[page].imgurl),
+                                GlideImage(
+                                        imageModel = eventdetails[page].imgurl,
                                         contentDescription = "artist",
                                         modifier= Modifier
                                             .fillMaxWidth()
                                             .height(473.dp),
                                         alignment = Alignment.Center,
-                                        contentScale = ContentScale.Crop
+                                        contentScale = ContentScale.Crop,
+                                    shimmerParams = ShimmerParams(
+                                        baseColor = Color.Black,
+                                        highlightColor = Color.LightGray,
+                                        durationMillis = 350,
+                                        dropOff = 0.65f,
+                                        tilt = 20f
+                                    ),failure = {
+                                        Box(modifier= Modifier
+                                            .fillMaxWidth()
+                                            .height(473.dp), contentAlignment = Alignment.Center) {
+                                            Column(Modifier.fillMaxWidth().wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                                Image(
+                                                    modifier = Modifier
+                                                        .width(60.dp)
+                                                        .height(60.dp),
+                                                    painter = painterResource(
+                                                        id = R.drawable.ic_sad_svgrepo_com
+                                                    ),
+                                                    contentDescription = null
+                                                )
+                                                Spacer(modifier = Modifier.height(10.dp))
+                                                Text(
+                                                    text = "Image Request Failed",
+                                                    style = TextStyle(
+                                                        color = Color(0xFF747474),
+                                                        fontFamily = hk_grotesk,
+                                                        fontWeight = FontWeight.Normal,
+                                                        fontSize = 12.sp
+                                                    )
+                                                )
+                                            }
+                                        }
+
+                                    }
+
 
                                 )
                                 Box(

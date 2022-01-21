@@ -29,10 +29,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import com.example.alcheringa2022.Cart
+import com.example.alcheringa2022.ui.theme.hk_grotesk
 import com.google.accompanist.pager.*
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
@@ -219,16 +223,18 @@ class Merch_Description : AppCompatActivity(), View.OnClickListener {
                                 elevation = 5.dp
                         ) {
                             Box(
-                                    modifier = Modifier.background(Color.LightGray).padding(20.dp)
-                                            .height(400.dp)
-                                            .fillMaxWidth(), contentAlignment = Alignment.Center
+                                    modifier = Modifier
+                                        .background(Color.LightGray)
+                                        .padding(20.dp)
+                                        .height(400.dp)
+                                        .fillMaxWidth(), contentAlignment = Alignment.Center
                             ) {
                                 GlideImage(
                                         imageModel = images[page],
                                         contentDescription = "artist",
                                         modifier= Modifier
-                                                .width(348.dp)
-                                                .height(360.dp),
+                                            .width(348.dp)
+                                            .height(360.dp),
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Crop ,
                                         shimmerParams = ShimmerParams(
@@ -238,8 +244,33 @@ class Merch_Description : AppCompatActivity(), View.OnClickListener {
                                                 dropOff = 0.65f,
                                                 tilt = 20f
                                         ),failure = {
-                                    Text(text = "Image request failed")
-                                }
+                                        Box(modifier= Modifier
+                                            .fillMaxWidth()
+                                            .height(473.dp), contentAlignment = Alignment.Center) {
+                                            Column(Modifier.fillMaxWidth().wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                                Image(
+                                                    modifier = Modifier
+                                                        .width(60.dp)
+                                                        .height(60.dp),
+                                                    painter = painterResource(
+                                                        id = R.drawable.ic_sad_svgrepo_com
+                                                    ),
+                                                    contentDescription = null
+                                                )
+                                                Spacer(modifier = Modifier.height(10.dp))
+                                                Text(
+                                                    text = "Image Request Failed",
+                                                    style = TextStyle(
+                                                        color = Color(0xFF747474),
+                                                        fontFamily = hk_grotesk,
+                                                        fontWeight = FontWeight.Normal,
+                                                        fontSize = 12.sp
+                                                    )
+                                                )
+                                            }
+                                        }
+
+                                    }
 
                                 )
                             }
@@ -252,8 +283,8 @@ class Merch_Description : AppCompatActivity(), View.OnClickListener {
                     activeColor= colorResource(id = R.color.textGray),
                     inactiveColor = colorResource(id = R.color.darkGray),
                     modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(16.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp)
             )
         }
 

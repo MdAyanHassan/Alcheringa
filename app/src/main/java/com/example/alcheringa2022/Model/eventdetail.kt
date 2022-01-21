@@ -10,7 +10,7 @@ data class eventdetail(
     val category:String,
     val Starttime: OwnTime,
     val mode: String,
-    val imgurl:Int,
+    val imgurl:String,
     var durationInMin:Int = 60
     )
 data class OwnTime(val date:Int, val hours:Int,val min:Int)

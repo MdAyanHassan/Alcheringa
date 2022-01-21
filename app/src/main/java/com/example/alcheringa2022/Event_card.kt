@@ -33,28 +33,52 @@ import androidx.fragment.app.FragmentActivity
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.example.alcheringa2022.ui.theme.clash
 import com.example.alcheringa2022.ui.theme.hk_grotesk
+import com.skydoves.landscapist.ShimmerParams
+import com.skydoves.landscapist.glide.GlideImage
 
-val events = mutableListOf(
+val events=mutableListOf(
 
     eventdetail(
         "JUBIN NAUTIYAL",
         "Pro Nights",
-        OwnTime(11,4,30),
-        "ONLINE", R.drawable.jubin
+        OwnTime(11,9,0),
+        "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
     ),
 
     eventdetail(
         "DJ SNAKE",
         "Pro Nights",
-        OwnTime(12,16,0),
-        "ON GROUND", R.drawable.djsnake
+        OwnTime(12,12,0),
+        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
     ),
     eventdetail(
         "TAYLOR SWIFT",
         "Pro Nights",
-        OwnTime(12,21,30),
-        "ON GROUND", R.drawable.taylor
+        OwnTime(12,14,0),
+        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
     )
+    ,
+
+    eventdetail(
+        "DJ SNAKE2",
+        "Pro Nights",
+        OwnTime(12,10,0),
+        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
+    ),
+    eventdetail(
+        "TAYLOR SWIFT2",
+        "Pro Nights",
+        OwnTime(12,15,0),
+        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
+    )
+    ,
+    eventdetail(
+        "TAYLOR SWIFT3",
+        "Pro Nights",
+        OwnTime(12,14,30),
+        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
+    )
+
 
 
 )
@@ -69,10 +93,44 @@ fun Event_card(eventdetail: eventdetail ) {
             Box(modifier = Modifier
                 .height(256.dp)
                 .width(218.dp)){
-                Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop,
-                        alignment = Alignment.Center
+                GlideImage(imageModel = eventdetail.imgurl, contentDescription = "artist", contentScale = ContentScale.Crop,
+                        alignment = Alignment.Center,
+                    shimmerParams = ShimmerParams(
+                        baseColor = Color.Black,
+                        highlightColor = Color.LightGray,
+                        durationMillis = 350,
+                        dropOff = 0.65f,
+                        tilt = 20f
+                    ),failure = {
+                        Box(modifier= Modifier
+                            .fillMaxWidth()
+                            .height(473.dp), contentAlignment = Alignment.Center) {
+                            Column(Modifier.fillMaxWidth().wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Image(
+                                    modifier = Modifier
+                                        .width(60.dp)
+                                        .height(60.dp),
+                                    painter = painterResource(
+                                        id = R.drawable.ic_sad_svgrepo_com
+                                    ),
+                                    contentDescription = null
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    text = "Image Request Failed",
+                                    style = TextStyle(
+                                        color = Color(0xFF747474),
+                                        fontFamily = hk_grotesk,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = 12.sp
+                                    )
+                                )
+                            }
+                        }
+
+                    }
                 )
-                Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
+//                Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
                 Column() {
 //
                     Box(
