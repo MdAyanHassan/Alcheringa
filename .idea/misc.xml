@@ -13,6 +13,23 @@
         <entry key="../../../../layout/compose-model-1642606057641.xml" value="0.10740740740740741" />
         <entry key="../../../../layout/compose-model-1642606598572.xml" value="0.10740740740740741" />
         <entry key="../../../../layout/compose-model-1642606630765.xml" value="0.10740740740740741" />
+        <entry key="../../../../layout/compose-model-1642670606219.xml" value="0.375" />
+        <entry key="../../../../layout/compose-model-1642670787838.xml" value="0.17037037037037037" />
+        <entry key="../../../../layout/compose-model-1642670809966.xml" value="0.17037037037037037" />
+        <entry key="../../../../layout/compose-model-1642676444191.xml" value="0.34444444444444444" />
+        <entry key="../../../../layout/compose-model-1642676750993.xml" value="0.55" />
+        <entry key="../../../../layout/compose-model-1642677566128.xml" value="0.41759259259259257" />
+        <entry key="../../../../layout/compose-model-1642687034955.xml" value="0.165" />
+        <entry key="../../../../layout/compose-model-1642687326234.xml" value="0.75" />
+        <entry key="../../../../layout/compose-model-1642688004017.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1642688997203.xml" value="0.125" />
+        <entry key="../../../../layout/compose-model-1642689011877.xml" value="0.45" />
+        <entry key="../../../../layout/compose-model-1642689908688.xml" value="0.32407407407407407" />
+        <entry key="../../../../layout/compose-model-1642690904815.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1642741122602.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1642743051392.xml" value="0.18518518518518517" />
+        <entry key="../../../../layout/compose-model-1642744609100.xml" value="0.14166666666666666" />
+        <entry key="../../../../layout/compose-model-1642745139687.xml" value="0.18518518518518517" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/bottom_orange_button_bg.xml" value="0.1725752508361204" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/download_re.xml" value="0.16973684210526316" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/ic_baseline_arrow_back.xml" value="0.1725752508361204" />
@@ -110,10 +127,12 @@
         <entry key="..\:/android/Alcheringa2022/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/android/Alcheringa2022/app/src/main/res/layout/item_design.xml" value="0.17255434782608695" />
         <entry key="..\:/android/Alcheringa2022/app/src/main/res/menu/bottom_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/add_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/back.xml" value="0.116" />
         <entry key="app/src/main/res/drawable/back2.xml" value="0.1295" />
         <entry key="app/src/main/res/drawable/back_arrow.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/button_back.xml" value="0.1825" />
+        <entry key="app/src/main/res/drawable/ic_add_symbol_svgrepo_com.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_down.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_events.xml" value="0.1345" />
         <entry key="app/src/main/res/drawable/merch_size_btn_deselect.xml" value="0.116" />

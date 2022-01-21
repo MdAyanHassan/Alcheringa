@@ -2,25 +2,27 @@ package com.example.alcheringa2022
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Range
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -39,6 +41,7 @@ import com.example.alcheringa2022.ui.theme.clash
 import com.example.alcheringa2022.ui.theme.hk_grotesk
 import com.google.accompanist.pager.*
 import org.intellij.lang.annotations.JdkConstants
+import java.awt.font.NumericShaper
 import kotlin.math.absoluteValue
 
 /**
@@ -52,27 +55,49 @@ class Home : Fragment() {
     private var mParam1: String? = null
     private var mParam2: String? = null
     lateinit var binding: FragmentHomeBinding
+    val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
     val events=mutableListOf(
 
             eventdetail(
                     "JUBIN NAUTIYAL",
                     "Pro Nights",
-                    OwnTime(11,4),
+                    OwnTime(11,9,0),
                     "ONLINE", R.drawable.jubin
             ),
 
             eventdetail(
                     "DJ SNAKE",
                     "Pro Nights",
-                OwnTime(12,16),
+                OwnTime(12,12,0),
                     "ON GROUND", R.drawable.djsnake
             ),
             eventdetail(
                     "TAYLOR SWIFT",
                     "Pro Nights",
-                OwnTime(12,21),
-                    "ON GROUND", R.drawable.taylor
+                OwnTime(12,14,0),
+                    "ON GROUND", R.drawable.taylor, durationInMin = 120
             )
+        ,
+
+        eventdetail(
+            "DJ SNAKE2",
+            "Pro Nights",
+            OwnTime(12,10,0),
+            "ON GROUND", R.drawable.djsnake
+        ),
+        eventdetail(
+            "TAYLOR SWIFT2",
+            "Pro Nights",
+            OwnTime(12,15,0),
+            "ON GROUND", R.drawable.taylor, durationInMin = 120
+        )
+        ,
+        eventdetail(
+            "TAYLOR SWIFT3",
+            "Pro Nights",
+            OwnTime(12,14,30),
+            "ON GROUND", R.drawable.taylor
+        )
 
 
 
@@ -394,33 +419,35 @@ class Home : Fragment() {
                         ) {
                             Box(
                                     modifier = Modifier
-                                            .height(473.dp)
-                                            .fillMaxWidth()
+                                        .height(473.dp)
+                                        .fillMaxWidth()
                             ) {
                                 Image(
                                         painter = painterResource(id = eventdetails[page].imgurl),
                                         contentDescription = "artist",
-                                        modifier= Modifier.fillMaxWidth().height(473.dp),
+                                        modifier= Modifier
+                                            .fillMaxWidth()
+                                            .height(473.dp),
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Crop
 
                                 )
                                 Box(
                                         modifier = Modifier
-                                                .fillMaxSize()
-                                                .background(
-                                                        brush = Brush.verticalGradient(
-                                                                colors = listOf(
-                                                                        Color.Transparent,
-                                                                        Color.Black
-                                                                ), startY = 100f
-                                                        )
+                                            .fillMaxSize()
+                                            .background(
+                                                brush = Brush.verticalGradient(
+                                                    colors = listOf(
+                                                        Color.Transparent,
+                                                        Color.Black
+                                                    ), startY = 100f
                                                 )
+                                            )
                                 )
                                 Box(
                                         modifier = Modifier
-                                                .fillMaxSize()
-                                                .padding(12.dp), contentAlignment = Alignment.BottomStart
+                                            .fillMaxSize()
+                                            .padding(12.dp), contentAlignment = Alignment.BottomStart
                                 ) {
                                     Column(
                                             modifier = Modifier.fillMaxWidth(),
@@ -458,8 +485,8 @@ class Home : Fragment() {
                                             Spacer(modifier = Modifier.width(11.dp))
                                             Box(
                                                     modifier = Modifier
-                                                            .height(20.dp)
-                                                            .width(20.dp)
+                                                        .height(20.dp)
+                                                        .width(20.dp)
                                             ) {
                                                 Image(
                                                         painter = if (eventdetails[page].mode.contains("ONLINE")) {
@@ -500,10 +527,194 @@ class Home : Fragment() {
                     activeColor= colorResource(id = R.color.textGray),
                     inactiveColor = colorResource(id = R.color.darkGray),
                     modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(16.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp)
             )
         }
 
     }
+
+
+
+    @Preview
+    @Composable
+    fun mySchedule(addedList:List<eventdetail> = events){
+        Box(
+            Modifier
+                .width(1550.dp)
+                .height(279.dp)
+                .background(color = Color.Black)
+                .horizontalScroll(rememberScrollState())) {
+            Row(
+                Modifier
+                    .width(1550.dp)
+                    .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                for (time in 9..11) {
+                    Column(
+                        Modifier
+                            .width(50.dp)
+                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "$time AM",
+                            style = TextStyle(
+                                color = colorResource(id = R.color.textGray),
+                                fontFamily = clash,
+                                fontWeight = FontWeight.W600,
+                                fontSize = 14.sp
+                            )
+                        )
+                        Canvas(
+                            modifier = Modifier
+                                .width(5.dp)
+                                .height(260.dp)
+                        ) {
+                            drawLine(
+                                color = Color.DarkGray,
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, size.height),
+                                strokeWidth = Stroke.DefaultMiter
+                            )
+                        }
+
+                    }
+
+                }
+
+                Column(
+                    Modifier
+                        .width(50.dp)
+                        .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "12 PM",
+                        style = TextStyle(
+                            color = colorResource(id = R.color.textGray),
+                            fontFamily = clash,
+                            fontWeight = FontWeight.W600,
+                            fontSize = 14.sp
+                        )
+                    )
+                    Canvas(
+                        modifier = Modifier
+                            .width(5.dp)
+                            .height(260.dp)
+                    ) {
+                        drawLine(
+                            color = Color.DarkGray,
+                            start = Offset(0f, 0f),
+                            end = Offset(0f, size.height),
+                            strokeWidth = Stroke.DefaultMiter
+                        )
+                    }
+                }
+                for (time in 1..11) {
+                    Column(
+                        Modifier
+                            .width(50.dp)
+                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "$time PM",
+                            style = TextStyle(
+                                color = colorResource(id = R.color.textGray),
+                                fontFamily = clash,
+                                fontWeight = FontWeight.W600,
+                                fontSize = 14.sp
+                            )
+                        )
+                        Canvas(
+                            modifier = Modifier
+                                .width(5.dp)
+                                .height(260.dp)
+                        ) {
+                            drawLine(
+                                color = Color.DarkGray,
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, size.height),
+                                strokeWidth = Stroke.DefaultMiter
+                            )
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+            for (event in addedList) {
+                userBox(eventdetail = event)
+            }
+
+
+        }
+
+
+
+    }
+    @Preview
+    @Composable
+    fun userBox(eventdetail: eventdetail = events[0]){
+         val color= listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random()
+
+        val lengthdp= (eventdetail.durationInMin.toFloat() * (5f/3f))
+        val xdis= (((eventdetail.Starttime.hours-9)*100).toFloat() + (eventdetail.Starttime.min.toFloat() * (5f/3f)) + 75f)
+
+            var l = 0f;
+            for (range in ranges) {
+                if (range.contains(xdis) or range.contains(xdis + lengthdp)) {
+                    l += 1
+                }
+                if ((xdis..xdis + lengthdp).contains(range.start) and (xdis..xdis + lengthdp).contains(
+                        range.endInclusive
+                    )
+                ) {
+                    l += 1
+                }
+            }
+            val ydis= (30+(l*70))
+
+        Box(
+            Modifier
+                .offset(xdis.dp, ydis.dp)
+                .height(58.dp)
+                .width(lengthdp.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(color)) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
+                Text(
+                    text = eventdetail.artist,
+                    color = Color.White,
+                    fontWeight = FontWeight.W700,
+                    fontFamily = clash,
+                    fontSize = 14.sp,
+                    maxLines = 1
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = eventdetail.category,
+                    style = TextStyle(
+                        color = colorResource(id = R.color.textGray),
+                        fontFamily = clash,
+                        fontWeight = FontWeight.W600,
+                        fontSize = 12.sp
+                    )
+                )
+            }
+        }
+        ranges.add((xdis..xdis+lengthdp))
+
+
+
+    }
+
+
+
+
+
 }
