@@ -111,5 +111,22 @@
         <item name="android:fontFamily">@font/hk_grotesk</item>
         <item name="android:textSize">14dp</item>
     </style>
+
+    <style name="merch_size_selected">
+        <item name="android:background">@drawable/merch_size_btn_selected</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
+    <style name="merch_size_deselected">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/merch_size_btn_deselect</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
 </resources>
 

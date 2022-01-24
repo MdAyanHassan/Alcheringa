@@ -7,21 +7,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
-import com.example.alcheringa2022.Model.Cart_model;
-import com.example.alcheringa2022.Model.Merch_model;
+import com.example.alcheringa2022.Model.cartModel;
 
 import java.util.ArrayList;
 
-public class OrderSummaryAdapter extends ArrayAdapter<Cart_model> {
+public class OrderSummaryAdapter extends ArrayAdapter<cartModel> {
 
     // invoke the suitable constructor of the ArrayAdapter class
-    public OrderSummaryAdapter(@NonNull Context context, ArrayList<Cart_model> arrayList) {
+    public OrderSummaryAdapter(@NonNull Context context, ArrayList<cartModel> arrayList) {
 
         // pass the context and arrayList for the super
         // constructor of the ArrayAdapter class
@@ -41,7 +39,7 @@ public class OrderSummaryAdapter extends ArrayAdapter<Cart_model> {
         }
 
         // get the position of the view from the ArrayAdapter
-        Cart_model currentItem = getItem(position);
+        cartModel currentItem = getItem(position);
 
         // then according to the position of the view assign the desired image for the same
         ImageView image = currentItemView.findViewById(R.id.merch_image);
@@ -60,13 +58,13 @@ public class OrderSummaryAdapter extends ArrayAdapter<Cart_model> {
         name.setText(currentItem.getName());
 
         TextView price = currentItemView.findViewById(R.id.price);
-        price.setText("₹" + currentItem.getPrice() + ".00");
+        price.setText("₹" + currentItem.getPrice() + ".");
 
         TextView details = currentItemView.findViewById(R.id.details);
         //details.setText(currentItem.getLarge().toString() + currentItem.getSmall().toString() + currentItem.getMedium().toString());
 
         TextView delivery = currentItemView.findViewById(R.id.delivery);
-        delivery.setText("Delivery by 7 Jan");
+        delivery.setText("Delivered within 15 days");
 
 
 

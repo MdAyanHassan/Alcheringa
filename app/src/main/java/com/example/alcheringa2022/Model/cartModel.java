@@ -1,6 +1,6 @@
 package com.example.alcheringa2022.Model;
 
-public class Cart_model {
+public class cartModel {
     String name;
     String type;
     String size;
@@ -57,7 +57,7 @@ public class Cart_model {
         return count;
     }
 
-    public Cart_model(String name, String type, String size, String price, String image, String count, String image1) {
+    public cartModel(String name, String type, String size, String price, String image, String count, String image1) {
         this.name = name;
         this.type = type;
         this.size = size;

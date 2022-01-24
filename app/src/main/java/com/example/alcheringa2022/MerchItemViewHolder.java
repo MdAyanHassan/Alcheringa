@@ -7,12 +7,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Merch_viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class MerchItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     TextView name,material,description,price,decimal_price;
     ImageView imageView;
     View view;
     onItemClick click;
-    public Merch_viewholder(@NonNull View itemView,onItemClick onItemClick) {
+    public MerchItemViewHolder(@NonNull View itemView, onItemClick onItemClick) {
         super(itemView);
         name=itemView.findViewById(R.id.hoodie_name);
         material=itemView.findViewById(R.id.material);

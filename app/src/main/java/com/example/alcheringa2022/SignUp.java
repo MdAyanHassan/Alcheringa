@@ -81,8 +81,7 @@ public class SignUp extends AppCompatActivity {
 
     LinearLayout signInButtonO;
     Button signOutButton,signupButton;
-    Button callGraphApiInteractiveButton;
-    Button callGraphApiSilentButton;
+
     TextView logTextView;
     ImageView backbutton;
     private EditText Name,Email,Password;
@@ -116,30 +115,10 @@ public class SignUp extends AppCompatActivity {
 
         //signOutButton = findViewById(R.id.clearCache);
 
-
-
-
 //        if(isLoggedIn){
 //            startMainActivity();
 //        }
-/*        initializeUI();
 
-
-
-        //Old Outlook Code:
-
-        PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
-                R.raw.auth_config_single_account, new IPublicClientApplication.ISingleAccountApplicationCreatedListener() {
-                    @Override
-                    public void onCreated(ISingleAccountPublicClientApplication application) {
-                        mSingleAccountApp = application;
-                        loadAccount();
-                    }
-                    @Override
-                    public void onError(MsalException exception) {
-                        displayError(exception);
-                    }
-                });*/
 
     }
 
@@ -359,193 +338,4 @@ public class SignUp extends AppCompatActivity {
         editor.apply();
     }
 
-
-    /* ################################ Outlook Signup Functions ############################### */
-
-    //When app comes to the foreground, load existing account to determine if user is signed in
-    /*private void loadAccount() {
-        if (mSingleAccountApp == null) {
-            return;
-        }
-        mSingleAccountApp.getCurrentAccountAsync(new ISingleAccountPublicClientApplication.CurrentAccountCallback() {
-            @Override
-            public void onAccountLoaded(@Nullable IAccount activeAccount) {
-                Log.d(TAG, "account loaded");
-
-                // You can use the account data to update your UI or your app database.
-                //updateUI(activeAccount);
-            }
-
-            @Override
-            public void onAccountChanged(@Nullable IAccount priorAccount, @Nullable IAccount currentAccount) {
-                if (currentAccount == null) {
-                    // Perform a cleanup task as the signed-in account changed.
-                    performOperationOnSignOut();
-                }
-            }
-
-            @Override
-            public void onError(@NonNull MsalException exception) {
-                displayError(exception);
-            }
-        });
-    }
-
-    private void initializeUI(){
-        signInButtonO = findViewById(R.id.sign_in_outlook);
-        //signOutButton = findViewById(R.id.clearCache);
-
-        //Sign in user
-        signInButtonO.setOnClickListener(v -> {
-            Toast.makeText(getApplicationContext(), "Outlook Signin  ", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "clicked the button 1");
-            if (mSingleAccountApp == null) {
-                return;
-            }
-            AuthenticationCallback callback = getAuthInteractiveCallback();
-            mSingleAccountApp.signIn(SignUp.this, null, SCOPES, callback);
-            Log.d(TAG, "signed_in");
-        });
-
-        //Sign out user
-        signOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSingleAccountApp == null){
-                    return;
-                }
-                mSingleAccountApp.signOut(new ISingleAccountPublicClientApplication.SignOutCallback() {
-                    @Override
-                    public void onSignOut() {
-                        updateUI(null);
-                        performOperationOnSignOut();
-                    }
-                    @Override
-                    public void onError(@NonNull MsalException exception){
-                        displayError(exception);
-                    }
-                });
-            }
-        });
-    }
-
-
-    private AuthenticationCallback getAuthInteractiveCallback() {
-        Log.d(TAG, "getAuthInteractiveCallback");
-        return new AuthenticationCallback() {
-            @Override
-            public void onSuccess(IAuthenticationResult authenticationResult) {
-                Log.d(TAG, "Successfully authenticated");
-                // Update UI
-                String name = "No name found";
-                String email = "No email found";
-                try{
-                    email = authenticationResult.getAccount().getUsername();
-                }catch(Exception ignored){}
-                try{
-                    name = authenticationResult.getAccount().getClaims().get("name").toString();
-                }catch(Exception ignored){}
-                Log.d(TAG, "Name: " + name);
-                Log.d(TAG, "Email: " + email);
-                Toast.makeText(SignUp.this, "Name: " + name + " \n" + "Email: " + email, Toast.LENGTH_LONG).show();
-
-                saveDetails(name, email);
-                startMainActivity();
-
-                // call graph
-                //callGraphAPI(authenticationResult);
-            }
-
-            @Override
-            public void onError(MsalException exception) {
-                // Failed to acquireToken
-                Log.d(TAG, "Authentication failed: " + exception.toString());
-                //displayError(exception);
-            }
-            @Override
-            public void onCancel() {
-                // User canceled the authentication
-                Log.d(TAG, "User cancelled login.");
-            }
-        };
-    }
-
-    private SilentAuthenticationCallback getAuthSilentCallback() {
-        return new SilentAuthenticationCallback() {
-            @Override
-            public void onSuccess(IAuthenticationResult authenticationResult) {
-                Log.d(TAG, "Successfully authenticated");
-                callGraphAPI(authenticationResult);
-            }
-            @Override
-            public void onError(MsalException exception) {
-                Log.d(TAG, "Authentication failed: " + exception.toString());
-                displayError(exception);
-            }
-        };
-    }
-
-    private void callGraphAPI(IAuthenticationResult authenticationResult) {
-
-        final String accessToken = authenticationResult.getAccessToken();
-
-        IGraphServiceClient graphClient =
-                GraphServiceClient
-                        .builder()
-                        .authenticationProvider(request -> {
-                            Log.d(TAG, "Authenticating request," + request.getRequestUrl());
-                            request.addHeader("Authorization", "Bearer " + accessToken);
-                        })
-                        .buildClient();
-        graphClient
-                .me()
-                .drive()
-                .buildRequest()
-                .get(new ICallback<Drive>() {
-                    @Override
-                    public void success(final Drive drive) {
-                        Log.d(TAG, "Found Drive " + drive.id);
-                        displayGraphResult(drive.getRawObject());
-                    }
-
-                    @Override
-                    public void failure(ClientException ex) {
-                        displayError(ex);
-                    }
-                });
-    }
-
-    private void updateUI(@Nullable final IAccount account) {
-        if (account != null) {
-            signInButtonO.setEnabled(false);
-            signOutButton.setEnabled(true);
-            callGraphApiInteractiveButton.setEnabled(true);
-            callGraphApiSilentButton.setEnabled(true);
-            currentUserTextView.setText(account.getUsername());
-        } else {
-            signInButtonO.setEnabled(true);
-            signOutButton.setEnabled(false);
-            callGraphApiInteractiveButton.setEnabled(false);
-            callGraphApiSilentButton.setEnabled(false);
-            currentUserTextView.setText("");
-            logTextView.setText("");
-        }
-    }
-
-    private void displayError(@NonNull final Exception exception) {
-        Log.d(TAG, "displayError: " + exception.toString() + exception.getMessage());
-    }
-
-    private void displayGraphResult(@NonNull final JsonObject graphResponse) {
-        //logTextView.setText(graphResponse.toString());
-        Log.d(TAG, "displayGraphResult: " + graphResponse.toString());
-    }
-
-    private void performOperationOnSignOut() {
-        final String signOutText = "Signed Out.";
-        currentUserTextView.setText("");
-        Toast.makeText(getApplicationContext(), signOutText, Toast.LENGTH_SHORT)
-                .show();
-    }
-    */
 }

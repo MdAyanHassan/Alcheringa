@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class Merch_model implements Parcelable {
-    String Name_hoddie;
+public class merchModel implements Parcelable {
+    String Name;
     String Material;
     String Price;
     String Description;
@@ -18,8 +18,8 @@ public class Merch_model implements Parcelable {
     Boolean Xlarge;
     ArrayList<String> images;
 
-    protected Merch_model(Parcel in) {
-        Name_hoddie = in.readString();
+    protected merchModel(Parcel in) {
+        Name = in.readString();
         Material = in.readString();
         Price = in.readString();
         Description = in.readString();
@@ -37,20 +37,20 @@ public class Merch_model implements Parcelable {
         images = in.createStringArrayList();
     }
 
-    public static final Creator<Merch_model> CREATOR = new Creator<Merch_model>() {
+    public static final Creator<merchModel> CREATOR = new Creator<merchModel>() {
         @Override
-        public Merch_model createFromParcel(Parcel in) {
-            return new Merch_model(in);
+        public merchModel createFromParcel(Parcel in) {
+            return new merchModel(in);
         }
 
         @Override
-        public Merch_model[] newArray(int size) {
-            return new Merch_model[size];
+        public merchModel[] newArray(int size) {
+            return new merchModel[size];
         }
     };
 
-    public void setName_hoddie(String name_hoddie) {
-        Name_hoddie = name_hoddie;
+    public void setName(String name) {
+        Name = name;
     }
 
     public void setMaterial(String material) {
@@ -93,8 +93,8 @@ public class Merch_model implements Parcelable {
         this.images = images;
     }
 
-    public String getName_hoddie() {
-        return Name_hoddie;
+    public String getName() {
+        return Name;
     }
 
     public String getMaterial() {
@@ -137,8 +137,8 @@ public class Merch_model implements Parcelable {
         return images;
     }
 
-    public Merch_model(String name_hoddie, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, ArrayList<String> images) {
-        Name_hoddie = name_hoddie;
+    public merchModel(String name, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, ArrayList<String> images) {
+        Name = name;
         Material = material;
         Price = price;
         Description = description;
@@ -159,7 +159,7 @@ public class Merch_model implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(Name_hoddie);
+        dest.writeString(Name);
         dest.writeString(Material);
         dest.writeString(Price);
         dest.writeString(Description);
