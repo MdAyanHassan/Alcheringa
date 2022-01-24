@@ -2,21 +2,18 @@ package com.example.alcheringa2022
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Range
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,8 +41,9 @@ import com.example.alcheringa2022.ui.theme.hk_grotesk
 import com.google.accompanist.pager.*
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
-import org.intellij.lang.annotations.JdkConstants
-import java.awt.font.NumericShaper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 
@@ -62,59 +60,62 @@ class Home : Fragment() {
     lateinit var binding: FragmentHomeBinding
    val homeViewModel : viewModelHome by activityViewModels()
     val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
-    val events=mutableListOf(
+//    val events=mutableListOf(
+//
+//            eventdetail(
+//                    "JUBIN NAUTIYAL",
+//                    "Pro Nights",
+//                    OwnTime(11,9,0),
+//                    "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
+//            ),
+//
+//            eventdetail(
+//                    "DJ SNAKE",
+//                    "Pro Nights",
+//                OwnTime(12,12,0),
+//                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
+//            ),
+//            eventdetail(
+//                    "TAYLOR SWIFT",
+//                    "Pro Nights",
+//                OwnTime(12,14,0),
+//                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
+//            )
+//        ,
+//
+//        eventdetail(
+//            "DJ SNAKE2",
+//            "Pro Nights",
+//            OwnTime(12,10,0),
+//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
+//        ),
+//        eventdetail(
+//            "TAYLOR SWIFT2",
+//            "Pro Nights",
+//            OwnTime(12,15,0),
+//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
+//        )
+//        ,
+//        eventdetail(
+//            "TAYLOR SWIFT3",
+//            "Pro Nights",
+//            OwnTime(12,14,30),
+//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
+//        )
+//
+//
+//
+//    )
 
-            eventdetail(
-                    "JUBIN NAUTIYAL",
-                    "Pro Nights",
-                    OwnTime(11,9,0),
-                    "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
-            ),
 
-            eventdetail(
-                    "DJ SNAKE",
-                    "Pro Nights",
-                OwnTime(12,12,0),
-                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-            ),
-            eventdetail(
-                    "TAYLOR SWIFT",
-                    "Pro Nights",
-                OwnTime(12,14,0),
-                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-            )
-        ,
-
-        eventdetail(
-            "DJ SNAKE2",
-            "Pro Nights",
-            OwnTime(12,10,0),
-            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-        ),
-        eventdetail(
-            "TAYLOR SWIFT2",
-            "Pro Nights",
-            OwnTime(12,15,0),
-            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-        )
-        ,
-        eventdetail(
-            "TAYLOR SWIFT3",
-            "Pro Nights",
-            OwnTime(12,14,30),
-            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
-        )
-
-
-
-    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             mParam1 = requireArguments().getString(ARG_PARAM1)
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
-        homeViewModel.pushEvents(events)
+        homeViewModel.getAllEvents()
+
 
     }
 
@@ -141,7 +142,7 @@ class Home : Fragment() {
         binding.compose1.setContent {
             Alcheringa2022Theme() {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    horizontalScroll(eventdetails = events)
+                    horizontalScroll(eventdetails = homeViewModel.allEventsWithLive)
                     Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "ONGOING EVENTS", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                     Box(
                             modifier = Modifier
@@ -152,7 +153,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(events) { dataeach -> Event_card(eventdetail = dataeach) }
+                            items(homeViewModel.allEventsWithLive) { dataeach -> Event_card(eventdetail = dataeach) }
                         }
 
                     }
@@ -164,10 +165,10 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(events) { dataeach -> Event_card(eventdetail = dataeach) }
+                            items(homeViewModel.allEventsWithLive) { dataeach -> Event_card(eventdetail = dataeach) }
                         }
                     }
-                    mySchedule(events)
+//                    mySchedule(events)
 
 
                 }
@@ -254,7 +255,7 @@ class Home : Fragment() {
 //                            )
 //                            Spacer(modifier = Modifier.height(8.dp))
 //                            Text(
-//                                    text = "eventdetail.Starttime",
+//                                    text = "eventdetail.starttime",
 //                                    style = TextStyle(
 //                                            color = colorResource(id = R.color.textGray),
 //                                            fontFamily = hk_grotesk,
@@ -350,7 +351,7 @@ class Home : Fragment() {
 //                            Spacer(modifier = Modifier.height(2.dp))
 //                            Text(text = eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
 //                            Spacer(modifier = Modifier.height(8.dp))
-//                            Text(text = eventdetail.Starttime, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+//                            Text(text = eventdetail.starttime, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
 //                            Spacer(modifier = Modifier.height(2.dp))
 //                            Row {
 //                                Box(modifier = Modifier
@@ -384,7 +385,7 @@ class Home : Fragment() {
 
     @OptIn(ExperimentalPagerApi::class)
     @Composable
-    fun horizontalScroll(eventdetails:List<eventdetail>){
+    fun horizontalScroll(eventdetails:SnapshotStateList<eventWithLive>){
 
         Column() {
             val pagerState = rememberPagerState()
@@ -432,7 +433,7 @@ class Home : Fragment() {
                                         .fillMaxWidth()
                             ) {
                                 GlideImage(
-                                        imageModel = eventdetails[page].imgurl,
+                                        imageModel = eventdetails[page].eventdetail.imgurl,
                                         contentDescription = "artist",
                                         modifier= Modifier
                                             .fillMaxWidth()
@@ -498,7 +499,7 @@ class Home : Fragment() {
                                             horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         Text(
-                                                text = eventdetails[page].artist,
+                                                text = eventdetails[page].eventdetail.artist,
                                                 color = Color.White,
                                                 fontWeight = FontWeight.W700,
                                                 fontSize = 78.sp,
@@ -506,7 +507,7 @@ class Home : Fragment() {
                                         )
                                         Spacer(modifier = Modifier.height(11.dp))
                                         Text(
-                                                text = eventdetails[page].category,
+                                                text = eventdetails[page].eventdetail.category,
                                                 style = TextStyle(
                                                         color = colorResource(id = R.color.textGray),
                                                         fontFamily = clash,
@@ -518,7 +519,7 @@ class Home : Fragment() {
 
                                         Row {
                                             Text(
-                                                    text = "${eventdetails[page].Starttime.date} Feb, ${if(eventdetails[page].Starttime.hours>12)"${eventdetails[page].Starttime.hours-12}" else eventdetails[page].Starttime.hours} ${if (eventdetails[page].Starttime.hours>=12)"PM" else "AM"}",
+                                                    text = "${eventdetails[page].eventdetail.starttime.date} Feb, ${if(eventdetails[page].eventdetail.starttime.hours>12)"${eventdetails[page].eventdetail.starttime.hours-12}" else eventdetails[page].eventdetail.starttime.hours} ${if (eventdetails[page].eventdetail.starttime.hours>=12)"PM" else "AM"}",
                                                     style = TextStyle(
                                                             color = colorResource(id = R.color.textGray),
                                                             fontFamily = hk_grotesk,
@@ -533,7 +534,7 @@ class Home : Fragment() {
                                                         .width(20.dp)
                                             ) {
                                                 Image(
-                                                        painter = if (eventdetails[page].mode.contains("ONLINE")) {
+                                                        painter = if (eventdetails[page].eventdetail.mode.contains("ONLINE")) {
                                                             painterResource(id = R.drawable.online)
                                                         } else {
                                                             painterResource(id = R.drawable.onground)
@@ -547,7 +548,7 @@ class Home : Fragment() {
                                             }
                                             Spacer(modifier = Modifier.width(4.dp))
                                             Text(
-                                                    text = eventdetails[page].mode,
+                                                    text = eventdetails[page].eventdetail.mode,
                                                     style = TextStyle(
                                                             color = colorResource(id = R.color.textGray),
                                                             fontFamily = hk_grotesk,
@@ -580,9 +581,9 @@ class Home : Fragment() {
 
 
 
-    @Preview
+
     @Composable
-    fun mySchedule(addedList:List<eventdetail> = events){
+    fun mySchedule(addedList:List<eventdetail>){
         Box(
             Modifier
                 .width(1550.dp)
@@ -698,13 +699,12 @@ class Home : Fragment() {
 
 
     }
-    @Preview
     @Composable
-    fun userBox(eventdetail: eventdetail = events[0]){
+    fun userBox(eventdetail: eventdetail ){
          val color= listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random()
 
         val lengthdp= (eventdetail.durationInMin.toFloat() * (5f/3f))
-        val xdis= (((eventdetail.Starttime.hours-9)*100).toFloat() + (eventdetail.Starttime.min.toFloat() * (5f/3f)) + 75f)
+        val xdis= (((eventdetail.starttime.hours-9)*100).toFloat() + (eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
 
             var l = 0f;
             for (range in ranges) {

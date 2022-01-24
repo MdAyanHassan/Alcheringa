@@ -14,11 +14,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.activityViewModels
+import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.databinding.FragmentCompetitionsBinding
-import com.example.alcheringa2022.databinding.FragmentEventsBinding
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
 import java.util.*
 
@@ -35,6 +37,7 @@ private const val ARG_PARAM2 = "param2"
 class CompetitionsFragment : Fragment() {
 
     private lateinit var binding: FragmentCompetitionsBinding
+    val homeViewModel:viewModelHome by activityViewModels()
 
     val events=mutableListOf(
 
@@ -115,17 +118,17 @@ class CompetitionsFragment : Fragment() {
                 /*.background(Color.Black)*/
             ) {
                 Spacer(modifier = Modifier.height(4.dp))
-                Events_row(heading = "DANCE", events_list = events)
-                Events_row(heading = "MUSIC", events_list = events)
-                Events_row(heading = "SPACECRAFT", events_list = events)
-                Events_row(heading = "FASHION", events_list = events)
-                Events_row(heading = "CLASS APART", events_list = events)
+                Events_row(heading = "DANCE", events_list = homeViewModel.allEventsWithLive)
+                Events_row(heading = "MUSIC", events_list = homeViewModel.allEventsWithLive)
+                Events_row(heading = "SPACECRAFT", events_list = homeViewModel.allEventsWithLive)
+                Events_row(heading = "FASHION", events_list = homeViewModel.allEventsWithLive)
+                Events_row(heading = "CLASS APART", events_list = homeViewModel.allEventsWithLive)
             }
         }
     }
 
     @Composable
-    fun Events_row(heading: String, events_list: MutableList<eventdetail>) {
+    fun Events_row(heading: String, events_list: SnapshotStateList<eventWithLive>) {
         Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
             Text(text = heading.uppercase(
                 Locale.getDefault()), style = MaterialTheme.typography.h2)
@@ -133,7 +136,7 @@ class CompetitionsFragment : Fragment() {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-        ) { items(events_list) { dataEach -> Event_card(eventdetail = dataEach) } }
+        ) { items(homeViewModel.allEventsWithLive) { dataEach -> Event_card(eventdetail = dataEach) } }
 
         Spacer(modifier = Modifier.height(24.dp))
     }
