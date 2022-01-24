@@ -35,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.databinding.FragmentHomeBinding
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.example.alcheringa2022.ui.theme.clash
@@ -45,6 +47,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import org.intellij.lang.annotations.JdkConstants
 import java.awt.font.NumericShaper
 import kotlin.math.absoluteValue
+
 
 /**
  * A simple [Fragment] subclass.
@@ -57,6 +60,7 @@ class Home : Fragment() {
     private var mParam1: String? = null
     private var mParam2: String? = null
     lateinit var binding: FragmentHomeBinding
+   val homeViewModel : viewModelHome by activityViewModels()
     val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
     val events=mutableListOf(
 
@@ -110,6 +114,8 @@ class Home : Fragment() {
             mParam1 = requireArguments().getString(ARG_PARAM1)
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
+        homeViewModel.pushEvents(events)
+
     }
 
     override fun onCreateView(
