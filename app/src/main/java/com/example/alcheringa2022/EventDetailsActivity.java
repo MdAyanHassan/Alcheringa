@@ -1,4 +1,4 @@
-package com.example.alcheringa2022.Model;
+package com.example.alcheringa2022;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.alcheringa2022.R;
 
-public class Event_Details extends AppCompatActivity {
+public class EventDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

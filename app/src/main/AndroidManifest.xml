@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Alcheringa2022">
         <activity
-            android:name=".Model.Event_Details"
+            android:name=".EventDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".Account"
@@ -25,6 +25,7 @@
         <activity
             android:name=".OrderSummaryActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:exported="true"
@@ -64,7 +65,7 @@
             android:name=".Category_Activity"
             android:exported="true" />
         <activity
-            android:name=".MerchDescription"
+            android:name=".MerchDescriptionActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity

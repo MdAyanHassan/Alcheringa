@@ -14,7 +14,11 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.example.alcheringa2022.Model.cartModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class OrderSummaryAdapter extends ArrayAdapter<cartModel> {
 
@@ -58,13 +62,24 @@ public class OrderSummaryAdapter extends ArrayAdapter<cartModel> {
         name.setText(currentItem.getName());
 
         TextView price = currentItemView.findViewById(R.id.price);
-        price.setText("₹" + currentItem.getPrice() + ".");
+        price.setText(String.format("₹%s.", currentItem.getPrice()));
 
         TextView details = currentItemView.findViewById(R.id.details);
-        //details.setText(currentItem.getLarge().toString() + currentItem.getSmall().toString() + currentItem.getMedium().toString());
+        String size = "";
+        switch (currentItem.getSize()){
+            case "S": size = "Small"; break;
+            case "M": size = "Medium"; break;
+            case "L": size = "Large"; break;
+            case "XL": size = "Extra Large"; break;
+        }
+        details.setText(String.format("%s, %s, %s Qty", currentItem.getType(), size, currentItem.getCount()));
 
         TextView delivery = currentItemView.findViewById(R.id.delivery);
-        delivery.setText("Delivered within 15 days");
+        SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM", Locale.getDefault());
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, 15); // Delivered within 15 days
+        delivery.setText(String.format("Delivery by %s", sdf.format(c.getTime())));
 
 
 

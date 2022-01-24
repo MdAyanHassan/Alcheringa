@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,12 +32,14 @@ public class MerchFragment extends Fragment implements onItemClick{
     FirebaseAuth firebaseAuth;
     ImageView cart;
     FirebaseFirestore firestore;
+    TextView cartCountIcon;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_merch,container,false);
         recyclerView=view.findViewById(R.id.merch_recyclerview);
+        cartCountIcon = view.findViewById(R.id.cart_count);
 
         firebaseAuth=FirebaseAuth.getInstance();
         firestore= FirebaseFirestore.getInstance();
@@ -47,11 +50,31 @@ public class MerchFragment extends Fragment implements onItemClick{
 
         cart=view.findViewById(R.id.cart);
         cart.setOnClickListener(v -> startActivity(new Intent(getActivity(), CartActivity.class)));
+        cartCountIcon.setOnClickListener(v -> startActivity(new Intent(getActivity(), CartActivity.class)));
+
 
         populate_merch();
+        setCartCountIcon();
         return view;
 
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        setCartCountIcon();
+    }
+
+    public void setCartCountIcon(){
+        int cartCount = Utility.calculateCartQuantity(getContext());
+        if(cartCount != 0){
+            cartCountIcon.setVisibility(View.VISIBLE);
+            cartCountIcon.setText(String.format("%d", cartCount));
+        }else{
+            cartCountIcon.setVisibility(View.GONE);
+        }
+    }
+
 
     private void populate_merch() {
         firestore.collection("Merch").get().addOnCompleteListener(task -> {
@@ -80,7 +103,7 @@ public class MerchFragment extends Fragment implements onItemClick{
     public void Onclick(int position) {
         //Toast.makeText(getContext(), "Item clicked: " + merch_modelList.get(position).getName(), Toast.LENGTH_SHORT).show();
         Log.d(TAG, "Item clicked: " + merchModelList.get(position).getName());
-        Intent intent=new Intent(getActivity(), MerchDescription.class);
+        Intent intent=new Intent(getActivity(), MerchDescriptionActivity.class);
         intent.putExtra("item", merchModelList.get(position));
         startActivity(intent);
     }

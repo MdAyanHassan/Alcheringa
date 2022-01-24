@@ -84,7 +84,6 @@ class AddAddressActivity : ComponentActivity() {
                                     .width(32.dp)
                                     .padding(top = 32.dp, bottom = 32.dp, start = 7.dp, end = 16.dp)
                                     .clickable(enabled = true, onClickLabel = "Back Button", onClick = {finish()})
-
                             )
                             Text(
                                 text = "Add Address",
@@ -231,23 +230,28 @@ class AddAddressActivity : ComponentActivity() {
                             fontSize = 16.sp
                         )
 
-                        TextField(textStyle = (TextStyle(
-                            color = Color.White, fontWeight = FontWeight.W400,
-                            fontFamily = hk_grotesk,
-                            fontSize = 18.sp
-                        )),
-                            modifier = Modifier
-
-                                .fillMaxWidth()
-                                .height(55.dp), maxLines = 1,
+                        TextField(
+                            textStyle = (
+                                TextStyle(
+                                    color = Color.White, fontWeight = FontWeight.W400,
+                                    fontFamily = hk_grotesk,
+                                    fontSize = 18.sp
+                                )
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                                .height(55.dp),
+                            maxLines = 1,
+                            singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = Color.White,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 backgroundColor = colorResource(id = R.color.textbackground)
-                            ), shape = RoundedCornerShape(8.dp),
+                            ),
+                            shape = RoundedCornerShape(8.dp),
                             value = name,
-                            onValueChange = { name = it }, placeholder = {
+                            onValueChange = { name = it },
+                            placeholder = {
                                 Text(
                                     text = "Full Name*",
                                     fontWeight = FontWeight.W400,
@@ -270,6 +274,7 @@ class AddAddressActivity : ComponentActivity() {
                                 .fillMaxWidth()
                                 .height(55.dp),
                             maxLines = 1,
+                            singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = Color.White,
                                 focusedIndicatorColor = Color.Transparent,
@@ -301,6 +306,7 @@ class AddAddressActivity : ComponentActivity() {
                                 .fillMaxWidth()
                                 .height(55.dp),
                             maxLines = 1,
+                            singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = Color.White,
                                 focusedIndicatorColor = Color.Transparent,
@@ -334,6 +340,7 @@ class AddAddressActivity : ComponentActivity() {
                                 backgroundColor = colorResource(id = R.color.textbackground)
                             ),
                             maxLines = 1,
+                            singleLine = true,
                             value = road,
                             onValueChange = { road = it },
                             placeholder = {
@@ -367,6 +374,7 @@ class AddAddressActivity : ComponentActivity() {
                                     .fillMaxWidth(0.487f)
                                     .height(55.dp),
                                 maxLines = 1,
+                                singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
                                     cursorColor = Color.White,
                                     focusedIndicatorColor = Color.Transparent,
@@ -398,6 +406,7 @@ class AddAddressActivity : ComponentActivity() {
                                     .fillMaxWidth(0.9207f)
                                     .height(55.dp),
                                 maxLines = 1,
+                                singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
                                     cursorColor = Color.White,
                                     focusedIndicatorColor = Color.Transparent,
@@ -432,6 +441,7 @@ class AddAddressActivity : ComponentActivity() {
                                 .fillMaxWidth()
                                 .height(55.dp),
                             maxLines = 1,
+                            singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = Color.White,
                                 focusedIndicatorColor = Color.Transparent,
@@ -468,7 +478,7 @@ class AddAddressActivity : ComponentActivity() {
                                 val patternPinCode = Regex("^[0-9]{6}$")
                                 var isPinCodeValid = patternPinCode.containsMatchIn(pincode)
 
-                                when {
+                                /*when {
                                     name.isEmpty() -> {
                                         Toast.makeText(applicationContext, "Please enter your name", Toast.LENGTH_SHORT).show()
                                     }
@@ -501,7 +511,19 @@ class AddAddressActivity : ComponentActivity() {
                                         intent.putExtra("pincode", pincode)
                                         startActivity(intent)
                                     }
-                                }
+
+
+                                }*/
+
+                                val intent = Intent(applicationContext, OrderSummaryActivity::class.java)
+                                intent.putExtra("name", "Atharva Tagalpallewar")
+                                intent.putExtra("phone", "9284823088")
+                                intent.putExtra("house", "house")
+                                intent.putExtra("road", "road")
+                                intent.putExtra("city", "Pune")
+                                intent.putExtra("state", "Maharashtra")
+                                intent.putExtra("pincode", "440022")
+                                startActivity(intent)
 
                             },
                             modifier = Modifier
