@@ -28,7 +28,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:exported="true"
-            android:name=".Add_Address_Activity"
+            android:name=".AddAddressActivity"
             android:label="@string/title_activity_add_address"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -49,7 +49,7 @@
 
         </activity>
         <activity
-            android:name=".Cart"
+            android:name=".CartActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -64,7 +64,7 @@
             android:name=".Category_Activity"
             android:exported="true" />
         <activity
-            android:name=".Merch_Description"
+            android:name=".MerchDescription"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
@@ -90,10 +90,9 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
+        </activity>
         <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity
             android:name="com.microsoft.identity.client.BrowserTabActivity"

@@ -127,15 +127,16 @@
                 android:id="@+id/decimal_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="2dp"
                 android:fontFamily="@font/clash_400"
                 android:text="00"
                 android:textColor="#ffffff"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/price"
-                app:layout_constraintTop_toBottomOf="@+id/stock"
-                app:layout_constraintVertical_bias="0.02" />
+                app:layout_constraintTop_toTopOf="@+id/price"
+                app:layout_constraintVertical_bias="0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -161,9 +162,10 @@
             android:layout_marginBottom="13dp"
             android:layout_marginTop="13dp"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingRight="8dp"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+            android:paddingBottom="8dp"
+            android:background="@drawable/cart_white_border_bg">
 
             <TextView
                 android:id="@+id/subtract"
@@ -176,7 +178,6 @@
                 android:fontFamily="@font/hk_grotesk_regular"
                 android:textFontWeight="700"
                 android:textSize="24sp"
-                android:lineHeight="29.11sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -201,18 +202,16 @@
                 android:gravity="center"
                 android:layout_width="40dp"
                 android:foreground="?android:attr/selectableItemBackground"
-
                 android:layout_height="wrap_content"
                 android:text="+"
                 android:fontFamily="@font/hk_grotesk_regular"
                 android:textFontWeight="700"
                 android:textSize="24sp"
-                android:lineHeight="29.11sp"
                 android:textColor="@color/white"
                 android:layout_marginLeft="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/quantity"/>
+                app:layout_constraintStart_toEndOf="@+id/quantity" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

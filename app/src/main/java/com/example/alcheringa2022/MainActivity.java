@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 if(index!=R.id.merch) {
                     index=R.id.merch;
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Merch()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new MerchFragment()).commit();
                     bottomNavigationView.getMenu().findItem(R.id.merch).setChecked(true);
                 }
                 break;

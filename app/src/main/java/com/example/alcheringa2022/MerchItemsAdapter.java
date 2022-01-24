@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.alcheringa2022.Model.Merch_model;
+import com.example.alcheringa2022.Model.merchModel;
 
 import java.util.List;
 
-public class Merch_Adapter extends RecyclerView.Adapter<Merch_viewholder> {
-    List<Merch_model> list;
+public class MerchItemsAdapter extends RecyclerView.Adapter<MerchItemViewHolder> {
+    List<merchModel> list;
     Context context;
     onItemClick onItemClick;
 
-    public Merch_Adapter(List<Merch_model> list, Context context,onItemClick onItemClick) {
+    public MerchItemsAdapter(List<merchModel> list, Context context, onItemClick onItemClick) {
         this.list = list;
         this.context = context;
         this.onItemClick=onItemClick;
@@ -27,13 +27,13 @@ public class Merch_Adapter extends RecyclerView.Adapter<Merch_viewholder> {
 
     @NonNull
     @Override
-    public Merch_viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MerchItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.merch_item,parent,false);
-        return new Merch_viewholder(view,onItemClick);
+        return new MerchItemViewHolder(view,onItemClick);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Merch_viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull MerchItemViewHolder holder, int position) {
         if (position == 0) {
             holder.price.setTextColor(Color.parseColor("#00010D"));
             holder.name.setTextColor(Color.parseColor("#00010D"));
@@ -42,12 +42,12 @@ public class Merch_Adapter extends RecyclerView.Adapter<Merch_viewholder> {
             holder.view.setBackgroundColor(Color.parseColor("#11D3D3"));
             holder.decimal_price.setTextColor(Color.parseColor("#00010D"));
         }
-        holder.price.setText("₹ "+list.get(position).getPrice()+".");
-        holder.name.setText(list.get(position).getName_hoddie());
+        holder.price.setText("₹ " + list.get(position).getPrice() + ".");
+        holder.name.setText(list.get(position).getName());
         holder.material.setText(list.get(position).getMaterial());
         holder.description.setText(list.get(position).getDescription());
+        holder.decimal_price.setText(R.string.default_decimal_place);
         Glide.with(context).load(list.get(position).getImage_url()).into(holder.imageView);
-        //holder.imageView
     }
 
     @Override

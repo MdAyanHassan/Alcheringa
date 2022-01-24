@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00010D"
-    tools:context=".Merch_Description">
+    tools:context=".MerchDescription">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -21,16 +21,16 @@
         app:layout_constraintVertical_bias="0">
         <ImageButton
             android:id="@+id/backbtn"
-            android:layout_width="9dp"
-            android:layout_height="16dp"
+            android:layout_width="41dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
             android:src="@drawable/back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="32dp"
-            app:layout_constraintRight_toLeftOf="@id/shop">
-
-        </ImageButton>
+            android:layout_marginStart="16dp"
+            app:layout_constraintRight_toLeftOf="@id/shop"
+            android:background="@android:color/transparent"/>
 
         <ImageView
             android:id="@+id/shop"
@@ -40,7 +40,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="16dp"/>
+            />
 
 
         <ImageView
@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/clash_400"
-                android:text="Hoddie"
+                tools:text="Hoodie"
                 android:layout_marginStart="36dp"
 
                 android:textColor="@color/white"
@@ -122,13 +122,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:fontFamily="@font/clash_400"
-                android:text="₹799.00"
+                tools:text="₹799."
                 android:textColor="@color/white"
                 android:textSize="36sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/merch_type"
                 app:layout_constraintVertical_bias="0.044" />
+
+            <TextView
+                android:id="@+id/merch_price_decimal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/clash_400"
+                android:text="@string/default_decimal_place"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/merch_price"
+                app:layout_constraintTop_toTopOf="@+id/merch_price"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -138,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/clash_400"
-                android:text="Select Size"
+                android:text="@string/select_size"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -172,39 +187,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView4">
 
                 <Button
-                    android:background="@drawable/merch_size_btn_selected"
                     android:id="@+id/small_size"
-                    android:textColor="@color/black"
-                    android:layout_margin="5dp"
                     android:text="S"
-                    android:textSize="18sp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
+                    style="@style/merch_size_selected" />
                 <Button
                     android:id="@+id/media_size"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/merch_size_btn_deselect"
-                    android:layout_width="50dp"
-                    android:textSize="18sp"
                     android:text="M"
-
-                    android:layout_height="50dp" />
+                    style="@style/merch_size_deselected"
+                    />
                 <Button
-                    android:background="@drawable/merch_size_btn_deselect"
                     android:id="@+id/large_size"
-                    android:layout_margin="5dp"
-                    android:layout_width="50dp"
-                    android:textSize="18sp"
                     android:text="L"
-                    android:layout_height="50dp" />
+                    style="@style/merch_size_deselected" />
                 <Button
-                    android:background="@drawable/merch_size_btn_deselect"
                     android:id="@+id/xlarge_size"
                     android:text="XL"
-                    android:layout_margin="5dp"
-                    android:textSize="18sp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
+                    style="@style/merch_size_deselected" />
+
             </LinearLayout>
 
             <Button
@@ -252,7 +251,8 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/add_to_cart"
-                app:layout_constraintVertical_bias="0.87">
+                app:layout_constraintVertical_bias="0.87"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:id="@+id/textView2"
@@ -278,7 +278,7 @@
                     android:layout_marginStart="36dp"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/hk_grotesk_regular"
-                    tools:text="This is a fucking amazing hoodie. I love it and
+                    tools:text="This is a f*cking amazing hoodie. I love it and
 I will make sure you buy this. And if not I will
 hunt you down with my AK 47, which I will
 buy later. Thank you and have a nice day."

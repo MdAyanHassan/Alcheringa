@@ -3,14 +3,11 @@ package com.example.alcheringa2022;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.media.Image;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.alcheringa2022.Model.Cart_model;
+import com.example.alcheringa2022.Model.cartModel;
 
 import java.util.ArrayList;
 
@@ -62,7 +59,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(query);
 
     }
-    public ArrayList<Cart_model> readCourses() {
+    public ArrayList<cartModel> readCourses() {
         // on below line we are creating a
         // database for reading our database.
         SQLiteDatabase db = this.getReadableDatabase();
@@ -71,13 +68,13 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor cursorcart = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
 
         // on below line we are creating a new array list.
-        ArrayList<Cart_model> courseModalArrayList = new ArrayList<>();
+        ArrayList<cartModel> courseModalArrayList = new ArrayList<>();
 
         // moving our cursor to first position.
         if (cursorcart.moveToFirst()) {
             do {
                 // on below line we are adding the data from cursor to our array list.
-                courseModalArrayList.add(new Cart_model(cursorcart.getString(1),
+                courseModalArrayList.add(new cartModel(cursorcart.getString(1),
                         cursorcart.getString(6),
                         cursorcart.getString(4),
                         cursorcart.getString(3),cursorcart.getString(5),cursorcart.getString(2),

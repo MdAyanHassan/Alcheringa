@@ -6,21 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.helper.widget.Layer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.alcheringa2022.Model.Cart_model;
+import com.example.alcheringa2022.Model.cartModel;
 
 import java.util.List;
 import java.util.Objects;
 
 public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
-    List<Cart_model> cartModelList ;
+    List<cartModel> cartModelList ;
     onItemClick onItemClick;
     Context context;
 
-    public CartAdapter(List<Cart_model> cartModelList, com.example.alcheringa2022.onItemClick onItemClick, Context context) {
+    public CartAdapter(List<cartModel> cartModelList, com.example.alcheringa2022.onItemClick onItemClick, Context context) {
         this.cartModelList = cartModelList;
         this.onItemClick = onItemClick;
         this.context = context;
@@ -29,7 +28,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.merch_cart,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item,parent,false);
         return new CartViewHolder(view,onItemClick);
     }
 
