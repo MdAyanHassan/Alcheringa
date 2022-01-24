@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -107,6 +108,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
         ImageButton backBtn = findViewById(R.id.back_button);
         backBtn.setOnClickListener(v -> finish());
+
+        Toast.makeText(this,""+Utility.calculateCartQuantity(this),Toast.LENGTH_LONG).show();
     }
 
 
@@ -116,16 +119,21 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         for(int i=0;i<arrayList.size();i++){
             amt=amt+Long.parseLong(arrayList.get(i).getPrice())*Long.parseLong(arrayList.get(i).getCount());
         }
-        String total_amount = MessageFormat.format("₹{0}.", amt);
 
-        total.setText(String.format("%s00", total_amount));
-        order_total.setText(total_amount);
+        final int shipping_cost = 45;
+        int total_and_shipping = shipping_cost + (int) amt;
+        String amount = MessageFormat.format("₹{0}.", amt);
 
-        total_price.setText(String.format("%s00", total_amount));
+        total.setText(String.format(Locale.getDefault(),"₹%d.00", total_and_shipping)); //total
+        order_total.setText(String.format("₹%d.", total_and_shipping)); //bottom order total
+
+        total_price.setText(String.format("%s00", amount));  //total MRP
 
         return amt;
 
     }
+
+
 
     private void startPayment(int total_price){
         try {

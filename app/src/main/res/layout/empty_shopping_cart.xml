@@ -15,8 +15,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/back_button"
+<!--        <ImageView
+            android:id="@+id/backbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -25,19 +25,30 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="back button" />
+            android:contentDescription="back button" />-->
+
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="41dp"
+            android:layout_height="48dp"
+            android:padding="16dp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="12dp"
+            android:background="@android:color/transparent"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="16dp"
             android:fontFamily="@font/clash_display_bold"
             android:text="Cart"
             android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintStart_toEndOf="@id/backbtn"
             app:layout_constraintTop_toTopOf="parent"
             android:textAllCaps="true"
             />

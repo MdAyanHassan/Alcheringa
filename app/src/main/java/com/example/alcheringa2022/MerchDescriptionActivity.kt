@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.alcheringa2022.Model.merchModel
 import android.os.Bundle
 import android.content.Intent
-import android.text.Html
 import android.util.Log
 
 import android.view.View
@@ -36,7 +35,7 @@ import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlin.math.absoluteValue
 
-class MerchDescription : AppCompatActivity(), View.OnClickListener {
+class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var smallBtn: Button
     lateinit var mediumBtn: Button
     lateinit var largeBtn: Button
@@ -51,6 +50,8 @@ class MerchDescription : AppCompatActivity(), View.OnClickListener {
     lateinit var price: TextView
     lateinit var description: TextView
     lateinit var cart: ImageView
+    lateinit var cartCountIcon: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_merch_description)
@@ -67,12 +68,14 @@ class MerchDescription : AppCompatActivity(), View.OnClickListener {
         type = findViewById(R.id.merch_type)
         price = findViewById(R.id.merch_price)
         description = findViewById(R.id.merch_description)
+        cartCountIcon = findViewById(R.id.cart_count)
         smallBtn.setOnClickListener(this)
         mediumBtn.setOnClickListener(this)
         largeBtn.setOnClickListener(this)
         xlargeBtn.setOnClickListener(this)
         buyNow.setOnClickListener(this)
         addToCart.setOnClickListener(this)
+        cartCountIcon.setOnClickListener(this)
         cart.setOnClickListener(this)
         dbHandler = DBHandler(this)
         smallBtn.visibility = View.GONE
@@ -90,11 +93,28 @@ class MerchDescription : AppCompatActivity(), View.OnClickListener {
 
         /// setting buttons
         settingButtons()
-        populate_details()
+        populateDetails()
         //dbHandler.Delete_all();
+
+        setCartCountIcon()
     }
 
-    private fun populate_details() {
+    override fun onResume() {
+        super.onResume()
+        setCartCountIcon()
+    }
+
+    private fun setCartCountIcon(){
+        val cartCount = Utility.calculateCartQuantity( applicationContext)
+        if(cartCount != 0){
+            cartCountIcon.visibility = View.VISIBLE
+            cartCountIcon.text = cartCount.toString()
+        }else{
+            cartCountIcon.visibility = View.GONE
+        }
+    }
+
+    private fun populateDetails() {
         name.text = merchModel.name
         type.text = merchModel.material
         price.text = "₹ " + merchModel.price + "."
@@ -120,22 +140,22 @@ class MerchDescription : AppCompatActivity(), View.OnClickListener {
         when (v.id) {
             R.id.small_size -> {
                 deselect_size()
-                select_size(smallBtn)
+                selectSize(smallBtn)
                 merchSize = "S"
             }
             R.id.media_size -> {
                 deselect_size()
-                select_size(mediumBtn)
+                selectSize(mediumBtn)
                 merchSize = "M"
             }
             R.id.large_size -> {
                 deselect_size()
-                select_size(largeBtn)
+                selectSize(largeBtn)
                 merchSize = "L"
             }
             R.id.xlarge_size -> {
                 deselect_size()
-                select_size(xlargeBtn)
+                selectSize(xlargeBtn)
                 merchSize = "XL"
             }
             R.id.buy_now -> {
@@ -149,6 +169,7 @@ class MerchDescription : AppCompatActivity(), View.OnClickListener {
                     applicationContext
                 )
                 startActivity(Intent(applicationContext, CartActivity::class.java))
+                setCartCountIcon()
             }
             R.id.add_to_cart -> {
                 dbHandler.addNewitemIncart(
@@ -161,13 +182,15 @@ class MerchDescription : AppCompatActivity(), View.OnClickListener {
                     applicationContext
                 )
                 Toast.makeText(applicationContext, merchModel.name + " added to cart", Toast.LENGTH_SHORT).show()
+                setCartCountIcon()
                 //startActivity(Intent(applicationContext, CartActivity::class.java))
             }
             R.id.cart -> startActivity(Intent(applicationContext, CartActivity::class.java))
+            R.id.cart_count -> startActivity(Intent(applicationContext, CartActivity::class.java))
         }
     }
 
-    private fun select_size(btn: Button?) {
+    private fun selectSize(btn: Button?) {
         btn!!.background = AppCompatResources.getDrawable(applicationContext, R.drawable.merch_size_btn_selected)
         btn!!.setTextColor(0x000000)
 

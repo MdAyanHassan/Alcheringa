@@ -31,13 +31,21 @@
             android:id="@+id/cart"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:background="@drawable/merch"
+            android:background="@drawable/cart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.903"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.461" />
+
+        <TextView
+            app:layout_constraintBottom_toBottomOf="@id/cart"
+            app:layout_constraintStart_toStartOf="@id/cart"
+            tools:text="9"
+            android:id="@+id/cart_count"
+            tools:visibility="visible"
+            style="@style/cart_count_icon" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
