@@ -17,12 +17,12 @@ import java.util.List;
 public class MerchItemsAdapter extends RecyclerView.Adapter<MerchItemViewHolder> {
     List<merchModel> list;
     Context context;
-    onItemClick onItemClick;
+    com.example.alcheringa2022.onItemClick onItemClick;
 
-    public MerchItemsAdapter(List<merchModel> list, Context context, onItemClick onItemClick) {
+    public MerchItemsAdapter(List<merchModel> list, Context context, com.example.alcheringa2022.onItemClick onItemClick) {
         this.list = list;
         this.context = context;
-        this.onItemClick=onItemClick;
+        this.onItemClick= onItemClick;
     }
 
     @NonNull

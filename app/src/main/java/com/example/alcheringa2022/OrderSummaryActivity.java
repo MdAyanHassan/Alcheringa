@@ -45,6 +45,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     FirebaseFirestore firebaseFirestore;
     Button Pay;
     TextView name,address,total_price,total,order_total;
+    LoaderView loaderView;
     ArrayList<cartModel> arrayList;
     String user_phone;
     String user_name;
@@ -70,6 +71,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         total_price=findViewById(R.id.total_mrp);
         total=findViewById(R.id.total);
         order_total=findViewById(R.id.order_total);
+        loaderView = findViewById(R.id.dots_progress);
 
         Intent intent = getIntent();
 
@@ -109,7 +111,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         ImageButton backBtn = findViewById(R.id.back_button);
         backBtn.setOnClickListener(v -> finish());
 
-        Toast.makeText(this,""+Utility.calculateCartQuantity(this),Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,""+Utility.calculateCartQuantity(this),Toast.LENGTH_LONG).show();
+        loaderView.setVisibility(View.GONE);
     }
 
 
@@ -168,7 +171,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
             options.put("name", "Alcheringa 2022");
             options.put("description", "Alcheringa Merch Order");
-            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+            //options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+            options.put("image", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Logo%2Falcher_logo.png?alt=media&token=d915c089-baba-4cfe-b042-da82331bb550");
             options.put("order_id", order_id);
             options.put("theme.color", "#3399cc");
             options.put("currency", "INR");

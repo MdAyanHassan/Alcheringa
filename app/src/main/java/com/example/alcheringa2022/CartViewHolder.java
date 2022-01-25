@@ -1,10 +1,8 @@
 package com.example.alcheringa2022;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,8 +13,8 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     TextView remove_btn;
     TextView count;
     TextView increment,decrement;
-    onItemClick onItemClick;
-    public CartViewHolder(@NonNull View itemView,onItemClick onItemClick) {
+    com.example.alcheringa2022.onItemClick onItemClick;
+    public CartViewHolder(@NonNull View itemView, com.example.alcheringa2022.onItemClick onItemClick) {
         super(itemView);
         name=itemView.findViewById(R.id.hoodie_name);
         type=itemView.findViewById(R.id.type);
@@ -27,7 +25,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         count=itemView.findViewById(R.id.quantity);
         increment=itemView.findViewById(R.id.add);
         decrement=itemView.findViewById(R.id.subtract);
-        this.onItemClick=onItemClick;
+        this.onItemClick= onItemClick;
         remove_btn.setOnClickListener(this);
         increment.setOnClickListener(this);
         decrement.setOnClickListener(this);
@@ -36,6 +34,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View v) {
+        onItemClick.OnAnyClick(getAdapterPosition());
         switch (v.getId()){
             case R.id.add:
                 onItemClick.OnIncrementClick(getAdapterPosition());

@@ -302,7 +302,15 @@ buy later. Thank you and have a nice day."
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-
+    <com.example.alcheringa2022.LoaderView
+        android:id="@+id/dots_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:visibility="gone"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MerchFragment extends Fragment implements onItemClick{
+public class MerchFragment extends Fragment implements onItemClick {
     final String TAG = "MerchFragment";
 
     RecyclerView recyclerView;
@@ -33,11 +33,14 @@ public class MerchFragment extends Fragment implements onItemClick{
     ImageView cart;
     FirebaseFirestore firestore;
     TextView cartCountIcon;
+    LoaderView loaderView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_merch,container,false);
+        loaderView = view.findViewById(R.id.dots_progress);
+        loaderView.setVisibility(View.VISIBLE);
         recyclerView=view.findViewById(R.id.merch_recyclerview);
         cartCountIcon = view.findViewById(R.id.cart_count);
 
@@ -55,6 +58,7 @@ public class MerchFragment extends Fragment implements onItemClick{
 
         populate_merch();
         setCartCountIcon();
+
         return view;
 
     }
@@ -63,6 +67,7 @@ public class MerchFragment extends Fragment implements onItemClick{
     public void onResume(){
         super.onResume();
         setCartCountIcon();
+
     }
 
     public void setCartCountIcon(){
@@ -96,7 +101,13 @@ public class MerchFragment extends Fragment implements onItemClick{
                 ));
             }
             recyclerView.setAdapter(merch_Items_adapter);
+            loaderView.setVisibility(View.GONE);
         });
+    }
+
+    @Override
+    public void OnAnyClick(int position) {
+
     }
 
     @Override

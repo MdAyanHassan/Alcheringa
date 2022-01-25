@@ -51,6 +51,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var description: TextView
     lateinit var cart: ImageView
     lateinit var cartCountIcon: TextView
+    lateinit var loaderView: LoaderView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +70,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         price = findViewById(R.id.merch_price)
         description = findViewById(R.id.merch_description)
         cartCountIcon = findViewById(R.id.cart_count)
+        loaderView = findViewById(R.id.dots_progress)
         smallBtn.setOnClickListener(this)
         mediumBtn.setOnClickListener(this)
         largeBtn.setOnClickListener(this)
@@ -97,6 +99,8 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         //dbHandler.Delete_all();
 
         setCartCountIcon()
+
+        loaderView.visibility = View.GONE
     }
 
     override fun onResume() {
@@ -119,6 +123,8 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         type.text = merchModel.material
         price.text = "₹ " + merchModel.price + "."
         description.text = merchModel.description
+
+
     }
 
     private fun settingButtons() {
@@ -139,22 +145,22 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.small_size -> {
-                deselect_size()
+                deselectSize()
                 selectSize(smallBtn)
                 merchSize = "S"
             }
             R.id.media_size -> {
-                deselect_size()
+                deselectSize()
                 selectSize(mediumBtn)
                 merchSize = "M"
             }
             R.id.large_size -> {
-                deselect_size()
+                deselectSize()
                 selectSize(largeBtn)
                 merchSize = "L"
             }
             R.id.xlarge_size -> {
-                deselect_size()
+                deselectSize()
                 selectSize(xlargeBtn)
                 merchSize = "XL"
             }
@@ -192,19 +198,19 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun selectSize(btn: Button?) {
         btn!!.background = AppCompatResources.getDrawable(applicationContext, R.drawable.merch_size_btn_selected)
-        btn!!.setTextColor(0x000000)
+        btn.setTextColor(resources.getColor(R.color.Black))
 
     }
 
-    private fun deselect_size() {
+    private fun deselectSize() {
         smallBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.merch_size_btn_deselect)
         mediumBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.merch_size_btn_deselect)
         largeBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.merch_size_btn_deselect)
         xlargeBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.merch_size_btn_deselect)
-        smallBtn.setTextColor(0xFFFFFF)
-        mediumBtn.setTextColor(0xFFFFFF)
-        largeBtn.setTextColor(0xFFFFFF)
-        xlargeBtn.setTextColor(0xFFFFFF)
+        smallBtn.setTextColor(resources.getColor(R.color.White))
+        mediumBtn.setTextColor(resources.getColor(R.color.White))
+        largeBtn.setTextColor(resources.getColor(R.color.White))
+        xlargeBtn.setTextColor(resources.getColor(R.color.White))
         Log.d("abcd", "deselect_size:")
 
     }
