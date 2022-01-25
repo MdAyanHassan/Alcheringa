@@ -1,6 +1,8 @@
 package com.example.alcheringa2022
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
@@ -43,6 +45,7 @@ class AddAddressActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences("address", Context.MODE_PRIVATE)
         setContent {
             // A surface container using the 'background' color from the theme
             Surface(
@@ -53,13 +56,13 @@ class AddAddressActivity : ComponentActivity() {
                 ConstraintLayout(Modifier.fillMaxSize()) {
                     val (btn, topbox) = createRefs();
 
-                    var name by remember { mutableStateOf("") }
-                    var phone by remember { mutableStateOf("") }
-                    var pincode by remember { mutableStateOf("") }
-                    var house by remember { mutableStateOf("") }
-                    var road by remember { mutableStateOf("") }
-                    var city by remember { mutableStateOf("") }
-                    var state by remember { mutableStateOf("") }
+                    var name by remember { mutableStateOf(sharedPreferences.getString("name","")) }
+                    var phone by remember { mutableStateOf(sharedPreferences.getString("phone","")) }
+                    var pincode by remember { mutableStateOf(sharedPreferences.getString("pincode","")) }
+                    var house by remember { mutableStateOf(sharedPreferences.getString("house","")) }
+                    var road by remember { mutableStateOf(sharedPreferences.getString("road","")) }
+                    var city by remember { mutableStateOf(sharedPreferences.getString("city","")) }
+                    var state by remember { mutableStateOf(sharedPreferences.getString("state","")) }
                     Column(
                         Modifier
                             .fillMaxWidth()
@@ -249,7 +252,7 @@ class AddAddressActivity : ComponentActivity() {
                                 backgroundColor = colorResource(id = R.color.textbackground)
                             ),
                             shape = RoundedCornerShape(8.dp),
-                            value = name,
+                            value = name!!,
                             onValueChange = { name = it },
                             placeholder = {
                                 Text(
@@ -281,7 +284,7 @@ class AddAddressActivity : ComponentActivity() {
                                 unfocusedIndicatorColor = Color.Transparent,
                                 backgroundColor = colorResource(id = R.color.textbackground)
                             ),
-                            value = phone,
+                            value = phone!!,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                             onValueChange = { phone = it },
                             placeholder = {
@@ -313,7 +316,7 @@ class AddAddressActivity : ComponentActivity() {
                                 unfocusedIndicatorColor = Color.Transparent,
                                 backgroundColor = colorResource(id = R.color.textbackground)
                             ),
-                            value = house,
+                            value = house!!,
                             onValueChange = { house = it },
                             placeholder = {
                                 Text(
@@ -341,7 +344,7 @@ class AddAddressActivity : ComponentActivity() {
                             ),
                             maxLines = 1,
                             singleLine = true,
-                            value = road,
+                            value = road!!,
                             onValueChange = { road = it },
                             placeholder = {
                                 Text(
@@ -381,7 +384,7 @@ class AddAddressActivity : ComponentActivity() {
                                     unfocusedIndicatorColor = Color.Transparent,
                                     backgroundColor = colorResource(id = R.color.textbackground)
                                 ),
-                                value = city,
+                                value = city!!,
                                 onValueChange = { city = it },
                                 placeholder = {
                                     Text(
@@ -413,7 +416,7 @@ class AddAddressActivity : ComponentActivity() {
                                     unfocusedIndicatorColor = Color.Transparent,
                                     backgroundColor = colorResource(id = R.color.textbackground)
                                 ),
-                                value = state,
+                                value = state!!,
                                 onValueChange = { state = it },
                                 placeholder = {
                                     Text(
@@ -448,7 +451,7 @@ class AddAddressActivity : ComponentActivity() {
                                 unfocusedIndicatorColor = Color.Transparent,
                                 backgroundColor = colorResource(id = R.color.textbackground)
                             ),
-                            value = pincode,
+                            value = pincode!!,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                             onValueChange = { pincode = it },
                             placeholder = {
@@ -473,34 +476,45 @@ class AddAddressActivity : ComponentActivity() {
                             onClick = {
 
                                 val patternPhone = Regex("^[1-9][0-9]{9}$")
-                                var isPhoneValid = patternPhone.containsMatchIn(phone)
+                                var isPhoneValid = patternPhone.containsMatchIn(phone!!)
 
                                 val patternPinCode = Regex("^[0-9]{6}$")
-                                var isPinCodeValid = patternPinCode.containsMatchIn(pincode)
+                                var isPinCodeValid = patternPinCode.containsMatchIn(pincode!!)
 
-                                /*when {
-                                    name.isEmpty() -> {
+                                when {
+                                    name!!.isEmpty() -> {
                                         Toast.makeText(applicationContext, "Please enter your name", Toast.LENGTH_SHORT).show()
                                     }
                                     !isPhoneValid -> {
                                         Toast.makeText(applicationContext, "Please enter a 10 digit phone number", Toast.LENGTH_SHORT).show()
                                     }
-                                    house.isEmpty() -> {
+                                    house!!.isEmpty() -> {
                                         Toast.makeText(applicationContext, "Please enter your House No and Building Name", Toast.LENGTH_SHORT).show()
                                     }
-                                    road.isEmpty() -> {
+                                    road!!.isEmpty() -> {
                                         Toast.makeText(applicationContext, "Please enter your Road Name, Area and Colony", Toast.LENGTH_SHORT).show()
                                     }
-                                    city.isEmpty() -> {
+                                    city!!.isEmpty() -> {
                                         Toast.makeText(applicationContext, "Please enter your City", Toast.LENGTH_SHORT).show()
                                     }
-                                    state.isEmpty() -> {
+                                    state!!.isEmpty() -> {
                                         Toast.makeText(applicationContext, "Please enter your State", Toast.LENGTH_SHORT).show()
                                     }
                                     (!isPinCodeValid) -> {
                                         Toast.makeText(applicationContext, "Please enter a 6 digit numeric pincode", Toast.LENGTH_SHORT).show()
                                     }
                                     else -> {
+                                        val editor:SharedPreferences.Editor =  sharedPreferences.edit()
+                                        editor.putString("name",name)
+                                        editor.putString("phone",phone)
+                                        editor.putString("house",house)
+                                        editor.putString("road",road)
+                                        editor.putString("city",city)
+                                        editor.putString("state",state)
+                                        editor.putString("pincode",pincode)
+                                        editor.apply()
+                                        //editor.commit()
+
                                         val intent = Intent(applicationContext, OrderSummaryActivity::class.java)
                                         intent.putExtra("name", name)
                                         intent.putExtra("phone", phone)
@@ -513,9 +527,9 @@ class AddAddressActivity : ComponentActivity() {
                                     }
 
 
-                                }*/
+                                }
 
-                                val intent = Intent(applicationContext, OrderSummaryActivity::class.java)
+                                /*val intent = Intent(applicationContext, OrderSummaryActivity::class.java)
                                 intent.putExtra("name", "Atharva Tagalpallewar")
                                 intent.putExtra("phone", "9284823088")
                                 intent.putExtra("house", "house")
@@ -523,7 +537,7 @@ class AddAddressActivity : ComponentActivity() {
                                 intent.putExtra("city", "Pune")
                                 intent.putExtra("state", "Maharashtra")
                                 intent.putExtra("pincode", "440022")
-                                startActivity(intent)
+                                startActivity(intent)*/
 
                             },
                             modifier = Modifier

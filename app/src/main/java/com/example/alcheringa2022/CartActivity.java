@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.alcheringa2022.Model.cartModel;
 
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CartActivity extends AppCompatActivity implements onItemClick {
     RecyclerView recyclerView;
-    CartAdapter cartAdapter;
+    CartItemsAdapter cartItemsAdapter;
     List<cartModel> list;
     TextView amount;
     String total_amount;
@@ -28,6 +28,7 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
     ImageView cart;
     ArrayList<cartModel> cartModelArrayList;
     Button startShopping;
+    LoaderView loaderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,7 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
         }else{
             setContentView(R.layout.activity_cart);
 
-            /*for (int i = 0; i< cartModelArrayList.size(); i++){
-                Toast.makeText(getApplicationContext(), ""+ cartModelArrayList.get(i).getPrice(), Toast.LENGTH_SHORT).show();
-            }*/
+
 
             amount=findViewById(R.id.order_total_value);
             checkout_btn=findViewById(R.id.checkout_button);
@@ -65,10 +64,15 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
             populate_cart();
             calculate_amount();
             checkout_btn.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), AddAddressActivity.class)));
+
+            loaderView = findViewById(R.id.dots_progress);
+            loaderView.setVisibility(View.GONE);
         }
 
         ImageButton backBtn = findViewById(R.id.backbtn);
         backBtn.setOnClickListener(v -> finish());
+
+
 
     }
 
@@ -83,16 +87,21 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
     }
 
     private void populate_cart() {
-            cartAdapter=new CartAdapter(cartModelArrayList,this,getApplicationContext());
-            recyclerView.setAdapter(cartAdapter);
+            cartItemsAdapter =new CartItemsAdapter(cartModelArrayList,this,getApplicationContext());
+            recyclerView.setAdapter(cartItemsAdapter);
+    }
+
+    @Override
+    public void OnAnyClick(int position) {
+
     }
 
     @Override
     public void Onclick(int position) {
         dbHandler.DeleteItem(cartModelArrayList.get(position).getName(), cartModelArrayList.get(position).getSize());
         cartModelArrayList.remove(cartModelArrayList.get(position));
-        cartAdapter=new CartAdapter(cartModelArrayList,this,getApplicationContext());
-        recyclerView.setAdapter(cartAdapter);
+        cartItemsAdapter =new CartItemsAdapter(cartModelArrayList,this,getApplicationContext());
+        recyclerView.setAdapter(cartItemsAdapter);
         calculate_amount();
     }
 
@@ -108,7 +117,7 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
                 cartModelArrayList.get(position).getCount(),
                 cartModelArrayList.get(position).getImage(),
                 cartModelArrayList.get(position).getType(),getApplicationContext());
-        cartAdapter.notifyDataSetChanged();
+        cartItemsAdapter.notifyDataSetChanged();
         calculate_amount();
 
     }
@@ -116,12 +125,12 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
     @Override
     public void OnDecrementClick(int position) {
         int count=Integer.parseInt(cartModelArrayList.get(position).getCount());
-        if(count>0){
+        if(count>1){
             count--;
             cartModelArrayList.get(position).setCount(count+"");
             dbHandler.RemoveFromCart(cartModelArrayList.get(position).getName(), cartModelArrayList.get(position).getPrice(),
                     cartModelArrayList.get(position).getSize(), cartModelArrayList.get(position).getCount());
-            cartAdapter.notifyDataSetChanged();
+            cartItemsAdapter.notifyDataSetChanged();
             calculate_amount();
         }
 
