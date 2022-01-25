@@ -20,6 +20,8 @@ import java.util.*
 class viewModelHome: ViewModel() {
     val fb = FirebaseFirestore.getInstance()
     val allEventsWithLive= mutableStateListOf<eventWithLive>()
+    val OwnEventsWithLive= mutableStateListOf<eventWithLive>()
+    val merchhome= mutableStateListOf<merchmodelforHome>()
 
 //    fun pushEvents(evnts:List<eventdetail>){
 //        for(evnt in evnts){
@@ -86,6 +88,23 @@ class viewModelHome: ViewModel() {
             }
         }
     }
+
+    fun getMerchHome(){
+
+        viewModelScope.launch {
+            fb.collection("Merch").get().addOnSuccessListener {
+            merch->
+
+            allEventsWithLive.clear()
+            for (mer in merch){ merchhome.add(mer.toObject(merchmodelforHome::class.java))}
+                Log.d("merch","fetched")
+            }.addOnFailureListener{Log.d("merch","failed")}
+
+
+        }
+    }
+
+
 
 
 

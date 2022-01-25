@@ -126,7 +126,7 @@ class Events : Fragment() {
                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
         ) { items(homeViewModel.allEventsWithLive.filter {
                 data-> data.eventdetail.category.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()})
-        {dataEach -> Event_card(eventdetail = dataEach) } }
+        {dataEach -> Event_card(eventdetail = dataEach,homeViewModel) } }
 
         Spacer(modifier = Modifier.height(24.dp))
     }

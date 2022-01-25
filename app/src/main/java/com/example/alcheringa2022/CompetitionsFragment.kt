@@ -103,7 +103,7 @@ class CompetitionsFragment : Fragment() {
         }
 
         binding.competitionsCompose.setContent {
-            Full_view()
+//            Full_view()
         }
     }
 
@@ -136,7 +136,7 @@ class CompetitionsFragment : Fragment() {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-        ) { items(homeViewModel.allEventsWithLive) { dataEach -> Event_card(eventdetail = dataEach) } }
+        ) { items(homeViewModel.allEventsWithLive) { dataEach -> Event_card(eventdetail = dataEach,homeViewModel) } }
 
         Spacer(modifier = Modifier.height(24.dp))
     }

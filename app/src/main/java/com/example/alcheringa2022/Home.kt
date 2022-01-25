@@ -9,10 +9,10 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,11 +33,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.alcheringa2022.Model.merchmodelforHome
 import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.databinding.FragmentHomeBinding
-import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
-import com.example.alcheringa2022.ui.theme.clash
-import com.example.alcheringa2022.ui.theme.hk_grotesk
+import com.example.alcheringa2022.ui.theme.*
 import com.google.accompanist.pager.*
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
@@ -60,6 +59,7 @@ class Home : Fragment() {
     lateinit var binding: FragmentHomeBinding
    val homeViewModel : viewModelHome by activityViewModels()
     val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
+    val datestate = mutableStateListOf<eventWithLive>()
 //    val events=mutableListOf(
 //
 //            eventdetail(
@@ -115,6 +115,7 @@ class Home : Fragment() {
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
         homeViewModel.getAllEvents()
+        homeViewModel.getMerchHome()
 
 
     }
@@ -153,7 +154,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }) { dataeach -> Event_card(eventdetail = dataeach) }
+                            items(homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }) { dataeach -> Event_card(eventdetail = dataeach,homeViewModel) }
                         }
 
                     }
@@ -165,10 +166,32 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.filter { data-> !(data.isLive.value) }) { dataeach -> Event_card(eventdetail = dataeach) }
+                            items(homeViewModel.allEventsWithLive.filter { data-> !(data.isLive.value) }) { dataeach -> Event_card(eventdetail = dataeach,homeViewModel) }
                         }
                     }
-//                    mySchedule(events)
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 48.dp, top = 48.dp)
+                    ) {
+                        val color= listOf(Color(0xffC80915), Color(0xffEE6337), Color(0xff11D3D3))
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            itemsIndexed(homeViewModel.merchhome.filter { it.Available }) { index,dataeach -> merchBox(dataeach, color[index]) }
+                        }
+                    }
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, bottom = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
+                        Text(text = "See Full Schedule >", fontFamily = hk_grotesk, fontSize = 18.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337) )
+                    }
+                    mySchedule()
+
+
+
 
 
                 }
@@ -450,7 +473,10 @@ class Home : Fragment() {
                                         Box(modifier= Modifier
                                             .fillMaxWidth()
                                             .height(473.dp), contentAlignment = Alignment.Center) {
-                                            Column(Modifier.fillMaxWidth().wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                            Column(
+                                                Modifier
+                                                    .fillMaxWidth()
+                                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
                                                 Image(
                                                     modifier = Modifier
                                                         .width(60.dp)
@@ -580,10 +606,57 @@ class Home : Fragment() {
     }
 
 
+   @Composable
+   fun mySchedule(){
+       var color1 by remember { mutableStateOf(orangeText)}
+       var color2 by remember { mutableStateOf(greyText)}
+       var color3 by remember { mutableStateOf(greyText)}
+       Column() {
+
+           Row(
+               Modifier
+                   .fillMaxWidth()
+                   .padding(horizontal = 32.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+               Text(text = "Day1", fontWeight = FontWeight.W700, fontFamily = clash, color = color1,
+                   modifier = Modifier.clickable { color1= orangeText;color2= greyText;color3=
+                       greyText
+                       datestate.clear()
+                       ranges.clear()
+                       datestate.addAll(homeViewModel.OwnEventsWithLive.filter { data->data.eventdetail.starttime.date==11 })
+
+                   })
+
+               Text(text = "Day2", fontWeight = FontWeight.W700, fontFamily = clash, color = color2,
+                   modifier = Modifier.clickable { color1= greyText;color2= orangeText;color3= greyText;
+                       datestate.clear()
+                       ranges.clear()
+                       datestate.addAll(homeViewModel.OwnEventsWithLive.filter { data->data.eventdetail.starttime.date==12 })
+
+               })
+
+               Text(text = "Day3", fontWeight = FontWeight.W700, fontFamily = clash, color = color3,
+                   modifier = Modifier.clickable { color1= greyText;color2= greyText;color3=
+                       orangeText
+                       datestate.clear()
+                       ranges.clear()
+                       datestate.addAll(homeViewModel.OwnEventsWithLive.filter { data->data.eventdetail.starttime.date==13 })
+
+                   })
+               
+           }
+           Spacer(modifier = Modifier.height(16.dp))
+           scheduleBox(addedList = datestate)
+       }
+
+
+
+   }
+
+
 
 
     @Composable
-    fun mySchedule(addedList:List<eventdetail>){
+    fun scheduleBox(addedList:SnapshotStateList<eventWithLive>){
         Box(
             Modifier
                 .width(1550.dp)
@@ -700,11 +773,11 @@ class Home : Fragment() {
 
     }
     @Composable
-    fun userBox(eventdetail: eventdetail ){
+    fun userBox(eventdetail: eventWithLive){
          val color= listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random()
 
-        val lengthdp= (eventdetail.durationInMin.toFloat() * (5f/3f))
-        val xdis= (((eventdetail.starttime.hours-9)*100).toFloat() + (eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
+        val lengthdp= (eventdetail.eventdetail.durationInMin.toFloat() * (5f/3f))
+        val xdis= (((eventdetail.eventdetail.starttime.hours-9)*100).toFloat() + (eventdetail.eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
 
             var l = 0f;
             for (range in ranges) {
@@ -732,7 +805,7 @@ class Home : Fragment() {
                     .fillMaxSize()
                     .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
                 Text(
-                    text = eventdetail.artist,
+                    text = eventdetail.eventdetail.artist,
                     color = Color.White,
                     fontWeight = FontWeight.W700,
                     fontFamily = clash,
@@ -741,7 +814,7 @@ class Home : Fragment() {
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = eventdetail.category,
+                    text = eventdetail.eventdetail.category,
                     style = TextStyle(
                         color = colorResource(id = R.color.textGray),
                         fontFamily = clash,
@@ -756,6 +829,105 @@ class Home : Fragment() {
 
 
     }
+
+
+    @Composable
+    fun merchBox(merch: merchmodelforHome, color: Color){
+        Card(modifier = Modifier.wrapContentWidth(),
+            shape = RoundedCornerShape(8.dp),
+            elevation = 0.dp, backgroundColor = color) {
+            Box(modifier = Modifier
+                .height(218.dp)
+                .width(350.dp)){
+
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color(0xff000111)
+                            ), startY = 0f
+                        )
+                    ))
+
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(start = 16.dp, top = 24.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+
+
+
+                    Column(
+                        Modifier
+                            .wrapContentWidth()
+                            .wrapContentHeight()) {
+                        Text(
+                            text = merch.Name.uppercase(),
+                            color = Color.White,
+                            fontWeight = FontWeight.W700,
+                            fontSize = 46.sp,
+                            fontFamily = FontFamily(Font(R.font.morganitemedium))
+                        )
+                        Text(text = merch.Type.uppercase(), style = MaterialTheme.typography.h1)
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(text = "Out now!", fontFamily = clash, fontSize = 16.sp, fontWeight = FontWeight.W500, color = Color.LightGray)
+                        Spacer(modifier = Modifier.height(35.dp))
+                        Text(text = "BUY NOW", color = Color.White, fontFamily = clash, fontWeight = FontWeight.W700, fontSize = 16.sp)
+
+                    }
+
+                    GlideImage(modifier = Modifier
+                        .width(241.dp)
+                        .height(257.dp),
+                    imageModel = merch.Image, contentDescription = "merch", contentScale = ContentScale.Crop,
+                    alignment = Alignment.Center,
+                    shimmerParams = ShimmerParams(
+                        baseColor = Color.Black,
+                        highlightColor = Color.LightGray,
+                        durationMillis = 350,
+                        dropOff = 0.65f,
+                        tilt = 20f
+                    ),failure = {
+                        Box(modifier= Modifier
+                            .width(241.dp)
+                            .height(257.dp), contentAlignment = Alignment.Center) {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Image(
+                                    modifier = Modifier
+                                        .width(60.dp)
+                                        .height(60.dp),
+                                    painter = painterResource(
+                                        id = R.drawable.ic_sad_svgrepo_com
+                                    ),
+                                    contentDescription = null
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    text = "Image Request Failed",
+                                    style = TextStyle(
+                                        color = Color(0xFF747474),
+                                        fontFamily = hk_grotesk,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = 12.sp
+                                    )
+                                )
+                            }
+                        }
+
+                    }
+                )}
+
+
+
+
+
+    }}}
 
 
 

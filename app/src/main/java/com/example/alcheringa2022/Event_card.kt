@@ -2,6 +2,7 @@ package com.example.alcheringa2022
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.example.alcheringa2022.ui.theme.clash
 import com.example.alcheringa2022.ui.theme.hk_grotesk
@@ -77,16 +79,16 @@ import com.skydoves.landscapist.glide.GlideImage
 //)
 
 @Composable
-fun Event_card(eventdetail: eventWithLive) {
+fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome) {
     Box() {
 
-        Card(modifier = Modifier.fillMaxWidth(),
+        Card(modifier = Modifier.wrapContentWidth(),
                 shape = RoundedCornerShape(8.dp),
                 elevation = 5.dp) {
             Box(modifier = Modifier
                 .height(256.dp)
                 .width(218.dp)){
-                GlideImage(imageModel = eventdetail.eventdetail.imgurl, contentDescription = "artist", contentScale = ContentScale.Crop,
+                GlideImage(modifier = Modifier.width(218.dp).height(256.dp),imageModel = eventdetail.eventdetail.imgurl, contentDescription = "artist", contentScale = ContentScale.Crop,
                         alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
                         baseColor = Color.Black,
@@ -145,7 +147,8 @@ fun Event_card(eventdetail: eventWithLive) {
                     }}
                     Box(modifier = Modifier
                         .fillMaxWidth()
-                        .padding(11.dp), contentAlignment = Alignment.TopEnd){ Image( modifier = Modifier.width(18.dp).height(18.dp),
+                        .padding(11.dp), contentAlignment = Alignment.TopEnd){
+                        Image( modifier = Modifier.width(18.dp).height(18.dp).clickable { viewModelHm.OwnEventsWithLive.add(eventdetail) },
                         painter = painterResource(id = R.drawable.add_icon),
                         contentDescription ="null"
                     )}
