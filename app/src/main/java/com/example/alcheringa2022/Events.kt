@@ -109,22 +109,24 @@ class Events : Fragment() {
                     /*.background(Color.Black)*/
             ) {
                 Spacer(modifier = Modifier.height(4.dp))
-                Events_row(heading = "Pronites", events_list = homeViewModel.allEventsWithLive)
-                Events_row(heading = "ProShows", events_list = homeViewModel.allEventsWithLive)
-                Events_row(heading = "Creator's Camp", events_list = homeViewModel.allEventsWithLive)
-                Events_row(heading = "Humor Fest", events_list = homeViewModel.allEventsWithLive)
-                Events_row(heading = "Competitions", events_list = homeViewModel.allEventsWithLive)
+                Events_row(heading = "Pronites")
+                Events_row(heading = "Proshows")
+                Events_row(heading = "Creator's Camp")
+                Events_row(heading = "Humor Fest")
+                Events_row(heading = "Competitions")
             }
         }
     }
 
     @Composable
-    fun Events_row(heading: String, events_list: SnapshotStateList<eventWithLive>) {
+    fun Events_row(heading: String) {
         Box(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){Text(text = heading.uppercase(Locale.getDefault()), style = MaterialTheme.typography.h2)}
         LazyRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-        ) { items(homeViewModel.allEventsWithLive) {dataEach -> Event_card(eventdetail = dataEach) } }
+        ) { items(homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.category.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()})
+        {dataEach -> Event_card(eventdetail = dataEach) } }
 
         Spacer(modifier = Modifier.height(24.dp))
     }

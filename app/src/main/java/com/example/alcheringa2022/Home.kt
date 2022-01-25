@@ -153,7 +153,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive) { dataeach -> Event_card(eventdetail = dataeach) }
+                            items(homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }) { dataeach -> Event_card(eventdetail = dataeach) }
                         }
 
                     }
@@ -165,7 +165,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive) { dataeach -> Event_card(eventdetail = dataeach) }
+                            items(homeViewModel.allEventsWithLive.filter { data-> !(data.isLive.value) }) { dataeach -> Event_card(eventdetail = dataeach) }
                         }
                     }
 //                    mySchedule(events)
