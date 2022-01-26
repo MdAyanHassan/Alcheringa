@@ -129,7 +129,7 @@ class Home : Fragment() {
         homeViewModel.getAllEvents()
         homeViewModel.getMerchHome()
 
-        CoroutineScope(Dispatchers.Main).launch {
+       kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
             homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
                 homeViewModel.allEventsWithLive.clear()
                 homeViewModel.allEventsWithLive.addAll(data)
@@ -826,7 +826,7 @@ class Home : Fragment() {
 
         Box(
             Modifier
-                .offset(xdis.dp, ydis.dp)
+                .offset(xdis.dp-2.dp, ydis.dp)
                 .height(58.dp)
                 .width(lengthdp.dp)
                 .clip(RoundedCornerShape(8.dp))
