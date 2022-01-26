@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -215,12 +216,9 @@ class Home : Fragment() {
                         .padding(bottom = 48.dp, top = 48.dp)
                     ) {
                         val color= listOf(Color(0xffC80915), Color(0xffEE6337), Color(0xff11D3D3))
-                        LazyRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                        ) {
-                            itemsIndexed(homeViewModel.merchhome.filter { it.Available }) { index,dataeach -> merchBox(dataeach, color[index]) }
-                        }
+                        merchBox(merch = homeViewModel.merchhome
+                            .filter { it.Available }
+                                            ,colors = color)
                     }
                     Row(
                         Modifier
@@ -481,21 +479,33 @@ class Home : Fragment() {
         Column() {
 
             val pagerState = rememberPagerState()
-            LaunchedEffect(key1 = pagerState.currentPage) {
-                launch {
-                    delay(3000)
-                    with(pagerState) {
-                        val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
-                        animateScrollToPage(
-                            page = target,
-                            animationSpec = tween(
-                                durationMillis = 3000,
-                                easing = FastOutSlowInEasing
-                            )
-                        )
-                    }
-                }
-            }
+//            LaunchedEffect(Unit) {
+//                while(true) {
+//                    yield()
+//                    delay(2000)
+//                    pagerState.animateScrollToPage(
+//                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
+//                        animationSpec = tween(1000)
+//                    )
+//                }
+//            }
+//            LaunchedEffect(key1 = pagerState.currentPage) {
+//                launch {
+//
+//                    delay(3000)
+//                    with(pagerState) {
+//                        val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
+//                        animateScrollToPage(
+//                            page = target,
+//                            animationSpec = tween(
+//                                durationMillis = 600,
+//                                easing = FastOutSlowInEasing
+//                            )
+//                        )
+//
+//                    }
+//                }
+//            }
             HorizontalPager(
                     count = eventdetails.size, modifier = Modifier
                     .fillMaxWidth()
@@ -859,7 +869,7 @@ class Home : Fragment() {
 
         Box(
             Modifier
-                .offset(xdis.dp-2.dp, ydis.dp)
+                .offset(xdis.dp - 2.dp, ydis.dp)
                 .height(58.dp)
                 .width(lengthdp.dp)
                 .clip(RoundedCornerShape(8.dp))
@@ -895,11 +905,30 @@ class Home : Fragment() {
     }
 
 
+    @OptIn(ExperimentalPagerApi::class)
     @Composable
-    fun merchBox(merch: merchmodelforHome, color: Color){
+    fun merchBox(merch: List<merchmodelforHome>, colors: List<Color>){
+        val pagerState = rememberPagerState()
+            LaunchedEffect(Unit) {
+                while(true) {
+                    yield()
+                    delay(2000)
+                    pagerState.animateScrollToPage(
+                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
+                        animationSpec = tween(600)
+                    )
+                }
+            }
+
+
+        HorizontalPager(
+            count = merch.size, modifier = Modifier
+                .fillMaxWidth()
+                .height(218.dp), state = pagerState
+        ) { page ->
         Card(modifier = Modifier.wrapContentWidth(),
             shape = RoundedCornerShape(8.dp),
-            elevation = 0.dp, backgroundColor = color) {
+            elevation = 0.dp, backgroundColor = colors[page]) {
             Box(modifier = Modifier
                 .height(218.dp)
                 .width(350.dp)){
@@ -929,13 +958,13 @@ class Home : Fragment() {
                             .wrapContentWidth()
                             .wrapContentHeight()) {
                         Text(
-                            text = merch.Name.uppercase(),
+                            text = merch[page].Name.uppercase(),
                             color = Color.White,
                             fontWeight = FontWeight.W700,
                             fontSize = 46.sp,
                             fontFamily = FontFamily(Font(R.font.morganitemedium))
                         )
-                        Text(text = merch.Type.uppercase(), style = MaterialTheme.typography.h1)
+                        Text(text = merch[page].Type.uppercase(), style = MaterialTheme.typography.h1)
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(text = "Out now!", fontFamily = clash, fontSize = 16.sp, fontWeight = FontWeight.W500, color = Color.LightGray)
                         Spacer(modifier = Modifier.height(35.dp))
@@ -946,7 +975,7 @@ class Home : Fragment() {
                     GlideImage(modifier = Modifier
                         .width(241.dp)
                         .height(257.dp),
-                    imageModel = merch.Image, contentDescription = "merch", contentScale = ContentScale.Crop,
+                    imageModel = merch[page].Image, contentDescription = "merch", contentScale = ContentScale.Crop,
                     alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
                         baseColor = Color.Black,
@@ -991,7 +1020,7 @@ class Home : Fragment() {
 
 
 
-    }}}
+    }}}}
 
 
 

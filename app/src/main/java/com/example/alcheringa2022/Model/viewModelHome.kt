@@ -110,7 +110,14 @@ class viewModelHome: ViewModel() {
             merch->
 
             merchhome.clear()
-            for (mer in merch){ merchhome.add(mer.toObject(merchmodelforHome::class.java))}
+            for (mer in merch)
+            { merchhome.add(mer.toObject(merchmodelforHome::class.java))
+                //to be removed later
+                merchhome.add(mer.toObject(merchmodelforHome::class.java))
+                merchhome.add(mer.toObject(merchmodelforHome::class.java))
+
+
+            }
                 Log.d("merch","fetched")
             }.addOnFailureListener{Log.d("merch","failed")}
 
