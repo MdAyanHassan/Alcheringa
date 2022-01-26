@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -43,12 +45,10 @@ import com.example.alcheringa2022.databinding.FragmentHomeBinding
 import com.example.alcheringa2022.ui.theme.*
 import com.google.accompanist.pager.*
 import com.google.common.io.Resources
+import com.google.firebase.firestore.core.ActivityScope
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlin.math.absoluteValue
 
 
@@ -127,6 +127,7 @@ class Home : Fragment() {
             mParam1 = requireArguments().getString(ARG_PARAM1)
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
+
 
         homeViewModel.getAllEvents()
         homeViewModel.getMerchHome()
@@ -478,7 +479,23 @@ class Home : Fragment() {
     fun horizontalScroll(eventdetails:SnapshotStateList<eventWithLive>){
 
         Column() {
+
             val pagerState = rememberPagerState()
+            LaunchedEffect(key1 = pagerState.currentPage) {
+                launch {
+                    delay(3000)
+                    with(pagerState) {
+                        val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
+                        animateScrollToPage(
+                            page = target,
+//                            animationSpec = tween(
+//                                durationMillis = 3000,
+//                                easing = FastOutSlowInEasing
+                            )
+
+                    }
+                }
+            }
             HorizontalPager(
                     count = eventdetails.size, modifier = Modifier
                     .fillMaxWidth()

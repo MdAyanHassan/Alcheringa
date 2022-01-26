@@ -43,9 +43,8 @@ class viewModelHome: ViewModel() {
         }
         }
     }
-    fun getAllEvents(){
+  fun getAllEvents(){
     viewModelScope.launch {
-        delay(500)
         fb.collection("AllEvents").get().addOnSuccessListener {
             evnts->
             val list=mutableListOf<eventWithLive>()
@@ -53,6 +52,7 @@ class viewModelHome: ViewModel() {
             for (evnt in evnts){ list.add(eventWithLive(evnt.toObject(eventdetail::class.java)))}
             Log.d("eventlist", list.toString())
             allEventsWithLivedata.postValue(list)
+            Log.d("getevents","eventsfetched")
             checklive()
         }
     }
@@ -108,7 +108,7 @@ class viewModelHome: ViewModel() {
             fb.collection("Merch").get().addOnSuccessListener {
             merch->
 
-            allEventsWithLive.clear()
+            merchhome.clear()
             for (mer in merch){ merchhome.add(mer.toObject(merchmodelforHome::class.java))}
                 Log.d("merch","fetched")
             }.addOnFailureListener{Log.d("merch","failed")}
