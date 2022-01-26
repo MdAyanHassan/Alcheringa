@@ -149,7 +149,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome) {
                     Box(modifier = Modifier
                         .fillMaxWidth()
                         .padding(11.dp), contentAlignment = Alignment.TopEnd){
-                        Image( modifier = Modifier.width(18.dp).height(18.dp).clickable { viewModelHm.OwnEventsWithLive.addNewItem(eventdetail) },
+                        Image( modifier = Modifier.width(18.dp).height(18.dp).clickable { viewModelHm.OwnEventsWithLive.addNewItem(eventdetail); },
                         painter = painterResource(id = R.drawable.add_icon),
                         contentDescription ="null"
                     )}

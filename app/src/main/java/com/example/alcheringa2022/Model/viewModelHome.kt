@@ -34,15 +34,15 @@ class viewModelHome: ViewModel() {
 
 
 
-//    fun pushEvents(evnts:List<eventdetail>){
-//        for(evnt in evnts){
-//        fb.collection("AllEvents").document(evnt.artist).set(evnt).addOnSuccessListener {
-//            Log.d("pushevents","process succeed")
-//        }.addOnFailureListener{
-//            Log.d("pushevents","process failed")
-//        }
-//        }
-//    }
+    fun pushEvents(evnts:List<eventdetail>){
+        for(evnt in evnts){
+        fb.collection("AllEvents").document(evnt.artist).set(evnt).addOnSuccessListener {
+            Log.d("pushevents","process succeed")
+        }.addOnFailureListener{
+            Log.d("pushevents","process failed")
+        }
+        }
+    }
     fun getAllEvents(){
     viewModelScope.launch {
         delay(500)
