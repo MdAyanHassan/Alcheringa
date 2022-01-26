@@ -16,12 +16,23 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.*
+fun <T> MutableLiveData<MutableList<T>>.addNewItem(item: T) {
+    val oldValue = this.value ?: mutableListOf()
+    oldValue.add(item)
+    this.value = oldValue
+}
 
 class viewModelHome: ViewModel() {
     val fb = FirebaseFirestore.getInstance()
+    val allEventsWithLivedata= MutableLiveData<MutableList<eventWithLive>>()
     val allEventsWithLive= mutableStateListOf<eventWithLive>()
-    val OwnEventsWithLive= mutableStateListOf<eventWithLive>()
+    val OwnEventsWithLive= MutableLiveData<MutableList<eventWithLive>>()
     val merchhome= mutableStateListOf<merchmodelforHome>()
+
+
+
+
+
 
 //    fun pushEvents(evnts:List<eventdetail>){
 //        for(evnt in evnts){
@@ -33,16 +44,18 @@ class viewModelHome: ViewModel() {
 //        }
 //    }
     fun getAllEvents(){
+    viewModelScope.launch {
+        delay(500)
         fb.collection("AllEvents").get().addOnSuccessListener {
             evnts->
-            val list=mutableListOf<eventdetail>()
+            val list=mutableListOf<eventWithLive>()
             list.clear()
-            allEventsWithLive.clear()
-            for (evnt in evnts){ list.add(evnt.toObject(eventdetail::class.java))}
+            for (evnt in evnts){ list.add(eventWithLive(evnt.toObject(eventdetail::class.java)))}
             Log.d("eventlist", list.toString())
-            list.forEach{data->allEventsWithLive.add(eventWithLive(data))}
+            allEventsWithLivedata.postValue(list)
             checklive()
         }
+    }
 
     }
 

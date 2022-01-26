@@ -1,11 +1,14 @@
 package com.example.alcheringa2022
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -38,10 +41,12 @@ import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.databinding.FragmentHomeBinding
 import com.example.alcheringa2022.ui.theme.*
 import com.google.accompanist.pager.*
+import com.google.common.io.Resources
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
@@ -58,8 +63,15 @@ class Home : Fragment() {
     private var mParam2: String? = null
     lateinit var binding: FragmentHomeBinding
    val homeViewModel : viewModelHome by activityViewModels()
-    val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
-    val datestate = mutableStateListOf<eventWithLive>()
+
+    val ranges= mutableSetOf<ClosedFloatingPointRange<Float>>()
+
+    val datestate1 = mutableStateListOf<eventWithLive>()
+    val datestate2 = mutableStateListOf<eventWithLive>()
+    val datestate3 = mutableStateListOf<eventWithLive>()
+    var datestate:SnapshotStateList<eventWithLive> = datestate1
+
+
 //    val events=mutableListOf(
 //
 //            eventdetail(
@@ -117,6 +129,26 @@ class Home : Fragment() {
         homeViewModel.getAllEvents()
         homeViewModel.getMerchHome()
 
+        CoroutineScope(Dispatchers.Main).launch {
+            homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
+                homeViewModel.allEventsWithLive.clear()
+                homeViewModel.allEventsWithLive.addAll(data)
+            }
+            homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
+                datestate1.clear();
+                datestate1.addAll(data.filter { data -> data.eventdetail.starttime.date == 11 })
+                datestate2.clear();
+                datestate2.addAll(data.filter { data -> data.eventdetail.starttime.date == 12 })
+                datestate3.clear();
+                datestate3.addAll(data.filter { data -> data.eventdetail.starttime.date == 13 })
+            }
+
+
+        }
+
+
+
+
 
     }
 
@@ -141,8 +173,14 @@ class Home : Fragment() {
 
         }
         binding.compose1.setContent {
-            Alcheringa2022Theme() {
-                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+            Alcheringa2022Theme {
+                val scrollState= rememberScrollState()
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .verticalScroll(scrollState)) {
+                    if (scrollState.value!=0){binding.logoAlcher.background= resources.getDrawable(R.drawable.add_icon)}
+                    else{binding.logoAlcher.background= resources.getDrawable(R.drawable.ic_alcher_logo_top_nav)}
                     horizontalScroll(eventdetails = homeViewModel.allEventsWithLive)
                     Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "ONGOING EVENTS", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                     Box(
@@ -611,6 +649,7 @@ class Home : Fragment() {
        var color1 by remember { mutableStateOf(orangeText)}
        var color2 by remember { mutableStateOf(greyText)}
        var color3 by remember { mutableStateOf(greyText)}
+
        Column() {
 
            Row(
@@ -620,27 +659,21 @@ class Home : Fragment() {
                Text(text = "Day1", fontWeight = FontWeight.W700, fontFamily = clash, color = color1,
                    modifier = Modifier.clickable { color1= orangeText;color2= greyText;color3=
                        greyText
-                       datestate.clear()
                        ranges.clear()
-                       datestate.addAll(homeViewModel.OwnEventsWithLive.filter { data->data.eventdetail.starttime.date==11 })
-
+                       datestate= datestate1
                    })
 
                Text(text = "Day2", fontWeight = FontWeight.W700, fontFamily = clash, color = color2,
                    modifier = Modifier.clickable { color1= greyText;color2= orangeText;color3= greyText;
-                       datestate.clear()
                        ranges.clear()
-                       datestate.addAll(homeViewModel.OwnEventsWithLive.filter { data->data.eventdetail.starttime.date==12 })
-
+                       datestate=datestate2
                })
 
                Text(text = "Day3", fontWeight = FontWeight.W700, fontFamily = clash, color = color3,
                    modifier = Modifier.clickable { color1= greyText;color2= greyText;color3=
                        orangeText
-                       datestate.clear()
                        ranges.clear()
-                       datestate.addAll(homeViewModel.OwnEventsWithLive.filter { data->data.eventdetail.starttime.date==13 })
-
+                       datestate=datestate3
                    })
                
            }
@@ -762,9 +795,7 @@ class Home : Fragment() {
             }
 
 
-            for (event in addedList) {
-                userBox(eventdetail = event)
-            }
+            addedList.forEach{data->userBox(eventdetail = data)}
 
 
         }
