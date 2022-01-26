@@ -926,12 +926,12 @@ class Home : Fragment() {
                 .fillMaxWidth()
                 .height(218.dp), state = pagerState
         ) { page ->
-        Card(modifier = Modifier.wrapContentWidth(),
+        Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
             shape = RoundedCornerShape(8.dp),
-            elevation = 0.dp, backgroundColor = colors[page]) {
+            elevation = 0.dp,) {
             Box(modifier = Modifier
                 .height(218.dp)
-                .width(350.dp)){
+                .fillMaxWidth().background(  colors[page])){
 
                 Box(modifier = Modifier
                     .fillMaxWidth()
