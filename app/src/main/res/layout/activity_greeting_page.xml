@@ -12,7 +12,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/alcheringa_logo"
+        android:background="@drawable/ic_alcher_logo_top_nav"
         app:layout_constraintBottom_toTopOf="@+id/hey_there_"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

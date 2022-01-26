@@ -182,8 +182,8 @@ class Home : Fragment() {
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .verticalScroll(scrollState)) {
-                    if (scrollState.value!=0){binding.logoAlcher.background= resources.getDrawable(R.drawable.add_icon)}
-                    else{binding.logoAlcher.background= resources.getDrawable(R.drawable.ic_alcher_logo_top_nav)}
+                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_logo_top_nav))}
+                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.add_icon))}
                     horizontalScroll(eventdetails = homeViewModel.allEventsWithLive)
                     Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "ONGOING EVENTS", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                     Box(

@@ -61,6 +61,7 @@ class viewModelHome: ViewModel() {
 
     fun checklive(){
         viewModelScope.launch {
+
             while (true){
                 Log.d("livecheck","started")
                val c= Calendar.getInstance()

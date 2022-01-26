@@ -59,7 +59,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ur_orders"
+            android:src="@drawable/cart"
             android:id="@+id/your_orders_logo"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

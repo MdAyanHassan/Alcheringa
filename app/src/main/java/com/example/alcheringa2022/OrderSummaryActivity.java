@@ -162,7 +162,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         Checkout checkout = new Checkout();
         checkout.setKeyID("rzp_test_JR2iDD635lZNVE");
 
-        checkout.setImage(R.drawable.alcheringa_logo);
+        checkout.setImage(R.drawable.ic_alcher_logo_top_nav);
 
         final Activity activity = this;
 

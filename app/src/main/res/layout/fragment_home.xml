@@ -33,7 +33,7 @@
             android:id="@+id/logoAlcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_alcher_logo_top_nav"
+            android:src="@drawable/ic_alcher_logo_top_nav"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintHorizontal_bias="0.166"
@@ -42,9 +42,9 @@
 
         <ImageView
             android:id="@+id/account"
-            android:layout_width="28dp"
+            android:layout_width="21dp"
             android:layout_height="28dp"
-            android:background="@drawable/fluent_person_24_regular"
+            android:src="@drawable/fluent_person_24_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.903"
@@ -54,9 +54,9 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="28dp"
+            android:layout_width="21dp"
             android:layout_height="28dp"
-            android:background="@drawable/fluent_alert_24_regular"
+            android:src="@drawable/fluent_alert_24_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/account"
             app:layout_constraintHorizontal_bias="0.93"

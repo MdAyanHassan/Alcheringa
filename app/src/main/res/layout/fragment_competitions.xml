@@ -40,9 +40,9 @@
 
         <ImageView
             android:id="@+id/account"
-            android:layout_width="28dp"
+            android:layout_width="21dp"
             android:layout_height="28dp"
-            android:background="@drawable/fluent_person_24_regular"
+            android:src="@drawable/fluent_person_24_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.903"
@@ -52,9 +52,9 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="28dp"
+            android:layout_width="21dp"
             android:layout_height="28dp"
-            android:background="@drawable/fluent_alert_24_regular"
+            android:src="@drawable/fluent_alert_24_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/account"
             app:layout_constraintHorizontal_bias="0.93"
