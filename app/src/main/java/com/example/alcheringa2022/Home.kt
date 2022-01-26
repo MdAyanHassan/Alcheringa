@@ -488,11 +488,11 @@ class Home : Fragment() {
                         val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
                         animateScrollToPage(
                             page = target,
-//                            animationSpec = tween(
-//                                durationMillis = 3000,
-//                                easing = FastOutSlowInEasing
+                            animationSpec = tween(
+                                durationMillis = 3000,
+                                easing = FastOutSlowInEasing
                             )
-
+                        )
                     }
                 }
             }
