@@ -57,7 +57,7 @@
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_epass.xml" value="0.2477355072463768" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_event_details.xml" value="0.16385135135135134" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_main.xml" value="0.2477355072463768" />
-        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_merch_description.xml" value="0.3320363164721141" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_merch_description.xml" value="0.2" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_order_summary.xml" value="0.176" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_profile.xml" value="0.4" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
@@ -66,10 +66,11 @@
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/empty_shopping_cart.xml" value="0.16220735785953178" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_events.xml" value="0.16385135135135134" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_home.xml" value="0.16385135135135134" />
-        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_merch.xml" value="0.4" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_merch.xml" value="0.176" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/merch_cart.xml" value="0.16385135135135134" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/merch_item.xml" value="0.264" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/order_summary_item.xml" value="0.33852140077821014" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/testing_layout.xml" value="0.16385135135135134" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/menu/bottom_menu.xml" value="0.1" />
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/font/clash.xml" value="0.28020833333333334" />
         <entry key="..\:/GithubRepos/Alcheringa2022/app/src/main/res/font/clash_400.xml" value="0.28020833333333334" />

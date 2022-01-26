@@ -21,7 +21,7 @@ public class MerchItemViewHolder extends RecyclerView.ViewHolder implements View
         imageView=itemView.findViewById(R.id.merch_image);
         view=itemView.findViewById(R.id.bg_card);
         decimal_price=itemView.findViewById(R.id.decimal_price);
-        click=onItemClick;
+        click= onItemClick;
         itemView.setOnClickListener(this);
     }
 
