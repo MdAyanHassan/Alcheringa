@@ -113,7 +113,6 @@ class viewModelHome: ViewModel() {
                 Log.d("merch","fetched")
             }.addOnFailureListener{Log.d("merch","failed")}
 
-
         }
     }
 

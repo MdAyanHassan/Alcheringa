@@ -37,6 +37,7 @@ import androidx.compose.ui.util.lerp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.alcheringa2022.Model.merchmodelforHome
+import com.example.alcheringa2022.Model.ownEventBoxUiModel
 import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.databinding.FragmentHomeBinding
 import com.example.alcheringa2022.ui.theme.*
@@ -66,10 +67,10 @@ class Home : Fragment() {
 
     val ranges= mutableSetOf<ClosedFloatingPointRange<Float>>()
 
-    val datestate1 = mutableStateListOf<eventWithLive>()
-    val datestate2 = mutableStateListOf<eventWithLive>()
-    val datestate3 = mutableStateListOf<eventWithLive>()
-    var datestate:SnapshotStateList<eventWithLive> = datestate1
+    val datestate1 = mutableStateListOf<ownEventBoxUiModel>()
+    val datestate2 = mutableStateListOf<ownEventBoxUiModel>()
+    val datestate3 = mutableStateListOf<ownEventBoxUiModel>()
+    var datestate:SnapshotStateList<ownEventBoxUiModel> = datestate1
 
 
 //    val events=mutableListOf(
@@ -136,11 +137,11 @@ class Home : Fragment() {
             }
             homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
                 datestate1.clear();
-                datestate1.addAll(data.filter { data -> data.eventdetail.starttime.date == 11 })
+                datestate1.addAll(liveToWithY(data.filter { data -> data.eventdetail.starttime.date == 11 }))
                 datestate2.clear();
-                datestate2.addAll(data.filter { data -> data.eventdetail.starttime.date == 12 })
+                datestate2.addAll(liveToWithY(data.filter { data -> data.eventdetail.starttime.date == 12 }))
                 datestate3.clear();
-                datestate3.addAll(data.filter { data -> data.eventdetail.starttime.date == 13 })
+                datestate3.addAll(liveToWithY(data.filter { data -> data.eventdetail.starttime.date == 13 }))
             }
 
 
@@ -235,6 +236,33 @@ class Home : Fragment() {
                 }
             }
         }
+    }
+
+    fun liveToWithY(list:List<eventWithLive>): List<ownEventBoxUiModel> {
+        val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
+        val withylist= mutableListOf<ownEventBoxUiModel>()
+        list.forEach{ data->
+            var l = 0;
+
+            val lengthdp= (data.eventdetail.durationInMin.toFloat() * (5f/3f))
+            val xdis= (((data.eventdetail.starttime.hours-9)*100).toFloat() + (data.eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
+
+            for (range in ranges) {
+                if (range.contains(xdis) or range.contains(xdis + lengthdp)) {
+                    l += 1
+                }
+                if ((xdis..xdis + lengthdp).contains(range.start) and (xdis..xdis + lengthdp).contains(range.endInclusive))
+                {
+                    l += 1
+                }
+            }
+            ranges.add((xdis..xdis+lengthdp))
+            withylist.add(ownEventBoxUiModel(data,l))
+
+        }
+        return withylist
+
+
     }
 
     companion object {
@@ -689,7 +717,7 @@ class Home : Fragment() {
 
 
     @Composable
-    fun scheduleBox(addedList:SnapshotStateList<eventWithLive>){
+    fun scheduleBox(addedList:SnapshotStateList<ownEventBoxUiModel>){
         Box(
             Modifier
                 .width(1550.dp)
@@ -804,25 +832,12 @@ class Home : Fragment() {
 
     }
     @Composable
-    fun userBox(eventdetail: eventWithLive){
+    fun userBox(eventdetail: ownEventBoxUiModel){
          val color= listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random()
 
-        val lengthdp= (eventdetail.eventdetail.durationInMin.toFloat() * (5f/3f))
-        val xdis= (((eventdetail.eventdetail.starttime.hours-9)*100).toFloat() + (eventdetail.eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
-
-            var l = 0f;
-            for (range in ranges) {
-                if (range.contains(xdis) or range.contains(xdis + lengthdp)) {
-                    l += 1
-                }
-                if ((xdis..xdis + lengthdp).contains(range.start) and (xdis..xdis + lengthdp).contains(
-                        range.endInclusive
-                    )
-                ) {
-                    l += 1
-                }
-            }
-            val ydis= (30+(l*70))
+        val lengthdp= (eventdetail.eventWithLive.eventdetail.durationInMin.toFloat() * (5f/3f))
+        val xdis= (((eventdetail.eventWithLive.eventdetail.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
+            val ydis= (30+(eventdetail.ydis*70))
 
         Box(
             Modifier
@@ -836,7 +851,7 @@ class Home : Fragment() {
                     .fillMaxSize()
                     .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
                 Text(
-                    text = eventdetail.eventdetail.artist,
+                    text = eventdetail.eventWithLive.eventdetail.artist,
                     color = Color.White,
                     fontWeight = FontWeight.W700,
                     fontFamily = clash,
@@ -845,7 +860,7 @@ class Home : Fragment() {
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = eventdetail.eventdetail.category,
+                    text = eventdetail.eventWithLive.eventdetail.category,
                     style = TextStyle(
                         color = colorResource(id = R.color.textGray),
                         fontFamily = clash,
