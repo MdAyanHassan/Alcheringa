@@ -12,28 +12,35 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:ignore="LockedOrientationActivity"
-        android:theme="@style/Theme.Alcheringa2022">
+        android:theme="@style/Theme.Alcheringa2022"
+        tools:ignore="LockedOrientationActivity">
+        <activity
+            android:name=".event_description_activity"
+            android:exported="true"
+            android:label="@string/title_activity_event_description"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+    </activity>
         <activity
             android:name=".EventDetailsActivity"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".Account"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity
             android:name=".OrderSummaryActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-             />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".AddAddressActivity"
+            android:exported="true"
             android:label="@string/title_activity_add_address"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -49,9 +56,7 @@
         <activity
             android:name=".Greeting_page"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity
             android:name=".CartActivity"
             android:exported="true"
@@ -92,23 +97,19 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Accordion_Activity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-
-
-        <!-- DO NOT EDIT THE BELOW ACTIVITIES! -->
-
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity> <!-- DO NOT EDIT THE BELOW ACTIVITIES! -->
         <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity
             android:name="com.microsoft.identity.client.BrowserTabActivity"
@@ -135,10 +136,10 @@
         </service>
 
         <activity
-            android:exported="true"
             android:name="com.razorpay.CheckoutActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:theme="@style/CheckoutTheme" >
+            android:exported="true"
+            android:theme="@style/CheckoutTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -147,19 +148,17 @@
                     android:scheme="io.rzp" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="dev.shreyaspatil.easyupipayment.ui.PaymentUiActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:exported="true"/>
-
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name="com.microsoft.identity.common.internal.broker.BrokerActivity"
-            android:exported="true"/>
+            android:exported="true" />
 
         <receiver
-            android:exported="true"
-            android:name="com.razorpay.RzpTokenReceiver" >
+            android:name="com.razorpay.RzpTokenReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="rzp.device_token.share" />
             </intent-filter>
