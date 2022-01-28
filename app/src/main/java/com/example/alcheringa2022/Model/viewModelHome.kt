@@ -30,6 +30,7 @@ class viewModelHome: ViewModel() {
     val allEventsWithLivedata= MutableLiveData<MutableList<eventWithLive>>()
     val allEventsWithLive= mutableStateListOf<eventWithLive>()
     val OwnEventsWithLive= MutableLiveData<MutableList<eventWithLive>>()
+    val OwnEventsLiveState= mutableStateListOf<eventWithLive>()
     val merchhome= mutableStateListOf<merchmodelforHome>()
 
 
@@ -125,6 +126,16 @@ class viewModelHome: ViewModel() {
             }.addOnFailureListener{Log.d("merch","failed")}
 
         }
+    }
+
+    fun fetchlocaldbandupdateownevent(scheduleDatabase: ScheduleDatabase){
+        viewModelScope.launch {
+            val eventdlist = scheduleDatabase.getSchedule();
+            val eventdlistlive = mutableListOf<eventWithLive>()
+            eventdlist.forEach { data -> eventdlistlive.add(eventWithLive(data)) }
+            OwnEventsWithLive.postValue(eventdlistlive)
+        }
+
     }
 
 

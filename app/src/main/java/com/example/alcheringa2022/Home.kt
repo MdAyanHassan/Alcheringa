@@ -130,10 +130,12 @@ class Home : Fragment() {
         }
 
         val scheduleDatabase=ScheduleDatabase(context)
-        val eventslist=scheduleDatabase.getSchedule();
+        homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
+
+
         homeViewModel.getAllEvents()
         homeViewModel.getMerchHome()
-        Log.d("vipin",eventslist.toString());
+//        Log.d("vipin",eventslist.toString());
 
        kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
             homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
@@ -141,6 +143,8 @@ class Home : Fragment() {
                 homeViewModel.allEventsWithLive.addAll(data)
             }
             homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
+                homeViewModel.OwnEventsLiveState.clear()
+                homeViewModel.OwnEventsLiveState.addAll(data)
                 datestate1.clear();
                 datestate1.addAll(liveToWithY(data.filter { data -> data.eventdetail.starttime.date == 11 }))
                 datestate2.clear();
@@ -250,13 +254,10 @@ class Home : Fragment() {
             val xdis= (((data.eventdetail.starttime.hours-9)*100).toFloat() + (data.eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
 
             for (range in ranges) {
-                if (range.contains(xdis) or range.contains(xdis + lengthdp)) {
+                if (range.contains(xdis) or range.contains(xdis + lengthdp) or ((xdis..xdis + lengthdp).contains(range.start) and (xdis..xdis + lengthdp).contains(range.endInclusive))) {
                     l += 1
                 }
-                if ((xdis..xdis + lengthdp).contains(range.start) and (xdis..xdis + lengthdp).contains(range.endInclusive))
-                {
-                    l += 1
-                }
+
             }
             ranges.add((xdis..xdis+lengthdp))
             withylist.add(ownEventBoxUiModel(data,l))

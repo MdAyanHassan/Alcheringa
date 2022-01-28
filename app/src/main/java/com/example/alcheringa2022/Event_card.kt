@@ -12,6 +12,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -84,6 +86,12 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Context) {
     var ScheduleDatabase=ScheduleDatabase(context)
+    var plusiconstate= remember{ mutableStateOf(true)}
+    viewModelHm.OwnEventsLiveState.forEach{
+            data->
+        if( data.eventdetail==eventdetail.eventdetail){plusiconstate.value= false}
+    }
+
     Box() {
 
         Card(modifier = Modifier.wrapContentWidth(),
@@ -152,11 +160,14 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                     Box(modifier = Modifier
                         .fillMaxWidth()
                         .padding(11.dp), contentAlignment = Alignment.TopEnd){
-                        Image( modifier = Modifier.width(18.dp).height(18.dp).clickable { viewModelHm.OwnEventsWithLive.addNewItem(eventdetail)
+
+                        if(plusiconstate.value) {
+                        Image( modifier = Modifier.width(18.dp).height(18.dp).clickable { viewModelHm.OwnEventsWithLive.addNewItem(eventdetail);
                                                                                         ScheduleDatabase.addEventsInSchedule(eventdetail.eventdetail,context)},
-                        painter = painterResource(id = R.drawable.add_icon),
-                        contentDescription ="null"
-                    )}
+                            painter = painterResource(id = R.drawable.add_icon),
+                             contentDescription ="null")
+                        }
+                    }
                 }
                 Box(modifier = Modifier
                     .fillMaxSize()
