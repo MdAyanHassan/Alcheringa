@@ -1,5 +1,6 @@
 package com.example.alcheringa2022
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.addNewItem
 import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
@@ -80,7 +82,8 @@ import com.skydoves.landscapist.glide.GlideImage
 //)
 
 @Composable
-fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome) {
+fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Context) {
+    var ScheduleDatabase=ScheduleDatabase(context)
     Box() {
 
         Card(modifier = Modifier.wrapContentWidth(),
@@ -149,7 +152,8 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome) {
                     Box(modifier = Modifier
                         .fillMaxWidth()
                         .padding(11.dp), contentAlignment = Alignment.TopEnd){
-                        Image( modifier = Modifier.width(18.dp).height(18.dp).clickable { viewModelHm.OwnEventsWithLive.addNewItem(eventdetail); },
+                        Image( modifier = Modifier.width(18.dp).height(18.dp).clickable { viewModelHm.OwnEventsWithLive.addNewItem(eventdetail)
+                                                                                        ScheduleDatabase.addEventsInSchedule(eventdetail.eventdetail,context)},
                         painter = painterResource(id = R.drawable.add_icon),
                         contentDescription ="null"
                     )}

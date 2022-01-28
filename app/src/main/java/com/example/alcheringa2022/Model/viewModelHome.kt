@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.eventWithLive
 import com.example.alcheringa2022.eventdetail
 import com.google.firebase.abt.FirebaseABTesting
@@ -16,6 +17,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.collections.ArrayList
+
 fun <T> MutableLiveData<MutableList<T>>.addNewItem(item: T) {
     val oldValue = this.value ?: mutableListOf()
     oldValue.add(item)

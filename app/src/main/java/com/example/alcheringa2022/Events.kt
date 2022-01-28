@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.databinding.FragmentEventsBinding
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
@@ -29,6 +30,8 @@ class Events : Fragment() {
 
     private lateinit var binding: FragmentEventsBinding
     val homeViewModel: viewModelHome by activityViewModels()
+    val scheduleDatabase = ScheduleDatabase(activity)
+    //val eventslist=scheduleDatabase.schedule;
 //    private val events=mutableListOf(
 //
 //        eventdetail(
@@ -88,6 +91,8 @@ class Events : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val scheduleDatabase=ScheduleDatabase(context)
+        val eventslist=scheduleDatabase.schedule;
         binding.account.setOnClickListener {
             startActivity(Intent(context,Account::class.java));
 
@@ -126,7 +131,7 @@ class Events : Fragment() {
                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
         ) { items(homeViewModel.allEventsWithLive.filter {
                 data-> data.eventdetail.category.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()})
-        {dataEach -> Event_card(eventdetail = dataEach,homeViewModel) } }
+        {dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel, it) } } }
 
         Spacer(modifier = Modifier.height(24.dp))
     }

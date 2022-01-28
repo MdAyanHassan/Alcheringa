@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.merchmodelforHome
 import com.example.alcheringa2022.Model.ownEventBoxUiModel
 import com.example.alcheringa2022.Model.viewModelHome
@@ -51,7 +52,6 @@ import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
 import kotlin.math.absoluteValue
-
 
 /**
  * A simple [Fragment] subclass.
@@ -129,9 +129,11 @@ class Home : Fragment() {
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
 
-
+        val scheduleDatabase=ScheduleDatabase(context)
+        val eventslist=scheduleDatabase.getSchedule();
         homeViewModel.getAllEvents()
         homeViewModel.getMerchHome()
+        Log.d("vipin",eventslist.toString());
 
        kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
             homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
@@ -196,7 +198,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }) { dataeach -> Event_card(eventdetail = dataeach,homeViewModel) }
+                            items(homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it) } }
                         }
 
                     }
@@ -208,7 +210,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.filter { data-> !(data.isLive.value) }) { dataeach -> Event_card(eventdetail = dataeach,homeViewModel) }
+                            items(homeViewModel.allEventsWithLive.filter { data-> !(data.isLive.value) }) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it) } }
                         }
                     }
                     Box(modifier = Modifier
@@ -731,7 +733,7 @@ class Home : Fragment() {
                        ranges.clear()
                        datestate=datestate3
                    })
-               
+
            }
            Spacer(modifier = Modifier.height(16.dp))
            scheduleBox(addedList = datestate)
@@ -1027,3 +1029,4 @@ class Home : Fragment() {
 
 
 }
+

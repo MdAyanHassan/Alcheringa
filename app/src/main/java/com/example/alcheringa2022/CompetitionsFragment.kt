@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
+import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.databinding.FragmentCompetitionsBinding
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
@@ -97,6 +98,8 @@ class CompetitionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val scheduleDatabase=ScheduleDatabase(context)
+        val eventslist=scheduleDatabase.schedule;
         binding.account.setOnClickListener {
             startActivity(Intent(context,Account::class.java));
 
@@ -136,7 +139,7 @@ class CompetitionsFragment : Fragment() {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-        ) { items(homeViewModel.allEventsWithLive) { dataEach -> Event_card(eventdetail = dataEach,homeViewModel) } }
+        ) { items(homeViewModel.allEventsWithLive) { dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel, it) } } }
 
         Spacer(modifier = Modifier.height(24.dp))
     }
