@@ -133,6 +133,7 @@ class Home : Fragment() {
         homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
 
 
+        homeViewModel.getfeaturedEvents()
         homeViewModel.getAllEvents()
         homeViewModel.getMerchHome()
 //        Log.d("vipin",eventslist.toString());
@@ -142,6 +143,10 @@ class Home : Fragment() {
                 homeViewModel.allEventsWithLive.clear()
                 homeViewModel.allEventsWithLive.addAll(data)
             }
+           homeViewModel.featuredEventsWithLivedata.observe(requireActivity()){   data->
+               homeViewModel.featuredEventsWithLivestate.clear()
+               homeViewModel.featuredEventsWithLivestate.addAll(data)
+           }
             homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
                 homeViewModel.OwnEventsLiveState.clear()
                 homeViewModel.OwnEventsLiveState.addAll(data)
@@ -190,8 +195,8 @@ class Home : Fragment() {
                     .wrapContentHeight()
                     .verticalScroll(scrollState)) {
                     if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_logo_top_nav))}
-                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.add_icon))}
-                    horizontalScroll(eventdetails = homeViewModel.allEventsWithLive)
+                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_vector_2))}
+                    horizontalScroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
                     Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "ONGOING EVENTS", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                     Box(
                             modifier = Modifier
@@ -482,16 +487,16 @@ class Home : Fragment() {
         Column() {
 
             val pagerState = rememberPagerState()
-//            LaunchedEffect(Unit) {
-//                while(true) {
-//                    yield()
-//                    delay(2000)
-//                    pagerState.animateScrollToPage(
-//                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
-//                        animationSpec = tween(1000)
-//                    )
-//                }
-//            }
+            LaunchedEffect(Unit) {
+                while(true) {
+                    yield()
+                    delay(3000)
+                    pagerState.animateScrollToPage(
+                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
+                        animationSpec = tween(1000)
+                    )
+                }
+            }
 //            LaunchedEffect(key1 = pagerState.currentPage) {
 //                launch {
 //

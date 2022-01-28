@@ -29,6 +29,8 @@ class viewModelHome: ViewModel() {
     val fb = FirebaseFirestore.getInstance()
     val allEventsWithLivedata= MutableLiveData<MutableList<eventWithLive>>()
     val allEventsWithLive= mutableStateListOf<eventWithLive>()
+    val featuredEventsWithLivedata= MutableLiveData<MutableList<eventWithLive>>()
+    val featuredEventsWithLivestate= mutableStateListOf<eventWithLive>()
     val OwnEventsWithLive= MutableLiveData<MutableList<eventWithLive>>()
     val OwnEventsLiveState= mutableStateListOf<eventWithLive>()
     val merchhome= mutableStateListOf<merchmodelforHome>()
@@ -40,13 +42,15 @@ class viewModelHome: ViewModel() {
 
     fun pushEvents(evnts:List<eventdetail>){
         for(evnt in evnts){
-        fb.collection("AllEvents").document(evnt.artist).set(evnt).addOnSuccessListener {
+        fb.collection("Featured Events").document(evnt.artist).set(evnt).addOnSuccessListener {
             Log.d("pushevents","process succeed")
         }.addOnFailureListener{
             Log.d("pushevents","process failed")
         }
         }
     }
+
+
   fun getAllEvents(){
     viewModelScope.launch {
         fb.collection("AllEvents").get().addOnSuccessListener {
@@ -127,6 +131,22 @@ class viewModelHome: ViewModel() {
 
         }
     }
+
+    fun getfeaturedEvents(){
+        viewModelScope.launch {
+            fb.collection("Featured Events").get().addOnSuccessListener {
+                    evnts->
+                val list=mutableListOf<eventWithLive>()
+                list.clear()
+                for (evnt in evnts){ list.add(eventWithLive(evnt.toObject(eventdetail::class.java)))}
+                Log.d("eventlist", list.toString())
+                featuredEventsWithLivedata.postValue(list)
+                Log.d("getevents","eventsfetched")
+            }
+        }
+
+    }
+
 
     fun fetchlocaldbandupdateownevent(scheduleDatabase: ScheduleDatabase){
         viewModelScope.launch {

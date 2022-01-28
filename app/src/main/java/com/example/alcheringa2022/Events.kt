@@ -113,7 +113,7 @@ class Events : Fragment() {
                             .verticalScroll(rememberScrollState())
                     /*.background(Color.Black)*/
             ) {
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(70.dp))
                 Events_row(heading = "Pronites")
                 Events_row(heading = "Proshows")
                 Events_row(heading = "Creator's Camp")
