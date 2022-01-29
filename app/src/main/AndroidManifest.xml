@@ -15,18 +15,33 @@
         android:theme="@style/Theme.Alcheringa2022"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".AboutPage"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+            android:name=".PrivacyPolicy"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".TermsAndConditions"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".FaqPage"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".EventDetailsActivity"
+            android:exported="true" />
+        <activity
             android:name=".event_description_activity"
             android:exported="true"
             android:label="@string/title_activity_event_description"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
-
-
-    </activity>
-
+        </activity>
         <activity
             android:name=".Account"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".OrderSummaryActivity"
             android:exported="true"
@@ -44,13 +59,13 @@
             android:label="@string/title_activity_testing"
             android:theme="@style/Theme.Alcheringa2022" />
         <activity
-            android:name=".AlcherActivity"
+            android:name=".ContactUs"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Greeting_page"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".CartActivity"
             android:exported="true"
@@ -90,10 +105,6 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".Accordion_Activity"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
@@ -120,6 +131,9 @@
                     android:scheme="msauth" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
 
         <service
             android:name=".services.MyFirebaseInstanceService"

@@ -3,22 +3,51 @@ package com.example.alcheringa2022;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Account extends AppCompatActivity {
+
+    SharedPreferences sharedPreferences;
+
     FirebaseAuth firebaseAuth;
-    View view, your_orders, contactus_view, profile_page;
+    View view, your_orders, contactus_view, profile_page, faq_page, tnc_page, privacy_page, about_page;
+    TextView user_name;
+    ImageView user_photo;
+
+    String shared_name, shared_photoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+
         firebaseAuth=FirebaseAuth.getInstance();
+        sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
+
         view=findViewById(R.id.signout_button);
         contactus_view=findViewById(R.id.contact_us_button);
+        user_name = findViewById(R.id.user_name_text);
+        user_photo = findViewById(R.id.user_photo);
+
+        shared_name = sharedPreferences.getString("name", "");
+        shared_photoUrl = sharedPreferences.getString("photourl", "");
+
+        if(!shared_name.equals(""))
+        {
+            user_name.setText(shared_name);
+        }
+
+        if(!shared_photoUrl.equals(""))
+        {
+            Glide.with(this).load(shared_photoUrl).into(user_photo);
+        }
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,10 +57,11 @@ public class Account extends AppCompatActivity {
                 finish();
             }
         });
+
         contactus_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AlcherActivity.class));
+                startActivity(new Intent(getApplicationContext(), ContactUs.class));
             }});
 
         your_orders=findViewById(R.id.ur_orders_button);
@@ -50,6 +80,36 @@ public class Account extends AppCompatActivity {
             }
         });
 
+        faq_page=findViewById(R.id.faq_button);
+        faq_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),FaqPage.class));
+            }
+        });
 
+        tnc_page=findViewById(R.id.tnc);
+        tnc_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),TermsAndConditions.class));
+            }
+        });
+
+        privacy_page=findViewById(R.id.privacy_policy);
+        privacy_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),PrivacyPolicy.class));
+            }
+        });
+
+        about_page=findViewById(R.id.about);
+        about_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),AboutPage.class));
+            }
+        });
     }
 }

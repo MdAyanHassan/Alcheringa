@@ -1,6 +1,8 @@
 package com.example.alcheringa2022;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +30,8 @@ public class YourOrders extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
 
+    ImageButton back_btn;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_orders);
@@ -42,6 +46,14 @@ public class YourOrders extends AppCompatActivity {
         yourOrders_adapter=new YourOrdersAdapter(yourOrders_modelList, this);
 
         populate_your_orders();
+
+        back_btn=findViewById(R.id.backbtn);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void populate_your_orders() {

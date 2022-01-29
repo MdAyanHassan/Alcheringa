@@ -78,6 +78,8 @@ allprojects {
 apply plugin: 'com.google.gms.google-services'
 dependencies {
 
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
+
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
