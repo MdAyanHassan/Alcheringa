@@ -29,6 +29,7 @@ public class ResetPassword extends AppCompatActivity {
 
         email = findViewById(R.id.email);
 
+        sendOTP = findViewById(R.id.reset_password);
         sendOTP.setOnClickListener(view -> {
             String emailAddress = email.getText().toString();
             boolean isEmailValid = Pattern.compile("^(.+)@(\\S+)$")

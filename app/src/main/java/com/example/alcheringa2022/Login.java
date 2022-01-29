@@ -27,6 +27,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Login extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
     TextView SignupTextView;
@@ -34,6 +37,7 @@ public class Login extends AppCompatActivity {
     LinearLayout google_login_btn;
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
     private EditText Email,Password;
     Button loginButton;
     LinearLayout signInButtonO;
@@ -55,6 +59,7 @@ public class Login extends AppCompatActivity {
         LinearLayout forgotPassword = findViewById(R.id.forgot_password);
 
         firebaseAuth=FirebaseAuth.getInstance();
+        firebaseFirestore= FirebaseFirestore.getInstance();
 
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
 
@@ -119,7 +124,7 @@ public class Login extends AppCompatActivity {
                             Log.d(TAG, "Roll No: " + rollno);
                             Toast.makeText(Login.this, "Name: " + name + " \n" + "Email: " + email, Toast.LENGTH_LONG).show();
 
-                            //RegisterUserInDatabase();
+                            RegisterUserInDatabase();
                             saveDetails(name, email);
                             startMainActivity();
                         })
@@ -165,7 +170,6 @@ public class Login extends AppCompatActivity {
                 FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
                 assert firebaseUser != null;
                 if(firebaseUser.isEmailVerified()){
-                    //RegisterUserInDatabase();
                     saveDetails(firebaseUser.getDisplayName(),email);
                     startMainActivity();
                 }
@@ -227,7 +231,7 @@ public class Login extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
                         Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                        //RegisterUserInDatabase();
+                        RegisterUserInDatabase();
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         assert user != null;
                         saveDetails(user.getDisplayName(),user.getEmail());
@@ -239,6 +243,29 @@ public class Login extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void RegisterUserInDatabase() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        assert user != null;
+        String email = user.getEmail();
+        assert email != null;
+        firebaseFirestore.collection("USERS").document(email).addSnapshotListener((value, error) -> {
+            assert value != null;
+            if (!value.exists()) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("Name", user.getDisplayName());
+                data.put("Email", email);
+                firebaseFirestore.collection("USERS").document(email).set(data).
+                        addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                //Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error Occurred while adding user to the database", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
     }
 
 }

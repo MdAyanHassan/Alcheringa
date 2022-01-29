@@ -264,7 +264,7 @@ public class SignUp extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
-                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "SignUp with Google Successful", Toast.LENGTH_SHORT).show();
                         RegisterUserInDatabase();
                         FirebaseUser user = mAuth.getCurrentUser();
                         assert user != null;
