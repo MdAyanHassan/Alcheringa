@@ -184,11 +184,10 @@ public class SignUp extends AppCompatActivity {
                             emailVerification();
                             RegisterUserInDatabase();
 
-
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Signup failed: "+task.getException(),
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -218,9 +217,9 @@ public class SignUp extends AppCompatActivity {
                 firebaseFirestore.collection("USERS").document(email).set(data).
                         addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Error Occurred", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error Occurred while adding user to the database", Toast.LENGTH_SHORT).show();
                             }
                         });
             }

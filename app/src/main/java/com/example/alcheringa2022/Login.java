@@ -52,6 +52,7 @@ public class Login extends AppCompatActivity {
         Password=findViewById(R.id.password);
         signInButtonO = findViewById(R.id.sign_in_outlook);
         loginButton =findViewById(R.id.loginbtn);
+        LinearLayout forgotPassword = findViewById(R.id.forgot_password);
 
         firebaseAuth=FirebaseAuth.getInstance();
 
@@ -62,6 +63,7 @@ public class Login extends AppCompatActivity {
         backButton.setOnClickListener(v -> goBack());
         SignupTextView.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),SignUp.class)));
         signInButtonO.setOnClickListener(v -> MicrosoftLogin());
+        forgotPassword.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ResetPassword.class)));
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override

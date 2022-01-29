@@ -36,7 +36,6 @@
         <entry key="../../../../layout/compose-model-1642748197652.xml" value="0.5" />
         <entry key="../../../../layout/compose-model-1642748197657.xml" value="0.34074074074074073" />
         <entry key="../../../../layout/compose-model-1643183449087.xml" value="0.1" />
-        <entry key="../../../../layout/compose-model-1643393991308.xml" value="0.20945945945945946" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/back.xml" value="0.1725752508361204" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/bottom_nav_icon_color_selector.xml" value="0.14391891891891892" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/bottom_orange_button_bg.xml" value="0.1725752508361204" />
@@ -70,7 +69,9 @@
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_merch_description.xml" value="0.3320363164721141" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_order_summary.xml" value="0.176" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_otpactivity.xml" value="0.2526041666666667" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_profile.xml" value="0.264" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_reset_passowrd.xml" value="0.2526041666666667" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_splash_screen.xml" value="0.2477355072463768" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_user_orders.xml" value="0.2526041666666667" />
@@ -175,7 +176,6 @@
         <entry key="app/src/main/res/drawable/merch_size_btn_deselect.xml" value="0.116" />
         <entry key="app/src/main/res/drawable/order_summary_item_bg.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/outline_back.xml" value="0.2145" />
-        <entry key="app/src/main/res/drawable/tickokay.xml" value="0.1" />
         <entry key="app/src/main/res/font/clash_400.xml" value="0.10833333333333334" />
         <entry key="app/src/main/res/font/clash_700.xml" value="0.10833333333333334" />
         <entry key="app/src/main/res/layout/AlcherPage2Activity.xml" value="0.1" />
@@ -188,7 +188,6 @@
         <entry key="app/src/main/res/layout/activity_category.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/activity_competitions.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/activity_epass.xml" value="0.19157608695652173" />
-        <entry key="app/src/main/res/layout/activity_event_details.xml" value="0.18132171630859376" />
         <entry key="app/src/main/res/layout/activity_greeting_page.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18342391304347827" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19157608695652173" />
