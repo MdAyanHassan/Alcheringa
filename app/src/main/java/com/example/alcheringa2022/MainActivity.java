@@ -39,14 +39,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setSelectedItemId(R.id.home_nav);
         index=R.id.home_nav;
 
-        try{
+/*        try{
             Intent intent = getIntent();
             String fragment_name = intent.getExtras().getString("fragment");
             if(fragment_name.equals("merch")){
                 bottomNavigationView.setSelectedItemId(R.id.merch);
                 index=R.id.merch;
             }
-        }catch(Exception ignored){}
+        }catch(Exception ignored){}*/
 
 
     }

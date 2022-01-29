@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Black">
+
+<!--    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/arrow_left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.03"
+        app:layout_constraintHorizontal_bias="0.055" />-->
+
+
+<!--    are you in campus?-->
+    <!--<LinearLayout
+        android:id="@+id/frame_6"
+        android:layout_width="347dp"
+        android:layout_height="114dp"
+        android:layout_alignParentTop="true"
+        app:layout_constraintVertical_bias="0.130"
+        android:background="@drawable/frame_6_highlighted"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/hk_grotesk"
+            android:gravity="center"
+            android:text="Are you in Campus?"
+            android:textAllCaps="false"
+            android:textColor="@color/White"
+            android:textFontWeight="700"
+            android:textSize="20sp" />
+
+        <RadioGroup
+            android:layout_width="140dp"
+            android:layout_height="39dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="68dp"
+                android:layout_height="39dp"
+                android:layout_margin="2sp"
+                android:background="@null"
+                android:button="@drawable/radio_button_background"
+                android:checked="true"
+                android:fontFamily="@font/hk_grotesk"
+                android:text="  YES"
+                android:textColor="@color/white"
+                android:textFontWeight="400"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="64dp"
+                tools:layout_editor_absoluteY="214dp" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="68dp"
+                android:layout_height="39dp"
+                android:layout_margin="2sp"
+                android:background="@null"
+                android:button="@drawable/radio_button_background"
+                android:fontFamily="@font/hk_grotesk"
+                android:text="  NO"
+                android:textColor="@color/white"
+                android:textFontWeight="400"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="227dp"
+                tools:layout_editor_absoluteY="211dp" />
+        </RadioGroup>
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/blur_rectangle"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.2"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/interests_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Select your interests"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textFontWeight="700"
+            android:fontFamily="@font/hk_grotesk"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:id="@+id/interests_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/interests_heading">
+
+            <LinearLayout style="@style/interests_horizontal_container">
+                <TextView android:text="Dance" style="@style/select_interest_item" />
+                <TextView android:text="Music" style="@style/select_interest_item" />
+                <TextView android:text="Music" style="@style/select_interest_item" />
+            </LinearLayout>
+            <LinearLayout style="@style/interests_horizontal_container">
+                <TextView android:text="Indie" style="@style/select_interest_item" />
+                <TextView android:text="Rock" style="@style/select_interest_item" />
+                <TextView android:text="Classical" style="@style/select_interest_item" />
+            </LinearLayout>
+            <LinearLayout style="@style/interests_horizontal_container">
+                <TextView android:text="EDM" style="@style/select_interest_item" />
+                <TextView android:text="Soothing" style="@style/select_interest_item" />
+                <TextView android:text="Metal" style="@style/select_interest_item" />
+            </LinearLayout>
+            <LinearLayout style="@style/interests_horizontal_container">
+                <TextView android:text="Art" style="@style/select_interest_item" />
+                <TextView android:text="Aesthetics" style="@style/select_interest_item" />
+                <TextView android:text="History" style="@style/select_interest_item" />
+            </LinearLayout>
+            <LinearLayout style="@style/interests_horizontal_container">
+                <TextView android:text="Ethnic" style="@style/select_interest_item" />
+                <TextView android:text="Fashion" style="@style/select_interest_item" />
+                <TextView android:text="Colors" style="@style/select_interest_item" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginBottom="20dp"
+                style="@style/interests_horizontal_container">
+                <TextView android:text="Soul" style="@style/select_interest_item" />
+                <TextView android:text="Music" style="@style/select_interest_item" />
+                <TextView android:text="Traditional" style="@style/select_interest_item" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+<!--    Select yes/no before proceeding pop-up-->
+<!--    set visibility to "invisible" initially -->
+<!--    <TextView
+        android:id="@+id/alert"
+        android:layout_width="360dp"
+        android:layout_height="73dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/frame_34"
+        android:fontFamily="@font/hk_grotesk"
+        android:gravity="center"
+        android:text="Please select Yes/No before
+        proceeding."
+        android:textColor="#EE6337"
+        android:textSize="20sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/Continue_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:translationZ="1dp"/>-->
+
+    <!--    continue button -->
+    <Button
+        android:id="@+id/Continue_button"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
+        android:background="@drawable/bottom_orange_button_bg"
+        android:fontFamily="@font/clash_700"
+        android:text="Continue"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.894"
+        android:onClick="submit"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

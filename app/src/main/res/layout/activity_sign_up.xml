@@ -7,75 +7,17 @@
     android:background="#00010D"
     tools:context=".SignUp">
 
-
-
-    <EditText
-        android:padding="15dp"
-        android:inputType="text"
-        android:id="@+id/name"
-        android:layout_width="320dp"
-        android:hint="Name"
-        android:textSize="20sp"
-        android:fontFamily="@font/hk_grotesk"
-        android:textColorHint="#B7B7B7"
-        android:layout_height="50dp"
-        android:background="@drawable/custom_edit_text"
-        app:layout_constraintBottom_toTopOf="@+id/signInButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_to_"
-        app:layout_constraintVertical_bias="0.134" />
-
-
-    <EditText
-        android:id="@+id/email"
-        android:inputType="text"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
-        android:background="@drawable/custom_edit_text"
-        android:hint="Email Address"
-        android:textSize="20sp"
-        android:fontFamily="@font/hk_grotesk"
-        android:padding="15dp"
-        android:textColorHint="#B7B7B7"
-        app:layout_constraintBottom_toTopOf="@+id/signInButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        app:layout_constraintVertical_bias="0.038" />
-
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
-        android:inputType="textPassword"
-        android:background="@drawable/custom_edit_text"
-        android:hint="Password"
-        android:textSize="20sp"
-        android:fontFamily="@font/hk_grotesk"
-        android:padding="15dp"
-        android:textColorHint="#B7B7B7"
-        app:layout_constraintBottom_toTopOf="@+id/signInButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        app:layout_constraintVertical_bias="0.062" />
-
     <ImageView
         android:id="@+id/back_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/arrow_left"
-        app:layout_constraintBottom_toTopOf="@+id/welcome_to_"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.03"
+        app:layout_constraintHorizontal_bias="0.055" />
 
     <TextView
         android:id="@+id/welcome_to_"
@@ -85,32 +27,74 @@
         android:fontFamily="@font/clash_700"
         android:textColor="@color/White"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/signupbutton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.149" />
+        app:layout_constraintVertical_bias="0.11" />
 
-    <Button
-        android:id="@+id/signupbutton"
-        android:layout_width="320dp"
+    <EditText
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:padding="15dp"
+        android:inputType="text"
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:hint="Name"
+        android:textSize="20sp"
+        android:fontFamily="@font/hk_grotesk"
+        android:textColorHint="#B7B7B7"
         android:layout_height="50dp"
-        android:background="@drawable/custom_button"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:backgroundTint="#EE6337"
-        android:text="Create an Account"
-        android:textAllCaps="false"
-        android:fontFamily="@font/clash_700"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/custom_edit_text"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.806" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.22" />
 
+
+    <EditText
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/email"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/custom_edit_text"
+        android:hint="Email Address"
+        android:textSize="20sp"
+        android:fontFamily="@font/hk_grotesk"
+        android:padding="15dp"
+        android:textColorHint="#B7B7B7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.31" />
+
+
+    <EditText
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:inputType="textPassword"
+        android:background="@drawable/custom_edit_text"
+        android:hint="Password"
+        android:textSize="20sp"
+        android:fontFamily="@font/hk_grotesk"
+        android:padding="15dp"
+        android:textColorHint="#B7B7B7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.40" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -120,12 +104,12 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="4"
-        app:layout_constraintBottom_toTopOf="@+id/signInButton"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.276">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.50">
 
         <View
             android:layout_width="0dp"
@@ -156,70 +140,51 @@
 
     </LinearLayout>
 
-<!--    <Button
-        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-        android:id="@+id/sign_in_outlook"
-        android:layout_width="272dp"
-        android:layout_height="50dp"
-        android:text="Continue with Outlook"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_to_"
-        app:layout_constraintVertical_bias="0.723"
-        android:background="@drawable/login_button_bg"
-        android:textSize="16sp"
-        app:icon="@drawable/outlook_logo"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/white"
-        />-->
 
-        <LinearLayout
+    <LinearLayout
         android:id="@+id/sign_in_outlook"
         android:layout_width="272dp"
         android:layout_height="50dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:layout_constraintBottom_toTopOf="@+id/signupbutton"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_to_"
-        app:layout_constraintVertical_bias="0.723"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.60"
         android:background="@drawable/login_button_bg"
         android:orientation="horizontal">
-            <ImageView
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/outlook_logo" />
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/outlook_logo" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:text="Continue with Outlook"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/hk_grotesk"/>
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="Continue with Outlook"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/hk_grotesk"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/signInButton"
         android:layout_width="272dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/signupbutton"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_to_"
-        app:layout_constraintVertical_bias="0.887"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.69"
         android:background="@drawable/login_button_bg"
         android:orientation="horizontal">
 
@@ -242,29 +207,30 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:fontFamily="@font/hk_grotesk"/>
-<!--        <com.google.android.gms.common.SignInButton-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"/>-->
 
     </LinearLayout>
 
 
-
-<!--    <com.google.android.gms.common.SignInButton
-        android:id="@+id/signInButton"
-        android:layout_width="272dp"
+    <Button
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/signupbutton"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Continue with Google"
-        app:layout_constraintBottom_toTopOf="@+id/SignUp_button"
+        android:background="@drawable/custom_button"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:backgroundTint="#EE6337"
+        android:text="Create an Account"
+        android:textAllCaps="false"
+        android:fontFamily="@font/clash_700"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_to_"
-        app:layout_constraintVertical_bias="0.866"
-        android:background="@drawable/login_button_bg"
-        >
-
-    </com.google.android.gms.common.SignInButton>-->
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.826" />
 
     <TextView
         android:id="@+id/already_have_an_account"
@@ -275,11 +241,11 @@
         android:textColor="@color/White"
         android:textSize="19sp"
         android:fontFamily="@font/hk_grotesk"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupbutton"
-        app:layout_constraintVertical_bias="0.317" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.91" />
 
     <LinearLayout
         android:layout_width="wrap_content"

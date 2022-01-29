@@ -29,6 +29,7 @@ public class YourOrders extends AppCompatActivity {
     YourOrdersAdapter yourOrders_adapter;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
+    LoaderView loaderView;
 
     ImageButton back_btn;
 
@@ -54,6 +55,8 @@ public class YourOrders extends AppCompatActivity {
                 finish();
             }
         });
+        loaderView = findViewById(R.id.dots_progress);
+        loaderView.setVisibility(View.GONE);
     }
 
     private void populate_your_orders() {

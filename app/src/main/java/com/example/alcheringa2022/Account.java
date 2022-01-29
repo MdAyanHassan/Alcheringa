@@ -65,20 +65,10 @@ public class Account extends AppCompatActivity {
             }});
 
         your_orders=findViewById(R.id.ur_orders_button);
-        your_orders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),YourOrders.class));
-            }
-        });
+        your_orders.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),YourOrders.class)));
 
         profile_page=findViewById(R.id.user_name_button);
-        profile_page.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ProfilePage.class));
-            }
-        });
+        profile_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),ProfilePage.class)));
 
         faq_page=findViewById(R.id.faq_button);
         faq_page.setOnClickListener(new View.OnClickListener() {

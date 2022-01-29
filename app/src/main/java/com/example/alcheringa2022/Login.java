@@ -1,13 +1,12 @@
 package com.example.alcheringa2022;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,33 +18,26 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
+import com.google.firebase.auth.OAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Login extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
-    TextView SignuptextView;
-    ImageView backbutton;
+    TextView SignupTextView;
+    ImageView backButton;
     LinearLayout google_login_btn;
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
     private EditText Email,Password;
-    Button loginbtn;
+    Button loginButton;
+    LinearLayout signInButtonO;
+    SharedPreferences sharedPreferences;
     private static final String TAG = "TAG";
 
     @Override
@@ -53,33 +45,102 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        SignuptextView=findViewById(R.id.signup_here);
-        backbutton=findViewById(R.id.back_button);
+        SignupTextView =findViewById(R.id.signup_here);
+        backButton =findViewById(R.id.back_button);
         google_login_btn=findViewById(R.id.google_login_btn);
-        firebaseAuth=FirebaseAuth.getInstance();
         Email=findViewById(R.id.email);
         Password=findViewById(R.id.password);
-        loginbtn=findViewById(R.id.loginbtn);
-        loginbtn.setOnClickListener(v -> CustomLogin());
-        google_login_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                google_login_callback();
-            }
-        });
+        signInButtonO = findViewById(R.id.sign_in_outlook);
+        loginButton =findViewById(R.id.loginbtn);
 
-        backbutton.setOnClickListener(new View.OnClickListener() {
+        firebaseAuth=FirebaseAuth.getInstance();
+
+        sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
+
+        loginButton.setOnClickListener(v -> CustomLogin());
+        google_login_btn.setOnClickListener(v -> google_login_callback());
+        backButton.setOnClickListener(v -> goBack());
+        SignupTextView.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),SignUp.class)));
+        signInButtonO.setOnClickListener(v -> MicrosoftLogin());
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        SignuptextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),SignUp.class));
-            }
-        });
+            public void handleOnBackPressed() { goBack(); }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
+
+    }
+
+    private void goBack() {
+        Intent intent = new Intent(getApplicationContext(),Greeting_page.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    private void MicrosoftLogin() {
+        Log.d(TAG, "MicrosoftLogin");
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
+        provider.addCustomParameter("tenant", "850aa78d-94e1-4bc6-9cf3-8c11b530701c");
+
+        firebaseAuth.startActivityForSignInWithProvider(this, provider.build())
+                .addOnSuccessListener(
+                        authResult -> {
+                            Log.d(TAG, "onSuccess");
+                            // User is signed in.
+                            // IdP data available in
+                            // authResult.getAdditionalUserInfo().getProfile().
+                            // The OAuth access token can also be retrieved:
+                            // authResult.getCredential().getAccessToken().
+                            // The OAuth ID token can also be retrieved:
+                            // authResult.getCredential().getIdToken().
+
+                            Log.d(TAG, "Success: "+ authResult.getAdditionalUserInfo().getProfile().get("displayName").toString());
+
+                            Log.d(TAG, "Successfully authenticated");
+
+                            // Update UI
+                            String name = "No name found";
+                            String email = "No email found";
+                            String rollno = "No Roll No. found";
+                            try{
+                                email = authResult.getAdditionalUserInfo().getProfile().get("mail").toString();
+                            }catch(Exception ignored){}
+                            try{
+                                name = authResult.getAdditionalUserInfo().getProfile().get("displayName").toString();
+                            }catch(Exception ignored){}
+                            try{
+                                rollno = authResult.getAdditionalUserInfo().getProfile().get("surname").toString();
+                            }catch(Exception ignored){}
+                            Log.d(TAG, "Name: " + name);
+                            Log.d(TAG, "Email: " + email);
+                            Log.d(TAG, "Roll No: " + rollno);
+                            Toast.makeText(Login.this, "Name: " + name + " \n" + "Email: " + email, Toast.LENGTH_LONG).show();
+
+                            //RegisterUserInDatabase();
+                            saveDetails(name, email);
+                            startMainActivity();
+                        })
+                .addOnFailureListener(
+                        e -> {
+                            Log.d(TAG, "onFailure"+ e.getMessage());
+                            // Handle failure.
+                        });
+    }
+
+    private void startMainActivity(){
+        Intent intent = new Intent(this, InterestsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void saveDetails(String name, String email){
+        sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", name);
+        editor.putString("email",email);
+        editor.apply();
     }
 
     private void CustomLogin() {
@@ -87,36 +148,31 @@ public class Login extends AppCompatActivity {
         String password=Password.getText().toString();
         if(!email.isEmpty() && !password.isEmpty()){
             custom_Login_start(email,password);
-        }
-        else if(email.isEmpty()){
+        } else if(email.isEmpty()){
             Email.setError("Please fill the email");
             Email.requestFocus();
-
-        }
-        else if(password.isEmpty()){
+        } else {
             Password.setError("Please fill the password");
             Password.requestFocus();
         }
     }
 
     private void custom_Login_start(String email, String password) {
-        firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
-                    assert firebaseUser != null;
-                    if(firebaseUser.isEmailVerified()){
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        finish();
-                    }
-                    else{
-                        toast("Please verify your email first");
-                    }
+        firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+                assert firebaseUser != null;
+                if(firebaseUser.isEmailVerified()){
+                    //RegisterUserInDatabase();
+                    saveDetails(firebaseUser.getDisplayName(),email);
+                    startMainActivity();
                 }
                 else{
-                    toast("Authetication Failed | Create Account");
+                    toast("Please verify your email first");
                 }
+            }
+            else{
+                toast("Authentication Failed | Create Account");
             }
         });
 
@@ -160,57 +216,27 @@ public class Login extends AppCompatActivity {
             }
         }
     }
+
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
-                            RegisterUserInDatabase();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            finish();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success");
+                        Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                        //RegisterUserInDatabase();
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        assert user != null;
+                        saveDetails(user.getDisplayName(),user.getEmail());
+                        startMainActivity();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.d(TAG, "signInWithCredential:failure", task.getException());
+                        Toast.makeText(getApplicationContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.d(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
-
-                        }
                     }
                 });
     }
-    private void RegisterUserInDatabase() {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        assert user != null;
-        String email = user.getEmail();
-        assert email != null;
-        firebaseFirestore.collection("USERS").document(email).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                assert value != null;
-                if (!value.exists()) {
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("Name", "VIPIN");
-                    data.put("Email", email);
-                    firebaseFirestore.collection("USERS").document(email).set(data).
-                            addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
-            }
-        });
-    }
-
 
 }
