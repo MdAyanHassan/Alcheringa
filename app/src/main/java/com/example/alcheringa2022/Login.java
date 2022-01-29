@@ -173,13 +173,9 @@ public class Login extends AppCompatActivity {
                     saveDetails(firebaseUser.getDisplayName(),email);
                     startMainActivity();
                 }
-                else{
-                    toast("Please verify your email first");
-                }
+                else{ toast("Please verify your email first"); }
             }
-            else{
-                toast("Authentication Failed | Create Account");
-            }
+            else{ toast("Authentication Failed | Create Account"); }
         });
 
     }

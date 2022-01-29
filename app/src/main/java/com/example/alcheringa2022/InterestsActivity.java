@@ -52,5 +52,6 @@ public class InterestsActivity extends AppCompatActivity {
         editor.putStringSet("interests", set);
         editor.apply();
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        finish();
     }
 }

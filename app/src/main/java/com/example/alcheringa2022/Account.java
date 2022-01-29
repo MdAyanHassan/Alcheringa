@@ -49,20 +49,15 @@ public class Account extends AppCompatActivity {
             Glide.with(this).load(shared_photoUrl).into(user_photo);
         }
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                startActivity(new Intent(getApplicationContext(),Login.class));
-                finish();
-            }
+        view.setOnClickListener(v -> {
+            firebaseAuth.signOut();
+            Intent intent = new Intent(getApplicationContext(),Login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         });
 
-        contactus_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ContactUs.class));
-            }});
+        contactus_view.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ContactUs.class)));
 
         your_orders=findViewById(R.id.ur_orders_button);
         your_orders.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),YourOrders.class)));
@@ -71,35 +66,15 @@ public class Account extends AppCompatActivity {
         profile_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),ProfilePage.class)));
 
         faq_page=findViewById(R.id.faq_button);
-        faq_page.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),FaqPage.class));
-            }
-        });
+        faq_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),FaqPage.class)));
 
         tnc_page=findViewById(R.id.tnc);
-        tnc_page.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),TermsAndConditions.class));
-            }
-        });
+        tnc_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),TermsAndConditions.class)));
 
         privacy_page=findViewById(R.id.privacy_policy);
-        privacy_page.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),PrivacyPolicy.class));
-            }
-        });
+        privacy_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),PrivacyPolicy.class)));
 
         about_page=findViewById(R.id.about);
-        about_page.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),AboutPage.class));
-            }
-        });
+        about_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),AboutPage.class)));
     }
 }
