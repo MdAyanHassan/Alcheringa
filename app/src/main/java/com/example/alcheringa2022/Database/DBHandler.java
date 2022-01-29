@@ -1,4 +1,4 @@
-package com.example.alcheringa2022;
+package com.example.alcheringa2022.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 
 public class DBHandler extends SQLiteOpenHelper {
-    private static final String DB_NAME = "Alcheringa";
+    private static final String DB_NAME = "CART_DATABASE";
 
     // below int is our database version
     private static final int DB_VERSION = 1;
@@ -42,6 +42,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        SQLiteDatabase db=this.getWritableDatabase();
     }
     @Override
     public void onCreate(SQLiteDatabase db) {

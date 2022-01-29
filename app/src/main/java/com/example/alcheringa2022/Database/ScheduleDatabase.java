@@ -17,7 +17,7 @@ import com.example.alcheringa2022.eventdetail;
 import java.util.ArrayList;
 
 public class ScheduleDatabase  extends SQLiteOpenHelper {
-    private static final String DB_NAME = "Alcheringa";
+    private static final String DB_NAME = "EVENTS_DATABASE";
 
     // below int is our database version
     private static final int DB_VERSION = 1;

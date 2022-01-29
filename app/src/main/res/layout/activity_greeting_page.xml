@@ -10,8 +10,8 @@
 
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
         android:background="@drawable/ic_alcher_logo_top_nav"
         app:layout_constraintBottom_toTopOf="@+id/hey_there_"
         app:layout_constraintEnd_toEndOf="parent"

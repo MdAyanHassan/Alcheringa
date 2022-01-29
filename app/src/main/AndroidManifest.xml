@@ -43,13 +43,17 @@
             android:label="@string/title_activity_testing"
             android:theme="@style/Theme.Alcheringa2022" />
         <activity
-            android:name=".AlcherActivity"
+            android:name=".Contact_us"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".Greeting_page"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -99,10 +103,6 @@
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
 

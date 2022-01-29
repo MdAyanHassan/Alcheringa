@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.alcheringa2022.Database.DBHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     Events events_fragment;
     int index;
     SharedPreferences sharedPreferences;
+    DBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
+        dbHandler=new DBHandler(getApplicationContext());
         /*boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
         if(!isLoggedIn){
             Intent intent = new Intent(this, SignUp.class);

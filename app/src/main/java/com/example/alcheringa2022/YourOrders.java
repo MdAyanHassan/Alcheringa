@@ -1,6 +1,8 @@
 package com.example.alcheringa2022;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,11 +29,17 @@ public class YourOrders extends AppCompatActivity {
     YourOrdersAdapter yourOrders_adapter;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
+    ImageView imageView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_orders);
         recyclerView=findViewById(R.id.user_orders_recyclerview);
+        imageView=findViewById(R.id.backbtn);
+        imageView.setOnClickListener(v -> {
+            finish();
+
+        });
 
         firebaseAuth=FirebaseAuth.getInstance();
         firestore= FirebaseFirestore.getInstance();

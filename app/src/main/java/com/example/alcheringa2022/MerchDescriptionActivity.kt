@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import com.example.alcheringa2022.Database.DBHandler
 import com.example.alcheringa2022.ui.theme.hk_grotesk
 import com.google.accompanist.pager.*
 import com.skydoves.landscapist.ShimmerParams
