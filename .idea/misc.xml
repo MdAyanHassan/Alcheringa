@@ -165,6 +165,7 @@
         <entry key="app/src/main/res/drawable/merch_size_btn_deselect.xml" value="0.116" />
         <entry key="app/src/main/res/drawable/order_summary_item_bg.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/outline_back.xml" value="0.2145" />
+        <entry key="app/src/main/res/drawable/tickokay.xml" value="0.1" />
         <entry key="app/src/main/res/font/clash_400.xml" value="0.10833333333333334" />
         <entry key="app/src/main/res/font/clash_700.xml" value="0.10833333333333334" />
         <entry key="app/src/main/res/layout/AlcherPage2Activity.xml" value="0.1" />

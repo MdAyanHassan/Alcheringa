@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 import java.sql.Time
 import java.time.Duration
 import java.time.LocalDateTime
-data class eventWithLive(val eventdetail: eventdetail , var isLive:MutableState<Boolean> = mutableStateOf(true))
+data class eventWithLive(val eventdetail: eventdetail , var isLive:MutableState<Boolean> = mutableStateOf(false))
 
 @Parcelize
 data class eventdetail(
