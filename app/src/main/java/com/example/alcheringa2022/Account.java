@@ -20,6 +20,7 @@ public class Account extends AppCompatActivity {
     View view, your_orders, contactus_view, profile_page, faq_page, tnc_page, privacy_page, about_page;
     TextView user_name;
     ImageView user_photo;
+    ImageView backbtn;
 
     String shared_name, shared_photoUrl;
 
@@ -39,6 +40,13 @@ public class Account extends AppCompatActivity {
 
         shared_name = sharedPreferences.getString("name", "");
         shared_photoUrl = sharedPreferences.getString("photourl", "");
+        backbtn=findViewById(R.id.backbtn);
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         if(!shared_name.equals(""))
         {
