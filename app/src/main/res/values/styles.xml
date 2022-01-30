@@ -147,5 +147,43 @@
         <item name="android:visibility">gone</item>
         <item name="android:fontFamily">@font/clashdisplay</item>
     </style>
+
+    <style name="signup_edit_text">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">320dp</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/hk_grotesk</item>
+        <item name="android:textColorHint">#B7B7B7</item>
+        <item name="android:background">@drawable/custom_edit_text</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="select_interest_item">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/hk_grotesk</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/interests</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:onClick">interestItemClick</item>
+    </style>
+
+    <style name="interests_horizontal_container">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
 </resources>
 

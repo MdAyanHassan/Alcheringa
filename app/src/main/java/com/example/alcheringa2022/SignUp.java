@@ -1,17 +1,12 @@
 package com.example.alcheringa2022;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,15 +16,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +27,6 @@ import java.util.Map;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -45,22 +34,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.gson.JsonObject;
-
-//Outlook Login imports:
-import com.microsoft.graph.authentication.IAuthenticationProvider; //Imports the Graph sdk Auth interface
-import com.microsoft.graph.concurrency.ICallback;
-import com.microsoft.graph.core.ClientException;
-import com.microsoft.graph.http.IHttpRequest;
-import com.microsoft.graph.models.extensions.*;
-import com.microsoft.graph.requests.extensions.GraphServiceClient;
-import com.microsoft.identity.client.AuthenticationCallback; // Imports MSAL auth methods
-import com.microsoft.identity.client.*;
-import com.microsoft.identity.client.exception.*;
 
 public class SignUp extends AppCompatActivity {
 
@@ -68,58 +43,56 @@ public class SignUp extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 100;
     GoogleSignInClient mGoogleSignInClient;
-    //SignInButton signInButton;
     LinearLayout signInButton;
     FirebaseAuth mAuth;
-
-    private final static String[] SCOPES = {"user.read"};
-    /* Azure AD v2 Configs */
-    //final static String AUTHORITY = "https://login.microsoftonline.com/common";
-    private ISingleAccountPublicClientApplication mSingleAccountApp;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     LinearLayout signInButtonO;
-    Button signOutButton,signupButton;
+    Button signupButton;
 
     TextView logTextView;
-    ImageView backbutton;
+    ImageView backButton;
     private EditText Name,Email,Password;
-    TextView currentUserTextView;
     FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
         signInButton = findViewById(R.id.signInButton);
-        mAuth=FirebaseAuth.getInstance();
         signupButton=findViewById(R.id.signupbutton);
         Name=findViewById(R.id.name);
         Email=findViewById(R.id.email);
         Password=findViewById(R.id.password);
         signInButtonO = findViewById(R.id.sign_in_outlook);
 
+        mAuth=FirebaseAuth.getInstance();
         firebaseFirestore= FirebaseFirestore.getInstance();
 
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
-        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
 
         logTextView=findViewById(R.id.login_here);
-        backbutton=findViewById(R.id.back_button);
-        signInButton.setOnClickListener(v -> GooogleSignIn());
+        backButton =findViewById(R.id.back_button);
+        signInButton.setOnClickListener(v -> GoogleSignIn());
         logTextView.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),Login.class)));
-        backbutton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> goBack());
         signupButton.setOnClickListener(v -> CustomSignup());
         signInButtonO.setOnClickListener(v -> MicrosoftLogin());
 
-        //signOutButton = findViewById(R.id.clearCache);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() { goBack(); }
+        };
+        this.getOnBackPressedDispatcher().addCallback(this, callback);
+    }
 
-//        if(isLoggedIn){
-//            startMainActivity();
-//        }
-
-
+    private void goBack() {
+        Intent intent = new Intent(getApplicationContext(),Greeting_page.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     private void MicrosoftLogin() {
@@ -127,7 +100,7 @@ public class SignUp extends AppCompatActivity {
         OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
         provider.addCustomParameter("tenant", "850aa78d-94e1-4bc6-9cf3-8c11b530701c");
 
-        mAuth.startActivityForSignInWithProvider(/* activity= */ this, provider.build())
+        mAuth.startActivityForSignInWithProvider(this, provider.build())
                 .addOnSuccessListener(
                         authResult -> {
                             Log.d(TAG, "onSuccess");
@@ -161,6 +134,7 @@ public class SignUp extends AppCompatActivity {
                             Log.d(TAG, "Roll No: " + rollno);
                             Toast.makeText(SignUp.this, "Name: " + name + " \n" + "Email: " + email, Toast.LENGTH_LONG).show();
 
+                            RegisterUserInDatabase();
                             saveDetails(name, email);
                             startMainActivity();
                         })
@@ -208,28 +182,32 @@ public class SignUp extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "The mail has been sent to your email address please verify", Toast.LENGTH_SHORT).show();
                             FirebaseUser firebaseUser=mAuth.getCurrentUser();
                             assert firebaseUser != null;
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(name)
+                                    .build();
+
+                            firebaseUser.updateProfile(profileUpdates)
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            Log.d(TAG, "User profile updated.");
+                                        }
+                                    });
                             emailVerification();
                             RegisterUserInDatabase();
 
-
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                           // updateUI(null);
+                            Toast.makeText(getApplicationContext(), "Signup failed: "+task.getException(),
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
 
                     private void emailVerification() {
                         FirebaseUser firebaseUser=mAuth.getCurrentUser();
                         assert firebaseUser != null;
-                        firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                FirebaseAuth.getInstance().signOut();
-                                startActivity(new Intent(getApplicationContext(),Login.class));
-                            }
+                        firebaseUser.sendEmailVerification().addOnCompleteListener(task -> {
+                            FirebaseAuth.getInstance().signOut();
+                            startActivity(new Intent(getApplicationContext(),Login.class));
                         });
                     }
                 });
@@ -241,31 +219,25 @@ public class SignUp extends AppCompatActivity {
         assert user != null;
         String email = user.getEmail();
         assert email != null;
-        firebaseFirestore.collection("USERS").document(email).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                assert value != null;
-                if (!value.exists()) {
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("Name", "VIPIN");
-                    data.put("Email", email);
-                    firebaseFirestore.collection("USERS").document(email).set(data).
-                            addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
+        firebaseFirestore.collection("USERS").document(email).addSnapshotListener((value, error) -> {
+            assert value != null;
+            if (!value.exists()) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("Name", user.getDisplayName());
+                data.put("Email", email);
+                firebaseFirestore.collection("USERS").document(email).set(data).
+                        addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                //Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error Occurred while adding user to the database", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
 
-    private void GooogleSignIn() {
+    private void GoogleSignIn() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
                 .requestEmail()
@@ -299,23 +271,22 @@ public class SignUp extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
-                            RegisterUserInDatabase();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            finish();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success");
+                        Toast.makeText(getApplicationContext(), "SignUp with Google Successful", Toast.LENGTH_SHORT).show();
+                        RegisterUserInDatabase();
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        assert user != null;
+                        saveDetails(user.getDisplayName(),user.getEmail());
+                        startMainActivity();
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.d(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.d(TAG, "signInWithCredential:failure", task.getException());
+                        Toast.makeText(getApplicationContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
 
-                        }
                     }
                 });
     }
@@ -324,7 +295,8 @@ public class SignUp extends AppCompatActivity {
 
 
     private void startMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, InterestsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
@@ -332,7 +304,6 @@ public class SignUp extends AppCompatActivity {
     private void saveDetails(String name, String email){
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("isLoggedIn", true);
         editor.putString("name", name);
         editor.putString("email",email);
         editor.apply();

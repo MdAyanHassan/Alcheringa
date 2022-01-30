@@ -58,18 +58,28 @@ public class DBHandler extends SQLiteOpenHelper {
         // at last we are calling a exec sql
         // method to execute above sql query
         db.execSQL(query);
+        Log.d("logging SQLTable", "on create finally runned");
 
     }
     public ArrayList<cartModel> readCourses() {
+
+        ArrayList<cartModel> courseModalArrayList = new ArrayList<>();
+
         // on below line we are creating a
         // database for reading our database.
         SQLiteDatabase db = this.getReadableDatabase();
 
+        Cursor cursorCheck = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = '"
+                + TABLE_NAME + "'", null);
+
+        int tableCount = cursorCheck.getCount();
+        cursorCheck.close();
+
+        if(tableCount == 0){
+            onCreate(db);
+        }
         // on below line we are creating a cursor with query to read data from database.
         Cursor cursorcart = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-
-        // on below line we are creating a new array list.
-        ArrayList<cartModel> courseModalArrayList = new ArrayList<>();
 
         // moving our cursor to first position.
         if (cursorcart.moveToFirst()) {

@@ -29,7 +29,7 @@ public class YourOrdersAdapter extends RecyclerView.Adapter<YourOrdersViewHolder
     @NonNull
     @Override
     public YourOrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.merch_your_orders,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.your_orders_item,parent,false);
         return new YourOrdersViewHolder(view);
     }
 

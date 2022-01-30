@@ -9,10 +9,6 @@ import java.util.ArrayList;
 
 public class Utility{
 
-    public static boolean functionName(){
-        //....
-        return true;
-    }
     public static int calculateCartQuantity(Context context){
         int count = 0;
         DBHandler dBHandler;

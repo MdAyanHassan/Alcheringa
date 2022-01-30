@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".AboutPage">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="9dp"
+            android:layout_height="16dp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="32dp"
+            app:layout_constraintRight_toLeftOf="@id/faq_text">
+
+        </ImageButton>
+
+        <TextView
+            android:id="@+id/faq_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:textColor="@color/white"
+            android:fontFamily="@font/clash_700"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/backbtn"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/detial1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alcheringa, also known as &quot;Alcher&quot;, is the annual cultural festival of Indian Institute of Technology (IIT), Guwahati. The festival was started in 1996 by a group of students of IIT Guwahati. Spread over 3 days and 4 nights, Alcheringa is conducted towards the end of January every year. The 25th edition held from 30 January 2021 to 2 February 2021, witnessing 80 events.&#xA;&#xA;The festival features one of the biggest rock band competitions of India, Rock-o-Phonix. The latest edition of Alcheringa was held with limited participation and events pertaining to the ongoing COVID-19 crisis."
+                android:textColor="#C7CCD1"
+                android:fontFamily="@font/hk_grotesk"
+                android:textFontWeight="400"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/heading2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="History"
+                android:textColor="@color/white"
+                android:fontFamily="@font/clash_400"
+                android:textFontWeight="500"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/detial1"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/detial2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alcheringa, derives its etymology from an Australian aboriginal mythology and translates to &quot;The Eternal Dreamtime&quot;.&#xA;&#xA;In 2002, ‘Alcheringa: Yin and Yang’ the concept of four pro-nites was first introduced. ‘Alcheringa: Navras’ in 2006, hosted the festival's first international act. In 2011, Alcheringa's social initiative ‘Udaan - Giving flights to hope’ was started. 'Alcheringa: Echoes of Innocence' (2018) was the twenty-second edition of the cultural festival."
+                android:textColor="#C7CCD1"
+                android:fontFamily="@font/hk_grotesk"
+                android:textFontWeight="400"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/heading2"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -99,7 +99,9 @@
             android:textFontWeight="500"
             android:textSize="17sp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"/>
 
         <Button
             android:id="@+id/checkout_button"

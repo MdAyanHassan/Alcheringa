@@ -167,6 +167,12 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                             painter = painterResource(id = R.drawable.add_icon),
                              contentDescription ="null")
                         }
+                        else
+                        {
+                            Image( modifier = Modifier.width(20.dp).height(20.dp),
+                                painter = painterResource(id = R.drawable.tickokay),
+                                contentDescription ="null", contentScale = ContentScale.FillBounds)
+                        }
                     }
                 }
                 Box(modifier = Modifier

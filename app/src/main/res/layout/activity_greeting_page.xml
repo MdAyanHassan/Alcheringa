@@ -56,9 +56,9 @@
         android:background="@drawable/custom_button"
 
         android:backgroundTint="#EE6337"
-        android:text="SIGNUP"
-        android:textAllCaps="false"
         android:fontFamily="@font/clash_700"
+        android:text="SignUp"
+        android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"

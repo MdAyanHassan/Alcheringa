@@ -18,7 +18,7 @@ public class Accordion_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accordion);
+        setContentView(R.layout.activity_faq_page);
 
         detailsText = findViewById(R.id.details);
         layout = findViewById(R.id.layout);

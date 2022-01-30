@@ -3,6 +3,7 @@ package com.example.alcheringa2022;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,8 @@ public class YourOrders extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
     ImageView imageView;
+    LoaderView loaderView;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +53,9 @@ public class YourOrders extends AppCompatActivity {
         yourOrders_adapter=new YourOrdersAdapter(yourOrders_modelList, this);
 
         populate_your_orders();
+
+        loaderView = findViewById(R.id.dots_progress);
+        loaderView.setVisibility(View.GONE);
     }
 
     private void populate_your_orders() {
