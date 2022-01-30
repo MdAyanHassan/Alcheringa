@@ -3,186 +3,320 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/black"
-    android:padding="20dp">
+    android:background="@color/black">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/user_name_button"
-        app:layout_constraintBottom_toTopOf="@id/ur_orders_button"
-        android:background="@drawable/frame_27"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:layout_marginBottom="8dp">
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="58dp"
-            android:layout_height="58dp"
-            android:src="@drawable/user_photo"
-            android:id="@+id/user_photo"
-            app:layout_constraintLeft_toLeftOf="parent"
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="9dp"
+            android:layout_height="16dp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="32dp"
+            app:layout_constraintRight_toLeftOf="@id/account_text">
+
+        </ImageButton>
 
         <TextView
+            android:id="@+id/account_text"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginStart="20dp"
+            android:layout_height="wrap_content"
+            android:text="Account"
+            android:textColor="@color/white"
+            android:fontFamily="@font/clash_700"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/backbtn"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@id/version"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="25dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_name_button"
+            app:layout_constraintBottom_toTopOf="@id/ur_orders_button"
+            android:background="@drawable/frame_27"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_marginBottom="8dp">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:src="@drawable/profile_img"
+                android:id="@+id/user_photo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:civ_border_width="0dp"
+                app:civ_border_color="#000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/user_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/clash_400"
+                android:lineHeight="51.84sp"
+                android:text="Username"
+                android:textColor="@color/white"
+                android:textFontWeight="500"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.139"
+                app:layout_constraintStart_toEndOf="@+id/user_photo"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.506" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ur_orders_button"
+            app:layout_constraintBottom_toTopOf="@id/contact_us_button"
+            android:background="@drawable/frame_27"
+            android:paddingLeft="20dp"
+            android:paddingTop="14.5dp"
+            android:paddingBottom="14.5dp"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/cart"
+                android:id="@+id/your_orders_logo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Orders"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@+id/your_orders_logo"
+                android:fontFamily="@font/hk_grotesk"
+                android:layout_marginStart="20dp"
+                android:textSize="18sp"
+                android:textFontWeight="400"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/contact_us_button"
+            app:layout_constraintBottom_toTopOf="@id/faq_button"
+            android:background="@drawable/frame_27"
+            android:paddingLeft="20dp"
+            android:paddingTop="14.5dp"
+            android:paddingBottom="14.5dp"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/phone"
+                android:id="@+id/contact_us_logo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Us"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@+id/contact_us_logo"
+                android:fontFamily="@font/hk_grotesk"
+                android:layout_marginStart="20dp"
+                android:textSize="18sp"
+                android:textFontWeight="400"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/faq_button"
+            app:layout_constraintBottom_toTopOf="@id/signout_button"
+            android:background="@drawable/frame_27"
+            android:paddingLeft="20dp"
+            android:paddingTop="14.5dp"
+            android:paddingBottom="14.5dp"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/faq"
+                android:id="@+id/faq_logo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FAQs"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@+id/faq_logo"
+                android:fontFamily="@font/hk_grotesk"
+                android:layout_marginStart="20dp"
+                android:textSize="18sp"
+                android:textFontWeight="400"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signout_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/frame_27"
+            android:paddingLeft="20dp"
+            android:paddingTop="14.5dp"
+            android:paddingBottom="14.5dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/signoutlogo"
+                android:id="@+id/signout_logo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Signout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="#EE6337"
+                app:layout_constraintStart_toEndOf="@+id/signout_logo"
+                android:fontFamily="@font/hk_grotesk"
+                android:layout_marginStart="20dp"
+                android:textSize="18sp"
+                android:textFontWeight="700"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="V 1.1.1"
+        android:textColor="#A3A7AC"
+        android:layout_gravity="center"
+        android:fontFamily="@font/clash_400"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tnc_buttons"
+        android:layout_marginBottom="5dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tnc_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/website_link"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:textColor="#C7CCD1"
+            android:layout_gravity="center"
             android:fontFamily="@font/clash_400"
-            android:lineHeight="51.84sp"
-            android:text="Rishikesh Aryan "
-            android:textColor="@color/white"
             android:textFontWeight="500"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.336"
-            app:layout_constraintStart_toEndOf="@+id/user_photo"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.506" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ur_orders_button"
-        app:layout_constraintBottom_toTopOf="@id/contact_us_button"
-        android:background="@drawable/frame_27"
-        android:paddingLeft="20dp"
-        android:paddingTop="14.5dp"
-        android:paddingBottom="14.5dp"
-        android:layout_marginBottom="8dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/cart"
-            android:id="@+id/your_orders_logo"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
+            android:id="@+id/tnc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your Orders"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="T&amp;C"
+            android:textColor="#C7CCD1"
+            android:layout_gravity="center"
+            android:fontFamily="@font/clash_400"
+            android:textFontWeight="500"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/about"
             app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@+id/your_orders_logo"
-            android:fontFamily="@font/hk_grotesk"
-            android:layout_marginStart="20dp"
-            android:textSize="18sp"
-            android:textFontWeight="400"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/contact_us_button"
-        app:layout_constraintBottom_toTopOf="@id/faq_button"
-        android:background="@drawable/frame_27"
-        android:paddingLeft="20dp"
-        android:paddingTop="14.5dp"
-        android:paddingBottom="14.5dp"
-        android:layout_marginBottom="8dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/phone"
-            android:id="@+id/contact_us_logo"
-            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="30dp"/>
 
         <TextView
+            android:id="@+id/privacy_policy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contact Us"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Privacy Policy"
+            android:textColor="#C7CCD1"
+            android:layout_gravity="center"
+            android:fontFamily="@font/clash_400"
+            android:textFontWeight="500"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/tnc"
             app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@+id/contact_us_logo"
-            android:fontFamily="@font/hk_grotesk"
-            android:layout_marginStart="20dp"
-            android:textSize="18sp"
-            android:textFontWeight="400"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="30dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/website_link"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/faq_button"
-        app:layout_constraintBottom_toTopOf="@id/signout_button"
-        android:background="@drawable/frame_27"
-        android:paddingLeft="20dp"
-        android:paddingTop="14.5dp"
-        android:paddingBottom="14.5dp"
-        android:layout_marginBottom="8dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/faq"
-            android:id="@+id/faq_logo"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="FAQs"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@+id/faq_logo"
-            android:fontFamily="@font/hk_grotesk"
-            android:layout_marginStart="20dp"
-            android:textSize="18sp"
-            android:textFontWeight="400"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/signout_button"
+        android:text="www.alcheringa.in"
+        android:textColor="#C7CCD1"
+        android:layout_gravity="center"
+        android:fontFamily="@font/clash_400"
+        android:textFontWeight="500"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/frame_27"
-        android:paddingLeft="20dp"
-        android:paddingTop="14.5dp"
-        android:paddingBottom="14.5dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/signoutlogo"
-            android:id="@+id/signout_logo"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Signout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textColor="#EE6337"
-            app:layout_constraintStart_toEndOf="@+id/signout_logo"
-            android:fontFamily="@font/hk_grotesk"
-            android:layout_marginStart="20dp"
-            android:textSize="18sp"
-            android:textFontWeight="700"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginBottom="25dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,11 +13,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.alcheringa2022.Database.DBHandler;
 import com.example.alcheringa2022.Model.cartModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.razorpay.Checkout;
@@ -282,9 +281,15 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         Log.d(TAG, "onPaymentSuccess razorpayPaymentID: " + razorpayPaymentID);
         Toast.makeText(getApplicationContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
         Add_Order(arrayList);
+        clear_cart();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void clear_cart() {
+        DBHandler dbHandler =new DBHandler(getApplicationContext());
+        dbHandler.Delete_all();
     }
 
     @Override

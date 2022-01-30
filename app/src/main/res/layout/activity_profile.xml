@@ -249,6 +249,7 @@
         android:backgroundTint="#EE6337"
         android:fontFamily="@font/clash_700"
         android:text="Save"
+        android:foreground="?android:attr/selectableItemBackground"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18sp"

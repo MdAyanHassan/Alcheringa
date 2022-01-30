@@ -229,6 +229,7 @@ class Home : Fragment() {
                     Box(modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 48.dp, top = 48.dp)
+                            .clickable { val main=MainActivity();main.index=R.id.merch }
                     ) {
                         val color= listOf(Color(0xffC80915), Color(0xffEE6337), Color(0xff11D3D3))
                         merchBox(merch = homeViewModel.merchhome

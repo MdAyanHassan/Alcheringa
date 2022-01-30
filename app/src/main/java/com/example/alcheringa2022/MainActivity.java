@@ -12,13 +12,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.alcheringa2022.Database.DBHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     BottomNavigationView bottomNavigationView;
     Events events_fragment;
-    int index;
     SharedPreferences sharedPreferences;
+    DBHandler dbHandler;
+    int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
+        dbHandler=new DBHandler(getApplicationContext());
         /*boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
         if(!isLoggedIn){
             Intent intent = new Intent(this, SignUp.class);
@@ -37,16 +40,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
         bottomNavigationView.setSelectedItemId(R.id.home_nav);
-        index=R.id.home_nav;
+        index=R.id.schedule;
 
-        try{
+
+/*        try{
             Intent intent = getIntent();
             String fragment_name = intent.getExtras().getString("fragment");
             if(fragment_name.equals("merch")){
                 bottomNavigationView.setSelectedItemId(R.id.merch);
                 index=R.id.merch;
             }
-        }catch(Exception ignored){}
+        }catch(Exception ignored){}*/
 
 
     }

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".FaqPage">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="9dp"
+            android:layout_height="16dp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="32dp"
+            app:layout_constraintRight_toLeftOf="@id/faq_text">
+
+        </ImageButton>
+
+        <TextView
+            android:id="@+id/faq_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FAQs"
+            android:textColor="@color/white"
+            android:fontFamily="@font/clash_700"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/backbtn"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:onClick="expand1"
+                android:background="@drawable/back2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:id="@+id/faq1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="What is Alcheringa"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:textSize="18sp"
+                        android:textColor="#fff"
+                        android:fontFamily="@font/clash_400"
+                        android:textFontWeight="500" />
+
+                    <TextView
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/details1"
+                        android:layout_width="wrap_content"
+                        android:textColor="#C7CCD1"
+                        android:layout_height="wrap_content"
+                        android:text="Alcheringa is the annual cultural festival of the Indian Institute of Technology (IIT), Guwahati. Started in 1996 by a group of students."
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        android:fontFamily="@font/hk_grotesk"
+                        android:textFontWeight="400" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:onClick="expand2"
+                android:background="@drawable/back2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:id="@+id/faq2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="What is Alcheringa"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:textSize="18sp"
+                        android:textColor="#fff"
+                        android:fontFamily="@font/clash_400"
+                        android:textFontWeight="500" />
+
+                    <TextView
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/details2"
+                        android:layout_width="wrap_content"
+                        android:textColor="#C7CCD1"
+                        android:layout_height="wrap_content"
+                        android:text="Alcheringa is the annual cultural festival of the Indian Institute of Technology (IIT), Guwahati. Started in 1996 by a group of students."
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        android:fontFamily="@font/hk_grotesk"
+                        android:textFontWeight="400" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:onClick="expand3"
+                android:background="@drawable/back2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:id="@+id/faq3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="What is Alcheringa"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:textSize="18sp"
+                        android:textColor="#fff"
+                        android:fontFamily="@font/clash_400"
+                        android:textFontWeight="500" />
+
+                    <TextView
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/details3"
+                        android:layout_width="wrap_content"
+                        android:textColor="#C7CCD1"
+                        android:layout_height="wrap_content"
+                        android:text="Alcheringa is the annual cultural festival of the Indian Institute of Technology (IIT), Guwahati. Started in 1996 by a group of students."
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        android:fontFamily="@font/hk_grotesk"
+                        android:textFontWeight="400" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cant find what you are looking for?"
+        android:textColor="#A3A7AC"
+        android:layout_gravity="center"
+        android:fontFamily="@font/hk_grotesk"
+        android:textFontWeight="500"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/contact_us_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/contact_us_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact Us"
+        android:textColor="#EE6337"
+        android:layout_gravity="center"
+        android:fontFamily="@font/clash_400"
+        android:textFontWeight="500"
+        android:textSize="16sp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

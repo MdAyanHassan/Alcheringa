@@ -2,16 +2,13 @@ package com.example.alcheringa2022;
 
 import android.content.Context;
 
+import com.example.alcheringa2022.Database.DBHandler;
 import com.example.alcheringa2022.Model.cartModel;
 
 import java.util.ArrayList;
 
 public class Utility{
 
-    public static boolean functionName(){
-        //....
-        return true;
-    }
     public static int calculateCartQuantity(Context context){
         int count = 0;
         DBHandler dBHandler;
