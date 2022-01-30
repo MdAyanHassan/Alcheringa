@@ -1,5 +1,6 @@
 package com.example.alcheringa2022
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -45,10 +46,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.airbnb.lottie.compose.*
 import com.example.alcheringa2022.Database.ScheduleDatabase
-import com.example.alcheringa2022.Model.merchmodelforHome
-import com.example.alcheringa2022.Model.ownEventBoxUiModel
-import com.example.alcheringa2022.Model.removeAnItem
-import com.example.alcheringa2022.Model.viewModelHome
+import com.example.alcheringa2022.Model.*
 import com.example.alcheringa2022.databinding.FragmentHomeBinding
 import com.example.alcheringa2022.ui.theme.*
 import com.google.accompanist.pager.*
@@ -946,7 +944,7 @@ class Home : Fragment() {
                 }
                 .pointerInput(Unit) {
                     detectDragGesturesAfterLongPress(
-                        onDragStart = {isdragging.value=true},
+                        onDragStart = { isdragging.value = true },
                         onDrag = { _, dragAmount ->
                             val original = Offset(offsetX.value.toPx(), offsetY.value.toPx())
                             val summed = original + dragAmount
@@ -966,29 +964,31 @@ class Home : Fragment() {
                                         .toInt()
                                 ))
                             ) {
-                                onActiveDel.value=true
-                            }
-                            else{
-                                onActiveDel.value=false
+                                onActiveDel.value = true
+                            } else {
+                                onActiveDel.value = false
                             }
 
 
                         },
-                        onDragCancel = {isdragging.value= false;
-                            offsetX.value =  (xdis-2).dp;
-                             offsetY.value = ydis.dp},
+                        onDragCancel = {
+                            isdragging.value = false;
+                            offsetX.value = (xdis - 2).dp;
+                            offsetY.value = ydis.dp
+                        },
                         onDragEnd = {
-                            isdragging.value=false
-                            if(onActiveDel.value){
+                            isdragging.value = false
+                            if (onActiveDel.value) {
                                 homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
-//                                val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
+
+//                             val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
 //                                Log.d("resdel",res1.toString())
 //                                Log.d("resdel",res2.toString())
-                                onActiveDel.value=false
+                                onActiveDel.value = false
 
-                            }
-                            else {
-                                offsetX.value =  (xdis-2).dp;
+
+                            } else {
+                                offsetX.value = (xdis - 2).dp;
                                 offsetY.value = ydis.dp
 
                             }
@@ -1208,6 +1208,14 @@ class Home : Fragment() {
 
 
     }
+
+
+
+
+
+
+
+
 
 
 
