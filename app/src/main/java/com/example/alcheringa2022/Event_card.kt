@@ -86,11 +86,13 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Context) {
     var ScheduleDatabase=ScheduleDatabase(context)
-    var plusiconstate= remember{ mutableStateOf(true)}
+    var okstate= remember{ mutableStateOf(false)}
+    var okstatenum= remember{ mutableStateOf(0)}
+
     viewModelHm.OwnEventsLiveState.forEach{
-            data->
-        if( data.eventdetail==eventdetail.eventdetail){plusiconstate.value= false}
+            data-> if( data.eventdetail==eventdetail.eventdetail){okstate.value=true;okstatenum.value+=1}
     }
+    if(okstatenum.value==0){okstate.value=false}
 
     Box() {
 
@@ -157,17 +159,20 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                             fontSize = 12.sp
                         )
                     }}
+
                     Box(modifier = Modifier
                         .fillMaxWidth()
                         .padding(11.dp), contentAlignment = Alignment.TopEnd){
 
-                        if(plusiconstate.value) {
+
+                        if(!okstate.value) {
+
                         Image( modifier = Modifier.width(18.dp).height(18.dp).clickable { viewModelHm.OwnEventsWithLive.addNewItem(eventdetail);
                                                                                         ScheduleDatabase.addEventsInSchedule(eventdetail.eventdetail,context)},
                             painter = painterResource(id = R.drawable.add_icon),
                              contentDescription ="null")
                         }
-                        else
+                        if(okstate.value)
                         {
                             Image( modifier = Modifier.width(20.dp).height(20.dp),
                                 painter = painterResource(id = R.drawable.tickokay),

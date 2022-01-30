@@ -24,6 +24,11 @@ fun <T> MutableLiveData<MutableList<T>>.addNewItem(item: T) {
     oldValue.add(item)
     this.value = oldValue
 }
+fun <T> MutableLiveData<MutableList<T>>.removeAnItem(item: T){
+    val oldValue = this.value ?: mutableListOf()
+    oldValue.remove(item)
+    this.value = oldValue
+}
 
 class viewModelHome: ViewModel() {
     val fb = FirebaseFirestore.getInstance()
@@ -34,6 +39,7 @@ class viewModelHome: ViewModel() {
     val OwnEventsWithLive= MutableLiveData<MutableList<eventWithLive>>()
     val OwnEventsLiveState= mutableStateListOf<eventWithLive>()
     val merchhome= mutableStateListOf<merchmodelforHome>()
+
 
 
 
@@ -157,6 +163,8 @@ class viewModelHome: ViewModel() {
         }
 
     }
+
+
 
 
 
