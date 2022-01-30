@@ -24,6 +24,17 @@ fun <T> MutableLiveData<MutableList<T>>.addNewItem(item: T) {
     oldValue.add(item)
     this.value = oldValue
 }
+fun <T> MutableLiveData<MutableList<T>>.removeAnItem(item: T){
+    val oldValue = this.value ?: mutableListOf()
+    val ov=oldValue.iterator()
+    while (ov.hasNext()){
+        val data=  ov.next()
+        if(item==data){
+            ov.remove()
+        }
+    }
+    this.value = oldValue
+}
 
 class viewModelHome: ViewModel() {
     val fb = FirebaseFirestore.getInstance()

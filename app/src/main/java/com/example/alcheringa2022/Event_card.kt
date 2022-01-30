@@ -89,7 +89,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
     var plusiconstate= remember{ mutableStateOf(true)}
     viewModelHm.OwnEventsLiveState.forEach{
             data->
-        if( data.eventdetail==eventdetail.eventdetail){plusiconstate.value= false}
+        if( data.eventdetail==eventdetail.eventdetail){plusiconstate.value= false;return@forEach}else{plusiconstate.value= true}
     }
 
     Box() {
@@ -167,7 +167,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                             painter = painterResource(id = R.drawable.add_icon),
                              contentDescription ="null")
                         }
-                        else
+                        if(!plusiconstate.value)
                         {
                             Image( modifier = Modifier.width(20.dp).height(20.dp),
                                 painter = painterResource(id = R.drawable.tickokay),

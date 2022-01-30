@@ -1,23 +1,25 @@
 package com.example.alcheringa2022
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.animateScrollBy
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -26,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -33,21 +36,22 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.airbnb.lottie.compose.*
 import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.merchmodelforHome
 import com.example.alcheringa2022.Model.ownEventBoxUiModel
+import com.example.alcheringa2022.Model.removeAnItem
 import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.databinding.FragmentHomeBinding
 import com.example.alcheringa2022.ui.theme.*
 import com.google.accompanist.pager.*
-import com.google.common.io.Resources
-import com.google.firebase.firestore.core.ActivityScope
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
@@ -72,6 +76,8 @@ class Home : Fragment() {
     val datestate2 = mutableStateListOf<ownEventBoxUiModel>()
     val datestate3 = mutableStateListOf<ownEventBoxUiModel>()
     var datestate:SnapshotStateList<ownEventBoxUiModel> = datestate1
+    var onActiveDel= mutableStateOf(false)
+    var isdragging=mutableStateOf(false)
 
 
 //    val events=mutableListOf(
@@ -487,33 +493,33 @@ class Home : Fragment() {
         Column() {
 
             val pagerState = rememberPagerState()
-            LaunchedEffect(Unit) {
-                while(true) {
-                    yield()
-                    delay(3000)
-                    pagerState.animateScrollToPage(
-                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
-                        animationSpec = tween(1000)
-                    )
-                }
-            }
-//            LaunchedEffect(key1 = pagerState.currentPage) {
-//                launch {
-//
+//            LaunchedEffect(Unit) {
+//                while(true) {
+//                    yield()
 //                    delay(3000)
-//                    with(pagerState) {
-//                        val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
-//                        animateScrollToPage(
-//                            page = target,
-//                            animationSpec = tween(
-//                                durationMillis = 600,
-//                                easing = FastOutSlowInEasing
-//                            )
-//                        )
-//
-//                    }
+//                    pagerState.animateScrollToPage(
+//                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
+//                        animationSpec = tween(1000)
+//                    )
 //                }
 //            }
+            LaunchedEffect(key1 = pagerState.currentPage) {
+                launch {
+
+                    delay(3000)
+                    with(pagerState) {
+                        val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
+                        animateScrollToPage(
+                            page = target,
+                            animationSpec = tween(
+                                durationMillis = 600,
+                                easing = FastOutSlowInEasing
+                            )
+                        )
+
+                    }
+                }
+            }
             HorizontalPager(
                     count = eventdetails.size, modifier = Modifier
                     .fillMaxWidth()
@@ -743,6 +749,8 @@ class Home : Fragment() {
            }
            Spacer(modifier = Modifier.height(16.dp))
            scheduleBox(addedList = datestate)
+
+
        }
 
 
@@ -753,85 +761,63 @@ class Home : Fragment() {
 
 
     @Composable
-    fun scheduleBox(addedList:SnapshotStateList<ownEventBoxUiModel>){
-        Box(
-            Modifier
-                .width(1550.dp)
-                .height(279.dp)
-                .background(color = Color.Black)
-                .horizontalScroll(rememberScrollState())) {
-            Row(
+    fun scheduleBox(addedList:SnapshotStateList<ownEventBoxUiModel>) {
+        val horiscrollowneventstate = rememberScrollState()
+        var boxwidth=remember{ mutableStateOf(0.dp)}
+        Box(Modifier
+            .height(279.dp)) {
+            Box(
                 Modifier
                     .width(1550.dp)
-                    .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
+                    .height(279.dp)
+                    .background(color = Color.Black)
+                    .horizontalScroll(horiscrollowneventstate)
             ) {
-                for (time in 9..11) {
-                    Column(
-                        Modifier
-                            .width(50.dp)
-                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "$time AM",
-                            style = TextStyle(
-                                color = colorResource(id = R.color.textGray),
-                                fontFamily = clash,
-                                fontWeight = FontWeight.W600,
-                                fontSize = 14.sp
-                            )
-                        )
-                        Canvas(
-                            modifier = Modifier
-                                .width(5.dp)
-                                .height(260.dp)
-                        ) {
-                            drawLine(
-                                color = Color.DarkGray,
-                                start = Offset(0f, 0f),
-                                end = Offset(0f, size.height),
-                                strokeWidth = Stroke.DefaultMiter
-                            )
-                        }
-
-                    }
-
-                }
-
-                Column(
+                Row(
                     Modifier
-                        .width(50.dp)
-                        .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
+                        .width(1550.dp)
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Text(
-                        text = "12 PM",
-                        style = TextStyle(
-                            color = colorResource(id = R.color.textGray),
-                            fontFamily = clash,
-                            fontWeight = FontWeight.W600,
-                            fontSize = 14.sp
-                        )
-                    )
-                    Canvas(
-                        modifier = Modifier
-                            .width(5.dp)
-                            .height(260.dp)
-                    ) {
-                        drawLine(
-                            color = Color.DarkGray,
-                            start = Offset(0f, 0f),
-                            end = Offset(0f, size.height),
-                            strokeWidth = Stroke.DefaultMiter
-                        )
+                    for (time in 9..11) {
+                        Column(
+                            Modifier
+                                .width(50.dp)
+                                .wrapContentHeight(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "$time AM",
+                                style = TextStyle(
+                                    color = colorResource(id = R.color.textGray),
+                                    fontFamily = clash,
+                                    fontWeight = FontWeight.W600,
+                                    fontSize = 14.sp
+                                )
+                            )
+                            Canvas(
+                                modifier = Modifier
+                                    .width(5.dp)
+                                    .height(260.dp)
+                            ) {
+                                drawLine(
+                                    color = Color.DarkGray,
+                                    start = Offset(0f, 0f),
+                                    end = Offset(0f, size.height),
+                                    strokeWidth = Stroke.DefaultMiter
+                                )
+                            }
+
+                        }
+
                     }
-                }
-                for (time in 1..11) {
+
                     Column(
                         Modifier
                             .width(50.dp)
                             .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "$time PM",
+                            text = "12 PM",
                             style = TextStyle(
                                 color = colorResource(id = R.color.textGray),
                                 fontFamily = clash,
@@ -851,37 +837,172 @@ class Home : Fragment() {
                                 strokeWidth = Stroke.DefaultMiter
                             )
                         }
+                    }
+                    for (time in 1..11) {
+                        Column(
+                            Modifier
+                                .width(50.dp)
+                                .wrapContentHeight(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "$time PM",
+                                style = TextStyle(
+                                    color = colorResource(id = R.color.textGray),
+                                    fontFamily = clash,
+                                    fontWeight = FontWeight.W600,
+                                    fontSize = 14.sp
+                                )
+                            )
+                            Canvas(
+                                modifier = Modifier
+                                    .width(5.dp)
+                                    .height(260.dp)
+                            ) {
+                                drawLine(
+                                    color = Color.DarkGray,
+                                    start = Offset(0f, 0f),
+                                    end = Offset(0f, size.height),
+                                    strokeWidth = Stroke.DefaultMiter
+                                )
+                            }
+
+                        }
 
                     }
 
                 }
 
+
+                addedList.forEach { data -> userBox(eventdetail = data,horiscrollowneventstate,boxwidth) }
+
+
+
+            }
+            if (isdragging.value) {
+
+                BoxWithConstraints(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .offset(0.dp, 200.dp)
+                        .height(80.dp)
+                        .background(color = Color.Transparent),
+                    contentAlignment = Alignment.BottomCenter
+                )
+                {
+                    boxwidth.value = maxWidth
+                    if (!onActiveDel.value) {
+                        Lottieonactivedelete(R.raw.binanim)
+                    } else {
+                        Lottieonactivedelete(R.raw.crossanim)
+                    }
+
+
+                }
             }
 
 
-            addedList.forEach{data->userBox(eventdetail = data)}
 
 
         }
-
-
-
     }
+
+
     @Composable
-    fun userBox(eventdetail: ownEventBoxUiModel){
+    fun userBox(
+        eventdetail: ownEventBoxUiModel,
+        horiscrollowneventstate: ScrollState,
+        boxwidth: MutableState<Dp>
+    ){
          val color= listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random()
 
         val lengthdp= (eventdetail.eventWithLive.eventdetail.durationInMin.toFloat() * (5f/3f))
         val xdis= (((eventdetail.eventWithLive.eventdetail.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
             val ydis= (30+(eventdetail.ydis*70))
+        var offsetX = remember { mutableStateOf((xdis-2).dp) }
+        var offsetY = remember { mutableStateOf(ydis.dp) }
 
         Box(
             Modifier
-                .offset(xdis.dp - 2.dp, ydis.dp)
+                .offset {
+//                    xdis.dp - 2.dp, ydis.dp
+                    IntOffset(
+                        offsetX.value
+                            .toPx()
+                            .toInt(),
+                        offsetY.value
+                            .toPx()
+                            .toInt()
+                    )
+                }
                 .height(58.dp)
                 .width(lengthdp.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(color)) {
+                .background(color)
+                .clickable {
+                    Toast
+                        .makeText(requireActivity(), "clicked", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                .pointerInput(Unit) {
+                    detectDragGesturesAfterLongPress(
+                        onDragStart = {isdragging.value=true},
+                        onDrag = { _, dragAmount ->
+                            val original = Offset(offsetX.value.toPx(), offsetY.value.toPx())
+                            val summed = original + dragAmount
+                            val newValue = Offset(
+                                x = summed.x,
+                                y = summed.y.coerceIn(30.dp.toPx(), 221.dp.toPx())
+                            )
+                            offsetX.value = newValue.x.toDp()
+                            offsetY.value = newValue.y.toDp()
+
+                            if ((182.dp..221.dp).contains(offsetY.value) and
+                                ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.dp
+                                    .toPx()
+                                    .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
+                                    (offsetX.value)
+                                        .toPx()
+                                        .toInt()
+                                ))
+                            ) {
+                                onActiveDel.value=true
+                            }
+                            else{
+                                onActiveDel.value=false
+                            }
+
+
+                        },
+                        onDragCancel = {isdragging.value= false;
+                            offsetX.value =  (xdis-2).dp;
+                             offsetY.value = ydis.dp},
+                        onDragEnd = {
+                            isdragging.value=false
+                            if(onActiveDel.value){
+                                homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+//                                val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
+//                                Log.d("resdel",res1.toString())
+//                                Log.d("resdel",res2.toString())
+                                onActiveDel.value=false
+
+                            }
+                            else {
+                                offsetX.value =  (xdis-2).dp;
+                                offsetY.value = ydis.dp
+
+                            }
+
+
+                        }
+
+                    )
+
+
+                }
+
+
+        ) {
             Column(
                 Modifier
                     .fillMaxSize()
@@ -917,16 +1038,23 @@ class Home : Fragment() {
     @Composable
     fun merchBox(merch: List<merchmodelforHome>, colors: List<Color>){
         val pagerState = rememberPagerState()
-            LaunchedEffect(Unit) {
-                while(true) {
-                    yield()
-                    delay(2000)
-                    pagerState.animateScrollToPage(
-                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
-                        animationSpec = tween(600)
+        LaunchedEffect(key1 = pagerState.currentPage) {
+            launch {
+
+                delay(3000)
+                with(pagerState) {
+                    val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
+                    animateScrollToPage(
+                        page = target,
+                        animationSpec = tween(
+                            durationMillis = 600,
+                            easing = FastOutSlowInEasing
+                        )
                     )
+
                 }
             }
+        }
 
 
         HorizontalPager(
@@ -934,12 +1062,15 @@ class Home : Fragment() {
                 .fillMaxWidth()
                 .height(218.dp), state = pagerState
         ) { page ->
-        Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+        Card(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
             shape = RoundedCornerShape(8.dp),
             elevation = 0.dp,) {
             Box(modifier = Modifier
                 .height(218.dp)
-                .fillMaxWidth().background(  colors[page])){
+                .fillMaxWidth()
+                .background(colors[page])){
 
                 Box(modifier = Modifier
                     .fillMaxWidth()
@@ -1029,6 +1160,54 @@ class Home : Fragment() {
 
 
     }}}}
+
+    @Composable
+    fun Lottieonactivedelete(rId:Int) {
+
+        // to keep track if the animation is playing
+        // and play pause accordingly
+
+        // for speed
+
+
+        // remember lottie composition ,which
+        // accepts the lottie composition result
+        val composition by rememberLottieComposition(
+            LottieCompositionSpec
+                .RawRes(rId)
+        )
+
+
+        // to control the animation
+        val progress by animateLottieCompositionAsState(
+            // pass the composition created above
+            composition,
+
+            // Iterates Forever
+            iterations = LottieConstants.IterateForever,
+
+            // pass isPlaying we created above,
+            // changing isPlaying will recompose
+            // Lottie and pause/play
+            isPlaying = true,
+
+            // pass speed we created above,
+            // changing speed will increase Lottie
+            speed = 1f,
+
+            // this makes animation to restart when paused and play
+            // pass false to continue the animation at which is was paused
+            restartOnPlay = false
+
+        )
+        LottieAnimation(
+            composition,
+            progress,
+            modifier = Modifier.size(80.dp)
+        )
+
+
+    }
 
 
 
