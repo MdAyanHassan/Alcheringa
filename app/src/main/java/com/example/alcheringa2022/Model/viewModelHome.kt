@@ -46,6 +46,8 @@ class viewModelHome: ViewModel() {
 
 
 
+
+
     fun pushEvents(evnts:List<eventdetail>){
         for(evnt in evnts){
         fb.collection("Featured Events").document(evnt.artist).set(evnt).addOnSuccessListener {
@@ -163,6 +165,8 @@ class viewModelHome: ViewModel() {
         }
 
     }
+
+
 
 
 

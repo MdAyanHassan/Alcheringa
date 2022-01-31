@@ -94,7 +94,9 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
     }
     if(okstatenum.value==0){okstate.value=false}
 
+
     Box() {
+        Text(text =viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp )
 
         Card(modifier = Modifier.wrapContentWidth(),
                 shape = RoundedCornerShape(8.dp),
@@ -102,7 +104,9 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
             Box(modifier = Modifier
                 .height(256.dp)
                 .width(218.dp)){
-                GlideImage(modifier = Modifier.width(218.dp).height(256.dp),imageModel = eventdetail.eventdetail.imgurl, contentDescription = "artist", contentScale = ContentScale.Crop,
+                GlideImage(modifier = Modifier
+                    .width(218.dp)
+                    .height(256.dp),imageModel = eventdetail.eventdetail.imgurl, contentDescription = "artist", contentScale = ContentScale.Crop,
                         alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
                         baseColor = Color.Black,
@@ -114,7 +118,10 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                         Box(modifier= Modifier
                             .fillMaxWidth()
                             .height(473.dp), contentAlignment = Alignment.Center) {
-                            Column(Modifier.fillMaxWidth().wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
                                 Image(
                                     modifier = Modifier
                                         .width(60.dp)
@@ -165,16 +172,26 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                         .padding(11.dp), contentAlignment = Alignment.TopEnd){
 
 
-                        if(!okstate.value) {
+                        if( !okstate.value) {
 
-                        Image( modifier = Modifier.width(18.dp).height(18.dp).clickable { viewModelHm.OwnEventsWithLive.addNewItem(eventdetail);
-                                                                                        ScheduleDatabase.addEventsInSchedule(eventdetail.eventdetail,context)},
+                        Image( modifier = Modifier
+                            .width(18.dp)
+                            .height(18.dp)
+                            .clickable {
+                                viewModelHm.OwnEventsWithLive.addNewItem(eventdetail);
+                                ScheduleDatabase.addEventsInSchedule(
+                                    eventdetail.eventdetail,
+                                    context
+                                )
+                            },
                             painter = painterResource(id = R.drawable.add_icon),
                              contentDescription ="null")
                         }
                         if(okstate.value)
                         {
-                            Image( modifier = Modifier.width(20.dp).height(20.dp),
+                            Image( modifier = Modifier
+                                .width(20.dp)
+                                .height(20.dp),
                                 painter = painterResource(id = R.drawable.tickokay),
                                 contentDescription ="null", contentScale = ContentScale.FillBounds)
                         }
