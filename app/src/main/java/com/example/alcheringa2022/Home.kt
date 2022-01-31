@@ -219,6 +219,7 @@ class Home : Fragment() {
                     Box(modifier = Modifier
                             .fillMaxWidth()
                     ) {
+
                         LazyRow(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
@@ -974,18 +975,21 @@ class Home : Fragment() {
                         },
                         onDragCancel = {
                             isdragging.value = false;
-                            offsetX.value = (xdis - 2).dp;
+                            offsetX.value=(xdis - 2).dp;
                             offsetY.value = ydis.dp
                         },
                         onDragEnd = {
                             isdragging.value = false
                             if (onActiveDel.value) {
+                                datestate.remove(eventdetail)
                                 homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
 
 //                             val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
 //                                Log.d("resdel",res1.toString())
 //                                Log.d("resdel",res2.toString())
                                 onActiveDel.value = false
+
+
 
 
                             } else {
