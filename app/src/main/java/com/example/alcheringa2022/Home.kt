@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
@@ -31,6 +32,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -230,7 +232,7 @@ class Home : Fragment() {
                     Box(modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 48.dp, top = 48.dp)
-                            .clickable { val main=MainActivity();main.index=R.id.merch }
+                        .clickable { val main = MainActivity();main.index = R.id.merch }
                     ) {
                         val color= listOf(Color(0xffC80915), Color(0xffEE6337), Color(0xff11D3D3))
                         merchBox(merch = homeViewModel.merchhome
@@ -914,13 +916,16 @@ class Home : Fragment() {
         horiscrollowneventstate: ScrollState,
         boxwidth: MutableState<Dp>
     ){
+        val coroutineScope = rememberCoroutineScope()
          val color= listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random()
 
         val lengthdp= (eventdetail.eventWithLive.eventdetail.durationInMin.toFloat() * (5f/3f))
         val xdis= (((eventdetail.eventWithLive.eventdetail.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
             val ydis= (30+(eventdetail.ydis*70))
-        var offsetX = remember { mutableStateOf((xdis-2).dp) }
-        var offsetY = remember { mutableStateOf(ydis.dp) }
+        val xdisinpxcald=with(LocalDensity.current){(xdis-2).dp.toPx()}
+        val ydisinpxcald=with(LocalDensity.current){(ydis).dp.toPx()}
+        var offsetX = remember { Animatable(xdisinpxcald) }
+        var offsetY = remember { Animatable(ydisinpxcald) }
 
         Box(
             Modifier
@@ -928,10 +933,8 @@ class Home : Fragment() {
 //                    xdis.dp - 2.dp, ydis.dp
                     IntOffset(
                         offsetX.value
-                            .toPx()
                             .toInt(),
                         offsetY.value
-                            .toPx()
                             .toInt()
                     )
                 }
@@ -948,21 +951,24 @@ class Home : Fragment() {
                     detectDragGesturesAfterLongPress(
                         onDragStart = { isdragging.value = true },
                         onDrag = { _, dragAmount ->
-                            val original = Offset(offsetX.value.toPx(), offsetY.value.toPx())
+                            val original = Offset(offsetX.value, offsetY.value)
                             val summed = original + dragAmount
                             val newValue = Offset(
                                 x = summed.x,
                                 y = summed.y.coerceIn(30.dp.toPx(), 221.dp.toPx())
                             )
-                            offsetX.value = newValue.x.toDp()
-                            offsetY.value = newValue.y.toDp()
+                            coroutineScope.launch {
+                                offsetY.snapTo(newValue.y)
+                                offsetX.snapTo(newValue.x)
+                            }
 
-                            if ((182.dp..221.dp).contains(offsetY.value) and
+
+
+                            if ((182.dp..221.dp).contains(offsetY.value.toDp()) and
                                 ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.dp
                                     .toPx()
                                     .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
                                     (offsetX.value)
-                                        .toPx()
                                         .toInt()
                                 ))
                             ) {
@@ -975,8 +981,16 @@ class Home : Fragment() {
                         },
                         onDragCancel = {
                             isdragging.value = false;
-                            offsetX.value=(xdis - 2).dp;
-                            offsetY.value = ydis.dp
+                            coroutineScope.launch {
+                                offsetX.animateTo(xdisinpxcald,animationSpec = tween(
+                                    durationMillis = 400,
+                                    delayMillis = 0, easing = FastOutSlowInEasing
+                                ));
+                                offsetY.animateTo(ydisinpxcald,animationSpec = tween(
+                                    durationMillis = 400,
+                                    delayMillis = 0, easing = FastOutSlowInEasing
+                                ));
+                            }
                         },
                         onDragEnd = {
                             isdragging.value = false
@@ -990,11 +1004,18 @@ class Home : Fragment() {
                                 onActiveDel.value = false
 
 
-
-
                             } else {
-                                offsetX.value = (xdis - 2).dp;
-                                offsetY.value = ydis.dp
+                                coroutineScope.launch {
+                                    offsetX.animateTo(xdisinpxcald,animationSpec = tween(
+                                        durationMillis = 400,
+                                        delayMillis = 0, easing = FastOutSlowInEasing
+                                    ));
+                                    offsetY.animateTo(ydisinpxcald,animationSpec = tween(
+                                        durationMillis = 400,
+                                        delayMillis = 0, easing = FastOutSlowInEasing
+                                    ));
+                                }
+
 
                             }
 
