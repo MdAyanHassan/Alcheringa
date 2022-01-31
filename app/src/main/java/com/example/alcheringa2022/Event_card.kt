@@ -90,7 +90,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
     var okstatenum= remember{ mutableStateOf(0)}
 
     viewModelHm.OwnEventsLiveState.forEach{
-            data-> if( data.eventdetail==eventdetail.eventdetail){okstate.value=true;okstatenum.value+=1}
+            data-> if( data==eventdetail.eventdetail){okstate.value=true;okstatenum.value+=1}
     }
     if(okstatenum.value==0){okstate.value=false}
 
@@ -178,7 +178,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                             .width(18.dp)
                             .height(18.dp)
                             .clickable {
-                                viewModelHm.OwnEventsWithLive.addNewItem(eventdetail);
+                                viewModelHm.OwnEventsWithLive.addNewItem(eventdetail.eventdetail);
                                 ScheduleDatabase.addEventsInSchedule(
                                     eventdetail.eventdetail,
                                     context

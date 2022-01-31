@@ -157,11 +157,11 @@ class Home : Fragment() {
                 homeViewModel.OwnEventsLiveState.clear()
                 homeViewModel.OwnEventsLiveState.addAll(data)
                 datestate1.clear();
-                datestate1.addAll(liveToWithY(data.filter { data -> data.eventdetail.starttime.date == 11 }))
+                datestate1.addAll(liveToWithY(data.filter { data -> data.starttime.date == 11 }))
                 datestate2.clear();
-                datestate2.addAll(liveToWithY(data.filter { data -> data.eventdetail.starttime.date == 12 }))
+                datestate2.addAll(liveToWithY(data.filter { data -> data.starttime.date == 12 }))
                 datestate3.clear();
-                datestate3.addAll(liveToWithY(data.filter { data -> data.eventdetail.starttime.date == 13 }))
+                datestate3.addAll(liveToWithY(data.filter { data -> data.starttime.date == 13 }))
             }
 
 
@@ -257,14 +257,14 @@ class Home : Fragment() {
         }
     }
 
-    fun liveToWithY(list:List<eventWithLive>): List<ownEventBoxUiModel> {
+    fun liveToWithY(list:List<eventdetail>): List<ownEventBoxUiModel> {
         val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
         val withylist= mutableListOf<ownEventBoxUiModel>()
         list.forEach{ data->
             var l = 0;
 
-            val lengthdp= (data.eventdetail.durationInMin.toFloat() * (5f/3f))
-            val xdis= (((data.eventdetail.starttime.hours-9)*100).toFloat() + (data.eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
+            val lengthdp= (data.durationInMin.toFloat() * (5f/3f))
+            val xdis= (((data.starttime.hours-9)*100).toFloat() + (data.starttime.min.toFloat() * (5f/3f)) + 75f)
 
             for (range in ranges) {
                 if (range.contains(xdis) or range.contains(xdis + lengthdp) or ((xdis..xdis + lengthdp).contains(range.start) and (xdis..xdis + lengthdp).contains(range.endInclusive))) {
@@ -919,8 +919,8 @@ class Home : Fragment() {
         val coroutineScope = rememberCoroutineScope()
          val color= listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random()
 
-        val lengthdp= (eventdetail.eventWithLive.eventdetail.durationInMin.toFloat() * (5f/3f))
-        val xdis= (((eventdetail.eventWithLive.eventdetail.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.eventdetail.starttime.min.toFloat() * (5f/3f)) + 75f)
+        val lengthdp= (eventdetail.eventWithLive.durationInMin.toFloat() * (5f/3f))
+        val xdis= (((eventdetail.eventWithLive.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.starttime.min.toFloat() * (5f/3f)) + 75f)
             val ydis= (30+(eventdetail.ydis*70))
         val xdisinpxcald=with(LocalDensity.current){(xdis-2).dp.toPx()}
         val ydisinpxcald=with(LocalDensity.current){(ydis).dp.toPx()}
@@ -982,38 +982,53 @@ class Home : Fragment() {
                         onDragCancel = {
                             isdragging.value = false;
                             coroutineScope.launch {
-                                offsetX.animateTo(xdisinpxcald,animationSpec = tween(
-                                    durationMillis = 400,
-                                    delayMillis = 0, easing = FastOutSlowInEasing
-                                ));
-                                offsetY.animateTo(ydisinpxcald,animationSpec = tween(
-                                    durationMillis = 400,
-                                    delayMillis = 0, easing = FastOutSlowInEasing
-                                ));
+                                offsetX.animateTo(
+                                    xdisinpxcald, animationSpec = tween(
+                                        durationMillis = 400,
+                                        delayMillis = 0, easing = FastOutSlowInEasing
+                                    )
+                                );
+                                offsetY.animateTo(
+                                    ydisinpxcald, animationSpec = tween(
+                                        durationMillis = 400,
+                                        delayMillis = 0, easing = FastOutSlowInEasing
+                                    )
+                                );
                             }
                         },
                         onDragEnd = {
                             isdragging.value = false
                             if (onActiveDel.value) {
-                                datestate.remove(eventdetail)
+                                val res = datestate.remove(eventdetail)
+
                                 homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+
 
 //                             val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
 //                                Log.d("resdel",res1.toString())
 //                                Log.d("resdel",res2.toString())
                                 onActiveDel.value = false
+                                if (res) {
+                                    Toast
+                                        .makeText(activity, "event removed", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
 
 
                             } else {
                                 coroutineScope.launch {
-                                    offsetX.animateTo(xdisinpxcald,animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    ));
-                                    offsetY.animateTo(ydisinpxcald,animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    ));
+                                    offsetX.animateTo(
+                                        xdisinpxcald, animationSpec = tween(
+                                            durationMillis = 400,
+                                            delayMillis = 0, easing = FastOutSlowInEasing
+                                        )
+                                    );
+                                    offsetY.animateTo(
+                                        ydisinpxcald, animationSpec = tween(
+                                            durationMillis = 400,
+                                            delayMillis = 0, easing = FastOutSlowInEasing
+                                        )
+                                    );
                                 }
 
 
@@ -1034,7 +1049,7 @@ class Home : Fragment() {
                     .fillMaxSize()
                     .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
                 Text(
-                    text = eventdetail.eventWithLive.eventdetail.artist,
+                    text = eventdetail.eventWithLive.artist,
                     color = Color.White,
                     fontWeight = FontWeight.W700,
                     fontFamily = clash,
@@ -1043,7 +1058,7 @@ class Home : Fragment() {
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = eventdetail.eventWithLive.eventdetail.category,
+                    text = eventdetail.eventWithLive.category,
                     style = TextStyle(
                         color = colorResource(id = R.color.textGray),
                         fontFamily = clash,
