@@ -132,7 +132,7 @@ public class SignUp extends AppCompatActivity {
                             Log.d(TAG, "Name: " + name);
                             Log.d(TAG, "Email: " + email);
                             Log.d(TAG, "Roll No: " + rollno);
-                            Toast.makeText(SignUp.this, "Name: " + name + " \n" + "Email: " + email, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(SignUp.this, "Name: " + name + " \n" + "Email: " + email, Toast.LENGTH_LONG).show();
 
                             RegisterUserInDatabase();
                             saveDetails(name, email);

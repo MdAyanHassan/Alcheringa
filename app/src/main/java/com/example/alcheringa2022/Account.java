@@ -41,12 +41,7 @@ public class Account extends AppCompatActivity {
         shared_name = sharedPreferences.getString("name", "");
         shared_photoUrl = sharedPreferences.getString("photourl", "");
         backbtn=findViewById(R.id.backbtn);
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        backbtn.setOnClickListener(view -> finish());
 
         if(!shared_name.equals(""))
         {
@@ -65,11 +60,7 @@ public class Account extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-        contactus_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ContactUs.class));
-            }});
+        contactus_view.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ContactUs.class)));
 
         contactus_view.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ContactUs.class)));
 

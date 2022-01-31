@@ -16,12 +16,7 @@ public class ContactUs extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_us);
 
-        back_btn=findViewById(R.id.back_arrow);
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back_btn=findViewById(R.id.backbtn);
+        back_btn.setOnClickListener(v -> finish());
     }
 }
