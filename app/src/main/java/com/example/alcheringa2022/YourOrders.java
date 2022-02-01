@@ -61,21 +61,24 @@ public class YourOrders extends AppCompatActivity {
         assert email != null;
 
         firestore.collection("USERS").document(email).collection("ORDERS").get().addOnCompleteListener(task -> {
-            for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                ArrayList<HashMap<String, Object>> obj = (ArrayList<HashMap<String, Object>>) documentSnapshot
-                        .get("orders");
 
-                for (HashMap<String, Object> order : obj) {
-                    yourOrders_modelList.add(new YourOrders_model(order.get("isDelivered").toString(),
-                            order.get("Name").toString(), order.get("Type").toString(), order.get("Count").toString(),
-                            order.get("Size").toString(),
-                            order.get("Price").toString(), "12",
-                            "https://i.picsum.photos/id/355/200/300.jpg?hmac=CjmRk_yPeMJV6teNYBA4ceaviVpxIl8XM9NL7GQzLMU"));
+            if(task.isSuccessful() && !task.getResult().isEmpty())
+            {
+                for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                    ArrayList<HashMap<String, Object>> obj = (ArrayList<HashMap<String, Object>>) documentSnapshot.get("orders");
+
+                    for (HashMap<String, Object> order : obj) {
+                        yourOrders_modelList.add(new YourOrders_model(order.get("isDelivered").toString(),
+                                order.get("Name").toString(), order.get("Type").toString(), order.get("Count").toString(),
+                                order.get("Size").toString(),
+                                order.get("Price").toString(), "12",
+                                "https://i.picsum.photos/id/355/200/300.jpg?hmac=CjmRk_yPeMJV6teNYBA4ceaviVpxIl8XM9NL7GQzLMU"));
+                    }
                 }
-
-                recyclerView.setAdapter(yourOrders_adapter);
-                loaderView.setVisibility(View.GONE);
             }
+
+            recyclerView.setAdapter(yourOrders_adapter);
+            loaderView.setVisibility(View.GONE);
         });
     }
 }
