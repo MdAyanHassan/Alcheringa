@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         index=R.id.schedule;
 
 
-/*        try{
+       /* try{
             Intent intent = getIntent();
             String fragment_name = intent.getExtras().getString("fragment");
             if(fragment_name.equals("merch")){

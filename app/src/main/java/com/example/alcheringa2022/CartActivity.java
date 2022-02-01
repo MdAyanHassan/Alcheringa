@@ -46,13 +46,13 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
             startShopping.setOnClickListener((v) -> {
                 Intent i = new Intent(this, MainActivity.class);
                 i.putExtra("fragment", "merch");
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(i);
+                finish();
             });
 
         }else{
             setContentView(R.layout.activity_cart);
-
-
 
             amount=findViewById(R.id.order_total_value);
             checkout_btn=findViewById(R.id.checkout_button);
@@ -72,8 +72,6 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
 
         ImageButton backBtn = findViewById(R.id.backbtn);
         backBtn.setOnClickListener(v -> finish());
-
-
 
     }
 
@@ -104,7 +102,10 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
         cartItemsAdapter =new CartItemsAdapter(cartModelArrayList,this,getApplicationContext());
         recyclerView.setAdapter(cartItemsAdapter);
         calculate_amount();
+        refreshView();
     }
+
+
 
     @Override
     public void OnIncrementClick(int position) {
@@ -120,6 +121,7 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
                 cartModelArrayList.get(position).getType(),getApplicationContext());
         cartItemsAdapter.notifyDataSetChanged();
         calculate_amount();
+        refreshView();
 
     }
 
@@ -133,15 +135,29 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
                     cartModelArrayList.get(position).getSize(), cartModelArrayList.get(position).getCount());
             cartItemsAdapter.notifyDataSetChanged();
             calculate_amount();
-        }
-        if(count==1){
+        }else if(count==1){
             dbHandler.DeleteItem(cartModelArrayList.get(position).getName(), cartModelArrayList.get(position).getSize());
             cartModelArrayList.remove(cartModelArrayList.get(position));
             cartItemsAdapter =new CartItemsAdapter(cartModelArrayList,this,getApplicationContext());
             recyclerView.setAdapter(cartItemsAdapter);
             calculate_amount();
         }
+        refreshView();
 
 
+    }
+
+    private void refreshView() {
+        if(cartModelArrayList.size() == 0){
+            setContentView(R.layout.empty_shopping_cart);
+            startShopping = findViewById(R.id.start_shopping);
+            startShopping.setOnClickListener((v) -> {
+                Intent i = new Intent(this, MainActivity.class);
+                i.putExtra("fragment", "merch");
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
+                finish();
+            });
+        }
     }
 }

@@ -47,22 +47,6 @@ public class Profile extends AppCompatActivity {
 
     }
 
-    public void interestItemClick(View v){
-        TextView t = (TextView) v;
 
-        int color=t.getCurrentTextColor();
-        String hexColor = String.format("#%06X", (0xFFFFFF & color));
-
-        if(hexColor.equals("#FFFFFF")){
-            t.setBackgroundResource(R.drawable.interests_highlighted);
-            t.setTextColor(Color.parseColor("#EE6337"));
-            interests.add(t.getText().toString());
-        }else{
-            t.setBackgroundResource(R.drawable.interests);
-            t.setTextColor(Color.parseColor("#FFFFFF"));
-            interests.remove(t.getText().toString());
-        }
-
-    }
 
 }

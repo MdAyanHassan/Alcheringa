@@ -33,21 +33,20 @@ public class YourOrders extends AppCompatActivity {
     ImageButton imageView;
     LoaderView loaderView;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_orders);
-        recyclerView=findViewById(R.id.user_orders_recyclerview);
-        imageView=findViewById(R.id.backbtn);
+        recyclerView = findViewById(R.id.user_orders_recyclerview);
+        imageView = findViewById(R.id.backbtn);
         imageView.setOnClickListener(v -> finish());
 
-        firebaseAuth=FirebaseAuth.getInstance();
-        firestore= FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        yourOrders_modelList=new ArrayList<>();
-        yourOrders_adapter=new YourOrdersAdapter(yourOrders_modelList, this);
+        yourOrders_modelList = new ArrayList<>();
+        yourOrders_adapter = new YourOrdersAdapter(yourOrders_modelList, this);
 
         populate_your_orders();
 
@@ -61,19 +60,20 @@ public class YourOrders extends AppCompatActivity {
         String email = user.getEmail();
         assert email != null;
 
-        firestore.collection("USERS").document(email).collection("ORDERS").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                for(DocumentSnapshot documentSnapshot : task.getResult()){
-                    ArrayList<HashMap<String, Object>> obj= (ArrayList<HashMap<String, Object>>) documentSnapshot.get("orders");
+        firestore.collection("USERS").document(email).collection("ORDERS").get().addOnCompleteListener(task -> {
+            for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                ArrayList<HashMap<String, Object>> obj = (ArrayList<HashMap<String, Object>>) documentSnapshot
+                        .get("orders");
 
-                    for(HashMap<String, Object> order : obj) {
-                        yourOrders_modelList.add(new YourOrders_model(order.get("isDelivered").toString(), order.get("Name").toString()
-                                , order.get("Type").toString(), order.get("Count").toString(), order.get("Size").toString(),
-                                order.get("Price").toString(), "12", "https://i.picsum.photos/id/355/200/300.jpg?hmac=CjmRk_yPeMJV6teNYBA4ceaviVpxIl8XM9NL7GQzLMU"));
-                    }
-                    recyclerView.setAdapter(yourOrders_adapter);
+                for (HashMap<String, Object> order : obj) {
+                    yourOrders_modelList.add(new YourOrders_model(order.get("isDelivered").toString(),
+                            order.get("Name").toString(), order.get("Type").toString(), order.get("Count").toString(),
+                            order.get("Size").toString(),
+                            order.get("Price").toString(), "12",
+                            "https://i.picsum.photos/id/355/200/300.jpg?hmac=CjmRk_yPeMJV6teNYBA4ceaviVpxIl8XM9NL7GQzLMU"));
                 }
+
+                recyclerView.setAdapter(yourOrders_adapter);
                 loaderView.setVisibility(View.GONE);
             }
         });

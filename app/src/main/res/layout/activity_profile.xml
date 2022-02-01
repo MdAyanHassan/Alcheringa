@@ -102,10 +102,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/blur_rectangle"
                 android:orientation="vertical"
                 app:flow_horizontalAlign="center"
@@ -119,7 +119,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     android:text="Select your interests"
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -133,42 +132,42 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:orientation="vertical"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/interests_heading">
 
                     <LinearLayout style="@style/interests_horizontal_container">
-                        <TextView android:text="Dance" style="@style/select_interest_item" />
-                        <TextView android:text="Music" style="@style/select_interest_item" />
-                        <TextView android:text="Music" style="@style/select_interest_item" />
+                        <TextView android:text="Dance" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Music" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Traditional" style="@style/select_interest_item_profile" />
                     </LinearLayout>
                     <LinearLayout style="@style/interests_horizontal_container">
-                        <TextView android:text="Indie" style="@style/select_interest_item" />
-                        <TextView android:text="Rock" style="@style/select_interest_item" />
-                        <TextView android:text="Classical" style="@style/select_interest_item" />
+                        <TextView android:text="Indie" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Rock" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Classical" style="@style/select_interest_item_profile" />
                     </LinearLayout>
                     <LinearLayout style="@style/interests_horizontal_container">
-                        <TextView android:text="EDM" style="@style/select_interest_item" />
-                        <TextView android:text="Soothing" style="@style/select_interest_item" />
-                        <TextView android:text="Metal" style="@style/select_interest_item" />
+                        <TextView android:text="EDM" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Soothing" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Metal" style="@style/select_interest_item_profile" />
                     </LinearLayout>
                     <LinearLayout style="@style/interests_horizontal_container">
-                        <TextView android:text="Art" style="@style/select_interest_item" />
-                        <TextView android:text="Aesthetics" style="@style/select_interest_item" />
-                        <TextView android:text="History" style="@style/select_interest_item" />
+                        <TextView android:text="Art" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Aesthetics" style="@style/select_interest_item_profile" />
+                        <TextView android:text="History" style="@style/select_interest_item_profile" />
                     </LinearLayout>
                     <LinearLayout style="@style/interests_horizontal_container">
-                        <TextView android:text="Ethnic" style="@style/select_interest_item" />
-                        <TextView android:text="Fashion" style="@style/select_interest_item" />
-                        <TextView android:text="Colors" style="@style/select_interest_item" />
+                        <TextView android:text="Ethnic" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Fashion" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Colors" style="@style/select_interest_item_profile" />
                     </LinearLayout>
                     <LinearLayout
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginBottom="4dp"
                         style="@style/interests_horizontal_container">
-                        <TextView android:text="Soul" style="@style/select_interest_item" />
-                        <TextView android:text="Music" style="@style/select_interest_item" />
-                        <TextView android:text="Traditional" style="@style/select_interest_item" />
+                        <TextView android:text="Soul" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Serene" style="@style/select_interest_item_profile" />
+                        <TextView android:text="Bands" style="@style/select_interest_item_profile" />
                     </LinearLayout>
 
                 </LinearLayout>

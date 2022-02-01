@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.method.TransformationMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -65,6 +68,8 @@ public class Login extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
 
+        Password.setTransformationMethod(new HiddenPassTransformationMethod());
+
         loginButton.setOnClickListener(v -> CustomLogin());
         google_login_btn.setOnClickListener(v -> google_login_callback());
         backButton.setOnClickListener(v -> goBack());
@@ -82,7 +87,7 @@ public class Login extends AppCompatActivity {
 
     private void goBack() {
         Intent intent = new Intent(getApplicationContext(),Greeting_page.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
         finish();
     }
@@ -266,6 +271,46 @@ public class Login extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    private class HiddenPassTransformationMethod implements TransformationMethod {
+
+        private char DOT = '\u2022';
+
+        @Override
+        public CharSequence getTransformation(final CharSequence charSequence, final View view) {
+            return new PassCharSequence(charSequence);
+        }
+
+        @Override
+        public void onFocusChanged(final View view, final CharSequence charSequence, final boolean b, final int i,
+                                   final Rect rect) {
+            //nothing to do here
+        }
+
+        private class PassCharSequence implements CharSequence {
+
+            private final CharSequence charSequence;
+
+            public PassCharSequence(final CharSequence charSequence) {
+                this.charSequence = charSequence;
+            }
+
+            @Override
+            public char charAt(final int index) {
+                return DOT;
+            }
+
+            @Override
+            public int length() {
+                return charSequence.length();
+            }
+
+            @Override
+            public CharSequence subSequence(final int start, final int end) {
+                return new PassCharSequence(charSequence.subSequence(start, end));
+            }
+        }
     }
 
 }

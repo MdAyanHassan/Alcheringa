@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alcheringa2022.Database.DBHandler;
 import com.example.alcheringa2022.Model.cartModel;
-import com.example.alcheringa2022.Model.merchModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -124,23 +123,20 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     }
 
     private void getShippingCharges() {
-        firebaseFirestore.collection("Constants").document("Merch").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        shipping_charges = Integer.parseInt(document.getString("shipping"));
-                        shipping.setText(String.format("₹%s.00", document.getString("shipping")));
-                    }else{
-                        Log.d(TAG, "Error getting documents: Document does not exist");
-                    }
-                }else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+        firebaseFirestore.collection("Constants").document("Merch").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    shipping_charges = Integer.parseInt(document.getString("shipping"));
+                    shipping.setText(String.format("₹%s.00", document.getString("shipping")));
+                }else{
+                    Log.d(TAG, "Error getting documents: Document does not exist");
                 }
-                Log.d(TAG, "The obtained shipping amount is: "+ shipping_charges);
-                amount = calculate_amount();
+            }else {
+                Log.d(TAG, "Error getting documents: ", task.getException());
             }
+            Log.d(TAG, "The obtained shipping amount is: "+ shipping_charges);
+            amount = calculate_amount();
         });
     }
 
@@ -219,7 +215,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         }
     }
 
-    private void Add_Order(ArrayList<cartModel> order_list) {
+    private void AddOrderToFirebase(ArrayList<cartModel> order_list) {
         //int total_price = 0;
         String email= Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
@@ -309,7 +305,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     public void onPaymentSuccess(String razorpayPaymentID, PaymentData paymentData) {
         Log.d(TAG, "onPaymentSuccess razorpayPaymentID: " + razorpayPaymentID);
         Toast.makeText(getApplicationContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
-        Add_Order(arrayList);
+        AddOrderToFirebase(arrayList);
         clear_cart();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
