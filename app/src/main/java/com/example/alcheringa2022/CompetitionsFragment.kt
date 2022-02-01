@@ -18,6 +18,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.viewModelHome
@@ -39,7 +40,7 @@ class CompetitionsFragment : Fragment() {
 
     private lateinit var binding: FragmentCompetitionsBinding
     val homeViewModel:viewModelHome by activityViewModels()
-
+    lateinit var Fm:FragmentManager
     val events=mutableListOf(
 
         eventdetail(
@@ -86,6 +87,11 @@ class CompetitionsFragment : Fragment() {
 
 
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Fm= parentFragmentManager
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -139,7 +145,7 @@ class CompetitionsFragment : Fragment() {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-        ) { items(homeViewModel.allEventsWithLive) { dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel, it) } } }
+        ) { items(homeViewModel.allEventsWithLive) { dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel,it,Fm) } } }
 
         Spacer(modifier = Modifier.height(24.dp))
     }

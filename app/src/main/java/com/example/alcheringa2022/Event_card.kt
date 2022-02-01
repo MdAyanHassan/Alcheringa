@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -84,7 +85,7 @@ import com.skydoves.landscapist.glide.GlideImage
 //)
 
 @Composable
-fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Context) {
+fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Context,FragmentManager: androidx.fragment.app.FragmentManager) {
     var ScheduleDatabase=ScheduleDatabase(context)
     var okstate= remember{ mutableStateOf(false)}
     var okstatenum= remember{ mutableStateOf(0)}
@@ -103,7 +104,15 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                 elevation = 5.dp) {
             Box(modifier = Modifier
                 .height(256.dp)
-                .width(218.dp)){
+                .width(218.dp)
+                .clickable {
+                    FragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainerView, Events_Details_Fragment()).addToBackStack(null)
+                        .commit()
+                }
+
+            ){
                 GlideImage(modifier = Modifier
                     .width(218.dp)
                     .height(256.dp),imageModel = eventdetail.eventdetail.imgurl, contentDescription = "artist", contentScale = ContentScale.Crop,

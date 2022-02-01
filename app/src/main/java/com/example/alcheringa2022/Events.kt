@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.viewModelHome
@@ -45,56 +46,14 @@ import java.util.*
 
 class Events : Fragment() {
 
+    private lateinit var fgm:FragmentManager
     private lateinit var binding: FragmentEventsBinding
     val homeViewModel: viewModelHome by activityViewModels()
     val scheduleDatabase = ScheduleDatabase(activity)
-    //val eventslist=scheduleDatabase.schedule;
-//    private val events=mutableListOf(
-//
-//        eventdetail(
-//            "JUBIN NAUTIYAL",
-//            "Pro Nights",
-//            OwnTime(11,9,0),
-//            "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
-//        ),
-//
-//        eventdetail(
-//            "DJ SNAKE",
-//            "Pro Nights",
-//            OwnTime(12,12,0),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-//        ),
-//        eventdetail(
-//            "TAYLOR SWIFT",
-//            "Pro Nights",
-//            OwnTime(12,14,0),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-//        )
-//        ,
-//
-//        eventdetail(
-//            "DJ SNAKE2",
-//            "Pro Nights",
-//            OwnTime(12,10,0),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-//        ),
-//        eventdetail(
-//            "TAYLOR SWIFT2",
-//            "Pro Nights",
-//            OwnTime(12,15,0),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-//        )
-//        ,
-//        eventdetail(
-//            "TAYLOR SWIFT3",
-//            "Pro Nights",
-//            OwnTime(12,14,30),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
-//        )
-//
-//
-//
-//    )
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fgm=parentFragmentManager
+    }
 
 
     override fun onCreateView(
@@ -154,7 +113,7 @@ class Events : Fragment() {
                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
         ) { items(homeViewModel.allEventsWithLive.filter {
                 data-> data.eventdetail.category.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()})
-        {dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel, it) } } }
+        {dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel, it, fgm) } } }
 
         Spacer(modifier = Modifier.height(24.dp))
     }

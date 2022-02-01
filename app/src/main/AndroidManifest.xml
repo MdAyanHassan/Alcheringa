@@ -76,11 +76,11 @@
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".CartActivity"
@@ -131,11 +131,11 @@
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity> <!-- DO NOT EDIT THE BELOW ACTIVITIES! -->
         <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity

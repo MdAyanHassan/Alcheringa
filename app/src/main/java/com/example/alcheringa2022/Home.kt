@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.airbnb.lottie.compose.*
 import com.example.alcheringa2022.Database.ScheduleDatabase
@@ -67,9 +68,9 @@ class Home : Fragment() {
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
+    lateinit var fm:FragmentManager
     lateinit var binding: FragmentHomeBinding
-   val homeViewModel : viewModelHome by activityViewModels()
-
+    val homeViewModel : viewModelHome by activityViewModels()
     val ranges= mutableSetOf<ClosedFloatingPointRange<Float>>()
 
     val datestate1 = mutableStateListOf<ownEventBoxUiModel>()
@@ -134,9 +135,11 @@ class Home : Fragment() {
             mParam1 = requireArguments().getString(ARG_PARAM1)
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
+        fm=parentFragmentManager
 
         val scheduleDatabase=ScheduleDatabase(context)
         homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
+
 
 
         homeViewModel.getfeaturedEvents()
@@ -189,6 +192,9 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
         binding.account.setOnClickListener {
             startActivity(Intent(context,Account::class.java));
 
@@ -226,7 +232,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it) } }
+                            items(homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it,fm) } }
                         }
 
                     }
@@ -239,7 +245,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.filter { data-> !(data.isLive.value) }) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it) } }
+                            items(homeViewModel.allEventsWithLive.filter { data-> !(data.isLive.value) }) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it,fm) } }
                         }
                     }
                     Box(modifier = Modifier
@@ -269,7 +275,7 @@ class Home : Fragment() {
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.take(7)) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it) } }
+                            items(homeViewModel.allEventsWithLive.take(7)) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it,fm) } }
                         }
                     }
 
