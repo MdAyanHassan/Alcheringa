@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.alcheringa2022.R;
 
@@ -16,6 +17,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
         loaderView = findViewById(R.id.dots_progress);
+
+        ImageButton back = findViewById(R.id.back_button);
+        back.setOnClickListener(v-> finish());
 
 
         //after loading activity:

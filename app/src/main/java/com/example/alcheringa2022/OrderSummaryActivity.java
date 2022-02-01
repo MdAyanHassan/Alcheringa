@@ -13,11 +13,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alcheringa2022.Database.DBHandler;
 import com.example.alcheringa2022.Model.cartModel;
+import com.example.alcheringa2022.Model.merchModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.razorpay.Checkout;
 import com.razorpay.Order;
@@ -53,7 +58,9 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     String user_state;
     String user_city;
     String user_pin_code;
+    int shipping_charges;
     long amount;
+    TextView shipping;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +78,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         total=findViewById(R.id.total);
         order_total=findViewById(R.id.order_total);
         loaderView = findViewById(R.id.dots_progress);
+        shipping = findViewById(R.id.shipping_charge);
 
         Intent intent = getIntent();
 
@@ -89,6 +97,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
         arrayList = dbHandler.readCourses();
 
+        shipping_charges = 0;
+        getShippingCharges();
         amount = calculate_amount();
 
         OrderSummaryAdapter adapter = new OrderSummaryAdapter(this, arrayList);
@@ -110,10 +120,29 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         ImageButton backBtn = findViewById(R.id.back_button);
         backBtn.setOnClickListener(v -> finish());
 
-        //Toast.makeText(this,""+Utility.calculateCartQuantity(this),Toast.LENGTH_LONG).show();
         loaderView.setVisibility(View.GONE);
     }
 
+    private void getShippingCharges() {
+        firebaseFirestore.collection("Constants").document("Merch").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        shipping_charges = Integer.parseInt(document.getString("shipping"));
+                        shipping.setText(String.format("₹%s.00", document.getString("shipping")));
+                    }else{
+                        Log.d(TAG, "Error getting documents: Document does not exist");
+                    }
+                }else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+                Log.d(TAG, "The obtained shipping amount is: "+ shipping_charges);
+                amount = calculate_amount();
+            }
+        });
+    }
 
 
     private long calculate_amount() {
@@ -122,8 +151,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             amt=amt+Long.parseLong(arrayList.get(i).getPrice())*Long.parseLong(arrayList.get(i).getCount());
         }
 
-        final int shipping_cost = 45;
-        int total_and_shipping = shipping_cost + (int) amt;
+        //final int shipping_cost = 45;
+        int total_and_shipping = shipping_charges + (int) amt;
         String amount = MessageFormat.format("₹{0}.", amt);
 
         total.setText(String.format(Locale.getDefault(),"₹%d.00", total_and_shipping)); //total
@@ -170,14 +199,14 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
             options.put("name", "Alcheringa 2022");
             options.put("description", "Alcheringa Merch Order");
-            //options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
-            options.put("image", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Logo%2Falcher_logo.png?alt=media&token=d915c089-baba-4cfe-b042-da82331bb550");
+            //options.put("image", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Logo%2Falcher_logo.png?alt=media&token=d915c089-baba-4cfe-b042-da82331bb550");
+            options.put("image", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Logo%2Falcheringa_black_logo.png?alt=media&token=1c93092c-e603-48e2-845a-6cc5ee40692d");
             options.put("order_id", order_id);
-            options.put("theme.color", "#3399cc");
+            options.put("theme.color", "#ee6337");
             options.put("currency", "INR");
             options.put("amount", total_price*100);//pass amount in currency subunits
             options.put("prefill.name", user_name);
-            options.put("prefill.contact",user_phone);
+            options.put("prefill.contact","+91"+user_phone);
             JSONObject retryObj = new JSONObject();
             retryObj.put("enabled", true);
             retryObj.put("max_count", 3);

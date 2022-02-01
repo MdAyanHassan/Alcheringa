@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,6 +40,7 @@ public class Login extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
     private EditText Email,Password;
+    //TextInputLayout Password;
     Button loginButton;
     LinearLayout signInButtonO;
     SharedPreferences sharedPreferences;
@@ -70,7 +72,7 @@ public class Login extends AppCompatActivity {
         signInButtonO.setOnClickListener(v -> MicrosoftLogin());
         forgotPassword.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ResetPassword.class)));
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() { goBack(); }
         };
@@ -136,7 +138,8 @@ public class Login extends AppCompatActivity {
     }
 
     private void startMainActivity(){
-        Intent intent = new Intent(this, InterestsActivity.class);
+        //Intent intent = new Intent(this, InterestsActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
@@ -152,6 +155,7 @@ public class Login extends AppCompatActivity {
 
     private void CustomLogin() {
         String email=Email.getText().toString();
+        //String password=Password.getEditText().getText().toString();
         String password=Password.getText().toString();
         if(!email.isEmpty() && !password.isEmpty()){
             custom_Login_start(email,password);
