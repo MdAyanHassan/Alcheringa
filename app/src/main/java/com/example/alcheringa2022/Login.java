@@ -181,8 +181,21 @@ public class Login extends AppCompatActivity {
                 FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
                 assert firebaseUser != null;
                 if(firebaseUser.isEmailVerified()){
-                    saveDetails(firebaseUser.getDisplayName(),email);
-                    startMainActivity();
+                    firebaseFirestore.collection("USERS").document(email).get().addOnCompleteListener(task1 -> {
+                        if (task.isSuccessful()) {
+                            String nameString = task1.getResult().getString("Name");
+                            saveDetails(nameString,email);
+
+                        }else{
+                            Toast.makeText(this, "Could not get username",Toast.LENGTH_SHORT).show();
+                        }
+                        Intent intent = new Intent(this, InterestsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    });
+
+
                 }
                 else{ toast("Please verify your email first"); }
             }
