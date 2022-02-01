@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.TransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -75,6 +76,8 @@ public class SignUp extends AppCompatActivity {
         firebaseFirestore= FirebaseFirestore.getInstance();
 
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
+
+        Password.setTransformationMethod(new HiddenPassTransformationMethod());
 
         logTextView=findViewById(R.id.login_here);
         backButton =findViewById(R.id.back_button);
@@ -346,6 +349,27 @@ public class SignUp extends AppCompatActivity {
             @Override
             public CharSequence subSequence(final int start, final int end) {
                 return new SignUp.HiddenPassTransformationMethod.PassCharSequence(charSequence.subSequence(start, end));
+            }
+        }
+    }
+
+    public void ShowHidePass(View view){
+
+        if(view.getId()==R.id.show_pass_btn){
+
+            if(!Password.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                ((ImageView)(view)).setImageResource(R.drawable.hide);
+
+                //Show Password
+                Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            }
+            else{
+                ((ImageView)(view)).setImageResource(R.drawable.show);
+
+                //Hide Password
+                //Password.setTransformationMethod(HiddenPassTransformationMethod.getInstance());
+                Password.setTransformationMethod(new HiddenPassTransformationMethod());
+
             }
         }
     }
