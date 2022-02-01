@@ -241,10 +241,12 @@ class Home : Fragment() {
                     Row(
                         Modifier
                             .fillMaxWidth()
-                            .padding(start = 20.dp, bottom = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                            .wrapContentHeight()
+                            .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
-                        Text(text = "See Full Schedule >", fontFamily = hk_grotesk, fontSize = 18.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337) )
+                        Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337) )
                     }
+                    Spacer(modifier = Modifier.height(20.dp))
                     mySchedule()
                     Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "RECOMMENDED FOR YOU", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                     Box(modifier = Modifier
@@ -1040,8 +1042,8 @@ class Home : Fragment() {
                         onDragEnd = {
                             isdragging.value = false
                             if (onActiveDel.value) {
-                                var list= mutableListOf<ownEventBoxUiModel>()
-                                datestate.forEach{data->list.add(data)}
+                                var list = mutableListOf<ownEventBoxUiModel>()
+                                datestate.forEach { data -> list.add(data) }
                                 datestate.remove(eventdetail)
                                 Log.d("boxevent", eventdetail.toString())
 

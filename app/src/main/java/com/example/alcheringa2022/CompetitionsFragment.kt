@@ -112,7 +112,7 @@ class CompetitionsFragment : Fragment() {
         }
 
         binding.competitionsCompose.setContent {
-//            Full_view()
+            Full_view()
         }
     }
 
@@ -126,7 +126,7 @@ class CompetitionsFragment : Fragment() {
                     .verticalScroll(rememberScrollState())
                 /*.background(Color.Black)*/
             ) {
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(70.dp))
                 Events_row(heading = "DANCE", events_list = homeViewModel.allEventsWithLive)
                 Events_row(heading = "MUSIC", events_list = homeViewModel.allEventsWithLive)
                 Events_row(heading = "SPACECRAFT", events_list = homeViewModel.allEventsWithLive)
@@ -145,7 +145,7 @@ class CompetitionsFragment : Fragment() {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-        ) { items(homeViewModel.allEventsWithLive) { dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel,it,Fm) } } }
+        ) { items(events_list) { dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel,it,Fm) } } }
 
         Spacer(modifier = Modifier.height(24.dp))
     }

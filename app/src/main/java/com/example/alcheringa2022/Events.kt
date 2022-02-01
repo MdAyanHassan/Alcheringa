@@ -5,14 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
@@ -49,7 +47,6 @@ class Events : Fragment() {
     private lateinit var fgm:FragmentManager
     private lateinit var binding: FragmentEventsBinding
     val homeViewModel: viewModelHome by activityViewModels()
-    val scheduleDatabase = ScheduleDatabase(activity)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fgm=parentFragmentManager
@@ -124,7 +121,12 @@ class Events : Fragment() {
         Box(
             modifier = Modifier
                 .height(256.dp)
-                .fillMaxWidth().clip(RoundedCornerShape(8.dp))
+                .fillMaxWidth().clip(RoundedCornerShape(8.dp)).clickable {
+                    fgm
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainerView,CompetitionsFragment() ).addToBackStack(null)
+                        .commit()
+                }
         ) {
             GlideImage(
                 imageModel = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/competitionHeader.png?alt=media&token=7f350d9e-dbad-427a-822f-e3586bfa5e4c",

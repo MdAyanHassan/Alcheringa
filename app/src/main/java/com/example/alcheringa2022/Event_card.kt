@@ -223,7 +223,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                     .fillMaxSize()
                     .padding(12.dp), contentAlignment = Alignment.BottomStart){
                     Column {
-                        Text(text = eventdetail.eventdetail.artist, style = MaterialTheme.typography.h1)
+                        Text(text = eventdetail.eventdetail.artist, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W700, fontFamily = clash )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(text = eventdetail.eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(8.dp))
