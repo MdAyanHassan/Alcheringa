@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
-    android:width="388dp"
-    android:height="53dp"
-    android:viewportWidth="388"
-    android:viewportHeight="53"
-    >
-
-    <group>
-
-        <clip-path
-            android:pathData="M8 0H380C384.418 0 388 3.58172 388 8V45C388 49.4183 384.418 53 380 53H8C3.58172 53 0 49.4183 0 45V8C0 3.58172 3.58172 0 8 0Z"
-            />
-
-        <path
-            android:pathData="M0 0V53H388V0"
-            android:fillColor="#282828"
-            />
-
-    </group>
-
-</vector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- you can use any color you want I used here gray color-->
+    <solid android:color="#282828"/>
+    <corners android:radius="10dp"/>
+</shape>
