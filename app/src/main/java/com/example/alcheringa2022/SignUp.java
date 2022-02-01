@@ -358,13 +358,13 @@ public class SignUp extends AppCompatActivity {
         if(view.getId()==R.id.show_pass_btn){
 
             if(!Password.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
-                ((ImageView)(view)).setImageResource(R.drawable.hide);
+                ((ImageView)(view)).setImageResource(R.drawable.show);
 
                 //Show Password
                 Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             }
             else{
-                ((ImageView)(view)).setImageResource(R.drawable.show);
+                ((ImageView)(view)).setImageResource(R.drawable.hide);
 
                 //Hide Password
                 //Password.setTransformationMethod(HiddenPassTransformationMethod.getInstance());

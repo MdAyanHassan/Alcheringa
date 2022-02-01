@@ -145,7 +145,10 @@ public class ProfilePage extends AppCompatActivity {
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("name", task.getResult().getString("Name"));
-                    //name.setText(task.getResult().getString("Name"));
+                    String nameString = task.getResult().getString("Name");
+                    if(nameString != null && !nameString.isEmpty()){
+                        name.setText(nameString);
+                    }
 
                     String db_photourl = task.getResult().getString("PhotoURL");
 
