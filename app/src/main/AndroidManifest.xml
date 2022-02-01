@@ -39,14 +39,14 @@
         <activity
             android:name=".FaqPage"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-<!--        <activity-->
-<!--            android:name=".EventDetailsActivity"-->
-<!--            android:exported="true" />-->
-<!--        <activity-->
-<!--            android:name=".event_description_activity"-->
-<!--            android:exported="true"-->
-<!--            android:label="@string/title_activity_event_description"-->
-<!--            android:theme="@style/Theme.AppCompat.NoActionBar" />-->
+        <!--        <activity-->
+        <!--            android:name=".EventDetailsActivity"-->
+        <!--            android:exported="true" />-->
+        <!--        <activity-->
+        <!--            android:name=".event_description_activity"-->
+        <!--            android:exported="true"-->
+        <!--            android:label="@string/title_activity_event_description"-->
+        <!--            android:theme="@style/Theme.AppCompat.NoActionBar" />-->
         <activity
             android:name=".Account"
             android:exported="true"
@@ -76,11 +76,11 @@
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".CartActivity"
@@ -120,6 +120,10 @@
             android:exported="true" />
         <activity
             android:name=".YourOrders"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Sponsors"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity

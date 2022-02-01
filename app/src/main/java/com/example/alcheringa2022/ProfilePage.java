@@ -92,13 +92,6 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
 
-        save_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadImage();
-            }
-        });
-
         back_btn=findViewById(R.id.backbtn);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +113,7 @@ public class ProfilePage extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 filePath = result.getUri();
                 user_dp.setImageURI(result.getUri());
+                uploadImage();
             }
         }
     }
@@ -176,21 +170,37 @@ public class ProfilePage extends AppCompatActivity {
 
         if(filePath != null)
         {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
             StorageReference ref = storageReference.child("Users/"+ email);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Log.d("Image", "Success!!");
-                            Toast.makeText(ProfilePage.this, "Image Added", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            Toast.makeText(ProfilePage.this, "Profile Image Updated", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ProfilePage.this, "Profile Update Failed", Toast.LENGTH_SHORT).show();
                             Log.d("Image", "Failed!!");
                         }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
                     });
+
 
             ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override

@@ -52,7 +52,7 @@ public class YourOrders extends AppCompatActivity {
         populate_your_orders();
 
         loaderView = findViewById(R.id.dots_progress);
-        loaderView.setVisibility(View.GONE);
+        loaderView.setVisibility(View.VISIBLE);
     }
 
     private void populate_your_orders() {
@@ -74,8 +74,8 @@ public class YourOrders extends AppCompatActivity {
                     }
                     recyclerView.setAdapter(yourOrders_adapter);
                 }
+                loaderView.setVisibility(View.GONE);
             }
         });
-
     }
 }

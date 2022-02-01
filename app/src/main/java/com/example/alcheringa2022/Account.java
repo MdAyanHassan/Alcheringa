@@ -17,7 +17,7 @@ public class Account extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     FirebaseAuth firebaseAuth;
-    View view, your_orders, contactus_view, profile_page, faq_page, tnc_page, privacy_page, about_page;
+    View view, your_orders, contactus_view, profile_page, faq_page, tnc_page, privacy_page, about_page, sponsor_page;
     TextView user_name;
     ImageView user_photo;
     ImageView backbtn;
@@ -81,7 +81,8 @@ public class Account extends AppCompatActivity {
 
         about_page=findViewById(R.id.about);
         about_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),AboutPage.class)));
+
+        sponsor_page=findViewById(R.id.sponsor_button);
+        sponsor_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),Sponsors.class)));
     }
-
-
 }

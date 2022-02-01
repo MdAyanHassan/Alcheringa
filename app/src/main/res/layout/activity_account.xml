@@ -166,7 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/faq_button"
-            app:layout_constraintBottom_toTopOf="@id/signout_button"
+            app:layout_constraintBottom_toTopOf="@id/sponsor_button"
             android:background="@drawable/frame_27"
             android:paddingLeft="20dp"
             android:paddingTop="14.5dp"
@@ -190,6 +190,41 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@+id/faq_logo"
+                android:fontFamily="@font/hk_grotesk"
+                android:layout_marginStart="20dp"
+                android:textSize="18sp"
+                android:textFontWeight="400"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sponsor_button"
+            app:layout_constraintBottom_toTopOf="@id/signout_button"
+            android:background="@drawable/frame_27"
+            android:paddingLeft="20dp"
+            android:paddingTop="14.5dp"
+            android:paddingBottom="14.5dp"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_sponsor"
+                android:id="@+id/sponsor_logo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sponsors"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@+id/sponsor_logo"
                 android:fontFamily="@font/hk_grotesk"
                 android:layout_marginStart="20dp"
                 android:textSize="18sp"
