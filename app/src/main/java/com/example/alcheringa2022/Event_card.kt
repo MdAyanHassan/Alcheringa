@@ -106,6 +106,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                 .height(256.dp)
                 .width(218.dp)
                 .clickable {
+
                     FragmentManager
                         .beginTransaction()
                         .replace(R.id.fragmentContainerView, Events_Details_Fragment()).addToBackStack(null)

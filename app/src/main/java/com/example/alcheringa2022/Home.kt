@@ -1,5 +1,6 @@
 package com.example.alcheringa2022
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -147,28 +148,7 @@ class Home : Fragment() {
         homeViewModel.getMerchHome()
 //        Log.d("vipin",eventslist.toString());
 
-       kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
-            homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
-                homeViewModel.allEventsWithLive.clear()
-                homeViewModel.allEventsWithLive.addAll(data)
-            }
-           homeViewModel.featuredEventsWithLivedata.observe(requireActivity()){   data->
-               homeViewModel.featuredEventsWithLivestate.clear()
-               homeViewModel.featuredEventsWithLivestate.addAll(data)
-           }
-            homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
-                homeViewModel.OwnEventsLiveState.clear()
-                homeViewModel.OwnEventsLiveState.addAll(data)
-                datestate1.clear();
-                datestate1.addAll(liveToWithY(data.filter { data -> data.starttime.date == 11 }))
-                datestate2.clear();
-                datestate2.addAll(liveToWithY(data.filter { data -> data.starttime.date == 12 }))
-                datestate3.clear();
-                datestate3.addAll(liveToWithY(data.filter { data -> data.starttime.date == 13 }))
-            }
 
-
-        }
 
 
 
@@ -287,6 +267,36 @@ class Home : Fragment() {
             }
         }
     }
+
+    override fun onAttach(activity: Activity) {
+        super.onAttach(activity)
+        kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
+            homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
+                homeViewModel.allEventsWithLive.clear()
+                homeViewModel.allEventsWithLive.addAll(data)
+            }
+            homeViewModel.featuredEventsWithLivedata.observe(requireActivity()){   data->
+                homeViewModel.featuredEventsWithLivestate.clear()
+                homeViewModel.featuredEventsWithLivestate.addAll(data)
+            }
+            homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
+                homeViewModel.OwnEventsLiveState.clear()
+                homeViewModel.OwnEventsLiveState.addAll(data)
+                datestate1.clear();
+                datestate1.addAll(liveToWithY(data.filter { data -> data.starttime.date == 11 }))
+                datestate2.clear();
+                datestate2.addAll(liveToWithY(data.filter { data -> data.starttime.date == 12 }))
+                datestate3.clear();
+                datestate3.addAll(liveToWithY(data.filter { data -> data.starttime.date == 13 }))
+            }
+
+
+        }
+    }
+
+
+
+
 
     fun liveToWithY(list:List<eventdetail>): List<ownEventBoxUiModel> {
         val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
