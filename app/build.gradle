@@ -146,7 +146,11 @@ dependencies {
 
     // Saved state module for ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.0")
-    implementation("androidx.fragment:fragment-ktx:1.4.0")
+    implementation("androidx.fragment:fragment-ktx:1.4.1")
+
     implementation "com.airbnb.android:lottie-compose:4.2.2"
+
+
+
 
 }

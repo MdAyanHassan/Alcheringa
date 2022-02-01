@@ -39,14 +39,14 @@
         <activity
             android:name=".FaqPage"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".EventDetailsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".event_description_activity"
-            android:exported="true"
-            android:label="@string/title_activity_event_description"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+<!--        <activity-->
+<!--            android:name=".EventDetailsActivity"-->
+<!--            android:exported="true" />-->
+<!--        <activity-->
+<!--            android:name=".event_description_activity"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/title_activity_event_description"-->
+<!--            android:theme="@style/Theme.AppCompat.NoActionBar" />-->
         <activity
             android:name=".Account"
             android:exported="true"

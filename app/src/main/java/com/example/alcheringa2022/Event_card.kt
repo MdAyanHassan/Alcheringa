@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.bundleOf
 import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.addNewItem
 import com.example.alcheringa2022.Model.viewModelHome
@@ -106,10 +107,11 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                 .height(256.dp)
                 .width(218.dp)
                 .clickable {
-
+                    val frg=Events_Details_Fragment()
+                    frg.arguments= bundleOf("Artist" to eventdetail.eventdetail.artist)
                     FragmentManager
                         .beginTransaction()
-                        .replace(R.id.fragmentContainerView, Events_Details_Fragment()).addToBackStack(null)
+                        .replace(R.id.fragmentContainerView,frg ).addToBackStack(null)
                         .commit()
                 }
 
