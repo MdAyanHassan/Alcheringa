@@ -1,6 +1,7 @@
 package com.example.alcheringa2022
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
 import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.addNewItem
+import com.example.alcheringa2022.Model.removeAnItem
 import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.example.alcheringa2022.ui.theme.clash
@@ -203,7 +205,10 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                         {
                             Image( modifier = Modifier
                                 .width(20.dp)
-                                .height(20.dp),
+                                .height(20.dp)
+                                    .clickable {
+                                        Log.d("boxevent", eventdetail.toString())
+                                        viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail) },
                                 painter = painterResource(id = R.drawable.tickokay),
                                 contentDescription ="null", contentScale = ContentScale.FillBounds)
                         }
