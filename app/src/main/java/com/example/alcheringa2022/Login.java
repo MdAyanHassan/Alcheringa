@@ -33,6 +33,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -182,20 +183,33 @@ public class Login extends AppCompatActivity {
                 assert firebaseUser != null;
                 if(firebaseUser.isEmailVerified()){
                     firebaseFirestore.collection("USERS").document(email).get().addOnCompleteListener(task1 -> {
-                        if (task.isSuccessful()) {
+                        if (task1.isSuccessful()) {
                             String nameString = task1.getResult().getString("Name");
                             saveDetails(nameString,email);
-
                         }else{
                             Toast.makeText(this, "Could not get username",Toast.LENGTH_SHORT).show();
                         }
-                        Intent intent = new Intent(this, InterestsActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
                     });
-
-
+                    firebaseFirestore.collection("USERS").document(email).collection("interests").document("interests").get().addOnCompleteListener(task1 -> {
+                        if(task1.isSuccessful()){
+                            if(!task1.getResult().exists()){
+                                Intent intent = new Intent(this, InterestsActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            }else{
+                                Intent intent = new Intent(this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }else {
+                            Intent intent = new Intent(this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
                 }
                 else{ toast("Please verify your email first"); }
             }

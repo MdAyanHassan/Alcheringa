@@ -133,48 +133,48 @@ public class ProfilePage extends AppCompatActivity {
 
 
         if(!shared_name.equals("")){name.setText(shared_name);}
-        if (/*!shared_name.equals("") && */!shared_photoUrl.equals("")) {
-
+        if (!shared_photoUrl.equals("")) {
             Glide.with(this).load(shared_photoUrl).into(user_dp);
         } else {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            assert user != null;
-            String email = user.getEmail();
-            assert email != null;
-
-            firestore.collection("USERS").document(email).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    if(!shared_name.equals("")){
-                        String nameString = task.getResult().getString("Name");
-                        if(nameString != null && !nameString.isEmpty()){
-                            name.setText(nameString);
-                            editor.putString("name", nameString);
-                        }
-                    }
-
-                    String db_photourl = task.getResult().getString("PhotoURL");
-
-                    if (db_photourl != null) {
-                        Glide.with(this).load(db_photourl).into(user_dp);
-                        editor.putString("photourl", task.getResult().getString("PhotoURL"));
-                    }
-                    editor.apply();
-
-                    firestore.collection("USERS").document(email).collection("interests").document("interests").get().addOnCompleteListener(task1 -> {
-                        interests = (ArrayList<String>) task1.getResult().get("interests");
-                        Log.d("TAG", "The users' interests are: " + interests);
-                        setInterests();
-                    });
-
-
-
-                } else {
-                    Log.d("TAG", "Error getting documents: ", task.getException());
-                }
-            });
         }
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        assert user != null;
+        String email = user.getEmail();
+        assert email != null;
+
+        firestore.collection("USERS").document(email).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                if(!shared_name.equals("")){
+                    String nameString = task.getResult().getString("Name");
+                    if(nameString != null && !nameString.isEmpty()){
+                        name.setText(nameString);
+                        editor.putString("name", nameString);
+                    }
+                }
+
+                String db_photourl = task.getResult().getString("PhotoURL");
+
+                if (db_photourl != null) {
+                    Glide.with(this).load(db_photourl).into(user_dp);
+                    editor.putString("photourl", task.getResult().getString("PhotoURL"));
+                }
+                editor.apply();
+
+                firestore.collection("USERS").document(email).collection("interests").document("interests").get().addOnCompleteListener(task1 -> {
+                    interests = (ArrayList<String>) task1.getResult().get("interests");
+                    Log.d("TAG", "The users' interests are: " + interests);
+                    setInterests();
+                });
+
+
+
+            } else {
+                Log.d("TAG", "Error getting documents: ", task.getException());
+            }
+        });
     }
 
     private void uploadImage() {
