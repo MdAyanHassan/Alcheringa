@@ -196,10 +196,10 @@ public class SignUp extends AppCompatActivity {
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
                                             Log.d(TAG, "User profile updated.");
+                                            emailVerification();
+                                            RegisterUserInDatabase();
                                         }
                                     });
-                            emailVerification();
-                            RegisterUserInDatabase();
 
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());

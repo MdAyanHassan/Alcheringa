@@ -205,10 +205,12 @@ public class Login extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignIn();
     }
+
     private void GoogleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -233,23 +235,23 @@ public class Login extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithCredential:success");
-                        Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                        RegisterUserInDatabase();
-                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                        assert user != null;
-                        saveDetails(user.getDisplayName(),user.getEmail());
-                        startMainActivity();
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.d(TAG, "signInWithCredential:failure", task.getException());
-                        Toast.makeText(getApplicationContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+            .addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success");
+                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                    RegisterUserInDatabase();
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    assert user != null;
+                    saveDetails(user.getDisplayName(),user.getEmail());
+                    startMainActivity();
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.d(TAG, "signInWithCredential:failure", task.getException());
+                    Toast.makeText(getApplicationContext(), "" + task.getException(), Toast.LENGTH_SHORT).show();
 
-                    }
-                });
+                }
+            });
     }
 
     private void RegisterUserInDatabase() {
