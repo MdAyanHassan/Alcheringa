@@ -186,7 +186,7 @@ public class SignUp extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "The mail has been sent to your email address please verify", Toast.LENGTH_SHORT).show();
-                            FirebaseUser firebaseUser=mAuth.getCurrentUser();
+/*                            FirebaseUser firebaseUser=mAuth.getCurrentUser();
                             assert firebaseUser != null;
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(name)
@@ -196,10 +196,12 @@ public class SignUp extends AppCompatActivity {
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
                                             Log.d(TAG, "User profile updated.");
+
                                         }
-                                    });
+                                    });*/
+
                             emailVerification();
-                            RegisterUserInDatabase();
+                            RegisterUserInDatabaseCustom(name, email);
 
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -218,6 +220,26 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void RegisterUserInDatabaseCustom(String name, String email){
+
+        firebaseFirestore.collection("USERS").document(email).addSnapshotListener((value, error) -> {
+            assert value != null;
+            if (!value.exists()) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("Name", name);
+                data.put("Email", email);
+                firebaseFirestore.collection("USERS").document(email).set(data).
+                        addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                //Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error Occurred while adding user to the database", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
     }
 
     private void RegisterUserInDatabase() {

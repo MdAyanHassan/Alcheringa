@@ -181,8 +181,21 @@ public class Login extends AppCompatActivity {
                 FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
                 assert firebaseUser != null;
                 if(firebaseUser.isEmailVerified()){
-                    saveDetails(firebaseUser.getDisplayName(),email);
-                    startMainActivity();
+                    firebaseFirestore.collection("USERS").document(email).get().addOnCompleteListener(task1 -> {
+                        if (task.isSuccessful()) {
+                            String nameString = task1.getResult().getString("Name");
+                            saveDetails(nameString,email);
+
+                        }else{
+                            Toast.makeText(this, "Could not get username",Toast.LENGTH_SHORT).show();
+                        }
+                        Intent intent = new Intent(this, InterestsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    });
+
+
                 }
                 else{ toast("Please verify your email first"); }
             }
@@ -205,10 +218,12 @@ public class Login extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignIn();
     }
+
     private void GoogleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -233,23 +248,23 @@ public class Login extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithCredential:success");
-                        Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                        RegisterUserInDatabase();
-                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                        assert user != null;
-                        saveDetails(user.getDisplayName(),user.getEmail());
-                        startMainActivity();
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.d(TAG, "signInWithCredential:failure", task.getException());
-                        Toast.makeText(getApplicationContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
+            .addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success");
+                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                    RegisterUserInDatabase();
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    assert user != null;
+                    saveDetails(user.getDisplayName(),user.getEmail());
+                    startMainActivity();
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.d(TAG, "signInWithCredential:failure", task.getException());
+                    Toast.makeText(getApplicationContext(), "" + task.getException(), Toast.LENGTH_SHORT).show();
 
-                    }
-                });
+                }
+            });
     }
 
     private void RegisterUserInDatabase() {

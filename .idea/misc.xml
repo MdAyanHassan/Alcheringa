@@ -36,8 +36,8 @@
         <entry key="../../../../layout/compose-model-1642748197652.xml" value="0.5" />
         <entry key="../../../../layout/compose-model-1642748197657.xml" value="0.34074074074074073" />
         <entry key="../../../../layout/compose-model-1643183449087.xml" value="0.1" />
-        <entry key="../../../../layout/compose-model-1643700813011.xml" value="0.287962962962963" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/back.xml" value="0.1725752508361204" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/blur_rectangle.xml" value="0.26875" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/bottom_nav_icon_color_selector.xml" value="0.14391891891891892" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/bottom_orange_button_bg.xml" value="0.1725752508361204" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/cart_count_bg.xml" value="0.10912162162162162" />
@@ -204,7 +204,6 @@
         <entry key="app/src/main/res/layout/activity_category.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/activity_competitions.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/activity_epass.xml" value="0.19157608695652173" />
-        <entry key="app/src/main/res/layout/activity_event_details.xml" value="0.11302083333333333" />
         <entry key="app/src/main/res/layout/activity_greeting_page.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.18342391304347827" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19157608695652173" />

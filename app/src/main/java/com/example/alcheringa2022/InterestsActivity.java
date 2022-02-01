@@ -78,7 +78,7 @@ public class InterestsActivity extends AppCompatActivity {
         data.put("interests", interests);
 
         assert email != null;
-        firebaseFirestore.collection("USERS").document(email).set(data).addOnCompleteListener(task -> {
+        firebaseFirestore.collection("USERS").document(email).collection("interests").document("interests").set(data).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 Log.d("TAG","Interests added to firebase");
                 //Toast.makeText(getApplicationContext(), "Interests added to firebase", Toast.LENGTH_SHORT).show();

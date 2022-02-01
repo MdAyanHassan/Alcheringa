@@ -131,8 +131,10 @@ public class ProfilePage extends AppCompatActivity {
         String shared_name = sharedPreferences.getString("name", "");
         String shared_photoUrl = sharedPreferences.getString("photourl", "");
 
-        if (!shared_name.equals("") && !shared_photoUrl.equals("")) {
-            name.setText(shared_name);
+
+        if(!shared_name.equals("")){name.setText(shared_name);}
+        if (/*!shared_name.equals("") && */!shared_photoUrl.equals("")) {
+
             Glide.with(this).load(shared_photoUrl).into(user_dp);
         } else {
             FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -144,10 +146,12 @@ public class ProfilePage extends AppCompatActivity {
                 if (task.isSuccessful()) {
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("name", task.getResult().getString("Name"));
-                    String nameString = task.getResult().getString("Name");
-                    if(nameString != null && !nameString.isEmpty()){
-                        name.setText(nameString);
+                    if(!shared_name.equals("")){
+                        String nameString = task.getResult().getString("Name");
+                        if(nameString != null && !nameString.isEmpty()){
+                            name.setText(nameString);
+                            editor.putString("name", nameString);
+                        }
                     }
 
                     String db_photourl = task.getResult().getString("PhotoURL");
@@ -158,9 +162,13 @@ public class ProfilePage extends AppCompatActivity {
                     }
                     editor.apply();
 
-                    interests = (ArrayList<String>) task.getResult().get("interests");
-                    Log.d("TAG", "The users' interests are: " + interests);
-                    setInterests();
+                    firestore.collection("USERS").document(email).collection("interests").document("interests").get().addOnCompleteListener(task1 -> {
+                        interests = (ArrayList<String>) task1.getResult().get("interests");
+                        Log.d("TAG", "The users' interests are: " + interests);
+                        setInterests();
+                    });
+
+
 
                 } else {
                     Log.d("TAG", "Error getting documents: ", task.getException());
@@ -238,13 +246,11 @@ public class ProfilePage extends AppCompatActivity {
         data.put("interests", interests);
 
         assert email != null;
-        firestore.collection("USERS").document(email).set(data).addOnCompleteListener(task -> {
+        firestore.collection("USERS").document(email).collection("interests").document("interests").set(data).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.d("TAG", "Interests added to firebase");
             } else {
-                Toast.makeText(getApplicationContext(), "Some Error Occurred while adding interests",
-                        Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getApplicationContext(), "Some Error Occurred while adding interests", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -252,25 +258,19 @@ public class ProfilePage extends AppCompatActivity {
     public void setInterests() {
         LinearLayout parent_l = findViewById(R.id.interests_layout);
         Log.d("TAG", "setInterests: we are here");
-        for (int i = 0; i < parent_l.getChildCount(); i++) {
-            LinearLayout l = (LinearLayout) parent_l.getChildAt(i);
-            for (int j = 0; j < l.getChildCount(); j++) {
-                TextView t = (TextView) l.getChildAt(j);
-                String interest_name = t.getText().toString();
-                if(interests.contains(interest_name)){
-                    t.setBackgroundResource(R.drawable.interests_highlighted);
-                    t.setTextColor(Color.parseColor("#EE6337"));
+        if(interests.size() > 0){
+            for (int i = 0; i < parent_l.getChildCount(); i++) {
+                LinearLayout l = (LinearLayout) parent_l.getChildAt(i);
+                for (int j = 0; j < l.getChildCount(); j++) {
+                    TextView t = (TextView) l.getChildAt(j);
+                    String interest_name = t.getText().toString();
+                    if(interests.contains(interest_name)){
+                        t.setBackgroundResource(R.drawable.interests_highlighted);
+                        t.setTextColor(Color.parseColor("#EE6337"));
+                    }
                 }
             }
-
-            /*if (child instanceof ViewGroup) {
-                recursiveLoopChildren((ViewGroup) child);
-                // DO SOMETHING WITH VIEWGROUP, AFTER CHILDREN HAS BEEN LOOPED
-            } else {
-                if (child != null) {
-                    // DO SOMETHING WITH VIEW
-                }
-            }*/
         }
+
     }
 }
