@@ -203,7 +203,20 @@ class Home : Fragment() {
                     if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_logo_top_nav))}
                     else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_vector_2))}
                     horizontalScroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
-                    Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "ONGOING EVENTS", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
+                    if (homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }.size!=0) {
+                        Text(
+                            modifier = Modifier.padding(
+                                start = 20.dp,
+                                bottom = 12.dp,
+                                top = 48.dp
+                            ),
+                            text = "ONGOING EVENTS",
+                            fontFamily = clash,
+                            fontWeight = FontWeight.W500,
+                            color = Color.White,
+                            fontSize = 18.sp
+                        )
+                    }
                     Box(
                             modifier = Modifier
                                     .fillMaxWidth()
@@ -247,6 +260,18 @@ class Home : Fragment() {
                         Text(text = "See Full Schedule >", fontFamily = hk_grotesk, fontSize = 18.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337) )
                     }
                     mySchedule()
+                    Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "RECOMMENDED FOR YOU", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                    ) {
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(homeViewModel.allEventsWithLive.take(7)) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it) } }
+                        }
+                    }
 
 
 
@@ -999,20 +1024,27 @@ class Home : Fragment() {
                         onDragEnd = {
                             isdragging.value = false
                             if (onActiveDel.value) {
-                                val res = datestate.remove(eventdetail)
+                                var list= mutableListOf<ownEventBoxUiModel>()
+                                datestate.forEach{data->list.add(data)}
+                                datestate.remove(eventdetail)
+                                Log.d("boxevent", eventdetail.toString())
+
 
                                 homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+
+
+                                Log.d("boxevent", list.toString())
 
 
 //                             val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
 //                                Log.d("resdel",res1.toString())
 //                                Log.d("resdel",res2.toString())
                                 onActiveDel.value = false
-                                if (res) {
-                                    Toast
-                                        .makeText(activity, "event removed", Toast.LENGTH_SHORT)
-                                        .show()
-                                }
+//                                if (res  ) {
+//                                    Toast
+//                                        .makeText(activity, "event removed", Toast.LENGTH_SHORT)
+//                                        .show()
+//                                }
 
 
                             } else {

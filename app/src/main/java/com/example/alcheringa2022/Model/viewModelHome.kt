@@ -129,8 +129,7 @@ class viewModelHome: ViewModel() {
             for (mer in merch)
             { merchhome.add(mer.toObject(merchmodelforHome::class.java))
                 //to be removed later
-                merchhome.add(mer.toObject(merchmodelforHome::class.java))
-                merchhome.add(mer.toObject(merchmodelforHome::class.java))
+
 
 
             }
