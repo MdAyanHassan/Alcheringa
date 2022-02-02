@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
@@ -175,6 +176,7 @@ class Home : Fragment() {
 
 
 
+
         binding.account.setOnClickListener {
             startActivity(Intent(context,Account::class.java));
 
@@ -182,12 +184,13 @@ class Home : Fragment() {
         binding.compose1.setContent {
             Alcheringa2022Theme {
                 val scrollState= rememberScrollState()
+                if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_logo_top_nav))}
+                else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_vector_2))}
                 Column(modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .verticalScroll(scrollState)) {
-                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_logo_top_nav))}
-                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_vector_2))}
+
                     horizontalScroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
                     if (homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }.size!=0) {
                         Text(
@@ -260,6 +263,7 @@ class Home : Fragment() {
                             items(homeViewModel.allEventsWithLive.take(7)) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it,fm) } }
                         }
                     }
+
 
 
 
@@ -613,7 +617,14 @@ class Home : Fragment() {
                                         contentDescription = "artist",
                                         modifier= Modifier
                                             .fillMaxWidth()
-                                            .height(473.dp),
+                                            .height(473.dp).clickable{
+                                                val frg=Events_Details_Fragment()
+                                                frg.arguments= bundleOf("Artist" to eventdetails[page].eventdetail.artist)
+                                               fm
+                                                    .beginTransaction()
+                                                    .replace(R.id.fragmentContainerView,frg ).addToBackStack(null)
+                                                    .commit()
+                                            },
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Crop,
                                     shimmerParams = ShimmerParams(
@@ -960,7 +971,7 @@ class Home : Fragment() {
         boxwidth: MutableState<Dp>
     ){
         val coroutineScope = rememberCoroutineScope()
-         val color= listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random()
+         val color= remember{ mutableStateOf(listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random())}
 
         val lengthdp= (eventdetail.eventWithLive.durationInMin.toFloat() * (5f/3f))
         val xdis= (((eventdetail.eventWithLive.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.starttime.min.toFloat() * (5f/3f)) + 75f)
@@ -984,11 +995,16 @@ class Home : Fragment() {
                 .height(58.dp)
                 .width(lengthdp.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(color)
+                .background(color.value)
                 .clickable {
-                    Toast
-                        .makeText(requireActivity(), eventdetail.eventWithLive.artist, Toast.LENGTH_SHORT)
-                        .show()
+
+                    val frg=Events_Details_Fragment()
+                    frg.arguments= bundleOf("Artist" to eventdetail.eventWithLive.artist)
+                    fm
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainerView,frg ).addToBackStack(null)
+                        .commit()
+
                 }
                 .pointerInput(Unit) {
                     detectDragGesturesAfterLongPress(
@@ -1156,7 +1172,11 @@ class Home : Fragment() {
             .padding(horizontal = 20.dp),
             shape = RoundedCornerShape(8.dp),
             elevation = 0.dp,) {
-            Box(modifier = Modifier
+            Box(modifier = Modifier.clickable {
+                fm.beginTransaction()
+                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
+                    .commit()
+            }
                 .height(218.dp)
                 .fillMaxWidth()
                 .background(colors[page])){
