@@ -62,7 +62,7 @@ public class Account extends AppCompatActivity {
             editor.remove("interests");
             editor.apply();
             Intent intent = new Intent(getApplicationContext(),Login.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         });

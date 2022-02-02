@@ -82,6 +82,7 @@ public class Login extends AppCompatActivity {
             Intent i = new Intent(this, SignUp.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(i);
+            finish();
         });
         signInButtonO.setOnClickListener(v -> MicrosoftLogin());
         forgotPassword.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ResetPassword.class)));
