@@ -72,6 +72,8 @@ public class Login extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
 
         Password.setTransformationMethod(new HiddenPassTransformationMethod());
+        Password.setSelection(Password.getText().length());
+
 
         loginButton.setOnClickListener(v -> CustomLogin());
         google_login_btn.setOnClickListener(v -> google_login_callback());
@@ -157,7 +159,6 @@ public class Login extends AppCompatActivity {
         firebaseFirestore.collection("USERS").document(email).collection("interests").document("interests").get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 try{ArrayList<String> interests = (ArrayList<String>) task.getResult().get("interests");
-                    toast(interests.toString());
                     Set<String> set = new HashSet<>(interests);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putStringSet("interests", set);
@@ -357,6 +358,7 @@ public class Login extends AppCompatActivity {
 
                 //Show Password
                 Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                Password.setSelection(Password.getText().length());
             }
             else{
                 ((ImageView)(view)).setImageResource(R.drawable.hide);
@@ -364,6 +366,7 @@ public class Login extends AppCompatActivity {
                 //Hide Password
                 //Password.setTransformationMethod(HiddenPassTransformationMethod.getInstance());
                 Password.setTransformationMethod(new HiddenPassTransformationMethod());
+                Password.setSelection(Password.getText().length());
 
             }
         }

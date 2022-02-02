@@ -55,6 +55,12 @@ public class Account extends AppCompatActivity {
 
         view.setOnClickListener(v -> {
             firebaseAuth.signOut();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("name");
+            editor.remove("email");
+            editor.remove("photourl");
+            editor.remove("interests");
+            editor.apply();
             Intent intent = new Intent(getApplicationContext(),Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

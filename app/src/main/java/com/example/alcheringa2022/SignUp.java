@@ -79,6 +79,7 @@ public class SignUp extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
 
         Password.setTransformationMethod(new HiddenPassTransformationMethod());
+        Password.setSelection(Password.getText().length());
 
         logTextView=findViewById(R.id.login_here);
         backButton =findViewById(R.id.back_button);
@@ -410,6 +411,7 @@ public class SignUp extends AppCompatActivity {
 
                 //Show Password
                 Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                Password.setSelection(Password.getText().length());
             }
             else{
                 ((ImageView)(view)).setImageResource(R.drawable.hide);
@@ -417,6 +419,7 @@ public class SignUp extends AppCompatActivity {
                 //Hide Password
                 //Password.setTransformationMethod(HiddenPassTransformationMethod.getInstance());
                 Password.setTransformationMethod(new HiddenPassTransformationMethod());
+                Password.setSelection(Password.getText().length());
 
             }
         }
