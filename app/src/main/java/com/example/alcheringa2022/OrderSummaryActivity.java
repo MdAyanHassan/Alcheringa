@@ -167,7 +167,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             RazorpayClient razorpay = new RazorpayClient("rzp_test_JR2iDD635lZNVE", "W0HOMo0KpOKar9kgugOGkZ5U");
 
             JSONObject orderRequest = new JSONObject();
-            orderRequest.put("amount", total_price*100); // amount in the smallest currency unit
+            orderRequest.put("amount", (total_price+shipping_charges)*100); // amount in the smallest currency unit
             orderRequest.put("currency", "INR");
 
             Order order = razorpay.Orders.create(orderRequest);
@@ -195,14 +195,13 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
             options.put("name", "Alcheringa 2022");
             options.put("description", "Alcheringa Merch Order");
-            //options.put("image", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Logo%2Falcher_logo.png?alt=media&token=d915c089-baba-4cfe-b042-da82331bb550");
-            options.put("image", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Logo%2Falcheringa_black_logo.png?alt=media&token=1c93092c-e603-48e2-845a-6cc5ee40692d");
             options.put("order_id", order_id);
-            options.put("theme.color", "#ee6337");
+            //options.put("theme.color", "#ee6337");
             options.put("currency", "INR");
-            options.put("amount", total_price*100);//pass amount in currency subunits
+            options.put("amount", (total_price+shipping_charges)*100);//pass amount in currency subunits
             options.put("prefill.name", user_name);
             options.put("prefill.contact","+91"+user_phone);
+            options.put("send_sms_hash",true);
             JSONObject retryObj = new JSONObject();
             retryObj.put("enabled", true);
             retryObj.put("max_count", 3);
