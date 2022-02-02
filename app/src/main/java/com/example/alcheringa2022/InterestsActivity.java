@@ -61,7 +61,7 @@ public class InterestsActivity extends AppCompatActivity {
     }
 
     public void submit(View v){
-        syncWithFirebase();
+        uploadToFirebase();
         Set<String> set = new HashSet<>(interests);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putStringSet("interests", set);
@@ -70,7 +70,7 @@ public class InterestsActivity extends AppCompatActivity {
         finish();
     }
 
-    public void syncWithFirebase(){
+    public void uploadToFirebase(){
         String email= Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
         Map<String,Object> data=new HashMap<>();

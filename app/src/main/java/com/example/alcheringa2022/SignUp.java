@@ -38,8 +38,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.apache.commons.text.WordUtils;
 
 public class SignUp extends AppCompatActivity {
 
@@ -48,7 +49,7 @@ public class SignUp extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
     GoogleSignInClient mGoogleSignInClient;
     LinearLayout signInButton;
-    FirebaseAuth mAuth;
+    FirebaseAuth firebaseAuth;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -72,17 +73,22 @@ public class SignUp extends AppCompatActivity {
         Password=findViewById(R.id.password);
         signInButtonO = findViewById(R.id.sign_in_outlook);
 
-        mAuth=FirebaseAuth.getInstance();
+        firebaseAuth =FirebaseAuth.getInstance();
         firebaseFirestore= FirebaseFirestore.getInstance();
 
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
 
         Password.setTransformationMethod(new HiddenPassTransformationMethod());
+        Password.setSelection(Password.getText().length());
 
         logTextView=findViewById(R.id.login_here);
         backButton =findViewById(R.id.back_button);
         signInButton.setOnClickListener(v -> GoogleSignIn());
-        logTextView.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),Login.class)));
+        logTextView.setOnClickListener(v -> {
+            Intent i = new Intent(this, Login.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(i);
+        });
         backButton.setOnClickListener(v -> goBack());
         signupButton.setOnClickListener(v -> CustomSignup());
         signInButtonO.setOnClickListener(v -> MicrosoftLogin());
@@ -106,49 +112,58 @@ public class SignUp extends AppCompatActivity {
         OAuthProvider.Builder provider = OAuthProvider.newBuilder("microsoft.com");
         provider.addCustomParameter("tenant", "850aa78d-94e1-4bc6-9cf3-8c11b530701c");
 
-        mAuth.startActivityForSignInWithProvider(this, provider.build())
+        firebaseAuth.startActivityForSignInWithProvider(this, provider.build())
                 .addOnSuccessListener(
                         authResult -> {
-                            Log.d(TAG, "onSuccess");
-                            // User is signed in.
-                            // IdP data available in
-                            // authResult.getAdditionalUserInfo().getProfile().
-                            // The OAuth access token can also be retrieved:
-                            // authResult.getCredential().getAccessToken().
-                            // The OAuth ID token can also be retrieved:
-                            // authResult.getCredential().getIdToken().
-
-                            Log.d(TAG, "Success: "+ authResult.getAdditionalUserInfo().getProfile().get("displayName").toString());
-
-                            Log.d(TAG, "Successfully authenticated");
+                            Log.d(TAG, "Authenticated with Outlook"+ authResult.getAdditionalUserInfo().getProfile().get("displayName").toString());
 
                             // Update UI
+                            String email;
                             String name = "No name found";
-                            String email = "No email found";
                             String rollno = "No Roll No. found";
                             try{
                                 email = authResult.getAdditionalUserInfo().getProfile().get("mail").toString();
-                            }catch(Exception ignored){}
-                            try{
-                                name = authResult.getAdditionalUserInfo().getProfile().get("displayName").toString();
-                            }catch(Exception ignored){}
-                            try{
-                                rollno = authResult.getAdditionalUserInfo().getProfile().get("surname").toString();
-                            }catch(Exception ignored){}
-                            Log.d(TAG, "Name: " + name);
-                            Log.d(TAG, "Email: " + email);
-                            Log.d(TAG, "Roll No: " + rollno);
-                            //Toast.makeText(SignUp.this, "Name: " + name + " \n" + "Email: " + email, Toast.LENGTH_LONG).show();
+                                try{
+                                    name = WordUtils.capitalizeFully(authResult.getAdditionalUserInfo().getProfile().get("displayName").toString());
+                                }catch(Exception ignored){}
+                                try{
+                                    rollno = authResult.getAdditionalUserInfo().getProfile().get("surname").toString();
+                                }catch(Exception ignored){}
 
-                            RegisterUserInDatabase();
-                            saveDetails(name, email);
-                            startMainActivity();
+
+                                Log.d(TAG, "Name: " + name);
+                                Log.d(TAG, "Email: " + email);
+                                Log.d(TAG, "Roll No: " + rollno);
+
+                                String finalName = name;
+                                String finalEmail = email;
+                                saveDetails(finalName, finalEmail);
+                                firebaseFirestore.collection("USERS").document(email).get().addOnCompleteListener(task2 -> {
+                                    if (task2.isSuccessful() && !task2.getResult().exists()) {
+                                        RegisterUserInDatabase();
+                                        toast("Welcome " + finalName);
+                                        startMainActivity();
+                                    }else{
+                                        toast("Welcome back " + finalName);
+                                        Intent intent = new Intent(this, MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                            }catch(Exception e){
+                                toast("Could not get user email");
+                            }
                         })
                 .addOnFailureListener(
                         e -> {
                             Log.d(TAG, "onFailure"+ e.getMessage());
                             // Handle failure.
                         });
+    }
+
+    private void toast(String text) {
+        Toast.makeText(getApplicationContext(), ""+text, Toast.LENGTH_LONG).show();
     }
 
     private void CustomSignup() {
@@ -180,7 +195,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void StartCustomSignup(String name, String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -211,7 +226,7 @@ public class SignUp extends AppCompatActivity {
                     }
 
                     private void emailVerification() {
-                        FirebaseUser firebaseUser=mAuth.getCurrentUser();
+                        FirebaseUser firebaseUser= firebaseAuth.getCurrentUser();
                         assert firebaseUser != null;
                         firebaseUser.sendEmailVerification().addOnCompleteListener(task -> {
                             FirebaseAuth.getInstance().signOut();
@@ -223,7 +238,6 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void RegisterUserInDatabaseCustom(String name, String email){
-
         firebaseFirestore.collection("USERS").document(email).addSnapshotListener((value, error) -> {
             assert value != null;
             if (!value.exists()) {
@@ -233,7 +247,7 @@ public class SignUp extends AppCompatActivity {
                 firebaseFirestore.collection("USERS").document(email).set(data).
                         addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                //Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "Added user in database");
                             } else {
                                 Toast.makeText(getApplicationContext(), "Error Occurred while adding user to the database", Toast.LENGTH_SHORT).show();
                             }
@@ -243,7 +257,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void RegisterUserInDatabase() {
-        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
         assert user != null;
         String email = user.getEmail();
         assert email != null;
@@ -256,7 +270,7 @@ public class SignUp extends AppCompatActivity {
                 firebaseFirestore.collection("USERS").document(email).set(data).
                         addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                //Toast.makeText(getApplicationContext(), "Added in the Database", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "Added user in database");
                             } else {
                                 Toast.makeText(getApplicationContext(), "Error Occurred while adding user to the database", Toast.LENGTH_SHORT).show();
                             }
@@ -296,25 +310,38 @@ public class SignUp extends AppCompatActivity {
             }
         }
     }
+
     private void firebaseAuthWithGoogle(String idToken) {
+
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
+        firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithCredential:success");
-                        Toast.makeText(getApplicationContext(), "SignUp with Google Successful", Toast.LENGTH_SHORT).show();
-                        RegisterUserInDatabase();
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        assert user != null;
-                        saveDetails(user.getDisplayName(),user.getEmail());
-                        startMainActivity();
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
 
+                        assert (user != null ? user.getEmail() : null) != null;
+
+                        saveDetails(user.getDisplayName(), user.getEmail());
+                        Log.d(TAG, "Signup with Google Successful");
+
+
+                        firebaseFirestore.collection("USERS").document(user.getEmail()).get().addOnCompleteListener(task2 -> {
+                            if (task2.isSuccessful() && !task2.getResult().exists()) {
+                                RegisterUserInDatabase();
+                                toast("Welcome " + user.getDisplayName());
+                                startMainActivity();
+                            }else{
+                                toast("Welcome back " + user.getDisplayName());
+                                Intent intent = new Intent(this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.d(TAG, "signInWithCredential:failure", task.getException());
-                        Toast.makeText(getApplicationContext(), ""+task.getException(), Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(getApplicationContext(), "" + task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -384,6 +411,7 @@ public class SignUp extends AppCompatActivity {
 
                 //Show Password
                 Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                Password.setSelection(Password.getText().length());
             }
             else{
                 ((ImageView)(view)).setImageResource(R.drawable.hide);
@@ -391,6 +419,7 @@ public class SignUp extends AppCompatActivity {
                 //Hide Password
                 //Password.setTransformationMethod(HiddenPassTransformationMethod.getInstance());
                 Password.setTransformationMethod(new HiddenPassTransformationMethod());
+                Password.setSelection(Password.getText().length());
 
             }
         }

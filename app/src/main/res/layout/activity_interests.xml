@@ -88,9 +88,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_height="370dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/blur_rectangle"
         android:orientation="vertical"
@@ -105,8 +105,8 @@
             android:id="@+id/interests_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="15dp"
             android:text="Select your interests"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -115,19 +115,19 @@
             android:layout_gravity="center"/>
 
         <LinearLayout
+            android:layout_marginBottom="8dp"
             android:id="@+id/interests_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:orientation="vertical"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/interests_heading">
 
             <LinearLayout style="@style/interests_horizontal_container">
                 <TextView android:text="Dance" style="@style/select_interest_item" />
-                <TextView android:text="Music" style="@style/select_interest_item" />
+                <TextView android:text="Bands" style="@style/select_interest_item" />
                 <TextView android:text="Music" style="@style/select_interest_item" />
             </LinearLayout>
             <LinearLayout style="@style/interests_horizontal_container">
@@ -151,10 +151,9 @@
                 <TextView android:text="Colors" style="@style/select_interest_item" />
             </LinearLayout>
             <LinearLayout
-                android:layout_marginBottom="20dp"
                 style="@style/interests_horizontal_container">
                 <TextView android:text="Soul" style="@style/select_interest_item" />
-                <TextView android:text="Music" style="@style/select_interest_item" />
+                <TextView android:text="Serene" style="@style/select_interest_item" />
                 <TextView android:text="Traditional" style="@style/select_interest_item" />
             </LinearLayout>
 
@@ -199,6 +198,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.894"
+        app:layout_constraintVertical_bias="0.95"
         android:onClick="submit"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
