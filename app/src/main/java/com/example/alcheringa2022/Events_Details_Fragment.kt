@@ -4,10 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
 import android.view.View
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -15,6 +16,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,28 +33,38 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import com.example.alcheringa2022.Model.addNewItem
+import com.example.alcheringa2022.Model.removeAnItem
 import com.example.alcheringa2022.Model.viewModelHome
-import com.example.alcheringa2022.R
-import com.example.alcheringa2022.databinding.ActivityAboutBinding.inflate
 import com.example.alcheringa2022.databinding.ActivityEventDetailsBinding
 import com.example.alcheringa2022.ui.theme.clash
 import com.example.alcheringa2022.ui.theme.hk_grotesk
 import com.example.alcheringa2022.ui.theme.orangeText
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
+import java.util.*
 
 class Events_Details_Fragment : Fragment() {
+    private lateinit var fgman: FragmentManager
     lateinit var args:Bundle
     val viewModelHome: viewModelHome by activityViewModels()
     lateinit var binding:ActivityEventDetailsBinding
     lateinit var eventfordes: eventWithLive
+    lateinit var similarlist:MutableList<eventWithLive>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         args=requireArguments()
         eventfordes= viewModelHome.allEventsWithLive.filter { data-> data.eventdetail.artist== args.getString("Artist") }[0]
-
+        fgman=parentFragmentManager
+        similarlist= mutableListOf<eventWithLive>()
+        similarlist.addAll(
+        viewModelHome.allEventsWithLive.filter{ data-> data.eventdetail.category.replace("\\s".toRegex(), "").uppercase()== eventfordes.eventdetail.category.replace("\\s".toRegex(), "").uppercase()})
+        similarlist.remove(eventfordes)
 
 
     }
@@ -67,6 +80,7 @@ class Events_Details_Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.dotsProgress.visibility=View.GONE
+
         binding.cvevdetail.setContent{
             Column(
                 Modifier
@@ -75,7 +89,8 @@ class Events_Details_Fragment : Fragment() {
                     .verticalScroll(rememberScrollState())) {
                 Defaultimg(eventWithLive = eventfordes)
                 Bottomview( eventWithLive = eventWithLive(eventfordes.eventdetail))
-                Spacer(modifier = Modifier.height(50.dp))
+                similarEvents(heading = "SIMILAR EVENTS",similarlist)
+                Spacer(modifier = Modifier.height(0.dp))
             }
         }
 
@@ -102,7 +117,7 @@ class Events_Details_Fragment : Fragment() {
                 contentScale = ContentScale.Crop,
                 shimmerParams = ShimmerParams(
                     baseColor = Color.Black,
-                    highlightColor = Color.LightGray,
+                    highlightColor = orangeText,
                     durationMillis = 350,
                     dropOff = 0.65f,
                     tilt = 20f
@@ -204,6 +219,8 @@ class Events_Details_Fragment : Fragment() {
     }
     @Composable
     fun Bottomview(eventWithLive:eventWithLive){
+        var isadded=remember{ mutableStateOf(false)}
+        isadded.value=viewModelHome.OwnEventsLiveState.contains(eventWithLive.eventdetail)
         Column(
             Modifier
                 .fillMaxWidth()
@@ -267,24 +284,96 @@ class Events_Details_Fragment : Fragment() {
                 fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(36.dp))
-            Button(onClick = { /*TODO*/ },
-                Modifier
-                    .fillMaxWidth()
-                    .height(55.dp), shape = RoundedCornerShape(18.dp), colors = ButtonDefaults.buttonColors(
-                    orangeText
-                )
-            ) {
-                Text(text = "Join Event", fontSize = 18.sp, fontWeight = FontWeight.W600, fontFamily = clash, color = Color.White)
+            if (eventWithLive.isLive.value) {
+                Button(
+                    onClick = { /*TODO*/ },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        orangeText
+                    )
+                ) {
+                    Text(
+                        text = "Join Event",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = clash,
+                        color = Color.White
+                    )
+
+                }
+            }
+            else{
+                Button(
+                    onClick = { /*TODO*/ },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = ButtonDefaults.buttonColors(
+                       Color(0xff4A4949)
+                    )
+                ) {
+                    Text(
+                        text = "Event will be available on ${eventWithLive.eventdetail.starttime.date} Feb",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = clash,
+                        color = Color(0xffA3A7AC)
+                    )
+
+                }
 
             }
             Spacer(modifier = Modifier.height(12.dp))
-            Button(onClick = { /*TODO*/ },
-                Modifier
-                    .fillMaxWidth()
-                    .height(55.dp), shape = RoundedCornerShape(18.dp), colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-            ) {
-                Text(text = "Add to My Schedule", fontSize = 18.sp, fontWeight = FontWeight.W600, fontFamily = clash, color = Color.White)
+            if (isadded.value) {
+                Button(
+                    onClick = {
+                         isadded.value= false
+                              viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
+                    },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
+                ) {
+                    Text(
+                        text = "Remove from My Schedule",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = clash,
+                        color = Color.White
+                    )
+                }
             }
+            else{
+                Button(
+                    onClick = { isadded.value= true
+                        viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
+                    },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
+                ) {
+                    Text(
+                        text = "Add to My Schedule",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = clash,
+                        color = Color.White
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+
+
+
+
 
 
 
@@ -292,5 +381,19 @@ class Events_Details_Fragment : Fragment() {
 
         }
     }
+
+    @Composable
+    fun similarEvents(heading: String, similarlist: MutableList<eventWithLive>) {
+        Box(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){Text(text = heading.uppercase(
+            Locale.getDefault()), fontWeight = FontWeight.W500, fontSize = 18.sp, fontFamily = clash, color = Color.White)}
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
+        ) { items(similarlist)
+        {dataEach -> context?.let { Event_card(eventdetail = dataEach, viewModelHome, it, fgman) } } }
+
+        Spacer(modifier = Modifier.height(5.dp))
+    }
+
 
 }

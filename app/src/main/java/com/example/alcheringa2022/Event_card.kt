@@ -37,6 +37,7 @@ import com.example.alcheringa2022.Model.viewModelHome
 import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.example.alcheringa2022.ui.theme.clash
 import com.example.alcheringa2022.ui.theme.hk_grotesk
+import com.example.alcheringa2022.ui.theme.orangeText
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -208,7 +209,8 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                                 .height(20.dp)
                                     .clickable {
                                         Log.d("boxevent", eventdetail.toString())
-                                        viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail) },
+                                        viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
+                                               okstate.value=false},
                                 painter = painterResource(id = R.drawable.tickokay),
                                 contentDescription ="null", contentScale = ContentScale.FillBounds)
                         }

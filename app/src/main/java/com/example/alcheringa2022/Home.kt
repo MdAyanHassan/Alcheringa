@@ -987,7 +987,7 @@ class Home : Fragment() {
                 .background(color)
                 .clickable {
                     Toast
-                        .makeText(requireActivity(), "clicked", Toast.LENGTH_SHORT)
+                        .makeText(requireActivity(), eventdetail.eventWithLive.artist, Toast.LENGTH_SHORT)
                         .show()
                 }
                 .pointerInput(Unit) {
@@ -1043,15 +1043,13 @@ class Home : Fragment() {
                             isdragging.value = false
                             if (onActiveDel.value) {
                                 var list = mutableListOf<ownEventBoxUiModel>()
-                                datestate.forEach { data -> list.add(data) }
+//                                datestate.forEach { data -> list.add(data) }
                                 datestate.remove(eventdetail)
                                 Log.d("boxevent", eventdetail.toString())
-
-
                                 homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
 
 
-                                Log.d("boxevent", list.toString())
+//                                Log.d("boxevent", list.toString())
 
 
 //                             val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
