@@ -1,19 +1,14 @@
 package com.example.alcheringa2022;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,37 +16,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.example.alcheringa2022.Model.YourOrders_model;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
+import java.util.Set;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -97,9 +79,12 @@ public class ProfilePage extends AppCompatActivity {
         edit_dp_button.setOnClickListener(v -> CropImage.startPickImageActivity(ProfilePage.this));
 
         save_button.setOnClickListener(v -> {
-            syncWithFirebase();
+            uploadToFirebase();
+            Set<String> set = new HashSet<>(interests);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putStringSet("interests", set);
+            editor.apply();
             Toast.makeText(this,"Your changes are saved",Toast.LENGTH_LONG).show();
-            //uploadImage();
         });
 
         back_btn = findViewById(R.id.backbtn);
@@ -130,51 +115,47 @@ public class ProfilePage extends AppCompatActivity {
     private void fill_user_details() {
         String shared_name = sharedPreferences.getString("name", "");
         String shared_photoUrl = sharedPreferences.getString("photourl", "");
+        interests.addAll(sharedPreferences.getStringSet("interests",null));
 
+        if(!shared_name.equals("")){
+            name.setText(shared_name);
+        }else{
+            name.setText("No name found");
+        }
 
-        if(!shared_name.equals("")){name.setText(shared_name);}
+        if(interests != null){
+            setInterests();
+        }
+
         if (!shared_photoUrl.equals("")) {
             Glide.with(this).load(shared_photoUrl).into(user_dp);
         } else {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            assert user != null;
+            String email = user.getEmail();
+            assert email != null;
+
+            firestore.collection("USERS").document(email).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    String db_photourl = task.getResult().getString("PhotoURL");
+
+                    if (db_photourl != null) {
+                        Glide.with(this).load(db_photourl).into(user_dp);
+                        editor.putString("photourl", task.getResult().getString("PhotoURL"));
+                    }
+                    editor.apply();
+                } else {
+                    Log.d("TAG", "Error getting documents: ", task.getException());
+                }
+            });
         }
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        assert user != null;
-        String email = user.getEmail();
-        assert email != null;
-
-        firestore.collection("USERS").document(email).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                if(!shared_name.equals("")){
-                    String nameString = task.getResult().getString("Name");
-                    if(nameString != null && !nameString.isEmpty()){
-                        name.setText(nameString);
-                        editor.putString("name", nameString);
-                    }
-                }
-
-                String db_photourl = task.getResult().getString("PhotoURL");
-
-                if (db_photourl != null) {
-                    Glide.with(this).load(db_photourl).into(user_dp);
-                    editor.putString("photourl", task.getResult().getString("PhotoURL"));
-                }
-                editor.apply();
-
-                firestore.collection("USERS").document(email).collection("interests").document("interests").get().addOnCompleteListener(task1 -> {
-                    interests = (ArrayList<String>) task1.getResult().get("interests");
-                    Log.d("TAG", "The users' interests are: " + interests);
-                    setInterests();
-                });
 
 
 
-            } else {
-                Log.d("TAG", "Error getting documents: ", task.getException());
-            }
-        });
     }
 
     private void uploadImage() {
@@ -237,7 +218,7 @@ public class ProfilePage extends AppCompatActivity {
 
     }
 
-    public void syncWithFirebase() {
+    public void uploadToFirebase() {
         String email = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
         String id = firestore.collection("USERS").document().getId();
