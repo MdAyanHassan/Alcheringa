@@ -210,7 +210,9 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                                     .clickable {
                                         Log.d("boxevent", eventdetail.toString())
                                         viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
-                                               okstate.value=false},
+                                               okstate.value=false
+                                        ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
+                                               },
                                 painter = painterResource(id = R.drawable.tickokay),
                                 contentDescription ="null", contentScale = ContentScale.FillBounds)
                         }

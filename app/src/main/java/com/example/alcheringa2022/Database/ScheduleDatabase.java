@@ -115,4 +115,9 @@ public class ScheduleDatabase  extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+    public void DeleteItem(String artist) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, "artist=?", new String[]{artist});
+    }
 }

@@ -72,6 +72,7 @@ class Home : Fragment() {
     private var mParam2: String? = null
     lateinit var fm:FragmentManager
     lateinit var binding: FragmentHomeBinding
+    lateinit var  scheduleDatabase:ScheduleDatabase
     val homeViewModel : viewModelHome by activityViewModels()
     val ranges= mutableSetOf<ClosedFloatingPointRange<Float>>()
 
@@ -139,7 +140,7 @@ class Home : Fragment() {
         }
         fm=parentFragmentManager
 
-        val scheduleDatabase=ScheduleDatabase(context)
+        scheduleDatabase=ScheduleDatabase(context)
         homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
 
 
@@ -1065,6 +1066,7 @@ class Home : Fragment() {
                                 datestate.remove(eventdetail)
                                 Log.d("boxevent", eventdetail.toString())
                                 homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+                                scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
 
 
 //                                Log.d("boxevent", list.toString())

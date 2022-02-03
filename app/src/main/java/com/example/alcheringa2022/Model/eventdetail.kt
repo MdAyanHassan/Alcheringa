@@ -19,7 +19,7 @@ data class eventdetail(
     val mode: String="",
     val imgurl:String="",
     var durationInMin:Int = 60,
-//    var genere:String=""
+//    var genere:String="",
 //    var peopleCustomized: Int=0,
     ):Parcelable
 
