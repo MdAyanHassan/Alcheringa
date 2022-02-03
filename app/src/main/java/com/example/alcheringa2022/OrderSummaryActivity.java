@@ -229,6 +229,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             map.put("Size",order_list.get(i).getSize());
             map.put("Type",order_list.get(i).getType());
             map.put("isDelivered",false);
+            map.put("image",order_list.get(i).getImage());
             list.add(map);
             //total_price += Integer.parseInt(order_list.get(i).getPrice());
         }

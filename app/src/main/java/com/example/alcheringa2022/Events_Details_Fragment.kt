@@ -278,9 +278,10 @@ class Events_Details_Fragment : Fragment() {
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text ="dfdfafdadfdfsafdddfdfadfdsdfsdffdasdfdfdfasasdfdfsdaffdasdfsdfdfdscfdsdf" ,
+            Text(text =eventfordes.eventdetail.descriptionEvent ,
                 fontFamily = hk_grotesk,
                 fontWeight = FontWeight.W600,
+                color = Color(0xffC7CCD1),
                 fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(36.dp))
