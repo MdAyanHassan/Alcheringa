@@ -321,8 +321,26 @@ class Events_Details_Fragment : Fragment() {
                     colors = ButtonDefaults.buttonColors(
                        Color(0xff4A4949)
                     )
-                ) {
-                    if (Calendar.getInstance().get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
+                ) { val c=Calendar.getInstance()
+                    if( (c.get(Calendar.YEAR)>2022) or
+                        ((c.get(Calendar.YEAR)==2022) and
+                                (c.get(Calendar.MONTH)> Calendar.FEBRUARY)) or
+                        ((c.get(Calendar.YEAR)==2022) and
+                                (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
+                                (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
+                        ((c.get(Calendar.YEAR)==2022) and
+                                (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
+                                (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
+                                ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
+                                        <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+
+                    ){ Text(text="Event Finished!",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = clash,
+                        color = Color(0xffA3A7AC)
+                    )}
+                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
                         Text(
                             text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
                             fontSize = 14.sp,
