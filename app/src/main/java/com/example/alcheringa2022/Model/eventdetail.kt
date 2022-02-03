@@ -19,7 +19,9 @@ data class eventdetail(
     val mode: String="",
     val imgurl:String="",
     var durationInMin:Int = 60,
-//    var genere:String="",
+    var genre:List<String> = emptyList(),
+    val descriptionEvent:String="",
+    val venue:String=""
 //    var peopleCustomized: Int=0,
     ):Parcelable
 
