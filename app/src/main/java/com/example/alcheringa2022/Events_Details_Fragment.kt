@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.addNewItem
 import com.example.alcheringa2022.Model.removeAnItem
 import com.example.alcheringa2022.Model.viewModelHome
@@ -53,6 +54,7 @@ class Events_Details_Fragment : Fragment() {
     lateinit var binding:ActivityEventDetailsBinding
     lateinit var eventfordes: eventWithLive
     lateinit var similarlist:MutableList<eventWithLive>
+    private lateinit var  scheduleDatabase: ScheduleDatabase
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +67,7 @@ class Events_Details_Fragment : Fragment() {
         similarlist.addAll(
         viewModelHome.allEventsWithLive.filter{ data-> data.eventdetail.category.replace("\\s".toRegex(), "").uppercase()== eventfordes.eventdetail.category.replace("\\s".toRegex(), "").uppercase()})
         similarlist.remove(eventfordes)
+        scheduleDatabase= ScheduleDatabase(context)
 
 
     }
@@ -319,14 +322,25 @@ class Events_Details_Fragment : Fragment() {
                        Color(0xff4A4949)
                     )
                 ) {
+                    if (Calendar.getInstance().get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
+                        Text(
+                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W600,
+                            fontFamily = clash,
+                            color = Color(0xffA3A7AC)
+                        )
+                    }
+                    else{
                     Text(
-                        text = "Event will be available on ${eventWithLive.eventdetail.starttime.date} Feb",
+                        text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-10}",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W600,
                         fontFamily = clash,
                         color = Color(0xffA3A7AC)
                     )
 
+                    }
                 }
 
             }
@@ -336,6 +350,7 @@ class Events_Details_Fragment : Fragment() {
                     onClick = {
                          isadded.value= false
                               viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
+                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
                     },
                     Modifier
                         .fillMaxWidth()
@@ -356,6 +371,10 @@ class Events_Details_Fragment : Fragment() {
                 Button(
                     onClick = { isadded.value= true
                         viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
+                        scheduleDatabase.addEventsInSchedule(
+                            eventWithLive.eventdetail,
+                            context
+                        )
                     },
                     Modifier
                         .fillMaxWidth()
