@@ -80,6 +80,8 @@ class Events_Details_Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.dotsProgress.visibility=View.GONE
+        binding.artistname.text=eventfordes.eventdetail.artist.uppercase()
+        binding.backbtn2.setOnClickListener{requireActivity().onBackPressed()}
 
         binding.cvevdetail.setContent{
             Column(

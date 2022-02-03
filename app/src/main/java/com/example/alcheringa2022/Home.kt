@@ -220,7 +220,20 @@ class Home : Fragment() {
                         }
 
                     }
-                    Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "UPCOMING EVENTS", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
+                    if(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.isNotEmpty()) {
+                        Text(
+                            modifier = Modifier.padding(
+                                start = 20.dp,
+                                bottom = 12.dp,
+                                top = 48.dp
+                            ),
+                            text = "UPCOMING EVENTS",
+                            fontFamily = clash,
+                            fontWeight = FontWeight.W500,
+                            color = Color.White,
+                            fontSize = 18.sp
+                        )
+                    }
                     Box(modifier = Modifier
                             .fillMaxWidth()
                     ) {
