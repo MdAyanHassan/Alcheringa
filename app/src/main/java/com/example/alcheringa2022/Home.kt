@@ -801,20 +801,17 @@ class Home : Fragment() {
                Text(text = "Day1", fontWeight = FontWeight.W700, fontFamily = clash, color = color1,
                    modifier = Modifier.clickable { color1= orangeText;color2= greyText;color3=
                        greyText
-                       ranges.clear()
                        datestate= datestate1
                    })
 
                Text(text = "Day2", fontWeight = FontWeight.W700, fontFamily = clash, color = color2,
                    modifier = Modifier.clickable { color1= greyText;color2= orangeText;color3= greyText;
-                       ranges.clear()
                        datestate=datestate2
                })
 
                Text(text = "Day3", fontWeight = FontWeight.W700, fontFamily = clash, color = color3,
                    modifier = Modifier.clickable { color1= greyText;color2= greyText;color3=
                        orangeText
-                       ranges.clear()
                        datestate=datestate3
                    })
 
@@ -989,7 +986,7 @@ class Home : Fragment() {
         val coroutineScope = rememberCoroutineScope()
          val color= remember{ mutableStateOf(listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random())}
 
-        val lengthdp= (eventdetail.eventWithLive.durationInMin.toFloat() * (5f/3f))
+        var lengthdp=remember{ Animatable(eventdetail.eventWithLive.durationInMin.toFloat() * (5f/3f)) }
         val xdis= (((eventdetail.eventWithLive.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.starttime.min.toFloat() * (5f/3f)) + 75f)
             val ydis= (30+(eventdetail.ydis*70))
         val xdisinpxcald=with(LocalDensity.current){(xdis-2).dp.toPx()}
@@ -1009,7 +1006,7 @@ class Home : Fragment() {
                     )
                 }
                 .height(58.dp)
-                .width(lengthdp.dp)
+                .width(lengthdp.value.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(color.value)
                 .clickable {
@@ -1040,7 +1037,7 @@ class Home : Fragment() {
 
 
                             if ((182.dp..221.dp).contains(offsetY.value.toDp()) and
-                                ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.dp
+                                ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
                                     .toPx()
                                     .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
                                     (offsetX.value)
@@ -1075,9 +1072,13 @@ class Home : Fragment() {
                             isdragging.value = false
                             if (onActiveDel.value) {
                                 var list = mutableListOf<ownEventBoxUiModel>()
+                                coroutineScope.launch {
+                                lengthdp.animateTo(0f, animationSpec = tween(
+                                    durationMillis = 300,
+                                    delayMillis = 0, easing = FastOutSlowInEasing))}
 //                                datestate.forEach { data -> list.add(data) }
                                 datestate.remove(eventdetail)
-                                Log.d("boxevent", eventdetail.toString())
+//                                Log.d("boxevent", eventdetail.toString())
                                 homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
                                 scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
 
@@ -1149,7 +1150,7 @@ class Home : Fragment() {
                 )
             }
         }
-        ranges.add((xdis..xdis+lengthdp))
+
 
 
 
