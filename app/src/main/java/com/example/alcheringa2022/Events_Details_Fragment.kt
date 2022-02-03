@@ -88,7 +88,7 @@ class Events_Details_Fragment : Fragment() {
                     .background(Color(0xff00010C))
                     .verticalScroll(rememberScrollState())) {
                 Defaultimg(eventWithLive = eventfordes)
-                Bottomview( eventWithLive = eventWithLive(eventfordes.eventdetail))
+                Bottomview( eventWithLive = eventfordes)
                 similarEvents(heading = "SIMILAR EVENTS",similarlist)
                 Spacer(modifier = Modifier.height(0.dp))
             }
@@ -201,7 +201,7 @@ class Events_Details_Fragment : Fragment() {
                         .clip(RoundedCornerShape(4.dp))
                         .background(Color(0xffC80915)), contentAlignment = Alignment.Center){
                         Text(
-                            text = "⬤ LIVE",
+                            text = "⬤ LIVE ",
                             color = Color.White,
                             fontFamily = hk_grotesk, fontWeight = FontWeight.W500,
                             fontSize = 12.sp
@@ -305,7 +305,7 @@ class Events_Details_Fragment : Fragment() {
 
                 }
             }
-            else{
+            if (!eventWithLive.isLive.value){
                 Button(
                     onClick = { /*TODO*/ },
                     Modifier

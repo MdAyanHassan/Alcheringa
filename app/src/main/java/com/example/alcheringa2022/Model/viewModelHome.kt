@@ -38,6 +38,7 @@ class viewModelHome: ViewModel() {
     val featuredEventsWithLivestate= mutableStateListOf<eventWithLive>()
     val OwnEventsWithLive= MutableLiveData<MutableList<eventdetail>>()
     val OwnEventsLiveState= mutableStateListOf<eventdetail>()
+    val upcomingEventsLiveState= mutableStateListOf<eventWithLive>()
     val merchhome= mutableStateListOf<merchmodelforHome>()
 
 
@@ -81,9 +82,18 @@ class viewModelHome: ViewModel() {
             while (true){
                 Log.d("livecheck","started")
                val c= Calendar.getInstance()
-                val dt= allEventsWithLive.iterator()
-                while (dt.hasNext()){
-                    val data=  dt.next()
+
+
+                for( data in allEventsWithLive){
+
+                    data.isLive.value = (c.get(Calendar.YEAR)==2022) and
+                            (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
+                            (c.get(Calendar.DATE)== data.eventdetail.starttime.date)and
+                            ( ((data.eventdetail.starttime.hours*60)..(data.eventdetail.starttime.hours*60+ data.eventdetail.durationInMin))
+                                .contains((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) )}
+
+
+                for(data in allEventsWithLive){
 
                     if( (c.get(Calendar.YEAR)>2022) or
                         ((c.get(Calendar.YEAR)==2022) and
@@ -97,16 +107,8 @@ class viewModelHome: ViewModel() {
                                 ( ((data.eventdetail.starttime.hours*60 + data.eventdetail.durationInMin))
                                         <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
 
-                    ){ dt.remove()}
+                    ){ upcomingEventsLiveState.remove(data)}
                 }
-
-                for( data in allEventsWithLive){
-
-                    data.isLive.value = (c.get(Calendar.YEAR)==2022) and
-                            (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
-                            (c.get(Calendar.DATE)== data.eventdetail.starttime.date)and
-                            ( ((data.eventdetail.starttime.hours*60)..(data.eventdetail.starttime.hours*60+ data.eventdetail.durationInMin))
-                                .contains((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) )}
 
 
 

@@ -228,7 +228,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.filter { data-> !(data.isLive.value) }) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it,fm) } }
+                            items(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it,fm) } }
                         }
                     }
                     Box(modifier = Modifier
@@ -280,6 +280,8 @@ class Home : Fragment() {
             homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
                 homeViewModel.allEventsWithLive.clear()
                 homeViewModel.allEventsWithLive.addAll(data)
+                homeViewModel.upcomingEventsLiveState.clear()
+                homeViewModel.upcomingEventsLiveState.addAll(data)
             }
             homeViewModel.featuredEventsWithLivedata.observe(requireActivity()){   data->
                 homeViewModel.featuredEventsWithLivestate.clear()
