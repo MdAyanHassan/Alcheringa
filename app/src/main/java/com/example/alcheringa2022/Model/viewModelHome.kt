@@ -82,6 +82,7 @@ class viewModelHome: ViewModel() {
             while (true){
                 Log.d("livecheck","started")
                val c= Calendar.getInstance()
+                delay(500)
 
 
                 for( data in allEventsWithLive){
@@ -113,7 +114,7 @@ class viewModelHome: ViewModel() {
 
 
 
-                delay(10000)
+                delay(9000)
                 Log.d("livecheck","done")
 
 
