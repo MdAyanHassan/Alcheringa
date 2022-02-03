@@ -106,10 +106,11 @@ class CompetitionsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val scheduleDatabase=ScheduleDatabase(context)
         val eventslist=scheduleDatabase.schedule;
-        binding.account.setOnClickListener {
-            startActivity(Intent(context,Account::class.java));
-
-        }
+//        binding.account.setOnClickListener {
+//            startActivity(Intent(context,Account::class.java));
+//
+//        }
+        binding.backbtn2.setOnClickListener{requireActivity().onBackPressed()}
 
         binding.competitionsCompose.setContent {
             Full_view()

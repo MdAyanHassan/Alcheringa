@@ -33,7 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="27dp"
             app:layout_constraintRight_toLeftOf="@id/comp"/>
 
         <TextView
@@ -50,29 +50,9 @@
             app:layout_constraintLeft_toRightOf="@id/backbtn2"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/account"
-            android:layout_width="21dp"
-            android:layout_height="28dp"
-            android:src="@drawable/fluent_person_24_regular"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.903"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.461" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="21dp"
-            android:layout_height="28dp"
-            android:src="@drawable/fluent_alert_24_regular"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/account"
-            app:layout_constraintHorizontal_bias="0.93"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.48" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
