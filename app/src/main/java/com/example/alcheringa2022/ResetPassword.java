@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +22,7 @@ public class ResetPassword extends AppCompatActivity {
 
     EditText email;
     Button sendOTP;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +58,8 @@ public class ResetPassword extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Please enter a valid email", Toast.LENGTH_LONG).show();
             }
         });
+
+        back=findViewById(R.id.back_button);
+        back.setOnClickListener(view -> finish());
     }
 }
