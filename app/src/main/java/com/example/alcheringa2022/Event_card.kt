@@ -95,7 +95,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
     var okstatenum= remember{ mutableStateOf(0)}
 
     viewModelHm.OwnEventsLiveState.forEach{
-            data-> if( data==eventdetail.eventdetail){okstate.value=true;okstatenum.value+=1}
+            data-> if( data.artist==eventdetail.eventdetail.artist){okstate.value=true;okstatenum.value+=1}
     }
     if(okstatenum.value==0){okstate.value=false}
 

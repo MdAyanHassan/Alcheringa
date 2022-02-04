@@ -1071,13 +1071,12 @@ class Home : Fragment() {
                         onDragEnd = {
                             isdragging.value = false
                             if (onActiveDel.value) {
-                                var list = mutableListOf<ownEventBoxUiModel>()
                                 coroutineScope.launch {
                                 lengthdp.animateTo(0f, animationSpec = tween(
                                     durationMillis = 300,
                                     delayMillis = 0, easing = FastOutSlowInEasing))}
 //                                datestate.forEach { data -> list.add(data) }
-                                datestate.remove(eventdetail)
+//                                datestate.remove(eventdetail)
 //                                Log.d("boxevent", eventdetail.toString())
                                 homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
                                 scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)

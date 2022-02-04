@@ -225,7 +225,7 @@ class Events_Details_Fragment : Fragment() {
     @Composable
     fun Bottomview(eventWithLive:eventWithLive){
         var isadded=remember{ mutableStateOf(false)}
-        isadded.value=viewModelHome.OwnEventsLiveState.contains(eventWithLive.eventdetail)
+        isadded.value=viewModelHome.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
         Column(
             Modifier
                 .fillMaxWidth()
