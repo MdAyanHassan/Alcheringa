@@ -79,7 +79,7 @@ class Home : Fragment() {
     val datestate1 = mutableStateListOf<ownEventBoxUiModel>()
     val datestate2 = mutableStateListOf<ownEventBoxUiModel>()
     val datestate3 = mutableStateListOf<ownEventBoxUiModel>()
-    var datestate:SnapshotStateList<ownEventBoxUiModel> = datestate1
+    var datestate= mutableStateOf<Int>(1)
     var onActiveDel= mutableStateOf(false)
     var isdragging=mutableStateOf(false)
 
@@ -801,23 +801,23 @@ class Home : Fragment() {
                Text(text = "Day1", fontWeight = FontWeight.W700, fontFamily = clash, color = color1,
                    modifier = Modifier.clickable { color1= orangeText;color2= greyText;color3=
                        greyText
-                       datestate= datestate1
+                       datestate.value=1
                    })
 
                Text(text = "Day2", fontWeight = FontWeight.W700, fontFamily = clash, color = color2,
                    modifier = Modifier.clickable { color1= greyText;color2= orangeText;color3= greyText;
-                       datestate=datestate2
+                       datestate.value=2
                })
 
                Text(text = "Day3", fontWeight = FontWeight.W700, fontFamily = clash, color = color3,
                    modifier = Modifier.clickable { color1= greyText;color2= greyText;color3=
                        orangeText
-                       datestate=datestate3
+                       datestate.value=3
                    })
 
            }
            Spacer(modifier = Modifier.height(16.dp))
-           scheduleBox(addedList = datestate)
+           scheduleBox()
 
 
        }
@@ -830,7 +830,7 @@ class Home : Fragment() {
 
 
     @Composable
-    fun scheduleBox(addedList:SnapshotStateList<ownEventBoxUiModel>) {
+    fun scheduleBox() {
         val horiscrollowneventstate = rememberScrollState()
         var boxwidth=remember{ mutableStateOf(0.dp)}
         Box(Modifier
@@ -942,8 +942,15 @@ class Home : Fragment() {
 
                 }
 
-
-                addedList.forEach { data -> userBox(eventdetail = data,horiscrollowneventstate,boxwidth) }
+                if (datestate.value==1) {
+                    datestate1.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
+                }
+                if (datestate.value==2) {
+                    datestate2.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
+                }
+                if (datestate.value==3) {
+                    datestate3.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
+                }
 
 
 
@@ -1074,11 +1081,13 @@ class Home : Fragment() {
                                 coroutineScope.launch {
                                 lengthdp.animateTo(0f, animationSpec = tween(
                                     durationMillis = 300,
-                                    delayMillis = 0, easing = FastOutSlowInEasing))}
+                                    delayMillis = 0, easing = FastOutSlowInEasing))
+                                    homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+                                }
 //                                datestate.forEach { data -> list.add(data) }
 //                                datestate.remove(eventdetail)
 //                                Log.d("boxevent", eventdetail.toString())
-                                homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+
                                 scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
 
 
