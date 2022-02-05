@@ -194,6 +194,8 @@
         <entry key="app/src/main/res/drawable/ic_down.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_events.xml" value="0.1345" />
         <entry key="app/src/main/res/drawable/merch_size_btn_deselect.xml" value="0.116" />
+        <entry key="app/src/main/res/drawable/merch_size_btn_selected.xml" value="0.329" />
+        <entry key="app/src/main/res/drawable/not_avail_btn.xml" value="0.329" />
         <entry key="app/src/main/res/drawable/order_summary_item_bg.xml" value="0.155" />
         <entry key="app/src/main/res/drawable/outline_back.xml" value="0.2145" />
         <entry key="app/src/main/res/font/clash_400.xml" value="0.38459218343098955" />
@@ -224,7 +226,7 @@
         <entry key="app/src/main/res/layout/fragment_merch.xml" value="0.2451873779296875" />
         <entry key="app/src/main/res/layout/item_design.xml" value="0.38590596516927084" />
         <entry key="app/src/main/res/layout/merch_cart.xml" value="0.19157608695652173" />
-        <entry key="app/src/main/res/layout/merch_item.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/merch_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/merch_your_orders.xml" value="0.11956521739130435" />
         <entry key="app/src/main/res/layout/order_summary_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/schedule_fragment.xml" value="0.19157608695652173" />

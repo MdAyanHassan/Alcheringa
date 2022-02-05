@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.TransformationMethod;
@@ -30,6 +32,8 @@ import java.util.Map;
 
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.VideoView;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.AuthCredential;
@@ -50,6 +54,8 @@ public class SignUp extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     LinearLayout signInButton;
     FirebaseAuth firebaseAuth;
+
+    VideoView videoView;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -99,6 +105,7 @@ public class SignUp extends AppCompatActivity {
             public void handleOnBackPressed() { goBack(); }
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
+        video_load();
     }
 
     private void goBack() {
@@ -424,6 +431,42 @@ public class SignUp extends AppCompatActivity {
 
             }
         }
+    }
+    @Override
+    protected void onResume() {
+        videoView.resume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        videoView.start();
+        super.onRestart();
+    }
+
+    @Override
+    protected void onPause() {
+        videoView.suspend();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        videoView.stopPlayback();
+        super.onDestroy();
+    }
+    private void video_load() {
+        videoView=findViewById(R.id.videoview);
+        Uri uri= Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.greeting_video);
+        videoView.setVideoURI(uri);
+        videoView.start();
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
     }
 
 }

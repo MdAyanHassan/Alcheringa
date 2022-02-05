@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.TransformationMethod;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -51,6 +54,8 @@ public class Login extends AppCompatActivity {
     LinearLayout signInButtonO;
     SharedPreferences sharedPreferences;
     private static final String TAG = "TAG";
+
+    VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +97,22 @@ public class Login extends AppCompatActivity {
             public void handleOnBackPressed() { goBack(); }
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
+        video_load();
 
+    }
+
+    private void video_load() {
+        videoView=findViewById(R.id.videoview);
+        Uri uri= Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.greeting_video);
+        videoView.setVideoURI(uri);
+        videoView.start();
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
     }
 
     private void goBack() {
@@ -371,6 +391,29 @@ public class Login extends AppCompatActivity {
 
             }
         }
+    }
+    @Override
+    protected void onResume() {
+        videoView.resume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        videoView.start();
+        super.onRestart();
+    }
+
+    @Override
+    protected void onPause() {
+        videoView.suspend();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        videoView.stopPlayback();
+        super.onDestroy();
     }
 
 }

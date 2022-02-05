@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     android:background="#00010D"
     tools:context=".SignUp">
+    <VideoView
+        android:id="@+id/videoview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
     <ImageView
         android:id="@+id/back_button"

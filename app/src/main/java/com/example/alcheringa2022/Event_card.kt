@@ -2,6 +2,7 @@ package com.example.alcheringa2022
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -210,6 +211,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                                         viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
                                                okstate.value=false
                                         ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
+                                        Toast.makeText(context,"event removed from schedule",Toast.LENGTH_SHORT).show()
                                                },
                                 painter = painterResource(id = R.drawable.tickokay),
                                 contentDescription ="null", contentScale = ContentScale.FillBounds)

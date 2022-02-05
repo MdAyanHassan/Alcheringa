@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import com.airbnb.lottie.parser.ColorParser
 import com.example.alcheringa2022.Database.DBHandler
 import com.example.alcheringa2022.ui.theme.hk_grotesk
 import com.google.accompanist.pager.*
@@ -81,11 +82,6 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         cartCountIcon.setOnClickListener(this)
         cart.setOnClickListener(this)
         dbHandler = DBHandler(this)
-        smallBtn.visibility = View.GONE
-        largeBtn.visibility = View.GONE
-        mediumBtn.visibility = View.GONE
-        xlargeBtn.visibility = View.GONE
-
 
         val cv1:ComposeView= findViewById(R.id.cv1)
         cv1.setContent { horizontalpager(merModel = merchModel) }
@@ -129,17 +125,31 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun settingButtons() {
-        if (merchModel.small) {
-            smallBtn.visibility = View.VISIBLE
+        if (!merchModel.small) {
+            smallBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.not_avail_btn);
+            smallBtn.setTextColor(android.graphics.Color.parseColor("#707683"));
+            smallBtn.isClickable=false;
         }
-        if (merchModel.large) {
-            largeBtn.visibility = View.VISIBLE
+        if (!merchModel.large) {
+            largeBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.not_avail_btn);
+
+            largeBtn.setTextColor(android.graphics.Color.parseColor("#707683"));
+
+            largeBtn.isClickable=false;
         }
-        if (merchModel.medium) {
-            mediumBtn.visibility = View.VISIBLE
+        if (!merchModel.medium) {
+            mediumBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.not_avail_btn);
+
+            mediumBtn.setTextColor(android.graphics.Color.parseColor("#707683"));
+
+            mediumBtn.isClickable=false;
         }
-        if (merchModel.large) {
-            xlargeBtn.visibility = View.VISIBLE
+        if (!merchModel.xlarge) {
+            xlargeBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.not_avail_btn);
+
+            xlargeBtn.setTextColor(android.graphics.Color.parseColor("#707683"));
+
+            xlargeBtn.isClickable=false;
         }
     }
 
@@ -213,7 +223,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         largeBtn.setTextColor(resources.getColor(R.color.White))
         xlargeBtn.setTextColor(resources.getColor(R.color.White))
         Log.d("abcd", "deselect_size:")
-
+        settingButtons();
     }
 
 
