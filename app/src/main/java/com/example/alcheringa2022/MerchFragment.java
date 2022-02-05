@@ -30,7 +30,7 @@ public class MerchFragment extends Fragment implements onItemClick {
     List<merchModel> merchModelList;
     MerchItemsAdapter merch_Items_adapter;
     FirebaseAuth firebaseAuth;
-    ImageView cart;
+    ImageView cart, account;
     FirebaseFirestore firestore;
     TextView cartCountIcon;
     LoaderView loaderView;
@@ -54,6 +54,9 @@ public class MerchFragment extends Fragment implements onItemClick {
         cart=view.findViewById(R.id.cart);
         cart.setOnClickListener(v -> startActivity(new Intent(getActivity(), CartActivity.class)));
         cartCountIcon.setOnClickListener(v -> startActivity(new Intent(getActivity(), CartActivity.class)));
+
+        account=view.findViewById(R.id.account);
+        account.setOnClickListener(v -> startActivity(new Intent(getActivity(), Account.class)));
 
 
         populate_merch();
