@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -34,10 +35,7 @@ import com.example.alcheringa2022.Database.ScheduleDatabase
 import com.example.alcheringa2022.Model.addNewItem
 import com.example.alcheringa2022.Model.removeAnItem
 import com.example.alcheringa2022.Model.viewModelHome
-import com.example.alcheringa2022.ui.theme.Alcheringa2022Theme
-import com.example.alcheringa2022.ui.theme.clash
-import com.example.alcheringa2022.ui.theme.hk_grotesk
-import com.example.alcheringa2022.ui.theme.orangeText
+import com.example.alcheringa2022.ui.theme.*
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -124,7 +122,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                     .height(256.dp),imageModel = eventdetail.eventdetail.imgurl, contentDescription = "artist", contentScale = ContentScale.Crop,
                         alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
-                        baseColor = Color.Black,
+                        baseColor = blackbg,
                         highlightColor = Color.LightGray,
                         durationMillis = 350,
                         dropOff = 0.65f,
@@ -224,8 +222,8 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                         brush = Brush.verticalGradient(
                             colors = listOf(
                                 Color.Transparent,
-                                Color.Black
-                            ), startY = 300f
+                                blackbg
+                            ), startY = with(LocalDensity.current){70.dp.toPx()}
                         )
                     ))
                 Box(modifier = Modifier

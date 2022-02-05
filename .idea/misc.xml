@@ -36,6 +36,8 @@
         <entry key="../../../../layout/compose-model-1642748197652.xml" value="0.5" />
         <entry key="../../../../layout/compose-model-1642748197657.xml" value="0.34074074074074073" />
         <entry key="../../../../layout/compose-model-1643183449087.xml" value="0.1" />
+        <entry key="../../../../layout/compose-model-1643978442223.xml" value="0.2222222222222222" />
+        <entry key="../../../../layout/compose-model-1643981901407.xml" value="0.16413502109704642" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/back.xml" value="0.1725752508361204" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/blur_rectangle.xml" value="0.26875" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/bottom_nav_icon_color_selector.xml" value="0.14391891891891892" />
@@ -214,6 +216,7 @@
         <entry key="app/src/main/res/layout/activity_order_summary.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.11302083333333333" />
+        <entry key="app/src/main/res/layout/fragment_all_schedule.xml" value="0.24139492753623187" />
         <entry key="app/src/main/res/layout/fragment_competitions.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.16156616210937497" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22675170898437497" />
@@ -227,7 +230,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

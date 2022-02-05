@@ -261,7 +261,11 @@ class Home : Fragment() {
                             .wrapContentHeight()
                             .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
-                        Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337) )
+                        Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
+                            ,modifier = Modifier.clickable {
+                            fm.beginTransaction()
+                                .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
+                                .commit()})
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     mySchedule()
@@ -644,7 +648,7 @@ class Home : Fragment() {
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Crop,
                                     shimmerParams = ShimmerParams(
-                                        baseColor = Color.Black,
+                                        baseColor = blackbg,
                                         highlightColor = Color.LightGray,
                                         durationMillis = 350,
                                         dropOff = 0.65f,
@@ -690,8 +694,8 @@ class Home : Fragment() {
                                                 brush = Brush.verticalGradient(
                                                     colors = listOf(
                                                         Color.Transparent,
-                                                        Color.Black
-                                                    ), startY = 100f
+                                                        blackbg,
+                                                    ), startY = with(LocalDensity.current){100.dp.toPx()}
                                                 )
                                             )
                                 )
@@ -725,8 +729,8 @@ class Home : Fragment() {
 
                                         Row {
                                             Text(
-                                                    text = "${eventdetails[page].eventdetail.starttime.date} Feb, ${if(eventdetails[page].eventdetail.starttime.hours>12)"${eventdetails[page].eventdetail.starttime.hours-12}" else eventdetails[page].eventdetail.starttime.hours} ${if (eventdetails[page].eventdetail.starttime.hours>=12)"PM" else "AM"}",
-                                                    style = TextStyle(
+                                                    text = "${eventdetails[page].eventdetail.starttime.date} Feb, ${if(eventdetails[page].eventdetail.starttime.hours>12)"${eventdetails[page].eventdetail.starttime.hours-12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min!=0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours>=12)"PM" else "AM"} ",
+                                                style = TextStyle(
                                                             color = colorResource(id = R.color.textGray),
                                                             fontFamily = hk_grotesk,
                                                             fontWeight = FontWeight.Normal,
@@ -798,18 +802,18 @@ class Home : Fragment() {
                Modifier
                    .fillMaxWidth()
                    .padding(horizontal = 32.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-               Text(text = "Day1", fontWeight = FontWeight.W700, fontFamily = clash, color = color1,
+               Text(text = "Day 1", fontWeight = FontWeight.W700, fontFamily = clash, color = color1, fontSize = 18.sp,
                    modifier = Modifier.clickable { color1= orangeText;color2= greyText;color3=
                        greyText
                        datestate.value=1
                    })
 
-               Text(text = "Day2", fontWeight = FontWeight.W700, fontFamily = clash, color = color2,
+               Text(text = "Day 2", fontWeight = FontWeight.W700, fontFamily = clash, color = color2,fontSize = 18.sp,
                    modifier = Modifier.clickable { color1= greyText;color2= orangeText;color3= greyText;
                        datestate.value=2
                })
 
-               Text(text = "Day3", fontWeight = FontWeight.W700, fontFamily = clash, color = color3,
+               Text(text = "Day 3", fontWeight = FontWeight.W700, fontFamily = clash, color = color3,fontSize = 18.sp,
                    modifier = Modifier.clickable { color1= greyText;color2= greyText;color3=
                        orangeText
                        datestate.value=3
@@ -839,7 +843,7 @@ class Home : Fragment() {
                 Modifier
                     .width(1550.dp)
                     .height(279.dp)
-                    .background(color = Color.Black)
+                    .background(color = blackbg)
                     .horizontalScroll(horiscrollowneventstate)
             ) {
                 Row(
@@ -857,7 +861,7 @@ class Home : Fragment() {
                             Text(
                                 text = "$time AM",
                                 style = TextStyle(
-                                    color = colorResource(id = R.color.textGray),
+                                    color = Color(0xffC7CCD1),
                                     fontFamily = clash,
                                     fontWeight = FontWeight.W600,
                                     fontSize = 14.sp
@@ -869,10 +873,10 @@ class Home : Fragment() {
                                     .height(260.dp)
                             ) {
                                 drawLine(
-                                    color = Color.DarkGray,
+                                    color = Color(0xff4C5862),
                                     start = Offset(0f, 0f),
                                     end = Offset(0f, size.height),
-                                    strokeWidth = Stroke.DefaultMiter
+                                    strokeWidth = 1.dp.toPx()
                                 )
                             }
 
@@ -888,7 +892,7 @@ class Home : Fragment() {
                         Text(
                             text = "12 PM",
                             style = TextStyle(
-                                color = colorResource(id = R.color.textGray),
+                                color = Color(0xffC7CCD1),
                                 fontFamily = clash,
                                 fontWeight = FontWeight.W600,
                                 fontSize = 14.sp
@@ -900,10 +904,10 @@ class Home : Fragment() {
                                 .height(260.dp)
                         ) {
                             drawLine(
-                                color = Color.DarkGray,
+                                color = Color(0xff4C5862),
                                 start = Offset(0f, 0f),
                                 end = Offset(0f, size.height),
-                                strokeWidth = Stroke.DefaultMiter
+                                strokeWidth = 1.dp.toPx()
                             )
                         }
                     }
@@ -917,7 +921,7 @@ class Home : Fragment() {
                             Text(
                                 text = "$time PM",
                                 style = TextStyle(
-                                    color = colorResource(id = R.color.textGray),
+                                    color = Color(0xffC7CCD1),
                                     fontFamily = clash,
                                     fontWeight = FontWeight.W600,
                                     fontSize = 14.sp
@@ -929,10 +933,10 @@ class Home : Fragment() {
                                     .height(260.dp)
                             ) {
                                 drawLine(
-                                    color = Color.DarkGray,
+                                    color = Color(0xff4C5862),
                                     start = Offset(0f, 0f),
                                     end = Offset(0f, size.height),
-                                    strokeWidth = Stroke.DefaultMiter
+                                    strokeWidth = 1.dp.toPx()
                                 )
                             }
 
@@ -1252,7 +1256,7 @@ class Home : Fragment() {
                     imageModel = merch[page].Image, contentDescription = "merch", contentScale = ContentScale.Crop,
                     alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
-                        baseColor = Color.Black,
+                        baseColor = blackbg,
                         highlightColor = Color.LightGray,
                         durationMillis = 350,
                         dropOff = 0.65f,
