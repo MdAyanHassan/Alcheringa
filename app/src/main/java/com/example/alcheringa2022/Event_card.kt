@@ -276,7 +276,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
     var ScheduleDatabase=ScheduleDatabase(context)
     var okstate= remember{ mutableStateOf(false)}
     var okstatenum= remember{ mutableStateOf(0)}
-    val crtime=viewModelHm.converttoowntime(viewModelHm.converttomin(eventdetail.eventdetail.starttime)-viewModelHm.converttomin(viewModelHm.crnttime.value))
+    var crtime=viewModelHm.converttoowntime(viewModelHm.converttomin(eventdetail.eventdetail.starttime)-viewModelHm.converttomin(viewModelHm.crnttime.value))
 
     viewModelHm.OwnEventsLiveState.forEach{
             data-> if( data.artist==eventdetail.eventdetail.artist){okstate.value=true;okstatenum.value+=1}
@@ -357,7 +357,9 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                             )
                     ) {
                         Text(
-                            text = "Starts in${if(crtime.date>0){" ${crtime.date}d"} else ""} ${if(crtime.date>0){"${crtime.hours}h"} else ""} ${if(crtime.min>0){"${crtime.min}m"} else ""}",
+                            text =
+                            "Starts in${if(crtime.date>0){" ${crtime.date}d"} else ""}${if(crtime.hours>0){" ${crtime.hours}h"} else ""}${if(crtime.min>0){" ${crtime.min}m"} else ""}"
+                            ,
                             color = Color.White,
                             modifier = Modifier.align(alignment = Alignment.Center),
                             fontSize = 12.sp
