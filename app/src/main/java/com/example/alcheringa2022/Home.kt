@@ -1088,6 +1088,13 @@ class Home : Fragment() {
                                     durationMillis = 300,
                                     delayMillis = 0, easing = FastOutSlowInEasing))
                                     homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+//                                    val dataevnetcurrent= homeViewModel.upcomingEventsLiveState.toMutableList()
+//                                    homeViewModel.upcomingEventsLiveState.clear()
+//                                    delay(100)
+//                                    homeViewModel.upcomingEventsLiveState.addAll(dataevnetcurrent!!)
+
+//                                  homeViewModel.allEventsWithLivedata.addNewItem(eventWithLive(eventdetail()))
+//                                    homeViewModel.allEventsWithLivedata.removeAnItem(eventWithLive(eventdetail()))
                                 }
 //                                datestate.forEach { data -> list.add(data) }
 //                                datestate.remove(eventdetail)

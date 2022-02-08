@@ -357,7 +357,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                             )
                     ) {
                         Text(
-                            text = "Starts in${if(crtime.date!=0){" ${crtime.date}d"} else ""} ${if(crtime.date!=0){"${crtime.hours}h"} else ""} ${if(crtime.min!=0){"${crtime.min}m"} else ""}",
+                            text = "Starts in${if(crtime.date>0){" ${crtime.date}d"} else ""} ${if(crtime.date>0){"${crtime.hours}h"} else ""} ${if(crtime.min>0){"${crtime.min}m"} else ""}",
                             color = Color.White,
                             modifier = Modifier.align(alignment = Alignment.Center),
                             fontSize = 12.sp
