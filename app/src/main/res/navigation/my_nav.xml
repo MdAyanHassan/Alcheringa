@@ -6,17 +6,17 @@
     app:startDestination="@id/home2">
     <fragment
         android:id="@+id/home2"
-        android:name="com.example.alcheringa2022.Home"
+        android:name="com.alcheringa.alcheringa2022.Home"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/about"
-        android:name="com.example.alcheringa2022.Events"
+        android:name="com.alcheringa.alcheringa2022.Events"
         android:label="fragment_about"
         tools:layout="@layout/fragment_events" />
     <fragment
         android:id="@+id/contact_us"
-        android:name="com.example.alcheringa2022.MerchFragment"
+        android:name="com.alcheringa.alcheringa2022.MerchFragment"
         android:label="fragment_contact_us"
         tools:layout="@layout/fragment_merch" />
 </navigation>

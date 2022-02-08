@@ -1,10 +1,48 @@
 {
   "project_info": {
     "project_number": "671924222085",
+    "firebase_url": "https://alcheringa2022-default-rtdb.firebaseio.com",
     "project_id": "alcheringa2022",
     "storage_bucket": "alcheringa2022.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671924222085:android:548b92187c73f2ffc751ec",
+        "android_client_info": {
+          "package_name": "com.alcheringa.alcheringa2022"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671924222085-pldcl8ot81h45m22hr74o1ingouc2tau.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alcheringa.alcheringa2022",
+            "certificate_hash": "4f32b73975a80f9923cba5921c57474423d8f3fc"
+          }
+        },
+        {
+          "client_id": "671924222085-as1eeb5n4mf0q88g9sugdri43i09k178.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO4X24aKxH5tChfT0KkKetieNtxuiLsKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671924222085-as1eeb5n4mf0q88g9sugdri43i09k178.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:671924222085:android:5b4dac02ba5b5a27c751ec",
@@ -13,22 +51,6 @@
         }
       },
       "oauth_client": [
-        {
-          "client_id": "671924222085-0cr5h2v86f5agjqv7chg2vurc271c9bt.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.alcheringa2022",
-            "certificate_hash": "2656af7403485ae412892efab3a1d7ae1fbdd2a3"
-          }
-        },
-        {
-          "client_id": "671924222085-qfskjghpudgv69kk4769et8j4scv98qh.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.alcheringa2022",
-            "certificate_hash": "49a10de96780b34f7e3abf4afab8ffd3f8f92008"
-          }
-        },
         {
           "client_id": "671924222085-as1eeb5n4mf0q88g9sugdri43i09k178.apps.googleusercontent.com",
           "client_type": 3

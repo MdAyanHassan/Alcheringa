@@ -286,7 +286,7 @@ buy later. Thank you and have a nice day."
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <com.example.alcheringa2022.LoaderView
+    <com.alcheringa.alcheringa2022.LoaderView
         android:id="@+id/dots_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
