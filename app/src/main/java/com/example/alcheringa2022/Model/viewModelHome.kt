@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.alcheringa2022.Database.ScheduleDatabase
+import com.example.alcheringa2022.OwnTime
 import com.example.alcheringa2022.eventWithLive
 import com.example.alcheringa2022.eventdetail
 import com.google.firebase.abt.FirebaseABTesting
@@ -40,6 +41,7 @@ class viewModelHome: ViewModel() {
     val OwnEventsLiveState= mutableStateListOf<eventdetail>()
     val upcomingEventsLiveState= mutableStateListOf<eventWithLive>()
     val merchhome= mutableStateListOf<merchmodelforHome>()
+    var crnttime= mutableStateOf(OwnTime())
 
 
 
@@ -82,6 +84,7 @@ class viewModelHome: ViewModel() {
             while (true){
                 Log.d("livecheck","started")
                val c= Calendar.getInstance()
+                crnttime.value= OwnTime(date = c.get(Calendar.DATE),c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE))
                 delay(500)
 
 
@@ -167,6 +170,14 @@ class viewModelHome: ViewModel() {
 
     }
 
+
+    fun converttomin(ownTime: OwnTime): Int {
+     return(( ownTime.date*24*60) + (ownTime.hours*60)+ ownTime.min)
+    }
+
+    fun converttoowntime(min:Int): OwnTime {
+        return OwnTime((min/1440), ((min%1440))/60, min%60 )
+    }
 
 
 

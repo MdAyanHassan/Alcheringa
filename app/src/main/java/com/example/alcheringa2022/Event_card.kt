@@ -271,6 +271,191 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
 
 
 
+@Composable
+fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Context,FragmentManager: androidx.fragment.app.FragmentManager) {
+    var ScheduleDatabase=ScheduleDatabase(context)
+    var okstate= remember{ mutableStateOf(false)}
+    var okstatenum= remember{ mutableStateOf(0)}
+    val crtime=viewModelHm.converttoowntime(viewModelHm.converttomin(eventdetail.eventdetail.starttime)-viewModelHm.converttomin(viewModelHm.crnttime.value))
+
+    viewModelHm.OwnEventsLiveState.forEach{
+            data-> if( data.artist==eventdetail.eventdetail.artist){okstate.value=true;okstatenum.value+=1}
+    }
+    if(okstatenum.value==0){okstate.value=false}
+
+
+    Box() {
+        Text(text =viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp )
+
+        Card(modifier = Modifier.wrapContentWidth(),
+            shape = RoundedCornerShape(8.dp),
+            elevation = 5.dp) {
+            Box(modifier = Modifier
+                .height(256.dp)
+                .width(218.dp)
+                .clickable {
+                    val frg=Events_Details_Fragment()
+                    frg.arguments= bundleOf("Artist" to eventdetail.eventdetail.artist)
+                    FragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainerView,frg ).addToBackStack(null)
+                        .commit()
+                }
+
+            ){
+                GlideImage(modifier = Modifier
+                    .width(218.dp)
+                    .height(256.dp),imageModel = eventdetail.eventdetail.imgurl, contentDescription = "artist", contentScale = ContentScale.Crop,
+                    alignment = Alignment.Center,
+                    shimmerParams = ShimmerParams(
+                        baseColor = blackbg,
+                        highlightColor = Color.LightGray,
+                        durationMillis = 350,
+                        dropOff = 0.65f,
+                        tilt = 20f
+                    ),failure = {
+                        Box(modifier= Modifier
+                            .fillMaxWidth()
+                            .height(473.dp), contentAlignment = Alignment.Center) {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                Image(
+                                    modifier = Modifier
+                                        .width(60.dp)
+                                        .height(60.dp),
+                                    painter = painterResource(
+                                        id = R.drawable.ic_sad_svgrepo_com
+                                    ),
+                                    contentDescription = null
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    text = "Image Request Failed",
+                                    style = TextStyle(
+                                        color = Color(0xFF747474),
+                                        fontFamily = hk_grotesk,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = 12.sp
+                                    )
+                                )
+                            }
+                        }
+
+                    }
+                )
+//                Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
+                Column() {
+//
+                   Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(21.dp)
+                            .background(
+                                Color(0xffEC840A)
+                            )
+                    ) {
+                        Text(
+                            text = "Starts in${if(crtime.date!=0){" ${crtime.date}d"} else ""} ${if(crtime.date!=0){"${crtime.hours}h"} else ""} ${if(crtime.min!=0){"${crtime.min}m"} else ""}",
+                            color = Color.White,
+                            modifier = Modifier.align(alignment = Alignment.Center),
+                            fontSize = 12.sp
+                        )
+                    }
+
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(11.dp), contentAlignment = Alignment.TopEnd){
+
+
+                        if( !okstate.value) {
+
+                            Image( modifier = Modifier
+                                .width(18.dp)
+                                .height(18.dp)
+                                .clickable {
+                                    viewModelHm.OwnEventsWithLive.addNewItem(eventdetail.eventdetail);
+                                    ScheduleDatabase.addEventsInSchedule(
+                                        eventdetail.eventdetail,
+                                        context
+                                    )
+                                },
+                                painter = painterResource(id = R.drawable.add_icon),
+                                contentDescription ="null")
+                        }
+                        if(okstate.value)
+                        {
+                            Image( modifier = Modifier
+                                .width(20.dp)
+                                .height(20.dp)
+                                .clickable {
+                                    Log.d("boxevent", eventdetail.toString())
+                                    viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
+                                    okstate.value=false
+                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
+                                    Toast.makeText(context,"event removed from schedule",Toast.LENGTH_SHORT).show()
+                                },
+                                painter = painterResource(id = R.drawable.tickokay),
+                                contentDescription ="null", contentScale = ContentScale.FillBounds)
+                        }
+                    }
+                }
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                blackbg
+                            ), startY = with(LocalDensity.current){70.dp.toPx()}
+                        )
+                    ))
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp), contentAlignment = Alignment.BottomStart){
+                    Column {
+                        Text(text = eventdetail.eventdetail.artist, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W700, fontFamily = clash )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(text = eventdetail.eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = "${eventdetail.eventdetail.starttime.date} Feb, ${if(eventdetail.eventdetail.starttime.hours>12)"${eventdetail.eventdetail.starttime.hours-12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min!=0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours>=12)"PM" else "AM"} ", style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Row {
+                            Box(modifier = Modifier
+                                .height(20.dp)
+                                .width(20.dp)) {
+                                Image(
+                                    painter = if (eventdetail.eventdetail.mode.contains("ONLINE")) {
+                                        painterResource(id = R.drawable.online)
+                                    } else {
+                                        painterResource(id = R.drawable.onground)
+                                    },
+                                    contentDescription = null, modifier = Modifier.fillMaxSize(),alignment = Alignment.Center, contentScale =ContentScale.Crop
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(text = eventdetail.eventdetail.mode,style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                        }
+                    }
+
+                }
+
+
+            }
+        }
+    }
+
+
+
+}
+
+
+
+
+
+
+
 //
 //@Composable
 //@Preview

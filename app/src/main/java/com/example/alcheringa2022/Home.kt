@@ -242,7 +242,7 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it,fm) } }
+                            items(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }) { dataeach -> context?.let { Event_card_upcoming(eventdetail = dataeach,homeViewModel, it,fm) } }
                         }
                     }
                     Box(modifier = Modifier
@@ -265,7 +265,8 @@ class Home : Fragment() {
                             ,modifier = Modifier.clickable {
                             fm.beginTransaction()
                                 .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
-                                .commit()})
+                                .commit()
+                            })
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     mySchedule()
@@ -1347,6 +1348,18 @@ class Home : Fragment() {
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
