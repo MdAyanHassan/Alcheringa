@@ -274,7 +274,7 @@ class Schedule : Fragment() {
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 Modifier
                     .width(1095.dp)
@@ -466,6 +466,11 @@ class Schedule : Fragment() {
 
 
                    }
+            
+            Box(modifier = Modifier.offset(x=25.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
+            Box(modifier = Modifier.offset(x=275.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
+            Box(modifier = Modifier.offset(x=525.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
+            Box(modifier = Modifier.offset(x=775.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
             if (datestate.value == 1) {
                 datestate1.forEach { data -> fullSchUserBox(eventdetail = data) }
             }
@@ -564,35 +569,37 @@ class Schedule : Fragment() {
                         },
                         onDragCancel = {
                             coroutineScope.launch {
-                                offsetY.animateTo(
-                                    xdisinpxcald, animationSpec = tween(
+                                offsetX.animateTo(
+                                    ydisinpxcald, animationSpec = tween(
                                         durationMillis = 400,
                                         delayMillis = 0, easing = FastOutSlowInEasing
                                     )
                                 );
-                                offsetX.animateTo(
-                                    ydisinpxcald, animationSpec = tween(
+                                offsetY.animateTo(
+                                    xdisinpxcald, animationSpec = tween(
                                         durationMillis = 400,
                                         delayMillis = 0, easing = FastOutSlowInEasing
                                     )
                                 );
 
+
                             }
                         },
                         onDragEnd = {
                             coroutineScope.launch {
-                                offsetY.animateTo(
-                                    xdisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
                                 offsetX.animateTo(
                                     ydisinpxcald, animationSpec = tween(
                                         durationMillis = 400,
                                         delayMillis = 0, easing = FastOutSlowInEasing
                                     )
                                 );
+                                offsetY.animateTo(
+                                    xdisinpxcald, animationSpec = tween(
+                                        durationMillis = 400,
+                                        delayMillis = 0, easing = FastOutSlowInEasing
+                                    )
+                                );
+
 
                             }
 
