@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id("kotlin-parcelize")
+    id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -150,7 +152,8 @@ dependencies {
 
     implementation "com.airbnb.android:lottie-compose:4.2.2"
 
+    implementation "com.google.android.exoplayer:exoplayer:2.16.1"
 
-
+    kapt "androidx.lifecycle:lifecycle-compiler:2.4.0"
 
 }
