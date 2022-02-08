@@ -15,15 +15,22 @@
         android:theme="@style/Theme.Alcheringa2022"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".VideoTestingActivity"
+            android:exported="true"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
+
+        </activity>
+        <activity
             android:name=".ResetPassword"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".InterestsActivity"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".AboutPage"
             android:exported="true"
@@ -38,20 +45,18 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".FaqPage"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <!--        <activity-->
-        <!--            android:name=".EventDetailsActivity"-->
-        <!--            android:exported="true" />-->
-        <!--        <activity-->
-        <!--            android:name=".event_description_activity"-->
-        <!--            android:exported="true"-->
-        <!--            android:label="@string/title_activity_event_description"-->
-        <!--            android:theme="@style/Theme.AppCompat.NoActionBar" />-->
+            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- <activity -->
+        <!-- android:name=".EventDetailsActivity" -->
+        <!-- android:exported="true" /> -->
+        <!-- <activity -->
+        <!-- android:name=".event_description_activity" -->
+        <!-- android:exported="true" -->
+        <!-- android:label="@string/title_activity_event_description" -->
+        <!-- android:theme="@style/Theme.AppCompat.NoActionBar" /> -->
         <activity
             android:name=".Account"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".OrderSummaryActivity"
             android:exported="true"
@@ -79,7 +84,6 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -132,17 +136,16 @@
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-<!--            <intent-filter>
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
+            <!--
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
-
-        <!-- DO NOT EDIT THE BELOW ACTIVITIES! -->
-
-
+            </intent-filter>
+            -->
+        </activity> <!-- DO NOT EDIT THE BELOW ACTIVITIES! -->
         <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity
             android:name="com.microsoft.identity.client.BrowserTabActivity"

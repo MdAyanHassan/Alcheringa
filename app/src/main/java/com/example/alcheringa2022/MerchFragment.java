@@ -100,7 +100,8 @@ public class MerchFragment extends Fragment implements onItemClick {
                         documentSnapshot.getBoolean("Medium"),
                         documentSnapshot.getBoolean("Large"),
                         documentSnapshot.getBoolean("ExtraLarge"),
-                        obj
+                        obj,
+                        documentSnapshot.getString("Video")
                 ));
             }
             recyclerView.setAdapter(merch_Items_adapter);

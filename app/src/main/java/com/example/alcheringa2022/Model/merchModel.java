@@ -2,6 +2,7 @@ package com.example.alcheringa2022.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ public class merchModel implements Parcelable {
     Boolean Large;
     Boolean Xlarge;
     ArrayList<String> images;
+    String Video_url;
 
     protected merchModel(Parcel in) {
         Name = in.readString();
@@ -35,6 +37,7 @@ public class merchModel implements Parcelable {
         byte tmpXlarge = in.readByte();
         Xlarge = tmpXlarge == 0 ? null : tmpXlarge == 1;
         images = in.createStringArrayList();
+        Video_url = in.readString();
     }
 
     public static final Creator<merchModel> CREATOR = new Creator<merchModel>() {
@@ -113,6 +116,8 @@ public class merchModel implements Parcelable {
         return Image_url;
     }
 
+    public String getVideo_url(){return Video_url;}
+
     public Boolean getIs_available() {
         return Is_available;
     }
@@ -137,7 +142,7 @@ public class merchModel implements Parcelable {
         return images;
     }
 
-    public merchModel(String name, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, ArrayList<String> images) {
+    public merchModel(String name, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, ArrayList<String> images, String video_url) {
         Name = name;
         Material = material;
         Price = price;
@@ -149,6 +154,7 @@ public class merchModel implements Parcelable {
         Large = large;
         Xlarge = xlarge;
         this.images = images;
+        Video_url = video_url;
     }
 
 
@@ -170,5 +176,6 @@ public class merchModel implements Parcelable {
         dest.writeByte((byte) (Large == null ? 0 : Large ? 1 : 2));
         dest.writeByte((byte) (Xlarge == null ? 0 : Xlarge ? 1 : 2));
         dest.writeStringList(images);
+        dest.writeString(Video_url);
     }
 }

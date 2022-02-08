@@ -2,22 +2,17 @@ package com.example.alcheringa2022;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.alcheringa2022.Model.YourOrders_model;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +30,11 @@ public class YourOrders extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_orders);
+        setContentView(R.layout.activity_your_orders);
+
+        loaderView = findViewById(R.id.dots_progress);
+        loaderView.setVisibility(View.VISIBLE);
+
         recyclerView = findViewById(R.id.user_orders_recyclerview);
         imageView = findViewById(R.id.backbtn);
         imageView.setOnClickListener(v -> finish());
@@ -50,8 +49,7 @@ public class YourOrders extends AppCompatActivity {
 
         populate_your_orders();
 
-        loaderView = findViewById(R.id.dots_progress);
-        loaderView.setVisibility(View.VISIBLE);
+
     }
 
     private void populate_your_orders() {
@@ -79,6 +77,14 @@ public class YourOrders extends AppCompatActivity {
 
             recyclerView.setAdapter(yourOrders_adapter);
             loaderView.setVisibility(View.GONE);
+
+            if(yourOrders_modelList.size() == 0){
+                setContentView(R.layout.empty_your_orders);
+
+                imageView = findViewById(R.id.backbtn);
+                imageView.setOnClickListener(v -> finish());
+
+            }
         });
     }
 }

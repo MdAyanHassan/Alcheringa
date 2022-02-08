@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00010D">
+    android:background="@color/black"
+    tools:ignore="HardcodedText">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -17,19 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0">
 
-<!--        <ImageView
-            android:id="@+id/backbtn"
-            android:layout_width="30dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="24dp"
-            android:src="@drawable/back_arrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/shop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.511">
-
-        </ImageView>-->
         <ImageButton
             android:id="@+id/backbtn"
             android:layout_width="41dp"
@@ -57,26 +46,53 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/user_orders_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <com.example.alcheringa2022.LoaderView
-        android:id="@+id/dots_progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_orders"
+            android:contentDescription="@string/empty_shopping_cart"
+            android:layout_marginBottom="48dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Orders Found"
+            android:textColor="#A3A7AC"
+            android:fontFamily="@font/clash_display_bold"
+            android:textSize="22sp"
+            android:layout_marginBottom="16dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Looks like you haven’t \n placed any orders yet"
+            android:textSize="16sp"
+            android:textColor="#707683"
+            android:fontFamily="@font/hk_grotesk"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            />
+        <Button
+            android:id="@+id/start_shopping"
+            android:text="Start Shopping"
+            android:layout_marginTop="64dp"
+            style="@style/bottom_orange_button"
+            android:layout_gravity="center"
+            android:layout_width="188dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
