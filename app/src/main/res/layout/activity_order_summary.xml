@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/clash_display_bold"
+            android:fontFamily="@font/clash_display_700"
             android:text="Order Summary"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -70,7 +70,7 @@
                     android:width="30dp"
                     android:height="30dp"
                     android:background="@drawable/white_circle_bg"
-                    android:fontFamily="@font/clashdisplay"
+                    android:fontFamily="@font/clash_display_500"
                     android:gravity="center"
                     android:text="2"
                     android:textColor="@color/black"
@@ -107,7 +107,7 @@
                     android:width="30dp"
                     android:height="30dp"
                     android:background="@drawable/white_border_bg"
-                    android:fontFamily="@font/clashdisplay"
+                    android:fontFamily="@font/clash_display_500"
                     android:gravity="center"
                     android:text="3"
                     android:textColor="@color/white"
@@ -132,7 +132,7 @@
                     android:width="30dp"
                     android:height="30dp"
                     android:background="@drawable/white_circle_bg"
-                    android:fontFamily="@font/clashdisplay"
+                    android:fontFamily="@font/clash_display_500"
                     android:gravity="center"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -177,8 +177,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="@font/hk_grotesk_regular"
+                android:fontFamily="@font/hk_grotesk_600"
                 android:textColor="@color/white"
+                android:textSize="18dp"
                 tools:text="Rishikesh Aryan Choudhary" />
 
             <TextView
@@ -186,8 +187,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:fontFamily="@font/hk_grotesk"
+                android:fontFamily="@font/hk_grotesk_400"
                 android:textColor="@color/TextGrey"
+                android:textSize="16dp"
                 tools:text="B-315 Lohit Hostel IIT Guwahati, Amingaon\nNorth Guwahati - 781039\n8398077353" />
 
             <TextView
@@ -199,19 +201,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/items_list_view"/>
-
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/list_linear_layout"
-                android:orientation="vertical"/>-->
-
-<!--
-            <include layout="@layout/order_summary_item"/>
-            <include layout="@layout/order_summary_item"/>
-            <include layout="@layout/order_summary_item"/>
--->
-
 
             <TextView
                 style="@style/order_summary_heading_2"
@@ -237,7 +226,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="₹3995.00" />
+                    tools:text="₹3995.00"
+                    android:fontFamily="@font/hk_grotesk_400"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -258,7 +248,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="₹0.00" />
+                    android:text="₹0.00"
+                    android:fontFamily="@font/hk_grotesk_400"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -286,7 +277,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="₹4064.00" />
+                    tools:text="₹4064.00"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -314,7 +306,7 @@
 
             <TextView
                 style="@style/order_summary_medium_text"
-                android:fontFamily="@font/clashdisplay"
+                android:fontFamily="@font/clash_display_500"
                 android:text="Order Total"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -323,16 +315,16 @@
             <TextView
                 android:id="@+id/order_total"
                 style="@style/order_summary_medium_text"
-                android:fontFamily="@font/clashdisplay"
-                android:textSize="28sp"
+                android:fontFamily="@font/clash_display_500"
+                android:textSize="27sp"
                 app:layout_constraintEnd_toStartOf="@id/order_total_decimal"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="₹4064." />
             <TextView
                 android:id="@+id/order_total_decimal"
                 style="@style/order_summary_medium_text"
-                android:fontFamily="@font/clashdisplay"
-                android:textSize="20sp"
+                android:fontFamily="@font/clash_display_500"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="00"

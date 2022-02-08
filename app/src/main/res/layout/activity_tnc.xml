@@ -61,8 +61,7 @@
                 android:layout_height="wrap_content"
                 android:text="Welcome to Alcheringa!"
                 android:textColor="@color/white"
-                android:fontFamily="@font/clash_400"
-                android:textFontWeight="500"
+                android:fontFamily="@font/clash_display_500"
                 android:textSize="18sp" />
 
             <TextView
@@ -70,8 +69,8 @@
                 android:layout_height="wrap_content"
                 android:text="These terms and conditions outline the rules and regulations for the use of Alcheringa's Website, located at Alcheringa.&#xA;&#xA;By accessing this website we assume you accept these terms and conditions. Do not continue to use Alcheringa if you do not agree to take all of the terms and conditions stated on this page.&#xA;&#xA;The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: &quot;Client&quot;, &quot;You&quot; and &quot;Your&quot; refers to you, the person log on this website and compliant to the Company’s terms and conditions. &quot;The Company&quot;, &quot;Ourselves&quot;, &quot;We&quot;, &quot;Our&quot; and &quot;Us&quot;, refers to our Company. &quot;Party&quot;, &quot;Parties&quot;, or Us&quot;, refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client’s needs in respect of provision of the Company’s stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same."
                 android:textColor="#C7CCD1"
-                android:fontFamily="@font/hk_grotesk"
-                android:textFontWeight="400"
+                android:fontFamily="@font/hk_grotesk_400"
+
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
 
@@ -80,8 +79,8 @@
                 android:layout_height="wrap_content"
                 android:text="Cookies"
                 android:textColor="@color/white"
-                android:fontFamily="@font/clash_400"
-                android:textFontWeight="500"
+                android:fontFamily="@font/clash_display_500"
+
                 android:textSize="18sp"
                 android:layout_marginTop="16dp"/>
 
@@ -90,8 +89,8 @@
                 android:layout_height="wrap_content"
                 android:text="We employ the use of cookies. By accessing Alcheringa, you agreed to use cookies in agreement with the Alcheringa's Privacy Policy. Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies."
                 android:textColor="#C7CCD1"
-                android:fontFamily="@font/hk_grotesk"
-                android:textFontWeight="400"
+                android:fontFamily="@font/hk_grotesk_400"
+
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
 
@@ -100,8 +99,8 @@
                 android:layout_height="wrap_content"
                 android:text="License"
                 android:textColor="@color/white"
-                android:fontFamily="@font/clash_400"
-                android:textFontWeight="500"
+                android:fontFamily="@font/clash_display_500"
+
                 android:textSize="18sp"
                 android:layout_marginTop="16dp"/>
 
@@ -131,8 +130,8 @@ The Comments will not be used to solicit or promote business or custom or presen
 
 You hereby grant Alcheringa a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media."
                 android:textColor="#C7CCD1"
-                android:fontFamily="@font/hk_grotesk"
-                android:textFontWeight="400"
+                android:fontFamily="@font/hk_grotesk_400"
+
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
 
@@ -141,8 +140,8 @@ You hereby grant Alcheringa a non-exclusive license to use, reproduce, edit and 
                 android:layout_height="wrap_content"
                 android:text="Hyperlinking to our Content"
                 android:textColor="@color/white"
-                android:fontFamily="@font/clash_400"
-                android:textFontWeight="500"
+                android:fontFamily="@font/clash_display_500"
+
                 android:textSize="18sp"
                 android:layout_marginTop="16dp"/>
 
@@ -183,8 +182,8 @@ By use of any other description of our Website being linked to that makes sense 
 
 No use of Alcheringa's logo or other artwork will be allowed for linking absent a trademark license agreement."
                 android:textColor="#C7CCD1"
-                android:fontFamily="@font/hk_grotesk"
-                android:textFontWeight="400"
+                android:fontFamily="@font/hk_grotesk_400"
+
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
 
@@ -193,8 +192,8 @@ No use of Alcheringa's logo or other artwork will be allowed for linking absent 
                 android:layout_height="wrap_content"
                 android:text="iFrames"
                 android:textColor="@color/white"
-                android:fontFamily="@font/clash_400"
-                android:textFontWeight="500"
+                android:fontFamily="@font/clash_display_500"
+
                 android:textSize="18sp"
                 android:layout_marginTop="16dp"/>
 
@@ -203,8 +202,8 @@ No use of Alcheringa's logo or other artwork will be allowed for linking absent 
                 android:layout_height="wrap_content"
                 android:text="Without prior approval and written permission, you may not create frames around our Webpages that alter in any way the visual presentation or appearance of our Website."
                 android:textColor="#C7CCD1"
-                android:fontFamily="@font/hk_grotesk"
-                android:textFontWeight="400"
+                android:fontFamily="@font/hk_grotesk_400"
+
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
 
@@ -213,8 +212,8 @@ No use of Alcheringa's logo or other artwork will be allowed for linking absent 
                 android:layout_height="wrap_content"
                 android:text="Content Liability"
                 android:textColor="@color/white"
-                android:fontFamily="@font/clash_400"
-                android:textFontWeight="500"
+                android:fontFamily="@font/clash_display_500"
+
                 android:textSize="18sp"
                 android:layout_marginTop="16dp"/>
 
@@ -223,8 +222,8 @@ No use of Alcheringa's logo or other artwork will be allowed for linking absent 
                 android:layout_height="wrap_content"
                 android:textColor="#C7CCD1"
                 android:text="We shall not be hold responsible for any content that appears on your Website. You agree to protect and defend us against all claims that is rising on your Website. No link(s) should appear on any Website that may be interpreted as libelous, obscene or criminal, or which infringes, otherwise violates, or advocates the infringement or other violation of, any third party rights."
-                android:fontFamily="@font/hk_grotesk"
-                android:textFontWeight="400"
+                android:fontFamily="@font/hk_grotesk_400"
+
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
 
@@ -233,8 +232,8 @@ No use of Alcheringa's logo or other artwork will be allowed for linking absent 
                 android:layout_height="wrap_content"
                 android:text="Your Privacy"
                 android:textColor="@color/white"
-                android:fontFamily="@font/clash_400"
-                android:textFontWeight="500"
+                android:fontFamily="@font/clash_display_500"
+
                 android:textSize="18sp"
                 android:layout_marginTop="16dp"/>
 
@@ -243,8 +242,8 @@ No use of Alcheringa's logo or other artwork will be allowed for linking absent 
                 android:layout_height="wrap_content"
                 android:textColor="#C7CCD1"
                 android:text="Please read Privacy Policy."
-                android:fontFamily="@font/hk_grotesk"
-                android:textFontWeight="400"
+                android:fontFamily="@font/hk_grotesk_400"
+
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
 
@@ -253,8 +252,8 @@ No use of Alcheringa's logo or other artwork will be allowed for linking absent 
                 android:layout_height="wrap_content"
                 android:text="Reservation of Rights"
                 android:textColor="@color/white"
-                android:fontFamily="@font/clash_400"
-                android:textFontWeight="500"
+                android:fontFamily="@font/clash_display_500"
+
                 android:textSize="18sp"
                 android:layout_marginTop="16dp"/>
 
@@ -263,8 +262,8 @@ No use of Alcheringa's logo or other artwork will be allowed for linking absent 
                 android:layout_height="wrap_content"
                 android:textColor="#C7CCD1"
                 android:text="We reserve the right to request that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request. We also reserve the right to amen these terms and conditions and it’s linking policy at any time. By continuously linking to our Website, you agree to be bound to and follow these linking terms and conditions."
-                android:fontFamily="@font/hk_grotesk"
-                android:textFontWeight="400"
+                android:fontFamily="@font/hk_grotesk_400"
+
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
 
@@ -273,8 +272,8 @@ No use of Alcheringa's logo or other artwork will be allowed for linking absent 
                 android:layout_height="wrap_content"
                 android:text="Removal of links from our app"
                 android:textColor="@color/white"
-                android:fontFamily="@font/clash_400"
-                android:textFontWeight="500"
+                android:fontFamily="@font/clash_display_500"
+
                 android:textSize="18sp"
                 android:layout_marginTop="16dp"/>
 
@@ -285,8 +284,8 @@ No use of Alcheringa's logo or other artwork will be allowed for linking absent 
                 android:text="If you find any link on our Website that is offensive for any reason, you are free to contact and inform us any moment. We will consider requests to remove links but we are not obligated to or so or to respond to you directly.
 
 We do not ensure that the information on this website is correct, we do not warrant its completeness or accuracy; nor do we promise to ensure that the website remains available or that the material on the website is kept up to date."
-                android:fontFamily="@font/hk_grotesk"
-                android:textFontWeight="400"
+                android:fontFamily="@font/hk_grotesk_400"
+
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
 
@@ -295,8 +294,8 @@ We do not ensure that the information on this website is correct, we do not warr
                 android:layout_height="wrap_content"
                 android:text="Disclaimer"
                 android:textColor="@color/white"
-                android:fontFamily="@font/clash_400"
-                android:textFontWeight="500"
+                android:fontFamily="@font/clash_display_500"
+
                 android:textSize="18sp"
                 android:layout_marginTop="16dp"/>
 
@@ -314,8 +313,8 @@ exclude any of our or your liabilities that may not be excluded under applicable
 The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.
 
 As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature."
-                android:fontFamily="@font/hk_grotesk"
-                android:textFontWeight="400"
+                android:fontFamily="@font/hk_grotesk_400"
+
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"/>
 

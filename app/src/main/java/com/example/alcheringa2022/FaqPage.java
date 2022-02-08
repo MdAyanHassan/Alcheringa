@@ -26,12 +26,7 @@ public class FaqPage extends AppCompatActivity {
         setContentView(R.layout.activity_faq_page);
 
         contact_us = findViewById(R.id.contact_us_button);
-        contact_us.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ContactUs.class));
-            }
-        });
+        contact_us.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),ContactUs.class)));
 
         detailsText1 = findViewById(R.id.details1);
         detailsText2 = findViewById(R.id.details2);
@@ -39,38 +34,18 @@ public class FaqPage extends AppCompatActivity {
 
         faq1 = findViewById(R.id.faq1);
         faq1.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        faq1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expand(faq1, detailsText1);
-            }
-        });
+        faq1.setOnClickListener(v -> expand(faq1, detailsText1));
 
         faq2 = findViewById(R.id.faq2);
         faq2.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        faq2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expand(faq2, detailsText2);
-            }
-        });
+        faq2.setOnClickListener(v -> expand(faq2, detailsText2));
 
         faq3 = findViewById(R.id.faq3);
         faq3.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        faq3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expand(faq3, detailsText3);
-            }
-        });
+        faq3.setOnClickListener(v -> expand(faq3, detailsText3));
 
         back_btn=findViewById(R.id.backbtn);
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back_btn.setOnClickListener(v -> finish());
     }
 
     public void expand(ViewGroup view, View detailsText) {

@@ -15,13 +15,6 @@
         android:theme="@style/Theme.Alcheringa2022"
         tools:ignore="LockedOrientationActivity">
         <activity
-            android:name=".VideoTestingActivity"
-            android:exported="true"
-            android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" >
-
-        </activity>
-        <activity
             android:name=".ResetPassword"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
@@ -45,7 +38,8 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".FaqPage"
-            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- <activity -->
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <!-- <activity -->
         <!-- android:name=".EventDetailsActivity" -->
         <!-- android:exported="true" /> -->
         <!-- <activity -->

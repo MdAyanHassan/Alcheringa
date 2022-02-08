@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/clash_display_bold"
+            android:fontFamily="@font/clash_display_700"
             android:text="Cart"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:text="Your Cart is Empty"
             android:textColor="#A3A7AC"
-            android:fontFamily="@font/clash_display_bold"
+            android:fontFamily="@font/clash_display_600"
             android:textSize="22sp"
             android:layout_marginBottom="16dp"
             android:textAlignment="center"
@@ -78,13 +78,14 @@
             android:text="Looks like you haven’t added \n anything to your cart yet"
             android:textSize="16sp"
             android:textColor="#707683"
-            android:fontFamily="@font/hk_grotesk"
+            android:fontFamily="@font/hk_grotesk_400"
             android:textAlignment="center"
             android:layout_gravity="center"
             android:layout_marginBottom="64dp" />
         <Button
             android:id="@+id/start_shopping"
             android:text="Start Shopping"
+            android:fontFamily="@font/clash_display_600"
             style="@style/bottom_orange_button"
             android:layout_gravity="center"
             android:layout_width="188dp"/>

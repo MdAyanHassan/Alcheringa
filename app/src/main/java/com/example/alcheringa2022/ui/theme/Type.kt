@@ -2,7 +2,6 @@ package com.example.alcheringa2022.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -10,12 +9,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.alcheringa2022.R
 val clash= FontFamily(
-        Font(R.font.clashdisplay),
-        Font(R.font.clashdisplay_bold, FontWeight.Bold),
-        Font(R.font.clashdisplay_extralight, FontWeight.ExtraLight),
-        Font(R.font.clashdisplay_light, FontWeight.Light),
-        Font(R.font.clashdisplay_medium, FontWeight.Medium),
-        Font(R.font.clashdisplay_semibold, FontWeight.SemiBold)
+        Font(R.font.clash_display_400),
+        Font(R.font.clash_display_700, FontWeight.Bold),
+        Font(R.font.clash_display_200, FontWeight.ExtraLight),
+        Font(R.font.clash_display_300, FontWeight.Light),
+        Font(R.font.clash_display_500, FontWeight.Medium),
+        Font(R.font.clash_display_600, FontWeight.SemiBold)
 )
 
 val hk_grotesk= FontFamily(

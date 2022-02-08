@@ -85,8 +85,7 @@
                         android:drawableEnd="@drawable/ic_down"
                         android:textSize="18sp"
                         android:textColor="#fff"
-                        android:fontFamily="@font/clash_400"
-                        android:textFontWeight="500" />
+                        android:fontFamily="@font/clash_display_500" />
 
                     <TextView
                         android:layout_marginTop="4dp"
@@ -97,8 +96,7 @@
                         android:text="Alcheringa is the annual cultural festival of the Indian Institute of Technology (IIT), Guwahati. Started in 1996 by a group of students."
                         android:textSize="16sp"
                         android:visibility="gone"
-                        android:fontFamily="@font/hk_grotesk"
-                        android:textFontWeight="400" />
+                        android:fontFamily="@font/hk_grotesk_400" />
 
                 </LinearLayout>
 
@@ -127,8 +125,7 @@
                         android:drawableEnd="@drawable/ic_down"
                         android:textSize="18sp"
                         android:textColor="#fff"
-                        android:fontFamily="@font/clash_400"
-                        android:textFontWeight="500" />
+                        android:fontFamily="@font/clash_display_500" />
 
                     <TextView
                         android:layout_marginTop="4dp"
@@ -139,8 +136,7 @@
                         android:text="Alcheringa is the annual cultural festival of the Indian Institute of Technology (IIT), Guwahati. Started in 1996 by a group of students."
                         android:textSize="16sp"
                         android:visibility="gone"
-                        android:fontFamily="@font/hk_grotesk"
-                        android:textFontWeight="400" />
+                        android:fontFamily="@font/hk_grotesk_400" />
 
                 </LinearLayout>
 
@@ -169,8 +165,7 @@
                         android:drawableEnd="@drawable/ic_down"
                         android:textSize="18sp"
                         android:textColor="#fff"
-                        android:fontFamily="@font/clash_400"
-                        android:textFontWeight="500" />
+                        android:fontFamily="@font/clash_display_500" />
 
                     <TextView
                         android:layout_marginTop="4dp"
@@ -181,8 +176,7 @@
                         android:text="Alcheringa is the annual cultural festival of the Indian Institute of Technology (IIT), Guwahati. Started in 1996 by a group of students."
                         android:textSize="16sp"
                         android:visibility="gone"
-                        android:fontFamily="@font/hk_grotesk"
-                        android:textFontWeight="400" />
+                        android:fontFamily="@font/hk_grotesk_400" />
 
                 </LinearLayout>
 
@@ -199,12 +193,12 @@
         android:text="Cant find what you are looking for?"
         android:textColor="#A3A7AC"
         android:layout_gravity="center"
-        android:fontFamily="@font/hk_grotesk"
-        android:textFontWeight="500"
+        android:fontFamily="@font/hk_grotesk_500"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/contact_us_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="6dp"/>
 
 
     <TextView
@@ -214,7 +208,7 @@
         android:text="Contact Us"
         android:textColor="#EE6337"
         android:layout_gravity="center"
-        android:fontFamily="@font/clash_400"
+        android:fontFamily="@font/clash_display_500"
         android:textFontWeight="500"
         android:textSize="16sp"
         android:layout_marginBottom="40dp"

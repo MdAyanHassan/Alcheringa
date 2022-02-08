@@ -242,8 +242,6 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         Column {
             val pagerState = rememberPagerState()
 
-            //val videoUrl = "https://cdn.videvo.net/videvo_files/video/free/2020-05/large_watermarked/3d_ocean_1590675653_preview.mp4"
-
             HorizontalPager(
                 count = images.size + 1,
                 modifier = Modifier
@@ -252,8 +250,6 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                 state = pagerState,
                 contentPadding = PaddingValues(horizontal = 20.dp)
             ){ page ->
-
-
                 Card(
                     Modifier
                         .graphicsLayer {
@@ -351,7 +347,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                         Box {
                             Card(
                                 modifier = Modifier.fillMaxWidth(),
-                                elevation = 5.dp
+                                //elevation = 5.dp
                             ) {
                                 Box(
                                     modifier = Modifier
@@ -369,10 +365,12 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                                         play()
                                     }
                                     DisposableEffect(
-                                        AndroidView(factory = { PlayerView(context).apply { player = exoPlayer } })
+                                        AndroidView(factory = { PlayerView(context).apply {
+                                            player = exoPlayer
+                                            setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS)
+                                        } })
                                     )
                                     { onDispose { exoPlayer.release() } }
-
                                 }
                             }
                         }

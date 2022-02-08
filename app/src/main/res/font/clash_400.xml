@@ -3,6 +3,6 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/clashdisplay" />
+        android:font="@font/clash_display_400" />
 
 </font-family>

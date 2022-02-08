@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_height="370dp"
+        android:layout_height="375dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/blur_rectangle"
         android:orientation="vertical"
@@ -111,7 +111,7 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textFontWeight="700"
-            android:fontFamily="@font/hk_grotesk"
+            android:fontFamily="@font/hk_grotesk_700"
             android:layout_gravity="center"/>
 
         <LinearLayout
