@@ -55,6 +55,7 @@
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/login_button_bg.xml" value="0.16973684210526316" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/merch_size_btn_deselect.xml" value="0.13963963963963963" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/not_avail_btn.xml" value="0.13963963963963963" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/notification_item_bg.xml" value="0.23243243243243245" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/order_summary_item_bg.xml" value="0.1725752508361204" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/planet_shot.xml" value="0.16973684210526316" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/rectangle_2.xml" value="0.16973684210526316" />
@@ -83,6 +84,7 @@
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_merch_description.xml" value="0.2" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_notification.xml" value="0.21846846846846846" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_order_summary.xml" value="0.264" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_otpactivity.xml" value="0.2526041666666667" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_privacy_policy.xml" value="0.24494949494949494" />
@@ -105,6 +107,7 @@
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/merch_cart.xml" value="0.16385135135135134" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/merch_item.xml" value="0.264" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/merch_your_orders.xml" value="0.2526041666666667" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/notificationitem.xml" value="0.264" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/order_summary_item.xml" value="0.264" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/sponsor_item.xml" value="0.21846846846846846" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/testing_layout.xml" value="0.22962962962962963" />

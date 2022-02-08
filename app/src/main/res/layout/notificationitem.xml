@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:backgroundTint="#000000">
+    <LinearLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/notification_item_bg"
+        android:layout_marginBottom="4dp"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp">
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/clash_display_500"
+            tools:text="Mortal is starting to perform"
+            android:textSize="18sp"
+            android:textColor="#fff"/>
+        <RelativeLayout
+            android:layout_marginTop="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:fontFamily="@font/hk_grotesk_500"
+                android:id="@+id/subHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Tap Here to watch Pronites"
+                android:textColor="#C7CCD1"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/hk_grotesk_500"
+                android:gravity="end"
+                android:textAlignment="textEnd"
+                android:textColor="#C7CCD1"
+                android:textSize="14sp"
+                tools:text="23 m" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
