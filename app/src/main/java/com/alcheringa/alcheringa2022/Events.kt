@@ -66,6 +66,9 @@ class Events : Fragment() {
             startActivity(Intent(context,Account::class.java));
 
         }
+        binding.notification.setOnClickListener{
+            startActivity(Intent(context, NotificationActivity::class.java));
+        }
 
         binding.eventsCompose.setContent {
             Full_view()

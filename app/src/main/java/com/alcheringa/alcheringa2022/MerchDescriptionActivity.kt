@@ -275,8 +275,39 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                             )
                         }
                 ) {
-                    if (page < images.size) {
+                    if(page==0){
                         Box {
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                //elevation = 5.dp
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .background(Color.Black)
+                                        .padding(8.dp)
+                                        .height(400.dp)
+                                        .fillMaxWidth(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    val mediaItem = MediaItem.fromUri(videoUrl)
+                                    val exoPlayer = SimpleExoPlayer.Builder(context).build().apply {
+                                        setMediaItem(mediaItem)
+                                        playWhenReady = true
+                                        prepare()
+                                        play()
+                                    }
+                                    DisposableEffect(
+                                        AndroidView(factory = { PlayerView(context).apply {
+                                            player = exoPlayer
+                                            setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS)
+                                        } })
+                                    )
+                                    { onDispose { exoPlayer.release() } }
+                                }
+                            }
+                        }
+                    }else{
+                        Box{
                             Card(
                                 modifier = Modifier.fillMaxWidth(),
                                 elevation = 5.dp
@@ -289,7 +320,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                                         .fillMaxWidth(), contentAlignment = Alignment.Center
                                 ) {
                                     GlideImage(
-                                        imageModel = images[page],
+                                        imageModel = images[page-1],
                                         contentDescription = "artist",
                                         modifier = Modifier
                                             .width(348.dp)
@@ -335,41 +366,8 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                                                     )
                                                 }
                                             }
-
                                         }
-
                                     )
-                                }
-                            }
-                        }
-                    } else {
-                        Box {
-                            Card(
-                                modifier = Modifier.fillMaxWidth(),
-                                //elevation = 5.dp
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .background(Color.Black)
-                                        .padding(8.dp)
-                                        .height(400.dp)
-                                        .fillMaxWidth(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    val mediaItem = MediaItem.fromUri(videoUrl)
-                                    val exoPlayer = SimpleExoPlayer.Builder(context).build().apply {
-                                        setMediaItem(mediaItem)
-                                        playWhenReady = true
-                                        prepare()
-                                        play()
-                                    }
-                                    DisposableEffect(
-                                        AndroidView(factory = { PlayerView(context).apply {
-                                            player = exoPlayer
-                                            setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS)
-                                        } })
-                                    )
-                                    { onDispose { exoPlayer.release() } }
                                 }
                             }
                         }

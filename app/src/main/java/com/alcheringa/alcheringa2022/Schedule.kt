@@ -81,13 +81,12 @@ class Schedule : Fragment() {
         binding.account.setOnClickListener {
             startActivity(Intent(context, Account::class.java));
         }
+        binding.notification.setOnClickListener{
+            startActivity(Intent(context, NotificationActivity::class.java));
+        }
         binding.scheduleCompose.setContent {
             mySchedule()
-
-
         }
-
-
     }
 
 

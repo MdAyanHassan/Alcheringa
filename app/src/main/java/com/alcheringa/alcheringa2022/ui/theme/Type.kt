@@ -18,7 +18,11 @@ val clash= FontFamily(
 )
 
 val hk_grotesk= FontFamily(
-        Font(R.font.hk_grotesk)
+        Font(R.font.hk_grotesk_400),
+        Font(R.font.hk_grotesk_700, FontWeight.Bold),
+        Font(R.font.hk_grotesk_300, FontWeight.Light),
+        Font(R.font.hk_grotesk_500, FontWeight.Medium),
+        Font(R.font.hk_grotesk_600, FontWeight.SemiBold)
 )
 // Set of Material typography styles to start with
 val Typography = Typography(

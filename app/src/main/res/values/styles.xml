@@ -168,7 +168,7 @@
         <item name="android:paddingStart">20dp</item>
         <item name="android:paddingEnd">20dp</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:fontFamily">@font/hk_grotesk</item>
+        <item name="android:fontFamily">@font/hk_grotesk_400</item>
         <item name="android:textColorHint">#B7B7B7</item>
         <item name="android:background">@drawable/custom_edit_text</item>
         <item name="android:layout_gravity">center</item>

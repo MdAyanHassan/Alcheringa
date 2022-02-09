@@ -29,7 +29,7 @@ tools:context=".Login">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:fontFamily="@font/clash_700"
+        android:fontFamily="@font/clash_display_700"
         android:textColor="@color/White"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -71,8 +71,7 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.31"
-        android:fontFamily="@font/hk_grotesk">
+        app:layout_constraintVertical_bias="0.31">
 
         <EditText
             android:id="@+id/password"
@@ -122,8 +121,7 @@ tools:context=".Login">
                 android:text="Forgot Password?"
                 android:textColor="@color/White"
                 android:textSize="19sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/hk_grotesk"/>
+                android:fontFamily="@font/hk_grotesk_700"/>
 
             <View
                 android:layout_width="match_parent"
@@ -166,7 +164,7 @@ tools:context=".Login">
             android:text="Or"
             android:textColor="@color/White"
             android:textAllCaps="false"
-            android:fontFamily="@font/hk_grotesk"
+            android:fontFamily="@font/hk_grotesk_500"
             />
 
         <View
@@ -261,7 +259,7 @@ tools:context=".Login">
         android:text="Login"
         android:padding="16dp"
         android:textAllCaps="false"
-        android:fontFamily="@font/clash_700"
+        android:fontFamily="@font/clash_display_700"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -304,8 +302,7 @@ tools:context=".Login">
             android:text="Signup here"
             android:textColor="@color/White"
             android:textSize="19sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/hk_grotesk"/>
+            android:fontFamily="@font/hk_grotesk_700"/>
 
         <View
             android:layout_width="match_parent"

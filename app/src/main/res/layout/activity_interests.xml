@@ -189,7 +189,7 @@
         android:layout_width="340dp"
         android:layout_height="60dp"
         android:background="@drawable/bottom_orange_button_bg"
-        android:fontFamily="@font/clash_700"
+        android:fontFamily="@font/clash_display_700"
         android:text="Continue"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"

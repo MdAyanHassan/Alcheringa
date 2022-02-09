@@ -40,7 +40,7 @@
                 android:id="@+id/hoodie_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/clash_700"
+                android:fontFamily="@font/clash_display_700"
                 android:text="Lightning"
                 android:textColor="@color/white"
                 android:textSize="22sp"
