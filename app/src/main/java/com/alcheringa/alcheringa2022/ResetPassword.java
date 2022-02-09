@@ -30,7 +30,9 @@ public class ResetPassword extends AppCompatActivity {
         sendOTP = findViewById(R.id.reset_password);
         sendOTP.setOnClickListener(view -> {
             String emailAddress = email.getText().toString();
-            boolean isEmailValid = Pattern.compile("^(.+)@(\\S+)$")
+            String emailRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                    + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+            boolean isEmailValid = Pattern.compile(emailRegex)
                     .matcher(emailAddress)
                     .matches();
             if(isEmailValid){
@@ -51,7 +53,9 @@ public class ResetPassword extends AppCompatActivity {
                             }
                         });
             }else{
-                Toast.makeText(getApplicationContext(),"Please enter a valid email", Toast.LENGTH_LONG).show();
+                email.setError("Please enter a valid email");
+                email.requestFocus();
+                //Toast.makeText(getApplicationContext(),"Please enter a valid email", Toast.LENGTH_LONG).show();
             }
         });
 

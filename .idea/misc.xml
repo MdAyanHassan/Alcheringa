@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_login.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_profile.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_sign_up.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_your_orders.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/merch_item.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/notificationitem.xml" value="0.21555555555555556" />
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/mipmap-anydpi-v26/alcher_logo.xml" value="0.26614583333333336" />
       </map>
     </option>

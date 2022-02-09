@@ -88,7 +88,7 @@
                 android:id="@+id/decimal_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="1dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/clash_display_500"
                 android:textColor="#ffffff"

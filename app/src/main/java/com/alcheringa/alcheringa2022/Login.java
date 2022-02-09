@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -39,6 +38,7 @@ import org.apache.commons.text.WordUtils;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
@@ -52,6 +52,7 @@ public class Login extends AppCompatActivity {
     //TextInputLayout Password;
     Button loginButton;
     LinearLayout signInButtonO;
+    LoaderView loaderView;
     SharedPreferences sharedPreferences;
     private static final String TAG = "TAG";
 
@@ -61,6 +62,9 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        loaderView = findViewById(R.id.dots_progress);
+        loaderView.setVisibility(View.GONE);
 
         SignupTextView =findViewById(R.id.signup_here);
         backButton =findViewById(R.id.back_button);
@@ -81,7 +85,14 @@ public class Login extends AppCompatActivity {
 
 
         loginButton.setOnClickListener(v -> CustomLogin());
-        google_login_btn.setOnClickListener(v -> google_login_callback());
+        google_login_btn.setOnClickListener(v -> {
+            loaderView.setVisibility(View.VISIBLE);
+            google_login_callback();
+        });
+        signInButtonO.setOnClickListener(v -> {
+            loaderView.setVisibility(View.VISIBLE);
+            MicrosoftLogin();
+        });
         backButton.setOnClickListener(v -> goBack());
         SignupTextView.setOnClickListener(v -> {
             Intent i = new Intent(this, SignUp.class);
@@ -89,7 +100,6 @@ public class Login extends AppCompatActivity {
             startActivity(i);
             finish();
         });
-        signInButtonO.setOnClickListener(v -> MicrosoftLogin());
         forgotPassword.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ResetPassword.class)));
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -97,22 +107,17 @@ public class Login extends AppCompatActivity {
             public void handleOnBackPressed() { goBack(); }
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
-        video_load();
+        loadVideo();
 
     }
 
-    private void video_load() {
+    private void loadVideo() {
         videoView=findViewById(R.id.videoview);
         Uri uri= Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.greeting_video);
         videoView.setVideoURI(uri);
         videoView.start();
 
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
-            }
-        });
+        videoView.setOnPreparedListener(mp -> mp.setLooping(true));
     }
 
     private void goBack() {
@@ -156,23 +161,27 @@ public class Login extends AppCompatActivity {
                                 toast("Welcome back "+finalName);
                                 saveDetails(finalName, finalEmail);
                                 setInterests(email);
+                                loaderView.setVisibility(View.GONE);
                                 startMainActivity();
                             }else{
                                 final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                                 assert currentUser != null;
                                 currentUser.delete();
                                 firebaseAuth.signOut();
+                                loaderView.setVisibility(View.GONE);
                                 toast("You are not registered with us. Please create a new account");
                             }
                         });
                     }catch(Exception e){
-                        toast("Could not get user email");
+                        loaderView.setVisibility(View.GONE);
+                        toast("Could not get your email from Outlook");
                     }
                 })
             .addOnFailureListener(
                 e -> {
                     Log.d(TAG, "onFailure"+ e.getMessage());
                     Toast.makeText(this,"Login with Microsoft failed", Toast.LENGTH_LONG ).show();
+                    loaderView.setVisibility(View.GONE);
                 });
     }
 
@@ -207,16 +216,29 @@ public class Login extends AppCompatActivity {
     }
 
     private void CustomLogin() {
-        String email=Email.getText().toString();
-        //String password=Password.getEditText().getText().toString();
-        String password=Password.getText().toString();
-        if(!email.isEmpty() && !password.isEmpty()){
+        String email=Email.getText().toString().trim();
+        String password=Password.getText().toString().trim();
+
+        String emailRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        boolean isEmailValid = Pattern.compile(emailRegex)
+                .matcher(email)
+                .matches();
+
+        if(isEmailValid && password.length() > 7){
+            loaderView.setVisibility(View.VISIBLE);
             custom_Login_start(email,password);
         } else if(email.isEmpty()){
-            Email.setError("Please fill the email");
+            Email.setError("Please fill your email");
             Email.requestFocus();
-        } else {
-            Password.setError("Please fill the password");
+        } else if(!isEmailValid){
+            Email.setError("Please enter a valid email");
+            Email.requestFocus();
+        } else if(Password.length()==0){
+            Password.setError("Please fill your password");
+            Password.requestFocus();
+        } else{
+            Password.setError("Password is too short.");
             Password.requestFocus();
         }
     }
@@ -238,6 +260,7 @@ public class Login extends AppCompatActivity {
                         }
                     });
                     firebaseFirestore.collection("USERS").document(email).collection("interests").document("interests").get().addOnCompleteListener(task1 -> {
+                        loaderView.setVisibility(View.GONE);
                         if(task1.isSuccessful() && !task1.getResult().exists()){
                             Intent intent = new Intent(this, InterestsActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -251,9 +274,16 @@ public class Login extends AppCompatActivity {
                         finish();
                     });
                 }
-                else{ toast("Please verify your email first"); }
+                else{
+                    loaderView.setVisibility(View.GONE);
+                    toast("Please verify your email first");
+                }
             }
-            else{ toast("Authentication Failed | Create Account"); }
+            else{
+                loaderView.setVisibility(View.GONE);
+                toast("Login Failed | Wrong Email or Password");
+            }
+
         });
 
     }
@@ -293,8 +323,10 @@ public class Login extends AppCompatActivity {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
                 Toast.makeText(getApplicationContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-
+                loaderView.setVisibility(View.GONE);
             }
+        }else{
+            loaderView.setVisibility(View.GONE);
         }
     }
 
@@ -303,7 +335,6 @@ public class Login extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
-
                     // Sign in success, update UI with the signed-in user's information
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     assert (user != null ? user.getEmail() : null) != null;
@@ -311,6 +342,7 @@ public class Login extends AppCompatActivity {
                         if (task2.isSuccessful() && task2.getResult().exists()) {
                             saveDetails(user.getDisplayName(), user.getEmail());
                             setInterests(user.getEmail());
+                            loaderView.setVisibility(View.GONE);
                             Log.d(TAG, "Login with Google Successful");
                             toast("Welcome back "+ user.getDisplayName());
                             startMainActivity();
@@ -319,14 +351,17 @@ public class Login extends AppCompatActivity {
                             assert currentUser != null;
                             currentUser.delete();
                             firebaseAuth.signOut();
+                            loaderView.setVisibility(View.GONE);
                             toast("You are not registered with us. Please create a new account");
                         }
                     });
                 } else {
+                    loaderView.setVisibility(View.GONE);
                     // If sign in fails, display a message to the user.
                     Log.d(TAG, "signInWithCredential:failure", task.getException());
                     Toast.makeText(getApplicationContext(), "" + task.getException(), Toast.LENGTH_SHORT).show();
                 }
+
             });
     }
 
