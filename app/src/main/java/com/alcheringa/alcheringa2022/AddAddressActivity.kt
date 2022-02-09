@@ -46,7 +46,7 @@ class AddAddressActivity : ComponentActivity() {
             ) {
 
                 ConstraintLayout(Modifier.fillMaxSize()) {
-                    val (btn, topbox) = createRefs();
+                    val (btn, _) = createRefs();
 
                     var name by remember { mutableStateOf(sharedPreferences.getString("name","")) }
                     var phone by remember { mutableStateOf(sharedPreferences.getString("phone","")) }
@@ -55,6 +55,12 @@ class AddAddressActivity : ComponentActivity() {
                     var road by remember { mutableStateOf(sharedPreferences.getString("road","")) }
                     var city by remember { mutableStateOf(sharedPreferences.getString("city","")) }
                     var state by remember { mutableStateOf(sharedPreferences.getString("state","")) }
+
+                    if(name==""){
+                        val sp = getSharedPreferences("USER", MODE_PRIVATE)
+                        name = sp.getString("name", "")
+                    }
+
                     Column(
                         Modifier
                             .fillMaxWidth()
@@ -78,7 +84,10 @@ class AddAddressActivity : ComponentActivity() {
                                     .height(80.dp)
                                     .width(32.dp)
                                     .padding(top = 32.dp, bottom = 32.dp, start = 7.dp, end = 16.dp)
-                                    .clickable(enabled = true, onClickLabel = "Back Button", onClick = {finish()})
+                                    .clickable(
+                                        enabled = true,
+                                        onClickLabel = "Back Button",
+                                        onClick = { finish() })
                             )
                             Text(
                                 text = "Add Address",
@@ -233,7 +242,8 @@ class AddAddressActivity : ComponentActivity() {
                                     fontSize = 18.sp
                                 )
                             ),
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
                                 .height(55.dp),
                             maxLines = 1,
                             singleLine = true,
