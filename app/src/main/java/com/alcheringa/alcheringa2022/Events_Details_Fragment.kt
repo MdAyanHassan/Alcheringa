@@ -386,7 +386,7 @@ class Events_Details_Fragment : Fragment() {
                     )
                 }
             }
-            else{
+            if (!isadded.value){
                 Button(
                     onClick = { isadded.value= true
                         viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
