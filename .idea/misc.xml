@@ -31,9 +31,11 @@
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/notificationitem.xml" value="0.21555555555555556" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/schedule_fragment.xml" value="0.21846846846846846" />
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/mipmap-anydpi-v26/alcher_logo.xml" value="0.26614583333333336" />
+        <entry key="app/src/main/res/drawable/empty_orders.xml" value="0.126" />
         <entry key="app/src/main/res/drawable/shopping_bag.xml" value="0.126" />
         <entry key="app/src/main/res/drawable/shopping_cart.xml" value="0.1" />
         <entry key="app/src/main/res/layout/empty_shopping_cart.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/empty_your_orders.xml" value="0.16197916666666667" />
       </map>
     </option>
   </component>
