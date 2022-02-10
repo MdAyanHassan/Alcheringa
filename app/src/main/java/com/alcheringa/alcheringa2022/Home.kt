@@ -181,12 +181,13 @@ class Home : Fragment() {
         binding.compose1.setContent {
             Alcheringa2022Theme {
                 val scrollState= rememberScrollState()
-                if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_logo_top_nav))}
-                else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_vector_2))}
+
                 Column(modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .verticalScroll(scrollState)) {
+                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_logo_top_nav))}
+                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_vector_2))}
 
                     horizontalScroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
                     if (homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }.size!=0) {
@@ -1180,7 +1181,7 @@ class Home : Fragment() {
         LaunchedEffect(key1 = pagerState.currentPage) {
             launch {
 
-                delay(3000)
+                delay(2000)
                 with(pagerState) {
                     val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
                     animateScrollToPage(
@@ -1260,7 +1261,7 @@ class Home : Fragment() {
                     imageModel = merch[page].Image, contentDescription = "merch", contentScale = ContentScale.Crop,
                     alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
-                        baseColor = blackbg,
+                        baseColor = Color.Transparent,
                         highlightColor = Color.LightGray,
                         durationMillis = 350,
                         dropOff = 0.65f,
