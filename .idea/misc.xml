@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/font/clash_700.xml" value="0.2445945945945946" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/font/hk_grotesk.xml" value="0.19324324324324324" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_about.xml" value="0.109009009009009" />
@@ -30,6 +31,9 @@
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/notificationitem.xml" value="0.21555555555555556" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/schedule_fragment.xml" value="0.21846846846846846" />
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/mipmap-anydpi-v26/alcher_logo.xml" value="0.26614583333333336" />
+        <entry key="app/src/main/res/drawable/shopping_bag.xml" value="0.126" />
+        <entry key="app/src/main/res/drawable/shopping_cart.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/empty_shopping_cart.xml" value="0.19610507246376813" />
       </map>
     </option>
   </component>

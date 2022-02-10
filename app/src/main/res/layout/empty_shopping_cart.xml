@@ -53,13 +53,15 @@
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical">
 
-        <ImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/shopping_cart"
+            app:lottie_rawRes="@raw/emptycart"
             android:contentDescription="@string/empty_shopping_cart"
-            android:layout_marginBottom="70dp"
-            android:layout_gravity="center"/>
+            android:layout_marginBottom="50dp"
+            android:layout_gravity="center"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
 
         <TextView
             android:layout_width="wrap_content"

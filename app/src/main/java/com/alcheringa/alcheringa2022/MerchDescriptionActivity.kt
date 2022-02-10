@@ -299,7 +299,8 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                                     DisposableEffect(
                                         AndroidView(factory = { PlayerView(context).apply {
                                             player = exoPlayer
-                                            setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS)
+                                          setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS)
+
                                         } })
                                     )
                                     { onDispose { exoPlayer.release() } }
