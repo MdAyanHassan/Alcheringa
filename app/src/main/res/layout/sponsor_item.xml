@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
-    android:id="@+id/sponsor_logo"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="100dp"
     android:layout_height="100dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".Sponsors"
     android:layout_marginLeft="25dp"
     android:layout_marginRight="25dp"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"/>
+    android:layout_marginBottom="10dp">
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/RotatingLoaderColor"
+        android:padding="28dp"/>
+
+    <ImageView
+        android:id="@+id/sponsor_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+
+</RelativeLayout>

@@ -160,4 +160,5 @@
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
     <color name="TextGrey">#C7CCD1</color>
+    <color name="RotatingLoaderColor">#EE6337</color>
 </resources>
