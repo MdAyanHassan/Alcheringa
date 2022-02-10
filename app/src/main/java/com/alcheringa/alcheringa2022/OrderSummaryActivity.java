@@ -2,6 +2,7 @@ package com.alcheringa.alcheringa2022;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -103,10 +105,12 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         setListViewHeightBasedOnItems(listView);
 
         Pay.setOnClickListener(v -> {
+            Pay.setEnabled(false);
             Thread thread = new Thread(() -> {
                 try {
                     OrderSummaryActivity.this.startPayment((int) amount);
                 } catch (Exception e) {
+                    Pay.setEnabled(true);
                     e.printStackTrace();
                 }
             });
@@ -172,7 +176,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             checkoutOrder(order.get("id"), total_price);
 
         } catch (RazorpayException | JSONException e) {
-            // Handle Exception
+            Pay.setEnabled(true);
+            Toast.makeText(getApplicationContext(), "Error: Could not proceed to payment page",Toast.LENGTH_SHORT).show();
             System.out.println(e.getMessage());
         }
 
@@ -187,17 +192,21 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
         final Activity activity = this;
 
+        SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+        String shared_email = sharedPreferences.getString("email", "");
+
         try {
             JSONObject options = new JSONObject();
 
             options.put("name", "Alcheringa 2022");
             options.put("description", "Alcheringa Merch Order");
             options.put("order_id", order_id);
-            //options.put("theme.color", "#ee6337");
+            options.put("theme.color", "#ee6337");
             options.put("currency", "INR");
             options.put("amount", (total_price+shipping_charges)*100);//pass amount in currency subunits
             options.put("prefill.name", user_name);
             options.put("prefill.contact","+91"+user_phone);
+            options.put("prefill.email",shared_email);
             options.put("send_sms_hash",true);
             JSONObject retryObj = new JSONObject();
             retryObj.put("enabled", true);
@@ -207,6 +216,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             checkout.open(activity, options);
 
         } catch(Exception e) {
+            Pay.setEnabled(true);
             Log.e(TAG, "Error in starting Razorpay Checkout", e);
         }
     }
@@ -227,6 +237,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             map.put("Type",order_list.get(i).getType());
             map.put("isDelivered",false);
             map.put("image",order_list.get(i).getImage());
+            map.put("Timestamp",new Date());
             list.add(map);
             //total_price += Integer.parseInt(order_list.get(i).getPrice());
         }
@@ -317,8 +328,9 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
     @Override
     public void onPaymentError(int i, String s, PaymentData paymentData) {
+        Pay.setEnabled(true);
         Log.d(TAG, "onPaymentFailure");
-        Toast.makeText(getApplicationContext(), "Payment Failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Payment Failed", Toast.LENGTH_SHORT).show();
     }
 }
 

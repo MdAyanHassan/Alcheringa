@@ -23,7 +23,6 @@ public class NotificationActivity extends AppCompatActivity {
 
     private static final String TAG = "NotificationActivity";
     RecyclerView recyclerView;
-    //DatabaseReference database;
     FirebaseFirestore firebaseFirestore;
     NotificationAdapter notificationAdapter;
     ArrayList<NotificationData> list;
@@ -35,7 +34,6 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
         recyclerView=findViewById(R.id.notificationlist);
-        //database= FirebaseDatabase.getInstance().getReference("NotificationData");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -53,13 +51,15 @@ public class NotificationActivity extends AppCompatActivity {
 
         firebaseFirestore.collection("Notification ").get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                Log.d(TAG, ""+task.getResult().size());
+                Log.d(TAG, "No of notifications: "+task.getResult().size());
                 for(DocumentSnapshot documentSnapshot : task.getResult()){
                     Log.d(TAG, "notification found: " + documentSnapshot.getString("Heading"));
+                    Log.d(TAG, ""+documentSnapshot.getDate("Timestamp").getHours());
+
                     list.add(new NotificationData(
                             documentSnapshot.getString("Heading"),
                             documentSnapshot.getString("Subheading"),
-                            documentSnapshot.getString("Time")
+                            documentSnapshot.getDate("Timestamp")
                     ));
                 }
                 notificationAdapter.notifyDataSetChanged();
@@ -68,21 +68,5 @@ public class NotificationActivity extends AppCompatActivity {
             }
             loaderView.setVisibility(View.GONE);
         });
-
-        /*database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                     NotificationData notificationData=dataSnapshot.getValue(NotificationData.class);
-                     list.add(notificationData);
-                 }
-                 notificationAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
     }
 }

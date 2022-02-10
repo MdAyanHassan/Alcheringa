@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 import android.widget.Button;
@@ -62,8 +63,9 @@ public class SignUp extends AppCompatActivity {
     LinearLayout signInButtonO;
     Button signupButton;
 
-    TextView logTextView;
+    TextView loginTextView;
     ImageView backButton;
+    LoaderView loaderView;
     private EditText Name,Email,Password;
     FirebaseFirestore firebaseFirestore;
 
@@ -72,12 +74,18 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        signInButton = findViewById(R.id.signInButton);
-        signupButton=findViewById(R.id.signupbutton);
+        loaderView = findViewById(R.id.dots_progress);
+        loaderView.setVisibility(View.GONE);
+
+
         Name=findViewById(R.id.name);
         Email=findViewById(R.id.email);
         Password=findViewById(R.id.password);
+        signInButton = findViewById(R.id.signInButton);
+        signupButton=findViewById(R.id.signupbutton);
         signInButtonO = findViewById(R.id.sign_in_outlook);
+        backButton =findViewById(R.id.back_button);
+        loginTextView =findViewById(R.id.login_here);
 
         firebaseAuth =FirebaseAuth.getInstance();
         firebaseFirestore= FirebaseFirestore.getInstance();
@@ -87,24 +95,27 @@ public class SignUp extends AppCompatActivity {
         Password.setTransformationMethod(new HiddenPassTransformationMethod());
         Password.setSelection(Password.getText().length());
 
-        logTextView=findViewById(R.id.login_here);
-        backButton =findViewById(R.id.back_button);
-        signInButton.setOnClickListener(v -> GoogleSignIn());
-        logTextView.setOnClickListener(v -> {
+        loginTextView.setOnClickListener(v -> {
             Intent i = new Intent(this, Login.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(i);
             finish();
         });
-        backButton.setOnClickListener(v -> goBack());
-        signupButton.setOnClickListener(v -> CustomSignup());
-        signInButtonO.setOnClickListener(v -> MicrosoftLogin());
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() { goBack(); }
-        };
+        signupButton.setOnClickListener(v -> CustomSignup());
+        signInButton.setOnClickListener(v -> {
+            loaderView.setVisibility(View.VISIBLE);
+            GoogleSignIn();
+        });
+        signInButtonO.setOnClickListener(v -> {
+            loaderView.setVisibility(View.VISIBLE);
+            MicrosoftLogin();
+        });
+
+        backButton.setOnClickListener(v -> goBack());
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {@Override public void handleOnBackPressed() { goBack(); }};
         this.getOnBackPressedDispatcher().addCallback(this, callback);
+
         video_load();
     }
 
@@ -147,6 +158,7 @@ public class SignUp extends AppCompatActivity {
                                 String finalEmail = email;
                                 saveDetails(finalName, finalEmail);
                                 firebaseFirestore.collection("USERS").document(email).get().addOnCompleteListener(task2 -> {
+                                    loaderView.setVisibility(View.GONE);
                                     if (task2.isSuccessful() && !task2.getResult().exists()) {
                                         RegisterUserInDatabase();
                                         toast("Welcome " + finalName);
@@ -160,13 +172,15 @@ public class SignUp extends AppCompatActivity {
                                     }
                                 });
                             }catch(Exception e){
-                                toast("Could not get user email");
+                                loaderView.setVisibility(View.GONE);
+                                toast("Could not get your email from Outlook");
                             }
                         })
                 .addOnFailureListener(
                         e -> {
                             Log.d(TAG, "onFailure"+ e.getMessage());
-                            // Handle failure.
+                            Toast.makeText(this,"Signup with Microsoft failed", Toast.LENGTH_LONG ).show();
+                            loaderView.setVisibility(View.GONE);
                         });
     }
 
@@ -176,30 +190,34 @@ public class SignUp extends AppCompatActivity {
 
     private void CustomSignup() {
 
-        if(Name.length()>0 && Email.length() >0 && Password.length()>0 && Password.length()>7){
+        String emailRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        boolean isEmailValid = Pattern.compile(emailRegex)
+                .matcher(Email.getText().toString().trim())
+                .matches();
+
+        if(Name.length()>0 && isEmailValid && Password.length()>7){
             String name= Name.getText().toString();
-            String email= Email.getText().toString();
-            String password= Password.getText().toString();
+            String email= Email.getText().toString().trim();
+            String password= Password.getText().toString().trim();
+            loaderView.setVisibility(View.VISIBLE);
             StartCustomSignup(name,email,password);
-        }
-        else if(Name.length()==0){
-               Name.setError("Please fill the name");
+        } else if(Name.length()==0){
+               Name.setError("Please fill your name");
                Name.requestFocus();
-        }
-        else if(Email.length()==0){
-            Email.setError("Please fill the email");
+        } else if(Email.length()==0){
+            Email.setError("Please fill your email address");
             Email.requestFocus();
-        }
-        else if(Password.length()==0){
-            Password.setError("Please fill the password");
+        } else if(!isEmailValid){
+            Email.setError("Please enter a valid email address");
+            Email.requestFocus();
+        } else if(Password.length()==0){
+            Password.setError("Please enter a password");
             Password.requestFocus();
-        }
-        else if(Password.length()<=7){
+        } else if(Password.length()<=7){
             Password.setError("Password length must be greater than 7");
             Password.requestFocus();
         }
-
-
     }
 
     private void StartCustomSignup(String name, String email, String password) {
@@ -209,7 +227,7 @@ public class SignUp extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "The mail has been sent to your email address please verify", Toast.LENGTH_SHORT).show();
-/*                            FirebaseUser firebaseUser=mAuth.getCurrentUser();
+                            /*FirebaseUser firebaseUser=mAuth.getCurrentUser();
                             assert firebaseUser != null;
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(name)
@@ -222,11 +240,11 @@ public class SignUp extends AppCompatActivity {
 
                                         }
                                     });*/
-
                             emailVerification();
                             RegisterUserInDatabaseCustom(name, email);
 
                         } else {
+                            loaderView.setVisibility(View.GONE);
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Signup failed: "+task.getException(),
                                     Toast.LENGTH_LONG).show();
@@ -238,11 +256,11 @@ public class SignUp extends AppCompatActivity {
                         assert firebaseUser != null;
                         firebaseUser.sendEmailVerification().addOnCompleteListener(task -> {
                             FirebaseAuth.getInstance().signOut();
+                            loaderView.setVisibility(View.GONE);
                             startActivity(new Intent(getApplicationContext(),Login.class));
                         });
                     }
                 });
-
     }
 
     private void RegisterUserInDatabaseCustom(String name, String email){
@@ -312,10 +330,13 @@ public class SignUp extends AppCompatActivity {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
+                loaderView.setVisibility(View.GONE);
                 Log.w(TAG, "Google sign in failed", e);
                 Toast.makeText(getApplicationContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
+        }else{
+            loaderView.setVisibility(View.GONE);
         }
     }
 
@@ -332,8 +353,8 @@ public class SignUp extends AppCompatActivity {
                         saveDetails(user.getDisplayName(), user.getEmail());
                         Log.d(TAG, "Signup with Google Successful");
 
-
                         firebaseFirestore.collection("USERS").document(user.getEmail()).get().addOnCompleteListener(task2 -> {
+                            loaderView.setVisibility(View.GONE);
                             if (task2.isSuccessful() && !task2.getResult().exists()) {
                                 RegisterUserInDatabase();
                                 toast("Welcome " + user.getDisplayName());
@@ -347,7 +368,7 @@ public class SignUp extends AppCompatActivity {
                             }
                         });
                     } else {
-                        // If sign in fails, display a message to the user.
+                        loaderView.setVisibility(View.GONE);
                         Log.d(TAG, "signInWithCredential:failure", task.getException());
                         Toast.makeText(getApplicationContext(), "" + task.getException(), Toast.LENGTH_SHORT).show();
                     }

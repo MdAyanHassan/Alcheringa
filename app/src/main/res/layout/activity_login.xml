@@ -29,7 +29,7 @@ tools:context=".Login">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:fontFamily="@font/clash_700"
+        android:fontFamily="@font/clash_display_700"
         android:textColor="@color/White"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +49,8 @@ tools:context=".Login">
         android:hint="Email Address"
         android:textSize="20sp"
         android:fontFamily="@font/hk_grotesk_500"
-        android:padding="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         android:textColorHint="#B7B7B7"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -59,27 +60,6 @@ tools:context=".Login">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.22" />
-
-
-<!--    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:inputType="textPassword"
-        android:background="@drawable/custom_edit_text"
-        android:hint="Password"
-        android:textSize="20sp"
-        android:fontFamily="@font/hk_grotesk"
-        android:padding="15dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:textColorHint="#B7B7B7"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.31" />-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -91,8 +71,7 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.31"
-        android:fontFamily="@font/hk_grotesk">
+        app:layout_constraintVertical_bias="0.31">
 
         <EditText
             android:id="@+id/password"
@@ -100,9 +79,11 @@ tools:context=".Login">
             android:layout_height="50dp"
             android:background="@drawable/custom_edit_text"
             android:fontFamily="@font/hk_grotesk_500"
+            android:gravity="center_vertical"
             android:hint="Password"
             android:inputType="textPassword"
-            android:padding="15dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:textColorHint="#B7B7B7"
             android:textSize="20sp" />
 
@@ -140,8 +121,7 @@ tools:context=".Login">
                 android:text="Forgot Password?"
                 android:textColor="@color/White"
                 android:textSize="19sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/hk_grotesk"/>
+                android:fontFamily="@font/hk_grotesk_700"/>
 
             <View
                 android:layout_width="match_parent"
@@ -184,7 +164,7 @@ tools:context=".Login">
             android:text="Or"
             android:textColor="@color/White"
             android:textAllCaps="false"
-            android:fontFamily="@font/hk_grotesk"
+            android:fontFamily="@font/hk_grotesk_500"
             />
 
         <View
@@ -279,7 +259,7 @@ tools:context=".Login">
         android:text="Login"
         android:padding="16dp"
         android:textAllCaps="false"
-        android:fontFamily="@font/clash_700"
+        android:fontFamily="@font/clash_display_700"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -322,8 +302,7 @@ tools:context=".Login">
             android:text="Signup here"
             android:textColor="@color/White"
             android:textSize="19sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/hk_grotesk"/>
+            android:fontFamily="@font/hk_grotesk_700"/>
 
         <View
             android:layout_width="match_parent"
@@ -332,5 +311,15 @@ tools:context=".Login">
 
 
     </LinearLayout>
+
+    <com.alcheringa.alcheringa2022.LoaderView
+        android:id="@+id/dots_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

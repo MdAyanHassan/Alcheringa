@@ -1,8 +1,11 @@
 package com.alcheringa.alcheringa2022;
 
+import java.util.Date;
+
 public class NotificationData {
 
-    String heading,subheading,time;
+    String heading,subheading;
+    Date date;
 
     public String getHeading() {
         return heading;
@@ -20,18 +23,14 @@ public class NotificationData {
         this.subheading = subheading;
     }
 
-    public String getTime() {
-        return time;
-    }
+    public Date getDate() { return date; }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
+    public void setDate(Date date) { this.date = date;}
 
-    public NotificationData(String heading, String subheading, String time) {
+    public NotificationData(String heading, String subheading, Date date) {
         this.heading = heading;
         this.subheading = subheading;
-        this.time = time;
+        this.date = date;
 
     }
 }
