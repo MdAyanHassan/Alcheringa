@@ -3,6 +3,9 @@ package com.alcheringa.alcheringa2022
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,12 +14,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -91,9 +96,17 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
             data-> if( data.artist==eventdetail.eventdetail.artist){okstate.value=true;okstatenum.value+=1}
     }
     if(okstatenum.value==0){okstate.value=false}
+    val animationProgress = remember {Animatable(300f)}
+    LaunchedEffect(key1=Unit,block = {
+        animationProgress.animateTo(
+            targetValue = 0f,
+            animationSpec = tween(300, easing = FastOutSlowInEasing)
+        )
+    })
 
 
-    Box() {
+    Box( Modifier
+        .graphicsLayer(translationY = animationProgress.value)) {
         Text(text =viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp )
 
         Card(modifier = Modifier.wrapContentWidth(),
@@ -103,11 +116,12 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                 .height(256.dp)
                 .width(218.dp)
                 .clickable {
-                    val frg=Events_Details_Fragment()
-                    frg.arguments= bundleOf("Artist" to eventdetail.eventdetail.artist)
+                    val frg = Events_Details_Fragment()
+                    frg.arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
                     FragmentManager
                         .beginTransaction()
-                        .replace(R.id.fragmentContainerView,frg ).addToBackStack(null)
+                        .replace(R.id.fragmentContainerView, frg)
+                        .addToBackStack(null)
                         .commit()
                 }
 
@@ -200,13 +214,19 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                             Image( modifier = Modifier
                                 .width(20.dp)
                                 .height(20.dp)
-                                    .clickable {
-                                        Log.d("boxevent", eventdetail.toString())
-                                        viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
-                                               okstate.value=false
-                                        ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
-                                        Toast.makeText(context,"event removed from schedule",Toast.LENGTH_SHORT).show()
-                                               },
+                                .clickable {
+                                    Log.d("boxevent", eventdetail.toString())
+                                    viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
+                                    okstate.value = false
+                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "event removed from schedule",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
+                                },
                                 painter = painterResource(id = R.drawable.tickokay),
                                 contentDescription ="null", contentScale = ContentScale.FillBounds)
                         }
@@ -219,7 +239,7 @@ fun Event_card(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Co
                             colors = listOf(
                                 Color.Transparent,
                                 blackbg
-                            ), startY = with(LocalDensity.current){70.dp.toPx()}
+                            ), startY = with(LocalDensity.current) { 70.dp.toPx() }
                         )
                     ))
                 Box(modifier = Modifier
@@ -277,8 +297,19 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
     }
     if(okstatenum.value==0){okstate.value=false}
 
+    val animationProgress = remember {Animatable(300f)}
+    LaunchedEffect(key1=Unit,block = {
+        animationProgress.animateTo(
+            targetValue = 0f,
+            animationSpec = tween(300, easing = FastOutSlowInEasing)
+        )
+    })
 
-    Box() {
+
+
+
+    Box( Modifier
+        .graphicsLayer(translationY = animationProgress.value)) {
         Text(text =viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp )
 
         Card(modifier = Modifier.wrapContentWidth(),
@@ -288,11 +319,12 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                 .height(256.dp)
                 .width(218.dp)
                 .clickable {
-                    val frg=Events_Details_Fragment()
-                    frg.arguments= bundleOf("Artist" to eventdetail.eventdetail.artist)
+                    val frg = Events_Details_Fragment()
+                    frg.arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
                     FragmentManager
                         .beginTransaction()
-                        .replace(R.id.fragmentContainerView,frg ).addToBackStack(null)
+                        .replace(R.id.fragmentContainerView, frg)
+                        .addToBackStack(null)
                         .commit()
                 }
 
@@ -388,9 +420,15 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                                 .clickable {
                                     Log.d("boxevent", eventdetail.toString())
                                     viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
-                                    okstate.value=false
+                                    okstate.value = false
                                     ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
-                                    Toast.makeText(context,"event removed from schedule",Toast.LENGTH_SHORT).show()
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "event removed from schedule",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
                                 },
                                 painter = painterResource(id = R.drawable.tickokay),
                                 contentDescription ="null", contentScale = ContentScale.FillBounds)
@@ -404,7 +442,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                             colors = listOf(
                                 Color.Transparent,
                                 blackbg
-                            ), startY = with(LocalDensity.current){70.dp.toPx()}
+                            ), startY = with(LocalDensity.current) { 70.dp.toPx() }
                         )
                     ))
                 Box(modifier = Modifier
