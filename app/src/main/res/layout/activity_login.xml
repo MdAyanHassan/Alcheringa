@@ -146,7 +146,8 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.50">
+        app:layout_constraintVertical_bias="0.50"
+        android:visibility="invisible">
 
         <View
             android:layout_width="0dp"
@@ -190,7 +191,8 @@ tools:context=".Login">
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.60"
         android:background="@drawable/login_button_bg"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible">
         <ImageView
             android:layout_width="55dp"
             android:layout_height="55dp"
@@ -222,7 +224,8 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/login_button_bg"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <ImageView
             android:layout_width="25dp"
