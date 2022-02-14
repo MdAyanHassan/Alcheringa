@@ -276,6 +276,7 @@ public class Login extends AppCompatActivity {
                 }
                 else{
                     loaderView.setVisibility(View.GONE);
+                    firebaseAuth.signOut();
                     toast("Please verify your email first");
                 }
             }

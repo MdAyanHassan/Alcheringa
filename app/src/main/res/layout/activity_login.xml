@@ -59,8 +59,7 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.22"
-        android:visibility="invisible"/>
+        app:layout_constraintVertical_bias="0.22" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -72,8 +71,7 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.31"
-        android:visibility="invisible">
+        app:layout_constraintVertical_bias="0.31">
 
         <EditText
             android:id="@+id/password"
@@ -114,8 +112,7 @@ tools:context=".Login">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.40"
-        android:id="@+id/forgot_password"
-        android:visibility="invisible">
+        android:id="@+id/forgot_password">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -149,8 +146,7 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.50"
-        android:visibility="invisible">
+        app:layout_constraintVertical_bias="0.50">
 
         <View
             android:layout_width="0dp"
@@ -194,8 +190,7 @@ tools:context=".Login">
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.60"
         android:background="@drawable/login_button_bg"
-        android:orientation="horizontal"
-        android:visibility="invisible">
+        android:orientation="horizontal">
         <ImageView
             android:layout_width="55dp"
             android:layout_height="55dp"
@@ -272,8 +267,7 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.826"
-        android:visibility="invisible"/>
+        app:layout_constraintVertical_bias="0.826"/>
 
     <TextView
         android:id="@+id/already_have_an_account"
