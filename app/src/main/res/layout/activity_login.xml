@@ -59,7 +59,8 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.22" />
+        app:layout_constraintVertical_bias="0.22"
+        android:visibility="invisible"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -71,7 +72,8 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.31">
+        app:layout_constraintVertical_bias="0.31"
+        android:visibility="invisible">
 
         <EditText
             android:id="@+id/password"
@@ -112,7 +114,8 @@ tools:context=".Login">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.40"
-        android:id="@+id/forgot_password">
+        android:id="@+id/forgot_password"
+        android:visibility="invisible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -224,8 +227,7 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/login_button_bg"
-        android:orientation="horizontal"
-        android:visibility="invisible">
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="25dp"
@@ -270,7 +272,8 @@ tools:context=".Login">
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.826" />
+        app:layout_constraintVertical_bias="0.826"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/already_have_an_account"

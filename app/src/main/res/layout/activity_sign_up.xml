@@ -59,7 +59,8 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.22" />
+        app:layout_constraintVertical_bias="0.22"
+        android:visibility="invisible"/>
 
 
     <EditText
@@ -82,7 +83,8 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.31" />
+        app:layout_constraintVertical_bias="0.31"
+        android:visibility="invisible"/>
 
 
     <!--<EditText
@@ -115,7 +117,8 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.4">
+        app:layout_constraintVertical_bias="0.4"
+        android:visibility="invisible">
 
         <EditText
             android:id="@+id/password"
@@ -123,11 +126,11 @@
             android:layout_height="50dp"
             android:background="@drawable/custom_edit_text"
             android:fontFamily="@font/hk_grotesk_500"
+            android:gravity="center_vertical"
             android:hint="Password"
             android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:gravity="center_vertical"
             android:textColorHint="#B7B7B7"
             android:textSize="20sp" />
 
@@ -233,8 +236,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/login_button_bg"
-        android:orientation="horizontal"
-        android:visibility="invisible">
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="25dp"
@@ -279,7 +281,8 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.826" />
+        app:layout_constraintVertical_bias="0.826"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/already_have_an_account"
