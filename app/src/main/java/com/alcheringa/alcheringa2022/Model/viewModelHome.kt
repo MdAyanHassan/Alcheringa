@@ -7,9 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
-import com.alcheringa.alcheringa2022.OwnTime
-import com.alcheringa.alcheringa2022.eventWithLive
-import com.alcheringa.alcheringa2022.eventdetail
+import com.alcheringa.alcheringa2022.Model.eventdetail
+import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

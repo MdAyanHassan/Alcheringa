@@ -1,4 +1,4 @@
-package com.alcheringa.alcheringa2022
+package com.alcheringa.alcheringa2022.Model
 
 import android.os.Parcelable
 import androidx.compose.runtime.MutableState

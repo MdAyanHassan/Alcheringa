@@ -22,13 +22,15 @@
 
 -keepclassmembers class * {
     @android.webkit.JavascriptInterface <methods>;
-}
+    }
 
 -keepattributes JavascriptInterface
 -keepattributes *Annotation*
 
 -dontwarn com.razorpay.**
 -keep class com.razorpay.** {*;}
+-keep class com.alcheringa.alcheringa2022.Model.** {*;}
+
 
 -optimizations !method/inlining/*
 

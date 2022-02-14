@@ -7,8 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
-import com.alcheringa.alcheringa2022.OwnTime;
-import com.alcheringa.alcheringa2022.eventdetail;
+import com.alcheringa.alcheringa2022.Model.OwnTime;
+import com.alcheringa.alcheringa2022.Model.eventdetail;
+
 
 import java.util.ArrayList;
 
@@ -66,7 +67,7 @@ public class ScheduleDatabase  extends SQLiteOpenHelper {
         // method to execute above sql query
         db.execSQL(query);
     }
-    public void addEventsInSchedule(eventdetail eventdetail,Context context){
+    public void addEventsInSchedule(eventdetail eventdetail, Context context){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ARTIST_COL, eventdetail.getArtist());
