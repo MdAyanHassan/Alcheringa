@@ -8,9 +8,9 @@ plugins {
 
 android {
     compileSdk 31
-//    lintOptions {
-//        checkReleaseBuilds false
-//    }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 
     defaultConfig {
         applicationId "com.alcheringa.alcheringa2022"
