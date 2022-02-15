@@ -37,6 +37,7 @@ import com.alcheringa.alcheringa2022.databinding.ScheduleFragmentBinding
 import com.alcheringa.alcheringa2022.ui.theme.clash
 import com.alcheringa.alcheringa2022.ui.theme.greyText
 import com.alcheringa.alcheringa2022.ui.theme.orangeText
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +50,7 @@ class Schedule : Fragment() {
     private val datestate2 = mutableStateListOf<eventWithLive>()
     private val datestate3 = mutableStateListOf<eventWithLive>()
     private var datestate = mutableStateOf<Int>(1)
+    var schedule=false;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -632,6 +634,12 @@ class Schedule : Fragment() {
         }
 
 
+    }
+
+    override fun onResume() {
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.menu?.findItem(R.id.schedule)?.setChecked(true);
+        MainActivity.index=R.id.schedule;
+        super.onResume()
     }
 }
 

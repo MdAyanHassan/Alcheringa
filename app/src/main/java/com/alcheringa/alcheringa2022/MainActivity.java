@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     SharedPreferences sharedPreferences;
     DBHandler dbHandler;
     FirebaseFirestore firebaseFirestore;
-    int index;
+    public static int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +47,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             startActivity(intent);
         }*/
         getVersionInfo();
+//        Home home=new Home();
+//        Schedule schedule=new Schedule();
+//        if(home.getHome()){
+//            schedule.setSchedule(false);
+//            index=R.id.home_nav;
+//        }
+//        if(schedule.getSchedule()){
+//            home.setHome(false);
+//            index=R.id.schedule;
+//        }
 
 
-        bottomNavigationView.setSelectedItemId(R.id.home_nav);
-        index=R.id.schedule;
+
+        index=R.id.home_nav;
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
+        bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
 
 
        /* try{
@@ -152,5 +164,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onResume() {
         getVersionInfo();
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
     }
 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alcheringa.alcheringa2022.Model.merchModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -68,8 +69,10 @@ public class MerchFragment extends Fragment implements onItemClick {
 
     @Override
     public void onResume(){
-        super.onResume();
         setCartCountIcon();
+        ((BottomNavigationView)getActivity().findViewById(R.id.bottomNavigationView)).getMenu().findItem(R.id.merch).setChecked(true);
+        MainActivity.index=R.id.merch;
+        super.onResume();
 
     }
 
@@ -132,4 +135,5 @@ public class MerchFragment extends Fragment implements onItemClick {
     public void OnDecrementClick(int position) {
 
     }
+
 }

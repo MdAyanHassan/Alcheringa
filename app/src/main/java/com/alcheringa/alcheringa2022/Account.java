@@ -18,7 +18,7 @@ public class Account extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     View view, your_orders, contactus_view, profile_page, faq_page, tnc_page, privacy_page, about_page, sponsor_page;
-    TextView user_name;
+    TextView user_name,version;
     ImageView user_photo;
     ImageView backbtn;
     String shared_name, shared_photoUrl;
@@ -31,7 +31,7 @@ public class Account extends AppCompatActivity {
 
         firebaseAuth=FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
-
+        version=findViewById(R.id.version);
         view=findViewById(R.id.signout_button);
         contactus_view=findViewById(R.id.contact_us_button);
 
@@ -66,6 +66,7 @@ public class Account extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+        version.setText("V "+BuildConfig.VERSION_NAME);
         contactus_view.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ContactUs.class)));
 
         contactus_view.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ContactUs.class)));

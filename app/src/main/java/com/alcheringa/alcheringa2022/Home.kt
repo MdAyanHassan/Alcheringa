@@ -47,6 +47,7 @@ import com.alcheringa.alcheringa2022.Model.*
 import com.alcheringa.alcheringa2022.databinding.FragmentHomeBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
 import com.google.accompanist.pager.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
@@ -74,6 +75,7 @@ class Home : Fragment() {
     var datestate= mutableStateOf<Int>(1)
     var onActiveDel= mutableStateOf(false)
     var isdragging=mutableStateOf(false)
+    var home=false;
 
 
 //    val events=mutableListOf(
@@ -245,7 +247,11 @@ class Home : Fragment() {
                     Box(modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 48.dp, top = 48.dp)
-                        .clickable { val main = MainActivity();main.index = R.id.merch }
+                        .clickable {
+                            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId=R.id.merch;
+                        }
+//                        main.bottomNavigationView.selectedItemId=R.id.merch}
+
                     ) {
                         val color= listOf(Color(0xffC80915), Color(0xffEE6337), Color(0xff11D3D3))
                         merchBox(merch = homeViewModel.merchhome
@@ -260,9 +266,14 @@ class Home : Fragment() {
                         Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                         Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
                             ,modifier = Modifier.clickable {
-                            fm.beginTransaction()
-                                .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
-                                .commit()
+
+                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
+                                    R.id.schedule;  activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
+                                    R.id.schedule;
+//                            fm.beginTransaction()
+//                                .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
+//                                .commit()
+//                            })
                             })
                     }
                     Spacer(modifier = Modifier.height(20.dp))
@@ -1208,9 +1219,11 @@ class Home : Fragment() {
             shape = RoundedCornerShape(8.dp),
             elevation = 0.dp,) {
             Box(modifier = Modifier.clickable {
-                fm.beginTransaction()
-                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
-                    .commit()
+                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId=R.id.merch;
+
+//                fm.beginTransaction()
+//                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
+//                    .commit()
             }
                 .height(218.dp)
                 .fillMaxWidth()
@@ -1353,28 +1366,11 @@ class Home : Fragment() {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    override fun onResume() {
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.menu?.findItem(R.id.home_nav)?.setChecked(true);
+       MainActivity.index=R.id.home_nav;
+        super.onResume()
+    }
 
 
 }

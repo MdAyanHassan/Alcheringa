@@ -33,6 +33,7 @@ import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.clash
 import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import java.util.*
@@ -195,6 +196,11 @@ class Events : Fragment() {
 
 
         }
+    }
+    override fun onResume() {
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.menu?.findItem(R.id.events)?.setChecked(true);
+        MainActivity.index=R.id.events;
+        super.onResume()
     }
 }
 
