@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.events:
                 if(index!=R.id.events){
                     index=R.id.events;
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, events_fragment).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, events_fragment).commit();
                     bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
                 }
 
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 if(index!=R.id.home_nav) {
                     index=R.id.home_nav;
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
                     bottomNavigationView.getMenu().findItem(R.id.home_nav).setChecked(true);
                 }
                 break ;
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 if(index!=R.id.merch) {
                     index=R.id.merch;
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new MerchFragment()).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new MerchFragment()).commit();
                     bottomNavigationView.getMenu().findItem(R.id.merch).setChecked(true);
                 }
                 break;
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 if(index!=R.id.schedule) {
                     index=R.id.schedule;
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Schedule()).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Schedule()).commit();
                     bottomNavigationView.getMenu().findItem(R.id.schedule).setChecked(true);
                 }
                 break;
@@ -168,7 +168,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onBackPressed() {
+        if(bottomNavigationView.getSelectedItemId()==R.id.home_nav){
+            super.onBackPressed();
+        }
+        else if(){
+            index=R.id.home_nav;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
+            bottomNavigationView.getMenu().findItem(R.id.home_nav).setChecked(true);
 
-        super.onBackPressed();
+        }
+
     }
 }
