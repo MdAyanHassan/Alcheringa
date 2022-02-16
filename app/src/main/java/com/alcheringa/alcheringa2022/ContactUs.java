@@ -12,7 +12,10 @@ public class ContactUs extends AppCompatActivity {
 
     Button buttonEmail;
     Button buttonCall;
+    Button buttonCall2;
+    Button buttonEmail2;
     ImageView back_btn;
+
 
 
     @Override
@@ -25,14 +28,24 @@ public class ContactUs extends AppCompatActivity {
 
         buttonCall=findViewById(R.id.call_btn);
         buttonEmail=findViewById(R.id.email_btn);
+        buttonCall2=findViewById(R.id.call_btn2);
+        buttonEmail2=findViewById(R.id.email_btn2);
 
         buttonCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:7011879379"));
+                intent.setData(Uri.parse("tel:7331104679"));
                 startActivity(intent);
 
+            }
+        });
+        buttonCall2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:9983072631"));
+                startActivity(intent);
             }
         });
 
@@ -40,7 +53,16 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("mailto:abc@gmail.com"));
+                        Uri.parse("mailto:vishal@alcheringa.in"));
+                startActivity(intent);
+            }
+        });
+
+        buttonEmail2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("mailto:ankit.a@alcheringa.in"));
                 startActivity(intent);
             }
         });
