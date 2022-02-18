@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.alcheringa.alcheringa2022.Database.DBHandler;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         events_fragment = new Events();
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setBackground(null);
-        bottomNavigationView.getMenu().getItem(2).setEnabled(false);
+        //bottomNavigationView.getMenu().getItem(2).setEnabled(false);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
         dbHandler=new DBHandler(getApplicationContext());
@@ -48,6 +49,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             Intent intent = new Intent(this, SignUp.class);
             startActivity(intent);
         }*/
+
+        ImageButton ePass = findViewById(R.id.epass);
+        ePass.setOnClickListener(v->{
+            Toast.makeText(this,"Clicked on FAB!",Toast.LENGTH_SHORT).show();
+            //startPassActivity();
+        });
+
         getVersionInfo();
 //        Home home=new Home();
 //        Schedule schedule=new Schedule();

@@ -221,5 +221,10 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginTop">8dp</item>
     </style>
+
+    <style name="bottomNavigationView"
+        >
+        <item name="fontFamily">@font/clash_display_500</item>
+    </style>
 </resources>
 
