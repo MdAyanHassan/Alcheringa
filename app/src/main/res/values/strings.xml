@@ -38,6 +38,7 @@
     <string name="select_size">Select Size</string>
     <string name="default_decimal_place">00</string>
     <string name="title_activity_event_description">event_description_activity</string>
+    <string name="ePass_button">epass_button</string>
 
 
 </resources>

@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:id="@+id/home_nav" android:title="Home"
+    <item
+        android:id="@+id/home_nav"
+        android:title="Home"
         android:icon="@drawable/home_alt"/>
-    <item android:id="@+id/events" android:title="Events"
+    <item
+        android:id="@+id/events"
+        android:title="Events"
         android:icon="@drawable/events_bottom"/>
-    <item android:id="@+id/schedule" android:title="Schedule"
+
+    <item
+        android:id="@+id/pass"
+        android:title="E-Pass" />
+
+    <item
+        android:id="@+id/schedule"
+        android:title="Schedule"
         android:icon="@drawable/schedule"/>
-    <item android:id="@+id/merch" android:title="Merch"
+    <item
+        android:id="@+id/merch"
+        android:title="Merch"
         android:icon="@drawable/shopping_bag"/>
 </menu>

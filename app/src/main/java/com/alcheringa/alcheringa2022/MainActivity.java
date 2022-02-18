@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         events_fragment = new Events();
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setBackground(null);
+        bottomNavigationView.getMenu().getItem(2).setEnabled(false);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
         dbHandler=new DBHandler(getApplicationContext());
@@ -171,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if(bottomNavigationView.getSelectedItemId()==R.id.home_nav){
             super.onBackPressed();
         }
-        else if(){
+        else/* if()*/{
             index=R.id.home_nav;
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
             bottomNavigationView.getMenu().findItem(R.id.home_nav).setChecked(true);
