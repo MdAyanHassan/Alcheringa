@@ -205,6 +205,10 @@
                     android:id="@+id/xlarge_size"
                     android:text="XL"
                     style="@style/merch_size_deselected" />
+                <Button
+                    android:id="@+id/xxlarge_size"
+                    android:text="XXL"
+                    style="@style/merch_size_deselected" />
 
             </LinearLayout>
 

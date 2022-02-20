@@ -1,8 +1,4 @@
 package com.alcheringa.alcheringa2022;
-
-
-
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +17,8 @@ import com.alcheringa.alcheringa2022.Database.DBHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -30,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     SharedPreferences sharedPreferences;
     DBHandler dbHandler;
     FirebaseFirestore firebaseFirestore;
+    ImageButton epass;
+    FirebaseAuth firebaseAuth;
     public static int index;
 
     @Override
@@ -38,22 +38,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         events_fragment = new Events();
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
+        epass=findViewById(R.id.epass);
         bottomNavigationView.setBackground(null);
         //bottomNavigationView.getMenu().getItem(2).setEnabled(false);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
         dbHandler=new DBHandler(getApplicationContext());
         firebaseFirestore=FirebaseFirestore.getInstance();
+        firebaseAuth=FirebaseAuth.getInstance();
+        String email=firebaseAuth.getCurrentUser().getEmail();
         /*boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
         if(!isLoggedIn){
             Intent intent = new Intent(this, SignUp.class);
             startActivity(intent);
         }*/
-
-        ImageButton ePass = findViewById(R.id.epass);
-        ePass.setOnClickListener(v->{
-            Toast.makeText(this,"Clicked on FAB!",Toast.LENGTH_SHORT).show();
-            //startPassActivity();
+        epass.setOnClickListener(v->{
+            if(checkIsPassExistForUser(email)){
+                startActivity(new Intent(getApplicationContext(),E_pass.class));
+            }
+            else{
+                startActivity(new Intent(getApplicationContext(),scanner_activity.class));
+            }
         });
 
         getVersionInfo();
@@ -87,6 +92,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
+    private boolean checkIsPassExistForUser(String email) {
+        return false;
+    }
+
     private void getVersionInfo() {
         String versionCode = BuildConfig.VERSION_NAME+"";
         firebaseFirestore.collection("Version").document("version").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -116,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     public void onClick(DialogInterface dialog, int which) { try {
                             Intent viewIntent =
                                     new Intent("android.intent.action.VIEW",
-                                            Uri.parse("https://play.google.com/store/apps/details?id=com.instagram.android"));
+                                            Uri.parse("https://play.google.com/store/apps/details?id=com.alcheringa.alcheringa2022"));
                             startActivity(viewIntent);
                         }catch(Exception e) {
                             Toast.makeText(getApplicationContext(),"Unable to Connect Try Again...",

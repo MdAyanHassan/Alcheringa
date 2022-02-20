@@ -342,6 +342,10 @@ public class Login extends AppCompatActivity {
                     firebaseFirestore.collection("USERS").document(user.getEmail()).get().addOnCompleteListener(task2 -> {
                         if (task2.isSuccessful() && task2.getResult().exists()) {
                             saveDetails(user.getDisplayName(), user.getEmail());
+                            SharedPreferences sharedPreferences=getSharedPreferences("USERS",MODE_PRIVATE);
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            editor.putString("photourl",task2.getResult().getString("PhotoURL"));
+                            editor.apply();
                             setInterests(user.getEmail());
                             loaderView.setVisibility(View.GONE);
                             Log.d(TAG, "Login with Google Successful");

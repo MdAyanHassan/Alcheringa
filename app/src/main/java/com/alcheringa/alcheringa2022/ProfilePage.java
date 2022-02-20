@@ -49,6 +49,7 @@ public class ProfilePage extends AppCompatActivity {
     FirebaseFirestore firestore;
     FirebaseStorage storage;
     StorageReference storageReference;
+    String shared_photoUrl;
 
     ArrayList<String> interests;
 
@@ -114,7 +115,7 @@ public class ProfilePage extends AppCompatActivity {
 
     private void fill_user_details() {
         String shared_name = sharedPreferences.getString("name", "");
-        String shared_photoUrl = sharedPreferences.getString("photourl", "");
+         shared_photoUrl= sharedPreferences.getString("photourl", "");
         interests.addAll(sharedPreferences.getStringSet("interests",null));
 
         if(!shared_name.equals("")){
@@ -128,8 +129,11 @@ public class ProfilePage extends AppCompatActivity {
         }
 
         if (!shared_photoUrl.equals("")) {
+            //Toast.makeText(this, ""+shared_photoUrl, Toast.LENGTH_SHORT).show();
             Glide.with(this).load(shared_photoUrl).into(user_dp);
         } else {
+
+            Toast.makeText(this, ""+shared_photoUrl, Toast.LENGTH_SHORT).show();
             FirebaseUser user = firebaseAuth.getCurrentUser();
             assert user != null;
             String email = user.getEmail();

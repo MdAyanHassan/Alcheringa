@@ -47,6 +47,8 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var mediumBtn: Button
     lateinit var largeBtn: Button
     lateinit var xlargeBtn: Button
+
+    lateinit var xxlargeBtn: Button
     var merchSize = "S"
     lateinit var buyNow: Button
     lateinit var addToCart: Button
@@ -70,6 +72,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         mediumBtn = findViewById(R.id.media_size)
         largeBtn = findViewById(R.id.large_size)
         xlargeBtn = findViewById(R.id.xlarge_size)
+        xxlargeBtn = findViewById(R.id.xxlarge_size)
         buyNow = findViewById(R.id.buy_now)
         addToCart = findViewById(R.id.add_to_cart)
         name = findViewById(R.id.merch_name)
@@ -82,6 +85,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         mediumBtn.setOnClickListener(this)
         largeBtn.setOnClickListener(this)
         xlargeBtn.setOnClickListener(this)
+        xxlargeBtn.setOnClickListener(this)
         buyNow.setOnClickListener(this)
         addToCart.setOnClickListener(this)
         cartCountIcon.setOnClickListener(this)
@@ -156,6 +160,13 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
 
             xlargeBtn.isClickable=false;
         }
+        if (!merchModel.xxLarge) {
+            xxlargeBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.not_avail_btn);
+
+            xxlargeBtn.setTextColor(android.graphics.Color.parseColor("#707683"));
+
+            xxlargeBtn.isClickable=false;
+        }
     }
 
     override fun onClick(v: View) {
@@ -179,6 +190,11 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                 deselectSize()
                 selectSize(xlargeBtn)
                 merchSize = "XL"
+            }
+            R.id.xxlarge_size -> {
+                deselectSize()
+                selectSize(xxlargeBtn)
+                merchSize = "XXL"
             }
             R.id.buy_now -> {
                 dbHandler.addNewitemIncart(
@@ -223,10 +239,12 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         mediumBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.merch_size_btn_deselect)
         largeBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.merch_size_btn_deselect)
         xlargeBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.merch_size_btn_deselect)
+        xxlargeBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.merch_size_btn_deselect)
         smallBtn.setTextColor(resources.getColor(R.color.White))
         mediumBtn.setTextColor(resources.getColor(R.color.White))
         largeBtn.setTextColor(resources.getColor(R.color.White))
         xlargeBtn.setTextColor(resources.getColor(R.color.White))
+        xxlargeBtn.setTextColor(resources.getColor(R.color.White))
         Log.d("abcd", "deselect_size:")
         settingButtons();
     }

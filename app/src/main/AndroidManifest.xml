@@ -15,36 +15,38 @@
         android:theme="@style/Theme.Alcheringa2022"
         tools:ignore="LockedOrientationActivity">
         <activity
-            android:name="com.alcheringa.alcheringa2022.NotificationActivity"
+            android:name=".scanner_activity"
+            android:exported="false" />
+        <activity
+            android:name=".NotificationActivity"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.ResetPassword"
+            android:name=".ResetPassword"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.InterestsActivity"
+            android:name=".InterestsActivity"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.AboutPage"
+            android:name=".AboutPage"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.PrivacyPolicy"
+            android:name=".PrivacyPolicy"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.TermsAndConditions"
+            android:name=".TermsAndConditions"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.FaqPage"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <!-- <activity -->
+            android:name=".FaqPage"
+            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- <activity -->
         <!-- android:name=".EventDetailsActivity" -->
         <!-- android:exported="true" /> -->
         <!-- <activity -->
@@ -53,85 +55,87 @@
         <!-- android:label="@string/title_activity_event_description" -->
         <!-- android:theme="@style/Theme.AppCompat.NoActionBar" /> -->
         <activity
-            android:name="com.alcheringa.alcheringa2022.Account"
+            android:name=".Account"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.OrderSummaryActivity"
+            android:name=".OrderSummaryActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.AddAddressActivity"
+            android:name=".AddAddressActivity"
             android:exported="true"
             android:label="@string/title_activity_add_address"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.testing_activity"
+            android:name=".testing_activity"
             android:exported="true"
             android:label="@string/title_activity_testing"
             android:theme="@style/Theme.Alcheringa2022" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.ContactUs"
+            android:name=".ContactUs"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.Greeting_page"
+            android:name=".Greeting_page"
             android:exported="true"
-            android:screenOrientation="sensorPortrait">
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.alcheringa.alcheringa2022.CartActivity"
+            android:name=".CartActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.SignUp"
+            android:name=".SignUp"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.Login"
+            android:name=".Login"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.Category_Activity"
+            android:name=".Category_Activity"
             android:exported="true" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.MerchDescriptionActivity"
+            android:name=".MerchDescriptionActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.ProfilePage"
+            android:name=".ProfilePage"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.Splash_Screen"
+            android:name=".Splash_Screen"
             android:exported="true" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.E_pass"
+            android:name=".E_pass"
             android:exported="true" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.YourOrders"
+            android:name=".YourOrders"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.Sponsors"
+            android:name=".Sponsors"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.Accordion_Activity"
+            android:name=".Accordion_Activity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:name="com.alcheringa.alcheringa2022.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
@@ -165,7 +169,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
 
         <service
-            android:name="com.alcheringa.alcheringa2022.services.MyFirebaseInstanceService"
+            android:name=".services.MyFirebaseInstanceService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />

@@ -16,6 +16,7 @@ public class merchModel implements Parcelable {
     Boolean Medium;
     Boolean Large;
     Boolean Xlarge;
+    Boolean XXLarge;
     ArrayList<String> images;
     String Video_url;
 
@@ -35,8 +36,32 @@ public class merchModel implements Parcelable {
         Large = tmpLarge == 0 ? null : tmpLarge == 1;
         byte tmpXlarge = in.readByte();
         Xlarge = tmpXlarge == 0 ? null : tmpXlarge == 1;
+        byte tmpXXLarge = in.readByte();
+        XXLarge = tmpXXLarge == 0 ? null : tmpXXLarge == 1;
         images = in.createStringArrayList();
         Video_url = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Name);
+        dest.writeString(Material);
+        dest.writeString(Price);
+        dest.writeString(Description);
+        dest.writeString(Image_url);
+        dest.writeByte((byte) (Is_available == null ? 0 : Is_available ? 1 : 2));
+        dest.writeByte((byte) (Small == null ? 0 : Small ? 1 : 2));
+        dest.writeByte((byte) (Medium == null ? 0 : Medium ? 1 : 2));
+        dest.writeByte((byte) (Large == null ? 0 : Large ? 1 : 2));
+        dest.writeByte((byte) (Xlarge == null ? 0 : Xlarge ? 1 : 2));
+        dest.writeByte((byte) (XXLarge == null ? 0 : XXLarge ? 1 : 2));
+        dest.writeStringList(images);
+        dest.writeString(Video_url);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<merchModel> CREATOR = new Creator<merchModel>() {
@@ -91,8 +116,16 @@ public class merchModel implements Parcelable {
         Xlarge = xlarge;
     }
 
+    public void setXXLarge(Boolean XXLarge) {
+        this.XXLarge = XXLarge;
+    }
+
     public void setImages(ArrayList<String> images) {
         this.images = images;
+    }
+
+    public void setVideo_url(String video_url) {
+        Video_url = video_url;
     }
 
     public String getName() {
@@ -115,8 +148,6 @@ public class merchModel implements Parcelable {
         return Image_url;
     }
 
-    public String getVideo_url(){return Video_url;}
-
     public Boolean getIs_available() {
         return Is_available;
     }
@@ -137,11 +168,19 @@ public class merchModel implements Parcelable {
         return Xlarge;
     }
 
+    public Boolean getXXLarge() {
+        return XXLarge;
+    }
+
     public ArrayList<String> getImages() {
         return images;
     }
 
-    public merchModel(String name, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, ArrayList<String> images, String video_url) {
+    public String getVideo_url() {
+        return Video_url;
+    }
+
+    public merchModel(String name, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, Boolean XXLarge, ArrayList<String> images, String video_url) {
         Name = name;
         Material = material;
         Price = price;
@@ -152,29 +191,8 @@ public class merchModel implements Parcelable {
         Medium = medium;
         Large = large;
         Xlarge = xlarge;
+        this.XXLarge = XXLarge;
         this.images = images;
         Video_url = video_url;
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(Name);
-        dest.writeString(Material);
-        dest.writeString(Price);
-        dest.writeString(Description);
-        dest.writeString(Image_url);
-        dest.writeByte((byte) (Is_available == null ? 0 : Is_available ? 1 : 2));
-        dest.writeByte((byte) (Small == null ? 0 : Small ? 1 : 2));
-        dest.writeByte((byte) (Medium == null ? 0 : Medium ? 1 : 2));
-        dest.writeByte((byte) (Large == null ? 0 : Large ? 1 : 2));
-        dest.writeByte((byte) (Xlarge == null ? 0 : Xlarge ? 1 : 2));
-        dest.writeStringList(images);
-        dest.writeString(Video_url);
     }
 }

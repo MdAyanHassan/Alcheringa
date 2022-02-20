@@ -2,6 +2,7 @@ package com.alcheringa.alcheringa2022
 
 import android.app.Activity
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import androidx.constraintlayout.widget.Constraints
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -176,6 +178,8 @@ class Home : Fragment() {
             startActivity(Intent(context,Account::class.java));
 
         }
+        binding.notificationCount.visibility=View.VISIBLE
+        binding.notificationCount.setText("10");
         binding.notification.setOnClickListener{
             startActivity(Intent(context,
                 NotificationActivity::class.java));
@@ -188,8 +192,13 @@ class Home : Fragment() {
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .verticalScroll(scrollState)) {
-                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_logo_top_nav))}
-                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_vector_2))}
+                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_theme_logo_white))
+                            binding.logoAlcher.layoutParams.width=350
+                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
+                    }
+                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_vector_2));
+                        binding.logoAlcher.layoutParams.width= ViewGroup.LayoutParams.WRAP_CONTENT
+                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT}
 
                     horizontalScroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
                     if (homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }.size!=0) {

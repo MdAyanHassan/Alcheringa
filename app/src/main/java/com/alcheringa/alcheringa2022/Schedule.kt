@@ -543,63 +543,6 @@ class Schedule : Fragment() {
 
                 }
                 .pointerInput(Unit) {
-                    detectDragGesturesAfterLongPress(
-                        onDragStart = {},
-                        onDrag = { _, dragAmount ->
-                            val original = Offset(offsetX.value, offsetY.value)
-                            val summed = original + dragAmount
-                            val newValue = Offset(
-                                x = summed.x,
-                                y = summed.y
-                            )
-                            coroutineScope.launch {
-                                offsetY.snapTo(newValue.y)
-                                offsetX.snapTo(newValue.x)
-                            }
-
-
-                        },
-                        onDragCancel = {
-                            coroutineScope.launch {
-                                offsetX.animateTo(
-                                    ydisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
-                                offsetY.animateTo(
-                                    xdisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
-
-
-                            }
-                        },
-                        onDragEnd = {
-                            coroutineScope.launch {
-                                offsetX.animateTo(
-                                    ydisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
-                                offsetY.animateTo(
-                                    xdisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
-
-
-                            }
-
-
-                        }
-
-                    )
-
 
                 }
 
