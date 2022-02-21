@@ -1,20 +1,33 @@
 package com.alcheringa.alcheringa2022;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.appupdate.AppUpdateOptions;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.OnSuccessListener;
+import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Greeting_page extends AppCompatActivity {
     Button signupButton,Login_button;
     FirebaseAuth firebaseAuth;
     VideoView videoView;
+    private int REQUEST_CODE=11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +49,37 @@ public class Greeting_page extends AppCompatActivity {
                 mp.setLooping(true);
             }
         });
+        check_update_available() ;
+    }
+
+    private void check_update_available() {
+        AppUpdateManager appUpdateManager= AppUpdateManagerFactory.create(Greeting_page.this);
+        Task<AppUpdateInfo> appUpdateInfoTask=appUpdateManager.getAppUpdateInfo();
+        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+            @Override
+            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                if(appUpdateInfo.updateAvailability()== UpdateAvailability.UPDATE_AVAILABLE
+                            && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
+                    try {
+                        appUpdateManager.startUpdateFlowForResult(appUpdateInfo,AppUpdateType.IMMEDIATE,Greeting_page.this,REQUEST_CODE);
+                    } catch (IntentSender.SendIntentException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODE ){
+            Toast.makeText(this, "start Download", Toast.LENGTH_SHORT).show();
+        }
+        if(resultCode!=RESULT_OK){
+            Log.d("UPDATE","Update flow failed"+resultCode);
+        }
     }
 
     @Override

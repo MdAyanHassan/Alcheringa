@@ -16,8 +16,8 @@ android {
         applicationId "com.alcheringa.alcheringa2022"
         minSdk 21
         targetSdk 31
-        versionCode 5
-        versionName "1.2.1"
+        versionCode 6
+        versionName "1.2.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -158,7 +158,7 @@ dependencies {
 
     implementation "com.google.android.exoplayer:exoplayer:2.16.1"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'com.android.volley:volley:1.0.0'
+    implementation 'com.android.volley:volley:1.2.1'
 
 
     kapt "androidx.lifecycle:lifecycle-compiler:2.4.0"
@@ -171,5 +171,6 @@ dependencies {
     implementation "androidx.camera:camera-extensions:${camerax_version}"
 
     implementation 'com.google.mlkit:barcode-scanning:17.0.2'
+    implementation "com.google.android.play:core:1.10.3"
 
 }

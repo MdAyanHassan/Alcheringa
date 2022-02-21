@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
-        getVersionInfo();
+        //getVersionInfo();
 //        Home home=new Home();
 //        Schedule schedule=new Schedule();
 //        if(home.getHome()){
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     protected void onResume() {
-        getVersionInfo();
+        //getVersionInfo();
         super.onResume();
     }
 

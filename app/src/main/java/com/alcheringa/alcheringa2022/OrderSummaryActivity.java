@@ -327,7 +327,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         Log.d(TAG, "onPaymentSuccess razorpayPaymentID: " + razorpayPaymentID);
         Toast.makeText(getApplicationContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
         AddOrderToFirebase(arrayList,razorpayPaymentID);
-        AddToExcel(arrayList,razorpayPaymentID);
+        //AddToExcel(arrayList,razorpayPaymentID);
         clear_cart();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
