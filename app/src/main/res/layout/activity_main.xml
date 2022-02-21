@@ -4,18 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#000113">
 
     <FrameLayout
         android:id="@+id/fragmentContainerView"
         android:layout_width="match_parent"
-        android:layout_height="685dp"
-        app:defaultNavHost="true" />
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        android:layout_marginBottom="70dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="103dp"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:background="@android:color/transparent">
 
         <View
             android:id="@+id/bottom_nav_middle"

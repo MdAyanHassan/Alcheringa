@@ -38,6 +38,7 @@ import com.google.accompanist.pager.*
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.Player
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlin.math.absoluteValue
@@ -310,6 +311,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                                     val mediaItem = MediaItem.fromUri(videoUrl)
                                     val exoPlayer = SimpleExoPlayer.Builder(context).build().apply {
                                         setMediaItem(mediaItem)
+                                        repeatMode = Player.REPEAT_MODE_ONE
                                         playWhenReady = true
                                         prepare()
                                         play()
@@ -333,7 +335,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                             ) {
                                 Box(
                                     modifier = Modifier
-                                        .background(Color.LightGray)
+                                        .background(Color(android.graphics.Color.parseColor("#323C47")))
                                         .padding(20.dp)
                                         .height(400.dp)
                                         .fillMaxWidth(), contentAlignment = Alignment.Center
