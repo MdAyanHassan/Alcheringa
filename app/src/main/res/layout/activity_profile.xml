@@ -65,7 +65,7 @@
                 android:id="@+id/profile_image"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:src="@drawable/profile_img"
+                android:src="@drawable/user_photo_default"
                 app:civ_border_width="1dp"
                 app:civ_border_color="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"

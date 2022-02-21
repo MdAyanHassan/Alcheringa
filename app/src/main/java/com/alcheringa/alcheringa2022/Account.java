@@ -11,13 +11,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.microsoft.graph.models.extensions.Team;
 
 public class Account extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
 
     FirebaseAuth firebaseAuth;
-    View view, your_orders, contactus_view, profile_page, faq_page, tnc_page, privacy_page, about_page, sponsor_page;
+    View view, your_orders, contactus_view, profile_page, faq_page, tnc_page, privacy_page, about_page, sponsor_page, team_page;
     TextView user_name,version;
     ImageView user_photo;
     ImageView backbtn;
@@ -91,5 +92,8 @@ public class Account extends AppCompatActivity {
 
         sponsor_page=findViewById(R.id.sponsor_button);
         sponsor_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),Sponsors.class)));
+
+        team_page=findViewById(R.id.team_button);
+        team_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), team.class)));
     }
 }

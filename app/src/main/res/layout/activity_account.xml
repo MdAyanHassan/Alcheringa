@@ -72,7 +72,7 @@
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:layout_width="58dp"
                     android:layout_height="58dp"
-                    android:src="@drawable/profile_img"
+                    android:src="@drawable/user_photo_default"
                     android:id="@+id/user_photo"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:civ_border_width="0dp"
@@ -121,7 +121,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Your Orders"
+                    android:text="My Orders"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:textColor="@color/white"
@@ -172,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/faq_button"
-                app:layout_constraintBottom_toTopOf="@id/sponsor_button"
+                app:layout_constraintBottom_toTopOf="@id/team_button"
                 android:background="@drawable/frame_27"
                 android:paddingLeft="20dp"
                 android:paddingTop="14.5dp"
@@ -196,6 +196,41 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@+id/faq_logo"
+                    android:fontFamily="@font/clash_display_400"
+                    android:layout_marginStart="20dp"
+                    android:textSize="18sp"
+                    android:textFontWeight="400"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/team_button"
+                app:layout_constraintBottom_toTopOf="@id/sponsor_button"
+                android:background="@drawable/frame_27"
+                android:paddingLeft="20dp"
+                android:paddingTop="14.5dp"
+                android:paddingBottom="14.5dp"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/team_logo"
+                    android:id="@+id/team_logo"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Team"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toEndOf="@+id/team_logo"
                     android:fontFamily="@font/clash_display_400"
                     android:layout_marginStart="20dp"
                     android:textSize="18sp"
