@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/drawable/back2.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/layout/activity_about.xml" value="0.25" />
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/layout/activity_account.xml" value="0.2" />
@@ -10,9 +11,71 @@
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/layout/your_orders_item.xml" value="0.25" />
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/menu/bottom_menu.xml" value="0.25" />
+=======
+        <entry key="../../../../layout/compose-model-1644835516443.xml" value="0.14738175675675674" />
+        <entry key="../../../../layout/compose-model-1644836457640.xml" value="0.1" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/back.xml" value="0.22933333333333333" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/blur_rectangle.xml" value="0.22933333333333333" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/bottom_nav_icon_color_selector.xml" value="0.23243243243243245" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/bottom_orange_button_bg.xml" value="0.23243243243243245" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/fab_bg.xml" value="0.11576576576576576" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/order_summary_item_bg.xml" value="0.22933333333333333" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/outline_back.xml" value="0.22933333333333333" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/drawable/pass.xml" value="0.22933333333333333" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/font/clash_700.xml" value="0.2445945945945946" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/font/hk_grotesk.xml" value="0.19324324324324324" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_about.xml" value="0.109009009009009" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_account.xml" value="0.2" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_contact_us.xml" value="0.7539267015706806" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_faq_page.xml" value="0.109009009009009" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_greeting_page.xml" value="0.4682926829268293" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_interests.xml" value="0.264" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_login.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_merch_description.xml" value="0.109009009009009" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_notification.xml" value="0.6545454545454545" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_order_summary.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_privacy_policy.xml" value="0.109009009009009" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_profile.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_reset_passowrd.xml" value="0.109009009009009" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_scanner.xml" value="0.21846846846846846" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_sign_up.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_size_chart.xml" value="0.21846846846846846" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_sponsors.xml" value="0.109009009009009" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_team.xml" value="0.25" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_tnc.xml" value="0.109009009009009" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/activity_your_orders.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/cart_item.xml" value="0.109009009009009" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/empty_your_orders.xml" value="0.109009009009009" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/exo_player_control_view.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/exo_player_view.xml" value="0.21846846846846846" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_competitions.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_events.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/fragment_home.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/merch_item.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/notificationitem.xml" value="0.21555555555555556" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/schedule_fragment.xml" value="0.21846846846846846" />
+        <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/sponsor_item.xml" value="0.21555555555555556" />
+        <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/mipmap-anydpi-v26/alcher_logo.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_account.xml" value="0.2" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_contact_us.xml" value="0.264" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_main.xml" value="0.37271937445699393" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_order_summary.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_scanner.xml" value="0.13496376811594202" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_sign_up.xml" value="0.15353260869565216" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/fragment_home.xml" value="0.31417979610750696" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/fragment_merch.xml" value="0.19640787949015065" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/merch_item.xml" value="0.2234375" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/your_orders_item.xml" value="0.536" />
+        <entry key="app/src/main/res/layout/activity_team.xml" value="0.39382171630859375" />
+>>>>>>> b76ffa0275cc1c73915ceea178251c3c5a3bc449
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+=======
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+>>>>>>> b76ffa0275cc1c73915ceea178251c3c5a3bc449
 </project>
