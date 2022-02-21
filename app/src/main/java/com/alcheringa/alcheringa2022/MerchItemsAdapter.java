@@ -34,14 +34,14 @@ public class MerchItemsAdapter extends RecyclerView.Adapter<MerchItemViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull MerchItemViewHolder holder, int position) {
-        if (position == 0) {
-            holder.price.setTextColor(Color.parseColor("#00010D"));
-            holder.name.setTextColor(Color.parseColor("#00010D"));
-            holder.material.setTextColor(Color.parseColor("#00010D"));
-            holder.description.setTextColor(Color.parseColor("#00010D"));
-            holder.view.setBackgroundColor(Color.parseColor("#11D3D3"));
-            holder.decimal_price.setTextColor(Color.parseColor("#00010D"));
-        }
+//        if (position == 0) {
+//            holder.price.setTextColor(Color.parseColor("#00010D"));
+//            holder.name.setTextColor(Color.parseColor("#00010D"));
+//            holder.material.setTextColor(Color.parseColor("#00010D"));
+//            holder.description.setTextColor(Color.parseColor("#00010D"));
+//            holder.view.setBackgroundColor(Color.parseColor("#11D3D3"));
+//            holder.decimal_price.setTextColor(Color.parseColor("#00010D"));
+//        }
         holder.price.setText("₹ " + list.get(position).getPrice() + ".");
         holder.name.setText(list.get(position).getName());
         holder.material.setText(list.get(position).getMaterial());

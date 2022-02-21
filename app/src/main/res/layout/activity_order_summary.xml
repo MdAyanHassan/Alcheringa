@@ -245,11 +245,12 @@
                 <TextView
                     android:id="@+id/shipping_charge"
                     style="@style/order_summary_small_text"
+                    android:fontFamily="@font/hk_grotesk_400"
+                    android:text="₹0.00"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="₹0.00"
-                    android:fontFamily="@font/hk_grotesk_400"/>
+                    app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -189,9 +189,9 @@ class Home : Fragment() {
                 val scrollState= rememberScrollState()
 
                 Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .verticalScroll(scrollState)) {
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .verticalScroll(scrollState)) {
                     if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_theme_logo_white))
                             binding.logoAlcher.layoutParams.width=350
                         binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
@@ -254,11 +254,11 @@ class Home : Fragment() {
                         }
                     }
                     Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 48.dp, top = 48.dp)
-                        .clickable {
-                            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId=R.id.merch;
-                        }
+                            .fillMaxWidth()
+                            .padding(bottom = 48.dp, top = 48.dp)
+                            .clickable {
+                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId = R.id.merch;
+                            }
 //                        main.bottomNavigationView.selectedItemId=R.id.merch}
 
                     ) {
@@ -268,10 +268,10 @@ class Home : Fragment() {
                                             ,colors = color)
                     }
                     Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                            .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight()
+                                    .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                         Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
                             ,modifier = Modifier.clickable {
@@ -299,10 +299,6 @@ class Home : Fragment() {
                             items(homeViewModel.allEventsWithLive.take(7)) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it,fm) } }
                         }
                     }
-
-
-
-
 
 
                 }
@@ -647,22 +643,24 @@ class Home : Fragment() {
                         ) {
                             Box(
                                     modifier = Modifier
-                                        .height(473.dp)
-                                        .fillMaxWidth()
+                                            .height(473.dp)
+                                            .fillMaxWidth()
                             ) {
                                 GlideImage(
                                         imageModel = eventdetails[page].eventdetail.imgurl,
                                         contentDescription = "artist",
                                         modifier= Modifier
-                                            .fillMaxWidth()
-                                            .height(473.dp).clickable{
-                                                val frg=Events_Details_Fragment()
-                                                frg.arguments= bundleOf("Artist" to eventdetails[page].eventdetail.artist)
-                                               fm
-                                                    .beginTransaction()
-                                                    .replace(R.id.fragmentContainerView,frg ).addToBackStack(null)
-                                                    .commit()
-                                            },
+                                                .fillMaxWidth()
+                                                .height(473.dp)
+                                                .clickable {
+                                                    val frg = Events_Details_Fragment()
+                                                    frg.arguments = bundleOf("Artist" to eventdetails[page].eventdetail.artist)
+                                                    fm
+                                                            .beginTransaction()
+                                                            .replace(R.id.fragmentContainerView, frg)
+                                                            .addToBackStack(null)
+                                                            .commit()
+                                                },
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Crop,
                                     shimmerParams = ShimmerParams(
@@ -673,16 +671,16 @@ class Home : Fragment() {
                                         tilt = 20f
                                     ),failure = {
                                         Box(modifier= Modifier
-                                            .fillMaxWidth()
-                                            .height(473.dp), contentAlignment = Alignment.Center) {
+                                                .fillMaxWidth()
+                                                .height(473.dp), contentAlignment = Alignment.Center) {
                                             Column(
-                                                Modifier
-                                                    .fillMaxWidth()
-                                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                                    Modifier
+                                                            .fillMaxWidth()
+                                                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
                                                 Image(
                                                     modifier = Modifier
-                                                        .width(60.dp)
-                                                        .height(60.dp),
+                                                            .width(60.dp)
+                                                            .height(60.dp),
                                                     painter = painterResource(
                                                         id = R.drawable.ic_sad_svgrepo_com
                                                     ),
@@ -707,20 +705,20 @@ class Home : Fragment() {
                                 )
                                 Box(
                                         modifier = Modifier
-                                            .fillMaxSize()
-                                            .background(
-                                                brush = Brush.verticalGradient(
-                                                    colors = listOf(
-                                                        Color.Transparent,
-                                                        blackbg,
-                                                    ), startY = with(LocalDensity.current){100.dp.toPx()}
+                                                .fillMaxSize()
+                                                .background(
+                                                        brush = Brush.verticalGradient(
+                                                                colors = listOf(
+                                                                        Color.Transparent,
+                                                                        blackbg,
+                                                                ), startY = with(LocalDensity.current) { 100.dp.toPx() }
+                                                        )
                                                 )
-                                            )
                                 )
                                 Box(
                                         modifier = Modifier
-                                            .fillMaxSize()
-                                            .padding(12.dp), contentAlignment = Alignment.BottomStart
+                                                .fillMaxSize()
+                                                .padding(12.dp), contentAlignment = Alignment.BottomStart
                                 ) {
                                     Column(
                                             modifier = Modifier.fillMaxWidth(),
@@ -758,8 +756,8 @@ class Home : Fragment() {
                                             Spacer(modifier = Modifier.width(11.dp))
                                             Box(
                                                     modifier = Modifier
-                                                        .height(20.dp)
-                                                        .width(20.dp)
+                                                            .height(20.dp)
+                                                            .width(20.dp)
                                             ) {
                                                 Image(
                                                         painter = if (eventdetails[page].eventdetail.mode.contains("ONLINE")) {
@@ -800,8 +798,8 @@ class Home : Fragment() {
                     activeColor= colorResource(id = R.color.textGray),
                     inactiveColor = colorResource(id = R.color.darkGray),
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(16.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .padding(16.dp)
             )
         }
 
@@ -817,9 +815,9 @@ class Home : Fragment() {
        Column() {
 
            Row(
-               Modifier
-                   .fillMaxWidth()
-                   .padding(horizontal = 32.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                   Modifier
+                           .fillMaxWidth()
+                           .padding(horizontal = 32.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                Text(text = "Day 1", fontWeight = FontWeight.W700, fontFamily = clash, color = color1, fontSize = 18.sp,
                    modifier = Modifier.clickable { color1= orangeText;color2= greyText;color3=
                        greyText
@@ -858,22 +856,22 @@ class Home : Fragment() {
         Box(Modifier
             .height(279.dp)) {
             Box(
-                Modifier
-                    .width(1550.dp)
-                    .height(279.dp)
-                    .background(color = blackbg)
-                    .horizontalScroll(horiscrollowneventstate)
+                    Modifier
+                            .width(1550.dp)
+                            .height(279.dp)
+                            .background(color = blackbg)
+                            .horizontalScroll(horiscrollowneventstate)
             ) {
                 Row(
-                    Modifier
-                        .width(1550.dp)
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
+                        Modifier
+                                .width(1550.dp)
+                                .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     for (time in 9..11) {
                         Column(
-                            Modifier
-                                .width(50.dp)
-                                .wrapContentHeight(),
+                                Modifier
+                                        .width(50.dp)
+                                        .wrapContentHeight(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
@@ -887,8 +885,8 @@ class Home : Fragment() {
                             )
                             Canvas(
                                 modifier = Modifier
-                                    .width(5.dp)
-                                    .height(260.dp)
+                                        .width(5.dp)
+                                        .height(260.dp)
                             ) {
                                 drawLine(
                                     color = Color(0xff4C5862),
@@ -903,9 +901,9 @@ class Home : Fragment() {
                     }
 
                     Column(
-                        Modifier
-                            .width(50.dp)
-                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
+                            Modifier
+                                    .width(50.dp)
+                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
                             text = "12 PM",
@@ -918,8 +916,8 @@ class Home : Fragment() {
                         )
                         Canvas(
                             modifier = Modifier
-                                .width(5.dp)
-                                .height(260.dp)
+                                    .width(5.dp)
+                                    .height(260.dp)
                         ) {
                             drawLine(
                                 color = Color(0xff4C5862),
@@ -931,9 +929,9 @@ class Home : Fragment() {
                     }
                     for (time in 1..11) {
                         Column(
-                            Modifier
-                                .width(50.dp)
-                                .wrapContentHeight(),
+                                Modifier
+                                        .width(50.dp)
+                                        .wrapContentHeight(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
@@ -947,8 +945,8 @@ class Home : Fragment() {
                             )
                             Canvas(
                                 modifier = Modifier
-                                    .width(5.dp)
-                                    .height(260.dp)
+                                        .width(5.dp)
+                                        .height(260.dp)
                             ) {
                                 drawLine(
                                     color = Color(0xff4C5862),
@@ -981,10 +979,10 @@ class Home : Fragment() {
 
                 BoxWithConstraints(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(0.dp, 200.dp)
-                        .height(80.dp)
-                        .background(color = Color.Transparent),
+                            .fillMaxWidth()
+                            .offset(0.dp, 200.dp)
+                            .height(80.dp)
+                            .background(color = Color.Transparent),
                     contentAlignment = Alignment.BottomCenter
                 )
                 {
@@ -1024,87 +1022,88 @@ class Home : Fragment() {
         var offsetY = remember { Animatable(ydisinpxcald) }
 
         Box(
-            Modifier
-                .offset {
+                Modifier
+                        .offset {
 //                    xdis.dp - 2.dp, ydis.dp
-                    IntOffset(
-                        offsetX.value
-                            .toInt(),
-                        offsetY.value
-                            .toInt()
-                    )
-                }
-                .height(58.dp)
-                .width(lengthdp.value.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(color.value)
-                .clickable {
-
-                    val frg=Events_Details_Fragment()
-                    frg.arguments= bundleOf("Artist" to eventdetail.eventWithLive.artist)
-                    fm
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainerView,frg ).addToBackStack(null)
-                        .commit()
-
-                }
-                .pointerInput(Unit) {
-                    detectDragGesturesAfterLongPress(
-                        onDragStart = { isdragging.value = true },
-                        onDrag = { _, dragAmount ->
-                            val original = Offset(offsetX.value, offsetY.value)
-                            val summed = original + dragAmount
-                            val newValue = Offset(
-                                x = summed.x,
-                                y = summed.y.coerceIn(30.dp.toPx(), 221.dp.toPx())
+                            IntOffset(
+                                    offsetX.value
+                                            .toInt(),
+                                    offsetY.value
+                                            .toInt()
                             )
-                            coroutineScope.launch {
-                                offsetY.snapTo(newValue.y)
-                                offsetX.snapTo(newValue.x)
-                            }
+                        }
+                        .height(58.dp)
+                        .width(lengthdp.value.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(color.value)
+                        .clickable {
+
+                            val frg = Events_Details_Fragment()
+                            frg.arguments = bundleOf("Artist" to eventdetail.eventWithLive.artist)
+                            fm
+                                    .beginTransaction()
+                                    .replace(R.id.fragmentContainerView, frg)
+                                    .addToBackStack(null)
+                                    .commit()
+
+                        }
+                        .pointerInput(Unit) {
+                            detectDragGesturesAfterLongPress(
+                                    onDragStart = { isdragging.value = true },
+                                    onDrag = { _, dragAmount ->
+                                        val original = Offset(offsetX.value, offsetY.value)
+                                        val summed = original + dragAmount
+                                        val newValue = Offset(
+                                                x = summed.x,
+                                                y = summed.y.coerceIn(30.dp.toPx(), 221.dp.toPx())
+                                        )
+                                        coroutineScope.launch {
+                                            offsetY.snapTo(newValue.y)
+                                            offsetX.snapTo(newValue.x)
+                                        }
 
 
 
-                            if ((182.dp..221.dp).contains(offsetY.value.toDp()) and
-                                ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
-                                    .toPx()
-                                    .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
-                                    (offsetX.value)
-                                        .toInt()
-                                ))
-                            ) {
-                                onActiveDel.value = true
-                            } else {
-                                onActiveDel.value = false
-                            }
+                                        if ((182.dp..221.dp).contains(offsetY.value.toDp()) and
+                                                ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
+                                                        .toPx()
+                                                        .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
+                                                        (offsetX.value)
+                                                                .toInt()
+                                                ))
+                                        ) {
+                                            onActiveDel.value = true
+                                        } else {
+                                            onActiveDel.value = false
+                                        }
 
 
-                        },
-                        onDragCancel = {
-                            isdragging.value = false;
-                            coroutineScope.launch {
-                                offsetX.animateTo(
-                                    xdisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
-                                offsetY.animateTo(
-                                    ydisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
-                            }
-                        },
-                        onDragEnd = {
-                            isdragging.value = false
-                            if (onActiveDel.value) {
-                                coroutineScope.launch {
-                                lengthdp.animateTo(0f, animationSpec = tween(
-                                    durationMillis = 300,
-                                    delayMillis = 0, easing = FastOutSlowInEasing))
-                                    homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+                                    },
+                                    onDragCancel = {
+                                        isdragging.value = false;
+                                        coroutineScope.launch {
+                                            offsetX.animateTo(
+                                                    xdisinpxcald, animationSpec = tween(
+                                                    durationMillis = 400,
+                                                    delayMillis = 0, easing = FastOutSlowInEasing
+                                            )
+                                            );
+                                            offsetY.animateTo(
+                                                    ydisinpxcald, animationSpec = tween(
+                                                    durationMillis = 400,
+                                                    delayMillis = 0, easing = FastOutSlowInEasing
+                                            )
+                                            );
+                                        }
+                                    },
+                                    onDragEnd = {
+                                        isdragging.value = false
+                                        if (onActiveDel.value) {
+                                            coroutineScope.launch {
+                                                lengthdp.animateTo(0f, animationSpec = tween(
+                                                        durationMillis = 300,
+                                                        delayMillis = 0, easing = FastOutSlowInEasing))
+                                                homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
 //                                    val dataevnetcurrent= homeViewModel.upcomingEventsLiveState.toMutableList()
 //                                    homeViewModel.upcomingEventsLiveState.clear()
 //                                    delay(100)
@@ -1112,12 +1111,12 @@ class Home : Fragment() {
 
 //                                  homeViewModel.allEventsWithLivedata.addNewItem(eventWithLive(eventdetail()))
 //                                    homeViewModel.allEventsWithLivedata.removeAnItem(eventWithLive(eventdetail()))
-                                }
+                                            }
 //                                datestate.forEach { data -> list.add(data) }
 //                                datestate.remove(eventdetail)
 //                                Log.d("boxevent", eventdetail.toString())
 
-                                scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
+                                            scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
 
 
 //                                Log.d("boxevent", list.toString())
@@ -1126,7 +1125,7 @@ class Home : Fragment() {
 //                             val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
 //                                Log.d("resdel",res1.toString())
 //                                Log.d("resdel",res2.toString())
-                                onActiveDel.value = false
+                                            onActiveDel.value = false
 //                                if (res  ) {
 //                                    Toast
 //                                        .makeText(activity, "event removed", Toast.LENGTH_SHORT)
@@ -1134,39 +1133,39 @@ class Home : Fragment() {
 //                                }
 
 
-                            } else {
-                                coroutineScope.launch {
-                                    offsetX.animateTo(
-                                        xdisinpxcald, animationSpec = tween(
-                                            durationMillis = 400,
-                                            delayMillis = 0, easing = FastOutSlowInEasing
-                                        )
-                                    );
-                                    offsetY.animateTo(
-                                        ydisinpxcald, animationSpec = tween(
-                                            durationMillis = 400,
-                                            delayMillis = 0, easing = FastOutSlowInEasing
-                                        )
-                                    );
-                                }
+                                        } else {
+                                            coroutineScope.launch {
+                                                offsetX.animateTo(
+                                                        xdisinpxcald, animationSpec = tween(
+                                                        durationMillis = 400,
+                                                        delayMillis = 0, easing = FastOutSlowInEasing
+                                                )
+                                                );
+                                                offsetY.animateTo(
+                                                        ydisinpxcald, animationSpec = tween(
+                                                        durationMillis = 400,
+                                                        delayMillis = 0, easing = FastOutSlowInEasing
+                                                )
+                                                );
+                                            }
 
 
-                            }
+                                        }
+
+
+                                    }
+
+                            )
 
 
                         }
 
-                    )
-
-
-                }
-
 
         ) {
             Column(
-                Modifier
-                    .fillMaxSize()
-                    .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
+                    Modifier
+                            .fillMaxSize()
+                            .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
                 Text(
                     text = eventdetail.eventWithLive.artist,
                     color = Color.White,
@@ -1223,45 +1222,46 @@ class Home : Fragment() {
                 .height(218.dp), state = pagerState
         ) { page ->
         Card(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
             shape = RoundedCornerShape(8.dp),
             elevation = 0.dp,) {
-            Box(modifier = Modifier.clickable {
-                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId=R.id.merch;
+            Box(modifier = Modifier
+                    .clickable {
+                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId = R.id.merch;
 
 //                fm.beginTransaction()
 //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
 //                    .commit()
-            }
-                .height(218.dp)
-                .fillMaxWidth()
-                .background(colors[page])){
+                    }
+                    .height(218.dp)
+                    .fillMaxWidth()
+                    .background(colors[page])){
 
                 Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color(0xff000111)
-                            ), startY = 0f
-                        )
-                    ))
-
-                Row(
-                    Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
-                        .padding(start = 16.dp, top = 24.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                        .background(
+                                brush = Brush.verticalGradient(
+                                        colors = listOf(
+                                                Color.Transparent,
+                                                Color(0xff000111)
+                                        ), startY = 0f
+                                )
+                        ))
+
+                Row(
+                        Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight()
+                                .padding(start = 16.dp, top = 24.dp), horizontalArrangement = Arrangement.SpaceBetween) {
 
 
 
                     Column(
-                        Modifier
-                            .wrapContentWidth()
-                            .wrapContentHeight()) {
+                            Modifier
+                                    .wrapContentWidth()
+                                    .wrapContentHeight()) {
                         Text(
                             text = merch[page].Name.uppercase(),
                             color = Color.White,
@@ -1278,8 +1278,8 @@ class Home : Fragment() {
                     }
 
                     GlideImage(modifier = Modifier
-                        .width(241.dp)
-                        .height(257.dp),
+                            .width(241.dp)
+                            .height(257.dp),
                     imageModel = merch[page].Image, contentDescription = "merch", contentScale = ContentScale.Crop,
                     alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
@@ -1290,16 +1290,16 @@ class Home : Fragment() {
                         tilt = 20f
                     ),failure = {
                         Box(modifier= Modifier
-                            .width(241.dp)
-                            .height(257.dp), contentAlignment = Alignment.Center) {
+                                .width(241.dp)
+                                .height(257.dp), contentAlignment = Alignment.Center) {
                             Column(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Modifier
+                                            .fillMaxWidth()
+                                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
                                 Image(
                                     modifier = Modifier
-                                        .width(60.dp)
-                                        .height(60.dp),
+                                            .width(60.dp)
+                                            .height(60.dp),
                                     painter = painterResource(
                                         id = R.drawable.ic_sad_svgrepo_com
                                     ),

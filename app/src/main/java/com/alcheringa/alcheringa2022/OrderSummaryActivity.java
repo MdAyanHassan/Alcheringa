@@ -18,6 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alcheringa.alcheringa2022.Database.DBHandler;
 import com.alcheringa.alcheringa2022.Model.cartModel;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -144,14 +150,20 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
     private long calculate_amount() {
         long amt=0;
+        int  cnt=0;
         for(int i=0;i<arrayList.size();i++){
             amt=amt+Long.parseLong(arrayList.get(i).getPrice())*Long.parseLong(arrayList.get(i).getCount());
+            cnt=cnt+Integer.parseInt(arrayList.get(i).getCount());
         }
 
         //final int shipping_cost = 45;
+        shipping_charges=cnt*shipping_charges;
+        if(user_pin_code.equals("781039")){
+            shipping_charges=0;
+        }
         int total_and_shipping = shipping_charges + (int) amt;
         String amount = MessageFormat.format("₹{0}.", amt);
-
+        shipping.setText(String.format("₹%s.00", shipping_charges+""));
         total.setText(String.format(Locale.getDefault(),"₹%d.00", total_and_shipping)); //total
         order_total.setText(String.format("₹%d.", total_and_shipping)); //bottom order total
 
@@ -221,7 +233,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         }
     }
 
-    private void AddOrderToFirebase(ArrayList<cartModel> order_list) {
+    private void AddOrderToFirebase(ArrayList<cartModel> order_list,String PaymentId) {
         //int total_price = 0;
         String email= Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
@@ -246,6 +258,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         data.put("Phone",user_phone);
         data.put("House_No",user_house);
         data.put("Area",user_road);
+        data.put("Order ID",PaymentId);
         data.put("State",user_state);
         data.put("City",user_city);
         data.put("Pincode",user_pin_code);
@@ -313,12 +326,78 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     public void onPaymentSuccess(String razorpayPaymentID, PaymentData paymentData) {
         Log.d(TAG, "onPaymentSuccess razorpayPaymentID: " + razorpayPaymentID);
         Toast.makeText(getApplicationContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
-        AddOrderToFirebase(arrayList);
+        AddOrderToFirebase(arrayList,razorpayPaymentID);
+        AddToExcel(arrayList,razorpayPaymentID);
         clear_cart();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
         finish();
+    }
+
+    private void AddToExcel(ArrayList<cartModel> order_list,String PaymentId) {
+        String email= Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
+
+        String id=firebaseFirestore.collection("USERS").document().getId();
+        Map<String,Object> data=new HashMap<>();
+        for(int i=0;i<order_list.size();i++){
+            Map<String,Object> map=new HashMap<>();
+            data.put("Name",order_list.get(i).getName());
+            data.put("Price",order_list.get(i).getPrice());
+            data.put("Size",order_list.get(i).getSize());
+            data.put("Type",order_list.get(i).getType());
+            data.put("Time",new Date());
+            data.put("Phone",user_phone);
+            data.put("House No",user_house);
+            data.put("Area",user_road);
+            data.put("State",user_state);
+            data.put("City",user_city);
+            data.put("Pincode",user_pin_code);
+            data.put("Order ID",PaymentId);
+
+            data.put("Total Price",""+amount);
+            Volley(data);
+            //total_price += Integer.parseInt(order_list.get(i).getPrice());
+        };
+
+    }
+
+    private void Volley(Map<String, Object> map) {
+        RequestQueue requestQueue = null;
+        String url
+                = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfugQ32uHJp8XNA5-EwrGGcJgJeXwqzEOMaAKuyMBsC3jGFXg/formResponse";
+
+        JsonObjectRequest
+                jsonObjReq
+                = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                null,
+                new Response.Listener() {
+                    @Override
+                    public void onResponse(Object response) {
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        VolleyLog.d(TAG, "Error: "
+                                + error.getMessage());
+                    }
+                }) {
+
+            @Override
+            protected Map getParams()
+            {
+                return map;
+            }
+
+        };
+
+        requestQueue.add(jsonObjReq);
     }
 
     private void clear_cart() {

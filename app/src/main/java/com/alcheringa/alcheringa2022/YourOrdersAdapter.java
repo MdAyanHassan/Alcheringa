@@ -76,7 +76,7 @@ public class YourOrdersAdapter extends RecyclerView.Adapter<YourOrdersViewHolder
 
         holder.delivery_date.setText("Delivery by " + yourOrders_ModelList.get(position).getDelivery_date());
 
-        Glide.with(context).load(yourOrders_ModelList.get(position).getImage()).into(holder.imageView);
+       Glide.with(context).load(yourOrders_ModelList.get(position).getImage()).into(holder.imageView);
     }
 
     @Override

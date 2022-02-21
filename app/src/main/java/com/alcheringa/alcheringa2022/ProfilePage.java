@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,9 +29,12 @@ import com.google.firebase.storage.StorageReference;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -116,7 +120,75 @@ public class ProfilePage extends AppCompatActivity {
     private void fill_user_details() {
         String shared_name = sharedPreferences.getString("name", "");
          shared_photoUrl= sharedPreferences.getString("photourl", "");
-        interests.addAll(sharedPreferences.getStringSet("interests",null));
+        interests.addAll(sharedPreferences.getStringSet("interests", new Set<String>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean contains(@Nullable Object o) {
+                return false;
+            }
+
+            @NonNull
+            @Override
+            public Iterator<String> iterator() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public Object[] toArray() {
+                return new Object[0];
+            }
+
+            @NonNull
+            @Override
+            public <T> T[] toArray(@NonNull T[] ts) {
+                return null;
+            }
+
+            @Override
+            public boolean add(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean remove(@Nullable Object o) {
+                return false;
+            }
+
+            @Override
+            public boolean containsAll(@NonNull Collection<?> collection) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(@NonNull Collection<? extends String> collection) {
+                return false;
+            }
+
+            @Override
+            public boolean retainAll(@NonNull Collection<?> collection) {
+                return false;
+            }
+
+            @Override
+            public boolean removeAll(@NonNull Collection<?> collection) {
+                return false;
+            }
+
+            @Override
+            public void clear() {
+
+            }
+        }));
 
         if(!shared_name.equals("")){
             name.setText(shared_name);
