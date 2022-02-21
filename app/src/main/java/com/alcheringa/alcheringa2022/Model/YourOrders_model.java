@@ -84,6 +84,6 @@ public class YourOrders_model {
         this.merch_quantity = merch_quantity;
         this.merch_size = merch_size;
         this.merch_type = merch_type;
-        Image = Image;
+        this.Image = Image;
     }
 }
