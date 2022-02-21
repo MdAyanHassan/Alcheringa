@@ -48,6 +48,17 @@
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/schedule_fragment.xml" value="0.21846846846846846" />
         <entry key="..\:/Github/Alcheringa2022/app/src/main/res/layout/sponsor_item.xml" value="0.21555555555555556" />
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/mipmap-anydpi-v26/alcher_logo.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_account.xml" value="0.2" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_contact_us.xml" value="0.264" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_main.xml" value="0.37271937445699393" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_order_summary.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_scanner.xml" value="0.13496376811594202" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_sign_up.xml" value="0.15353260869565216" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/fragment_home.xml" value="0.31417979610750696" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/fragment_merch.xml" value="0.19640787949015065" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/merch_item.xml" value="0.2234375" />
+        <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/your_orders_item.xml" value="0.536" />
+        <entry key="app/src/main/res/layout/activity_team.xml" value="0.39382171630859375" />
       </map>
     </option>
   </component>
