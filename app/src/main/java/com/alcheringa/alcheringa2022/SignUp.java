@@ -172,6 +172,7 @@ public class SignUp extends AppCompatActivity {
                                     }
                                 });
                             }catch(Exception e){
+                                firebaseAuth.signOut();
                                 loaderView.setVisibility(View.GONE);
                                 toast("Could not get your email from Outlook");
                             }

@@ -64,19 +64,6 @@
             android:src="@drawable/pass"
             />
 
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            app:fabCustomSize="65dp"
-            android:tint="@color/white"
-            android:src="@drawable/pass"
-            android:contentDescription="@string/ePass_button"
-            android:backgroundTint="#EE6337"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

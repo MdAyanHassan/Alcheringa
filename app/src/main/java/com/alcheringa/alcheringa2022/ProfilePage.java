@@ -84,12 +84,17 @@ public class ProfilePage extends AppCompatActivity {
         edit_dp_button.setOnClickListener(v -> CropImage.startPickImageActivity(ProfilePage.this));
 
         save_button.setOnClickListener(v -> {
-            uploadToFirebase();
-            Set<String> set = new HashSet<>(interests);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putStringSet("interests", set);
-            editor.apply();
-            Toast.makeText(this,"Your changes are saved",Toast.LENGTH_LONG).show();
+            if(interests.size() >= 5){
+                uploadToFirebase();
+                Set<String> set = new HashSet<>(interests);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putStringSet("interests", set);
+                editor.apply();
+                Toast.makeText(this,"Your changes are saved",Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Select atleast 5 interests to continue",Toast.LENGTH_SHORT).show();
+            }
+
         });
 
         back_btn = findViewById(R.id.backbtn);
@@ -204,8 +209,7 @@ public class ProfilePage extends AppCompatActivity {
             //Toast.makeText(this, ""+shared_photoUrl, Toast.LENGTH_SHORT).show();
             Glide.with(this).load(shared_photoUrl).into(user_dp);
         } else {
-
-            Toast.makeText(this, ""+shared_photoUrl, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, ""+shared_photoUrl, Toast.LENGTH_SHORT).show();
             FirebaseUser user = firebaseAuth.getCurrentUser();
             assert user != null;
             String email = user.getEmail();
@@ -220,18 +224,14 @@ public class ProfilePage extends AppCompatActivity {
 
                     if (db_photourl != null) {
                         Glide.with(this).load(db_photourl).into(user_dp);
-                        editor.putString("photourl", task.getResult().getString("PhotoURL"));
+                        editor.putString("photourl", db_photourl);
                     }
                     editor.apply();
                 } else {
-                    Log.d("TAG", "Error getting documents: ", task.getException());
+                    Log.d("TAG", "Error getting profile photo: ", task.getException());
                 }
             });
         }
-
-
-
-
     }
 
     private void uploadImage() {
