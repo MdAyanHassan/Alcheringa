@@ -61,13 +61,17 @@ public class InterestsActivity extends AppCompatActivity {
     }
 
     public void submit(View v){
-        uploadToFirebase();
-        Set<String> set = new HashSet<>(interests);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putStringSet("interests", set);
-        editor.apply();
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-        finish();
+        if (interests.size() >= 5) {
+            uploadToFirebase();
+            Set<String> set = new HashSet<>(interests);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putStringSet("interests", set);
+            editor.apply();
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+        }else{
+            Toast.makeText(this, "Select atleast 5 interests to continue",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void uploadToFirebase(){
