@@ -1,0 +1,124 @@
+package com.alcheringa.alcheringa2022
+
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.alcheringa.alcheringa2022.Model.member
+import com.alcheringa.alcheringa2022.databinding.ActivityTeamBinding
+import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
+import com.alcheringa.alcheringa2022.ui.theme.clash
+import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
+
+class team : AppCompatActivity() {
+    private lateinit var binding: ActivityTeamBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding=ActivityTeamBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.teamcp.setContent {
+
+            LazyColumn(Modifier
+                    .fillMaxSize()
+                    .padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)){items(membdata){data->teamCard(memb = data)} }
+
+        }
+    }
+
+    val membdata= listOf(member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399",)
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
+
+
+    )
+
+
+    @Composable
+    fun teamCard(memb:member){
+        val animationProgress = remember {Animatable(700f)}
+        LaunchedEffect(key1=Unit,block = {
+            animationProgress.animateTo(
+                    targetValue = 0f,
+                    animationSpec = tween(400, easing = FastOutSlowInEasing)
+            )
+        })
+        Box(Modifier
+                .graphicsLayer { translationX = animationProgress.value }
+                .height(97.dp)
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color(0xff323C47))
+                .padding(12.dp), contentAlignment = Alignment.Center) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
+                Image(modifier = Modifier
+                        .height(73.dp)
+                        .width(73.dp)
+                        .clip(RoundedCornerShape(106.dp)), painter = painterResource(id = memb.imgdrw), contentDescription = null)
+
+                Column(Modifier
+                        .wrapContentHeight()
+                        .fillMaxWidth()) {
+                    Text(text = memb.name, fontSize = 18.sp, fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White)
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(text = memb.pos, fontSize = 14.sp, fontFamily = hk_grotesk, fontWeight = FontWeight.W500, color = Color(0xffC7CCD1))
+                        Row(Modifier.wrapContentWidth()) {
+                            if (memb.instaurl!=""){
+                                Icon(painter = painterResource(id = R.drawable.ic_instagram) , contentDescription =null,Modifier.clickable {
+                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(memb.instaurl)))
+                                })}
+                            if (memb.fburl!=""){
+                                Icon(painter = painterResource(id = R.drawable.ic_facebook) , contentDescription =null ,Modifier.clickable {
+                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(memb.fburl)))
+                                })}
+                            if (memb.twturl!=""){
+                                Icon(painter = painterResource(id = R.drawable.ic_twitter) , contentDescription =null,Modifier.clickable {
+                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(memb.twturl)))
+                                } )}
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
