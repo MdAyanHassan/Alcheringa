@@ -196,7 +196,7 @@ class Home : Fragment() {
                             binding.logoAlcher.layoutParams.width=350
                         binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
                     }
-                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_vector_2));
+                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_top_small_logo));
                         binding.logoAlcher.layoutParams.width= ViewGroup.LayoutParams.WRAP_CONTENT
                         binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT}
 

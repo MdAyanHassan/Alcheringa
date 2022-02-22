@@ -14,16 +14,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alcheringa.alcheringa2022.Database.DBHandler;
 import com.alcheringa.alcheringa2022.Model.cartModel;
+import com.alcheringa.alcheringa2022.services.Retrofit_Class;
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +36,7 @@ import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultWithDataListener;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+import com.squareup.okhttp.ResponseBody;
 
 
 import org.json.JSONException;
@@ -45,6 +49,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OrderSummaryActivity extends AppCompatActivity implements PaymentResultWithDataListener {
     private static final String TAG = "OrderSummaryActivityLog";
@@ -65,11 +75,16 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     int shipping_charges;
     long amount;
     TextView shipping;
+    private static Retrofit.Builder builder;
+    public static  Retrofit retrofit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_summary);
-
+        builder=new Retrofit.Builder()
+                .baseUrl("https://docs.google.com/forms/u/0/d/e/1FAIpQLSfugQ32uHJp8XNA5-EwrGGcJgJeXwqzEOMaAKuyMBsC3jGFXg/")
+                .addConverterFactory(GsonConverterFactory.create());
+        retrofit=builder.build();
         Checkout.preload(getApplicationContext());
 
         dbHandler=new DBHandler(this);
@@ -271,6 +286,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
                         firebaseFirestore.collection("ORDERS").document(id).set(data).
                                 addOnCompleteListener(task1 -> {
                                     if(task1.isSuccessful()){
+                                        AddToExcel(arrayList,PaymentId);
                                         Toast.makeText(getApplicationContext(), "Your order is placed", Toast.LENGTH_SHORT).show();
                                     }
                                     else{
@@ -327,7 +343,6 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         Log.d(TAG, "onPaymentSuccess razorpayPaymentID: " + razorpayPaymentID);
         Toast.makeText(getApplicationContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
         AddOrderToFirebase(arrayList,razorpayPaymentID);
-        //AddToExcel(arrayList,razorpayPaymentID);
         clear_cart();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -336,26 +351,23 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     }
 
     private void AddToExcel(ArrayList<cartModel> order_list,String PaymentId) {
-        String email= Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
-        String id=firebaseFirestore.collection("USERS").document().getId();
-        Map<String,Object> data=new HashMap<>();
         for(int i=0;i<order_list.size();i++){
-            Map<String,Object> map=new HashMap<>();
-            data.put("Name",order_list.get(i).getName());
-            data.put("Price",order_list.get(i).getPrice());
-            data.put("Size",order_list.get(i).getSize());
-            data.put("Type",order_list.get(i).getType());
-            data.put("Time",new Date());
-            data.put("Phone",user_phone);
-            data.put("House No",user_house);
-            data.put("Area",user_road);
-            data.put("State",user_state);
-            data.put("City",user_city);
-            data.put("Pincode",user_pin_code);
-            data.put("Order ID",PaymentId);
-
-            data.put("Total Price",""+amount);
+            Map<String,Object> data=new HashMap<>();
+            //Map<String,Object> map=new HashMap<>();
+            data.put("entry.131168542",order_list.get(i).getName());
+            data.put("entry.1664498189",order_list.get(i).getPrice());
+            data.put("entry.2091239120",order_list.get(i).getSize());
+            data.put("entry.363590504",order_list.get(i).getType());
+            data.put("entry.2040691413",new Date()+"");
+            data.put("entry.1576164204",user_phone);
+            data.put("entry.1382179014",user_house);
+            data.put("entry.1495324823",user_road);
+            data.put("entry.2048595423",user_state);
+            data.put("entry.1655477142",user_city);
+            data.put("entry.848668946",user_pin_code);
+            data.put("entry.822567484",PaymentId);
+            data.put("entry.1277791907",""+amount);
             Volley(data);
             //total_price += Integer.parseInt(order_list.get(i).getPrice());
         };
@@ -363,41 +375,22 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     }
 
     private void Volley(Map<String, Object> map) {
-        RequestQueue requestQueue = null;
-        String url
-                = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfugQ32uHJp8XNA5-EwrGGcJgJeXwqzEOMaAKuyMBsC3jGFXg/formResponse";
-
-        JsonObjectRequest
-                jsonObjReq
-                = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                null,
-                new Response.Listener() {
-                    @Override
-                    public void onResponse(Object response) {
-
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        VolleyLog.d(TAG, "Error: "
-                                + error.getMessage());
-                    }
-                }) {
-
+        Retrofit_Class retrofit_class=retrofit.create(Retrofit_Class.class);
+        Call<ResponseBody> call=retrofit_class.DataToExcel(map);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            protected Map getParams()
-            {
-                return map;
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                Toast.makeText(OrderSummaryActivity.this, ""+response.toString(), Toast.LENGTH_SHORT).show();
             }
 
-        };
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+                //Toast.makeText(OrderSummaryActivity.this, "error_occured", Toast.LENGTH_SHORT).show();
+                Log.d("post",call.toString());
+            }
+        });
 
-        requestQueue.add(jsonObjReq);
+
     }
 
     private void clear_cart() {
