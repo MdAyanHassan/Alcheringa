@@ -20,10 +20,12 @@
         android:theme="@style/Theme.Alcheringa2022"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".SizeChartActivity"
+            android:exported="false" />
+        <activity
             android:name=".team"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="true" >
-
         </activity>
         <activity
             android:name=".ScannerActivity"
@@ -151,7 +153,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity> <!-- DO NOT EDIT THE BELOW ACTIVITIES! -->
+            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- DO NOT EDIT THE BELOW ACTIVITIES! -->
         <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity
             android:name="com.microsoft.identity.client.BrowserTabActivity"

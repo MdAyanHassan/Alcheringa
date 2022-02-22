@@ -1278,8 +1278,8 @@ class Home : Fragment() {
                     }
 
                     GlideImage(modifier = Modifier
-                            .width(241.dp)
-                            .height(257.dp),
+                            .width(197.dp)
+                            .height(197.dp),
                     imageModel = merch[page].Image, contentDescription = "merch", contentScale = ContentScale.Crop,
                     alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(

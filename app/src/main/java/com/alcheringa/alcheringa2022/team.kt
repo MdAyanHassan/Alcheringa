@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alcheringa.alcheringa2022.Model.member
@@ -48,7 +49,8 @@ class team : AppCompatActivity() {
         setContentView(binding.root)
         binding.teamcp.setContent {
 
-            LazyColumn(Modifier
+            LazyColumn(
+                Modifier
                     .fillMaxSize()
                     .padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)){items(membdata){data->teamCard(memb = data)} }
 
@@ -72,9 +74,20 @@ class team : AppCompatActivity() {
 
     )
 
-
+    @Preview
     @Composable
-    fun teamCard(memb:member){
+    fun hello(){
+
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)){items(membdata){data->teamCard(memb = data)} }
+
+    }
+
+    @Preview
+    @Composable
+    fun teamCard(memb:member=membdata[4]){
         val animationProgress = remember {Animatable(700f)}
         LaunchedEffect(key1=Unit,block = {
             animationProgress.animateTo(
@@ -83,40 +96,42 @@ class team : AppCompatActivity() {
             )
         })
         Box(Modifier
-                .graphicsLayer { translationX = animationProgress.value }
-                .height(97.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xff323C47))
-                .padding(12.dp), contentAlignment = Alignment.Center) {
+            .graphicsLayer { translationX = animationProgress.value }
+            .height(97.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xff323C47))
+            .padding(12.dp), contentAlignment = Alignment.Center) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
                 Image(modifier = Modifier
-                        .height(73.dp)
-                        .width(73.dp)
-                        .clip(RoundedCornerShape(106.dp)), painter = painterResource(id = memb.imgdrw), contentDescription = null)
+                    .height(73.dp)
+                    .width(73.dp)
+                    .clip(RoundedCornerShape(106.dp)), painter = painterResource(id = memb.imgdrw), contentDescription = null)
 
-                Column(Modifier
-                        .wrapContentHeight()
-                        .fillMaxWidth()) {
+                Spacer(modifier = Modifier.width(24.dp))
+                Column(
+                    Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(), verticalArrangement = Arrangement.Center) {
                     Text(text = memb.name, fontSize = 18.sp, fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White)
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+
                         Text(text = memb.pos, fontSize = 14.sp, fontFamily = hk_grotesk, fontWeight = FontWeight.W500, color = Color(0xffC7CCD1))
-                        Row(Modifier.wrapContentWidth()) {
+                      Spacer(modifier = Modifier.height(5.dp)) 
+                        Row(Modifier.wrapContentWidth(), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                             if (memb.instaurl!=""){
-                                Icon(painter = painterResource(id = R.drawable.ic_instagram) , contentDescription =null,Modifier.clickable {
+                                Icon( painter = painterResource(id = R.drawable.ic_instagram),tint = Color(0xffC7CCD1), contentDescription =null, modifier = Modifier.clickable {
                                     startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(memb.instaurl)))
                                 })}
                             if (memb.fburl!=""){
                                 Icon(painter = painterResource(id = R.drawable.ic_facebook) , contentDescription =null ,Modifier.clickable {
                                     startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(memb.fburl)))
-                                })}
+                                },tint = Color(0xffC7CCD1))}
                             if (memb.twturl!=""){
                                 Icon(painter = painterResource(id = R.drawable.ic_twitter) , contentDescription =null,Modifier.clickable {
                                     startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(memb.twturl)))
-                                } )}
+                                },tint = Color(0xffC7CCD1) )}
                         }
 
-                    }
                 }
             }
         }
