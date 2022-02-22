@@ -94,7 +94,6 @@ public class ProfilePage extends AppCompatActivity {
             }else{
                 Toast.makeText(this, "Select atleast 5 interests to continue",Toast.LENGTH_SHORT).show();
             }
-
         });
 
         back_btn = findViewById(R.id.backbtn);
