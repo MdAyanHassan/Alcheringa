@@ -47,7 +47,7 @@ class viewModelHome: ViewModel() {
 
     fun pushEvents(evnts:List<eventdetail>){
         for(evnt in evnts){
-        fb.collection("Featured Events").document(evnt.artist).set(evnt).addOnSuccessListener {
+        fb.collection("Featured_Events").document(evnt.artist).set(evnt).addOnSuccessListener {
             Log.d("pushevents","process succeed")
         }.addOnFailureListener{
             Log.d("pushevents","process failed")
@@ -141,7 +141,7 @@ class viewModelHome: ViewModel() {
 
     fun getfeaturedEvents(){
         viewModelScope.launch {
-            fb.collection("Featured Events").get().addOnSuccessListener {
+            fb.collection("Featured_Events").get().addOnSuccessListener {
                     evnts->
                 val list=mutableListOf<eventWithLive>()
                 list.clear()
