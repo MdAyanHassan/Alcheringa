@@ -113,7 +113,6 @@ public class Greeting_page extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         videoView.stopPlayback();
-        appUpdateManager.unregisterListener((InstallStateUpdatedListener) this);
         super.onDestroy();
     }
 }
