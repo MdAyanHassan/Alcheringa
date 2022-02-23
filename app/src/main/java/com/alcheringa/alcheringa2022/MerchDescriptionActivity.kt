@@ -301,7 +301,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                             )
                         }
                 ) {
-                    if(page==0){
+                    if(page==2){
                         Box {
                             Card(
                                 modifier = Modifier.fillMaxWidth(),
@@ -348,7 +348,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                                         .fillMaxWidth(), contentAlignment = Alignment.Center
                                 ) {
                                     GlideImage(
-                                        imageModel = images[page-1],
+                                        imageModel = images[page],
                                         contentDescription = "artist",
                                         modifier = Modifier
                                             .width(348.dp)

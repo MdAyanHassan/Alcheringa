@@ -80,53 +80,53 @@ class Home : Fragment() {
     var home=false;
 
 
-//    val events=mutableListOf(
-//
-//            eventdetail(
-//                    "JUBIN NAUTIYAL2",
-//                    "Pro Nights",
-//                    OwnTime(11,9,0),
-//                    "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
-//            ),
-//
-//            eventdetail(
-//                    "DJ SNAKE4",
-//                    "Pro Nights",
-//                OwnTime(11,12,0),
-//                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-//            ),
-//            eventdetail(
-//                    "TAYLOR SWIFT6",
-//                    "Pro Nights",
-//                OwnTime(11,14,0),
-//                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-//            )
-//        ,
-//
-//        eventdetail(
-//            "DJ SNAKE7",
-//            "Pro Nights",
-//            OwnTime(13,10,0),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-//        ),
-//        eventdetail(
-//            "TAYLOR SWIFT8",
-//            "Pro Nights",
-//            OwnTime(13,15,0),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-//        )
-//        ,
-//        eventdetail(
-//            "TAYLOR SWIFT9",
-//            "Pro Nights",
-//            OwnTime(13,14,30),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
-//        )
-//
-//
-//
-//    )
-//
+    val events=mutableListOf(
+
+            eventdetail(
+                    "JUBIN NAUTIYAL2",
+                    "Pro Nights",
+                    OwnTime(11,9,0),
+                    "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
+            ),
+
+            eventdetail(
+                    "DJ SNAKE4",
+                    "Pro Nights",
+                OwnTime(11,12,0),
+                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
+            ),
+            eventdetail(
+                    "TAYLOR SWIFT6",
+                    "Pro Nights",
+                OwnTime(11,14,0),
+                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
+            )
+        ,
+
+        eventdetail(
+            "DJ SNAKE7",
+            "Pro Nights",
+            OwnTime(13,10,0),
+            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
+        ),
+        eventdetail(
+            "TAYLOR SWIFT8",
+            "Pro Nights",
+            OwnTime(13,15,0),
+            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
+        )
+        ,
+        eventdetail(
+            "TAYLOR SWIFT9",
+            "Pro Nights",
+            OwnTime(13,14,30),
+            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
+        )
+
+
+
+    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
