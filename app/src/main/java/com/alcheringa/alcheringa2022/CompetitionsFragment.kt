@@ -110,7 +110,7 @@ class CompetitionsFragment : Fragment() {
 //            startActivity(Intent(context,Account::class.java));
 //
 //        }
-        binding.backbtn2.setOnClickListener{requireActivity().onBackPressed()}
+        binding.constraintLayout.setOnClickListener{requireActivity().onBackPressed()}
 
         binding.competitionsCompose.setContent {
             Full_view()
