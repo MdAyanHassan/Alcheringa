@@ -251,7 +251,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(text = eventdetail.eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = "${eventdetail.eventdetail.starttime.date} Feb, ${if(eventdetail.eventdetail.starttime.hours>12)"${eventdetail.eventdetail.starttime.hours-12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min!=0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours>=12)"PM" else "AM"} ", style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                        Text(text = "${eventdetail.eventdetail.starttime.date} Mar, ${if(eventdetail.eventdetail.starttime.hours>12)"${eventdetail.eventdetail.starttime.hours-12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min!=0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours>=12)"PM" else "AM"} ", style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(2.dp))
                         Row {
                             Box(modifier = Modifier
@@ -454,7 +454,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(text = eventdetail.eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = "${eventdetail.eventdetail.starttime.date} Feb, ${if(eventdetail.eventdetail.starttime.hours>12)"${eventdetail.eventdetail.starttime.hours-12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min!=0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours>=12)"PM" else "AM"} ", style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                        Text(text = "${eventdetail.eventdetail.starttime.date} Mar, ${if(eventdetail.eventdetail.starttime.hours>12)"${eventdetail.eventdetail.starttime.hours-12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min!=0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours>=12)"PM" else "AM"} ", style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(2.dp))
                         Row {
                             Box(modifier = Modifier
