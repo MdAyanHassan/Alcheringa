@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.alcheringa.alcheringa2022.Database.DBHandler
+import com.alcheringa.alcheringa2022.ui.theme.blackbg
 import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
 import com.google.accompanist.pager.*
 import com.google.android.exoplayer2.MediaItem
@@ -309,7 +310,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                             ) {
                                 Box(
                                     modifier = Modifier
-                                        .background(Color.Black)
+                                        .background(blackbg)
                                         .padding(8.dp)
                                         .height(400.dp)
                                         .fillMaxWidth(),
@@ -342,7 +343,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                             ) {
                                 Box(
                                     modifier = Modifier
-                                        .background(Color(android.graphics.Color.parseColor("#323C47")))
+                                        .background(blackbg)
                                         .padding(20.dp)
                                         .height(400.dp)
                                         .fillMaxWidth(), contentAlignment = Alignment.Center

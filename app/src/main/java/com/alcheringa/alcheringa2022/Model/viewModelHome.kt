@@ -47,7 +47,7 @@ class viewModelHome: ViewModel() {
 
     fun pushEvents(evnts:List<eventdetail>){
         for(evnt in evnts){
-        fb.collection("Featured Events").document(evnt.artist).set(evnt).addOnSuccessListener {
+        fb.collection("Featured_Events").document(evnt.artist).set(evnt).addOnSuccessListener {
             Log.d("pushevents","process succeed")
         }.addOnFailureListener{
             Log.d("pushevents","process failed")
@@ -78,14 +78,16 @@ class viewModelHome: ViewModel() {
             while (true){
                 Log.d("livecheck","started")
                val c= Calendar.getInstance()
-                crnttime.value= OwnTime(date = c.get(Calendar.DATE),c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE))
+                var dt=0
+                if (c.get(Calendar.MONTH)== Calendar.FEBRUARY){dt=c.get(Calendar.DATE)-28}else{dt=c.get(Calendar.DATE)}
+                crnttime.value= OwnTime(date =dt ,c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE))
                 delay(500)
 
 
                 for( data in allEventsWithLive){
 
                     data.isLive.value = (c.get(Calendar.YEAR)==2022) and
-                            (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
+                            (c.get(Calendar.MONTH)== Calendar.MARCH) and
                             (c.get(Calendar.DATE)== data.eventdetail.starttime.date)and
                             ( ((data.eventdetail.starttime.hours*60)..(data.eventdetail.starttime.hours*60+ data.eventdetail.durationInMin))
                                 .contains((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) )}
@@ -95,12 +97,12 @@ class viewModelHome: ViewModel() {
 
                     if( (c.get(Calendar.YEAR)>2022) or
                         ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)> Calendar.FEBRUARY)) or
+                                (c.get(Calendar.MONTH)> Calendar.MARCH)) or
                         ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
+                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
                                 (c.get(Calendar.DATE)> data.eventdetail.starttime.date)) or
                         ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
+                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
                                 (c.get(Calendar.DATE)== data.eventdetail.starttime.date)and
                                 ( ((data.eventdetail.starttime.hours*60 + data.eventdetail.durationInMin))
                                         <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
@@ -141,7 +143,7 @@ class viewModelHome: ViewModel() {
 
     fun getfeaturedEvents(){
         viewModelScope.launch {
-            fb.collection("Featured Events").get().addOnSuccessListener {
+            fb.collection("Featured_Events").get().addOnSuccessListener {
                     evnts->
                 val list=mutableListOf<eventWithLive>()
                 list.clear()

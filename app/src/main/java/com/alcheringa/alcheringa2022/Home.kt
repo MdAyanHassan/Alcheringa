@@ -145,6 +145,7 @@ class Home : Fragment() {
         homeViewModel.getAllEvents()
         homeViewModel.getMerchHome()
 //        Log.d("vipin",eventslist.toString());
+        homeViewModel.pushEvents(events)
 
 
 
@@ -745,7 +746,7 @@ class Home : Fragment() {
 
                                         Row {
                                             Text(
-                                                    text = "${eventdetails[page].eventdetail.starttime.date} Feb, ${if(eventdetails[page].eventdetail.starttime.hours>12)"${eventdetails[page].eventdetail.starttime.hours-12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min!=0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours>=12)"PM" else "AM"} ",
+                                                    text = "${eventdetails[page].eventdetail.starttime.date} Mar, ${if(eventdetails[page].eventdetail.starttime.hours>12)"${eventdetails[page].eventdetail.starttime.hours-12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min!=0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours>=12)"PM" else "AM"} ",
                                                 style = TextStyle(
                                                             color = colorResource(id = R.color.textGray),
                                                             fontFamily = hk_grotesk,
