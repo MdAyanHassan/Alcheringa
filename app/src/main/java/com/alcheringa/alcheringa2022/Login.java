@@ -159,7 +159,7 @@ public class Login extends AppCompatActivity {
                         firebaseFirestore.collection("USERS").document(email).get().addOnCompleteListener(task2 -> {
                             if (task2.isSuccessful() && task2.getResult().exists()) {
                                 toast("Welcome back "+finalName);
-                                saveDetails(finalName, finalEmail);
+                                saveDetails(finalName, finalEmail, task2.getResult().getString("PhotoURL"));
                                 setInterests(email);
                                 loaderView.setVisibility(View.GONE);
                                 startMainActivity();
@@ -208,11 +208,12 @@ public class Login extends AppCompatActivity {
         finish();
     }
 
-    private void saveDetails(String name, String email){
+    private void saveDetails(String name, String email, String photoURL){
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("name", name);
         editor.putString("email",email);
+        editor.putString("photourl",photoURL);
         editor.apply();
     }
 
@@ -255,7 +256,7 @@ public class Login extends AppCompatActivity {
                         if (task1.isSuccessful()) {
                             String nameString = task1.getResult().getString("Name");
                             Log.d(TAG, "The entire data obtained is: " + task1.getResult().getData());
-                            saveDetails(nameString,email);
+                            saveDetails(nameString,email, task1.getResult().getString("PhotoURL"));
                         }else{
                             Toast.makeText(this, "Could not get username",Toast.LENGTH_SHORT).show();
                         }
@@ -342,7 +343,7 @@ public class Login extends AppCompatActivity {
                     assert (user != null ? user.getEmail() : null) != null;
                     firebaseFirestore.collection("USERS").document(user.getEmail()).get().addOnCompleteListener(task2 -> {
                         if (task2.isSuccessful() && task2.getResult().exists()) {
-                            saveDetails(user.getDisplayName(), user.getEmail());
+                            saveDetails(user.getDisplayName(), user.getEmail(), task2.getResult().getString("PhotoURL"));
                             SharedPreferences sharedPreferences=getSharedPreferences("USERS",MODE_PRIVATE);
                             SharedPreferences.Editor editor=sharedPreferences.edit();
                             editor.putString("photourl",task2.getResult().getString("PhotoURL"));

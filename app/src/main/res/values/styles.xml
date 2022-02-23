@@ -226,5 +226,15 @@
         >
         <item name="fontFamily">@font/clash_display_500</item>
     </style>
+
+    <style name="size_text">
+        <item name="android:background">@drawable/size_text_bg</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/hk_grotesk_500</item>
+    </style>
 </resources>
 

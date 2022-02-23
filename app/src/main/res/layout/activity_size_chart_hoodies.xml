@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SizeChartActivity"
+    android:background="@color/black">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="41dp"
+            android:layout_height="48dp"
+            android:padding="16dp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="12dp"
+            android:background="@android:color/transparent"/>
+
+        <TextView
+            android:id="@+id/faq_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Size Chart"
+            android:textColor="@color/white"
+            android:fontFamily="@font/clash_display_700"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/backbtn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:padding="20dp"
+        android:text="Size  Chart  for  \nHoodies  and  Zippers"
+        android:textColor="@color/white"
+        android:fontFamily="@font/clash_display_600"
+        android:textSize="22sp"
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        android:textAlignment="center"/>
+
+    <TableLayout
+        app:layout_constraintTop_toBottomOf="@id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1"
+        android:layout_margin="20dp">
+
+        <TableRow>
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:text="IN Inches"
+                style="@style/size_text"
+                android:fontFamily="@font/hk_grotesk_700"/>
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:text="Length"
+                style="@style/size_text"
+                android:fontFamily="@font/hk_grotesk_700"/>
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:text="Chest Width"
+                style="@style/size_text"
+                android:fontFamily="@font/hk_grotesk_700"/>
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:text="Sleeve Length"
+                style="@style/size_text"
+                android:fontFamily="@font/hk_grotesk_700"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="S"
+                style="@style/size_text"/>
+            <TextView
+                android:text="26.50"
+                style="@style/size_text"/>
+            <TextView
+                android:text="21"
+                style="@style/size_text"/>
+            <TextView
+                android:text="23.50"
+                style="@style/size_text"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="M"
+                style="@style/size_text"/>
+            <TextView
+                android:text="27.50"
+                style="@style/size_text"/>
+            <TextView
+                android:text="22"
+                style="@style/size_text"/>
+            <TextView
+                android:text="24"
+                style="@style/size_text"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="L"
+                style="@style/size_text"/>
+            <TextView
+                android:text="28.50"
+                style="@style/size_text"/>
+            <TextView
+                android:text="23"
+                style="@style/size_text"/>
+            <TextView
+                android:text="24.50"
+                style="@style/size_text"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="XL"
+                style="@style/size_text"/>
+            <TextView
+                android:text="29.50"
+                style="@style/size_text"/>
+            <TextView
+                android:text="24"
+                style="@style/size_text"/>
+            <TextView
+                android:text="25"
+                style="@style/size_text"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="XXL"
+                style="@style/size_text"/>
+            <TextView
+                android:text="30"
+                style="@style/size_text"/>
+            <TextView
+                android:text="25"
+                style="@style/size_text"/>
+            <TextView
+                android:text="25.50"
+                style="@style/size_text"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

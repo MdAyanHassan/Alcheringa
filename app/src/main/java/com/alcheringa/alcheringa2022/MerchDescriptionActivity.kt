@@ -62,6 +62,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var cart: ImageView
     lateinit var cartCountIcon: TextView
     lateinit var loaderView: LoaderView
+    lateinit var sizeChart: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +83,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         description = findViewById(R.id.merch_description)
         cartCountIcon = findViewById(R.id.cart_count)
         loaderView = findViewById(R.id.dots_progress)
+        sizeChart = findViewById(R.id.size_chart)
         smallBtn.setOnClickListener(this)
         mediumBtn.setOnClickListener(this)
         largeBtn.setOnClickListener(this)
@@ -130,6 +132,11 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         type.text = merchModel.material
         price.text = "₹ " + merchModel.price + "."
         description.text = merchModel.description
+        sizeChart.setOnClickListener {
+            val intent1 = Intent(this, SizeChartActivity::class.java)
+            intent1.putExtra("type",merchModel.material)
+            startActivity(intent1)
+        }
 
 
     }
