@@ -265,7 +265,15 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         val images = merModel.images
         val videoUrl = merModel.video_url
         var isVideo = 0
+        var bg = R.drawable.hoodie_bg;
         if(merModel.material == "Hoodie"){ isVideo = 1 }
+        if(merModel.name == "NeoForce"){
+            bg = R.drawable.hoodie_bg
+        }else if(merModel.name = "Tale of Neoterra"){
+            bg = R.drawable.tale_bg
+        }else{
+            bg = R.drawable.voyager_bg
+        }
 
         Column {
             val pagerState = rememberPagerState()
@@ -345,7 +353,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                             ) {
                                 Box(
                                     modifier = Modifier
-                                        .background(Color(android.graphics.Color.parseColor("#2B2B2B")))
+                                        .background(ContextCompat.getDrawable(context, bg))
                                         .padding(20.dp)
                                         .height(400.dp)
                                         .fillMaxWidth(), contentAlignment = Alignment.Center
