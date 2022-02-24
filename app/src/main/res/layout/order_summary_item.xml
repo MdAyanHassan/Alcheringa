@@ -14,10 +14,8 @@
         android:background="@drawable/order_summary_item_bg"
         android:orientation="horizontal"
         android:padding="16dp"
-
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        >
+        android:layout_width="match_parent">
 
         <ImageView
             android:id="@+id/merch_image"

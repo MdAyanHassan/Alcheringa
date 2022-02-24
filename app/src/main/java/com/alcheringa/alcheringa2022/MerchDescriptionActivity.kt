@@ -264,12 +264,14 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
     fun horizontalpager(merModel: merchModel, context: Context) {
         val images = merModel.images
         val videoUrl = merModel.video_url
+        var isVideo = 0
+        if(merModel.material == "Hoodie"){ isVideo = 1 }
 
         Column {
             val pagerState = rememberPagerState()
 
             HorizontalPager(
-                count = images.size + 1,
+                count = images.size + isVideo,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(400.dp),
@@ -302,7 +304,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                             )
                         }
                 ) {
-                    if(page==2){
+                    if(page==images.size && isVideo == 1){
                         Box {
                             Card(
                                 modifier = Modifier.fillMaxWidth(),
@@ -343,7 +345,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                             ) {
                                 Box(
                                     modifier = Modifier
-                                        .background(blackbg)
+                                        .background(Color(android.graphics.Color.parseColor("#2B2B2B")))
                                         .padding(20.dp)
                                         .height(400.dp)
                                         .fillMaxWidth(), contentAlignment = Alignment.Center
