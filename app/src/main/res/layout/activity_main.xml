@@ -42,7 +42,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="#00010D"/>
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
+            app:itemBackground="@android:color/transparent"
+            app:itemRippleColor="@android:color/transparent"
             android:theme="@style/bottomNavigationView"
             app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -64,9 +67,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/fab_bg"
-            android:src="@drawable/pass"
-            />
-
+            android:src="@drawable/pass" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
