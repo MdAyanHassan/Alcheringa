@@ -19,6 +19,8 @@ public class merchModel implements Parcelable {
     Boolean XXLarge;
     ArrayList<String> images;
     String Video_url;
+    String Small_Descripition;
+    String background;
 
     protected merchModel(Parcel in) {
         Name = in.readString();
@@ -40,6 +42,8 @@ public class merchModel implements Parcelable {
         XXLarge = tmpXXLarge == 0 ? null : tmpXXLarge == 1;
         images = in.createStringArrayList();
         Video_url = in.readString();
+        Small_Descripition = in.readString();
+        background = in.readString();
     }
 
     @Override
@@ -57,6 +61,8 @@ public class merchModel implements Parcelable {
         dest.writeByte((byte) (XXLarge == null ? 0 : XXLarge ? 1 : 2));
         dest.writeStringList(images);
         dest.writeString(Video_url);
+        dest.writeString(Small_Descripition);
+        dest.writeString(background);
     }
 
     @Override
@@ -128,6 +134,14 @@ public class merchModel implements Parcelable {
         Video_url = video_url;
     }
 
+    public void setSmall_Descripition(String small_Descripition) {
+        Small_Descripition = small_Descripition;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
     public String getName() {
         return Name;
     }
@@ -180,7 +194,15 @@ public class merchModel implements Parcelable {
         return Video_url;
     }
 
-    public merchModel(String name, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, Boolean XXLarge, ArrayList<String> images, String video_url) {
+    public String getSmall_Descripition() {
+        return Small_Descripition;
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public merchModel(String name, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, Boolean XXLarge, ArrayList<String> images, String video_url, String small_Descripition, String background) {
         Name = name;
         Material = material;
         Price = price;
@@ -194,5 +216,7 @@ public class merchModel implements Parcelable {
         this.XXLarge = XXLarge;
         this.images = images;
         Video_url = video_url;
+        Small_Descripition = small_Descripition;
+        this.background = background;
     }
 }
