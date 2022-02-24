@@ -9,6 +9,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/top_nav_bg"
         android:id="@+id/top_nav"
         android:layout_width="match_parent"
         android:layout_height="80dp"
