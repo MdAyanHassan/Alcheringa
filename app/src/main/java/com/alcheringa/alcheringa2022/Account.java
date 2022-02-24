@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +20,7 @@ public class Account extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     View view, your_orders, contactus_view, profile_page, faq_page, tnc_page, privacy_page, about_page, sponsor_page, team_page;
-    TextView user_name,version;
+    TextView user_name,version,website;
     ImageView user_photo;
     ImageView backbtn;
     String shared_name, shared_photoUrl;
@@ -35,6 +36,7 @@ public class Account extends AppCompatActivity {
         version=findViewById(R.id.version);
         view=findViewById(R.id.signout_button);
         contactus_view=findViewById(R.id.contact_us_button);
+        website=findViewById(R.id.website_link);
 
         user_name = findViewById(R.id.user_name_text);
         user_photo = findViewById(R.id.user_photo);
@@ -43,6 +45,9 @@ public class Account extends AppCompatActivity {
         shared_photoUrl = sharedPreferences.getString("photourl", "");
         backbtn=findViewById(R.id.backbtn);
         backbtn.setOnClickListener(view -> finish());
+
+        website.setOnClickListener(v->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.alcheringa.in"))));
 
         if(!shared_name.equals(""))
         {

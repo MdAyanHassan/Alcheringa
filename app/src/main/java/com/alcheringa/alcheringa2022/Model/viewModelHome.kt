@@ -177,6 +177,21 @@ class viewModelHome: ViewModel() {
 
 
 
+    val competitons= listOf(
+        eventdetail("Electric Heels ","Competitions", imgurl = "https://drive.google.com/file/d/1CNYLSCGfHRHFi-pAYGa55aySuHAYb0Jz/view?usp=sharing", descriptionEvent = "Light our virtual stage on fire with unique group choreographies and flawless coordination in this freestyle group dance competition.", genre = listOf("Dance")),
+        eventdetail("SUTUCD ","Competitions", imgurl = "https://drive.google.com/file/d/194wL7dZehfY5nCPhpjfqSy_LEygToMKz/view?usp=sharing", descriptionEvent = "The perfect opportunity to flaunt your captivating solo choreography is back in another edition of this exciting competition. So You Think You Can Dance? Well, show us!", genre = listOf("Dance")),
+        eventdetail("Choir","Competitions", imgurl = "https://drive.google.com/file/d/194wL7dZehfY5nCPhpjfqSy_LEygToMKz/view?usp=sharing", descriptionEvent = "The perfect opportunity to flaunt your captivating solo choreography is back in another edition of this exciting competition. So You Think You Can Dance? Well, show us!", genre = listOf("Dance")),
+
+
+
+
+
+
+
+        )
+
+
+
 
 
 
