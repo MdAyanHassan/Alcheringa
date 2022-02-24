@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import com.alcheringa.alcheringa2022.Database.DBHandler
 import com.alcheringa.alcheringa2022.ui.theme.blackbg
 import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
@@ -269,7 +270,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         if(merModel.material == "Hoodie"){ isVideo = 1 }
         if(merModel.name == "NeoForce"){
             bg = R.drawable.hoodie_bg
-        }else if(merModel.name = "Tale of Neoterra"){
+        }else if(merModel.name == "Tale of Neoterra"){
             bg = R.drawable.tale_bg
         }else{
             bg = R.drawable.voyager_bg
@@ -353,7 +354,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                             ) {
                                 Box(
                                     modifier = Modifier
-                                        .background(ContextCompat.getDrawable(context, bg))
+                                        .background(blackbg)
                                         .padding(20.dp)
                                         .height(400.dp)
                                         .fillMaxWidth(), contentAlignment = Alignment.Center
