@@ -192,7 +192,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
     private void startPayment(int total_price){
         try {
-            RazorpayClient razorpay = new RazorpayClient("rzp_test_JR2iDD635lZNVE", "W0HOMo0KpOKar9kgugOGkZ5U");
+            RazorpayClient razorpay = new RazorpayClient("rzp_live_0MqrfaJ3rgG7Bh", "MLVrcuKucdYi9qCSho3ACUB7");
 
             JSONObject orderRequest = new JSONObject();
             orderRequest.put("amount", (total_price+shipping_charges)*100); // amount in the smallest currency unit
@@ -213,7 +213,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     public void checkoutOrder(String order_id, int total_price) {
 
         Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_JR2iDD635lZNVE");
+        checkout.setKeyID("rzp_live_0MqrfaJ3rgG7Bh");
 
         checkout.setImage(R.drawable.ic_alcher_logo_top_nav);
 
@@ -342,7 +342,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     public void onPaymentSuccess(String razorpayPaymentID, PaymentData paymentData) {
         Log.d(TAG, "onPaymentSuccess razorpayPaymentID: " + razorpayPaymentID);
         Toast.makeText(getApplicationContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
-        AddOrderToFirebase(arrayList,razorpayPaymentID);
+        AddOrderToFirebase(arrayList,paymentData.getOrderId());
         clear_cart();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -350,11 +350,10 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         finish();
     }
 
-    private void AddToExcel(ArrayList<cartModel> order_list,String PaymentId) {
+    private void AddToExcel(ArrayList<cartModel> order_list,String OrderID) {
 
         for(int i=0;i<order_list.size();i++){
             Map<String,Object> data=new HashMap<>();
-            //Map<String,Object> map=new HashMap<>();
             data.put("entry.131168542",order_list.get(i).getName());
             data.put("entry.1664498189",order_list.get(i).getPrice());
             data.put("entry.2091239120",order_list.get(i).getSize());
@@ -366,8 +365,10 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             data.put("entry.2048595423",user_state);
             data.put("entry.1655477142",user_city);
             data.put("entry.848668946",user_pin_code);
-            data.put("entry.822567484",PaymentId);
+            data.put("entry.822567484",OrderID);
             data.put("entry.1277791907",""+amount);
+            data.put("entry.1392578640",order_list.get(i).getCount());
+            data.put("entry.559020023",user_name);
             Volley(data);
             //total_price += Integer.parseInt(order_list.get(i).getPrice());
         };
