@@ -17,6 +17,7 @@ import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.appupdate.AppUpdateOptions;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.OnSuccessListener;
@@ -27,7 +28,8 @@ public class Greeting_page extends AppCompatActivity {
     Button signupButton,Login_button;
     FirebaseAuth firebaseAuth;
     VideoView videoView;
-    private int REQUEST_CODE=11;
+    private final int REQUEST_CODE=11;
+    AppUpdateManager appUpdateManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class Greeting_page extends AppCompatActivity {
     }
 
     private void check_update_available() {
-        AppUpdateManager appUpdateManager= AppUpdateManagerFactory.create(Greeting_page.this);
+        appUpdateManager= AppUpdateManagerFactory.create(Greeting_page.this);
         Task<AppUpdateInfo> appUpdateInfoTask=appUpdateManager.getAppUpdateInfo();
         appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
             @Override

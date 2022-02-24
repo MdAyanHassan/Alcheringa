@@ -158,6 +158,8 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
                 startActivity(i);
                 finish();
             });
+            ImageButton backBtn = findViewById(R.id.backbtn);
+            backBtn.setOnClickListener(v -> finish());
         }
     }
 }
