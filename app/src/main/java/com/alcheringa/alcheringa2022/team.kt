@@ -10,9 +10,8 @@ import android.view.View
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -43,6 +42,17 @@ import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
 
 class team : AppCompatActivity() {
     private lateinit var binding: ActivityTeamBinding
+    val devteam= listOf(
+        member(R.drawable.vipin,"Vipin Jaluthria","Head","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399",)
+        ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/vip_itd/","https://www.facebook.com/vipin.jaluthria.9/",)
+        ,member(R.drawable.nitish,"Nitish Singh Chauhan","Executive")
+        ,member(R.drawable.atharva,"Atharva T","Executive","https://www.instagram.com/atagalpallewar/"))
+    val desteam= listOf(
+        member(R.drawable.fahim,"Mohammed Fahim","Head","https://www.instagram.com/faahym/","https://www.facebook.com/faahym","https://twitter.com/Fahim656")
+        ,member(R.drawable.rishikesh,"Rishikesh Aryan C","Executive","https://instagram.com/rishhiiikesh","https://www.facebook.com/Rishhiiikesh","https://twitter.com/Rishhiiikesh")
+        ,member(R.drawable.bodh,"Tsewang Bodh","Executive","https://www.instagram.com/tsewang.png/", twturl = "https://twitter.com/Zerkyboi")
+
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityTeamBinding.inflate(layoutInflater)
@@ -51,45 +61,30 @@ class team : AppCompatActivity() {
         binding.backbtn.setOnClickListener{finish()}
         binding.teamcp.setContent {
 
-            LazyColumn(
-                Modifier
-                    .fillMaxSize()
-                    .padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)){items(membdata){data->teamCard(memb = data)} }
-
+                LazyColumn(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)){
+                    item {   Text(text = "DEVELOPMENT", fontWeight = FontWeight.W500, fontSize = 18.sp, fontFamily = clash,color = Color.White, modifier = Modifier.padding(bottom = 8.dp,  top = 22.dp))}
+                    items(devteam){data->teamCard(memb = data)}
+              item { Text(text = "DESIGN", fontWeight = FontWeight.W500, fontSize = 18.sp, fontFamily = clash,color = Color.White, modifier = Modifier.padding(bottom = 8.dp,  top = 22.dp))}
+             items(desteam){data->teamCard(memb = data)}
+                item { Spacer(modifier = Modifier.height(150.dp)) }
+                }
         }
-    }
-
-    val membdata= listOf(member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399",)
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
-            ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","a")
 
 
-    )
-
-    @Preview
-    @Composable
-    fun hello(){
-
-        LazyColumn(
-            Modifier
-                .fillMaxSize()
-                .padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)){items(membdata){data->teamCard(memb = data)} }
 
     }
 
-    @Preview
+
+
+
+
+
+
     @Composable
-    fun teamCard(memb:member=membdata[4]){
+    fun teamCard(memb:member=desteam[1]){
         val animationProgress = remember {Animatable(700f)}
         LaunchedEffect(key1=Unit,block = {
             animationProgress.animateTo(
