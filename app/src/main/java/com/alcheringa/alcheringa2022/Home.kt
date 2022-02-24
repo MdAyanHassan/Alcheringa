@@ -216,8 +216,6 @@ class Home : Fragment() {
 
         }
 
-        binding.notificationCount.visibility=View.VISIBLE
-        binding.notificationCount.setText("0");
         binding.notification.setOnClickListener{
             startActivity(Intent(context,
                 NotificationActivity::class.java));
