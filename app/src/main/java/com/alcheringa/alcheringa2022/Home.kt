@@ -307,8 +307,9 @@ class Home : Fragment() {
         }
     }
 
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
             homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
                 homeViewModel.allEventsWithLive.clear()

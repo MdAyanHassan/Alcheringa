@@ -261,6 +261,7 @@
                 android:paddingBottom="15dp">
 
                 <TextView
+                    android:layout_marginTop="12dp"
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -275,7 +276,7 @@
                     android:id="@+id/merch_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="14dp"
                     android:fontFamily="@font/hk_grotesk_500"
                     tools:text="This is a f*cking amazing hoodie. I love it and
 I will make sure you buy this. And if not I will
