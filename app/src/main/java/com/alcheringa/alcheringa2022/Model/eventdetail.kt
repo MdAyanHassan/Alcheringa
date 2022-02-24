@@ -12,7 +12,7 @@ data class eventdetail(
     val artist:String="",
     val category:String="",
     val starttime: OwnTime= OwnTime(0,0,0),
-    val mode: String="",
+    val mode: String="Online",
     val imgurl:String="",
     var durationInMin:Int = 60,
     var genre:List<String> = emptyList(),
