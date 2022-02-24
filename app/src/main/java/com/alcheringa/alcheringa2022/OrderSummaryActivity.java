@@ -290,12 +290,12 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
                                         Toast.makeText(getApplicationContext(), "Your order is placed", Toast.LENGTH_SHORT).show();
                                     }
                                     else{
-                                        Toast.makeText(getApplicationContext(), "Some Error Occurred Please try again", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Some Error Occurred orders", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
                     else{
-                        Toast.makeText(getApplicationContext(), "Some Error Occurred Please try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Some Error Occurred users", Toast.LENGTH_SHORT).show();
 
                     }
                 });
