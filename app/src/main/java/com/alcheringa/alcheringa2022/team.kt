@@ -47,6 +47,8 @@ class team : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivityTeamBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.constraintLayout.setOnClickListener{finish()}
+        binding.backbtn.setOnClickListener{finish()}
         binding.teamcp.setContent {
 
             LazyColumn(
