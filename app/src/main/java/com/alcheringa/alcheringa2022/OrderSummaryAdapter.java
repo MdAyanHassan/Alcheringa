@@ -74,12 +74,12 @@ public class OrderSummaryAdapter extends ArrayAdapter<cartModel> {
         }
         details.setText(String.format("%s, %s, %s Qty", currentItem.getType(), size, currentItem.getCount()));
 
-        TextView delivery = currentItemView.findViewById(R.id.delivery);
+        /*TextView delivery = currentItemView.findViewById(R.id.delivery);
         SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM", Locale.getDefault());
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, 15); // Delivered within 15 days
-        delivery.setText(String.format("Delivery by %s", sdf.format(c.getTime())));
+        delivery.setText(String.format("Delivery by %s", sdf.format(c.getTime())));*/
 
 
 
