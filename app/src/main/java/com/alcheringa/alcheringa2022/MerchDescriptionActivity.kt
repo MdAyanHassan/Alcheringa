@@ -352,7 +352,6 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                                 modifier = Modifier.fillMaxWidth(),
                                 elevation = 5.dp
                             ) {
-
                                 Image(
                                     painter = painterResource(id = bg),
                                     contentScale = ContentScale.Crop,
@@ -361,13 +360,10 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                                 )
                                 Box(
                                     modifier = Modifier
-                                        //.background(bg)
                                         .padding(20.dp)
                                         .height(400.dp)
                                         .fillMaxWidth(), contentAlignment = Alignment.Center
                                 ) {
-
-
                                     GlideImage(
                                         imageModel = images[page],
                                         contentDescription = "artist",

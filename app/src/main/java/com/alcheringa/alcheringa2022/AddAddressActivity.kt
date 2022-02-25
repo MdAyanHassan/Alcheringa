@@ -10,18 +10,22 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,20 +50,21 @@ class AddAddressActivity : ComponentActivity() {
             ) {
 
                 ConstraintLayout(Modifier.fillMaxSize()) {
-                    val (btn, _) = createRefs();
+                    val (btn, _) = createRefs()
 
-                    var name by remember { mutableStateOf(sharedPreferences.getString("name","")) }
+                    val sp = getSharedPreferences("USER", MODE_PRIVATE)
+                    var spName = sp.getString("name", "")
+                    if(spName==""){
+                        spName = sharedPreferences.getString("name","")
+                    }
+
+                    var name by remember { mutableStateOf(spName) }
                     var phone by remember { mutableStateOf(sharedPreferences.getString("phone","")) }
                     var pincode by remember { mutableStateOf(sharedPreferences.getString("pincode","")) }
                     var house by remember { mutableStateOf(sharedPreferences.getString("house","")) }
                     var road by remember { mutableStateOf(sharedPreferences.getString("road","")) }
                     var city by remember { mutableStateOf(sharedPreferences.getString("city","")) }
                     var state by remember { mutableStateOf(sharedPreferences.getString("state","")) }
-
-                    if(name==""){
-                        val sp = getSharedPreferences("USER", MODE_PRIVATE)
-                        name = sp.getString("name", "")
-                    }
 
                     Column(
                         Modifier
@@ -68,6 +73,7 @@ class AddAddressActivity : ComponentActivity() {
                             .verticalScroll(rememberScrollState())
                             .padding(bottom = 100.dp)
                     ) {
+                        val focusManager = LocalFocusManager.current
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -235,6 +241,10 @@ class AddAddressActivity : ComponentActivity() {
                         )
 
                         TextField(
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                            keyboardActions = KeyboardActions (
+                                onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                            ),
                             textStyle = (
                                 TextStyle(
                                     color = Color.White, fontWeight = FontWeight.W400,
@@ -243,8 +253,7 @@ class AddAddressActivity : ComponentActivity() {
                                 )
                             ),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(55.dp),
+                                .fillMaxWidth(),
                             maxLines = 1,
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
@@ -276,8 +285,7 @@ class AddAddressActivity : ComponentActivity() {
                         )),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(55.dp),
+                                .fillMaxWidth(),
                             maxLines = 1,
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
@@ -301,6 +309,10 @@ class AddAddressActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.height(24.dp))
 
                         TextField(
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                            keyboardActions = KeyboardActions (
+                                onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                            ),
                             textStyle = (TextStyle(
                                 color = Color.White, fontWeight = FontWeight.W400,
                                 fontFamily = hk_grotesk,
@@ -308,8 +320,7 @@ class AddAddressActivity : ComponentActivity() {
                             )),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(55.dp),
+                                .fillMaxWidth(),
                             maxLines = 1,
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
@@ -331,14 +342,19 @@ class AddAddressActivity : ComponentActivity() {
                             })
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        TextField(textStyle = (TextStyle(
+                        TextField(
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                            keyboardActions = KeyboardActions (
+                                onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                            ),
+                            textStyle = (TextStyle(
                             color = Color.White, fontWeight = FontWeight.W400,
                             fontFamily = hk_grotesk,
                             fontSize = 18.sp
                         )), shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(55.dp), colors = TextFieldDefaults.textFieldColors(
+                                .fillMaxWidth(),
+                                colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = Color.White,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
@@ -362,22 +378,26 @@ class AddAddressActivity : ComponentActivity() {
 
                         //var city by remember { mutableStateOf("") }
                         //var state by remember { mutableStateOf("") }
-                        val (rowcon, citycon, statecon) = this@ConstraintLayout.createRefs()
+                        //val (rowcon, citycon, statecon) = this@ConstraintLayout.createRefs()
 
                         Row(
                             Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
 
-                            TextField(textStyle = (TextStyle(
+                            TextField(
+                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                                keyboardActions = KeyboardActions (
+                                    onNext = { focusManager.moveFocus(FocusDirection.Right) }
+                                ),
+                                textStyle = (TextStyle(
                                 color = Color.White, fontWeight = FontWeight.W400,
                                 fontFamily = hk_grotesk,
                                 fontSize = 18.sp
                             )),
                                 shape = RoundedCornerShape(8.dp),
                                 modifier = Modifier
-                                    .fillMaxWidth(0.487f)
-                                    .height(55.dp),
+                                    .fillMaxWidth(0.487f),
                                 maxLines = 1,
                                 singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -401,15 +421,21 @@ class AddAddressActivity : ComponentActivity() {
                                 })
 
 
-                            TextField(textStyle = (TextStyle(
-                                color = Color.White, fontWeight = FontWeight.W400,
-                                fontFamily = hk_grotesk,
-                                fontSize = 18.sp
-                            )),
+                            TextField(
+                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                                keyboardActions = KeyboardActions (
+                                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                                ),
+                                textStyle = (
+                                        TextStyle(
+                                            color = Color.White, fontWeight = FontWeight.W400,
+                                            fontFamily = hk_grotesk,
+                                            fontSize = 18.sp
+                                        )
+                                ),
                                 shape = RoundedCornerShape(8.dp),
                                 modifier = Modifier
-                                    .fillMaxWidth(0.9207f)
-                                    .height(55.dp),
+                                    .fillMaxWidth(0.9207f),
                                 maxLines = 1,
                                 singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
@@ -436,15 +462,18 @@ class AddAddressActivity : ComponentActivity() {
 
                         Spacer(modifier = Modifier.height(12.dp))
                         //var pincode by remember { mutableStateOf("") }
-                        TextField(textStyle = (TextStyle(
-                            color = Color.White, fontWeight = FontWeight.W400,
-                            fontFamily = hk_grotesk,
-                            fontSize = 18.sp
-                        )),
+                        TextField(
+
+                            textStyle = (
+                                    TextStyle(
+                                        color = Color.White, fontWeight = FontWeight.W400,
+                                        fontFamily = hk_grotesk,
+                                        fontSize = 18.sp
+                                    )
+                            ),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(55.dp),
+                                .fillMaxWidth(),
                             maxLines = 1,
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
@@ -464,7 +493,12 @@ class AddAddressActivity : ComponentActivity() {
                                         id = R.color.textfields
                                     )
                                 )
-                            })
+                            },
+                            /*keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                            keyboardActions = KeyboardActions (
+                                onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                            )*/
+                        )
                         Spacer(modifier = Modifier.height(24.dp))
 
 
@@ -530,16 +564,6 @@ class AddAddressActivity : ComponentActivity() {
 
 
                                 }
-
-                                /*val intent = Intent(applicationContext, OrderSummaryActivity::class.java)
-                                intent.putExtra("name", "Atharva Tagalpallewar")
-                                intent.putExtra("phone", "9284823088")
-                                intent.putExtra("house", "house")
-                                intent.putExtra("road", "road")
-                                intent.putExtra("city", "Pune")
-                                intent.putExtra("state", "Maharashtra")
-                                intent.putExtra("pincode", "440022")
-                                startActivity(intent)*/
 
                             },
                             modifier = Modifier

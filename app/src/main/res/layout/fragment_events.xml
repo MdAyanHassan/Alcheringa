@@ -61,6 +61,18 @@
             android:layout_marginRight="27dp"
             app:layout_constraintTop_toTopOf="parent"
         />
+
+        <TextView
+            android:id="@+id/notification_count"
+            style="@style/cart_count_icon"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            tools:text="10"
+            app:layout_constraintBottom_toBottomOf="@+id/notification"
+            app:layout_constraintEnd_toStartOf="@+id/account"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

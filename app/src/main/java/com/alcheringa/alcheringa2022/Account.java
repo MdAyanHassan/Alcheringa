@@ -101,4 +101,15 @@ public class Account extends AppCompatActivity {
         team_page=findViewById(R.id.team_button);
         team_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), team.class)));
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
+        shared_photoUrl = sharedPreferences.getString("photourl", "");
+        if(!shared_photoUrl.equals(""))
+        {
+            Glide.with(this).load(shared_photoUrl).into(user_photo);
+        }
+    }
 }
