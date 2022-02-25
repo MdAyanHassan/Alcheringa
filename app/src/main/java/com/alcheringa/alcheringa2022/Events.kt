@@ -1,7 +1,10 @@
 package com.alcheringa.alcheringa2022
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +36,11 @@ import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.clash
 import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import java.util.*
@@ -44,6 +51,10 @@ class Events : Fragment() {
     private lateinit var fgm:FragmentManager
     private lateinit var binding: FragmentEventsBinding
     val homeViewModel: viewModelHome by activityViewModels()
+
+    var firebaseFirestore: FirebaseFirestore? = null
+    var sharedPreferences: SharedPreferences? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fgm=parentFragmentManager
@@ -63,6 +74,34 @@ class Events : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val scheduleDatabase=ScheduleDatabase(context)
         val eventslist=scheduleDatabase.schedule;
+
+        var unseen_notif_count = 0
+
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
+
+        firebaseFirestore!!.collection("Notification").get().addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
+            if (task.isSuccessful) {
+                val notifs = task.result.size()
+                Log.d("Notification Count", "No of notifications: " + notifs)
+                val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
+                Log.d("seen notification", seen_notifs.toString());
+                unseen_notif_count = notifs - seen_notifs!!
+
+                if (unseen_notif_count <= 0) {
+                    binding.notificationCount.visibility = View.INVISIBLE
+                } else if (unseen_notif_count <= 9) {
+                    binding.notificationCount.visibility = View.VISIBLE
+                    binding.notificationCount.text = unseen_notif_count.toString()
+                } else {
+                    binding.notificationCount.visibility = View.VISIBLE
+                    binding.notificationCount.text = "9+"
+                }
+            } else {
+                Log.d("Error", "Error loading notification count", task.exception)
+            }
+        })
+
         binding.account.setOnClickListener {
             startActivity(Intent(context,Account::class.java));
 
@@ -201,6 +240,33 @@ class Events : Fragment() {
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.menu?.findItem(R.id.events)?.setChecked(true);
         MainActivity.index=R.id.events;
         super.onResume()
+
+        var unseen_notif_count = 0
+
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
+
+        firebaseFirestore!!.collection("Notification").get().addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
+            if (task.isSuccessful) {
+                val notifs = task.result.size()
+                Log.d("Notification Count", "No of notifications: " + notifs)
+                val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
+                Log.d("seen notification", seen_notifs.toString());
+                unseen_notif_count = notifs - seen_notifs!!
+
+                if (unseen_notif_count <= 0) {
+                    binding.notificationCount.visibility = View.INVISIBLE
+                } else if (unseen_notif_count <= 9) {
+                    binding.notificationCount.visibility = View.VISIBLE
+                    binding.notificationCount.text = unseen_notif_count.toString()
+                } else {
+                    binding.notificationCount.visibility = View.VISIBLE
+                    binding.notificationCount.text = "9+"
+                }
+            } else {
+                Log.d("Error", "Error loading notification count", task.exception)
+            }
+        })
     }
 }
 

@@ -43,8 +43,8 @@ import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
 class team : AppCompatActivity() {
     private lateinit var binding: ActivityTeamBinding
     val devteam= listOf(
-        member(R.drawable.vipin,"Vipin Jaluthria","Head","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399",)
-        ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/vip_itd/","https://www.facebook.com/vipin.jaluthria.9/",)
+        member(R.drawable.vipin,"Vipin Jaluthria","Head","https://www.instagram.com/vip_itd/","https://www.facebook.com/vipin.jaluthria.9/",)
+        ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399",)
         ,member(R.drawable.nitish,"Nitish Singh Chauhan","Executive")
         ,member(R.drawable.atharva,"Atharva T","Executive","https://www.instagram.com/atagalpallewar/"))
     val desteam= listOf(

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,7 @@ public class NotificationActivity extends AppCompatActivity {
     NotificationAdapter notificationAdapter;
     ArrayList<NotificationData> list;
     LoaderView loaderView;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +51,16 @@ public class NotificationActivity extends AppCompatActivity {
         loaderView.setVisibility(View.VISIBLE);
 
         firebaseFirestore= FirebaseFirestore.getInstance();
+        sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
 
-        firebaseFirestore.collection("Notification ").get().addOnCompleteListener(task -> {
+
+        firebaseFirestore.collection("Notification").orderBy("Timestamp", Query.Direction.DESCENDING).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 Log.d(TAG, "No of notifications: "+task.getResult().size());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("seen_notifs_count", task.getResult().size());
+                editor.apply();
+
                 for(DocumentSnapshot documentSnapshot : task.getResult()){
                     Log.d(TAG, "notification found: " + documentSnapshot.getString("Heading"));
                     Log.d(TAG, ""+documentSnapshot.getDate("Timestamp").getHours());
