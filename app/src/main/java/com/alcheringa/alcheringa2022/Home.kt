@@ -1307,7 +1307,11 @@ class Home : Fragment() {
                                     .wrapContentHeight()) {
                         Text(
                             text = merch[page].Name.uppercase(),
-                            fontFamily = FontFamily(Font((R.font.venguardsemi))), fontSize = 34.sp, color = Color.White)
+                            color = Color.White,
+                            fontWeight = FontWeight.W900,
+                            fontSize = 46.sp,
+                            fontFamily = FontFamily(Font(R.font.morganiteextrabold))
+                        )
 
                         Text(text = merch[page].Type.uppercase(), style = MaterialTheme.typography.h1)
                         Spacer(modifier = Modifier.height(6.dp))

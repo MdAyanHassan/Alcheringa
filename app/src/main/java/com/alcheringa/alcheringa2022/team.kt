@@ -126,7 +126,8 @@ class team : AppCompatActivity() {
                             if (memb.twturl!=""){
                                 Icon(painter = painterResource(id = R.drawable.ic_twitter) , contentDescription =null,Modifier.clickable {
                                     startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(memb.twturl)))
-                                },tint = Color(0xffC7CCD1) )}
+                                },tint = Color(0xffC7CCD1) )
+                            }
                         }
 
                 }
