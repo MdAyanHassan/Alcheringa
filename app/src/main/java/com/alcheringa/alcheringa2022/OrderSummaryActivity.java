@@ -342,7 +342,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     public void onPaymentSuccess(String razorpayPaymentID, PaymentData paymentData) {
         Log.d(TAG, "onPaymentSuccess razorpayPaymentID: " + razorpayPaymentID);
         Toast.makeText(getApplicationContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
-        AddOrderToFirebase(arrayList,paymentData.getOrderId());
+        AddOrderToFirebase(arrayList,paymentData.getPaymentId());
         clear_cart();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -350,7 +350,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         finish();
     }
 
-    private void AddToExcel(ArrayList<cartModel> order_list,String OrderID) {
+    private void AddToExcel(ArrayList<cartModel> order_list,String PaymentId) {
 
         for(int i=0;i<order_list.size();i++){
             Map<String,Object> data=new HashMap<>();
@@ -365,7 +365,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             data.put("entry.2048595423",user_state);
             data.put("entry.1655477142",user_city);
             data.put("entry.848668946",user_pin_code);
-            data.put("entry.822567484",OrderID);
+            data.put("entry.822567484",PaymentId);
             data.put("entry.1277791907",""+amount);
             data.put("entry.1392578640",order_list.get(i).getCount());
             data.put("entry.559020023",user_name);

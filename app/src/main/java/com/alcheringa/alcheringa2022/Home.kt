@@ -1144,7 +1144,11 @@ class Home : Fragment() {
                                                 lengthdp.animateTo(0f, animationSpec = tween(
                                                         durationMillis = 300,
                                                         delayMillis = 0, easing = FastOutSlowInEasing))
+                                                homeViewModel.OwnEventsLiveState.remove(eventdetail.eventWithLive)
                                                 homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+
+
+
 //                                    val dataevnetcurrent= homeViewModel.upcomingEventsLiveState.toMutableList()
 //                                    homeViewModel.upcomingEventsLiveState.clear()
 //                                    delay(100)
