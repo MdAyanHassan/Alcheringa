@@ -223,8 +223,9 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                 .height(20.dp)
                                 .clickable {
                                     Log.d("boxevent", eventdetail.toString())
-                                    viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
                                     okstate.value = false
+                                    viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
+
                                     ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
                                     Toast
                                         .makeText(
@@ -433,8 +434,8 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                                 .height(20.dp)
                                 .clickable {
                                     Log.d("boxevent", eventdetail.toString())
-                                    viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
                                     okstate.value = false
+                                    viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
                                     ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
                                     Toast
                                         .makeText(
