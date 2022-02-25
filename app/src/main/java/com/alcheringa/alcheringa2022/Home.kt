@@ -156,7 +156,7 @@ class Home : Fragment() {
         homeViewModel.getAllEvents()
         homeViewModel.getMerchHome()
 //        Log.d("vipin",eventslist.toString());
-        homeViewModel.pushEvents(events)
+//        homeViewModel.pushEvents(homeViewModel.featuredevents)
 
 
 
@@ -379,10 +379,9 @@ class Home : Fragment() {
     fun liveToWithY(list:List<eventdetail>): List<ownEventBoxUiModel> {
         val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
         val withylist= mutableListOf<ownEventBoxUiModel>()
-        list.sortedBy { (((it.starttime.hours-9)*100).toFloat() + (it.starttime.min.toFloat() * (5f/3f)) + 75f)};
+        list.sortedBy { (((it.starttime.hours-9)*100).toFloat() + (it.starttime.min.toFloat() * (5f/3f)) + 75f)}
         list.forEach{ data->
             var l = 0;
-
             val lengthdp= (data.durationInMin.toFloat() * (5f/3f))
             val xdis= (((data.starttime.hours-9)*100).toFloat() + (data.starttime.min.toFloat() * (5f/3f)) + 75f)
 
@@ -712,31 +711,38 @@ class Home : Fragment() {
                                     ),failure = {
                                         Box(modifier= Modifier
                                             .fillMaxWidth()
-                                            .height(473.dp), contentAlignment = Alignment.Center) {
-                                            Column(
-                                                Modifier
-                                                    .fillMaxWidth()
-                                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
-                                                Image(
-                                                    modifier = Modifier
-                                                        .width(60.dp)
-                                                        .height(60.dp),
-                                                    painter = painterResource(
-                                                        id = R.drawable.ic_sad_svgrepo_com
-                                                    ),
-                                                    contentDescription = null
-                                                )
-                                                Spacer(modifier = Modifier.height(10.dp))
-                                                Text(
-                                                    text = "Image Request Failed",
-                                                    style = TextStyle(
-                                                        color = Color(0xFF747474),
-                                                        fontFamily = hk_grotesk,
-                                                        fontWeight = FontWeight.Normal,
-                                                        fontSize = 12.sp
-                                                    )
-                                                )
-                                            }
+                                            .fillMaxHeight(), contentAlignment = Alignment.Center) {
+                                            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.comingsoon))
+                                            val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+                                            LottieAnimation(
+                                                composition,
+                                                progress,
+                                                modifier = Modifier.fillMaxHeight()
+                                            )
+//                            Column(
+//                                Modifier
+//                                    .fillMaxWidth()
+//                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+//                                Image(
+//                                    modifier = Modifier
+//                                        .width(60.dp)
+//                                        .height(60.dp),
+//                                    painter = painterResource(
+//                                        id = R.drawable.ic_sad_svgrepo_com
+//                                    ),
+//                                    contentDescription = null
+//                                )
+//                                Spacer(modifier = Modifier.height(10.dp))
+//                                Text(
+//                                    text = "Image Request Failed",
+//                                    style = TextStyle(
+//                                        color = Color(0xFF747474),
+//                                        fontFamily = hk_grotesk,
+//                                        fontWeight = FontWeight.Normal,
+//                                        fontSize = 12.sp
+//                                    )
+//                                )
+//                            }
                                         }
 
                                     }
@@ -1148,7 +1154,6 @@ class Home : Fragment() {
                                                 homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
 
 
-
 //                                    val dataevnetcurrent= homeViewModel.upcomingEventsLiveState.toMutableList()
 //                                    homeViewModel.upcomingEventsLiveState.clear()
 //                                    delay(100)
@@ -1342,7 +1347,7 @@ class Home : Fragment() {
                             Box(modifier= Modifier
                                 .fillMaxWidth()
                                 .fillMaxHeight(), contentAlignment = Alignment.Center) {
-                                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.comingsoon))
+                                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.failure))
                                 val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
                                 LottieAnimation(
                                     composition,
