@@ -83,7 +83,7 @@ class Home : Fragment() {
     val datestate1 = mutableStateListOf<ownEventBoxUiModel>()
     val datestate2 = mutableStateListOf<ownEventBoxUiModel>()
     val datestate3 = mutableStateListOf<ownEventBoxUiModel>()
-    var datestate= mutableStateOf<Int>(1)
+    lateinit var datestate:MutableState<Int>
     var onActiveDel= mutableStateOf(false)
     var isdragging=mutableStateOf(false)
     var home=false;
@@ -378,6 +378,7 @@ class Home : Fragment() {
 
     fun liveToWithY(list:List<eventdetail>): List<ownEventBoxUiModel> {
         val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
+        ranges.clear()
         val withylist= mutableListOf<ownEventBoxUiModel>()
         list.sortedBy { (((it.starttime.hours-9)*100).toFloat() + (it.starttime.min.toFloat() * (5f/3f)) + 75f)}
         list.forEach{ data->
@@ -389,6 +390,9 @@ class Home : Fragment() {
                 if (range.contains(xdis) or range.contains(xdis + lengthdp) or ((xdis..xdis + lengthdp).contains(range.start) and (xdis..xdis + lengthdp).contains(range.endInclusive))) {
                     l += 1
                 }
+               if( range.start==xdis+lengthdp){l-=1}
+                if( range.endInclusive==xdis){l-=1}
+                if( (range.start==xdis+lengthdp) and (range.endInclusive==xdis)){l+=1}
 
             }
             ranges.add((xdis..xdis+lengthdp))
@@ -858,7 +862,7 @@ class Home : Fragment() {
        var color1 by remember { mutableStateOf(orangeText)}
        var color2 by remember { mutableStateOf(greyText)}
        var color3 by remember { mutableStateOf(greyText)}
-
+       datestate=remember{ mutableStateOf(1)}
        Column() {
 
            Row(
@@ -1061,7 +1065,7 @@ class Home : Fragment() {
          val color= remember{ mutableStateOf(listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random())}
 
         var lengthdp=remember{ Animatable(eventdetail.eventWithLive.durationInMin.toFloat() * (5f/3f)) }
-        val xdis= (((eventdetail.eventWithLive.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.starttime.min.toFloat() * (5f/3f)) + 75f)
+        val xdis= remember{(((eventdetail.eventWithLive.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.starttime.min.toFloat() * (5f/3f)) + 75f)}
             val ydis= (30+(eventdetail.ydis*70))
         val xdisinpxcald=with(LocalDensity.current){(xdis-2).dp.toPx()}
         val ydisinpxcald=with(LocalDensity.current){(ydis).dp.toPx()}
@@ -1150,10 +1154,18 @@ class Home : Fragment() {
                                                 lengthdp.animateTo(0f, animationSpec = tween(
                                                         durationMillis = 300,
                                                         delayMillis = 0, easing = FastOutSlowInEasing))
-                                                homeViewModel.OwnEventsLiveState.remove(eventdetail.eventWithLive)
-                                                homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
-
-
+//                                                homeViewModel.OwnEventsLiveState.remove(eventdetail.eventWithLive)
+//                                                val list=homeViewModel.OwnEventsLiveState
+//                                                homeViewModel.OwnEventsLiveState.clear()
+//                                                homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+//
+                                                scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
+                                                homeViewModel.OwnEventsWithLive.value?.clear()
+                                                datestate1.clear()
+                                                datestate2.clear()
+                                                datestate3.clear()
+//                                                delay(1000)
+                                                homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
 //                                    val dataevnetcurrent= homeViewModel.upcomingEventsLiveState.toMutableList()
 //                                    homeViewModel.upcomingEventsLiveState.clear()
 //                                    delay(100)
@@ -1166,7 +1178,8 @@ class Home : Fragment() {
 //                                datestate.remove(eventdetail)
 //                                Log.d("boxevent", eventdetail.toString())
 
-                                            scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
+
+
 
 
 //                                Log.d("boxevent", list.toString())

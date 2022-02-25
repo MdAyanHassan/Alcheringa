@@ -178,7 +178,7 @@ class viewModelHome: ViewModel() {
 
 
     val featuredevents= listOf(
-        eventdetail("Andrew Lee","Magician", starttime = OwnTime(12, 17, 0) ,durationInMin = 60, venue = "Auditorium 1" ,imgurl = "", genre = listOf("Magic"), type = "Proshows"),
+        eventdetail(artist = "Andrew Lee", category = "Magician", starttime = OwnTime(12, 17, 0) ,durationInMin = 60, venue = "Auditorium 1" ,imgurl = "", genre = listOf("Magic"), type = "Proshows"),
         eventdetail("Davide Holzknecht","Sculpture artist", starttime = OwnTime(13, 17, 0) ,durationInMin = 60, venue = "Auditorium 1" ,imgurl = "", genre = listOf("Art"), type = "Proshows"),
 
 
