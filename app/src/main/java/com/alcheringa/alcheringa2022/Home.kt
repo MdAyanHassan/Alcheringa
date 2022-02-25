@@ -228,11 +228,11 @@ class Home : Fragment() {
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .verticalScroll(scrollState)) {
-                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_theme_logo_white))
+                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
                             binding.logoAlcher.layoutParams.width=350
                         binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
                     }
-                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_top_small_logo));
+                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_small_logo));
                         binding.logoAlcher.layoutParams.width= ViewGroup.LayoutParams.WRAP_CONTENT
                         binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT}
 

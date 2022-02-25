@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:padding="48dp"
-        android:src="@drawable/ic_alcher_logo_top_nav"
+        android:src="@drawable/ic_alcher_final_logo"
         app:layout_constraintBottom_toTopOf="@+id/hey_there_"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
