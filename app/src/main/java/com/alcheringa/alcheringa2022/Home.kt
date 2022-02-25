@@ -379,6 +379,7 @@ class Home : Fragment() {
     fun liveToWithY(list:List<eventdetail>): List<ownEventBoxUiModel> {
         val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
         val withylist= mutableListOf<ownEventBoxUiModel>()
+        list.sortedBy { (((it.starttime.hours-9)*100).toFloat() + (it.starttime.min.toFloat() * (5f/3f)) + 75f)};
         list.forEach{ data->
             var l = 0;
 
