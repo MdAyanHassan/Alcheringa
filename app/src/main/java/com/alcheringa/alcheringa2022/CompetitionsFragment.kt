@@ -128,17 +128,23 @@ class CompetitionsFragment : Fragment() {
                 /*.background(Color.Black)*/
             ) {
                 Spacer(modifier = Modifier.height(70.dp))
-                Events_row(heading = "DANCE", events_list = homeViewModel.allEventsWithLive)
-                Events_row(heading = "MUSIC", events_list = homeViewModel.allEventsWithLive)
-                Events_row(heading = "SPACECRAFT", events_list = homeViewModel.allEventsWithLive)
-                Events_row(heading = "FASHION", events_list = homeViewModel.allEventsWithLive)
-                Events_row(heading = "CLASS APART", events_list = homeViewModel.allEventsWithLive)
+                Events_row(heading = "VOGUE NATION")
+                Events_row(heading = "CLASS APART")
+                Events_row(heading = "ANY BODY CAN DANCE")
+                Events_row(heading = "MUSIC")
+                Events_row(heading = "LITERARY")
+                Events_row(heading = "ART TALKIES")
+                Events_row(heading = "DIGITAL DEXTERITY")
+                Events_row(heading = "LIGHTS CAMERA ACTION")
             }
         }
     }
 
     @Composable
-    fun Events_row(heading: String, events_list: SnapshotStateList<eventWithLive>) {
+    fun Events_row(heading: String) {
+        val events_list=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()}
+if (events_list.isNotEmpty()){
         Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
             Text(text = heading.uppercase(
                 Locale.getDefault()), style = MaterialTheme.typography.h2)
@@ -148,6 +154,6 @@ class CompetitionsFragment : Fragment() {
             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
         ) { items(events_list) { dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel,it,Fm) } } }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(24.dp))}
     }
 }

@@ -161,14 +161,27 @@ class Events : Fragment() {
                     color = Color.White
                 )
             }
-        }
-        LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-        ) { items(list)
-        {dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel, it, fgm) } } }
 
-        Spacer(modifier = Modifier.height(24.dp))
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(horizontal = 20.dp)
+            ) {
+                items(list)
+                { dataEach ->
+                    context?.let {
+                        Event_card(
+                            eventdetail = dataEach,
+                            homeViewModel,
+                            it,
+                            fgm
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+        }
     }
 
     @Composable
