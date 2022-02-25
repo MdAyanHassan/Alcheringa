@@ -128,8 +128,9 @@ class Events : Fragment() {
                 Spacer(modifier = Modifier.height(70.dp))
                 Events_row(heading = "Pronites")
                 Events_row(heading = "Proshows")
-                Events_row(heading = "Creator's Camp")
+                Events_row(heading = "Creators' Camp")
                 Events_row(heading = "Humor Fest")
+                Events_row(heading = "Campaigns")
                 Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
                     Text(text = "COMPETITIONS", fontWeight = FontWeight.W600, fontSize = 16.sp, fontFamily = clash,color = Color.White)
                     Spacer(modifier = Modifier.height(14.dp))
@@ -143,12 +144,28 @@ class Events : Fragment() {
 
     @Composable
     fun Events_row(heading: String) {
-        Box(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){Text(text = heading.uppercase(Locale.getDefault()), fontWeight = FontWeight.W600, fontSize = 16.sp, fontFamily = clash, color = Color.White)}
+        val list=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()}
+        if (list.isNotEmpty()) {
+            Box(
+                modifier = Modifier.padding(
+                    horizontal = 20.dp,
+                    vertical = 12.dp
+                )
+            ) {
+                Text(
+                    text = heading.uppercase(Locale.getDefault()),
+                    fontWeight = FontWeight.W600,
+                    fontSize = 16.sp,
+                    fontFamily = clash,
+                    color = Color.White
+                )
+            }
+        }
         LazyRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-        ) { items(homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.category.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()})
+        ) { items(list)
         {dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel, it, fgm) } } }
 
         Spacer(modifier = Modifier.height(24.dp))
