@@ -12,6 +12,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.camera.core.*
@@ -41,6 +42,7 @@ class ScannerActivity : AppCompatActivity() {
     private lateinit var cameraExecutor: ExecutorService
 
     private lateinit var previewView: PreviewView
+    private lateinit var backbtn :ImageButton
 
     private lateinit var myToast: Toast
 
@@ -49,8 +51,11 @@ class ScannerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_scanner)
 
         myToast = Toast.makeText(this, null, Toast.LENGTH_SHORT)
-
+        backbtn = findViewById(R.id.backbtn);
         previewView = findViewById(R.id.viewFinder)
+        backbtn.setOnClickListener {
+            finish();
+        }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 

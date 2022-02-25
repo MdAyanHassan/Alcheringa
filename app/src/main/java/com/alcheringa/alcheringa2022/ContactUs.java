@@ -32,9 +32,9 @@ public class ContactUs extends AppCompatActivity {
         textView1=findViewById(R.id.name);
         textView2=findViewById(R.id.name2);
         textView3=findViewById(R.id.name3);
-        textView1.setText("Vishal Chelly");
+        textView3.setText("Vishal Chelly");
         textView2.setText("Ch Venkat Vikas");
-        textView3.setText("Ankit Agarwal");
+        textView1.setText("Ankit Agarwal");
 
         buttonCall=findViewById(R.id.call_btn);
         buttonEmail=findViewById(R.id.email_btn);
@@ -48,7 +48,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:7331104679"));
+                intent.setData(Uri.parse("tel:9983072631"));
                 startActivity(intent);
 
             }
@@ -66,7 +66,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("mailto:vishal@alcheringa.in"));
+                        Uri.parse("mailto:ankit.a@alcheringa.in"));
                 startActivity(intent);
             }
         });
@@ -83,7 +83,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:9983072631"));
+                intent.setData(Uri.parse("tel:7331104679"));
                 startActivity(intent);
             }
         });
@@ -93,7 +93,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("mailto:ankit.a@alcheringa.in"));
+                        Uri.parse("mailto:vishal@alcheringa.in"));
                 startActivity(intent);
             }
         });
