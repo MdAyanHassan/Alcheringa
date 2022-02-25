@@ -1270,7 +1270,7 @@ class Home : Fragment() {
                                     .wrapContentHeight()) {
                         Text(
                             text = merch[page].Name.uppercase(),
-                            fontFamily = FontFamily(Font((R.font.vanguardheavy))), fontSize = 34.sp, color = Color.White)
+                            fontFamily = FontFamily(Font((R.font.venguardsemi))), fontSize = 34.sp, color = Color.White)
 
                         Text(text = merch[page].Type.uppercase(), style = MaterialTheme.typography.h1)
                         Spacer(modifier = Modifier.height(6.dp))
@@ -1282,8 +1282,8 @@ class Home : Fragment() {
                     }
 
                     GlideImage(modifier = Modifier
-                            .width(197.dp)
-                            .height(197.dp),
+                            .width(167.dp)
+                            .height(167.dp).align(Alignment.Bottom),
                     imageModel = merch[page].Image, contentDescription = "merch", contentScale = ContentScale.Crop,
                     alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
