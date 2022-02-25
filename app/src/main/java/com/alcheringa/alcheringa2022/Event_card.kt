@@ -13,10 +13,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -31,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
+import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.addNewItem
 import com.alcheringa.alcheringa2022.Model.eventWithLive
@@ -113,7 +111,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
         Card(modifier = Modifier.wrapContentWidth(),
                 shape = RoundedCornerShape(8.dp),
                 elevation = 5.dp) {
-            Box(modifier = Modifier
+            Box(modifier = Modifier.background(blackbg)
                 .height(256.dp)
                 .width(218.dp)
                 .clickable {
@@ -140,31 +138,39 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                     ),failure = {
                         Box(modifier= Modifier
                             .fillMaxWidth()
-                            .height(473.dp), contentAlignment = Alignment.Center) {
-                            Column(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Image(
-                                    modifier = Modifier
-                                        .width(60.dp)
-                                        .height(60.dp),
-                                    painter = painterResource(
-                                        id = R.drawable.ic_sad_svgrepo_com
-                                    ),
-                                    contentDescription = null
-                                )
-                                Spacer(modifier = Modifier.height(10.dp))
-                                Text(
-                                    text = "Image Request Failed",
-                                    style = TextStyle(
-                                        color = Color(0xFF747474),
-                                        fontFamily = hk_grotesk,
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 12.sp
-                                    )
-                                )
-                            }
+                            .fillMaxHeight(), contentAlignment = Alignment.Center) {
+
+                            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.comingsoon))
+                            val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+                            LottieAnimation(
+                                composition,
+                                progress,
+                                modifier = Modifier.fillMaxHeight()
+                            )
+//                            Column(
+//                                Modifier
+//                                    .fillMaxWidth()
+//                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+//                                Image(
+//                                    modifier = Modifier
+//                                        .width(60.dp)
+//                                        .height(60.dp),
+//                                    painter = painterResource(
+//                                        id = R.drawable.ic_sad_svgrepo_com
+//                                    ),
+//                                    contentDescription = null
+//                                )
+//                                Spacer(modifier = Modifier.height(10.dp))
+//                                Text(
+//                                    text = "Image Request Failed",
+//                                    style = TextStyle(
+//                                        color = Color(0xFF747474),
+//                                        fontFamily = hk_grotesk,
+//                                        fontWeight = FontWeight.Normal,
+//                                        fontSize = 12.sp
+//                                    )
+//                                )
+//                            }
                         }
 
                     }
@@ -291,7 +297,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
     var ScheduleDatabase=ScheduleDatabase(context)
     var okstate= remember{ mutableStateOf(false)}
     var okstatenum= remember{ mutableStateOf(0)}
-    var crtime=viewModelHm.converttoowntime(viewModelHm.converttomin(eventdetail.eventdetail.starttime)-viewModelHm.converttomin(viewModelHm.crnttime.value))
+    var crtime=viewModelHm.converttoOwnTime(viewModelHm.converttomin(eventdetail.eventdetail.starttime)-viewModelHm.converttomin(viewModelHm.crnttime.value))
 
     viewModelHm.OwnEventsLiveState.forEach{
             data-> if( data.artist==eventdetail.eventdetail.artist){okstate.value=true;okstatenum.value+=1}
@@ -316,7 +322,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
         Card(modifier = Modifier.wrapContentWidth(),
             shape = RoundedCornerShape(8.dp),
             elevation = 5.dp) {
-            Box(modifier = Modifier
+            Box(modifier = Modifier.background(blackbg)
                 .height(256.dp)
                 .width(218.dp)
                 .clickable {
@@ -343,31 +349,38 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                     ),failure = {
                         Box(modifier= Modifier
                             .fillMaxWidth()
-                            .height(473.dp), contentAlignment = Alignment.Center) {
-                            Column(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Image(
-                                    modifier = Modifier
-                                        .width(60.dp)
-                                        .height(60.dp),
-                                    painter = painterResource(
-                                        id = R.drawable.ic_sad_svgrepo_com
-                                    ),
-                                    contentDescription = null
-                                )
-                                Spacer(modifier = Modifier.height(10.dp))
-                                Text(
-                                    text = "Image Request Failed",
-                                    style = TextStyle(
-                                        color = Color(0xFF747474),
-                                        fontFamily = hk_grotesk,
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 12.sp
-                                    )
-                                )
-                            }
+                            .fillMaxHeight(), contentAlignment = Alignment.Center) {
+                            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.comingsoon))
+                            val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+                            LottieAnimation(
+                                composition,
+                                progress,
+                                modifier = Modifier.fillMaxHeight()
+                            )
+//                            Column(
+//                                Modifier
+//                                    .fillMaxWidth()
+//                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+//                                Image(
+//                                    modifier = Modifier
+//                                        .width(60.dp)
+//                                        .height(60.dp),
+//                                    painter = painterResource(
+//                                        id = R.drawable.ic_sad_svgrepo_com
+//                                    ),
+//                                    contentDescription = null
+//                                )
+//                                Spacer(modifier = Modifier.height(10.dp))
+//                                Text(
+//                                    text = "Image Request Failed",
+//                                    style = TextStyle(
+//                                        color = Color(0xFF747474),
+//                                        fontFamily = hk_grotesk,
+//                                        fontWeight = FontWeight.Normal,
+//                                        fontSize = 12.sp
+//                                    )
+//                                )
+//                            }
                         }
 
                     }

@@ -1308,7 +1308,11 @@ class Home : Fragment() {
                                     .wrapContentHeight()) {
                         Text(
                             text = merch[page].Name.uppercase(),
-                            fontFamily = FontFamily(Font((R.font.venguardsemi))), fontSize = 34.sp, color = Color.White)
+                            color = Color.White,
+                            fontWeight = FontWeight.W900,
+                            fontSize = 46.sp,
+                            fontFamily = FontFamily(Font(R.font.morganiteextrabold))
+                        )
 
                         Text(text = merch[page].Type.uppercase(), style = MaterialTheme.typography.h1)
                         Spacer(modifier = Modifier.height(6.dp))
@@ -1331,36 +1335,43 @@ class Home : Fragment() {
                         dropOff = 0.65f,
                         tilt = 20f
                     ),failure = {
-                        Box(modifier= Modifier
-                                .width(241.dp)
-                                .height(257.dp), contentAlignment = Alignment.Center) {
-                            Column(
-                                    Modifier
-                                            .fillMaxWidth()
-                                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Image(
-                                    modifier = Modifier
-                                            .width(60.dp)
-                                            .height(60.dp),
-                                    painter = painterResource(
-                                        id = R.drawable.ic_sad_svgrepo_com
-                                    ),
-                                    contentDescription = null
+                            Box(modifier= Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(), contentAlignment = Alignment.Center) {
+                                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.comingsoon))
+                                val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+                                LottieAnimation(
+                                    composition,
+                                    progress,
+                                    modifier = Modifier.fillMaxHeight()
                                 )
-                                Spacer(modifier = Modifier.height(10.dp))
-                                Text(
-                                    text = "Image Request Failed",
-                                    style = TextStyle(
-                                        color = Color(0xFF747474),
-                                        fontFamily = hk_grotesk,
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 12.sp
-                                    )
-                                )
+//                            Column(
+//                                Modifier
+//                                    .fillMaxWidth()
+//                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+//                                Image(
+//                                    modifier = Modifier
+//                                        .width(60.dp)
+//                                        .height(60.dp),
+//                                    painter = painterResource(
+//                                        id = R.drawable.ic_sad_svgrepo_com
+//                                    ),
+//                                    contentDescription = null
+//                                )
+//                                Spacer(modifier = Modifier.height(10.dp))
+//                                Text(
+//                                    text = "Image Request Failed",
+//                                    style = TextStyle(
+//                                        color = Color(0xFF747474),
+//                                        fontFamily = hk_grotesk,
+//                                        fontWeight = FontWeight.Normal,
+//                                        fontSize = 12.sp
+//                                    )
+//                                )
+//                            }
                             }
-                        }
 
-                    }
+                        }
                 )}
 
 

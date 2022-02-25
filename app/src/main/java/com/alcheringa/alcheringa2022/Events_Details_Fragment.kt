@@ -16,6 +16,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.addNewItem
 import com.alcheringa.alcheringa2022.Model.eventWithLive
@@ -132,31 +134,38 @@ class Events_Details_Fragment : Fragment() {
                 ),failure = {
                     Box(modifier= Modifier
                         .fillMaxWidth()
-                        .height(473.dp), contentAlignment = Alignment.Center) {
-                        Column(
-                            Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Image(
-                                modifier = Modifier
-                                    .width(60.dp)
-                                    .height(60.dp),
-                                painter = painterResource(
-                                    id = R.drawable.ic_sad_svgrepo_com
-                                ),
-                                contentDescription = null
-                            )
-                            Spacer(modifier = Modifier.height(10.dp))
-                            Text(
-                                text = "Image Request Failed",
-                                style = TextStyle(
-                                    color = Color(0xFF747474),
-                                    fontFamily = hk_grotesk,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 12.sp
-                                )
-                            )
-                        }
+                        .fillMaxHeight(), contentAlignment = Alignment.Center) {
+                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.comingsoon))
+                        val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+                        LottieAnimation(
+                            composition,
+                            progress,
+                            modifier = Modifier.fillMaxHeight()
+                        )
+//                            Column(
+//                                Modifier
+//                                    .fillMaxWidth()
+//                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+//                                Image(
+//                                    modifier = Modifier
+//                                        .width(60.dp)
+//                                        .height(60.dp),
+//                                    painter = painterResource(
+//                                        id = R.drawable.ic_sad_svgrepo_com
+//                                    ),
+//                                    contentDescription = null
+//                                )
+//                                Spacer(modifier = Modifier.height(10.dp))
+//                                Text(
+//                                    text = "Image Request Failed",
+//                                    style = TextStyle(
+//                                        color = Color(0xFF747474),
+//                                        fontFamily = hk_grotesk,
+//                                        fontWeight = FontWeight.Normal,
+//                                        fontSize = 12.sp
+//                                    )
+//                                )
+//                            }
                     }
 
                 }
