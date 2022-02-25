@@ -77,9 +77,8 @@ class AddAddressActivity : ComponentActivity() {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .wrapContentHeight()
-                                //.padding(vertical = 25.dp)
-                            ,horizontalArrangement = Arrangement.Start,
+                                .wrapContentHeight(),
+                            horizontalArrangement = Arrangement.Start,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Image(
@@ -278,11 +277,14 @@ class AddAddressActivity : ComponentActivity() {
                             })
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        TextField(textStyle = (TextStyle(
-                            color = Color.White, fontWeight = FontWeight.W400,
-                            fontFamily = hk_grotesk,
-                            fontSize = 18.sp
-                        )),
+                        TextField(
+                            textStyle = (
+                                    TextStyle(
+                                        color = Color.White, fontWeight = FontWeight.W400,
+                                        fontFamily = hk_grotesk,
+                                        fontSize = 18.sp
+                                        )
+                                    ),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -295,8 +297,15 @@ class AddAddressActivity : ComponentActivity() {
                                 backgroundColor = colorResource(id = R.color.textbackground)
                             ),
                             value = phone!!,
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                            onValueChange = { phone = it },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone, imeAction = ImeAction.Next),
+                            keyboardActions = KeyboardActions (
+                                onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                            ),
+                            onValueChange = {
+                                if(it.length <= 10){
+                                    phone = it
+                                }
+                            },
                             placeholder = {
                                 Text(
                                     text = "Phone Number*", fontWeight = FontWeight.W400,
@@ -305,7 +314,8 @@ class AddAddressActivity : ComponentActivity() {
                                         id = R.color.textfields
                                     )
                                 )
-                            })
+                            },
+                        )
                         Spacer(modifier = Modifier.height(24.dp))
 
                         TextField(
@@ -494,10 +504,10 @@ class AddAddressActivity : ComponentActivity() {
                                     )
                                 )
                             },
-                            /*keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                             keyboardActions = KeyboardActions (
                                 onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                            )*/
+                            )
                         )
                         Spacer(modifier = Modifier.height(24.dp))
 
