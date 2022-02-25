@@ -682,7 +682,7 @@ class Home : Fragment() {
                             Box(
                                     modifier = Modifier
                                         .height(473.dp)
-                                        .fillMaxWidth()
+                                        .fillMaxWidth().background(blackbg)
                             ) {
                                 GlideImage(
                                         imageModel = eventdetails[page].eventdetail.imgurl,
