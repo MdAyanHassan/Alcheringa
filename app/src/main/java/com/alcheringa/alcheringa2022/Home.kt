@@ -156,7 +156,7 @@ class Home : Fragment() {
         homeViewModel.getAllEvents()
         homeViewModel.getMerchHome()
 //        Log.d("vipin",eventslist.toString());
-//        homeViewModel.pushEvents(homeViewModel.featuredevents)
+//        homeViewModel.pushEvents(homeViewModel.AllEvents)
 
 
 
