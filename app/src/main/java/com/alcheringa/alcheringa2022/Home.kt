@@ -190,9 +190,9 @@ class Home : Fragment() {
                 val scrollState= rememberScrollState()
 
                 Column(modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .verticalScroll(scrollState)) {
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .verticalScroll(scrollState)) {
                     if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_theme_logo_white))
                             binding.logoAlcher.layoutParams.width=350
                         binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
@@ -255,24 +255,25 @@ class Home : Fragment() {
                         }
                     }
                     Box(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 48.dp, top = 48.dp)
-                            .clickable {
-                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId = R.id.merch;
-                            }
+                        .fillMaxWidth()
+                        .padding(bottom = 48.dp, top = 48.dp)
+                        .clickable {
+                            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
+                                R.id.merch;
+                        }
 //                        main.bottomNavigationView.selectedItemId=R.id.merch}
 
                     ) {
-                        val color= listOf(Color(0xffC80915), Color(0xffEE6337), Color(0xff11D3D3))
+                        val drbls= listOf(R.drawable.hoodie_bg,R.drawable.tale_bg,R.drawable.voyager_bg)
                         merchBox(merch = homeViewModel.merchhome
                             .filter { it.Available }
-                                            ,colors = color)
+                                            ,drbls)
                     }
                     Row(
-                            Modifier
-                                    .fillMaxWidth()
-                                    .wrapContentHeight()
-                                    .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                         Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
                             ,modifier = Modifier.clickable {
@@ -645,24 +646,25 @@ class Home : Fragment() {
                         ) {
                             Box(
                                     modifier = Modifier
-                                            .height(473.dp)
-                                            .fillMaxWidth()
+                                        .height(473.dp)
+                                        .fillMaxWidth()
                             ) {
                                 GlideImage(
                                         imageModel = eventdetails[page].eventdetail.imgurl,
                                         contentDescription = "artist",
                                         modifier= Modifier
-                                                .fillMaxWidth()
-                                                .height(473.dp)
-                                                .clickable {
-                                                    val frg = Events_Details_Fragment()
-                                                    frg.arguments = bundleOf("Artist" to eventdetails[page].eventdetail.artist)
-                                                    fm
-                                                            .beginTransaction()
-                                                            .replace(R.id.fragmentContainerView, frg)
-                                                            .addToBackStack(null)
-                                                            .commit()
-                                                },
+                                            .fillMaxWidth()
+                                            .height(473.dp)
+                                            .clickable {
+                                                val frg = Events_Details_Fragment()
+                                                frg.arguments =
+                                                    bundleOf("Artist" to eventdetails[page].eventdetail.artist)
+                                                fm
+                                                    .beginTransaction()
+                                                    .replace(R.id.fragmentContainerView, frg)
+                                                    .addToBackStack(null)
+                                                    .commit()
+                                            },
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Crop,
                                     shimmerParams = ShimmerParams(
@@ -673,16 +675,16 @@ class Home : Fragment() {
                                         tilt = 20f
                                     ),failure = {
                                         Box(modifier= Modifier
-                                                .fillMaxWidth()
-                                                .height(473.dp), contentAlignment = Alignment.Center) {
+                                            .fillMaxWidth()
+                                            .height(473.dp), contentAlignment = Alignment.Center) {
                                             Column(
-                                                    Modifier
-                                                            .fillMaxWidth()
-                                                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                                Modifier
+                                                    .fillMaxWidth()
+                                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
                                                 Image(
                                                     modifier = Modifier
-                                                            .width(60.dp)
-                                                            .height(60.dp),
+                                                        .width(60.dp)
+                                                        .height(60.dp),
                                                     painter = painterResource(
                                                         id = R.drawable.ic_sad_svgrepo_com
                                                     ),
@@ -707,15 +709,16 @@ class Home : Fragment() {
                                 )
                                 Box(
                                         modifier = Modifier
-                                                .fillMaxSize()
-                                                .background(
-                                                        brush = Brush.verticalGradient(
-                                                                colors = listOf(
-                                                                        Color.Transparent,
-                                                                        blackbg,
-                                                                ), startY = with(LocalDensity.current) { 100.dp.toPx() }
-                                                        )
+                                            .fillMaxSize()
+                                            .background(
+                                                brush = Brush.verticalGradient(
+                                                    colors = listOf(
+                                                        Color.Transparent,
+                                                        blackbg,
+                                                    ),
+                                                    startY = with(LocalDensity.current) { 100.dp.toPx() }
                                                 )
+                                            )
                                 )
                                 Box(
                                         modifier = Modifier
@@ -1197,7 +1200,7 @@ class Home : Fragment() {
 
     @OptIn(ExperimentalPagerApi::class)
     @Composable
-    fun merchBox(merch: List<merchmodelforHome>, colors: List<Color>){
+    fun merchBox(merch: List<merchmodelforHome>, drbls:List<Int>){
         val pagerState = rememberPagerState()
         LaunchedEffect(key1 = pagerState.currentPage) {
             launch {
@@ -1238,7 +1241,8 @@ class Home : Fragment() {
                     }
                     .height(218.dp)
                     .fillMaxWidth()
-                    .background(colors[page])){
+                    ){
+                Image(painter = painterResource(id = drbls[page]), contentDescription = null,Modifier.height(218.dp).fillMaxWidth(), contentScale = ContentScale.Crop, alignment = Alignment.Center)
 
                 Box(modifier = Modifier
                         .fillMaxWidth()
@@ -1266,16 +1270,14 @@ class Home : Fragment() {
                                     .wrapContentHeight()) {
                         Text(
                             text = merch[page].Name.uppercase(),
-                            color = Color.White,
-                            fontWeight = FontWeight.W700,
-                            fontSize = 46.sp,
-                            fontFamily = FontFamily(Font(R.font.morganitemedium))
-                        )
+                            fontFamily = FontFamily(Font((R.font.vanguardheavy))), fontSize = 34.sp, color = Color.White)
+
                         Text(text = merch[page].Type.uppercase(), style = MaterialTheme.typography.h1)
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(text = "Out now!", fontFamily = clash, fontSize = 16.sp, fontWeight = FontWeight.W500, color = Color.LightGray)
-                        Spacer(modifier = Modifier.height(35.dp))
-                        Text(text = "BUY NOW", color = Color.White, fontFamily = clash, fontWeight = FontWeight.W700, fontSize = 16.sp)
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Box(Modifier.height(44.dp).width(113.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xffEE6337)), contentAlignment = Alignment.Center){
+                        Text(text = "BUY NOW", color = Color.White, fontFamily = clash, fontWeight = FontWeight.W700, fontSize = 16.sp)}
 
                     }
 
