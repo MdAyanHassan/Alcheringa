@@ -79,6 +79,7 @@
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".AddAddressActivity"
             android:exported="true"
             android:label="@string/title_activity_add_address"
