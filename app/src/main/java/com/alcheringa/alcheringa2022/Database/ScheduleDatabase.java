@@ -98,7 +98,7 @@ public class ScheduleDatabase  extends SQLiteOpenHelper {
                         Integer.parseInt(cursorcart.getString(7))),
                         cursorcart.getString(3),
                         cursorcart.getString(4),
-                        Integer.parseInt(cursorcart.getString(8)),new ArrayList<String>(),"",""));
+                        Integer.parseInt(cursorcart.getString(8)),new ArrayList<String>(),"","",""));
             } while (cursorcart.moveToNext());
             // moving our cursor to next.
         }
