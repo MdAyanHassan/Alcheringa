@@ -127,11 +127,11 @@ public class ProfilePage extends AppCompatActivity{
 
     void onProfileImageClick() {
         Dexter.withActivity(this)
-            .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .withListener(new MultiplePermissionsListener() {
                 @Override
                 public void onPermissionsChecked(MultiplePermissionsReport report) {
-                    showImagePickerOptions();
+                    launchGalleryIntent();
                 }
 
                 @Override

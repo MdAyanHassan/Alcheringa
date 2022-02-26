@@ -80,7 +80,7 @@ public class Account extends AppCompatActivity {
         your_orders=findViewById(R.id.ur_orders_button);
         your_orders.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),YourOrders.class)));
 
-        profile_page=findViewById(R.id.user_name_button);
+        profile_page=findViewById(R.id.profile_button);
         profile_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),ProfilePage.class)));
 
         faq_page=findViewById(R.id.faq_button);
