@@ -81,7 +81,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="What is Alcheringa"
+                        android:text="How can I buy merch?"
                         android:drawableEnd="@drawable/ic_down"
                         android:textSize="18sp"
                         android:textColor="#fff"
@@ -93,7 +93,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="#C7CCD1"
                         android:layout_height="wrap_content"
-                        android:text="Alcheringa is the annual cultural festival of the Indian Institute of Technology (IIT), Guwahati. Started in 1996 by a group of students."
+                        android:text="You can buy the exclusive Alcheringa merch by using the Alcheringa mobile app. Just go to the 'shop' page, where you will find all the available merchandise. Select the merch of your choice and order!"
                         android:textSize="16sp"
                         android:visibility="gone"
                         android:fontFamily="@font/hk_grotesk_400" />
@@ -121,7 +121,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="What is Alcheringa"
+                        android:text="Will the merch be delivered home ?"
                         android:drawableEnd="@drawable/ic_down"
                         android:textSize="18sp"
                         android:textColor="#fff"
@@ -133,7 +133,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="#C7CCD1"
                         android:layout_height="wrap_content"
-                        android:text="Alcheringa is the annual cultural festival of the Indian Institute of Technology (IIT), Guwahati. Started in 1996 by a group of students."
+                        android:text="Yes! Your ordered merch will be shipped to the shipping address that you register while ordering them."
                         android:textSize="16sp"
                         android:visibility="gone"
                         android:fontFamily="@font/hk_grotesk_400" />
@@ -161,7 +161,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="What is Alcheringa"
+                        android:text="Can outsiders come to offline Alcher?"
                         android:drawableEnd="@drawable/ic_down"
                         android:textSize="18sp"
                         android:textColor="#fff"
@@ -173,7 +173,126 @@
                         android:layout_width="wrap_content"
                         android:textColor="#C7CCD1"
                         android:layout_height="wrap_content"
-                        android:text="Alcheringa is the annual cultural festival of the Indian Institute of Technology (IIT), Guwahati. Started in 1996 by a group of students."
+                        android:text="No. The offline Alcheringa fest is only for campus residents. However, you can catch the action through the exclusive Alcheringa live stream on the PayTM Insider app."
+                       android:textSize="16sp"
+                        android:visibility="gone"
+                        android:fontFamily="@font/hk_grotesk_400" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/back2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:id="@+id/faq4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="How can I stream Alcheringa online events?"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:textSize="18sp"
+                        android:textColor="#fff"
+                        android:fontFamily="@font/clash_display_500" />
+
+                    <TextView
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/details4"
+                        android:layout_width="wrap_content"
+                        android:textColor="#C7CCD1"
+                        android:layout_height="wrap_content"
+                        android:text="Alcheringa 2022 online and offline will be streamed on Paytm Insider. Tap Join Now on the app and meet us there!
+"
+                       android:textSize="16sp"
+                        android:visibility="gone"
+                        android:fontFamily="@font/hk_grotesk_400" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/back2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:id="@+id/faq5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="How can I register for competitions?"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:textSize="18sp"
+                        android:textColor="#fff"
+                        android:fontFamily="@font/clash_display_500" />
+
+                    <TextView
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/details5"
+                        android:layout_width="wrap_content"
+                        android:textColor="#C7CCD1"
+                        android:layout_height="wrap_content"
+                        android:text="Sign up at registrations.alcheringa.in and bring your A-game to Alcheringa 22’s exciting range of competitions."
+                       android:textSize="16sp"
+                        android:visibility="gone"
+                        android:fontFamily="@font/hk_grotesk_400" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/back2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:id="@+id/faq6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="How can I attend offline Alcheringa events?"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:textSize="18sp"
+                        android:textColor="#fff"
+                        android:fontFamily="@font/clash_display_500" />
+
+                    <TextView
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/details6"
+                        android:layout_width="wrap_content"
+                        android:textColor="#C7CCD1"
+                        android:layout_height="wrap_content"
+                        android:text="Campus residents have exclusive access to offline events, but everyone can join our live streams and online events on our platform! Tap Join Now on the app."
                         android:textSize="16sp"
                         android:visibility="gone"
                         android:fontFamily="@font/hk_grotesk_400" />
@@ -181,9 +300,216 @@
                 </LinearLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:background="@drawable/back2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:id="@+id/faq7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:fontFamily="@font/clash_display_500"
+                        android:text="Where can I find the event schedule and lineup?"
+                        android:textColor="#fff"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/details7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/hk_grotesk_400"
+                        android:text="The event schedule for Alcheringa 2022 offline and online events can be found on the app under Schedule."
+                        android:textColor="#C7CCD1"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/back2"
+                    android:orientation="horizontal"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp">
+                <LinearLayout
+                    android:id="@+id/faq10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:text="Can I attend Alcheringa offline if I reside in Guwahati?"
+                        android:textSize="18sp"
+                        android:textColor="#fff"
+                        android:fontFamily="@font/clash_display_500" />
+
+                    <TextView
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/details10"
+                        android:layout_width="wrap_content"
+                        android:textColor="#C7CCD1"
+                        android:layout_height="wrap_content"
+                        android:text="No, unfortunately offline events are exclusive to campus residents for Alcheringa’22. You can catch the action live on the Alcheringa livestream."
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        android:fontFamily="@font/hk_grotesk_400" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/back2"
+                android:orientation="horizontal"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+            <LinearLayout
+                android:id="@+id/faq12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:animateLayoutChanges="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="When will competition results be announced?"
+                    android:drawableEnd="@drawable/ic_down"
+                    android:textSize="18sp"
+                    android:textColor="#fff"
+                    android:fontFamily="@font/clash_display_500" />
+
+                <TextView
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/details12"
+                    android:layout_width="wrap_content"
+                    android:textColor="#C7CCD1"
+                    android:layout_height="wrap_content"
+                    android:text="Competitions are judged and results released soon after in the coming weeks after Alcheringa 2022."
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    android:fontFamily="@font/hk_grotesk_400" />
+
+            </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/back2"
+                android:orientation="horizontal"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:id="@+id/faq8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:fontFamily="@font/clash_display_500"
+                        android:text="Where can I get updates on competitions?"
+                        android:textColor="#fff"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/details8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/hk_grotesk_400"
+                        android:text="Be the first to get all the latest updates on competitions on our social media handles and on our app."
+                        android:textColor="#C7CCD1"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/back2"
+                android:orientation="horizontal"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:id="@+id/faq15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:fontFamily="@font/clash_display_500"
+                        android:text="Do I need to purchase tickets to attend Alcheringa online?"
+                        android:textColor="#fff"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/details15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/hk_grotesk_400"
+                        android:text="Alcheringa does not sell general passes. Entry is free for all. Only flagship events like Creators Camp need passes which can be purchased on the app and website."
+                        android:textColor="#C7CCD1"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
 
         </LinearLayout>
+
+
     </LinearLayout>
+
     </ScrollView>
 
     <TextView

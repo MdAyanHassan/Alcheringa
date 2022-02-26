@@ -16,8 +16,8 @@ import android.widget.TextView;
 public class FaqPage extends AppCompatActivity {
 
     TextView contact_us;
-    TextView detailsText1, detailsText2, detailsText3;
-    LinearLayout faq1, faq2, faq3;
+    TextView detailsText1, detailsText2, detailsText3,detailsText4, detailsText5, detailsText6,detailsText7, detailsText8,detailsText9,detailsText10, detailsText11, detailsText12,detailsText13, detailsText15;
+    LinearLayout faq1, faq2, faq3,faq4, faq5, faq6,faq7, faq8, faq9,faq10, faq12, faq13,faq15;
     ImageButton back_btn;
 
     @Override
@@ -31,10 +31,61 @@ public class FaqPage extends AppCompatActivity {
         detailsText1 = findViewById(R.id.details1);
         detailsText2 = findViewById(R.id.details2);
         detailsText3 = findViewById(R.id.details3);
+        detailsText4 = findViewById(R.id.details4);
+        detailsText5 = findViewById(R.id.details5);
+        detailsText6 = findViewById(R.id.details6);
+        detailsText7 = findViewById(R.id.details7);
+        detailsText8 = findViewById(R.id.details8);
+
+        detailsText10 = findViewById(R.id.details10);
+        detailsText12 = findViewById(R.id.details12);
+        detailsText15 = findViewById(R.id.details15);
+        //detailsText13 = findViewById(R.id.details14);
+
+
+
 
         faq1 = findViewById(R.id.faq1);
         faq1.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         faq1.setOnClickListener(v -> expand(faq1, detailsText1));
+
+        faq15 = findViewById(R.id.faq15);
+        faq15.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        faq15.setOnClickListener(v -> expand(faq15, detailsText15));
+
+        faq4 = findViewById(R.id.faq4);
+        faq4.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        faq4.setOnClickListener(v -> expand(faq4, detailsText4));
+
+        faq5 = findViewById(R.id.faq5);
+        faq5.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        faq5.setOnClickListener(v -> expand(faq5, detailsText5));
+
+        faq6 = findViewById(R.id.faq6);
+        faq6.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        faq6.setOnClickListener(v -> expand(faq6, detailsText6));
+
+        faq7 = findViewById(R.id.faq7);
+        faq7.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        faq7.setOnClickListener(v -> expand(faq7, detailsText7));
+
+        faq8 = findViewById(R.id.faq8);
+        faq8.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        faq8.setOnClickListener(v -> expand(faq8, detailsText8));
+
+        faq10 = findViewById(R.id.faq10);
+        faq10.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        faq10.setOnClickListener(v -> expand(faq10, detailsText10));
+
+
+        faq12 = findViewById(R.id.faq12);
+        faq12.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        faq12.setOnClickListener(v -> expand(faq12, detailsText12));
+
+//        faq14 = findViewById(R.id.faq14);
+//        faq14.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+//        faq14.setOnClickListener(v -> expand(faq14, detailsText1));
+
 
         faq2 = findViewById(R.id.faq2);
         faq2.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
