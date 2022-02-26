@@ -26,6 +26,19 @@ fun <T> MutableLiveData<MutableList<T>>.removeAnItem(item: T){
     this.value = oldValue
 }
 
+suspend fun <T> MutableLiveData<MutableList<T>>.removeAndAddItemAtPos(item: T){
+    val oldValue = this.value ?: mutableListOf()
+    val pos=oldValue.indexOf(item)
+    oldValue.removeAt(pos+1)
+    this.value = oldValue
+//    delay(100)
+    oldValue.add(pos,item)
+    this.value=oldValue
+
+}
+
+
+
 class viewModelHome: ViewModel() {
     val fb = FirebaseFirestore.getInstance()
     val allEventsWithLivedata= MutableLiveData<MutableList<eventWithLive>>()

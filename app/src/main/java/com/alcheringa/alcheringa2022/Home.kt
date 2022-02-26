@@ -1166,10 +1166,23 @@ class Home : Fragment() {
                                                 datestate3.clear()
 //                                                delay(1000)
                                                 homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
-//                                    val dataevnetcurrent= homeViewModel.upcomingEventsLiveState.toMutableList()
-//                                    homeViewModel.upcomingEventsLiveState.clear()
-//                                    delay(100)
-//                                    homeViewModel.upcomingEventsLiveState.addAll(dataevnetcurrent!!)
+//                                                homeViewModel.allEventsWithLivedata.removeAndAddItemAtPos(
+//                                                    homeViewModel.allEventsWithLivedata.value?.find { data->data.eventdetail.artist==eventdetail.eventWithLive.artist }!!
+//                                                )
+
+//                                    val dataevnetcurrent= homeViewModel.upcomingEventsLiveState.toList()
+//                                    homeViewModel.allEventsWithLivedata.postValue(mutableListOf(eventWithLive(
+//                                        eventdetail()
+//                                    )))
+//                                                delay(100)
+//                                    homeViewModel.allEventsWithLivedata.value?.clear()
+//                                                homeViewModel.upcomingEventsLiveState.clear()
+//                                                delay(100)
+//                                                homeViewModel.upcomingEventsLiveState.addAll(dataevnetcurrent)
+//                                                homeViewModel.upcomingEventsLiveState.add(
+//                                                    eventWithLive(eventdetail())
+//                                                )
+//                                                homeViewModel.allEventsWithLivedata.postValue(dataevnetcurrent)
 
 //                                  homeViewModel.allEventsWithLivedata.addNewItem(eventWithLive(eventdetail()))
 //                                    homeViewModel.allEventsWithLivedata.removeAnItem(eventWithLive(eventdetail()))

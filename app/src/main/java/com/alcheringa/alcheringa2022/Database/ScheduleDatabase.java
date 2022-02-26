@@ -82,7 +82,7 @@ public class ScheduleDatabase  extends SQLiteOpenHelper {
         values.put(MIN_COL, eventdetail.getStarttime().component3());
         //String query="SELECT * FROM "+ TABLE_NAME +" WHERE name = '"+name+"' "+"AND "+"size = '"+size+"'";
         db.insert(TABLE_NAME,null,values);
-        Toast.makeText(context, "event added to database" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Event added to My Schedule" , Toast.LENGTH_SHORT).show();
     }
     public ArrayList<eventdetail> getSchedule(){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -98,7 +98,7 @@ public class ScheduleDatabase  extends SQLiteOpenHelper {
                         Integer.parseInt(cursorcart.getString(7))),
                         cursorcart.getString(3),
                         cursorcart.getString(4),
-                        Integer.parseInt(cursorcart.getString(8)),new ArrayList<String>(),"","",""));
+                        Integer.parseInt(cursorcart.getString(8)),new ArrayList<String>(),"","","","",""));
             } while (cursorcart.moveToNext());
             // moving our cursor to next.
         }

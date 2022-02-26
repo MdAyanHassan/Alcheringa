@@ -207,6 +207,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                             .width(18.dp)
                             .height(18.dp)
                             .clickable {
+                                okstate.value = true
                                 viewModelHm.OwnEventsWithLive.addNewItem(eventdetail.eventdetail);
                                 ScheduleDatabase.addEventsInSchedule(
                                     eventdetail.eventdetail,
@@ -265,7 +266,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                 .height(20.dp)
                                 .width(20.dp)) {
                                 Image(
-                                        painter = if (eventdetail.eventdetail.mode.contains("ONLINE")) {
+                                        painter = if (eventdetail.eventdetail.mode.uppercase().contains("ONLINE")) {
                                             painterResource(id = R.drawable.online)
                                         } else {
                                             painterResource(id = R.drawable.onground)
@@ -274,7 +275,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                 )
                             }
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text(text = eventdetail.eventdetail.mode,style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                            Text(text = eventdetail.eventdetail.mode.uppercase(),style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
                         }
                     }
 
@@ -418,6 +419,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                                 .width(18.dp)
                                 .height(18.dp)
                                 .clickable {
+                                    okstate.value = true
                                     viewModelHm.OwnEventsWithLive.addNewItem(eventdetail.eventdetail);
                                     ScheduleDatabase.addEventsInSchedule(
                                         eventdetail.eventdetail,
@@ -440,7 +442,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                                     Toast
                                         .makeText(
                                             context,
-                                            "event removed from schedule",
+                                            "Event removed from My Schedule",
                                             Toast.LENGTH_SHORT
                                         )
                                         .show()
@@ -475,7 +477,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                                 .height(20.dp)
                                 .width(20.dp)) {
                                 Image(
-                                    painter = if (eventdetail.eventdetail.mode.contains("ONLINE")) {
+                                    painter = if (eventdetail.eventdetail.mode.uppercase().contains("ONLINE")) {
                                         painterResource(id = R.drawable.online)
                                     } else {
                                         painterResource(id = R.drawable.onground)
@@ -484,7 +486,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                                 )
                             }
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text(text = eventdetail.eventdetail.mode,style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                            Text(text = eventdetail.eventdetail.mode.uppercase(),style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
                         }
                     }
 
