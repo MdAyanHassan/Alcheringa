@@ -91,16 +91,21 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
     var okstate= remember{ mutableStateOf(false)}
     var okstatenum= remember{ mutableStateOf(0)}
 
-    viewModelHm.OwnEventsLiveState.forEach{
-            data-> if( data.artist==eventdetail.eventdetail.artist){okstate.value=true;okstatenum.value+=1}
-    }
-    if(okstatenum.value==0){okstate.value=false}
+
     val animationProgress = remember {Animatable(300f)}
     LaunchedEffect(key1=Unit,block = {
         animationProgress.animateTo(
             targetValue = 0f,
             animationSpec = tween(300, easing = FastOutSlowInEasing)
         )
+    })
+
+    LaunchedEffect(key1=Unit,block = {
+        okstatenum.value=0
+        viewModelHm.OwnEventsLiveState.forEach{
+                data-> if( data.artist==eventdetail.eventdetail.artist){okstatenum.value+=1}
+        }
+        if(okstatenum.value==0){okstate.value=false}else{okstate.value=true}
     })
 
 
@@ -303,11 +308,6 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
     var okstatenum= remember{ mutableStateOf(0)}
     var crtime=viewModelHm.converttoOwnTime(viewModelHm.converttomin(eventdetail.eventdetail.starttime)-viewModelHm.converttomin(viewModelHm.crnttime.value))
 
-    viewModelHm.OwnEventsLiveState.forEach{
-            data-> if( data.artist==eventdetail.eventdetail.artist){okstate.value=true;okstatenum.value+=1}
-    }
-    if(okstatenum.value==0){okstate.value=false}
-
     val animationProgress = remember {Animatable(300f)}
     LaunchedEffect(key1=Unit,block = {
         animationProgress.animateTo(
@@ -315,6 +315,16 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
             animationSpec = tween(300, easing = FastOutSlowInEasing)
         )
     })
+
+    LaunchedEffect(key1=Unit,block = {
+        okstatenum.value=0
+        viewModelHm.OwnEventsLiveState.forEach{
+                data-> if( data.artist==eventdetail.eventdetail.artist){okstatenum.value+=1}
+        }
+    if(okstatenum.value==0){okstate.value=false}else{okstate.value=true}
+    })
+
+
 
 
 

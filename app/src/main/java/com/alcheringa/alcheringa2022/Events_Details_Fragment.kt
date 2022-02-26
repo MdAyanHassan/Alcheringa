@@ -8,6 +8,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -16,10 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -466,8 +466,12 @@ class Events_Details_Fragment : Fragment() {
     @Composable
     fun Bottomviewcomp(eventWithLive:eventWithLive){
         var isadded=remember{ mutableStateOf(false)}
-        isadded.value=viewModelHome.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
-        Column(
+        LaunchedEffect(key1=Unit,block = {
+            isadded.value=viewModelHome.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
+
+        })
+
+         Column(
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)) {
