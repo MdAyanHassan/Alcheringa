@@ -24,6 +24,14 @@ val hk_grotesk= FontFamily(
         Font(R.font.hk_grotesk_500, FontWeight.Medium),
         Font(R.font.hk_grotesk_600, FontWeight.SemiBold)
 )
+val vanguard= FontFamily(
+        Font(R.font.vanguardregular),
+        Font(R.font.vanguardbold, FontWeight.Bold),
+        Font(R.font.vanguardmedium, FontWeight.Medium),
+        Font(R.font.venguardsemi, FontWeight.SemiBold)
+)
+
+
 // Set of Material typography styles to start with
 val Typography = Typography(
         body1 = TextStyle(

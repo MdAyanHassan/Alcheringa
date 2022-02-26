@@ -36,6 +36,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -776,11 +777,11 @@ class Home : Fragment() {
                                             horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         Text(
-                                                text = eventdetails[page].eventdetail.artist,
+                                                text = eventdetails[page].eventdetail.artist.uppercase(),
                                                 color = Color.White,
-                                                fontWeight = FontWeight.W700,
-                                                fontSize = 78.sp,
-                                                fontFamily = FontFamily(Font(R.font.morganitemedium))
+                                                fontWeight = FontWeight.W600,
+                                                fontSize = 60.sp,
+                                                fontFamily = vanguard, textAlign = TextAlign.Center
                                         )
                                         Spacer(modifier = Modifier.height(11.dp))
                                         Text(

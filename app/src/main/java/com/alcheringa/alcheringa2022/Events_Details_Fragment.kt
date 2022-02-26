@@ -33,6 +33,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,6 +50,7 @@ import com.alcheringa.alcheringa2022.databinding.ActivityEventDetailsBinding
 import com.alcheringa.alcheringa2022.ui.theme.clash
 import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
 import com.alcheringa.alcheringa2022.ui.theme.orangeText
+import com.alcheringa.alcheringa2022.ui.theme.vanguard
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import org.intellij.lang.annotations.JdkConstants
@@ -199,11 +201,11 @@ class Events_Details_Fragment : Fragment() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = eventWithLive.eventdetail.artist,
+                        text = eventWithLive.eventdetail.artist.uppercase(),
                         color = Color.White,
-                        fontWeight = FontWeight.W700,
-                        fontSize = 78.sp,
-                        fontFamily = FontFamily(Font(R.font.morganitemedium))
+                        fontWeight = FontWeight.W600,
+                        fontSize = 60.sp,
+                        fontFamily = vanguard, textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.height(11.dp))
                     Text(
