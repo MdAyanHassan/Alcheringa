@@ -1,12 +1,16 @@
 package com.alcheringa.alcheringa2022;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -26,21 +31,29 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class ProfilePage extends AppCompatActivity {
+public class ProfilePage extends AppCompatActivity{
 
+    private static final String TAG = ProfilePage.class.getSimpleName();
     SharedPreferences sharedPreferences;
 
     TextView name;
@@ -59,6 +72,8 @@ public class ProfilePage extends AppCompatActivity {
 
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
+
+    public static final int REQUEST_IMAGE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +96,11 @@ public class ProfilePage extends AppCompatActivity {
 
         fill_user_details();
 
-        edit_dp_button.setOnClickListener(v -> CropImage.startPickImageActivity(ProfilePage.this));
+        //edit_dp_button.setOnClickListener(v -> CropImage.startPickImageActivity(ProfilePage.this));
+
+        edit_dp_button.setOnClickListener(v -> {
+            onProfileImageClick();
+        });
 
         save_button.setOnClickListener(v -> {
             if(interests.size() >= 5){
@@ -100,22 +119,135 @@ public class ProfilePage extends AppCompatActivity {
         back_btn.setOnClickListener(v -> finish());
     }
 
+    private void loadProfile(String url) {
+        Log.d(TAG, "Image cache path: " + url);
+        Glide.with(this).load(url).into(user_dp);
+        uploadImage();
+    }
+
+    void onProfileImageClick() {
+        Dexter.withActivity(this)
+            .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .withListener(new MultiplePermissionsListener() {
+                @Override
+                public void onPermissionsChecked(MultiplePermissionsReport report) {
+                    showImagePickerOptions();
+                }
+
+                @Override
+                public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                    token.continuePermissionRequest();
+                }
+            }).check();
+    }
+
+    private void showImagePickerOptions() {
+        ImagePickerActivity.showImagePickerOptions(this, new ImagePickerActivity.PickerOptionListener() {
+            @Override
+            public void onTakeCameraSelected() {
+                launchCameraIntent();
+            }
+
+            @Override
+            public void onChooseGallerySelected() {
+                launchGalleryIntent();
+            }
+        });
+    }
+
+    private void launchCameraIntent() {
+        Log.d("Shreya", "Hey I am here!!!!!!");
+        Intent intent = new Intent(ProfilePage.this, ImagePickerActivity.class);
+        intent.putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTION, ImagePickerActivity.REQUEST_IMAGE_CAPTURE);
+
+        // setting aspect ratio
+        intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
+        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
+        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
+
+        // setting maximum bitmap width and height
+        intent.putExtra(ImagePickerActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
+        intent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
+        intent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
+
+        startActivityForResult(intent, REQUEST_IMAGE);
+    }
+
+    private void launchGalleryIntent() {
+        Intent intent = new Intent(ProfilePage.this, ImagePickerActivity.class);
+        intent.putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTION, ImagePickerActivity.REQUEST_GALLERY_IMAGE);
+
+        // setting aspect ratio
+        intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
+        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
+        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
+        startActivityForResult(intent, REQUEST_IMAGE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Uri imageURI = CropImage.getPickImageResultUri(this, data);
-            startCrop(imageURI);
-        }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                filePath = result.getUri();
-                user_dp.setImageURI(result.getUri());
-                uploadImage();
+        if (requestCode == REQUEST_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri uri = data.getParcelableExtra("path");
+                try {
+                    // You can update this bitmap to your server
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+
+                    filePath= uri;
+                    // loading profile image from local cache
+                    loadProfile(uri.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
+
+
+    /**
+     * Showing Alert Dialog with Settings option
+     * Navigates user to app settings
+     * NOTE: Keep proper title and message depending on your app
+     */
+    private void showSettingsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ProfilePage.this);
+        builder.setTitle("Grant Permissions");
+        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
+        builder.setPositiveButton("GOTO SETTING", (dialog, which) -> {
+            dialog.cancel();
+            openSettings();
+        });
+        builder.setNegativeButton(getString(android.R.string.cancel), (dialog, which) -> dialog.cancel());
+        builder.show();
+
+    }
+
+    // navigating user to app settings
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
+    }
+
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            Uri imageURI = CropImage.getPickImageResultUri(this, data);
+//            startCrop(imageURI);
+//        }
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//            if (resultCode == RESULT_OK) {
+//                filePath = result.getUri();
+//                user_dp.setImageURI(result.getUri());
+//                uploadImage();
+//            }
+//        }
+//    }
 
     private void startCrop(Uri imageURI) {
         CropImage.activity(imageURI).setGuidelines(CropImageView.Guidelines.ON).setMultiTouchEnabled(true).start(this);
