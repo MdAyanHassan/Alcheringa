@@ -197,7 +197,7 @@ class Events_Details_Fragment : Fragment() {
                     .padding(12.dp), contentAlignment = Alignment.BottomStart
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -207,7 +207,7 @@ class Events_Details_Fragment : Fragment() {
                         fontSize = 60.sp,
                         fontFamily = vanguard, textAlign = TextAlign.Center
                     )
-                    Spacer(modifier = Modifier.height(11.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = eventWithLive.eventdetail.category,
                         style = TextStyle(

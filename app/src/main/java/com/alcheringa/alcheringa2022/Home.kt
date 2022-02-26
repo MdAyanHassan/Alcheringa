@@ -230,12 +230,13 @@ class Home : Fragment() {
                     .wrapContentHeight()
                     .verticalScroll(scrollState)) {
                     if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
-                            binding.logoAlcher.layoutParams.width=350
-                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
+                            binding.logoAlcher.layoutParams.width=with(LocalDensity.current){162.dp.toPx().toInt()}
+                        binding.logoAlcher.layoutParams.height=with(LocalDensity.current){50.dp.toPx().toInt()}
                     }
                     else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_small_logo));
                         binding.logoAlcher.layoutParams.width= ViewGroup.LayoutParams.WRAP_CONTENT
-                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT}
+                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
+                    }
 
                     horizontalScroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
                     if (homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }.size!=0) {
