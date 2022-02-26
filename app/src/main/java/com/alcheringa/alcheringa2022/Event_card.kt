@@ -213,6 +213,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                     eventdetail.eventdetail,
                                     context
                                 )
+                                okstate.value = true
                             },
                             painter = painterResource(id = R.drawable.add_icon),
                              contentDescription ="null")
@@ -224,7 +225,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                 .height(20.dp)
                                 .clickable {
                                     Log.d("boxevent", eventdetail.toString())
-                                    okstate.value = false
+
                                     viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
 
                                     ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
@@ -235,6 +236,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                             Toast.LENGTH_SHORT
                                         )
                                         .show()
+                                    okstate.value = false
                                 },
                                 painter = painterResource(id = R.drawable.tickokay),
                                 contentDescription ="null", contentScale = ContentScale.FillBounds)
