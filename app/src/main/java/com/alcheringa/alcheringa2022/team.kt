@@ -43,14 +43,15 @@ import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
 class team : AppCompatActivity() {
     private lateinit var binding: ActivityTeamBinding
     val devteam= listOf(
-        member(R.drawable.vipin,"Vipin Jaluthria","Head","https://www.instagram.com/vip_itd/","https://www.facebook.com/vipin.jaluthria.9/",)
-        ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399",)
+        member(R.drawable.vipin,"Vipin Jaluthria","Head","https://www.instagram.com/vip_itd/","https://www.facebook.com/vipin.jaluthria.9/","https://www.linkedin.com/in/vipinjaluthria/")
+        ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","https://www.linkedin.com/in/shreyagoel/")
         ,member(R.drawable.nitish,"Nitish Singh Chauhan","Executive")
-        ,member(R.drawable.atharva,"Atharva T","Executive","https://www.instagram.com/atagalpallewar/"))
+        ,member(R.drawable.atharva,"Atharva Tagalpallewar","Executive","https://www.instagram.com/atagalpallewar/",lnkdurl ="https://www.linkedin.com/in/atharva-tagalpallewar/")
+    )
     val desteam= listOf(
-        member(R.drawable.fahim,"Mohammed Fahim","Head","https://www.instagram.com/faahym/","https://www.facebook.com/faahym","https://twitter.com/Fahim656")
-        ,member(R.drawable.rishikesh,"Rishikesh Aryan C","Executive","https://instagram.com/rishhiiikesh","https://www.facebook.com/Rishhiiikesh","https://twitter.com/Rishhiiikesh")
-        ,member(R.drawable.bodh,"Tsewang Bodh","Executive","https://www.instagram.com/tsewang.png/", twturl = "https://twitter.com/Zerkyboi")
+        member(R.drawable.fahim,"Mohammed Fahim","Head","https://www.instagram.com/faahym/","https://www.facebook.com/faahym","https://www.linkedin.com/in/faahym/")
+        ,member(R.drawable.rishikesh,"Rishikesh Aryan C","Executive","https://instagram.com/rishhiiikesh","https://www.facebook.com/Rishhiiikesh","https://www.linkedin.com/in/rishhiiikesh")
+        ,member(R.drawable.bodh,"Tsewang Bodh","Executive","https://www.instagram.com/tsewang.png/", lnkdurl = "https://www.linkedin.com/in/tsewang-bodh-7b20a1210/")
 
     )
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,25 +65,41 @@ class team : AppCompatActivity() {
                 LazyColumn(
                     Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)){
-                    item {   Text(text = "DEVELOPMENT", fontWeight = FontWeight.W500, fontSize = 18.sp, fontFamily = clash,color = Color.White, modifier = Modifier.padding(bottom = 8.dp,  top = 22.dp))}
-                    items(devteam){data->teamCard(memb = data)}
-              item { Text(text = "DESIGN", fontWeight = FontWeight.W500, fontSize = 18.sp, fontFamily = clash,color = Color.White, modifier = Modifier.padding(bottom = 8.dp,  top = 22.dp))}
-             items(desteam){data->teamCard(memb = data)}
-                item { Spacer(modifier = Modifier.height(150.dp)) }
-                }
+                        .padding(horizontal = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)){
+                    item {
+                        Text(
+                            text = "DEVELOPMENT",
+                            fontWeight = FontWeight.W500,
+                            fontSize = 18.sp,
+                            fontFamily = clash,
+                            color = Color.White,
+                            modifier = Modifier.padding(bottom = 8.dp,  top = 22.dp)
+                        )
+                    }
+                    items(devteam){
+                            data->teamCard(memb = data)
+                    }
+                    item {
+                        Text(
+                            text = "DESIGN",
+                            fontWeight = FontWeight.W500,
+                            fontSize = 18.sp, fontFamily = clash,color = Color.White,
+                            modifier = Modifier.padding(bottom = 8.dp,  top = 22.dp)
+                        )
+                    }
+                    items(desteam){
+                            data->teamCard(memb = data)
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(150.dp))
+                    }
+             }
         }
 
 
 
     }
-
-
-
-
-
-
-
     @Composable
     fun teamCard(memb:member=desteam[1]){
         val animationProgress = remember {Animatable(700f)}
@@ -112,23 +129,63 @@ class team : AppCompatActivity() {
                         .fillMaxWidth(), verticalArrangement = Arrangement.Center) {
                     Text(text = memb.name, fontSize = 18.sp, fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White)
 
-                        Text(text = memb.pos, fontSize = 14.sp, fontFamily = hk_grotesk, fontWeight = FontWeight.W500, color = Color(0xffC7CCD1))
-                      Spacer(modifier = Modifier.height(5.dp)) 
-                        Row(Modifier.wrapContentWidth(), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                            if (memb.instaurl!=""){
-                                Icon( painter = painterResource(id = R.drawable.ic_instagram),tint = Color(0xffC7CCD1), contentDescription =null, modifier = Modifier.clickable {
-                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(memb.instaurl)))
-                                })}
-                            if (memb.fburl!=""){
-                                Icon(painter = painterResource(id = R.drawable.ic_facebook) , contentDescription =null ,Modifier.clickable {
-                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(memb.fburl)))
-                                },tint = Color(0xffC7CCD1))}
-                            if (memb.twturl!=""){
-                                Icon(painter = painterResource(id = R.drawable.ic_twitter) , contentDescription =null,Modifier.clickable {
-                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(memb.twturl)))
-                                },tint = Color(0xffC7CCD1) )
-                            }
+                    Text(text = memb.pos, fontSize = 14.sp, fontFamily = hk_grotesk, fontWeight = FontWeight.W500, color = Color(0xffC7CCD1))
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Row(Modifier.wrapContentWidth(), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                        if (memb.instaurl!=""){
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_instagram),
+                                tint = Color(0xffC7CCD1),
+                                contentDescription =null,
+                                modifier = Modifier
+                                    .height(18.dp)
+                                    .width(18.dp)
+                                    .clickable {
+                                        startActivity(
+                                            Intent(Intent.ACTION_VIEW).setData(
+                                                Uri.parse(memb.instaurl)
+                                            )
+                                        )
+                                    }
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
                         }
+                        if (memb.fburl!=""){
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_facebook) ,
+                                contentDescription =null ,
+                                Modifier
+                                    .height(18.dp)
+                                    .width(18.dp)
+                                    .clickable {
+                                        startActivity(
+                                            Intent(Intent.ACTION_VIEW).setData(
+                                                Uri.parse(memb.fburl)
+                                            )
+                                        )
+                                    },
+                                tint = Color(0xffC7CCD1)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                        }
+                        if (memb.lnkdurl!=""){
+                            Icon(
+                                painter = painterResource(id = R.drawable.linkedin) ,
+                                contentDescription =null,
+                                Modifier
+                                    .height(18.dp)
+                                    .width(18.dp)
+                                    .clickable {
+                                        startActivity(
+                                            Intent(Intent.ACTION_VIEW).setData(
+                                                Uri.parse(memb.lnkdurl)
+                                            )
+                                        )
+                                    },
+                                tint = Color(0xffC7CCD1)
+                            )
+                        }
+                    }
 
                 }
             }

@@ -20,8 +20,8 @@
         android:theme="@style/Theme.Alcheringa2022"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:exported="true"
             android:name=".ImagePickerActivity"
-            android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".SizeChartActivity"

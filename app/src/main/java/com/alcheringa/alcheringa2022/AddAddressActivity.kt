@@ -239,8 +239,6 @@ class AddAddressActivity : ComponentActivity() {
                             )
                         }
 
-
-
                         Text(
                             text = "*Mandatory Fields",
                             fontFamily = hk_grotesk,
