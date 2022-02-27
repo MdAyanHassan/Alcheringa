@@ -64,7 +64,8 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
 
             populate_cart();
             calculate_amount();
-            checkout_btn.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), AddAddressActivity.class)));
+            checkout_btn.setOnClickListener(v ->
+                    startActivity(new Intent(getApplicationContext(), AddAddressActivity.class)));
 
             loaderView = findViewById(R.id.dots_progress);
             loaderView.setVisibility(View.GONE);

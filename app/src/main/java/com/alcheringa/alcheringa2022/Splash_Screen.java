@@ -25,8 +25,8 @@ public class Splash_Screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        videoView=findViewById(R.id.videoview);
-        loadVideo();
+       // videoView=findViewById(R.id.videoview);
+        //loadVideo();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
@@ -41,7 +41,7 @@ public class Splash_Screen extends AppCompatActivity {
                     finish();
                 }
             }
-        },4000);
+        },2000);
 
 
 
@@ -53,30 +53,5 @@ public class Splash_Screen extends AppCompatActivity {
         videoView.start();
 
         videoView.setOnPreparedListener(mp -> mp.setLooping(true));
-    }
-
-
-    @Override
-    protected void onResume() {
-        videoView.resume();
-        super.onResume();
-    }
-
-    @Override
-    protected void onRestart() {
-        videoView.start();
-        super.onRestart();
-    }
-
-    @Override
-    protected void onPause() {
-        videoView.suspend();
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        videoView.stopPlayback();
-        super.onDestroy();
     }
 }

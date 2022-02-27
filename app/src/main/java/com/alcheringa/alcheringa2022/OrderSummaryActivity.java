@@ -127,24 +127,41 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         ListView listView = findViewById(R.id.items_list_view);
         listView.setAdapter(adapter);
         setListViewHeightBasedOnItems(listView);
-
-        Pay.setOnClickListener(v -> {
-            Pay.setEnabled(false);
-            Thread thread = new Thread(() -> {
-                try {
-                    OrderSummaryActivity.this.startPayment((int) amount);
-                } catch (Exception e) {
-                    Pay.setEnabled(true);
-                    e.printStackTrace();
-                }
-            });
-            thread.start();
-        });
-
         ImageButton backBtn = findViewById(R.id.back_button);
         backBtn.setOnClickListener(v -> finish());
 
         loaderView.setVisibility(View.GONE);
+        Pay.setOnClickListener(v -> {
+//            Pay.setEnabled(false);
+//            Thread thread = new Thread(() -> {
+//                try {
+//                  ///  OrderSummaryActivity.this.startPayment((int) amount);
+//                } catch (Exception e) {
+//                    Pay.setEnabled(true);
+//                    e.printStackTrace();
+//                }
+//            });
+//            thread.start();
+
+            Intent i = new Intent(getApplicationContext(), Order_Confirmed.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putParcelableArrayList("list", arrayList);\
+            i.putExtra("name", user_name);
+            i.putExtra("phone", user_phone);
+            i.putExtra("house", user_house);
+            i.putExtra("road", user_road);
+            i.putExtra("city", user_city);
+            i.putExtra("state", user_state);
+            i.putExtra("pincode", user_pin_code);
+            i.putExtra("shipping_charge",shipping_charges+"");
+            i.putExtra("list",arrayList);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            startActivity(i);
+            //finish();
+        });
+
+
     }
 
     private void getShippingCharges() {
@@ -186,9 +203,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         order_total.setText(String.format("₹%d.", total_and_shipping)); //bottom order total
 
         total_price.setText(String.format("%s00", amount));  //total MRP
-
         return amt;
-
     }
 
 
@@ -204,7 +219,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             Order order = razorpay.Orders.create(orderRequest);
             Log.d(TAG, order.get("id"));
            // checkoutOrder(order.get("id"), total_price);
-            AddOrderToFirebase(arrayList,order.get("id"));
+           // AddOrderToFirebase(arrayList,order.get("id"));
 
         } catch (RazorpayException | JSONException e) {
             Pay.setEnabled(true);
@@ -252,58 +267,58 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         }
     }
 
-    private void AddOrderToFirebase(ArrayList<cartModel> order_list,String PaymentId) {
-        //int total_price = 0;
-        String email= Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
-
-        String id=firebaseFirestore.collection("USERS").document().getId();
-        Map<String,Object> data=new HashMap<>();
-        ArrayList<Map<String,Object>> list=new ArrayList<>();
-        for(int i=0;i<order_list.size();i++){
-            Map<String,Object> map=new HashMap<>();
-            map.put("Name",order_list.get(i).getName());
-            map.put("Count",order_list.get(i).getCount());
-            map.put("Price",order_list.get(i).getPrice());
-            map.put("Size",order_list.get(i).getSize());
-            map.put("Type",order_list.get(i).getType());
-            map.put("isDelivered",false);
-            map.put("image",order_list.get(i).getImage());
-            map.put("Timestamp",new Date());
-            list.add(map);
-            //total_price += Integer.parseInt(order_list.get(i).getPrice());
-        }
-        data.put("orders",list);
-        data.put("Name",user_name);
-        data.put("Phone",user_phone);
-        data.put("House_No",user_house);
-        data.put("Area",user_road);
-        data.put("Order ID",PaymentId);
-        data.put("State",user_state);
-        data.put("City",user_city);
-        data.put("Pincode",user_pin_code);
-        data.put("Method","Online Payment");
-
-        assert email != null;
-        firebaseFirestore.collection("USERS").document(email).collection("ORDERS").
-                document(id).set(data).addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        firebaseFirestore.collection("ORDERS").document(id).set(data).
-                                addOnCompleteListener(task1 -> {
-                                    if(task1.isSuccessful()){
-                                        AddToExcel(arrayList,PaymentId);
-                                        Toast.makeText(getApplicationContext(), "Your order is placed", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else{
-                                        Toast.makeText(getApplicationContext(), "Some Error Occurred orders", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "Some Error Occurred users", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-    }
+//    private void AddOrderToFirebase(ArrayList<cartModel> order_list,String PaymentId) {
+//        //int total_price = 0;
+//        String email= Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
+//
+//        String id=firebaseFirestore.collection("USERS").document().getId();
+//        Map<String,Object> data=new HashMap<>();
+//        ArrayList<Map<String,Object>> list=new ArrayList<>();
+//        for(int i=0;i<order_list.size();i++){
+//            Map<String,Object> map=new HashMap<>();
+//            map.put("Name",order_list.get(i).getName());
+//            map.put("Count",order_list.get(i).getCount());
+//            map.put("Price",order_list.get(i).getPrice());
+//            map.put("Size",order_list.get(i).getSize());
+//            map.put("Type",order_list.get(i).getType());
+//            map.put("isDelivered",false);
+//            map.put("image",order_list.get(i).getImage());
+//            map.put("Timestamp",new Date());
+//            list.add(map);
+//            //total_price += Integer.parseInt(order_list.get(i).getPrice());
+//        }
+//        data.put("orders",list);
+//        data.put("Name",user_name);
+//        data.put("Phone",user_phone);
+//        data.put("House_No",user_house);
+//        data.put("Area",user_road);
+//        data.put("Order ID",PaymentId);
+//        data.put("State",user_state);
+//        data.put("City",user_city);
+//        data.put("Pincode",user_pin_code);
+//        data.put("Method","Online Payment");
+//
+//        assert email != null;
+//        firebaseFirestore.collection("USERS").document(email).collection("ORDERS").
+//                document(id).set(data).addOnCompleteListener(task -> {
+//                    if(task.isSuccessful()){
+//                        firebaseFirestore.collection("ORDERS").document(id).set(data).
+//                                addOnCompleteListener(task1 -> {
+//                                    if(task1.isSuccessful()){
+//                                        AddToExcel(arrayList,PaymentId);
+//                                        Toast.makeText(getApplicationContext(), "Your order is placed", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                    else{
+//                                        Toast.makeText(getApplicationContext(), "Some Error Occurred orders", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                    }
+//                    else{
+//                        Toast.makeText(getApplicationContext(), "Some Error Occurred users", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                });
+//    }
 
 
     public static boolean setListViewHeightBasedOnItems(ListView listView) {
@@ -346,7 +361,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     public void onPaymentSuccess(String razorpayPaymentID, PaymentData paymentData) {
         Log.d(TAG, "onPaymentSuccess razorpayPaymentID: " + razorpayPaymentID);
         Toast.makeText(getApplicationContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
-        AddOrderToFirebase(arrayList,paymentData.getPaymentId());
+       // AddOrderToFirebase(arrayList,paymentData.getPaymentId());
         clear_cart();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -354,36 +369,35 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         finish();
     }
 
-    private void AddToExcel(ArrayList<cartModel> order_list,String PaymentId) {
-
-        for(int i=0;i<order_list.size();i++){
-            Map<String,Object> data=new HashMap<>();
-            data.put("entry.131168542",order_list.get(i).getName());
-            data.put("entry.1664498189",order_list.get(i).getPrice());
-            data.put("entry.2091239120",order_list.get(i).getSize());
-            data.put("entry.363590504",order_list.get(i).getType());
-            data.put("entry.2040691413",new Date()+"");
-            data.put("entry.1576164204",user_phone);
-            data.put("entry.1382179014",user_house);
-            data.put("entry.1495324823",user_road);
-            data.put("entry.2048595423",user_state);
-            data.put("entry.1655477142",user_city);
-            data.put("entry.848668946",user_pin_code);
-            data.put("entry.822567484",PaymentId);
-            data.put("entry.1277791907",""+amount);
-            data.put("entry.1392578640",order_list.get(i).getCount());
-            data.put("entry.559020023",user_name);
-            data.put("entry.1216607284",Email);
-            Volley(data);
-            //total_price += Integer.parseInt(order_list.get(i).getPrice());
-        };
-        clear_cart();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-        finish();
-
-    }
+//    private void AddToExcel(ArrayList<cartModel> order_list,String PaymentId) {
+//
+//        for(int i=0;i<order_list.size();i++){
+//            Map<String,Object> data=new HashMap<>();
+//            data.put("entry.131168542",order_list.get(i).getName());
+//            data.put("entry.1664498189",order_list.get(i).getPrice());
+//            data.put("entry.2091239120",order_list.get(i).getSize());
+//            data.put("entry.363590504",order_list.get(i).getType());
+//            data.put("entry.2040691413",new Date()+"");
+//            data.put("entry.1576164204",user_phone);
+//            data.put("entry.1382179014",user_house);
+//            data.put("entry.1495324823",user_road);
+//            data.put("entry.2048595423",user_state);
+//            data.put("entry.1655477142",user_city);
+//            data.put("entry.848668946",user_pin_code);
+//            data.put("entry.822567484",PaymentId);
+//            data.put("entry.1277791907",""+amount);
+//            data.put("entry.1392578640",order_list.get(i).getCount());
+//            data.put("entry.559020023",user_name);
+//            data.put("entry.1216607284",Email);
+//            Volley(data);
+//            //total_price += Integer.parseInt(order_list.get(i).getPrice());
+//        };
+//        clear_cart();
+//        Intent intent = new Intent(this, Order_Confirmed.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        startActivity(intent);
+//
+//    }
 
     private void Volley(Map<String, Object> map) {
         Retrofit_Class retrofit_class=retrofit.create(Retrofit_Class.class);
@@ -396,7 +410,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
-                //Toast.makeText(OrderSummaryActivity.this, "error_occured", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OrderSummaryActivity.this, "error occured code x16389", Toast.LENGTH_SHORT).show();
                 Log.d("post",call.toString());
             }
         });

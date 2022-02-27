@@ -143,11 +143,10 @@
                     android:textFontWeight="400"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/contact_us_button"
+                android:id="@+id/team_button"
                 android:background="@drawable/frame_27"
                 android:paddingLeft="20dp"
                 android:paddingTop="14.5dp"
@@ -157,8 +156,8 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/phone"
-                    android:id="@+id/contact_us_logo"
+                    android:src="@drawable/team_logo"
+                    android:id="@+id/team_logo"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -166,18 +165,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Contact Us"
+                    android:text="Team"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/contact_us_logo"
+                    app:layout_constraintStart_toEndOf="@+id/team_logo"
                     android:fontFamily="@font/clash_display_400"
                     android:layout_marginStart="20dp"
                     android:textSize="18sp"
                     android:textFontWeight="400"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -212,39 +210,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/team_button"
-                android:background="@drawable/frame_27"
-                android:paddingLeft="20dp"
-                android:paddingTop="14.5dp"
-                android:paddingBottom="14.5dp"
-                android:layout_marginBottom="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/team_logo"
-                    android:id="@+id/team_logo"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Team"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/team_logo"
-                    android:fontFamily="@font/clash_display_400"
-                    android:layout_marginStart="20dp"
-                    android:textSize="18sp"
-                    android:textFontWeight="400"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -273,6 +238,40 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@+id/sponsor_logo"
+                    android:fontFamily="@font/clash_display_400"
+                    android:layout_marginStart="20dp"
+                    android:textSize="18sp"
+                    android:textFontWeight="400"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/contact_us_button"
+                android:background="@drawable/frame_27"
+                android:paddingLeft="20dp"
+                android:paddingTop="14.5dp"
+                android:paddingBottom="14.5dp"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/phone"
+                    android:id="@+id/contact_us_logo"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact Us"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toEndOf="@+id/contact_us_logo"
                     android:fontFamily="@font/clash_display_400"
                     android:layout_marginStart="20dp"
                     android:textSize="18sp"

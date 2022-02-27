@@ -150,7 +150,7 @@ class team : AppCompatActivity() {
                                         )
                                     }
                             )
-                            Spacer(modifier = Modifier.width(6.dp))
+
                         }
                         if (memb.fburl!=""){
                             Icon(
@@ -168,7 +168,7 @@ class team : AppCompatActivity() {
                                     },
                                 tint = Color(0xffC7CCD1)
                             )
-                            Spacer(modifier = Modifier.width(6.dp))
+
                         }
                         if (memb.lnkdurl!=""){
                             Icon(

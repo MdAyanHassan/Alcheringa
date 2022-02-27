@@ -288,7 +288,8 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }) { dataeach -> context?.let { Event_card_upcoming(eventdetail = dataeach,homeViewModel, it,fm) } }
+                            items(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.sortedBy { data->  (data.eventdetail.starttime.date*24*60 + ((data.eventdetail.starttime.hours*60)).toFloat() + (data.eventdetail.starttime.min.toFloat()))
+                            }) { dataeach -> context?.let { Event_card_upcoming(eventdetail = dataeach,homeViewModel, it,fm) } }
                         }
                     }
                     Box(modifier = Modifier
