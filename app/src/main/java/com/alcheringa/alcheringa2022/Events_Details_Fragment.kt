@@ -103,7 +103,8 @@ class Events_Details_Fragment : Fragment() {
                 if(eventfordes.eventdetail.category.replace("\\s".toRegex(), "").uppercase()=="Competitions".uppercase()){
                 Bottomviewcomp( eventWithLive = eventfordes)}
                 else {Bottomviewevents( eventWithLive = eventfordes)}
-                similarEvents(heading = "SIMILAR EVENTS",similarlist)
+                if(similarlist.isNotEmpty()){
+                similarEvents(heading = "SIMILAR EVENTS",similarlist)}
                 Spacer(modifier = Modifier.height(0.dp))
             }
         }
