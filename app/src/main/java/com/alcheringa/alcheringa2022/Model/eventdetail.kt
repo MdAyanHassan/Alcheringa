@@ -20,7 +20,8 @@ data class eventdetail(
     val venue:String="",
     val type:String="",
     val joinlink:String="https://alcheringa.in",
-    val reglink:String="https://alcheringa.in"
+    val reglink:String="https://alcheringa.in",
+    var stream:Boolean = true,
 //    var peopleCustomized: Int=0,
     ):Parcelable
 

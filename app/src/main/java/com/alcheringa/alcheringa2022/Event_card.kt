@@ -206,45 +206,47 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                         .padding(11.dp), contentAlignment = Alignment.TopEnd){
 
 
-                        if( !okstate.value) {
+                        if (eventdetail.eventdetail.stream) {
+                            if( !okstate.value) {
 
-                        Image( modifier = Modifier
-                            .width(18.dp)
-                            .height(18.dp)
-                            .clickable {
-                                okstate.value = true
-                                viewModelHm.OwnEventsWithLive.addNewItem(eventdetail.eventdetail);
-                                ScheduleDatabase.addEventsInSchedule(
-                                    eventdetail.eventdetail,
-                                    context
-                                )
-                                okstate.value = true
-                            },
-                            painter = painterResource(id = R.drawable.add_icon),
-                             contentDescription ="null")
-                        }
-                        if(okstate.value)
-                        {
                             Image( modifier = Modifier
-                                .width(20.dp)
-                                .height(20.dp)
+                                .width(18.dp)
+                                .height(18.dp)
                                 .clickable {
-                                    Log.d("boxevent", eventdetail.toString())
-
-                                    viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
-
-                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
-                                    Toast
-                                        .makeText(
-                                            context,
-                                            "event removed from schedule",
-                                            Toast.LENGTH_SHORT
-                                        )
-                                        .show()
-                                    okstate.value = false
+                                    okstate.value = true
+                                    viewModelHm.OwnEventsWithLive.addNewItem(eventdetail.eventdetail);
+                                    ScheduleDatabase.addEventsInSchedule(
+                                        eventdetail.eventdetail,
+                                        context
+                                    )
+                                    okstate.value = true
                                 },
-                                painter = painterResource(id = R.drawable.tickokay),
-                                contentDescription ="null", contentScale = ContentScale.FillBounds)
+                                painter = painterResource(id = R.drawable.add_icon),
+                                 contentDescription ="null")
+                            }
+                            if(okstate.value)
+                            {
+                                Image( modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                                    .clickable {
+                                        Log.d("boxevent", eventdetail.toString())
+
+                                        viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
+
+                                        ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
+                                        Toast
+                                            .makeText(
+                                                context,
+                                                "event removed from schedule",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                            .show()
+                                        okstate.value = false
+                                    },
+                                    painter = painterResource(id = R.drawable.tickokay),
+                                    contentDescription ="null", contentScale = ContentScale.FillBounds)
+                            }
                         }
                     }
                 }
@@ -266,7 +268,19 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(text = eventdetail.eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = "${eventdetail.eventdetail.starttime.date} Mar, ${if(eventdetail.eventdetail.starttime.hours>12)"${eventdetail.eventdetail.starttime.hours-12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min!=0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours>=12)"PM" else "AM"} ", style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                        if(eventdetail.eventdetail.stream) {
+                            Text(
+                                text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                style = TextStyle(
+                                    color = colorResource(id = R.color.textGray),
+                                    fontFamily = hk_grotesk,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 14.sp
+                                )
+                            )
+                        }else{
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
                         Spacer(modifier = Modifier.height(2.dp))
                         Row {
                             Box(modifier = Modifier
@@ -482,7 +496,19 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(text = eventdetail.eventdetail.category, style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = "${eventdetail.eventdetail.starttime.date} Mar, ${if(eventdetail.eventdetail.starttime.hours>12)"${eventdetail.eventdetail.starttime.hours-12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min!=0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours>=12)"PM" else "AM"} ", style = TextStyle(color = colorResource(id = R.color.textGray),fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                        if(eventdetail.eventdetail.stream) {
+                            Text(
+                                text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                style = TextStyle(
+                                    color = colorResource(id = R.color.textGray),
+                                    fontFamily = hk_grotesk,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 14.sp
+                                )
+                            )
+                        }else{
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
                         Spacer(modifier = Modifier.height(2.dp))
                         Row {
                             Box(modifier = Modifier

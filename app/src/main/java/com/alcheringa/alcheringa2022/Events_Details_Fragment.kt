@@ -42,10 +42,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
-import com.alcheringa.alcheringa2022.Model.addNewItem
-import com.alcheringa.alcheringa2022.Model.eventWithLive
-import com.alcheringa.alcheringa2022.Model.removeAnItem
-import com.alcheringa.alcheringa2022.Model.viewModelHome
+import com.alcheringa.alcheringa2022.Model.*
 import com.alcheringa.alcheringa2022.databinding.ActivityEventDetailsBinding
 import com.alcheringa.alcheringa2022.ui.theme.clash
 import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
@@ -290,6 +287,7 @@ class Events_Details_Fragment : Fragment() {
                         .height(20.dp),
                     alignment = Alignment.Center,
                     contentScale = ContentScale.Crop)
+
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
@@ -300,6 +298,7 @@ class Events_Details_Fragment : Fragment() {
                         fontSize = 20.sp
                     )
                 )
+
             }
             Spacer(modifier = Modifier.height(20.dp))
             Text(text =eventfordes.eventdetail.descriptionEvent ,
@@ -508,70 +507,74 @@ class Events_Details_Fragment : Fragment() {
                 )
                 }
 
-                Box(modifier = Modifier
-                    .wrapContentSize()
-                   ){
+                if (eventWithLive.eventdetail.stream) {
+                    Box(modifier = Modifier
+                        .wrapContentSize()
+                       ){
 
 
-                    if( !isadded.value) {
+                        if( !isadded.value) {
 
-                        Image( modifier = Modifier
-                            .width(18.dp)
-                            .height(18.dp)
-                            .clickable {
-                                isadded.value= true
-                                viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
-                                scheduleDatabase.addEventsInSchedule(eventWithLive.eventdetail,context)
-                            },
-                            painter = painterResource(id = R.drawable.add_icon),
-                            contentDescription ="null")
-                    }
-                    if(isadded.value)
-                    {
-                        Image( modifier = Modifier
-                            .width(20.dp)
-                            .height(20.dp)
-                            .clickable {
-                                isadded.value= false
-                                viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
-                                scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Event removed from My Schedule",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                            },
-                            painter = painterResource(id = R.drawable.tickokay),
-                            contentDescription ="null", contentScale = ContentScale.FillBounds)
+                            Image( modifier = Modifier
+                                .width(18.dp)
+                                .height(18.dp)
+                                .clickable {
+                                    isadded.value= true
+                                    viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
+                                    scheduleDatabase.addEventsInSchedule(eventWithLive.eventdetail,context)
+                                },
+                                painter = painterResource(id = R.drawable.add_icon),
+                                contentDescription ="null")
+                        }
+                        if(isadded.value)
+                        {
+                            Image( modifier = Modifier
+                                .width(20.dp)
+                                .height(20.dp)
+                                .clickable {
+                                    isadded.value= false
+                                    viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
+                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "Event removed from My Schedule",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
+                                },
+                                painter = painterResource(id = R.drawable.tickokay),
+                                contentDescription ="null", contentScale = ContentScale.FillBounds)
+                        }
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(), Arrangement.Start)
-            {
-                Image(
-                    painter = painterResource(id = R.drawable.schedule),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(20.dp)
-                        .height(20.dp),
-                    alignment = Alignment.Center,
-                    contentScale = ContentScale.Crop)
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
-                    style = TextStyle(
-                        color = colorResource(id = R.color.textGray),
-                        fontFamily = clash,
-                        fontWeight = FontWeight.W500,
-                        fontSize = 20.sp
-                    )
-                )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
+             if (eventWithLive.eventdetail.stream) {
+                 Spacer(modifier = Modifier.height(20.dp))
+                 Row(
+                     modifier = Modifier.fillMaxWidth(), Arrangement.Start)
+                 {
+                     Image(
+                         painter = painterResource(id = R.drawable.schedule),
+                         contentDescription = null,
+                         modifier = Modifier
+                             .width(20.dp)
+                             .height(20.dp),
+                         alignment = Alignment.Center,
+                         contentScale = ContentScale.Crop)
+                     Spacer(modifier = Modifier.width(6.dp))
+                     Text(
+                         text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
+                         style = TextStyle(
+                             color = colorResource(id = R.color.textGray),
+                             fontFamily = clash,
+                             fontWeight = FontWeight.W500,
+                             fontSize = 20.sp
+                         )
+                     )
+                 }
+             }
+             Spacer(modifier = Modifier.height(20.dp))
             Text(text =eventfordes.eventdetail.descriptionEvent ,
                 fontFamily = hk_grotesk,
                 fontWeight = FontWeight.W600,
@@ -601,9 +604,9 @@ class Events_Details_Fragment : Fragment() {
 
                 }
             }
-            if (!eventWithLive.isLive.value){
+            if (!eventWithLive.isLive.value && eventWithLive.eventdetail.stream){
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink))) },
                     Modifier
                         .fillMaxWidth()
                         .height(55.dp),
@@ -650,9 +653,9 @@ class Events_Details_Fragment : Fragment() {
 
                     }
                 }
-
+                Spacer(modifier = Modifier.height(12.dp))
             }
-            Spacer(modifier = Modifier.height(12.dp))
+
 //            if (isadded.value) {
 //                Button(
 //                    onClick = {
