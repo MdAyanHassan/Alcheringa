@@ -41,12 +41,12 @@ public class YourOrdersAdapter extends RecyclerView.Adapter<YourOrdersViewHolder
         String status_text;
         if(Objects.equals(status, "true"))
         {
-            status_text = "Delivered";
+            status_text = "Purchased";
             holder.status.setTextColor(Color.parseColor("#11D3D3"));
         }
         else
         {
-            status_text = "Ordered";
+            status_text = "In progress";
             holder.status.setTextColor(Color.parseColor("#EE6337"));
         }
 

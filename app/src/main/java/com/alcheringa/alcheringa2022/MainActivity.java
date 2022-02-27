@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         events_fragment = new Events();
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
-        epass=findViewById(R.id.epass);
+       // epass=findViewById(R.id.epass);
         bottomNavigationView.setBackground(null);
         //bottomNavigationView.getMenu().getItem(2).setEnabled(false);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -51,14 +51,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             Intent intent = new Intent(this, SignUp.class);
             startActivity(intent);
         }*/
-        epass.setOnClickListener(v->{
-            if(checkIsPassExistForUser(email)){
-                startActivity(new Intent(getApplicationContext(),E_pass.class));
-            }
-            else{
-                startActivity(new Intent(getApplicationContext(), ScannerActivity.class));
-            }
-        });
+//        epass.setOnClickListener(v->{
+//            if(checkIsPassExistForUser(email)){
+//                startActivity(new Intent(getApplicationContext(),E_pass.class));
+//            }
+//            else{
+//                startActivity(new Intent(getApplicationContext(), ScannerActivity.class));
+//            }
+//        });
 
         //getVersionInfo();
 //        Home home=new Home();

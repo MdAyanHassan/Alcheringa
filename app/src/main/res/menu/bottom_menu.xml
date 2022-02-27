@@ -9,9 +9,9 @@
         android:title="Events"
         android:icon="@drawable/events_bottom"/>
 
-    <item
-        android:id="@+id/pass"
-        android:title="E-Pass" />
+<!--    <item-->
+<!--        android:id="@+id/pass"-->
+<!--        android:title="E-Pass" />-->
 
     <item
         android:id="@+id/schedule"
