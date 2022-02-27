@@ -546,11 +546,11 @@ class Schedule : Fragment() {
         }
         var catid= remember { mutableStateOf(6) }
             when(eventdetail.eventdetail.venue.replace("\\s".toRegex(), "").uppercase()){
-                "Auditorium 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=1
-                "Auditorium 2".replace("\\s".toRegex(), "").uppercase()->catid.value=2
-                "Creators' Camp".replace("\\s".toRegex(), "").uppercase()-> catid.value=3
-                "Gaming".replace("\\s".toRegex(), "").uppercase()-> catid.value=4
-                "Campaign".replace("\\s".toRegex(), "").uppercase()-> catid.value=5
+                "Auditorium 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=0
+                "Auditorium 2".replace("\\s".toRegex(), "").uppercase()->catid.value=1
+                "Creators' Camp".replace("\\s".toRegex(), "").uppercase()-> catid.value=2
+                "Gaming".replace("\\s".toRegex(), "").uppercase()-> catid.value=3
+                "Campaign".replace("\\s".toRegex(), "").uppercase()-> catid.value=4
 
             }
 

@@ -123,11 +123,13 @@ class team : AppCompatActivity() {
                     .clip(RoundedCornerShape(106.dp)), painter = painterResource(id = memb.imgdrw), contentDescription = null)
 
                 Spacer(modifier = Modifier.width(24.dp))
+                var headfont=18.sp
+                if (memb.name.contains("Atharva")){headfont=16.sp}
                 Column(
                     Modifier
                         .fillMaxHeight()
                         .fillMaxWidth(), verticalArrangement = Arrangement.Center) {
-                    Text(text = memb.name, fontSize = 18.sp, fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White)
+                    Text(text = memb.name, fontSize = headfont, fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White)
 
                     Text(text = memb.pos, fontSize = 14.sp, fontFamily = hk_grotesk, fontWeight = FontWeight.W500, color = Color(0xffC7CCD1))
                     Spacer(modifier = Modifier.height(12.dp))
