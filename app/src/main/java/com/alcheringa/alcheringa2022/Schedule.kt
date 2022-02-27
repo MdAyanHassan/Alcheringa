@@ -256,19 +256,19 @@ class Schedule : Fragment() {
             val horiscrollstate = rememberScrollState()
             Row(
                 Modifier
-                    .width(1095.dp)
+                    .width(1245.dp)
                     .horizontalScroll(horiscrollstate)
 
             ) {
                 Spacer(modifier = Modifier.width(70.dp))
                 Row(
                     Modifier
-                        .width(1025.dp)
+                        .width(1275.dp)
                         , horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                         Text(
-                            text = "Paytm 1",
+                            text = "Auditorium 1",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = clash,
@@ -277,7 +277,7 @@ class Schedule : Fragment() {
                     }
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                         Text(
-                            text = "Paytm 2",
+                            text = "Auditorium 2",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = clash,
@@ -286,7 +286,7 @@ class Schedule : Fragment() {
                     }
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                         Text(
-                            text = "Paytm 3",
+                            text = "Gaming",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = clash,
@@ -295,7 +295,17 @@ class Schedule : Fragment() {
                     }
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                         Text(
-                            text = "Paytm 4",
+                            text = "Proshows",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = clash,
+                            color = Color.White
+                        )
+                    }
+
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                        Text(
+                            text = "Creators' Camp",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = clash,
@@ -408,7 +418,7 @@ class Schedule : Fragment() {
 
         Box(
             Modifier
-                .width(1025.dp)
+                .width(1275.dp)
                 .height(975.dp)
 //                .horizontalScroll(rememberScrollState())
                ) {
@@ -501,6 +511,7 @@ class Schedule : Fragment() {
             Box(modifier = Modifier.offset(x=275.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
             Box(modifier = Modifier.offset(x=525.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
             Box(modifier = Modifier.offset(x=775.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
+            Box(modifier = Modifier.offset(x=1025.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
             if (datestate.value == 1) {
                 datestate1.forEach { data -> fullSchUserBox(eventdetail = data) }
             }
@@ -535,9 +546,11 @@ class Schedule : Fragment() {
         }
         var catid= remember { mutableStateOf(4) }
             when(eventdetail.eventdetail.category){
-                "Pronites"-> catid.value=1
-                "Competitions"->catid.value=2
-                "Proshows"-> catid.value=3
+                "Auditorium 1"-> catid.value=1
+                "Auditorium 2"->catid.value=2
+                "Gaming"-> catid.value=3
+                "Proshows"-> catid.value=4
+                "Creators' Camp"-> catid.value=5
             }
 
 
