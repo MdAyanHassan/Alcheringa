@@ -286,7 +286,7 @@ class Schedule : Fragment() {
                     }
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                         Text(
-                            text = "Gaming",
+                            text = "Creators' Camp",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = clash,
@@ -295,7 +295,7 @@ class Schedule : Fragment() {
                     }
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                         Text(
-                            text = "Proshows",
+                            text = "Gaming",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = clash,
@@ -305,7 +305,7 @@ class Schedule : Fragment() {
 
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                         Text(
-                            text = "Creators' Camp",
+                            text = "Campaign",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = clash,
@@ -544,13 +544,14 @@ class Schedule : Fragment() {
                 ).random()
             )
         }
-        var catid= remember { mutableStateOf(4) }
-            when(eventdetail.eventdetail.category){
-                "Auditorium 1"-> catid.value=1
-                "Auditorium 2"->catid.value=2
-                "Gaming"-> catid.value=3
-                "Proshows"-> catid.value=4
-                "Creators' Camp"-> catid.value=5
+        var catid= remember { mutableStateOf(6) }
+            when(eventdetail.eventdetail.venue.replace("\\s".toRegex(), "").uppercase()){
+                "Auditorium 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=1
+                "Auditorium 2".replace("\\s".toRegex(), "").uppercase()->catid.value=2
+                "Creators' Camp".replace("\\s".toRegex(), "").uppercase()-> catid.value=3
+                "Gaming".replace("\\s".toRegex(), "").uppercase()-> catid.value=4
+                "Campaign".replace("\\s".toRegex(), "").uppercase()-> catid.value=5
+
             }
 
 
