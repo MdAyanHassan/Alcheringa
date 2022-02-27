@@ -35,7 +35,7 @@
             android:id="@+id/shop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Orders"
+            android:text="CART"
             android:textColor="@color/white"
             android:fontFamily="@font/clash_display_700"
             android:textSize="25sp"
@@ -49,51 +49,41 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+        android:orientation="vertical"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            app:lottie_rawRes="@raw/noorders"
-            app:lottie_loop="true"
-            app:lottie_autoPlay="true"
-            android:contentDescription="@string/empty_shopping_cart"
-            android:layout_marginBottom="0dp"
-            android:layout_gravity="center"/>
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        app:lottie_rawRes="@raw/order_confirmed"
+        android:layout_gravity="center"
+        app:lottie_loop="false"
+        app:lottie_autoPlay="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No Orders Found"
-            android:textColor="#A3A7AC"
+            android:text="Your order is confimred"
+            android:textColor="#FFFFFF"
             android:fontFamily="@font/clash_display_600"
             android:textSize="22sp"
             android:layout_marginBottom="16dp"
             android:textAlignment="center"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Looks like you haven’t \n placed any orders yet"
+            android:text="Our team will contact you regarding further details of your order."
             android:textSize="16sp"
-            android:textColor="#707683"
-            android:fontFamily="@font/hk_grotesk_400"
+            android:textColor="#C7CCD1"
+            android:fontFamily="@font/hk_grotesk_500"
             android:textAlignment="center"
-            android:layout_gravity="center"
-            />
-        <Button
-            android:id="@+id/start_shopping"
-            android:text="Start Shopping"
-            android:layout_marginTop="64dp"
-            style="@style/bottom_orange_button"
-            android:layout_gravity="center"
-            android:layout_width="188dp"
-            android:visibility="gone"/>
+            android:layout_gravity="center" />
 
     </LinearLayout>
 
