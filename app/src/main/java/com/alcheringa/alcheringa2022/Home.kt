@@ -335,7 +335,14 @@ class Home : Fragment() {
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.take(7)) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it,fm) } }
+                            items(homeViewModel.allEventsWithLive.take(7)) {
+                                    dataeach ->
+                                context?.let {
+                                    /*if(dataeach.eventdetail.stream){
+                                        Event_card(eventdetail = dataeach,homeViewModel, it,fm)
+                                    }*/
+                                    Event_card(eventdetail = dataeach,homeViewModel, it,fm)
+                                } }
                         }
                     }
 
