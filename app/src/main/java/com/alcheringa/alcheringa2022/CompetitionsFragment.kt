@@ -38,9 +38,23 @@ private const val ARG_PARAM2 = "param2"
  */
 class CompetitionsFragment : Fragment() {
 
+
+
+
     private lateinit var binding: FragmentCompetitionsBinding
     val homeViewModel:viewModelHome by activityViewModels()
     lateinit var Fm:FragmentManager
+    lateinit var voguenationlist: List<eventWithLive>
+    lateinit var classapartlist: List<eventWithLive>
+    lateinit var anybodycandancelist: List<eventWithLive>
+    lateinit var musiclist: List<eventWithLive>
+    lateinit var literarylist: List<eventWithLive>
+    lateinit var arttalikieslist: List<eventWithLive>
+    lateinit var digitaldextiritylist: List<eventWithLive>
+    lateinit var lighcameraactionlist: List<eventWithLive>
+
+
+
 //    val events=mutableListOf(
 //
 //        eventdetail(
@@ -91,6 +105,30 @@ class CompetitionsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fm= parentFragmentManager
+  voguenationlist=homeViewModel.allEventsWithLive.filter {
+          data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "VOGUE NATION".replace("\\s".toRegex(), "").uppercase()}
+
+        classapartlist =homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "CLASS APART".replace("\\s".toRegex(), "").uppercase()}
+
+        anybodycandancelist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "ANY BODY CAN DANCE".replace("\\s".toRegex(), "").uppercase()}
+
+        musiclist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "MUSIC".replace("\\s".toRegex(), "").uppercase()}
+
+        literarylist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "LITERARY".replace("\\s".toRegex(), "").uppercase()}
+
+        arttalikieslist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "ART TALKIES".replace("\\s".toRegex(), "").uppercase()}
+
+        digitaldextiritylist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "DIGITAL DEXTERITY".replace("\\s".toRegex(), "").uppercase()}
+
+        lighcameraactionlist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "LIGHTS CAMERA ACTION".replace("\\s".toRegex(), "").uppercase()}
+
     }
 
     override fun onCreateView(
@@ -104,8 +142,8 @@ class CompetitionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val scheduleDatabase=ScheduleDatabase(context)
-        val eventslist=scheduleDatabase.schedule;
+//        val scheduleDatabase=ScheduleDatabase(context)
+//        val eventslist=scheduleDatabase.schedule;
 //        binding.account.setOnClickListener {
 //            startActivity(Intent(context,Account::class.java));
 //
@@ -128,23 +166,21 @@ class CompetitionsFragment : Fragment() {
                 /*.background(Color.Black)*/
             ) {
                 Spacer(modifier = Modifier.height(70.dp))
-                Events_row(heading = "VOGUE NATION")
-                Events_row(heading = "CLASS APART")
-                Events_row(heading = "ANY BODY CAN DANCE")
-                Events_row(heading = "MUSIC")
-                Events_row(heading = "LITERARY")
-                Events_row(heading = "ART TALKIES")
-                Events_row(heading = "DIGITAL DEXTERITY")
-                Events_row(heading = "LIGHTS CAMERA ACTION")
+                Events_row(heading = "VOGUE NATION",voguenationlist)
+                Events_row(heading = "CLASS APART",classapartlist)
+                Events_row(heading = "ANY BODY CAN DANCE",anybodycandancelist)
+                Events_row(heading = "MUSIC",musiclist)
+                Events_row(heading = "LITERARY",literarylist)
+                Events_row(heading = "ART TALKIES", arttalikieslist)
+                Events_row(heading = "DIGITAL DEXTERITY",digitaldextiritylist)
+                Events_row(heading = "LIGHTS CAMERA ACTION",lighcameraactionlist)
             }
         }
     }
 
     @Composable
-    fun Events_row(heading: String) {
-        val events_list=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()}
-if (events_list.isNotEmpty()){
+    fun Events_row(heading: String,events_list:List<eventWithLive>) {
+       if (events_list.isNotEmpty()){
         Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
             Text(text = heading.uppercase(
                 Locale.getDefault()), style = MaterialTheme.typography.h2)

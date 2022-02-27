@@ -366,7 +366,9 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
             ){
                 GlideImage(modifier = Modifier
                     .width(218.dp)
-                    .height(256.dp),imageModel = eventdetail.eventdetail.imgurl, contentDescription = "artist", contentScale = ContentScale.Crop,
+                    .height(256.dp),
+                    imageModel = eventdetail.eventdetail.imgurl
+                    , contentDescription = "artist", contentScale = ContentScale.Crop,
                     alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
                         baseColor = blackbg,
