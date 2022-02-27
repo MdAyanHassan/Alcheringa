@@ -134,7 +134,7 @@
                 android:text="XL"
                 style="@style/size_text"/>
             <TextView
-                android:text="29.50"
+                android:text="29.25"
                 style="@style/size_text"/>
             <TextView
                 android:text="44"
