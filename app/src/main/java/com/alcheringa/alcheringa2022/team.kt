@@ -114,7 +114,7 @@ class team : AppCompatActivity() {
             .height(97.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(Color(0xff323C47))
+            .background(Color(0xff2B2B2B))
             .padding(12.dp), contentAlignment = Alignment.Center) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
                 Image(modifier = Modifier

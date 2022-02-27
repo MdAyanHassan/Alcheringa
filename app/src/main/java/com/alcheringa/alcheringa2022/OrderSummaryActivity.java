@@ -73,6 +73,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     String user_city;
     String user_pin_code;
     int shipping_charges;
+    String Email;
     long amount;
     TextView shipping;
     private static Retrofit.Builder builder;
@@ -108,6 +109,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         user_state = intent.getStringExtra("state");
         user_city = intent.getStringExtra("city");
         user_pin_code = intent.getStringExtra("pincode");
+        SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+        Email = sharedPreferences.getString("email", "");
 
         name.setText(user_name);
         address.setText(String.format("%s, %s\n%s, %s - %s\n%s",
@@ -200,7 +203,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
 
             Order order = razorpay.Orders.create(orderRequest);
             Log.d(TAG, order.get("id"));
-            checkoutOrder(order.get("id"), total_price);
+           // checkoutOrder(order.get("id"), total_price);
+            AddOrderToFirebase(arrayList,order.get("id"));
 
         } catch (RazorpayException | JSONException e) {
             Pay.setEnabled(true);
@@ -369,9 +373,15 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             data.put("entry.1277791907",""+amount);
             data.put("entry.1392578640",order_list.get(i).getCount());
             data.put("entry.559020023",user_name);
+            data.put("entry.1216607284",Email);
             Volley(data);
             //total_price += Integer.parseInt(order_list.get(i).getPrice());
         };
+        clear_cart();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
 
     }
 
