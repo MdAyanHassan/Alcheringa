@@ -162,7 +162,7 @@ public class SignUp extends AppCompatActivity {
                                     if (task2.isSuccessful() && !task2.getResult().exists()) {
                                         RegisterUserInDatabase();
                                         toast("Welcome " + finalName);
-                                        startMainActivity();
+                                        startInterestActivity();
                                     }else{
                                         toast("Welcome back " + finalName);
                                         Intent intent = new Intent(this, MainActivity.class);
@@ -359,7 +359,7 @@ public class SignUp extends AppCompatActivity {
                             if (task2.isSuccessful() && !task2.getResult().exists()) {
                                 RegisterUserInDatabase();
                                 toast("Welcome " + user.getDisplayName());
-                                startMainActivity();
+                                startInterestActivity();
                             }else{
                                 toast("Welcome back " + user.getDisplayName());
                                 Intent intent = new Intent(this, MainActivity.class);
@@ -379,7 +379,7 @@ public class SignUp extends AppCompatActivity {
     /* ################################ Custom Signup Functions ############################### */
 
 
-    private void startMainActivity(){
+    private void startInterestActivity(){
         Intent intent = new Intent(this, InterestsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
