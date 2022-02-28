@@ -60,7 +60,6 @@ public class Account extends AppCompatActivity {
         }
 
         view.setOnClickListener(v -> {
-            firebaseAuth.signOut();
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove("name");
             editor.remove("email");
@@ -69,6 +68,7 @@ public class Account extends AppCompatActivity {
             editor.apply();
             Intent intent = new Intent(getApplicationContext(),Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            firebaseAuth.signOut();
             startActivity(intent);
             finish();
         });
