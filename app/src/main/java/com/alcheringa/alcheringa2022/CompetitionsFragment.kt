@@ -44,6 +44,7 @@ class CompetitionsFragment : Fragment() {
     private lateinit var binding: FragmentCompetitionsBinding
     val homeViewModel:viewModelHome by activityViewModels()
     lateinit var Fm:FragmentManager
+    lateinit var mun: List<eventWithLive>
     lateinit var voguenationlist: List<eventWithLive>
     lateinit var classapartlist: List<eventWithLive>
     lateinit var anybodycandancelist: List<eventWithLive>
@@ -105,7 +106,10 @@ class CompetitionsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fm= parentFragmentManager
-  voguenationlist=homeViewModel.allEventsWithLive.filter {
+        mun=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "MUN".replace("\\s".toRegex(), "").uppercase()}
+
+        voguenationlist=homeViewModel.allEventsWithLive.filter {
           data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "VOGUE NATION".replace("\\s".toRegex(), "").uppercase()}
 
         classapartlist =homeViewModel.allEventsWithLive.filter {
@@ -166,6 +170,7 @@ class CompetitionsFragment : Fragment() {
                 /*.background(Color.Black)*/
             ) {
                 Spacer(modifier = Modifier.height(70.dp))
+                Events_row(heading = "MUN",mun)
                 Events_row(heading = "VOGUE NATION",voguenationlist)
                 Events_row(heading = "CLASS APART",classapartlist)
                 Events_row(heading = "ANY BODY CAN DANCE",anybodycandancelist)

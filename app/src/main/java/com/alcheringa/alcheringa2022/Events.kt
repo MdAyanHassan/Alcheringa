@@ -126,17 +126,19 @@ class Events : Fragment() {
                     /*.background(Color.Black)*/
             ) {
                 Spacer(modifier = Modifier.height(70.dp))
-                Events_row(heading = "Pronites")
-                Events_row(heading = "Proshows")
-                Events_row(heading = "Creators' Camp")
-                Events_row(heading = "Humor Fest")
-                Events_row(heading = "Campaigns")
                 Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
                     Text(text = "COMPETITIONS", fontWeight = FontWeight.W600, fontSize = 16.sp, fontFamily = clash,color = Color.White)
                     Spacer(modifier = Modifier.height(14.dp))
                     imgcomp()
 
                 }
+                Events_row(heading = "Critical Damage")
+                Events_row(heading = "Pronites")
+                Events_row(heading = "Proshows")
+                Events_row(heading = "Creators' Camp")
+                Events_row(heading = "Humor Fest")
+                Events_row(heading = "Campaigns")
+
 
             }
         }
