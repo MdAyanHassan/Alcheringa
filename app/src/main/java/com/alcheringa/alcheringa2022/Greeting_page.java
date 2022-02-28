@@ -28,8 +28,8 @@ public class Greeting_page extends AppCompatActivity {
     Button signupButton,Login_button;
     FirebaseAuth firebaseAuth;
     VideoView videoView;
-    private final int REQUEST_CODE=11;
-    AppUpdateManager appUpdateManager;
+//    private final int REQUEST_CODE=11;
+//    AppUpdateManager appUpdateManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,38 +51,38 @@ public class Greeting_page extends AppCompatActivity {
                 mp.setLooping(true);
             }
         });
-        check_update_available() ;
+       // check_update_available() ;
     }
 
-    private void check_update_available() {
-        appUpdateManager= AppUpdateManagerFactory.create(Greeting_page.this);
-        Task<AppUpdateInfo> appUpdateInfoTask=appUpdateManager.getAppUpdateInfo();
-        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
-            @Override
-            public void onSuccess(AppUpdateInfo appUpdateInfo) {
-                if(appUpdateInfo.updateAvailability()== UpdateAvailability.UPDATE_AVAILABLE
-                            && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
-                    try {
-                        appUpdateManager.startUpdateFlowForResult(appUpdateInfo,AppUpdateType.IMMEDIATE,Greeting_page.this,REQUEST_CODE);
-                    } catch (IntentSender.SendIntentException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQUEST_CODE ){
-            Toast.makeText(this, "start Download", Toast.LENGTH_SHORT).show();
-        }
-        if(resultCode!=RESULT_OK){
-            Log.d("UPDATE","Update flow failed"+resultCode);
-        }
-    }
+//    private void check_update_available() {
+//        appUpdateManager= AppUpdateManagerFactory.create(Greeting_page.this);
+//        Task<AppUpdateInfo> appUpdateInfoTask=appUpdateManager.getAppUpdateInfo();
+//        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+//            @Override
+//            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+//                if(appUpdateInfo.updateAvailability()== UpdateAvailability.UPDATE_AVAILABLE
+//                            && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
+//                    try {
+//                        appUpdateManager.startUpdateFlowForResult(appUpdateInfo,AppUpdateType.IMMEDIATE,Greeting_page.this,REQUEST_CODE);
+//                    } catch (IntentSender.SendIntentException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }
+//        });
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode==REQUEST_CODE ){
+//            Toast.makeText(this, "start Download", Toast.LENGTH_SHORT).show();
+//        }
+//        if(resultCode!=RESULT_OK){
+//            Log.d("UPDATE","Update flow failed"+resultCode);
+//        }
+//    }
 
     @Override
     protected void onStart() {
