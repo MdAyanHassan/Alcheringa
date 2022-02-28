@@ -327,6 +327,8 @@ class Home : Fragment() {
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     mySchedule()
+                    Text(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp), text = "*Long press and drag to delete an Event", fontFamily = hk_grotesk, fontWeight = FontWeight.Normal, color = Color.White, fontSize = 8.sp, textAlign = TextAlign.End)
+
                     Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "RECOMMENDED FOR YOU", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                     Box(modifier = Modifier
                         .fillMaxWidth()
