@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         index=R.id.home_nav;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
         bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
+        getVersionInfo();
 
 
        /* try{
@@ -96,20 +97,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void getVersionInfo() {
-        String versionCode = BuildConfig.VERSION_NAME+"";
+        int versionCode = BuildConfig.VERSION_CODE;
         firebaseFirestore.collection("Version").document("version").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     DocumentSnapshot documentSnapshot=task.getResult();
-                    String version_info=documentSnapshot.getString("version");
-                    if(!version_info.equals(versionCode)){
-                       ShowDialog();
-                        Toast.makeText(MainActivity.this, "equals"+versionCode, Toast.LENGTH_SHORT).show();
+                    int version_info=Integer.parseInt(documentSnapshot.getString("version"));
+                    //Toast.makeText(MainActivity.this, "equals"+versionCode, Toast.LENGTH_SHORT).show();
+                    if(version_info>versionCode){
+                        ShowDialog();
                     }
                 }
                 else{
-                    Toast.makeText(MainActivity.this, "Version code not found", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "Version code not found", Toast.LENGTH_SHORT).show();
                 }
             }
         });

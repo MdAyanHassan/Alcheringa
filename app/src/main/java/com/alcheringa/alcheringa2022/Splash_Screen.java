@@ -31,8 +31,6 @@ public class Splash_Screen extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     VideoView videoView;
-    private final int REQUEST_CODE=11;
-    AppUpdateManager appUpdateManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +41,6 @@ public class Splash_Screen extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
-        check_update_available() ;
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -60,34 +57,4 @@ public class Splash_Screen extends AppCompatActivity {
 
 
     }
-    private void check_update_available() {
-        appUpdateManager= AppUpdateManagerFactory.create(Splash_Screen.this);
-        Task<AppUpdateInfo> appUpdateInfoTask=appUpdateManager.getAppUpdateInfo();
-        appUpdateInfoTask.addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
-            @Override
-            public void onSuccess(AppUpdateInfo appUpdateInfo) {
-                if(appUpdateInfo.updateAvailability()== UpdateAvailability.UPDATE_AVAILABLE
-                        && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
-                    try {
-                        appUpdateManager.startUpdateFlowForResult(appUpdateInfo,AppUpdateType.IMMEDIATE,Splash_Screen.this,REQUEST_CODE);
-                    } catch (IntentSender.SendIntentException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQUEST_CODE ){
-            Toast.makeText(this, "start Download", Toast.LENGTH_SHORT).show();
-        }
-        if(resultCode!=RESULT_OK){
-            Log.d("UPDATE","Update flow failed"+resultCode);
-        }
-    }
-
 }

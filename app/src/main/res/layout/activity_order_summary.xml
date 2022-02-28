@@ -338,7 +338,7 @@
             android:id="@+id/pay_btn"
             style="@style/bottom_orange_button"
             android:foreground="?android:attr/selectableItemBackground"
-            android:text="Pay Securely" />
+            android:text="Confirm Order" />
 
     </LinearLayout>
 
