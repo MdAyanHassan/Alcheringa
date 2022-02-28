@@ -36,7 +36,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import org.apache.commons.text.WordUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -164,12 +166,15 @@ public class Login extends AppCompatActivity {
                                 loaderView.setVisibility(View.GONE);
                                 startMainActivity();
                             }else{
-                                final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                                assert currentUser != null;
-                                currentUser.delete();
-                                firebaseAuth.signOut();
+                                //final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                                //assert currentUser != null;
+                                //currentUser.delete();
+                                //firebaseAuth.signOut();
+                                RegisterUserInDatabase();
+                                saveDetails(finalName, finalEmail, "");
                                 loaderView.setVisibility(View.GONE);
-                                toast("You are not registered with us. Please create a new account");
+                                toast("Welcome "+finalName);
+                                startInterestActivity();
                             }
                         });
                     }catch(Exception e){
@@ -354,12 +359,15 @@ public class Login extends AppCompatActivity {
                             toast("Welcome back "+ user.getDisplayName());
                             startMainActivity();
                         }else{
-                            final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                            assert currentUser != null;
-                            currentUser.delete();
-                            firebaseAuth.signOut();
+                            //final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                            //assert currentUser != null;
+                            //currentUser.delete();
+                            //firebaseAuth.signOut();
+                            RegisterUserInDatabase();
+                            saveDetails(user.getDisplayName(), user.getEmail(), "");
                             loaderView.setVisibility(View.GONE);
-                            toast("You are not registered with us. Please create a new account");
+                            toast("Welcome "+user.getDisplayName());
+                            startInterestActivity();
                         }
                     });
                 } else {
@@ -370,6 +378,36 @@ public class Login extends AppCompatActivity {
                 }
 
             });
+    }
+
+    private void startInterestActivity(){
+        Intent intent = new Intent(this, InterestsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void RegisterUserInDatabase() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        assert user != null;
+        String email = user.getEmail();
+        assert email != null;
+        firebaseFirestore.collection("USERS").document(email).addSnapshotListener((value, error) -> {
+            assert value != null;
+            if (!value.exists()) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("Name", user.getDisplayName());
+                data.put("Email", email);
+                firebaseFirestore.collection("USERS").document(email).set(data).
+                        addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "Added user in database");
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error Occurred while adding user to the database", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
     }
 
     private static class HiddenPassTransformationMethod implements TransformationMethod {
