@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //        }
 
 
-
         index=R.id.home_nav;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
         bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
@@ -142,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         switch (item.getItemId()){
             case R.id.events:
                 if(index!=R.id.events){
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     protected void onResume() {
-        //getVersionInfo();
+        getVersionInfo();
         super.onResume();
     }
 

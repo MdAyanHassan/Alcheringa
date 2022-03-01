@@ -19,6 +19,6 @@
         android:icon="@drawable/schedule"/>
     <item
         android:id="@+id/merch"
-        android:title="Merch"
+        android:title="Shop"
         android:icon="@drawable/shopping_bag"/>
 </menu>
