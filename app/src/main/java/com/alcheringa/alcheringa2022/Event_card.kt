@@ -248,6 +248,48 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                     contentDescription ="null", contentScale = ContentScale.FillBounds)
                             }
                         }
+                        else if(eventdetail.eventdetail.mode=="Offline" && eventdetail.eventdetail.category!="Competitions"){
+                            if( !okstate.value) {
+
+                                Image( modifier = Modifier
+                                        .width(18.dp)
+                                        .height(18.dp)
+                                        .clickable {
+                                            okstate.value = true
+                                            viewModelHm.OwnEventsWithLive.addNewItem(eventdetail.eventdetail);
+                                            ScheduleDatabase.addEventsInSchedule(
+                                                    eventdetail.eventdetail,
+                                                    context
+                                            )
+                                            okstate.value = true
+                                        },
+                                        painter = painterResource(id = R.drawable.add_icon),
+                                        contentDescription ="null")
+                            }
+                            if(okstate.value)
+                            {
+                                Image( modifier = Modifier
+                                        .width(20.dp)
+                                        .height(20.dp)
+                                        .clickable {
+                                            Log.d("boxevent", eventdetail.toString())
+
+                                            viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
+
+                                            ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
+                                            Toast
+                                                    .makeText(
+                                                            context,
+                                                            "event removed from schedule",
+                                                            Toast.LENGTH_SHORT
+                                                    )
+                                                    .show()
+                                            okstate.value = false
+                                        },
+                                        painter = painterResource(id = R.drawable.tickokay),
+                                        contentDescription ="null", contentScale = ContentScale.FillBounds)
+                            }
+                        }
                     }
                 }
                 Box(modifier = Modifier
@@ -270,18 +312,34 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                         Spacer(modifier = Modifier.height(8.dp))
                         if(eventdetail.eventdetail.stream) {
                             Text(
-                                text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
-                                style = TextStyle(
-                                    color = colorResource(id = R.color.textGray),
-                                    fontFamily = hk_grotesk,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 14.sp
-                                )
+                                    text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                    style = TextStyle(
+                                            color = colorResource(id = R.color.textGray),
+                                            fontFamily = hk_grotesk,
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 14.sp
+                                    )
                             )
-                        }else{
+                        }else if(!eventdetail.eventdetail.stream){
+                            if(eventdetail.eventdetail.mode=="Offline" && eventdetail.eventdetail.category!="Competitions"){
+                                Text(
+                                        text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                        style = TextStyle(
+                                                color = colorResource(id = R.color.textGray),
+                                                fontFamily = hk_grotesk,
+                                                fontWeight = FontWeight.Normal,
+                                                fontSize = 14.sp
+                                        )
+                                )
+                            }
+                            else{
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+                        }
+                        else{
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        Spacer(modifier = Modifier.height(2.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                         Row {
                             Box(modifier = Modifier
                                 .height(20.dp)
@@ -508,7 +566,23 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                                     fontSize = 14.sp
                                 )
                             )
-                        }else{
+                        }else if(!eventdetail.eventdetail.stream){
+                            if(eventdetail.eventdetail.mode=="Offline" && eventdetail.eventdetail.category!="Competitions"){
+                                Text(
+                                        text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                        style = TextStyle(
+                                                color = colorResource(id = R.color.textGray),
+                                                fontFamily = hk_grotesk,
+                                                fontWeight = FontWeight.Normal,
+                                                fontSize = 14.sp
+                                        )
+                                )
+                            }
+                            else{
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+                        }
+                        else{
                             Spacer(modifier = Modifier.height(16.dp))
                         }
                         Spacer(modifier = Modifier.height(2.dp))

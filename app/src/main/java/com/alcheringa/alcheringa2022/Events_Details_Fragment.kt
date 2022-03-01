@@ -311,7 +311,12 @@ class Events_Details_Fragment : Fragment() {
             Spacer(modifier = Modifier.height(36.dp))
             if (eventWithLive.isLive.value) {
                 Button(
-                    onClick = {               startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
+                    onClick = {
+                        if(eventWithLive.eventdetail.joinlink!=""){
+                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
+
+                        }
+
                     },
                     Modifier
                         .fillMaxWidth()
@@ -322,7 +327,7 @@ class Events_Details_Fragment : Fragment() {
                     )
                 ) {
                     Text(
-                        text = "Join Event",
+                        text = if(eventWithLive.eventdetail.joinlink=="")  "Event is running in Ground" else "Join Event",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.W600,
                         fontFamily = clash,

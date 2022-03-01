@@ -107,7 +107,8 @@ public class MerchFragment extends Fragment implements onItemClick {
                         obj,
                         documentSnapshot.getString("Video"),
                         documentSnapshot.getString("Small_Description"),
-                        documentSnapshot.getString("background")
+                        documentSnapshot.getString("background"),
+                        documentSnapshot.getString("Merch_Default")
                 ));
             }
             recyclerView.setAdapter(merch_Items_adapter);

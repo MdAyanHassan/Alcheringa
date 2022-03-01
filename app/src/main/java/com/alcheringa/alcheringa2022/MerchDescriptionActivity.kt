@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.alcheringa.alcheringa2022.Model.merchModel
 import android.os.Bundle
 import android.content.Intent
+import android.opengl.Visibility
 import android.util.Log
 
 import android.view.View
+import android.view.View.GONE
 import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.Image
@@ -52,7 +54,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var xlargeBtn: Button
 
     lateinit var xxlargeBtn: Button
-    var merchSize = "S"
+    var merchSize = "V"
     lateinit var buyNow: Button
     lateinit var addToCart: Button
     lateinit var dbHandler: DBHandler
@@ -104,6 +106,7 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         backBtn.setOnClickListener{finish()}
 
 
+        selectingButton();
         /// setting buttons
         settingButtons()
         populateDetails()
@@ -112,6 +115,27 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
         setCartCountIcon()
 
         loaderView.visibility = View.GONE
+    }
+
+    private fun selectingButton() {
+        merchSize=merchModel.default;
+        deselectSize();
+        if (merchSize=="S") {
+            selectSize(smallBtn);
+        }
+        else if (merchSize=="M") {
+            selectSize(mediumBtn);
+        }
+        else if (merchSize=="L") {
+            selectSize(largeBtn);
+        }
+        else if (merchSize=="XL") {
+            selectSize(xlargeBtn);
+        }
+        else if (merchSize=="XXL") {
+            selectSize(xxlargeBtn);
+        }
+
     }
 
     override fun onResume() {
@@ -140,11 +164,10 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
             startActivity(intent1)
         }
 
-
     }
-
     private fun settingButtons() {
         if (!merchModel.small) {
+
             smallBtn.background = AppCompatResources.getDrawable(applicationContext, R.drawable.not_avail_btn);
             smallBtn.setTextColor(android.graphics.Color.parseColor("#707683"));
             smallBtn.isClickable=false;
@@ -177,6 +200,40 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
 
             xxlargeBtn.isClickable=false;
         }
+//        if (merchModel.small) {
+//            deselectSize()
+//            selectSize(smallBtn);
+//            merchSize="S";
+//        }
+//        else if (merchModel.large) {
+//            deselectSize()
+//            selectSize(largeBtn);
+//            merchSize="L";
+//        }
+//        else if (merchModel.medium) {
+//            deselectSize()
+//            selectSize(mediumBtn);
+//            merchSize="M";
+//        }
+//        else if (merchModel.xlarge) {
+//            deselectSize()
+//            selectSize(xlargeBtn);
+//            merchSize="XL";
+//        }
+//        else if (merchModel.xxLarge) {
+//            deselectSize()
+//            selectSize(xxlargeBtn);
+//            merchSize="XXL";
+//        }
+        if(!merchModel.xxLarge && !merchModel.xlarge && !merchModel.medium && !merchModel.large && !merchModel.small ){
+            buyNow?.isEnabled = false
+            buyNow.setText("Out of stock");
+            buyNow.background = ContextCompat.getDrawable(applicationContext, R.drawable.custom_button)
+
+            addToCart.visibility=View.GONE;
+        }
+
+
     }
 
     override fun onClick(v: View) {
@@ -220,17 +277,23 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
                 setCartCountIcon()
             }
             R.id.add_to_cart -> {
-                dbHandler.addNewitemIncart(
-                    merchModel.name,
-                    merchModel.price,
-                    merchSize,
-                    "1",
-                    merchModel.image_url,
-                    merchModel.material,
-                    applicationContext
-                )
-                Toast.makeText(applicationContext, merchModel.name + " added to cart", Toast.LENGTH_SHORT).show()
-                setCartCountIcon()
+                if(addToCart.isClickable==true){
+                    dbHandler.addNewitemIncart(
+                            merchModel.name,
+                            merchModel.price,
+                            merchSize,
+                            "1",
+                            merchModel.image_url,
+                            merchModel.material,
+                            applicationContext
+                    )
+                    Toast.makeText(applicationContext, merchModel.name + " added to cart", Toast.LENGTH_SHORT).show()
+                    setCartCountIcon()
+                }
+                else{
+                    Toast.makeText(applicationContext,"Out of Stock",Toast.LENGTH_SHORT).show();
+                }
+
                 //startActivity(Intent(applicationContext, CartActivity::class.java))
             }
             R.id.cart -> startActivity(Intent(applicationContext, CartActivity::class.java))
@@ -280,12 +343,12 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
             val pagerState = rememberPagerState()
 
             HorizontalPager(
-                count = images.size + isVideo,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(400.dp),
-                state = pagerState,
-                contentPadding = PaddingValues(horizontal = 20.dp)
+                    count = images.size + isVideo,
+                    modifier = Modifier
+                            .fillMaxWidth()
+                            .height(400.dp),
+                    state = pagerState,
+                    contentPadding = PaddingValues(horizontal = 20.dp)
             ){ page ->
                 Card(
                     Modifier
@@ -429,5 +492,13 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
             )
         }
 
+    }
+    fun markButtonDisable(button: Button) {
+        button?.isEnabled = false
+        button.setText("Out of stock");
+        button.background = ContextCompat.getDrawable(applicationContext, R.drawable.custom_button)
+
+//        button?.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+ //   button?.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.DarkGray))
     }
 }

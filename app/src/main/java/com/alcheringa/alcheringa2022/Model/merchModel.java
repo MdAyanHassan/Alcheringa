@@ -21,6 +21,7 @@ public class merchModel implements Parcelable {
     String Video_url;
     String Small_Descripition;
     String background;
+    String Default;
 
     protected merchModel(Parcel in) {
         Name = in.readString();
@@ -44,30 +45,7 @@ public class merchModel implements Parcelable {
         Video_url = in.readString();
         Small_Descripition = in.readString();
         background = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(Name);
-        dest.writeString(Material);
-        dest.writeString(Price);
-        dest.writeString(Description);
-        dest.writeString(Image_url);
-        dest.writeByte((byte) (Is_available == null ? 0 : Is_available ? 1 : 2));
-        dest.writeByte((byte) (Small == null ? 0 : Small ? 1 : 2));
-        dest.writeByte((byte) (Medium == null ? 0 : Medium ? 1 : 2));
-        dest.writeByte((byte) (Large == null ? 0 : Large ? 1 : 2));
-        dest.writeByte((byte) (Xlarge == null ? 0 : Xlarge ? 1 : 2));
-        dest.writeByte((byte) (XXLarge == null ? 0 : XXLarge ? 1 : 2));
-        dest.writeStringList(images);
-        dest.writeString(Video_url);
-        dest.writeString(Small_Descripition);
-        dest.writeString(background);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+        Default = in.readString();
     }
 
     public static final Creator<merchModel> CREATOR = new Creator<merchModel>() {
@@ -142,6 +120,10 @@ public class merchModel implements Parcelable {
         this.background = background;
     }
 
+    public void setDefault(String aDefault) {
+        Default = aDefault;
+    }
+
     public String getName() {
         return Name;
     }
@@ -202,7 +184,11 @@ public class merchModel implements Parcelable {
         return background;
     }
 
-    public merchModel(String name, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, Boolean XXLarge, ArrayList<String> images, String video_url, String small_Descripition, String background) {
+    public String getDefault() {
+        return Default;
+    }
+
+    public merchModel(String name, String material, String price, String description, String image_url, Boolean is_available, Boolean small, Boolean medium, Boolean large, Boolean xlarge, Boolean XXLarge, ArrayList<String> images, String video_url, String small_Descripition, String background, String aDefault) {
         Name = name;
         Material = material;
         Price = price;
@@ -218,5 +204,31 @@ public class merchModel implements Parcelable {
         Video_url = video_url;
         Small_Descripition = small_Descripition;
         this.background = background;
+        Default = aDefault;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(Name);
+        parcel.writeString(Material);
+        parcel.writeString(Price);
+        parcel.writeString(Description);
+        parcel.writeString(Image_url);
+        parcel.writeByte((byte) (Is_available == null ? 0 : Is_available ? 1 : 2));
+        parcel.writeByte((byte) (Small == null ? 0 : Small ? 1 : 2));
+        parcel.writeByte((byte) (Medium == null ? 0 : Medium ? 1 : 2));
+        parcel.writeByte((byte) (Large == null ? 0 : Large ? 1 : 2));
+        parcel.writeByte((byte) (Xlarge == null ? 0 : Xlarge ? 1 : 2));
+        parcel.writeByte((byte) (XXLarge == null ? 0 : XXLarge ? 1 : 2));
+        parcel.writeStringList(images);
+        parcel.writeString(Video_url);
+        parcel.writeString(Small_Descripition);
+        parcel.writeString(background);
+        parcel.writeString(Default);
     }
 }
