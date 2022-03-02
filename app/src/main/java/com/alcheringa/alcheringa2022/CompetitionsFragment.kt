@@ -170,7 +170,7 @@ class CompetitionsFragment : Fragment() {
                 /*.background(Color.Black)*/
             ) {
                 Spacer(modifier = Modifier.height(70.dp))
-                Events_row(heading = "MUN",mun)
+                Events_row(heading = "MODEL UNITED NATIONS",mun)
                 Events_row(heading = "VOGUE NATION",voguenationlist)
                 Events_row(heading = "CLASS APART",classapartlist)
                 Events_row(heading = "ANY BODY CAN DANCE",anybodycandancelist)
