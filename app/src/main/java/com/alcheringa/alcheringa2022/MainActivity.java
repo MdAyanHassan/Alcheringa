@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import com.alcheringa.alcheringa2022.Database.DBHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -116,8 +118,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void ShowDialog() {
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle("New Version is Availble")
+
+        new AlertDialog.Builder(MainActivity.this).setView(R.layout.animationforupdatedialogue)
+                .setTitle("New Version is Available")
                 .setMessage("Click ok to download new version")
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
