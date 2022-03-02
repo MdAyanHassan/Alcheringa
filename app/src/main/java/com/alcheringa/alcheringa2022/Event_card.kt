@@ -25,6 +25,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
@@ -248,7 +249,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                     contentDescription ="null", contentScale = ContentScale.FillBounds)
                             }
                         }
-                        else if(eventdetail.eventdetail.mode=="Offline" && eventdetail.eventdetail.category!="Competitions"){
+                        else if(eventdetail.eventdetail.mode.replace("\\s".toRegex(), "").uppercase()=="Offline".uppercase() && eventdetail.eventdetail.category.replace("\\s".toRegex(), "")!="Competitions".uppercase()){
                             if( !okstate.value) {
 
                                 Image( modifier = Modifier
@@ -321,7 +322,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                     )
                             )
                         }else if(!eventdetail.eventdetail.stream){
-                            if(eventdetail.eventdetail.mode=="Offline" && eventdetail.eventdetail.category!="Competitions"){
+                            if(eventdetail.eventdetail.mode.replace("\\s".toRegex(), "").uppercase()=="OFFLINE" && eventdetail.eventdetail.category.replace("\\s".toRegex(), "").uppercase()!="Competitions".uppercase()){
                                 Text(
                                         text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
                                         style = TextStyle(
@@ -567,7 +568,7 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                                 )
                             )
                         }else if(!eventdetail.eventdetail.stream){
-                            if(eventdetail.eventdetail.mode=="Offline" && eventdetail.eventdetail.category!="Competitions"){
+                            if(eventdetail.eventdetail.mode.replace("\\s".toRegex(), "").uppercase()=="Offline".uppercase() && eventdetail.eventdetail.category.replace("\\s".toRegex(), "").uppercase()!="Competitions".uppercase()){
                                 Text(
                                         text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
                                         style = TextStyle(
