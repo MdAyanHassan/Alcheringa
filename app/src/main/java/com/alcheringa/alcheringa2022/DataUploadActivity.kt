@@ -24,33 +24,33 @@ class DataUploadActivity : AppCompatActivity() {
             }
         }
 
-//        val newEvents= listOf(
-//                eventdetail(
-//                        "Self Defense Workshop",
-//                        "SafHer",
-//                        type = "Campaigns",
-//                        starttime = OwnTime(0,0,0) ,
-//                        durationInMin =60,
-//                        venue = "Campaigns",
-//                        imgurl = "",
-//                        descriptionEvent="Women feel a sense of fear in their day to day lives and it is unfair for them to have to feel this way. Hence, nowadays, self defence has become crucial for any woman to learn.\n" +
-//                                "\n" +
-//                                "Alcheringa, as part of its women empowerment campiagn SafHer - Her Freedom, Not Feardom, conducted a Self-Defense workshop for young girls today, at KV School in IIT Guwahati.",
-//                        genre = listOf("music"),
-//                ),
-//                eventdetail(
-//                        "Run for Prithvi Marathon",
-//                        "Prithvi ",
-//                        type = "Campaigns",
-//                        starttime = OwnTime(11,7,30) ,
-//                        durationInMin =60,
-//                        venue = "Campaigns",
-//                        imgurl = "",
-//                        descriptionEvent="Run to Live. Live to Run.\n" +
-//                                "\n" +
-//                                "Project Prithvi, the social awareness campaign of Alcheringa proudly presents to you 'Run for Prithvi'. The campaign focuses on the principle of living life simply and thus making people realise that their role in the large movement against climate change can make this world a better place to live in.",
-//                        genre = listOf("music"),
-//                ),
+        val newEvents= listOf(
+                eventdetail(
+                        "Self Defense Workshop",
+                        "SafHer",
+                        type = "Campaigns",
+                        starttime = OwnTime(0,0,0) ,
+                        durationInMin =60,
+                        venue = "Campaigns",
+                        imgurl = "",
+                        descriptionEvent="Women feel a sense of fear in their day to day lives and it is unfair for them to have to feel this way. Hence, nowadays, self defence has become crucial for any woman to learn.\n" +
+                                "\n" +
+                                "Alcheringa, as part of its women empowerment campiagn SafHer - Her Freedom, Not Feardom, conducted a Self-Defense workshop for young girls today, at KV School in IIT Guwahati.",
+                        genre = listOf("music"),
+                ),
+                eventdetail(
+                        "Run for Prithvi Marathon",
+                        "Prithvi ",
+                        type = "Campaigns",
+                        starttime = OwnTime(11,7,30) ,
+                        durationInMin =60,
+                        venue = "Campaigns",
+                        imgurl = "",
+                        descriptionEvent="Run to Live. Live to Run.\n" +
+                                "\n" +
+                                "Project Prithvi, the social awareness campaign of Alcheringa proudly presents to you 'Run for Prithvi'. The campaign focuses on the principle of living life simply and thus making people realise that their role in the large movement against climate change can make this world a better place to live in.",
+                        genre = listOf("music"),
+                ),
 ////                eventdetail(
 ////                        "Policy Maker Presentation Day1",
 ////                        "North East Unveil",
@@ -319,7 +319,7 @@ class DataUploadActivity : AppCompatActivity() {
 ////            ),
 //         )
 //
-//        pushEvents(newEvents);
-//    }
+        );
+        pushEvents(newEvents);
     }
 }
