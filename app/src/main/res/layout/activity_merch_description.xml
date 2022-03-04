@@ -235,7 +235,7 @@
                 android:id="@+id/add_to_cart"
                 android:layout_width="320dp"
                 android:layout_height="56dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/custom_button"
                 android:backgroundTint="#505050"
                 android:fontFamily="@font/clash_display_600"
@@ -279,15 +279,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:fontFamily="@font/hk_grotesk_500"
-                    tools:text="This is a f*cking amazing hoodie. I love it and
-I will make sure you buy this. And if not I will
-hunt you down with my AK 47, which I will
-buy later. Thank you and have a nice day."
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView2"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="This is a f*cking amazing hoodie. I love it and
+I will make sure you buy this. And if not I will
+hunt you down with my AK 47, which I will
+buy later. Thank you and have a nice day." />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

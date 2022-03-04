@@ -226,11 +226,10 @@ class MerchDescriptionActivity : AppCompatActivity(), View.OnClickListener {
 //            merchSize="XXL";
 //        }
         if(!merchModel.xxLarge && !merchModel.xlarge && !merchModel.medium && !merchModel.large && !merchModel.small ){
-            buyNow?.isEnabled = false
-            buyNow.setText("Out of stock");
-            buyNow.background = ContextCompat.getDrawable(applicationContext, R.drawable.custom_button)
-
-            addToCart.visibility=View.GONE;
+            addToCart?.isEnabled = false
+            addToCart.setText("Out of stock");
+            addToCart.background = ContextCompat.getDrawable(applicationContext, R.drawable.custom_button)
+            buyNow.visibility=View.GONE;
         }
 
 

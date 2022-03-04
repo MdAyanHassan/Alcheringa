@@ -35,7 +35,6 @@
         <activity
             android:name=".DataUploadActivity"
             android:exported="true" >
-
         </activity>
         <activity
             android:name=".ImagePickerActivity"

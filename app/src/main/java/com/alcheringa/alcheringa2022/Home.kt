@@ -795,7 +795,7 @@ class Home : Fragment() {
                                                 fontSize = 60.sp,
                                                 fontFamily = vanguard, textAlign = TextAlign.Center
                                         )
-                                        Spacer(modifier = Modifier.height(11.dp))
+                                        Spacer(modifier = Modifier.height(4.dp))
                                         Text(
                                                 text = eventdetails[page].eventdetail.category,
                                                 style = TextStyle(
