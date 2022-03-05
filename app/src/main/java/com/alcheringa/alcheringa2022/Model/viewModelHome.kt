@@ -113,11 +113,10 @@ class viewModelHome : ViewModel() {
                     ) {
                         upcomingEventsLiveState.remove(data)
                     }
-                    else if(!data.eventdetail.stream){
-                        upcomingEventsLiveState.remove(data)
-                    }
+//                    else if(!data.eventdetail.stream){
+//                        upcomingEventsLiveState.remove(data)
+//                    }
                 }
-
 
 
 

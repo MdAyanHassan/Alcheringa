@@ -327,7 +327,7 @@ class Events_Details_Fragment : Fragment() {
                     )
                 ) {
                     Text(
-                        text = if(eventWithLive.eventdetail.joinlink=="")  "Event is running in Ground" else "Join Event",
+                        text = if(eventWithLive.eventdetail.joinlink=="")  "Event is running on Ground" else "Join Event",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.W600,
                         fontFamily = clash,
