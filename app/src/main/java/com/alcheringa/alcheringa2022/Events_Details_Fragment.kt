@@ -66,6 +66,7 @@ class Events_Details_Fragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         args=requireArguments()
         eventfordes= viewModelHome.allEventsWithLive.filter { data-> data.eventdetail.artist== args.getString("Artist") }[0]
         fgman=parentFragmentManager
