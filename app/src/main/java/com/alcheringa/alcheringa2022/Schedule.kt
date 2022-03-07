@@ -39,6 +39,7 @@ import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.ScheduleFragmentBinding
 import com.alcheringa.alcheringa2022.ui.theme.clash
 import com.alcheringa.alcheringa2022.ui.theme.greyText
+import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
 import com.alcheringa.alcheringa2022.ui.theme.orangeText
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -263,9 +264,26 @@ class Schedule : Fragment() {
                 Spacer(modifier = Modifier.width(70.dp))
                 Row(
                     Modifier
-                        .width(1275.dp)
+                        .width(1775.dp)
                         , horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
+                ) { Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                    Text(
+                        text = "IITG Auditorium",
+                        fontWeight = FontWeight.W600,
+                        fontSize = 16.sp,
+                        fontFamily = clash,
+                        color = Color.White
+                    )
+                }
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                        Text(
+                            text = "Pronites Ground",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = clash,
+                            color = Color.White
+                        )
+                    }
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                         Text(
                             text = "Auditorium 1",
@@ -314,6 +332,88 @@ class Schedule : Fragment() {
                     }
                 }
             }
+
+            Row(
+                Modifier
+                    .width(1245.dp)
+                    .horizontalScroll(horiscrollstate)
+
+            ) {
+                Spacer(modifier = Modifier.width(70.dp))
+                Row(
+                    Modifier
+                        .width(1775.dp)
+                    , horizontalArrangement = Arrangement.SpaceEvenly
+                ) { Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                    Text(
+                        text = "Offline",
+                        fontWeight = FontWeight.W600,
+                        fontSize = 14.sp,
+                        fontFamily = hk_grotesk,
+                        color = Color(0xffA3A7AC)
+                    )
+                }
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                        Text(
+                            text = "Offline",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 14.sp,
+                            fontFamily = hk_grotesk,
+                            color = Color(0xffA3A7AC)
+                        )
+                    }
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                        Text(
+                            text = "PayTM Insider",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 14.sp,
+                            fontFamily = hk_grotesk,
+                            color = Color(0xffA3A7AC)
+                        )
+                    }
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                        Text(
+                            text = "PayTM Insider",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 14.sp,
+                            fontFamily = hk_grotesk,
+                            color = Color(0xffA3A7AC)
+                        )
+                    }
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                        Text(
+                            text = "PayTM Insider",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 14.sp,
+                            fontFamily = hk_grotesk,
+                            color = Color(0xffA3A7AC)
+                        )
+                    }
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                        Text(
+                            text = "PayTM Insider",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 14.sp,
+                            fontFamily = hk_grotesk,
+                            color = Color(0xffA3A7AC)
+                        )
+                    }
+
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                        Text(
+                            text = "PayTM Insider",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 14.sp,
+                            fontFamily = hk_grotesk,
+                            color = Color(0xffA3A7AC)
+                        )
+                    }
+                }
+            }
+
+
+
+
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 Modifier
@@ -418,7 +518,7 @@ class Schedule : Fragment() {
 
         Box(
             Modifier
-                .width(1275.dp)
+                .width(1775.dp)
                 .height(975.dp)
 //                .horizontalScroll(rememberScrollState())
                ) {
@@ -512,6 +612,9 @@ class Schedule : Fragment() {
             Box(modifier = Modifier.offset(x=525.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
             Box(modifier = Modifier.offset(x=775.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
             Box(modifier = Modifier.offset(x=1025.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
+            Box(modifier = Modifier.offset(x=1275.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
+            Box(modifier = Modifier.offset(x=1525.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
+
             if (datestate.value == 1) {
                 datestate1.forEach { data -> fullSchUserBox(eventdetail = data) }
             }
@@ -546,11 +649,13 @@ class Schedule : Fragment() {
         }
         var catid= remember { mutableStateOf(6) }
             when(eventdetail.eventdetail.venue.replace("\\s".toRegex(), "").uppercase()){
-                "Auditorium 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=0
-                "Auditorium 2".replace("\\s".toRegex(), "").uppercase()->catid.value=1
-                "Creators' Camp".replace("\\s".toRegex(), "").uppercase()-> catid.value=2
-                "Gaming".replace("\\s".toRegex(), "").uppercase()-> catid.value=3
-                "Campaign".replace("\\s".toRegex(), "").uppercase()-> catid.value=4
+                "IITG Auditorium".replace("\\s".toRegex(), "").uppercase()-> catid.value=0
+                "Pronites Ground".replace("\\s".toRegex(), "").uppercase()->catid.value=1
+                "Auditorium 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=2
+                "Auditorium 2".replace("\\s".toRegex(), "").uppercase()->catid.value=3
+                "Creators' Camp".replace("\\s".toRegex(), "").uppercase()-> catid.value=4
+                "Gaming".replace("\\s".toRegex(), "").uppercase()-> catid.value=5
+                "Campaign".replace("\\s".toRegex(), "").uppercase()-> catid.value=6
 
             }
 
