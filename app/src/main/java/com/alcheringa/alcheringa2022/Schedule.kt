@@ -708,7 +708,7 @@ class Schedule : Fragment() {
             Column(
                 Modifier
                     .fillMaxSize()
-                    .padding(12.dp),
+                    .padding(top = 12.dp, start = 12.dp, end = 12.dp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {
