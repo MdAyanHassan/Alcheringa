@@ -148,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()){
             case R.id.events:
                 if(index!=R.id.events){
-                    item.setIcon(R.drawable.ic_event_filled);
                     index=R.id.events;
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, events_fragment).commit();
                     bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
@@ -157,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.home_nav:
                 if(index!=R.id.home_nav) {
-                    item.setIcon(R.drawable.ic_home_filled);
                     index=R.id.home_nav;
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
@@ -167,7 +165,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.merch:
                 if(index!=R.id.merch) {
                     index=R.id.merch;
-                    item.setIcon(R.drawable.ic_merch_filled);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new MerchFragment()).commit();
                     bottomNavigationView.getMenu().findItem(R.id.merch).setChecked(true);
                 }
@@ -175,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.schedule:
                 if(index!=R.id.schedule) {
                     index=R.id.schedule;
-                    item.setIcon(R.drawable.ic_schedule_filled);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Schedule()).commit();
                     bottomNavigationView.getMenu().findItem(R.id.schedule).setChecked(true);
                 }
