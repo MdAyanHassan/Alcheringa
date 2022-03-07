@@ -16,7 +16,7 @@ class DataUploadActivity : AppCompatActivity() {
 
         fun pushEvents(evnts: List<eventdetail>) {
             for (evnt in evnts) {
-                fb.collection("Featured_Events").document(evnt.artist).set(evnt).addOnSuccessListener {
+                fb.collection("AllEvents").document(evnt.artist).set(evnt).addOnSuccessListener {
                     Log.d("pushevents", "process succeed")
                 }.addOnFailureListener {
                     Log.d("pushevents", "process failed")
@@ -24,7 +24,7 @@ class DataUploadActivity : AppCompatActivity() {
             }
         }
 
-        val newEvents= listOf(
+//        val newEvents= listOf(
 //                eventdetail(
 //                        "Wanderlusts",
 //                        "Shubham Gupta | Hopping Bug",
@@ -45,17 +45,39 @@ class DataUploadActivity : AppCompatActivity() {
 //                        imgurl = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Competition%2FBeyond_the_Plate.png?alt=media&token=89387d0f-f30a-4d11-8d40-1c3f46f4102e",descriptionEvent="In our Beyond the Plate Pannel, we have Puneet Singh (Bhooka Sand) & RJ Rohan. Both find common love for food and have been vlogging about it on their Youtube Channels. Join in to know about their journey from start to being one of the renowed Indian food vloggers.",
 //                                genre = listOf("food"),
 //                ),
-                eventdetail(
-                        "Underground Authority",
-                        "Pronite",
-                        type = "Pronite",
-                        starttime = OwnTime(12,19,30) ,
-                        durationInMin =60,
-                        venue = "Pronites",
-                        imgurl = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Competition%2FJuggernaut.png?alt=media&token=22d9c319-f500-4ddb-927d-e3ad7df81894",  descriptionEvent="We bring to you Underground Authority for Juggernaut 2022 with their stunning performance.\n" +
-                                "Underground Authority is an alternative rock/rap rock band from India. Formed in early 2010, in Kolkata, their music is flavoured by a blend of protest poetry, reggae, alternative rock, rap-rock, and hard rock.",
-                        genre = listOf("music"),
-                ),
+//                eventdetail(
+//                        "Director’s Cut Day1",
+//                        "Creator's Camp",
+//                        type = "Creator's Camp",
+//                        starttime = OwnTime(12,13,0) ,
+//                        durationInMin =60,
+//                        venue = "Auditorium",
+//                        imgurl = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Competition%2FDirectors_Cut_day1.jpg?alt=media&token=75613f3b-8851-4d52-a425-0b6c37f7baa8",
+//                        descriptionEvent="In our Director’s Cut Panel, we have Karan Anshuman, He is the director of the Emmy-nominated drama film Inside Edge. He is also the creator, director, and writer of Mirzapur. Join in to know about his experience and process that goes through making a well structured story and visuals supporting it.",
+//                        genre = listOf("movie"),
+//                ),
+//                eventdetail(
+//                        "Director’s Cut Day2",
+//                        "Creator's Camp",
+//                        type = "Creator's Camp",
+//                        starttime = OwnTime(13,16,0) ,
+//                        durationInMin =60,
+//                        venue = "Auditorium",
+//                        imgurl = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Competition%2FDirectors_Cut_day2.jpg?alt=media&token=9365ec18-6fdb-4c55-84c7-078f284d0ff8",
+//                        descriptionEvent="In our Director’s Cut Panel, we have Karan Anshuman, He is the director of the Emmy-nominated drama film Inside Edge. He is also the creator, director, and writer of Mirzapur. Join in to know about his experience and process that goes through making a well structured story and visuals supporting it.",
+//                        genre = listOf("movie"),
+//                ),
+//                eventdetail(
+//                        "Gamers' Province",
+//                        "Creator's Camp",
+//                        type = "Creator's Camp",
+//                        starttime = OwnTime(12,15,30) ,
+//                        durationInMin =60,
+//                        venue = "Creator's camp",
+//                        imgurl = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Competition%2FDirectors_Cut_day2.jpg?alt=media&token=9365ec18-6fdb-4c55-84c7-078f284d0ff8",
+//                        descriptionEvent="In our Gamers’ Province Panel, we have Payal Gaming and Gaming Pro Ocean. Both find common love for BGMI and have been streaming it on their Youtube Channels. Join in to know about their journey from start to being one of the renowed E-sports streamers in the country.\n"
+//                        ,genre = listOf("game"),
+//                ),
 //                eventdetail(
 //                        "BGMI",
 //                        "",
@@ -483,9 +505,9 @@ class DataUploadActivity : AppCompatActivity() {
 ////                descriptionEvent="Do you remember all those drawings you made in the book or the back of your notebook in those boring math classes, in the school years? It is time to visit those doodles again and show the world your hidden talent.\n",
 ////                genre = listOf("Art","Tech")
 ////            ),
-            )
+//            )
 //
-        pushEvents(newEvents);
-//    }
+//        pushEvents(newEvents);
+////    }
     }
 }
