@@ -268,15 +268,7 @@ class Schedule : Fragment() {
                     Modifier
                         .width(2025.dp)
                         , horizontalArrangement = Arrangement.SpaceEvenly
-                ) { Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
-                    Text(
-                        text = "NEU Stage",
-                        fontWeight = FontWeight.W600,
-                        fontSize = 16.sp,
-                        fontFamily = clash,
-                        color = Color.White
-                    )
-                }
+                ) {
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                     Text(
                         text = "IITG Auditorium",
@@ -289,6 +281,15 @@ class Schedule : Fragment() {
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                         Text(
                             text = "Pronites Ground",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = clash,
+                            color = Color.White
+                        )
+                    }
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                        Text(
+                            text = "NEU Stage",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = clash,
@@ -671,9 +672,10 @@ class Schedule : Fragment() {
         }
         var catid= remember { mutableStateOf(6) }
             when(eventdetail.eventdetail.venue.replace("\\s".toRegex(), "").uppercase()){
-                "NEU Stage".replace("\\s".toRegex(), "").uppercase()-> catid.value=0
-                "IITG Auditorium".replace("\\s".toRegex(), "").uppercase()-> catid.value=1
-                "Pronites Ground".replace("\\s".toRegex(), "").uppercase()->catid.value=2
+
+                "IITG Auditorium".replace("\\s".toRegex(), "").uppercase()-> catid.value=0
+                "Pronites Ground".replace("\\s".toRegex(), "").uppercase()->catid.value=1
+                "NEU Stage".replace("\\s".toRegex(), "").uppercase()-> catid.value=2
                 "Auditorium 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=3
                 "Auditorium 2".replace("\\s".toRegex(), "").uppercase()->catid.value=4
                 "Creators' Camp".replace("\\s".toRegex(), "").uppercase()-> catid.value=5

@@ -8,6 +8,18 @@
     tools:context=".MerchFragment">
 
 
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/merch_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="80dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@drawable/top_nav_bg"
         android:id="@+id/top_nav"
@@ -63,15 +75,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/merch_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_nav" />
 
 
     <com.alcheringa.alcheringa2022.LoaderView

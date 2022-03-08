@@ -1,11 +1,13 @@
 package com.alcheringa.alcheringa2022
 
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
 import android.util.Log
+import android.view.TouchDelegate
 import android.view.View
 import android.widget.Toast
 import androidx.compose.animation.core.Animatable
@@ -48,6 +50,7 @@ import com.alcheringa.alcheringa2022.ui.theme.clash
 import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
 import com.alcheringa.alcheringa2022.ui.theme.orangeText
 import com.alcheringa.alcheringa2022.ui.theme.vanguard
+import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import org.intellij.lang.annotations.JdkConstants
@@ -93,6 +96,9 @@ class Events_Details_Fragment : Fragment() {
         binding.dotsProgress.visibility=View.GONE
         binding.artistname.text=eventfordes.eventdetail.artist.uppercase()
         binding.artistname.setSelected(true)
+
+
+
         binding.constraintLayout.setOnClickListener{requireActivity().onBackPressed()}
 
 
@@ -131,6 +137,7 @@ class Events_Details_Fragment : Fragment() {
                 modifier= Modifier
                     .fillMaxWidth()
                     .height(473.dp),
+
                 alignment = Alignment.Center,
                 contentScale = ContentScale.Crop,
                 shimmerParams = ShimmerParams(
