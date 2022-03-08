@@ -349,7 +349,7 @@ class Home : Fragment() {
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.take(7)) {
+                            items(homeViewModel.allEventsWithLive.toList().shuffled().take(7)) {
                                     dataeach ->
                                 context?.let {
                                     /*if(dataeach.eventdetail.stream){
