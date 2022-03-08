@@ -64,6 +64,7 @@ class Events_Details_Fragment : Fragment() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("check","calling on create ")
         super.onCreate(savedInstanceState)
 
 
@@ -72,7 +73,7 @@ class Events_Details_Fragment : Fragment() {
         fgman=parentFragmentManager
         similarlist= mutableListOf<eventWithLive>()
         similarlist.addAll(
-        viewModelHome.allEventsWithLive.filter{ data-> data.eventdetail.category.replace("\\s".toRegex(), "").uppercase()== eventfordes.eventdetail.category.replace("\\s".toRegex(), "").uppercase()})
+        viewModelHome.allEventsWithLive.filter{ data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== eventfordes.eventdetail.type.replace("\\s".toRegex(), "").uppercase()})
         similarlist.remove(eventfordes)
         scheduleDatabase= ScheduleDatabase(context)
 
@@ -102,7 +103,7 @@ class Events_Details_Fragment : Fragment() {
                     .verticalScroll(rememberScrollState())) {
                 Defaultimg(eventWithLive = eventfordes)
                 if(eventfordes.eventdetail.category.replace("\\s".toRegex(), "").uppercase()=="Competitions".uppercase()){
-                Bottomviewcomp( eventWithLive = eventfordes)}
+                Bottomviewcomp( eventWithLive = eventfordes) }
                 else {Bottomviewnewevent( eventWithLive = eventfordes)}
                 if(similarlist.isNotEmpty()){
                 similarEvents(heading = "SIMILAR EVENTS",similarlist)}
@@ -458,7 +459,7 @@ class Events_Details_Fragment : Fragment() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
         ) { items(similarlist)
-        {dataEach -> context?.let { Event_card(eventdetail = dataEach, viewModelHome, it, fgman) } } }
+        {dataEach -> context?.let { Event_card(eventdetail = dataEach, viewModelHome, it, this@Events_Details_Fragment,fgman,R.id.action_events_Details_Fragment_self2) } } }
 
         Spacer(modifier = Modifier.height(5.dp))
     }

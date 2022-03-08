@@ -34,6 +34,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.ScheduleFragmentBinding
@@ -691,12 +693,13 @@ class Schedule : Fragment() {
                 .clickable {
 
                     val frg = Events_Details_Fragment()
-                    frg.arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
-                    fm
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainerView, frg)
-                        .addToBackStack(null)
-                        .commit()
+                    val arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
+                    findNavController(this@Schedule).navigate(R.id.action_schedule_to_events_Details_Fragment,arguments);
+//                    fm
+//                        .beginTransaction()
+//                        .replace(R.id.fragmentContainerView, frg)
+//                        .addToBackStack(null)
+//                        .commit()
 
                 }
                 .pointerInput(Unit) {

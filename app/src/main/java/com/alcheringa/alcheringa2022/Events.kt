@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
@@ -176,7 +177,9 @@ class Events : Fragment() {
                             eventdetail = dataEach,
                             homeViewModel,
                             it,
-                            fgm
+                                this@Events,
+                            fgm,
+                                R.id.action_events_to_events_Details_Fragment2
                         )
                     }
                 }
@@ -193,11 +196,13 @@ class Events : Fragment() {
             modifier = Modifier
                 .height(256.dp)
                 .fillMaxWidth().clip(RoundedCornerShape(8.dp)).clickable {
-                    fgm
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainerView,CompetitionsFragment() ).addToBackStack(null)
-                        .commit()
-                }
+//                    fgm
+//                        .beginTransaction()
+//                        .replace(R.id.fragmentContainerView,CompetitionsFragment() ).addToBackStack(null)
+//                        .commit()
+                        NavHostFragment.findNavController(this).navigate(R.id.action_eventFragment_to_competitionsFragment);
+
+                    }
         ) {
             GlideImage(
                 imageModel = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/competitionHeader.png?alt=media&token=7f350d9e-dbad-427a-822f-e3586bfa5e4c",

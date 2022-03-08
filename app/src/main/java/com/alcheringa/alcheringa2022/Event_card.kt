@@ -29,6 +29,8 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.addNewItem
@@ -87,7 +89,7 @@ import com.skydoves.landscapist.glide.GlideImage
 //)
 
 @Composable
-fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: Context, FragmentManager: androidx.fragment.app.FragmentManager) {
+fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: Context, Fragment : Fragment, FragmentManager: androidx.fragment.app.FragmentManager , a : Int) {
     var ScheduleDatabase=ScheduleDatabase(context)
     var okstate= remember{ mutableStateOf(false)}
     var okstatenum= remember{ mutableStateOf(0)}
@@ -122,12 +124,13 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                 .width(218.dp)
                 .clickable {
                     val frg = Events_Details_Fragment()
-                    frg.arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
-                    FragmentManager
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainerView, frg)
-                        .addToBackStack(null)
-                        .commit()
+                    val arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
+//                    FragmentManager
+//                        .beginTransaction()
+//                        .replace(R.id.fragmentContainerView, frg)
+//                        .commit()
+                    NavHostFragment.findNavController(Fragment).navigate(a,arguments);
+
                 }
 
             ){
@@ -375,7 +378,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
 
 
 @Composable
-fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Context,FragmentManager: androidx.fragment.app.FragmentManager) {
+fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,context: Context,Fragment: Fragment,FragmentManager: androidx.fragment.app.FragmentManager,a : Int) {
     var ScheduleDatabase=ScheduleDatabase(context)
     var okstate= remember{ mutableStateOf(false)}
     var okstatenum= remember{ mutableStateOf(0)}
@@ -414,12 +417,16 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
                 .width(218.dp)
                 .clickable {
                     val frg = Events_Details_Fragment()
-                    frg.arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
-                    FragmentManager
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainerView, frg)
-                        .addToBackStack(null)
-                        .commit()
+                    val arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
+//                    FragmentManager
+//                        .beginTransaction()
+//                        .replace(R.id.fragmentContainerView, frg)
+//                        .commit()
+                    NavHostFragment.findNavController(Fragment).navigate(a,arguments);
+
+                    //  NavHostFragment.findNavController().navigate(R.id.action_eventFragment_to_competitionsFragment);
+
+
                 }
 
             ){

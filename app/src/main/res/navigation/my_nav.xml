@@ -3,20 +3,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/home2">
+    app:startDestination="@id/home_nav">
     <fragment
-        android:id="@+id/home2"
+        android:id="@+id/events"
+        android:name="com.alcheringa.alcheringa2022.Events"
+        android:label="fragment_events"
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventFragment_to_competitionsFragment"
+            app:destination="@id/competitionsFragment" />
+
+        <action
+            android:id="@+id/action_events_to_events_Details_Fragment2"
+            app:destination="@id/events_Details_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/merch"
+        android:name="com.alcheringa.alcheringa2022.MerchFragment"
+        android:label="fragment_merch"
+        tools:layout="@layout/fragment_merch" />
+    <fragment
+        android:id="@+id/home_nav"
         android:name="com.alcheringa.alcheringa2022.Home"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home2_to_events_Details_Fragment"
+            app:destination="@id/events_Details_Fragment" />
+        <action
+            android:id="@+id/action_home2_to_merchFragment"
+            app:destination="@id/merch" />
+        <action
+            android:id="@+id/action_home2_to_schedule2"
+            app:destination="@id/schedule" />
+    </fragment>
     <fragment
-        android:id="@+id/about"
-        android:name="com.alcheringa.alcheringa2022.Events"
-        android:label="fragment_about"
-        tools:layout="@layout/fragment_events" />
+        android:id="@+id/schedule"
+        android:name="com.alcheringa.alcheringa2022.Schedule"
+        android:label="schedule_fragment"
+        tools:layout="@layout/schedule_fragment" >
+        <action
+            android:id="@+id/action_schedule_to_events_Details_Fragment"
+            app:destination="@id/events_Details_Fragment" />
+    </fragment>
     <fragment
-        android:id="@+id/contact_us"
-        android:name="com.alcheringa.alcheringa2022.MerchFragment"
-        android:label="fragment_contact_us"
-        tools:layout="@layout/fragment_merch" />
+        android:id="@+id/events_Details_Fragment"
+        android:name="com.alcheringa.alcheringa2022.Events_Details_Fragment"
+        android:label="Events_Details_Fragment" >
+        <action
+            android:id="@+id/action_events_Details_Fragment_self2"
+            app:destination="@id/events_Details_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/competitionsFragment"
+        android:name="com.alcheringa.alcheringa2022.CompetitionsFragment"
+        android:label="CompetitionsFragment" >
+        <action
+            android:id="@+id/action_competitionsFragment_to_events_Details_Fragment"
+            app:destination="@id/events_Details_Fragment" />
+    </fragment>
+
+
 </navigation>

@@ -47,6 +47,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
@@ -77,6 +81,7 @@ class Home : Fragment() {
     private var mParam2: String? = null
     lateinit var fm:FragmentManager
     lateinit var binding: FragmentHomeBinding
+    lateinit var navController :NavController
     lateinit var  scheduleDatabase:ScheduleDatabase
     val homeViewModel : viewModelHome by activityViewModels()
     val ranges= mutableSetOf<ClosedFloatingPointRange<Float>>()
@@ -92,52 +97,52 @@ class Home : Fragment() {
     var firebaseFirestore: FirebaseFirestore? = null
     var sharedPreferences: SharedPreferences? = null
 
-    val events=mutableListOf(
+//    val events=mutableListOf(
 
-            eventdetail(
-                    "JUBIN NAUTIYAL2",
-                    "Pro Nights",
-                    OwnTime(11,9,0),
-                    "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
-            ),
+//            eventdetail(
+//                    "JUBIN NAUTIYAL2",
+//                    "Pro Nights",
+//                    OwnTime(11,9,0),
+//                    "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
+//            ),
+//
+//            eventdetail(
+//                    "DJ SNAKE4",
+//                    "Pro Nights",
+//                OwnTime(11,12,0),
+//                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
+//            ),
+//            eventdetail(
+//                    "TAYLOR SWIFT6",
+//                    "Pro Nights",
+//                OwnTime(11,14,0),
+//                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
+//            )
+//        ,
+//
+//        eventdetail(
+//            "DJ SNAKE7",
+//            "Pro Nights",
+//            OwnTime(13,10,0),
+//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
+//        ),
+//        eventdetail(
+//            "TAYLOR SWIFT8",
+//            "Pro Nights",
+//            OwnTime(13,15,0),
+//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
+//        )
+//        ,
+//        eventdetail(
+//            "TAYLOR SWIFT9",
+//            "Pro Nights",
+//            OwnTime(13,14,30),
+//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
+//        )
+//
+//
 
-            eventdetail(
-                    "DJ SNAKE4",
-                    "Pro Nights",
-                OwnTime(11,12,0),
-                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-            ),
-            eventdetail(
-                    "TAYLOR SWIFT6",
-                    "Pro Nights",
-                OwnTime(11,14,0),
-                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-            )
-        ,
-
-        eventdetail(
-            "DJ SNAKE7",
-            "Pro Nights",
-            OwnTime(13,10,0),
-            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-        ),
-        eventdetail(
-            "TAYLOR SWIFT8",
-            "Pro Nights",
-            OwnTime(13,15,0),
-            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-        )
-        ,
-        eventdetail(
-            "TAYLOR SWIFT9",
-            "Pro Nights",
-            OwnTime(13,14,30),
-            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
-        )
-
-
-
-    )
+//    )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -175,6 +180,8 @@ class Home : Fragment() {
 
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
+
+
         return (binding.root)
 
 //        return inflater.inflate(R.layout.fragment_home, container, false)
@@ -183,6 +190,7 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         var unseen_notif_count = 0
 
@@ -262,7 +270,8 @@ class Home : Fragment() {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }) { dataeach -> context?.let { Event_card(eventdetail = dataeach,homeViewModel, it,fm) } }
+                            items(homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }) { dataeach -> context?.let {
+                                Event_card(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_events_Details_Fragment) } }
                         }
 
                     }
@@ -289,7 +298,7 @@ class Home : Fragment() {
                                 horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
                             items(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.sortedBy { data->  (data.eventdetail.starttime.date*24*60 + ((data.eventdetail.starttime.hours*60)).toFloat() + (data.eventdetail.starttime.min.toFloat()))
-                            }) { dataeach -> context?.let { Event_card_upcoming(eventdetail = dataeach,homeViewModel, it,fm) } }
+                            }) { dataeach -> context?.let { Event_card_upcoming(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_events_Details_Fragment) } }
                         }
                     }
                     Box(modifier = Modifier
@@ -316,9 +325,10 @@ class Home : Fragment() {
                         Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
                             ,modifier = Modifier.clickable {
 
-                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
-                                    R.id.schedule;  activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
-                                    R.id.schedule;
+//                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
+//                                    R.id.schedule;
+                            findNavController(this@Home).navigate(R.id.action_home2_to_schedule2);
+
 //                            fm.beginTransaction()
 //                                .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
 //                                .commit()
@@ -345,7 +355,7 @@ class Home : Fragment() {
                                     /*if(dataeach.eventdetail.stream){
                                         Event_card(eventdetail = dataeach,homeViewModel, it,fm)
                                     }*/
-                                    Event_card(eventdetail = dataeach,homeViewModel, it,fm)
+                                    Event_card(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_events_Details_Fragment)
                                 } }
                         }
                     }
@@ -1103,12 +1113,14 @@ class Home : Fragment() {
                         .clickable {
 
                             val frg = Events_Details_Fragment()
-                            frg.arguments = bundleOf("Artist" to eventdetail.eventWithLive.artist)
-                            fm
-                                    .beginTransaction()
-                                    .replace(R.id.fragmentContainerView, frg)
-                                    .addToBackStack(null)
-                                    .commit()
+                            val arguments = bundleOf("Artist" to eventdetail.eventWithLive.artist)
+//                            fm
+//                                    .beginTransaction()
+//                                    .replace(R.id.fragmentContainerView, frg)
+//                                    .addToBackStack(null)
+//                                    .commit()
+                            findNavController(this).navigate(R.id.action_home2_to_events_Details_Fragment,arguments);
+
 
                         }
                         .pointerInput(Unit) {
@@ -1477,8 +1489,8 @@ class Home : Fragment() {
     }
 
     override fun onResume() {
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.menu?.findItem(R.id.home_nav)?.setChecked(true);
-       MainActivity.index=R.id.home_nav;
+//        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.menu?.findItem(R.id.home_nav)?.setChecked(true);
+//       MainActivity.index=R.id.home_nav;
         super.onResume()
 
         var unseen_notif_count = 0

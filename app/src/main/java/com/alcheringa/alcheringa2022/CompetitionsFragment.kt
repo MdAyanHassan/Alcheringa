@@ -32,7 +32,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
- * A simple [Fragment] subclass.
+ * A simple [Fragment] subclass.R.id.action_home2_to_events_Details_Fragment
  * Use the [CompetitionsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
@@ -193,7 +193,7 @@ class CompetitionsFragment : Fragment() {
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-        ) { items(events_list) { dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel,it,Fm) } } }
+        ) { items(events_list) { dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel,it,this@CompetitionsFragment,Fm,R.id.action_competitionsFragment_to_events_Details_Fragment) } } }
 
         Spacer(modifier = Modifier.height(24.dp))}
     }

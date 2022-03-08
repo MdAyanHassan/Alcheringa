@@ -2,6 +2,10 @@ package com.alcheringa.alcheringa2022;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 
 import android.app.Dialog;
@@ -23,7 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     Events events_fragment;
     SharedPreferences sharedPreferences;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     FirebaseFirestore firebaseFirestore;
     ImageButton epass;
     FirebaseAuth firebaseAuth;
+    NavController NavController;
     public static int index;
 
     @Override
@@ -40,14 +45,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         events_fragment = new Events();
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
        // epass=findViewById(R.id.epass);
-        bottomNavigationView.setBackground(null);
+        //bottomNavigationView.setBackground(null);
         //bottomNavigationView.getMenu().getItem(2).setEnabled(false);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        //bottomNavigationView.setOnNavigationItemSelectedListener(this);
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
         dbHandler=new DBHandler(getApplicationContext());
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
         String email=firebaseAuth.getCurrentUser().getEmail();
+         NavController =
+                (NavController) Navigation.findNavController(this,R.id.fragmentContainerView);
+        NavigationUI.setupWithNavController(bottomNavigationView,NavController);
         /*boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
         if(!isLoggedIn){
             Intent intent = new Intent(this, SignUp.class);
@@ -75,10 +83,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //        }
 
 
-        index=R.id.home_nav;
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
-        bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
-        getVersionInfo();
+//        index=R.id.home_nav;
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
+//        bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
+//        getVersionInfo();
 
 
        /* try{
@@ -142,43 +150,45 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .show();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.events:
-                if(index!=R.id.events){
-                    index=R.id.events;
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, events_fragment).commit();
-                    bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
-                }
-
-                break;
-            case R.id.home_nav:
-                if(index!=R.id.home_nav) {
-                    index=R.id.home_nav;
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
-                    bottomNavigationView.getMenu().findItem(R.id.home_nav).setChecked(true);
-                }
-                break ;
-            case R.id.merch:
-                if(index!=R.id.merch) {
-                    index=R.id.merch;
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new MerchFragment()).commit();
-                    bottomNavigationView.getMenu().findItem(R.id.merch).setChecked(true);
-                }
-                break;
-            case R.id.schedule:
-                if(index!=R.id.schedule) {
-                    index=R.id.schedule;
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Schedule()).commit();
-                    bottomNavigationView.getMenu().findItem(R.id.schedule).setChecked(true);
-                }
-                break;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//
+//        switch (item.getItemId()){
+//            case R.id.events:
+//                if(index!=R.id.events){
+////                    index=R.id.events;
+////                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, events_fragment).commit();
+////                    bottomNavigationView.getMenu().findItem(R.id.events).setChecked(true);
+//                      //  navController.navigate(R.id);
+//
+//                }
+//
+//                break;
+//            case R.id.home_nav:
+//                if(index!=R.id.home_nav) {
+//                    index=R.id.home_nav;
+//
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
+//                    bottomNavigationView.getMenu().findItem(R.id.home_nav).setChecked(true);
+//                }
+//                break ;
+//            case R.id.merch:
+//                if(index!=R.id.merch) {
+//                    index=R.id.merch;
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new MerchFragment()).commit();
+//                    bottomNavigationView.getMenu().findItem(R.id.merch).setChecked(true);
+//                }
+//                break;
+//            case R.id.schedule:
+//                if(index!=R.id.schedule) {
+//                    index=R.id.schedule;
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Schedule()).commit();
+//                    bottomNavigationView.getMenu().findItem(R.id.schedule).setChecked(true);
+//                }
+//                break;
+//        }
+//        return false;
+//    }
 
     @Override
     protected void onResume() {
@@ -188,15 +198,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onBackPressed() {
-        if(bottomNavigationView.getSelectedItemId()==R.id.home_nav){
-            super.onBackPressed();
-        }
-        else/* if()*/{
-            index=R.id.home_nav;
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
-            bottomNavigationView.getMenu().findItem(R.id.home_nav).setChecked(true);
+        super.onBackPressed();
+//        if(bottomNavigationView.getSelectedItemId()==R.id.home_nav){
+//            super.onBackPressed();
+//        }
+//        else/* if()*/{
+//            index=R.id.home_nav;
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new Home()).commit();
+//            bottomNavigationView.getMenu().findItem(R.id.home_nav).setChecked(true);
 
-        }
+        //}
 
     }
 }
