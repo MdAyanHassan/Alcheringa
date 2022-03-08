@@ -11,11 +11,19 @@
         tools:layout="@layout/fragment_events" >
         <action
             android:id="@+id/action_eventFragment_to_competitionsFragment"
-            app:destination="@id/competitionsFragment" />
+            app:destination="@id/competitionsFragment"
+            app:enterAnim="@anim/fadein"
+            app:exitAnim="@anim/fadeout"
+            app:popEnterAnim="@anim/fadein"
+            app:popExitAnim="@anim/fadeout"/>
 
         <action
             android:id="@+id/action_events_to_events_Details_Fragment2"
-            app:destination="@id/events_Details_Fragment" />
+            app:destination="@id/events_Details_Fragment"
+            app:enterAnim="@anim/fadein"
+            app:exitAnim="@anim/fadeout"
+            app:popEnterAnim="@anim/fadein"
+            app:popExitAnim="@anim/fadeout"/>
     </fragment>
     <fragment
         android:id="@+id/merch"
@@ -29,13 +37,25 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_home2_to_events_Details_Fragment"
-            app:destination="@id/events_Details_Fragment" />
+            app:destination="@id/events_Details_Fragment"
+            app:enterAnim="@anim/fadein"
+            app:exitAnim="@anim/fadeout"
+            app:popEnterAnim="@anim/fadein"
+            app:popExitAnim="@anim/fadeout" />
         <action
             android:id="@+id/action_home2_to_merchFragment"
-            app:destination="@id/merch" />
+            app:destination="@id/merch"
+            app:enterAnim="@anim/fadein"
+            app:exitAnim="@anim/fadeout"
+            app:popEnterAnim="@anim/fadein"
+            app:popExitAnim="@anim/fadeout"/>
         <action
             android:id="@+id/action_home2_to_schedule2"
-            app:destination="@id/schedule" />
+            app:destination="@id/schedule"
+            app:enterAnim="@anim/fadein"
+            app:exitAnim="@anim/fadeout"
+            app:popEnterAnim="@anim/fadein"
+            app:popExitAnim="@anim/fadeout" />
     </fragment>
     <fragment
         android:id="@+id/schedule"
@@ -44,7 +64,11 @@
         tools:layout="@layout/schedule_fragment" >
         <action
             android:id="@+id/action_schedule_to_events_Details_Fragment"
-            app:destination="@id/events_Details_Fragment" />
+            app:destination="@id/events_Details_Fragment"
+            app:enterAnim="@anim/fadein"
+            app:exitAnim="@anim/fadeout"
+            app:popEnterAnim="@anim/fadein"
+            app:popExitAnim="@anim/fadeout"/>
     </fragment>
     <fragment
         android:id="@+id/events_Details_Fragment"
@@ -52,7 +76,11 @@
         android:label="Events_Details_Fragment" >
         <action
             android:id="@+id/action_events_Details_Fragment_self2"
-            app:destination="@id/events_Details_Fragment" />
+            app:destination="@id/events_Details_Fragment"
+            app:enterAnim="@anim/fadein"
+            app:exitAnim="@anim/fadeout"
+            app:popEnterAnim="@anim/fadein"
+            app:popExitAnim="@anim/fadeout"/>
     </fragment>
     <fragment
         android:id="@+id/competitionsFragment"
@@ -60,7 +88,11 @@
         android:label="CompetitionsFragment" >
         <action
             android:id="@+id/action_competitionsFragment_to_events_Details_Fragment"
-            app:destination="@id/events_Details_Fragment" />
+            app:destination="@id/events_Details_Fragment"
+            app:enterAnim="@anim/fadein"
+            app:exitAnim="@anim/fadeout"
+            app:popEnterAnim="@anim/fadein"
+            app:popExitAnim="@anim/fadeout"/>
     </fragment>
 
 
