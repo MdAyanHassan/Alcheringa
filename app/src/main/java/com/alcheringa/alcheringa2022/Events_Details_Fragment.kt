@@ -380,7 +380,7 @@ class Events_Details_Fragment : Fragment() {
                     }
                     else{
                     Text(
-                        text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-10}",
+                        text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W600,
                         fontFamily = clash,

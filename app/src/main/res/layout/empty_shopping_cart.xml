@@ -54,9 +54,9 @@
         android:orientation="vertical">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            app:lottie_rawRes="@raw/emptycart"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:lottie_rawRes="@raw/noorders"
             android:contentDescription="@string/empty_shopping_cart"
             android:layout_marginBottom="50dp"
             android:layout_gravity="center"

@@ -155,7 +155,7 @@ class Schedule : Fragment() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    Text(text = "Day 1",
+                    Text(text = "Day 0",
                         fontWeight = FontWeight.W700,
                         fontFamily = clash,
                         color = color1,
@@ -190,7 +190,7 @@ class Schedule : Fragment() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    Text(text = "Day 2",
+                    Text(text = "Day 1",
                         fontWeight = FontWeight.W700,
                         fontFamily = clash,
                         color = color2,
@@ -225,7 +225,7 @@ class Schedule : Fragment() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    Text(text = "Day 3",
+                    Text(text = "Day 2",
                         fontWeight = FontWeight.W700,
                         fontFamily = clash,
                         color = color3,
@@ -266,9 +266,18 @@ class Schedule : Fragment() {
                 Spacer(modifier = Modifier.width(70.dp))
                 Row(
                     Modifier
-                        .width(1775.dp)
+                        .width(2025.dp)
                         , horizontalArrangement = Arrangement.SpaceEvenly
                 ) { Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                    Text(
+                        text = "NEU Stage",
+                        fontWeight = FontWeight.W600,
+                        fontSize = 16.sp,
+                        fontFamily = clash,
+                        color = Color.White
+                    )
+                }
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                     Text(
                         text = "IITG Auditorium",
                         fontWeight = FontWeight.W600,
@@ -344,7 +353,7 @@ class Schedule : Fragment() {
                 Spacer(modifier = Modifier.width(70.dp))
                 Row(
                     Modifier
-                        .width(1775.dp)
+                        .width(2025.dp)
                     , horizontalArrangement = Arrangement.SpaceEvenly
                 ) { Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                     Text(
@@ -355,6 +364,16 @@ class Schedule : Fragment() {
                         color = Color(0xffA3A7AC)
                     )
                 }
+
+                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                        Text(
+                            text = "Offline",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 14.sp,
+                            fontFamily = hk_grotesk,
+                            color = Color(0xffA3A7AC)
+                        )
+                    }
                     Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
                         Text(
                             text = "Offline",
@@ -520,7 +539,7 @@ class Schedule : Fragment() {
 
         Box(
             Modifier
-                .width(1775.dp)
+                .width(2025.dp)
                 .height(975.dp)
 //                .horizontalScroll(rememberScrollState())
                ) {
@@ -616,6 +635,7 @@ class Schedule : Fragment() {
             Box(modifier = Modifier.offset(x=1025.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
             Box(modifier = Modifier.offset(x=1275.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
             Box(modifier = Modifier.offset(x=1525.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
+            Box(modifier = Modifier.offset(x=1775.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
 
             if (datestate.value == 1) {
                 datestate1.forEach { data -> fullSchUserBox(eventdetail = data) }
@@ -651,13 +671,14 @@ class Schedule : Fragment() {
         }
         var catid= remember { mutableStateOf(6) }
             when(eventdetail.eventdetail.venue.replace("\\s".toRegex(), "").uppercase()){
-                "IITG Auditorium".replace("\\s".toRegex(), "").uppercase()-> catid.value=0
-                "Pronites Ground".replace("\\s".toRegex(), "").uppercase()->catid.value=1
-                "Auditorium 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=2
-                "Auditorium 2".replace("\\s".toRegex(), "").uppercase()->catid.value=3
-                "Creators' Camp".replace("\\s".toRegex(), "").uppercase()-> catid.value=4
-                "Gaming".replace("\\s".toRegex(), "").uppercase()-> catid.value=5
-                "Campaign".replace("\\s".toRegex(), "").uppercase()-> catid.value=6
+                "NEU Stage".replace("\\s".toRegex(), "").uppercase()-> catid.value=0
+                "IITG Auditorium".replace("\\s".toRegex(), "").uppercase()-> catid.value=1
+                "Pronites Ground".replace("\\s".toRegex(), "").uppercase()->catid.value=2
+                "Auditorium 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=3
+                "Auditorium 2".replace("\\s".toRegex(), "").uppercase()->catid.value=4
+                "Creators' Camp".replace("\\s".toRegex(), "").uppercase()-> catid.value=5
+                "Gaming".replace("\\s".toRegex(), "").uppercase()-> catid.value=6
+                "Campaign".replace("\\s".toRegex(), "").uppercase()-> catid.value=7
 
             }
 

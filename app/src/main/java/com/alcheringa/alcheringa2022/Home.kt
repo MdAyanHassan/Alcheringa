@@ -718,14 +718,9 @@ class Home : Fragment() {
                                             .fillMaxWidth()
                                             .height(473.dp)
                                             .clickable {
-                                                val frg = Events_Details_Fragment()
-                                                frg.arguments =
+                                                val arguments =
                                                     bundleOf("Artist" to eventdetails[page].eventdetail.artist)
-                                                fm
-                                                    .beginTransaction()
-                                                    .replace(R.id.fragmentContainerView, frg)
-                                                    .addToBackStack(null)
-                                                    .commit()
+                                                findNavController(this@Home).navigate(R.id.action_home2_to_events_Details_Fragment,arguments)
                                             },
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Crop,
@@ -892,18 +887,18 @@ class Home : Fragment() {
                    Modifier
                            .fillMaxWidth()
                            .padding(horizontal = 32.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-               Text(text = "Day 1", fontWeight = FontWeight.W700, fontFamily = clash, color = color1, fontSize = 18.sp,
+               Text(text = "Day 0", fontWeight = FontWeight.W700, fontFamily = clash, color = color1, fontSize = 18.sp,
                    modifier = Modifier.clickable { color1= orangeText;color2= greyText;color3=
                        greyText
                        datestate.value=1
                    })
 
-               Text(text = "Day 2", fontWeight = FontWeight.W700, fontFamily = clash, color = color2,fontSize = 18.sp,
+               Text(text = "Day 1", fontWeight = FontWeight.W700, fontFamily = clash, color = color2,fontSize = 18.sp,
                    modifier = Modifier.clickable { color1= greyText;color2= orangeText;color3= greyText;
                        datestate.value=2
                })
 
-               Text(text = "Day 3", fontWeight = FontWeight.W700, fontFamily = clash, color = color3,fontSize = 18.sp,
+               Text(text = "Day 2", fontWeight = FontWeight.W700, fontFamily = clash, color = color3,fontSize = 18.sp,
                    modifier = Modifier.clickable { color1= greyText;color2= greyText;color3=
                        orangeText
                        datestate.value=3
@@ -1331,7 +1326,7 @@ class Home : Fragment() {
         ) {
             Box(modifier = Modifier
                     .clickable {
-                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId = R.id.merch;
+                        findNavController(this@Home).navigate(R.id.action_home2_to_merchFragment)
 
 //                fm.beginTransaction()
 //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
