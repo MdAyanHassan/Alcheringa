@@ -5,40 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutaccount"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <ImageButton
-            android:id="@+id/backbtn"
-            android:layout_width="41dp"
-            android:layout_height="48dp"
-            android:padding="16dp"
-            android:src="@drawable/back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="12dp"
-            android:background="@android:color/transparent"/>
-
-        <TextView
-            android:id="@+id/account_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Account"
-            android:textColor="@color/white"
-            android:fontFamily="@font/clash_display_700"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/backbtn"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:id="@+id/button_scroll"
@@ -46,7 +12,9 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/version"
         android:layout_marginBottom="25dp"
-        app:layout_constraintTop_toBottomOf="@id/constraintLayoutaccount">
+        android:paddingTop="80dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toTopOf= "parent">
 
         <LinearLayout
             android:id="@+id/buttons"
@@ -315,6 +283,43 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutaccount"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/top_nav_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="41dp"
+            android:layout_height="48dp"
+            android:padding="16dp"
+            android:src="@drawable/back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="12dp"
+            android:background="@android:color/transparent"/>
+
+        <TextView
+            android:id="@+id/account_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Account"
+            android:textColor="@color/white"
+            android:fontFamily="@font/clash_display_700"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/backbtn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <TextView
         android:id="@+id/version"

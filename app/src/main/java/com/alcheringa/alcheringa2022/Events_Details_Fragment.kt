@@ -137,6 +137,7 @@ class Events_Details_Fragment : Fragment() {
                 modifier= Modifier
                     .fillMaxWidth()
                     .height(473.dp),
+//                circularReveal = CircularReveal(300),
 
                 alignment = Alignment.Center,
                 contentScale = ContentScale.Crop,

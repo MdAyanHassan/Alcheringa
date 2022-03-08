@@ -68,6 +68,10 @@ class team : AppCompatActivity() {
                         .padding(horizontal = 20.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)){
                     item {
+                        Spacer(modifier = Modifier.height(60.dp))
+                    }
+
+                    item {
                         Text(
                             text = "DEVELOPMENT",
                             fontWeight = FontWeight.W500,
@@ -92,7 +96,7 @@ class team : AppCompatActivity() {
                             data->teamCard(memb = data)
                     }
                     item {
-                        Spacer(modifier = Modifier.height(150.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
                     }
              }
         }
