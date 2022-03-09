@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.alcheringa.alcheringa2022.Model.OwnTime
 import com.alcheringa.alcheringa2022.Model.eventdetail
+import com.alcheringa.alcheringa2022.Model.sponsersnew
 import com.google.firebase.firestore.FirebaseFirestore
 
 class DataUploadActivity : AppCompatActivity() {
@@ -13,6 +14,7 @@ class DataUploadActivity : AppCompatActivity() {
         setContentView(R.layout.activity_data_upload)
 
         val fb = FirebaseFirestore.getInstance()
+
 
         fun pushEvents(evnts: List<eventdetail>) {
             for (evnt in evnts) {
@@ -24,6 +26,31 @@ class DataUploadActivity : AppCompatActivity() {
             }
         }
 
+
+        fun pushSponsers(evnts: List<sponsersnew>) {
+            for (evnt in evnts) {
+                fb.collection("SponsersNew").add(evnt).addOnSuccessListener {
+                    Log.d("pushevents", "process succeed")
+                }.addOnFailureListener {
+                    Log.d("pushevents", "process failed")
+                }
+            }
+        }
+//        val sponserlist= mutableListOf(
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404","Manikchand",true),
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404","Manikchand",true),
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404","Manikchand",true),
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404","Manikchand",),
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404","Manikchand",),
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404","Manikchand",),
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404","Manikchand",),
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404",),
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404",),
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404",),
+//            sponsersnew("https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Sponsors%2FLOGO%2011%20%203.png?alt=media&token=74eaff2a-e888-44ec-bcc3-abc82cf46404",),
+//
+//            )
+//        pushSponsers(sponserlist)
 //        val newEvents= listOf(
 //                eventdetail(
 //                        "Wanderlusts",
