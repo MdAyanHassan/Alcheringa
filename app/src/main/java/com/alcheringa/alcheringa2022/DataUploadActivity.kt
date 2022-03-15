@@ -51,490 +51,122 @@ class DataUploadActivity : AppCompatActivity() {
 //
 //            )
 //        pushSponsers(sponserlist)
-//        val newEvents= listOf(
-//                eventdetail(
-//                        "Wanderlusts",
-//                        "Shubham Gupta | Hopping Bug",
-//                        type = "Creators' Camp",
-//                        starttime = OwnTime(12,2,30) ,
-//                        durationInMin =60,
-//                        venue = "Creators' Camp",
-//                        imgurl ="https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Competition%2FWanderlust.png?alt=media&token=3a73923d-9d24-4293-b90b-6baf2d95af99",
-//                        descriptionEvent="In our Wanderlusts Pannel, we have Youtuber and travel enthusiast Shubham Gupta, along with Youtuber and film-maker Nishit Sharma aka Hopping Bug. Both of them will be joining us to share their love for travel and their amazing stories. Stay tuned for this fascinating session!", genre = listOf("food"),
-//                ),
-//                eventdetail(
-//                        "Beyond the Plate",
-//                        "Bhooka Saand | Radio Ka Rohan",
-//                        type = "Creators' Camp",
-//                        starttime = OwnTime(13,2,30) ,
-//                        durationInMin =60,
-//                        venue = "Creators' Camp",
-//                        imgurl = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Competition%2FBeyond_the_Plate.png?alt=media&token=89387d0f-f30a-4d11-8d40-1c3f46f4102e",descriptionEvent="In our Beyond the Plate Pannel, we have Puneet Singh (Bhooka Sand) & RJ Rohan. Both find common love for food and have been vlogging about it on their Youtube Channels. Join in to know about their journey from start to being one of the renowed Indian food vloggers.",
-//                                genre = listOf("food"),
-//                ),
-//                eventdetail(
-//                        "Director’s Cut Day1",
-//                        "Creator's Camp",
-//                        type = "Creator's Camp",
-//                        starttime = OwnTime(12,13,0) ,
-//                        durationInMin =60,
-//                        venue = "Auditorium",
-//                        imgurl = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Competition%2FDirectors_Cut_day1.jpg?alt=media&token=75613f3b-8851-4d52-a425-0b6c37f7baa8",
-//                        descriptionEvent="In our Director’s Cut Panel, we have Karan Anshuman, He is the director of the Emmy-nominated drama film Inside Edge. He is also the creator, director, and writer of Mirzapur. Join in to know about his experience and process that goes through making a well structured story and visuals supporting it.",
-//                        genre = listOf("movie"),
-//                ),
-//                eventdetail(
-//                        "Director’s Cut Day2",
-//                        "Creator's Camp",
-//                        type = "Creator's Camp",
-//                        starttime = OwnTime(13,16,0) ,
-//                        durationInMin =60,
-//                        venue = "Auditorium",
-//                        imgurl = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Competition%2FDirectors_Cut_day2.jpg?alt=media&token=9365ec18-6fdb-4c55-84c7-078f284d0ff8",
-//                        descriptionEvent="In our Director’s Cut Panel, we have Karan Anshuman, He is the director of the Emmy-nominated drama film Inside Edge. He is also the creator, director, and writer of Mirzapur. Join in to know about his experience and process that goes through making a well structured story and visuals supporting it.",
-//                        genre = listOf("movie"),
-//                ),
-//                eventdetail(
-//                        "Gamers' Province",
-//                        "Creator's Camp",
-//                        type = "Creator's Camp",
-//                        starttime = OwnTime(12,15,30) ,
-//                        durationInMin =60,
-//                        venue = "Creator's camp",
-//                        imgurl = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/Competition%2FDirectors_Cut_day2.jpg?alt=media&token=9365ec18-6fdb-4c55-84c7-078f284d0ff8",
-//                        descriptionEvent="In our Gamers’ Province Panel, we have Payal Gaming and Gaming Pro Ocean. Both find common love for BGMI and have been streaming it on their Youtube Channels. Join in to know about their journey from start to being one of the renowed E-sports streamers in the country.\n"
-//                        ,genre = listOf("game"),
-//                ),
-//                eventdetail(
-//                        "BGMI",
-//                        "",
-//                        type = "Gaming",
-//                        starttime = OwnTime(13,17,30) ,
-//                        durationInMin =60,
-//                        venue = "Auditorium",
-//                        imgurl = "",
-//                        descriptionEvent="The Battlegrounds await! This is a call for all the Naders, Campers, Flankers and Scouts! Lead your team to Chicken Dinners and get a chance to win prizes worth Rs. 130K!\n" +
-//                                "\n" +
-//                                "1st Place: Cash Prize worth 3K, goodies and incentives worth 44K\n" +
-//                                "2nd Prize: Cash Prize worth 2K, goodies and incentives worth 40K\n" +
-//                                "3rd Place: Cash Prize worth 1K, goodies adn incentives worth 40K\n" +
-//                                "\n" +
-//                                "Register now on D2C!\n" +
-//                                "\n" +
-//                                "Tournament Dates: 5th - 11th March", genre = listOf("game"),
-//                ),
-//                eventdetail(
-//                        "Chess",
-//                        "",
-//                        type = "Gaming",
-//                        starttime = OwnTime(13,17,30) ,
-//                        durationInMin =60,
-//                        venue = "Auditorium",
-//                        imgurl = "",
-//                        descriptionEvent="Play a Gambit, sacrifice your Rook and use your poison Pawns to win prizes worth Rs. 26K ! The Grandmasters win grand prizes!\n" +
-//                                "\n" +
-//                                "Tournament Dates: 5th - 11th March\n" +
-//                                "\n" +
-//                                "1st Place: Cash Prize worth 2.5K, goodies and incentives worth 11K\n" +
-//                                "2nd Place: Cash Prize worth 1.5K, goodies and incentives worth 11K\n" +
-//                                "\n" +
-//                                "Register now on D2C!\n" +
-//                                "\n" +
-//                                "Tournament Dates: 5th - 11th March", genre = listOf("game"),
-//                ),
-///*                eventdetail(
-//                        "UNGA",
-//                        "Model United Nations ",
-//                        type = "MUN",
-//                        starttime = OwnTime(0,0,0) ,
-//                        durationInMin =60,
-//                        venue = "",
-//                        imgurl = "",
-//                        descriptionEvent="2nd card description: From the two World Wars to as recently as the Israel-Gaza Conflict, actions of warring factions and nations have continued to violate international laws and commit atrocities. Yet it has been found difficult to precisely define the term ‘war crime,’ and its usage has, and continues to, evolve constantly. Atrocities committed seldom fall under the jurisdiction of a governing body and often warrant no penalties, actions, or relief. \n" +
-//                                "\n" +
-//                                "The IITG Model United Nations Edition 14 brings to you the agenda for the UN General Assembly - Winning Against War: Discussing international conventions on the evolving situation of war crimes.", genre = listOf("music"),
-//                ),
-//                eventdetail(
-//                        "UNHRC",
-//                        "Model United Nations",
-//                        type = "MUN",
-//                        starttime = OwnTime(0,0,0) ,
-//                        durationInMin =120,
-//                        venue = "",
-//                        imgurl = "",
-//                        descriptionEvent="3rd card description: Race, gender, sexual orientation and nationality are some of the many things that distinguish us as humans. Although more often than not these differences have also been the cause of discrimination. Limited rights for women in the past, the current legal status of homosexual activity and a rise in police brutality are the practical manifestations of these stigmas. While the UN has exercised its authority to issue resolutions protecting the rights of these communities, the problems of discrimination remain unresolved.\n" +
-//                                "\n" +
-//                                "In the 14th Edition of the IIT Guwahati Model United Nations, we bring to you as part of the UNHRC the agenda - Dissecting Discrimination: Assessing racial, ethnic, and gender biases in society.",
-//                        genre = listOf("music"),
-//                ),*/
-//////                eventdetail(
-//////                        "Panel Discussion Day1",
-//////                        "North East Unveil",
-//////                        type = "Campaigns",
-//////                        starttime = OwnTime(12,14,0) ,
-//////                        durationInMin =60,
-//////                        venue = "Campaigns",
-//////                        imgurl = "",
-//////                        descriptionEvent="",
-//////                        genre = listOf("music"),
-//////                ),
-//////                eventdetail(
-//////                        "Performance Day1",
-//////                        "North East Unveil",
-//////                        type = "Campaigns",
-//////                        starttime = OwnTime(12,15,0) ,
-//////                        durationInMin =120,
-//////                        venue = "Campaigns",
-//////                        imgurl = "",
-//////                        descriptionEvent="",
-//////                        genre = listOf("music"),
-//////                ),
-//////                eventdetail(
-//////                        "Short Movie Screening Day2",
-//////                        "North East Unveil",
-//////                        type = "Campaigns",
-//////                        starttime = OwnTime(13,10,0) ,
-//////                        durationInMin =60,
-//////                        venue = "Campaigns",
-//////                        imgurl = "",
-//////                        descriptionEvent="",
-//////                        genre = listOf("music"),
-//////                ),
-//////                eventdetail(
-//////                        "Policy Maker Presentation  Day2",
-//////                        "North East Unveil",
-//////                        type = "Campaigns",
-//////                        starttime = OwnTime(13,12,0) ,
-//////                        durationInMin =120,
-//////                        venue = "Campaigns",
-//////                        imgurl = "",
-//////                        descriptionEvent="",
-//////                        genre = listOf("music"),
-//////                ),
-//////                eventdetail(
-//////                        "Panel Discussion  Day2",
-//////                        "North East Unveil",
-//////                        type = "Campaigns",
-//////                        starttime = OwnTime(13,14,0) ,
-//////                        durationInMin =60,
-//////                        venue = "Campaigns",
-//////                        imgurl = "",
-//////                        descriptionEvent="",
-//////                        genre = listOf("music"),
-//////                ),
-//////                eventdetail(
-//////                        "Performance  Day2",
-//////                        "North East Unveil",
-//////                        type = "Campaigns",
-//////                        starttime = OwnTime(13,15,0) ,
-//////                        durationInMin =120,
-//////                        venue = "Campaigns",
-//////                        imgurl = "",
-//////                        descriptionEvent="",
-//////                        genre = listOf("music"),
-//////                ),
-//////                eventdetail(
-//////                        "Saaz",
-//////                        "Pronites",
-//////                        type = "Pronites",
-//////                        starttime = OwnTime(11,20,0) ,
-//////                        durationInMin =90,
-//////                        venue = "Auditorium 1",
-//////                        imgurl = "",
-//////                        descriptionEvent="",
-//////                        genre = listOf("music"),
-//////                ),
-//////                eventdetail(
-//////                "Pronite 2",
-//////                "Pronites",
-//////                type = "Pronites",
-//////                starttime = OwnTime(12,19,0) ,
-//////                durationInMin =120,
-//////                venue = "" ,
-//////                imgurl = "",
-//////                descriptionEvent="",
-//////                    genre = listOf("music"),
-//////            ),
-//////                eventdetail(
-//////                        "Pronite 3",
-//////                        "Pronites",
-//////                        type = "Pronites",
-//////                        starttime = OwnTime(13,19,0) ,
-//////                        durationInMin =120,
-//////                        venue = "" ,
-//////                        imgurl = "",
-//////                        descriptionEvent="",
-//////                        genre = listOf("music"),
-//////                ),
-////                eventdetail(
-////                        "Policy Maker Presentation Day1",
-////                        "North East Unveil",
-////                        type = "Campaigns",
-////                        starttime = OwnTime(12,12,0) ,
-////                        durationInMin =120,
-////                        venue = "Campaigns",
-////                        imgurl = "",
-////                        descriptionEvent="",
-////                        genre = listOf("music"),
-////                ),
-////                eventdetail(
-////                        "Panel Discussion Day1",
-////                        "North East Unveil",
-////                        type = "Campaigns",
-////                        starttime = OwnTime(12,14,0) ,
-////                        durationInMin =60,
-////                        venue = "Campaigns",
-////                        imgurl = "",
-////                        descriptionEvent="",
-////                        genre = listOf("music"),
-////                ),
-////                eventdetail(
-////                        "Performance Day1",
-////                        "North East Unveil",
-////                        type = "Campaigns",
-////                        starttime = OwnTime(12,15,0) ,
-////                        durationInMin =120,
-////                        venue = "Campaigns",
-////                        imgurl = "",
-////                        descriptionEvent="",
-////                        genre = listOf("music"),
-////                ),
-////                eventdetail(
-////                        "Short Movie Screening Day2",
-////                        "North East Unveil",
-////                        type = "Campaigns",
-////                        starttime = OwnTime(13,10,0) ,
-////                        durationInMin =60,
-////                        venue = "Campaigns",
-////                        imgurl = "",
-////                        descriptionEvent="",
-////                        genre = listOf("music"),
-////                ),
-////                eventdetail(
-////                        "Policy Maker Presentation  Day2",
-////                        "North East Unveil",
-////                        type = "Campaigns",
-////                        starttime = OwnTime(13,12,0) ,
-////                        durationInMin =120,
-////                        venue = "Campaigns",
-////                        imgurl = "",
-////                        descriptionEvent="",
-////                        genre = listOf("music"),
-////                ),
-////                eventdetail(
-////                        "Panel Discussion  Day2",
-////                        "North East Unveil",
-////                        type = "Campaigns",
-////                        starttime = OwnTime(13,14,0) ,
-////                        durationInMin =60,
-////                        venue = "Campaigns",
-////                        imgurl = "",
-////                        descriptionEvent="",
-////                        genre = listOf("music"),
-////                ),
-////                eventdetail(
-////                        "Performance  Day2",
-////                        "North East Unveil",
-////                        type = "Campaigns",
-////                        starttime = OwnTime(13,15,0) ,
-////                        durationInMin =120,
-////                        venue = "Campaigns",
-////                        imgurl = "",
-////                        descriptionEvent="",
-////                        genre = listOf("music"),
-////                ),
-////                eventdetail(
-////                        "Saaz",
-////                        "Pronites",
-////                        type = "Pronites",
-////                        starttime = OwnTime(11,20,0) ,
-////                        durationInMin =90,
-////                        venue = "Auditorium 1",
-////                        imgurl = "",
-////                        descriptionEvent="",
-////                        genre = listOf("music"),
-////                ),
-////                eventdetail(
-////                "Pronite 2",
-////                "Pronites",
-////                type = "Pronites",
-////                starttime = OwnTime(12,19,0) ,
-////                durationInMin =120,
-////                venue = "" ,
-////                imgurl = "",
-////                descriptionEvent="",
-////                    genre = listOf("music"),
-////            ),
-////                eventdetail(
-////                        "Pronite 3",
-////                        "Pronites",
-////                        type = "Pronites",
-////                        starttime = OwnTime(13,19,0) ,
-////                        durationInMin =120,
-////                        venue = "" ,
-////                        imgurl = "",
-////                        descriptionEvent="",
-////                        genre = listOf("music"),
-////                ),
-//
-////            eventdetail(
-////                "Glamour Nova",
-////                "Competitions",
-////                type = "Vogue Nation",
-////                starttime = OwnTime(12,13,0) ,
-////                durationInMin =60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                descriptionEvent="Alcheringa, Northeast’s largest cultural extravaganza, once again brings to you all Glamour Nova. A chance for the most glamorous people to show off their skills. It is the fashion benchmark of North-East ,the flagship of Vogue Nation. Part of Haute Cotoure, a fashion designing and Photoshoot competition in which participants from around the country show off their pizzazz and exoticism.  Top 10 teams consisting of 2 models, 2 designers and 1 photographer will get a chance to showcase their skills in real time. They will get an opportunity to photoshoot across the stellar campus of IITG during a 2 day long event.",
-////                genre = listOf("Fashion"),
-////            ),
-////
-////            eventdetail(
-////                "States of Dress",
-////                "Competitions",
-////                type = "Vogue Nation",
-////                starttime = OwnTime(12,13,0),
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                descriptionEvent="Fashion is something that expresses the inner you. It is a form of art which becomes exciting with lesser resources. Throughout history, fashion has transformed from a stricter sense to an innovative art which uses a wide range of materials. In states of dress, we design the most spectacular and innovative outfit for your friend. Create the coolest and most sustainable dress using your designing and origami skills. ",
-////                genre = listOf("Fashion"),
-////            ),
-////
-////            eventdetail(
-////                "Poetry Slam",
-////                "Competitions",
-////                starttime = OwnTime(12,13,0) ,
-////                durationInMin =60,
-////                venue = "Auditorium 2" ,
-////                imgurl = "",
-////                type="Literary",
-////                descriptionEvent="Get the mic and put your voice in front of a live audience of North- East India as Alcheringa gives you a platform to perform spoken word poetry. So, let your soul speak for you, impress the panel of judges and win the hearts of the audience cheering for you.",
-////                genre = listOf("Literary")
-////            ),
-////
-////            eventdetail(
-////                "Mehfil-a-Alcheringa",
-////                "Competitions",
-////                starttime = OwnTime(12, 17, 0) ,
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                descriptionEvent="",
-////                genre = listOf("Musicp"),
-////                type = "Literary"
-////            ),
-////
-////            eventdetail(
-////                "Zephyr",
-////                "Competitions",
-////                starttime = OwnTime(13, 14, 0) ,
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                type="Literary",
-////                descriptionEvent="Imagine creating a fictional world or humming the lyrics of a poem that you created yourselves, but could never put it on paper. Alcheringa, Northeast’s largest cultural extravaganza, brings you a golden opportunity to put your thoughts or emotions on paper and show the world what you are capable of. ",
-////                genre = listOf("Literary")
-////            ),
-////
-////            eventdetail(
-////                "Snap Thrillz",
-////                "Competitions",
-////                starttime = OwnTime(0, 0, 0) ,
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                type="Lights Camera Action",
-////                descriptionEvent="Let us see the world through your eyes, let your photographs tell a story - compile the best of your pictures and make a movie, let others escape in your imagination!",
-////                genre = listOf("Drama")
-////            ),
-////
-////            eventdetail(
-////                "Who is it?",
-////                "Competitions",
-////                starttime = OwnTime(0, 0, 0) ,
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                type="Art Talkies",
-////                descriptionEvent="Whose face do you have in mind, when you take a pencil and your hand starts drawing those random strokes? Let your magic make those faces that come on TV screens come live on paper.",
-////                genre = listOf("Art")
-////            ),
-////
-////            eventdetail(
-////                "Rangoli",
-////                "Competitions",
-////                starttime = OwnTime(13, 14, 0) ,
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                type="Art Talkies",
-////                descriptionEvent="Make the floor your canvas and fill it with your imagination. Create a festive mood for everyone, with your rango wali rangoli!",
-////                genre = listOf("Art")
-////            ),
-////
-////            eventdetail(
-////                "Best out of waste",
-////                "Competitions",
-////                starttime = OwnTime(13, 14, 0) ,
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                type="Art Talkies",
-////                descriptionEvent="Pick up the things that are just about to go to the dustbin, and start with your magic. Create something that amazes everyone and makes the best out of the waste.",
-////                genre = listOf("Art")
-////            ),
-////
-////            eventdetail(
-////                "Custom Brush",
-////                "Competitions",
-////                starttime = OwnTime(13, 14, 0) ,
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                type="Digital Dexterity",
-////                descriptionEvent="Make your imaginations come live digitally! Pick up the drawing tablet and create your own little masterpiece, coming out of the pixels and the layers.",
-////                genre = listOf("Art","Tech")
-////            ),
-////
-////            eventdetail(
-////                "Xpressions",
-////                "Competitions",
-////                starttime = OwnTime(13, 14, 0) ,
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                type="Digital Dexterity",
-////                descriptionEvent="",
-////                genre = listOf("Drama","Tech")
-////            ),
-////
-////            eventdetail(
-////                "Alcher Diva or Hunk",
-////                "Competitions",
-////                starttime = OwnTime(13, 14, 0) ,
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                type="Digital Dexterity",
-////                descriptionEvent="In this world of social media, where millions of pictures get uploaded every second, do you think that your picture can stand out? Send us a picture of yours and let the social media decide if it is impressive or not!",
-////                genre = listOf("Art","Tech")
-////            ),
-////
-////            eventdetail(
-////                "Doodle Pad",
-////                "Competitions",
-////                starttime = OwnTime(13, 14, 0) ,
-////                durationInMin = 60,
-////                venue = "Auditorium 1" ,
-////                imgurl = "",
-////                type="Digital Dexterity",
-////                descriptionEvent="Do you remember all those drawings you made in the book or the back of your notebook in those boring math classes, in the school years? It is time to visit those doodles again and show the world your hidden talent.\n",
-////                genre = listOf("Art","Tech")
-////            ),
-//            )
-//
-//        pushEvents(newEvents);
-////    }
+        val newEvents= listOf(
+
+            /*eventdetail("George Redd","Comedian",OwnTime(13,17,30),"Online","",30,listOf("Art"),"","Auditorium 1","Proshows","","", true),
+            eventdetail("Wes Gama","Graffiti",OwnTime(13,17,0),"Online","",30,listOf("Art"),"","Auditorium 1","Proshows","","",true),
+            eventdetail("Evgeny Khmara","Instrumentalist",OwnTime(12,17,30),"Online","",30,listOf("Music"),"","Auditorium 2","Proshows","","", true),
+            eventdetail("Jos Repertory Theatre","Theatre",OwnTime(13,17,0),"Online","",30,listOf("Drama"),"","Auditorium 2","Proshows","","", true),*/
+            /*eventdetail(
+                "Ekaterina",
+                "Painter",
+                OwnTime(12,17,0),
+                "Online",
+                "",
+                30,listOf("Art"),
+                "",
+                "Auditorium 2",
+                "Proshows",
+                "",
+                "",
+                true
+            ),*/
+            /*eventdetail(
+                "Photography Workshop",
+                "Shivang Mehta",
+                OwnTime(12,15,0),
+                "Online",
+                "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2FPhotography%20Workshop.jpg?alt=media&token=e0722096-975d-4ba6-9aa3-5659840ff099",
+                60,
+                listOf("Art"),
+                "An international award-winning wildlife photographer and the best-selling author of ‘A Decade with Tigers' and 'Chasing Horizons: Learnings from Africa', Shivang Mehta has donned many hats in his long career, including that of a journalist and a PR professional. Stay tuned for this fascinating session!",
+                "Auditorium 2",
+                "Creators' Camp",
+                "",
+                "",
+                true
+            ),
+            eventdetail(
+                "Chess Panel",
+                "Mr RB Ramesh",
+                OwnTime(12,11,0),
+                "Online",
+                "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2FChess%20Panel.jpg?alt=media&token=0a2012bd-d99f-4158-82e4-6c10abdf25e6",
+                60,
+                listOf("Fun"),
+                "In our Chess’s panel, we have RB Ramesh who is a very well known indian chess grandmaster from Bangalore who won the 2002 British Championship and 2007 Commonwealth Championship. Join us to know more about his history and maybe a few tricks that he keeps under his sleeve.",
+                "Creators' Camp",
+                "Creators' Camp",
+                "",
+                "",
+                true
+            ),
+            eventdetail(
+                "Gamers' Province 2",
+                "Lokesh Gamer",
+                OwnTime(13,11,0),
+                "Online",
+                "",
+                60,
+                listOf("Fun"),
+                "In our Gamers’ Province Panel, we have Gaming pro Lokesh Gamer, who has proved himeself multiple times in Free Fire.His love for Free Fire has him streaming it on his Youtube Channels. Join in to know about their journey from start to being one of the renowed E-sports streamer in the country.",
+                "Creators' Camp",
+                "Creators' Camp",
+                "",
+                "",
+                true
+            ),
+            eventdetail(
+                "Gamers' Province 3",
+                "8Bit Mamba | S8UL Regatos | S8UL Viper",
+                OwnTime(13,15,0),
+                "Online",
+                "",
+                60,
+                listOf("Fun"),
+                "In our Gamers’ Province Panel, we have Gaming Pro’s 8 Bit Mamba, S8UL Regaltos and S8UL Viper. All find common love for BGMI and now even Valorant and have been streaming both on their Youtube Channels. Join in to know about their journey from start to being one of the renowed E-sports streamers in the country.",
+                "Creators' Camp",
+                "Creators' Camp",
+                "",
+                "",
+                true
+            ),*/
+            /*eventdetail(
+                "FinTalk",
+                "Basavraj Tonagatti | Preeti Zinde",
+                OwnTime(12,12,0),
+                "Online",
+                "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2FFinTalk.jpg?alt=media&token=104144ae-b764-45de-9f52-56aec902e24b",
+                60,
+                listOf("Finance"),
+                "In our Fin Talk panel, we have Basavraj Tongatti and Preeti Zinde are very well known Finance Guru.",
+                "Creators' Camp",
+                "Creators' Camp",
+                "",
+                "",
+                true
+            ),*/
+
+
+            eventdetail(
+                "East Regional Finale",
+                "ParxHunt",
+                OwnTime(13,17,30),
+                "OFFLINE",
+                "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2FGroup%20Singing%20Performance.jpg?alt=media&token=f60896f9-8611-4a29-9abe-b073fd279af9",
+                60,
+                listOf("Music"),
+                "If you've ever wondered what combining two timeless art forms would be like, we have the answer. We are glad that East regional is hosting their finale with us, experience the culmination of music and humor at its finest.",
+                "IITG Auditorium",
+                "Other Events",
+                "",
+                "",
+                true
+            ),
+
+
+            )
+
+        //pushEvents(newEvents)
     }
 }
