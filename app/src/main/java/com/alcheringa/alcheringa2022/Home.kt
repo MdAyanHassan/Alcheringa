@@ -10,11 +10,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
+import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.FlingBehavior
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.gestures.forEachGesture
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -25,22 +27,25 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.*
 import androidx.compose.ui.util.lerp
 import androidx.constraintlayout.widget.Constraints
 import androidx.core.os.bundleOf
@@ -51,6 +56,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
@@ -68,6 +74,7 @@ import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
 import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 
 /**
  * A simple [Fragment] subclass.
@@ -311,7 +318,7 @@ class Home : Fragment() {
 //                        main.bottomNavigationView.selectedItemId=R.id.merch}
 
                     ) {
-                        val drbls= listOf(R.drawable.hoodie_bg,R.drawable.tale_bg,R.drawable.voyager_bg)
+                        val drbls= listOf(R.drawable.merch_bg_1,R.drawable.merch_bg_2,R.drawable.merch_bg_3)
                         merchBox(merch = homeViewModel.merchhome
                             .filter { it.Available }
                                             ,drbls)
@@ -338,7 +345,9 @@ class Home : Fragment() {
                     Spacer(modifier = Modifier.height(20.dp))
                     mySchedule()
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp), text = "Hold and Drag to remove events", fontFamily = hk_grotesk, fontWeight = FontWeight.Bold, color = Color(0xffffffff), fontSize = 16.sp, textAlign = TextAlign.Center)
+                    Text(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp), text = "Hold and Drag to remove events", fontFamily = hk_grotesk, fontWeight = FontWeight.Bold, color = Color(0xffffffff), fontSize = 16.sp, textAlign = TextAlign.Center)
 
                     Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "RECOMMENDED FOR YOU", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
                     Box(modifier = Modifier
@@ -634,6 +643,8 @@ class Home : Fragment() {
 //    }
 
 
+
+
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     fun horizontalScroll(eventdetails:SnapshotStateList<eventWithLive>){
@@ -657,13 +668,11 @@ class Home : Fragment() {
                     delay(3000)
                     with(pagerState) {
                         val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
-                        animateScrollToPage(
-                            page = target,
-                            animationSpec = tween(
-                                durationMillis = 600,
-                                easing = FastOutSlowInEasing
-                            )
+                        tween<Float>(
+                            durationMillis = 300,
+                            easing = FastOutSlowInEasing
                         )
+                        animateScrollToPage(page = target )
 
                     }
                 }
@@ -671,10 +680,13 @@ class Home : Fragment() {
             HorizontalPager(
                     count = eventdetails.size, modifier = Modifier
                     .fillMaxWidth()
-                    .height(473.dp), state = pagerState
+                    .height(473.dp), state = pagerState,
+                    contentPadding = PaddingValues(vertical = 20.dp, horizontal = 40.dp),
+                    itemSpacing = (-116.dp),
+
             ) { page ->
                 Card(
-                        Modifier
+                        modifier = Modifier
                                 .graphicsLayer {
                                     // Calculate the absolute offset for the current page from the
                                     // scroll position. We use the absolute value which allows us to mirror
@@ -683,33 +695,41 @@ class Home : Fragment() {
 
                                     // We animate the scaleX + scaleY, between 85% and 100%
                                     lerp(
-                                            start = 0.85f,
+                                            start = 0.30f,
                                             stop = 1f,
-                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                                            fraction = 1f - (pageOffset.coerceIn(0f, 1f))
                                     ).also { scale ->
                                         scaleX = scale
-                                        scaleY = scale
+                                        //scaleY = scale
+
                                     }
 
-                                    // We animate the alpha, between 50% and 100%
-                                    alpha = lerp(
-                                            start = 0.5f,
-                                            stop = 1f,
-                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                                    )
-                                }
+
+//                                     We animate the alpha, between 50% and 100%
+//                                    alpha = lerp(
+//                                            start = 0.5f,
+//                                            stop = 1f,
+//                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+//                                    )
+                                },
+                        border = BorderStroke(1.5.dp, midBlack),
+                        elevation = 12.dp,
+                        shape = RoundedCornerShape(16.dp)
+
                 ) {
                     Box() {
 
                         Card(
                                 modifier = Modifier.fillMaxWidth(),
 
-                                elevation = 5.dp
+
+
                         ) {
                             Box(
                                     modifier = Modifier
                                         .height(473.dp)
-                                        .fillMaxWidth().background(blackbg)
+                                        .fillMaxWidth()
+                                        .background(blackbg)
                             ) {
                                 GlideImage(
                                         imageModel = eventdetails[page].eventdetail.imgurl,
@@ -720,7 +740,10 @@ class Home : Fragment() {
                                             .clickable {
                                                 val arguments =
                                                     bundleOf("Artist" to eventdetails[page].eventdetail.artist)
-                                                findNavController(this@Home).navigate(R.id.action_home2_to_events_Details_Fragment,arguments)
+                                                findNavController(this@Home).navigate(
+                                                    R.id.action_home2_to_events_Details_Fragment,
+                                                    arguments
+                                                )
                                             },
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Crop,
@@ -774,81 +797,63 @@ class Home : Fragment() {
                                 Box(
                                         modifier = Modifier
                                             .fillMaxSize()
-                                            .background(
-                                                brush = Brush.verticalGradient(
-                                                    colors = listOf(
-                                                        Color.Transparent,
-                                                        blackbg,
-                                                    ),
-                                                    startY = with(LocalDensity.current) { 100.dp.toPx() }
-                                                )
-                                            )
+//                                            .background(
+//                                                brush = Brush.verticalGradient(
+//                                                    colors = listOf(
+//                                                        Color.Transparent,
+//                                                        black,
+//                                                    ),
+//                                                    startY = with(LocalDensity.current) { 100.dp.toPx() }
+//                                                )
+//                                            )
                                 )
                                 Box(
                                         modifier = Modifier
-                                                .fillMaxSize()
-                                                .padding(12.dp), contentAlignment = Alignment.BottomStart
+                                            .fillMaxSize()
+                                            .padding(horizontal = 20.dp, vertical = 28.dp), contentAlignment = Alignment.BottomStart
                                 ) {
                                     Column(
                                             modifier = Modifier.fillMaxWidth(),
-                                            horizontalAlignment = Alignment.CenterHorizontally
+                                            horizontalAlignment = Alignment.Start
                                     ) {
                                         Text(
-                                                text = eventdetails[page].eventdetail.artist.uppercase(),
+                                                text = eventdetails[page].eventdetail.artist,
                                                 color = Color.White,
-                                                fontWeight = FontWeight.W600,
-                                                fontSize = 60.sp,
-                                                fontFamily = vanguard, textAlign = TextAlign.Center
+                                                fontWeight = FontWeight.SemiBold,
+                                                fontSize = 36.sp,
+                                                fontFamily = aileron, textAlign = TextAlign.Start
                                         )
                                         Spacer(modifier = Modifier.height(4.dp))
                                         Text(
                                                 text = eventdetails[page].eventdetail.category,
                                                 style = TextStyle(
-                                                        color = colorResource(id = R.color.textGray),
-                                                        fontFamily = clash,
-                                                        fontWeight = FontWeight.W600,
+                                                        color = colorResource(id = R.color.White),
+                                                        fontFamily = aileron,
+                                                        fontWeight = FontWeight.Normal,
                                                         fontSize = 16.sp
                                                 )
                                         )
-                                        Spacer(modifier = Modifier.height(11.dp))
+                                        Spacer(modifier = Modifier.height(4.dp))
 
                                         Row {
                                             Text(
                                                     text = "${eventdetails[page].eventdetail.starttime.date} Mar, ${if(eventdetails[page].eventdetail.starttime.hours>12)"${eventdetails[page].eventdetail.starttime.hours-12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min!=0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours>=12)"PM" else "AM"} ",
                                                 style = TextStyle(
-                                                            color = colorResource(id = R.color.textGray),
-                                                            fontFamily = hk_grotesk,
+                                                            color = white,
+                                                            fontFamily = aileron,
                                                             fontWeight = FontWeight.Normal,
-                                                            fontSize = 14.sp
+                                                            fontSize = 16.sp
                                                     )
                                             )
-                                            Spacer(modifier = Modifier.width(11.dp))
-                                            Box(
-                                                    modifier = Modifier
-                                                            .height(20.dp)
-                                                            .width(20.dp)
-                                            ) {
-                                                Image(
-                                                        painter = if (eventdetails[page].eventdetail.mode.contains("ONLINE")) {
-                                                            painterResource(id = R.drawable.online)
-                                                        } else {
-                                                            painterResource(id = R.drawable.onground)
-                                                        },
-                                                        contentDescription = null,
-                                                        modifier = Modifier.fillMaxSize(),
-                                                        alignment = Alignment.Center,
-                                                        contentScale = ContentScale.Crop
 
-                                                )
-                                            }
-                                            Spacer(modifier = Modifier.width(4.dp))
+                                            //Spacer(modifier = Modifier.width(4.dp))
                                             Text(
-                                                    text = eventdetails[page].eventdetail.mode,
+                                                    text = "| ${eventdetails[page].eventdetail.venue}",
                                                     style = TextStyle(
-                                                            color = colorResource(id = R.color.textGray),
-                                                            fontFamily = hk_grotesk,
+                                                            color = white,
+                                                            fontFamily = aileron,
                                                             fontWeight = FontWeight.Normal,
-                                                            fontSize = 14.sp
+                                                            fontSize = 16.sp
                                                     )
                                             )
                                         }
@@ -867,8 +872,8 @@ class Home : Fragment() {
                     activeColor= colorResource(id = R.color.textGray),
                     inactiveColor = colorResource(id = R.color.darkGray),
                     modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(16.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp)
             )
         }
 
@@ -884,9 +889,9 @@ class Home : Fragment() {
        Column() {
 
            Row(
-                   Modifier
-                           .fillMaxWidth()
-                           .padding(horizontal = 32.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+               Modifier
+                   .fillMaxWidth()
+                   .padding(horizontal = 32.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                Text(text = "Day 0", fontWeight = FontWeight.W700, fontFamily = clash, color = color1, fontSize = 18.sp,
                    modifier = Modifier.clickable { color1= orangeText;color2= greyText;color3=
                        greyText
@@ -925,22 +930,22 @@ class Home : Fragment() {
         Box(Modifier
             .height(279.dp)) {
             Box(
-                    Modifier
-                            .width(1550.dp)
-                            .height(279.dp)
-                            .background(color = blackbg)
-                            .horizontalScroll(horiscrollowneventstate)
+                Modifier
+                    .width(1550.dp)
+                    .height(279.dp)
+                    .background(color = blackbg)
+                    .horizontalScroll(horiscrollowneventstate)
             ) {
                 Row(
-                        Modifier
-                                .width(1550.dp)
-                                .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
+                    Modifier
+                        .width(1550.dp)
+                        .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     for (time in 9..11) {
                         Column(
-                                Modifier
-                                        .width(50.dp)
-                                        .wrapContentHeight(),
+                            Modifier
+                                .width(50.dp)
+                                .wrapContentHeight(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
@@ -954,8 +959,8 @@ class Home : Fragment() {
                             )
                             Canvas(
                                 modifier = Modifier
-                                        .width(5.dp)
-                                        .height(260.dp)
+                                    .width(5.dp)
+                                    .height(260.dp)
                             ) {
                                 drawLine(
                                     color = Color(0xff4C5862),
@@ -970,9 +975,9 @@ class Home : Fragment() {
                     }
 
                     Column(
-                            Modifier
-                                    .width(50.dp)
-                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
+                        Modifier
+                            .width(50.dp)
+                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
                             text = "12 PM",
@@ -985,8 +990,8 @@ class Home : Fragment() {
                         )
                         Canvas(
                             modifier = Modifier
-                                    .width(5.dp)
-                                    .height(260.dp)
+                                .width(5.dp)
+                                .height(260.dp)
                         ) {
                             drawLine(
                                 color = Color(0xff4C5862),
@@ -998,9 +1003,9 @@ class Home : Fragment() {
                     }
                     for (time in 1..11) {
                         Column(
-                                Modifier
-                                        .width(50.dp)
-                                        .wrapContentHeight(),
+                            Modifier
+                                .width(50.dp)
+                                .wrapContentHeight(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
@@ -1014,8 +1019,8 @@ class Home : Fragment() {
                             )
                             Canvas(
                                 modifier = Modifier
-                                        .width(5.dp)
-                                        .height(260.dp)
+                                    .width(5.dp)
+                                    .height(260.dp)
                             ) {
                                 drawLine(
                                     color = Color(0xff4C5862),
@@ -1048,10 +1053,10 @@ class Home : Fragment() {
 
                 BoxWithConstraints(
                     modifier = Modifier
-                            .fillMaxWidth()
-                            .offset(0.dp, 200.dp)
-                            .height(80.dp)
-                            .background(color = Color.Transparent),
+                        .fillMaxWidth()
+                        .offset(0.dp, 200.dp)
+                        .height(80.dp)
+                        .background(color = Color.Transparent),
                     contentAlignment = Alignment.BottomCenter
                 )
                 {
@@ -1091,101 +1096,107 @@ class Home : Fragment() {
         var offsetY = remember { Animatable(ydisinpxcald) }
 
         Box(
-                Modifier
-                        .offset {
+            Modifier
+                .offset {
 //                    xdis.dp - 2.dp, ydis.dp
-                            IntOffset(
-                                    offsetX.value
-                                            .toInt(),
-                                    offsetY.value
-                                            .toInt()
-                            )
-                        }
-                        .height(58.dp)
-                        .width(lengthdp.value.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(color.value)
-                        .clickable {
+                    IntOffset(
+                        offsetX.value
+                            .toInt(),
+                        offsetY.value
+                            .toInt()
+                    )
+                }
+                .height(58.dp)
+                .width(lengthdp.value.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(color.value)
+                .clickable {
 
-                            val frg = Events_Details_Fragment()
-                            val arguments = bundleOf("Artist" to eventdetail.eventWithLive.artist)
+                    val frg = Events_Details_Fragment()
+                    val arguments = bundleOf("Artist" to eventdetail.eventWithLive.artist)
 //                            fm
 //                                    .beginTransaction()
 //                                    .replace(R.id.fragmentContainerView, frg)
 //                                    .addToBackStack(null)
 //                                    .commit()
-                            findNavController(this).navigate(R.id.action_home2_to_events_Details_Fragment,arguments);
+                    findNavController(this).navigate(
+                        R.id.action_home2_to_events_Details_Fragment,
+                        arguments
+                    );
 
 
-                        }
-                        .pointerInput(Unit) {
-                            detectDragGesturesAfterLongPress(
-                                    onDragStart = { isdragging.value = true },
-                                    onDrag = { _, dragAmount ->
-                                        val original = Offset(offsetX.value, offsetY.value)
-                                        val summed = original + dragAmount
-                                        val newValue = Offset(
-                                                x = summed.x,
-                                                y = summed.y.coerceIn(30.dp.toPx(), 221.dp.toPx())
+                }
+                .pointerInput(Unit) {
+                    detectDragGesturesAfterLongPress(
+                        onDragStart = { isdragging.value = true },
+                        onDrag = { _, dragAmount ->
+                            val original = Offset(offsetX.value, offsetY.value)
+                            val summed = original + dragAmount
+                            val newValue = Offset(
+                                x = summed.x,
+                                y = summed.y.coerceIn(30.dp.toPx(), 221.dp.toPx())
+                            )
+                            coroutineScope.launch {
+                                offsetY.snapTo(newValue.y)
+                                offsetX.snapTo(newValue.x)
+                            }
+
+
+
+                            if ((182.dp..221.dp).contains(offsetY.value.toDp()) and
+                                ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
+                                    .toPx()
+                                    .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
+                                    (offsetX.value)
+                                        .toInt()
+                                ))
+                            ) {
+                                onActiveDel.value = true
+                            } else {
+                                onActiveDel.value = false
+                            }
+
+
+                        },
+                        onDragCancel = {
+                            isdragging.value = false;
+                            coroutineScope.launch {
+                                offsetX.animateTo(
+                                    xdisinpxcald, animationSpec = tween(
+                                        durationMillis = 400,
+                                        delayMillis = 0, easing = FastOutSlowInEasing
+                                    )
+                                );
+                                offsetY.animateTo(
+                                    ydisinpxcald, animationSpec = tween(
+                                        durationMillis = 400,
+                                        delayMillis = 0, easing = FastOutSlowInEasing
+                                    )
+                                );
+                            }
+                        },
+                        onDragEnd = {
+                            isdragging.value = false
+                            if (onActiveDel.value) {
+                                coroutineScope.launch {
+                                    lengthdp.animateTo(
+                                        0f, animationSpec = tween(
+                                            durationMillis = 300,
+                                            delayMillis = 0, easing = FastOutSlowInEasing
                                         )
-                                        coroutineScope.launch {
-                                            offsetY.snapTo(newValue.y)
-                                            offsetX.snapTo(newValue.x)
-                                        }
-
-
-
-                                        if ((182.dp..221.dp).contains(offsetY.value.toDp()) and
-                                                ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
-                                                        .toPx()
-                                                        .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
-                                                        (offsetX.value)
-                                                                .toInt()
-                                                ))
-                                        ) {
-                                            onActiveDel.value = true
-                                        } else {
-                                            onActiveDel.value = false
-                                        }
-
-
-                                    },
-                                    onDragCancel = {
-                                        isdragging.value = false;
-                                        coroutineScope.launch {
-                                            offsetX.animateTo(
-                                                    xdisinpxcald, animationSpec = tween(
-                                                    durationMillis = 400,
-                                                    delayMillis = 0, easing = FastOutSlowInEasing
-                                            )
-                                            );
-                                            offsetY.animateTo(
-                                                    ydisinpxcald, animationSpec = tween(
-                                                    durationMillis = 400,
-                                                    delayMillis = 0, easing = FastOutSlowInEasing
-                                            )
-                                            );
-                                        }
-                                    },
-                                    onDragEnd = {
-                                        isdragging.value = false
-                                        if (onActiveDel.value) {
-                                            coroutineScope.launch {
-                                                lengthdp.animateTo(0f, animationSpec = tween(
-                                                        durationMillis = 300,
-                                                        delayMillis = 0, easing = FastOutSlowInEasing))
+                                    )
 //                                                homeViewModel.OwnEventsLiveState.remove(eventdetail.eventWithLive)
 //                                                val list=homeViewModel.OwnEventsLiveState
 //                                                homeViewModel.OwnEventsLiveState.clear()
 //                                                homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
 //
-                                                scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
-                                                homeViewModel.OwnEventsWithLive.value?.clear()
-                                                datestate1.clear()
-                                                datestate2.clear()
-                                                datestate3.clear()
+                                    scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
+                                    homeViewModel.OwnEventsWithLive.value?.clear()
+                                    datestate1.clear()
+                                    datestate2.clear()
+                                    datestate3.clear()
 //                                                delay(1000)
-                                                homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
+                                    homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
 //                                                homeViewModel.allEventsWithLivedata.removeAndAddItemAtPos(
 //                                                    homeViewModel.allEventsWithLivedata.value?.find { data->data.eventdetail.artist==eventdetail.eventWithLive.artist }!!
 //                                                )
@@ -1206,13 +1217,10 @@ class Home : Fragment() {
 
 //                                  homeViewModel.allEventsWithLivedata.addNewItem(eventWithLive(eventdetail()))
 //                                    homeViewModel.allEventsWithLivedata.removeAnItem(eventWithLive(eventdetail()))
-                                            }
+                                }
 //                                datestate.forEach { data -> list.add(data) }
 //                                datestate.remove(eventdetail)
 //                                Log.d("boxevent", eventdetail.toString())
-
-
-
 
 
 //                                Log.d("boxevent", list.toString())
@@ -1221,7 +1229,7 @@ class Home : Fragment() {
 //                             val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
 //                                Log.d("resdel",res1.toString())
 //                                Log.d("resdel",res2.toString())
-                                            onActiveDel.value = false
+                                onActiveDel.value = false
 //                                if (res  ) {
 //                                    Toast
 //                                        .makeText(activity, "event removed", Toast.LENGTH_SHORT)
@@ -1229,39 +1237,39 @@ class Home : Fragment() {
 //                                }
 
 
-                                        } else {
-                                            coroutineScope.launch {
-                                                offsetX.animateTo(
-                                                        xdisinpxcald, animationSpec = tween(
-                                                        durationMillis = 400,
-                                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                                )
-                                                );
-                                                offsetY.animateTo(
-                                                        ydisinpxcald, animationSpec = tween(
-                                                        durationMillis = 400,
-                                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                                )
-                                                );
-                                            }
+                            } else {
+                                coroutineScope.launch {
+                                    offsetX.animateTo(
+                                        xdisinpxcald, animationSpec = tween(
+                                            durationMillis = 400,
+                                            delayMillis = 0, easing = FastOutSlowInEasing
+                                        )
+                                    );
+                                    offsetY.animateTo(
+                                        ydisinpxcald, animationSpec = tween(
+                                            durationMillis = 400,
+                                            delayMillis = 0, easing = FastOutSlowInEasing
+                                        )
+                                    );
+                                }
 
 
-                                        }
-
-
-                                    }
-
-                            )
+                            }
 
 
                         }
 
+                    )
+
+
+                }
+
 
         ) {
             Column(
-                    Modifier
-                            .fillMaxSize()
-                            .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
+                Modifier
+                    .fillMaxSize()
+                    .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
                 Text(
                     text = eventdetail.eventWithLive.artist,
                     color = Color.White,
@@ -1293,6 +1301,7 @@ class Home : Fragment() {
     @Composable
     fun merchBox(merch: List<merchmodelforHome>, drbls:List<Int>){
         val pagerState = rememberPagerState()
+
         LaunchedEffect(key1 = pagerState.currentPage) {
             launch {
 
@@ -1319,41 +1328,37 @@ class Home : Fragment() {
         ) { page ->
         Card(
                 modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp),
-                shape = RoundedCornerShape(8.dp),
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                shape = RoundedCornerShape(16.dp),
                 elevation = 0.dp,
         ) {
             Box(modifier = Modifier
-                    .clickable {
-                        findNavController(this@Home).navigate(R.id.action_home2_to_merchFragment)
+                .clickable {
+                    findNavController(this@Home).navigate(R.id.action_home2_to_merchFragment)
 
 //                fm.beginTransaction()
 //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
 //                    .commit()
-                    }
-                    .height(218.dp)
-                    .fillMaxWidth()
+                }
+                .height(200.dp)
+                .fillMaxWidth()
                     ){
-                Image(painter = painterResource(id = drbls[page]), contentDescription = null,Modifier.height(218.dp).fillMaxWidth(), contentScale = ContentScale.Crop, alignment = Alignment.Center)
+                Image(painter = painterResource(id = drbls[page]), contentDescription = null,
+                    Modifier
+                        .height(200.dp)
+                        .fillMaxWidth(), contentScale = ContentScale.Crop, alignment = Alignment.Center)
 
                 Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .background(
-                                brush = Brush.verticalGradient(
-                                        colors = listOf(
-                                                Color.Transparent,
-                                                Color(0xff000111)
-                                        ), startY = 0f
-                                )
-                        ))
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    )
 
                 Row(
-                        Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight()
-                                .padding(start = 16.dp, top = 24.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(start = 20.dp, top = 30.dp), horizontalArrangement = Arrangement.SpaceBetween) {
 
 
 
@@ -1364,10 +1369,11 @@ class Home : Fragment() {
                         Text(
                             text = merch[page].Name.uppercase(),
                             color = Color.White,
-                            fontWeight = FontWeight.W900,
-                            fontSize = 46.sp,
-                            fontFamily = FontFamily(Font(R.font.morganiteextrabold))
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 32.sp,
+                            fontFamily = star_guard,
                         )
+
 
                         Text(text = merch[page].Type.uppercase(), style = MaterialTheme.typography.h1)
                         Spacer(modifier = Modifier.height(6.dp))

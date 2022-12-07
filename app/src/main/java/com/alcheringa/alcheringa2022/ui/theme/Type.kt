@@ -31,6 +31,17 @@ val vanguard= FontFamily(
         Font(R.font.venguardsemi, FontWeight.SemiBold)
 )
 
+val aileron= FontFamily(
+        Font(R.font.aileron_regular, FontWeight.Normal),
+        Font(R.font.aileron_bold, FontWeight.Bold),
+        Font(R.font.aileron_semibold, FontWeight.SemiBold)
+)
+val star_guard= FontFamily(
+        Font(R.font.starguard, FontWeight.Normal),
+
+)
+
+
 
 // Set of Material typography styles to start with
 val Typography = Typography(
