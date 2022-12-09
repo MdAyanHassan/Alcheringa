@@ -107,7 +107,7 @@ class Events : Fragment() {
             startActivity(Intent(context,Account::class.java));
 
         }
-        binding.notification.setOnClickListener{
+        binding.pass.setOnClickListener{
             startActivity(Intent(context, NotificationActivity::class.java));
         }
 

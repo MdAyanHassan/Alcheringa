@@ -4,12 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.opengl.Visibility
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.animation.core.*
 import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.*
@@ -31,10 +32,12 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Placeable
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -44,10 +47,12 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.util.lerp
 import androidx.constraintlayout.widget.Constraints
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -70,11 +75,16 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.microsoft.identity.common.internal.cache.SharedPreferencesFileManager.getSharedPreferences
+
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
+import org.apache.commons.lang3.StringUtils.mid
+import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
+
+
 
 /**
  * A simple [Fragment] subclass.
@@ -232,40 +242,44 @@ class Home : Fragment() {
 
         }
 
-        binding.notification.setOnClickListener{
+        binding.pass.setOnClickListener{
             startActivity(Intent(context,
                 NotificationActivity::class.java));
         }
         binding.compose1.setContent {
-            Alcheringa2022Theme {
+                Alcheringa2022Theme {
                 val scrollState= rememberScrollState()
 
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .verticalScroll(scrollState)) {
-                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
-                            binding.logoAlcher.layoutParams.width=with(LocalDensity.current){162.dp.toPx().toInt()}
-                        binding.logoAlcher.layoutParams.height=with(LocalDensity.current){50.dp.toPx().toInt()}
-                    }
-                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_small_logo));
-                        binding.logoAlcher.layoutParams.width= ViewGroup.LayoutParams.WRAP_CONTENT
-                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
-                    }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .verticalScroll(scrollState),
+                ) {
+//                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
+//                            binding.logoAlcher.layoutParams.width=with(LocalDensity.current){162.dp.toPx().toInt()}
+//                        binding.logoAlcher.layoutParams.height=with(LocalDensity.current){50.dp.toPx().toInt()}
+//                    }
+//                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_small_logo));
+//                        binding.logoAlcher.layoutParams.width= ViewGroup.LayoutParams.WRAP_CONTENT
+//                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
+//                    }
 
                     horizontalScroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
-                    if (homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }.size!=0) {
+
+                    if (homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }
+                            .isNotEmpty()) {
                         Text(
                             modifier = Modifier.padding(
                                 start = 20.dp,
-                                bottom = 12.dp,
-                                top = 48.dp
+                                bottom = 24.dp,
+                                top = 36.dp
                             ),
-                            text = "ONGOING EVENTS",
-                            fontFamily = clash,
-                            fontWeight = FontWeight.W500,
-                            color = Color.White,
-                            fontSize = 18.sp
+                            text = "Upcoming Events",
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            color = black,
+                            fontSize = 21.sp
                         )
                     }
                     Box(
@@ -282,40 +296,73 @@ class Home : Fragment() {
                         }
 
                     }
-                    if(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.isNotEmpty()) {
+                    //TODO: Replace with actual check
+//                    if(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.isNotEmpty()) {
+                    if(true) {
                         Text(
                             modifier = Modifier.padding(
                                 start = 20.dp,
-                                bottom = 12.dp,
-                                top = 48.dp
+                                bottom = 24.dp,
+                                top = 36.dp
                             ),
-                            text = "UPCOMING EVENTS",
-                            fontFamily = clash,
-                            fontWeight = FontWeight.W500,
-                            color = Color.White,
-                            fontSize = 18.sp
+                            text = "Upcoming Events",
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            color = black,
+                            fontSize = 21.sp
                         )
                     }
                     Box(modifier = Modifier
                             .fillMaxWidth()
                     ) {
-
+                        //TODO: Replace with sorted list
+                        val list=homeViewModel.allEventsWithLive.filter { data-> !(data.isLive.value) }.sortedBy { data->  (data.eventdetail.starttime.date*24*60 + ((data.eventdetail.starttime.hours*60)).toFloat() + (data.eventdetail.starttime.min.toFloat()))}
                         LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
-                            items(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.sortedBy { data->  (data.eventdetail.starttime.date*24*60 + ((data.eventdetail.starttime.hours*60)).toFloat() + (data.eventdetail.starttime.min.toFloat()))
-                            }) { dataeach -> context?.let { Event_card_upcoming(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_events_Details_Fragment) } }
+                            items(list)
+                            { dataEach ->
+                                context?.let {
+                                    Event_card(
+                                        eventdetail = dataEach,
+                                        homeViewModel,
+                                        it,
+                                        this@Home,
+                                        fm,
+                                        R.id.action_events_to_events_Details_Fragment2
+                                    )
+                                }
+                            }
                         }
+//                        LazyRow(
+//                                modifier = Modifier.fillMaxWidth(),
+//                                horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
+//                        ) {
+//                            items(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.sortedBy { data->  (data.eventdetail.starttime.date*24*60 + ((data.eventdetail.starttime.hours*60)).toFloat() + (data.eventdetail.starttime.min.toFloat()))
+//                            }) { dataeach -> context?.let { Event_card_upcoming(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_events_Details_Fragment) } }
+//                        }
                     }
+
+                    Text(
+                        modifier = Modifier.padding(
+                            start = 20.dp,
+                            bottom = 24.dp,
+                            top = 36.dp
+                        ),
+                        text = "Limited Time Merch",
+                        fontFamily = aileron,
+                        fontWeight = FontWeight.Bold,
+                        color = black,
+                        fontSize = 21.sp
+                    )
                     Box(modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 48.dp, top = 48.dp)
                         .clickable {
                             activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
                                 R.id.merch;
                         }
-//                        main.bottomNavigationView.selectedItemId=R.id.merch}
 
                     ) {
                         val drbls= listOf(R.drawable.merch_bg_1,R.drawable.merch_bg_2,R.drawable.merch_bg_3)
@@ -323,33 +370,98 @@ class Home : Fragment() {
                             .filter { it.Available }
                                             ,drbls)
                     }
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                            .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
-                        Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
-                            ,modifier = Modifier.clickable {
-
-//                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
-//                                    R.id.schedule;
-                            findNavController(this@Home).navigate(R.id.action_home2_to_schedule2);
-
-//                            fm.beginTransaction()
-//                                .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
-//                                .commit()
+//                    Row(
+//                        Modifier
+//                            .fillMaxWidth()
+//                            .wrapContentHeight()
+//                            .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+//                        Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
+//                        Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
+//                            ,modifier = Modifier.clickable {
+//
+////                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
+////                                    R.id.schedule;
+//                            findNavController(this@Home).navigate(R.id.action_home2_to_schedule2);
+//
+////                            fm.beginTransaction()
+////                                .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
+////                                .commit()
+////                            })
 //                            })
-                            })
-                    }
-                    Spacer(modifier = Modifier.height(20.dp))
-                    mySchedule()
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp), text = "Hold and Drag to remove events", fontFamily = hk_grotesk, fontWeight = FontWeight.Bold, color = Color(0xffffffff), fontSize = 16.sp, textAlign = TextAlign.Center)
+//                    }
+//                    Spacer(modifier = Modifier.height(20.dp))
+//                    mySchedule()
+//                    Spacer(modifier = Modifier.height(20.dp))
+//                    Text(modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(horizontal = 10.dp), text = "Hold and Drag to remove events", fontFamily = hk_grotesk, fontWeight = FontWeight.Bold, color = Color(0xffffffff), fontSize = 16.sp, textAlign = TextAlign.Center)
+                    Text(
+                        modifier = Modifier.padding(
+                            start = 20.dp,
+                            bottom = 24.dp,
+                            top = 36.dp
+                        ),
+                        text = "For You",
+                        fontFamily = aileron,
+                        fontWeight = FontWeight.Bold,
+                        color = black,
+                        fontSize = 21.sp
+                    )
 
-                    Text(modifier = Modifier.padding(start = 20.dp, bottom = 12.dp, top = 48.dp), text = "RECOMMENDED FOR YOU", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+
+                    ) {
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            val scheduleList = ScheduleDatabase(requireContext()).schedule;
+                            val crnttime = mutableStateOf(OwnTime())
+                            val c = Calendar.getInstance()
+                            var dt = 0
+                            if (c.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                                dt = c.get(Calendar.DATE) - 28
+                            } else {
+                                dt = c.get(Calendar.DATE)
+                            }
+                            crnttime.value =
+                                OwnTime(date = dt, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE))
+                            val eventdetails = mutableStateListOf<eventWithLive>()
+                            for(event in scheduleList){
+                                val eventdetail = eventWithLive(event, mutableStateOf(true))
+                                eventdetail.isLive.value = (c.get(Calendar.YEAR) == 2022) and
+                                        (c.get(Calendar.MONTH) == Calendar.MARCH) and
+                                        (c.get(Calendar.DATE) == eventdetail.eventdetail.starttime.date) and
+                                        (((eventdetail.eventdetail.starttime.hours * 60)..(eventdetail.eventdetail.starttime.hours * 60 + eventdetail.eventdetail.durationInMin))
+                                            .contains((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE)))
+                                eventdetails.add(eventdetail)
+                            }
+
+
+
+
+                            items(eventdetails.sortedBy { data->  (data.eventdetail.starttime.date*24*60 + ((data.eventdetail.starttime.hours*60)).toFloat() + (data.eventdetail.starttime.min.toFloat()))}) { dataeach -> context?.let {
+                                Schedule_card(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_schedule2) } }
+                        }
+
+                    }
+
+
+
+                    Text(
+                        modifier = Modifier.padding(
+                            start = 20.dp,
+                            bottom = 24.dp,
+                            top = 36.dp
+                        ),
+                        text = "For You",
+                        fontFamily = aileron,
+                        fontWeight = FontWeight.Bold,
+                        color = black,
+                        fontSize = 21.sp
+                    )
                     Box(modifier = Modifier
                         .fillMaxWidth()
                     ) {
@@ -368,7 +480,7 @@ class Home : Fragment() {
                                 } }
                         }
                     }
-
+                    Spacer(modifier = Modifier.height(24.dp))
 
                 }
             }
@@ -648,233 +760,295 @@ class Home : Fragment() {
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     fun horizontalScroll(eventdetails:SnapshotStateList<eventWithLive>){
+        val count = eventdetails.size
+        Card(
+             modifier = Modifier
+                 .fillMaxWidth()
+                 .padding(20.dp).background(white),
+            shape = RoundedCornerShape(
+                topStart = 36.dp,
+                bottomEnd = 36.dp,
+                bottomStart = 36.dp,
+                topEnd = 0.dp,
 
-        Column() {
+            ),
+            border = BorderStroke(2.dp, black),
+            backgroundColor = white
 
-            val pagerState = rememberPagerState()
-//            LaunchedEffect(Unit) {
-//                while(true) {
-//                    yield()
-//                    delay(3000)
-//                    pagerState.animateScrollToPage(
-//                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
-//                        animationSpec = tween(1000)
-//                    )
-//                }
-//            }
-            LaunchedEffect(key1 = pagerState.currentPage) {
-                launch {
 
-                    delay(3000)
-                    with(pagerState) {
-                        val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
-                        tween<Float>(
-                            durationMillis = 300,
-                            easing = FastOutSlowInEasing
-                        )
-                        animateScrollToPage(page = target )
 
+        ) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()) {
+                Column() {
+
+                    val pagerState = rememberPagerState()
+                    //            LaunchedEffect(Unit) {
+                    //                while(true) {
+                    //                    yield()
+                    //                    delay(3000)
+                    //                    pagerState.animateScrollToPage(
+                    //                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
+                    //                        animationSpec = tween(1000)
+                    //                    )
+                    //                }
+                    //            }
+                    LaunchedEffect(key1 = pagerState.currentPage) {
+                        launch {
+
+                            delay(3000)
+                            with(pagerState) {
+                                val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
+                                tween<Float>(
+                                    durationMillis = 300,
+                                    easing = FastOutSlowInEasing
+                                )
+                                animateScrollToPage(page = target)
+
+                            }
+                        }
                     }
-                }
-            }
-            HorizontalPager(
-                    count = eventdetails.size, modifier = Modifier
-                    .fillMaxWidth()
-                    .height(473.dp), state = pagerState,
-                    contentPadding = PaddingValues(vertical = 20.dp, horizontal = 40.dp),
-                    itemSpacing = (-116.dp),
-
-            ) { page ->
-                Card(
+                    HorizontalPager(
+                        count = count,
                         modifier = Modifier
-                                .graphicsLayer {
-                                    // Calculate the absolute offset for the current page from the
-                                    // scroll position. We use the absolute value which allows us to mirror
-                                    // any effects for both directions
-                                    val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+                            .fillMaxWidth()
+                            .height(404.dp)
+                            .background(white),
+                        state = pagerState,
+                        contentPadding = PaddingValues(top = 12.dp, start = 12.dp, end = 12.dp),
+                        itemSpacing = (84.dp),
 
-                                    // We animate the scaleX + scaleY, between 85% and 100%
-                                    lerp(
-                                            start = 0.30f,
-                                            stop = 1f,
-                                            fraction = 1f - (pageOffset.coerceIn(0f, 1f))
-                                    ).also { scale ->
-                                        scaleX = scale
-                                        //scaleY = scale
-
-                                    }
-
-
-//                                     We animate the alpha, between 50% and 100%
-//                                    alpha = lerp(
-//                                            start = 0.5f,
-//                                            stop = 1f,
-//                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-//                                    )
-                                },
-                        border = BorderStroke(1.5.dp, midBlack),
-                        elevation = 12.dp,
-                        shape = RoundedCornerShape(16.dp)
-
-                ) {
-                    Box() {
-
+                        ) { page ->
                         Card(
-                                modifier = Modifier.fillMaxWidth(),
-
-
+//                            modifier = Modifier
+//                                .graphicsLayer {
+//                                    // Calculate the absolute offset for the current page from the
+//                                    // scroll position. We use the absolute value which allows us to mirror
+//                                    // any effects for both directions
+//                                    val pageOffset =
+//                                        calculateCurrentOffsetForPage(page).absoluteValue
+//
+//                                    // We animate the scaleX + scaleY, between 85% and 100%
+//                                    lerp(
+//                                        start = 0.30f,
+//                                        stop = 1f,
+//                                        fraction = 1f - (pageOffset.coerceIn(0f, 1f))
+//                                    ).also { scale ->
+//                                        //scaleX = scale
+//                                        //scaleY = scale
+//
+//                                    }
+//
+//
+//                                    //                                     We animate the alpha, between 50% and 100%
+//                                    //                                    alpha = lerp(
+//                                    //                                            start = 0.5f,
+//                                    //                                            stop = 1f,
+//                                    //                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+//                                    //                                    )
+//                                },
+                            border = BorderStroke(1.5.dp, black),
+                            shape = RoundedCornerShape(28.dp)
 
                         ) {
-                            Box(
-                                    modifier = Modifier
-                                        .height(473.dp)
-                                        .fillMaxWidth()
-                                        .background(blackbg)
-                            ) {
-                                GlideImage(
-                                        imageModel = eventdetails[page].eventdetail.imgurl,
-                                        contentDescription = "artist",
-                                        modifier= Modifier
-                                            .fillMaxWidth()
-                                            .height(473.dp)
-                                            .clickable {
-                                                val arguments =
-                                                    bundleOf("Artist" to eventdetails[page].eventdetail.artist)
-                                                findNavController(this@Home).navigate(
-                                                    R.id.action_home2_to_events_Details_Fragment,
-                                                    arguments
-                                                )
-                                            },
-                                        alignment = Alignment.Center,
-                                        contentScale = ContentScale.Crop,
-                                    shimmerParams = ShimmerParams(
-                                        baseColor = blackbg,
-                                        highlightColor = Color.LightGray,
-                                        durationMillis = 350,
-                                        dropOff = 0.65f,
-                                        tilt = 20f
-                                    ),failure = {
-                                        Box(modifier= Modifier
-                                            .fillMaxWidth()
-                                            .fillMaxHeight(), contentAlignment = Alignment.Center) {
-                                            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.comingsoon))
-                                            val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
-                                            LottieAnimation(
-                                                composition,
-                                                progress,
-                                                modifier = Modifier.fillMaxHeight()
-                                            )
-//                            Column(
-//                                Modifier
-//                                    .fillMaxWidth()
-//                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
-//                                Image(
-//                                    modifier = Modifier
-//                                        .width(60.dp)
-//                                        .height(60.dp),
-//                                    painter = painterResource(
-//                                        id = R.drawable.ic_sad_svgrepo_com
-//                                    ),
-//                                    contentDescription = null
-//                                )
-//                                Spacer(modifier = Modifier.height(10.dp))
-//                                Text(
-//                                    text = "Image Request Failed",
-//                                    style = TextStyle(
-//                                        color = Color(0xFF747474),
-//                                        fontFamily = hk_grotesk,
-//                                        fontWeight = FontWeight.Normal,
-//                                        fontSize = 12.sp
-//                                    )
-//                                )
-//                            }
-                                        }
+                            Box() {
 
-                                    }
+                                Card(
+                                    modifier = Modifier.fillMaxWidth(),
 
 
-                                )
-                                Box(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-//                                            .background(
-//                                                brush = Brush.verticalGradient(
-//                                                    colors = listOf(
-//                                                        Color.Transparent,
-//                                                        black,
-//                                                    ),
-//                                                    startY = with(LocalDensity.current) { 100.dp.toPx() }
-//                                                )
-//                                            )
-                                )
-                                Box(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .padding(horizontal = 20.dp, vertical = 28.dp), contentAlignment = Alignment.BottomStart
-                                ) {
-                                    Column(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalAlignment = Alignment.Start
                                     ) {
-                                        Text(
-                                                text = eventdetails[page].eventdetail.artist,
-                                                color = Color.White,
-                                                fontWeight = FontWeight.SemiBold,
-                                                fontSize = 36.sp,
-                                                fontFamily = aileron, textAlign = TextAlign.Start
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .fillMaxWidth()
+                                            .background(white)
+                                    ) {
+                                        GlideImage(
+                                            imageModel = eventdetails[page].eventdetail.imgurl,
+                                            contentDescription = "artist",
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(473.dp)
+                                                .clickable {
+                                                    val arguments =
+                                                        bundleOf("Artist" to eventdetails[page].eventdetail.artist)
+                                                    findNavController(this@Home).navigate(
+                                                        R.id.action_home2_to_events_Details_Fragment,
+                                                        arguments
+                                                    )
+                                                },
+                                            alignment = Alignment.Center,
+                                            contentScale = ContentScale.Crop,
+                                            shimmerParams = ShimmerParams(
+                                                baseColor = blackbg,
+                                                highlightColor = Color.LightGray,
+                                                durationMillis = 350,
+                                                dropOff = 0.65f,
+                                                tilt = 20f
+                                            ), failure = {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .fillMaxHeight(),
+                                                    contentAlignment = Alignment.Center
+                                                ) {
+                                                    val composition by rememberLottieComposition(
+                                                        LottieCompositionSpec.RawRes(R.raw.comingsoon)
+                                                    )
+                                                    val progress by animateLottieCompositionAsState(
+                                                        composition,
+                                                        iterations = LottieConstants.IterateForever
+                                                    )
+                                                    LottieAnimation(
+                                                        composition,
+                                                        progress,
+                                                        modifier = Modifier.fillMaxHeight()
+                                                    )
+                                                    //                            Column(
+                                                    //                                Modifier
+                                                    //                                    .fillMaxWidth()
+                                                    //                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                                    //                                Image(
+                                                    //                                    modifier = Modifier
+                                                    //                                        .width(60.dp)
+                                                    //                                        .height(60.dp),
+                                                    //                                    painter = painterResource(
+                                                    //                                        id = R.drawable.ic_sad_svgrepo_com
+                                                    //                                    ),
+                                                    //                                    contentDescription = null
+                                                    //                                )
+                                                    //                                Spacer(modifier = Modifier.height(10.dp))
+                                                    //                                Text(
+                                                    //                                    text = "Image Request Failed",
+                                                    //                                    style = TextStyle(
+                                                    //                                        color = Color(0xFF747474),
+                                                    //                                        fontFamily = hk_grotesk,
+                                                    //                                        fontWeight = FontWeight.Normal,
+                                                    //                                        fontSize = 12.sp
+                                                    //                                    )
+                                                    //                                )
+                                                    //                            }
+                                                }
+
+                                            }
+
+
                                         )
-                                        Spacer(modifier = Modifier.height(4.dp))
-                                        Text(
-                                                text = eventdetails[page].eventdetail.category,
-                                                style = TextStyle(
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                            //                                            .background(
+                                            //                                                brush = Brush.verticalGradient(
+                                            //                                                    colors = listOf(
+                                            //                                                        Color.Transparent,
+                                            //                                                        black,
+                                            //                                                    ),
+                                            //                                                    startY = with(LocalDensity.current) { 100.dp.toPx() }
+                                            //                                                )
+                                            //                                            )
+                                        )
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .padding(horizontal = 20.dp, vertical = 28.dp),
+                                            contentAlignment = Alignment.BottomStart
+                                        ) {
+                                            Column(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                horizontalAlignment = Alignment.Start
+                                            ) {
+                                                Text(
+                                                    text = eventdetails[page].eventdetail.artist,
+                                                    color = Color.White,
+                                                    fontWeight = FontWeight.SemiBold,
+                                                    fontSize = 36.sp,
+                                                    fontFamily = aileron,
+                                                    textAlign = TextAlign.Start
+                                                )
+                                                Spacer(modifier = Modifier.height(4.dp))
+                                                Text(
+                                                    text = eventdetails[page].eventdetail.category,
+                                                    style = TextStyle(
                                                         color = colorResource(id = R.color.White),
                                                         fontFamily = aileron,
                                                         fontWeight = FontWeight.Normal,
                                                         fontSize = 16.sp
+                                                    )
                                                 )
-                                        )
-                                        Spacer(modifier = Modifier.height(4.dp))
+                                                Spacer(modifier = Modifier.height(4.dp))
 
-                                        Row {
-                                            Text(
-                                                    text = "${eventdetails[page].eventdetail.starttime.date} Mar, ${if(eventdetails[page].eventdetail.starttime.hours>12)"${eventdetails[page].eventdetail.starttime.hours-12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min!=0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours>=12)"PM" else "AM"} ",
-                                                style = TextStyle(
+                                                Row {
+                                                    Text(
+                                                        text = "${eventdetails[page].eventdetail.starttime.date} Mar, ${if (eventdetails[page].eventdetail.starttime.hours > 12) "${eventdetails[page].eventdetail.starttime.hours - 12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min != 0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                                        style = TextStyle(
                                                             color = white,
                                                             fontFamily = aileron,
                                                             fontWeight = FontWeight.Normal,
                                                             fontSize = 16.sp
+                                                        )
                                                     )
-                                            )
 
-                                            //Spacer(modifier = Modifier.width(4.dp))
-                                            Text(
-                                                    text = "| ${eventdetails[page].eventdetail.venue}",
-                                                    style = TextStyle(
+                                                    //Spacer(modifier = Modifier.width(4.dp))
+                                                    Text(
+                                                        text = "| ${eventdetails[page].eventdetail.venue}",
+                                                        style = TextStyle(
                                                             color = white,
                                                             fontFamily = aileron,
                                                             fontWeight = FontWeight.Normal,
                                                             fontSize = 16.sp
+                                                        )
                                                     )
-                                            )
+                                                }
+                                            }
+
                                         }
+
+
                                     }
-
                                 }
+                            }
+                        }
+                    }
 
+                    Box(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .align(Alignment.CenterHorizontally)
+                            .padding(vertical = 8.dp).background(white)
+                    ) {
+                        Card(
+                            modifier = Modifier
 
+                                .width(184.dp)
+                                .height(20.dp),
+                            shape = RoundedCornerShape(36.dp),
+                            backgroundColor = midWhite
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                            ) {
+                                HorizontalPagerIndicator(
+
+                                    pagerState = pagerState,
+                                    activeColor = black,
+                                    inactiveColor = midWhite,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight()
+                                        .padding(3.dp),
+                                    indicatorShape = RoundedCornerShape(36.dp),
+                                    indicatorWidth = (178 / 5).dp
+
+                                )
                             }
                         }
                     }
                 }
             }
-            HorizontalPagerIndicator(
-                    pagerState = pagerState,
-                    activeColor= colorResource(id = R.color.textGray),
-                    inactiveColor = colorResource(id = R.color.darkGray),
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(16.dp)
-            )
         }
 
     }
@@ -1297,115 +1471,240 @@ class Home : Fragment() {
     }
 
 
-    @OptIn(ExperimentalPagerApi::class)
+    @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
     @Composable
     fun merchBox(merch: List<merchmodelforHome>, drbls:List<Int>){
         val pagerState = rememberPagerState()
+        val pg_color = listOf(green, blu, pink);
+        val textPaintStroke = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.STROKE
+            textSize = 88f
+            color = android.graphics.Color.BLACK
+            strokeWidth = 18f
+            typeface = resources.getFont(R.font.starguard)
+            strokeMiter= 10f
+            strokeJoin = android.graphics.Paint.Join.ROUND
+        }
+
+        val textPaint = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.FILL
+            textSize = 88F
+            typeface = resources.getFont(R.font.starguard)
+            color = android.graphics.Color.WHITE
+        }
+
+        val textPaintStroke1 = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.STROKE
+            textSize = 44F
+            color = android.graphics.Color.BLACK
+            strokeWidth = 9f
+            typeface = resources.getFont(R.font.starguard)
+            strokeMiter= 10f
+            strokeJoin = android.graphics.Paint.Join.ROUND
+        }
+
+        val textPaint1 = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.FILL
+            textSize = 44F
+            typeface = resources.getFont(R.font.starguard)
+            color = android.graphics.Color.WHITE
+        }
+
+        val textPaintStroke2 = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.STROKE
+            textSize = 66F
+            color = android.graphics.Color.BLACK
+            strokeWidth = 16f
+            typeface = resources.getFont(R.font.starguard)
+            strokeMiter= 10f
+            strokeJoin = android.graphics.Paint.Join.ROUND
+        }
+
+        val textPaint2 = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.FILL
+            textSize = 66F
+            typeface = resources.getFont(R.font.starguard)
+            color = ContextCompat.getColor(requireContext(), R.color.Green)
+        }
 
         LaunchedEffect(key1 = pagerState.currentPage) {
             launch {
 
-                delay(2000)
+                delay(3500)
                 with(pagerState) {
                     val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
-                    animateScrollToPage(
-                        page = target,
-                        animationSpec = tween(
-                            durationMillis = 600,
-                            easing = FastOutSlowInEasing
-                        )
+                    tween<Float>(
+                        durationMillis = 300,
+                        easing = FastOutSlowInEasing
                     )
+                    animateScrollToPage(page = target )
 
                 }
             }
         }
 
-
         HorizontalPager(
             count = merch.size, modifier = Modifier
                 .fillMaxWidth()
-                .height(218.dp), state = pagerState
+                .height(200.dp), state = pagerState
         ) { page ->
-        Card(
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .fillMaxHeight()
                     .padding(horizontal = 20.dp),
                 shape = RoundedCornerShape(16.dp),
+                backgroundColor = Color.Transparent,
                 elevation = 0.dp,
-        ) {
-            Box(modifier = Modifier
-                .clickable {
-                    findNavController(this@Home).navigate(R.id.action_home2_to_merchFragment)
+                border = BorderStroke(1.5.dp, black)
+            ) {
+                Box(modifier = Modifier
+                    .clickable {
+                        findNavController(this@Home).navigate(R.id.action_home2_to_merchFragment)
 
 //                fm.beginTransaction()
 //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
 //                    .commit()
-                }
-                .height(200.dp)
-                .fillMaxWidth()
-                    ){
-                Image(painter = painterResource(id = drbls[page]), contentDescription = null,
-                    Modifier
-                        .height(200.dp)
-                        .fillMaxWidth(), contentScale = ContentScale.Crop, alignment = Alignment.Center)
-
-                Box(modifier = Modifier
+                    }
+                    .height(200.dp)
                     .fillMaxWidth()
-                    .fillMaxHeight()
-                    )
 
-                Row(
-                    Modifier
+                ){
+                    Image(painter = painterResource(id = drbls[page]), contentDescription = null,
+                        Modifier
+                            .height(200.dp)
+                            .fillMaxWidth()
+                            .align(Alignment.BottomCenter), contentScale = ContentScale.Crop, alignment = Alignment.Center)
+
+                    Box(modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
-                        .padding(start = 20.dp, top = 30.dp), horizontalArrangement = Arrangement.SpaceBetween) {
 
+                    ){
 
-
-                    Column(
+                        Row(
                             Modifier
-                                    .wrapContentWidth()
-                                    .wrapContentHeight()) {
-                        Text(
-                            text = merch[page].Name.uppercase(),
-                            color = Color.White,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 32.sp,
-                            fontFamily = star_guard,
-                        )
-
-
-                        Text(text = merch[page].Type.uppercase(), style = MaterialTheme.typography.h1)
-                        Spacer(modifier = Modifier.height(6.dp))
-                        Text(text = "Out now!", fontFamily = clash, fontSize = 16.sp, fontWeight = FontWeight.W500, color = Color.LightGray)
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Box(Modifier.height(44.dp).width(113.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xffEE6337)), contentAlignment = Alignment.Center){
-                        Text(text = "BUY NOW", color = Color.White, fontFamily = clash, fontWeight = FontWeight.W700, fontSize = 16.sp)}
-
-                    }
-
-                    GlideImage(modifier = Modifier
-                            .width(167.dp)
-                            .height(167.dp).align(Alignment.Bottom),
-                    imageModel = merch[page].Image, contentDescription = "merch", contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center,
-                    shimmerParams = ShimmerParams(
-                        baseColor = Color.Transparent,
-                        highlightColor = Color.LightGray,
-                        durationMillis = 350,
-                        dropOff = 0.65f,
-                        tilt = 20f
-                    ),failure = {
-                            Box(modifier= Modifier
                                 .fillMaxWidth()
-                                .fillMaxHeight(), contentAlignment = Alignment.Center) {
-                                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.failure))
-                                val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
-                                LottieAnimation(
-                                    composition,
-                                    progress,
-                                    modifier = Modifier.fillMaxHeight()
+                                .fillMaxHeight()
+                                .align(Alignment.BottomStart)
+                                .padding(horizontal = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+
+
+
+                            Column(
+                                Modifier
+                                    .fillMaxWidth(0.5F)
+                                    .fillMaxHeight()
+                                    .padding(top = 60.dp)
+
+                            ) {
+//                                Text(
+//                                    text = merch[page].Name.uppercase(),
+//                                    color = Color.White,
+//                                    fontWeight = FontWeight.Normal,
+//                                    fontSize = 32.sp,
+//                                    fontFamily = star_guard,
+//                                )
+                                Canvas(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onDraw = {
+                                        drawIntoCanvas {
+                                            it.nativeCanvas.drawText(
+                                                merch[page].Name.uppercase(),
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaintStroke
+                                            )
+                                            it.nativeCanvas.drawText(
+                                                merch[page].Name.uppercase(),
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaint
+                                            )
+                                        }
+                                    }
                                 )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = merch[page].Type.uppercase(),
+                                    color = black,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 12.sp,
+                                    fontFamily = star_guard,
+                                )
+                                Spacer(modifier = Modifier.height(52.dp))
+                                Canvas(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onDraw = {
+                                        drawIntoCanvas {
+                                            it.nativeCanvas.drawText(
+                                                "At just",
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaintStroke1
+                                            )
+                                            it.nativeCanvas.drawText(
+                                                "At just",
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaint1
+                                            )
+                                        }
+                                    }
+                                )
+                                Spacer(modifier = Modifier.height(34.dp))
+
+                                Canvas(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onDraw = {
+                                        drawIntoCanvas {
+                                            it.nativeCanvas.drawText(
+                                                "Rs. 1000.00",
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaintStroke2
+                                            )
+                                            it.nativeCanvas.drawText(
+                                                "Rs. 1000.00",
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaint2
+                                            )
+                                        }
+                                    }
+                                )
+
+                            }
+
+                            GlideImage(modifier = Modifier
+                                .fillMaxHeight()
+                                .align(Alignment.CenterVertically)
+                                .padding(vertical = 10.dp),
+                                imageModel = merch[page].Image, contentDescription = "merch", contentScale = ContentScale.Fit,
+                                alignment = Alignment.Center,
+                                shimmerParams = ShimmerParams(
+                                    baseColor = Color.Transparent,
+                                    highlightColor = Color.LightGray,
+                                    durationMillis = 350,
+                                    dropOff = 0.65f,
+                                    tilt = 20f
+                                ),failure = {
+                                    Box(modifier= Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(), contentAlignment = Alignment.Center) {
+                                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.failure))
+                                        val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+                                        LottieAnimation(
+                                            composition,
+                                            progress,
+                                            modifier = Modifier.fillMaxHeight()
+                                        )
 //                            Column(
 //                                Modifier
 //                                    .fillMaxWidth()
@@ -1430,17 +1729,19 @@ class Home : Fragment() {
 //                                    )
 //                                )
 //                            }
-                            }
+                                    }
 
-                        }
-                )}
-
-
+                                }
+                            )}
 
 
 
-    }}}}
 
+
+                    }}}}
+
+
+    }
     @Composable
     fun Lottieonactivedelete(rId:Int) {
 

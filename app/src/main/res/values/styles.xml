@@ -143,20 +143,20 @@
     <style name="cart_count_icon">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:minWidth">20dp</item>
+        <item name="android:minWidth">12dp</item>
         <item name="android:minHeight">16dp</item>
         <item name="android:layout_marginStart">14dp</item>
         <item name="android:layout_marginBottom">12dp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/Black</item>
         <item name="android:background">@drawable/cart_count_bg</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:paddingStart">4dp</item>
-        <item name="android:paddingEnd">4dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingStart">2dp</item>
+        <item name="android:paddingEnd">2dp</item>
         <item name="android:paddingTop">2dp</item>
         <item name="android:paddingBottom">2dp</item>
         <item name="android:visibility">gone</item>
-        <item name="android:fontFamily">@font/clash_display_400</item>
+        <item name="android:fontFamily">@font/aileron_semibold</item>
     </style>
 
     <style name="signup_edit_text">

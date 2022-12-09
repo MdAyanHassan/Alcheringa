@@ -125,7 +125,7 @@ class Schedule : Fragment() {
         binding.account.setOnClickListener {
             startActivity(Intent(context, Account::class.java));
         }
-        binding.notification.setOnClickListener{
+        binding.pass.setOnClickListener{
             startActivity(Intent(context, NotificationActivity::class.java));
         }
         binding.scheduleCompose.setContent {
