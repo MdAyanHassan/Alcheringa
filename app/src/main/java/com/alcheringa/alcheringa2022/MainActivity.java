@@ -1,7 +1,10 @@
 package com.alcheringa.alcheringa2022;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -14,6 +17,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -23,11 +27,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     BottomNavigationView bottomNavigationView;
     Events events_fragment;
     SharedPreferences sharedPreferences;
@@ -36,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton epass;
     FirebaseAuth firebaseAuth;
     NavController NavController;
+    DrawerLayout drawer;
+    NavigationView navigationView;
     public static int index;
 
     @Override
@@ -44,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         events_fragment = new Events();
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
+
+
        // epass=findViewById(R.id.epass);
         //bottomNavigationView.setBackground(null);
         //bottomNavigationView.getMenu().getItem(2).setEnabled(false);
@@ -56,6 +65,20 @@ public class MainActivity extends AppCompatActivity {
          NavController =
                 (NavController) Navigation.findNavController(this,R.id.fragmentContainerView);
         NavigationUI.setupWithNavController(bottomNavigationView,NavController);
+
+
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+
+        toggle.syncState();
+
+         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
+
+
         /*boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
         if(!isLoggedIn){
             Intent intent = new Intent(this, SignUp.class);
@@ -209,5 +232,46 @@ public class MainActivity extends AppCompatActivity {
 
         //}
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        int size = navigationView.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            navigationView.getMenu().getItem(i).setCheckable(false);
+        }
+
+
+      switch (id){
+          case R.id.miOrders: startActivity(new Intent(getApplicationContext(),YourOrders.class));break;
+          case R.id.miContactUs: startActivity(new Intent(getApplicationContext(),ContactUs.class));break;
+          case R.id.miFAQs: startActivity(new Intent(getApplicationContext(),FaqPage.class));break;
+          case R.id.miProfile: startActivity(new Intent(getApplicationContext(),ProfilePage.class));break;
+          case R.id.miSponsors: startActivity(new Intent(getApplicationContext(),Sponsors.class));break;
+          case R.id.miTeam: startActivity(new Intent(getApplicationContext(),team.class));break;
+
+          case R.id.miSignOut: {
+              SharedPreferences.Editor editor = sharedPreferences.edit();
+              editor.remove("name");
+              editor.remove("email");
+              editor.remove("photourl");
+              editor.remove("interests");
+              editor.apply();
+              Intent intent = new Intent(getApplicationContext(),Login.class);
+              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+              firebaseAuth.signOut();
+              startActivity(intent);
+              finish();
+          }
+
+
+
+      }
+
+        drawer.closeDrawer(Gravity.RIGHT);
+
+
+        return true;
     }
 }

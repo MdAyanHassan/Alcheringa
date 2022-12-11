@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -238,8 +239,8 @@ class Home : Fragment() {
 
 
         binding.account.setOnClickListener {
-            startActivity(Intent(context,Account::class.java));
-
+//            startActivity(Intent(context,Account::class.java));
+            (activity as MainActivity).drawer.openDrawer(Gravity.RIGHT)
         }
 
         binding.pass.setOnClickListener{

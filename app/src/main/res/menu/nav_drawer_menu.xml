@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+    <item
+        android:id="@+id/miProfile"
+        android:icon="@drawable/fluent_person_24_regular"
+        android:title="Profile" />
+    <item
+        android:id="@+id/miOrders"
+        android:icon="@drawable/cart"
+        android:title="Orders" />
+    <item
+        android:id="@+id/miContactUs"
+        android:icon="@drawable/phone"
+        android:title="Contact Us" />
+    <item
+        android:id="@+id/miFAQs"
+        android:icon="@drawable/faq"
+        android:title="FAQs" />
+    <item
+        android:id="@+id/miTeam"
+        android:icon="@drawable/team_logo"
+        android:title="Team" />
+    <item
+        android:id="@+id/miSponsors"
+        android:icon="@drawable/ic_sponsor"
+        android:title="Sponsors" />
+    <item
+        android:id="@+id/miSignOut"
+        android:icon="@drawable/signoutlogo"
+        android:title="Sign Out" />
+
+
+    </group>
+
+
+
+</menu>
