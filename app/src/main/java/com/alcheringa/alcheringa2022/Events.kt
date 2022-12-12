@@ -39,11 +39,17 @@ import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.clash
 import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.rememberCameraPositionState
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
@@ -312,17 +318,35 @@ class Events : Fragment() {
                }
                 Full_view()
             },
-            sheetPeekHeight = 333.dp, sheetShape = RoundedCornerShape(32.dp)
+            sheetPeekHeight = 280.dp, sheetShape = RoundedCornerShape(32.dp)
         
         ){
-            Column() {
-                Text(text = "hello World!!")
-                    }
+            Box(Modifier.fillMaxSize().padding(bottom = 184.dp)) {
+              mapview()
             
         }
 
     }
 
+
+    }
+    @Composable
+    fun mapview() {
+        val singapore = LatLng(1.35, 103.87)
+        val cameraPositionState = rememberCameraPositionState {
+            position = CameraPosition.fromLatLngZoom(singapore, 10f)
+        }
+        GoogleMap(
+            modifier = Modifier.fillMaxSize(),
+            cameraPositionState = cameraPositionState
+        ) {
+            Marker(
+                position = singapore,
+                title = "Singapore",
+                snippet = "Marker in Singapore"
+            )
+        }
+    }
 
 
     override fun onResume() {
