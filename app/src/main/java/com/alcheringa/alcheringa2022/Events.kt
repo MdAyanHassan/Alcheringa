@@ -34,11 +34,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
+import com.alcheringa.alcheringa2022.Model.venue
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.clash
 import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 
@@ -64,11 +66,19 @@ class Events : Fragment() {
 
     var firebaseFirestore: FirebaseFirestore? = null
     var sharedPreferences: SharedPreferences? = null
+    val venuelist= listOf<venue>(
+            venue(),
+            venue("Cricket Ground", LatLng(26.190761044728855, 91.69699071630549)),
+            venue("Alcheringa Wall", LatLng(26.191978820911885, 91.69572236815209))
+
+        )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fgm=parentFragmentManager
     }
+
 
 
     override fun onCreateView(
@@ -313,15 +323,25 @@ class Events : Fragment() {
         BottomSheetScaffold(
             scaffoldState = bottomSheetScaffoldState,
             sheetContent =  {
-               Box(Modifier.wrapContentHeight().fillMaxWidth().padding(top=8.dp, bottom = 4.dp), contentAlignment = Alignment.TopCenter) {
-                   Icon(painterResource(id = R.drawable.rectangle_expand), "", Modifier.width(60.dp).height(5.dp), tint = Color(0xffacacac))
+               Box(
+                   Modifier
+                       .wrapContentHeight()
+                       .fillMaxWidth()
+                       .padding(top = 8.dp, bottom = 4.dp), contentAlignment = Alignment.TopCenter) {
+                   Icon(painterResource(id = R.drawable.rectangle_expand), "",
+                       Modifier
+                           .width(60.dp)
+                           .height(5.dp), tint = Color(0xffacacac))
                }
                 Full_view()
             },
             sheetPeekHeight = 280.dp, sheetShape = RoundedCornerShape(32.dp)
         
         ){
-            Box(Modifier.fillMaxSize().padding(bottom = 184.dp)) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 184.dp)) {
               mapview()
             
         }
@@ -332,19 +352,22 @@ class Events : Fragment() {
     }
     @Composable
     fun mapview() {
-        val singapore = LatLng(1.35, 103.87)
+
+        val mainaudi = LatLng(26.191117262340942, 91.69295134231831)
         val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(singapore, 10f)
+            position = CameraPosition.fromLatLngZoom(venuelist[2].LatLng, 16f)
         }
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState
         ) {
-            Marker(
-                position = singapore,
-                title = "Singapore",
-                snippet = "Marker in Singapore"
-            )
+            venuelist.forEach {v->
+                Marker(
+                    position = v.LatLng,
+                    title = v.name,
+                    snippet = v.name
+                )
+            }
         }
     }
 
