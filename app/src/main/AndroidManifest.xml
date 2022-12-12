@@ -27,6 +27,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Alcheringa2022"
         tools:ignore="LockedOrientationActivity">
+
+<!--        <meta-data android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="${AIzaSyCyM292dJ064zSmyKG_AfdYlDS-kNf8mZw}"-->
+<!--            />-->
         <activity
             android:name=".Order_Confirmed"
             android:exported="true"

@@ -13,13 +13,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -44,6 +46,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -76,43 +79,49 @@ class Events : Fragment() {
         val scheduleDatabase=ScheduleDatabase(context)
         val eventslist=scheduleDatabase.schedule;
 
-        var unseen_notif_count = 0
-
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
-
-        firebaseFirestore!!.collection("Notification").get().addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
-            if (task.isSuccessful) {
-                val notifs = task.result.size()
-                Log.d("Notification Count", "No of notifications: " + notifs)
-                val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
-                Log.d("seen notification", seen_notifs.toString());
-                unseen_notif_count = notifs - seen_notifs!!
-
-                if (unseen_notif_count <= 0) {
-                    binding.notificationCount.visibility = View.INVISIBLE
-                } else if (unseen_notif_count <= 9) {
-                    binding.notificationCount.visibility = View.VISIBLE
-                    binding.notificationCount.text = unseen_notif_count.toString()
-                } else {
-                    binding.notificationCount.visibility = View.VISIBLE
-                    binding.notificationCount.text = "9+"
-                }
-            } else {
-                Log.d("Error", "Error loading notification count", task.exception)
-            }
-        })
-
-        binding.account.setOnClickListener {
-            startActivity(Intent(context,Account::class.java));
-
-        }
-        binding.pass.setOnClickListener{
-            startActivity(Intent(context, NotificationActivity::class.java));
-        }
+//        var unseen_notif_count = 0
+//
+//        firebaseFirestore = FirebaseFirestore.getInstance()
+//        sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
+//
+//        firebaseFirestore!!.collection("Notification").get().addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
+//            if (task.isSuccessful) {
+//                val notifs = task.result.size()
+//                Log.d("Notification Count", "No of notifications: " + notifs)
+//                val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
+//                Log.d("seen notification", seen_notifs.toString());
+//                unseen_notif_count = notifs - seen_notifs!!
+//
+//                if (unseen_notif_count <= 0) {
+//                    binding.notificationCount.visibility = View.INVISIBLE
+//                } else if (unseen_notif_count <= 9) {
+//                    binding.notificationCount.visibility = View.VISIBLE
+//                    binding.notificationCount.text = unseen_notif_count.toString()
+//                } else {
+//                    binding.notificationCount.visibility = View.VISIBLE
+//                    binding.notificationCount.text = "9+"
+//                }
+//            } else {
+//                Log.d("Error", "Error loading notification count", task.exception)
+//            }
+//        })
+//
+//        binding.account.setOnClickListener {
+//            startActivity(Intent(context,Account::class.java));
+//
+//        }
+//        binding.pass.setOnClickListener{
+//            startActivity(Intent(context, NotificationActivity::class.java));
+//        }
 
         binding.eventsCompose.setContent {
-            Full_view()
+
+
+            MyContent()
+
+
+
+            
         }
     }
 
@@ -126,19 +135,19 @@ class Events : Fragment() {
                         .verticalScroll(rememberScrollState())
                     /*.background(Color.Black)*/
             ) {
-                Spacer(modifier = Modifier.height(70.dp))
-                Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
-                    Text(text = "COMPETITIONS", fontWeight = FontWeight.W600, fontSize = 16.sp, fontFamily = clash,color = Color.White)
-                    Spacer(modifier = Modifier.height(14.dp))
-                    imgcomp()
 
-                }
                 Events_row(heading = "Critical Damage")
                 Events_row(heading = "Pronites")
                 Events_row(heading = "Proshows")
                 Events_row(heading = "Creators' Camp")
                 Events_row(heading = "Humor Fest")
                 Events_row(heading = "Campaigns")
+                Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
+                    Text(text = "COMPETITIONS", fontWeight = FontWeight.W600, fontSize = 16.sp, fontFamily = clash,color = Color.White)
+                    Spacer(modifier = Modifier.height(14.dp))
+                    imgcomp()
+
+                }
 
 
             }
@@ -161,7 +170,7 @@ class Events : Fragment() {
                     fontWeight = FontWeight.W600,
                     fontSize = 16.sp,
                     fontFamily = clash,
-                    color = Color.White
+                    color = Color.Black
                 )
             }
 
@@ -195,14 +204,18 @@ class Events : Fragment() {
         Box(
             modifier = Modifier
                 .height(256.dp)
-                .fillMaxWidth().clip(RoundedCornerShape(8.dp)).clickable {
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .clickable {
 //                    fgm
 //                        .beginTransaction()
 //                        .replace(R.id.fragmentContainerView,CompetitionsFragment() ).addToBackStack(null)
 //                        .commit()
-                        NavHostFragment.findNavController(this).navigate(R.id.action_eventFragment_to_competitionsFragment);
+                    NavHostFragment
+                        .findNavController(this)
+                        .navigate(R.id.action_eventFragment_to_competitionsFragment);
 
-                    }
+                }
         ) {
             GlideImage(
                 imageModel = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/competitionHeader.png?alt=media&token=7f350d9e-dbad-427a-822f-e3586bfa5e4c",
@@ -273,37 +286,76 @@ class Events : Fragment() {
 
         }
     }
+
+
+
+
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    fun MyContent(){
+
+        // Declaring a Boolean value to
+        // store bottom sheet collapsed state
+        val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(bottomSheetState =
+        BottomSheetState(BottomSheetValue.Collapsed)
+        )
+
+        // Declaring Coroutine scope
+        val coroutineScope = rememberCoroutineScope()
+
+        // Creating a Bottom Sheet
+        BottomSheetScaffold(
+            scaffoldState = bottomSheetScaffoldState,
+            sheetContent =  {
+               Box(Modifier.wrapContentHeight().fillMaxWidth().padding(top=8.dp, bottom = 4.dp), contentAlignment = Alignment.TopCenter) {
+                   Icon(painterResource(id = R.drawable.rectangle_expand), "", Modifier.width(60.dp).height(5.dp), tint = Color(0xffacacac))
+               }
+                Full_view()
+            },
+            sheetPeekHeight = 333.dp, sheetShape = RoundedCornerShape(32.dp)
+        
+        ){
+            Column() {
+                Text(text = "hello World!!")
+                    }
+            
+        }
+
+    }
+
+
+
     override fun onResume() {
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.menu?.findItem(R.id.events)?.setChecked(true);
         MainActivity.index=R.id.events;
         super.onResume()
 
-        var unseen_notif_count = 0
-
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
-
-        firebaseFirestore!!.collection("Notification").get().addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
-            if (task.isSuccessful) {
-                val notifs = task.result.size()
-                Log.d("Notification Count", "No of notifications: " + notifs)
-                val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
-                Log.d("seen notification", seen_notifs.toString());
-                unseen_notif_count = notifs - seen_notifs!!
-
-                if (unseen_notif_count <= 0) {
-                    binding.notificationCount.visibility = View.INVISIBLE
-                } else if (unseen_notif_count <= 9) {
-                    binding.notificationCount.visibility = View.VISIBLE
-                    binding.notificationCount.text = unseen_notif_count.toString()
-                } else {
-                    binding.notificationCount.visibility = View.VISIBLE
-                    binding.notificationCount.text = "9+"
-                }
-            } else {
-                Log.d("Error", "Error loading notification count", task.exception)
-            }
-        })
+//        var unseen_notif_count = 0
+//
+//        firebaseFirestore = FirebaseFirestore.getInstance()
+//        sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
+//
+//        firebaseFirestore!!.collection("Notification").get().addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
+//            if (task.isSuccessful) {
+//                val notifs = task.result.size()
+//                Log.d("Notification Count", "No of notifications: " + notifs)
+//                val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
+//                Log.d("seen notification", seen_notifs.toString());
+//                unseen_notif_count = notifs - seen_notifs!!
+//
+//                if (unseen_notif_count <= 0) {
+//                    binding.notificationCount.visibility = View.INVISIBLE
+//                } else if (unseen_notif_count <= 9) {
+//                    binding.notificationCount.visibility = View.VISIBLE
+//                    binding.notificationCount.text = unseen_notif_count.toString()
+//                } else {
+//                    binding.notificationCount.visibility = View.VISIBLE
+//                    binding.notificationCount.text = "9+"
+//                }
+//            } else {
+//                Log.d("Error", "Error loading notification count", task.exception)
+//            }
+//        })
     }
 }
 
