@@ -11,15 +11,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -27,6 +30,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.toUpperCase
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
@@ -34,60 +39,59 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
-import com.alcheringa.alcheringa2022.Model.addNewItem
-import com.alcheringa.alcheringa2022.Model.eventWithLive
-import com.alcheringa.alcheringa2022.Model.removeAnItem
-import com.alcheringa.alcheringa2022.Model.viewModelHome
+import com.alcheringa.alcheringa2022.Model.*
 import com.alcheringa.alcheringa2022.ui.theme.*
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
-//val events=mutableListOf(
-//
-//    eventdetail(
-//        "JUBIN NAUTIYAL",
-//        "Pro Nights",
-//        OwnTime(11,9,0),
-//        "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
-//    ),
-//
-//    eventdetail(
-//        "DJ SNAKE",
-//        "Pro Nights",
-//        OwnTime(12,12,0),
-//        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-//    ),
-//    eventdetail(
-//        "TAYLOR SWIFT",
-//        "Pro Nights",
-//        OwnTime(12,14,0),
-//        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-//    )
-//    ,
-//
-//    eventdetail(
-//        "DJ SNAKE2",
-//        "Pro Nights",
-//        OwnTime(12,10,0),
-//        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-//    ),
-//    eventdetail(
-//        "TAYLOR SWIFT2",
-//        "Pro Nights",
-//        OwnTime(12,15,0),
-//        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-//    )
-//    ,
-//    eventdetail(
-//        "TAYLOR SWIFT3",
-//        "Pro Nights",
-//        OwnTime(12,14,30),
-//        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
-//    )
-//
-//
-//
-//)
+
+
+val events=mutableListOf(
+
+    eventdetail(
+        "JUBIN NAUTIYAL",
+        "Pro Nights",
+        OwnTime(11,9,0),
+        "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
+    ),
+
+    eventdetail(
+        "DJ SNAKE",
+        "Pro Nights",
+        OwnTime(12,12,0),
+        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
+    ),
+    eventdetail(
+        "TAYLOR SWIFT",
+        "Pro Nights",
+        OwnTime(12,14,0),
+        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
+    )
+    ,
+
+    eventdetail(
+        "DJ SNAKE2",
+        "Pro Nights",
+        OwnTime(12,10,0),
+        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
+    ),
+    eventdetail(
+        "TAYLOR SWIFT2",
+        "Pro Nights",
+        OwnTime(12,15,0),
+        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
+    )
+    ,
+    eventdetail(
+        "TAYLOR SWIFT3",
+        "Pro Nights",
+        OwnTime(12,14,30),
+        "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
+    )
+
+
+
+)
 
 @Composable
 fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: Context, Fragment : Fragment, FragmentManager: androidx.fragment.app.FragmentManager , a : Int) {
@@ -105,12 +109,20 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
     })
 
     if (eventdetail.isLive.value){
-        M = Modifier.wrapContentWidth().border(3.dp,
-            color = liveGreen, RoundedCornerShape(16.dp))
+        M = Modifier
+            .wrapContentWidth()
+            .border(
+                3.dp,
+                color = liveGreen, RoundedCornerShape(18.dp)
+            )
     }
     else{
-        M = Modifier.wrapContentWidth().border(1.dp,
-            color = black, RoundedCornerShape(16.dp))
+        M = Modifier
+            .wrapContentWidth()
+            .border(
+                1.dp,
+                color = colors.secondary, RoundedCornerShape(18.dp)
+            )
     }
 
     LaunchedEffect(key1=Unit,block = {
@@ -121,19 +133,21 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
         if(okstatenum.value==0){okstate.value=false}else{okstate.value=true}
     })
 
-    Box( Modifier
-        .graphicsLayer(translationY = animationProgress.value)) {
+    Box(
+        Modifier
+            .graphicsLayer(translationY = animationProgress.value).width(200.dp))
+    {
         Text(text =viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp )
 
-        Card(modifier = M,
-            shape = RoundedCornerShape(16.dp),
-            elevation = 5.dp,
+        Card(modifier = M.padding(6.dp),
+            shape = RoundedCornerShape(12.dp),
+            backgroundColor = colors.background,
+            elevation = 0.dp
+
 
             ){
 
-            Box(modifier = Modifier.background(blackbg)
-                .height(256.dp)
-                .width(218.dp)
+            Box(modifier = Modifier
                 .clickable {
                     val frg = Events_Details_Fragment()
                     val arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
@@ -141,274 +155,304 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
 //                        .beginTransaction()
 //                        .replace(R.id.fragmentContainerView, frg)
 //                        .commit()
-                    NavHostFragment.findNavController(Fragment).navigate(a,arguments);
+                    NavHostFragment
+                        .findNavController(Fragment)
+                        .navigate(a, arguments);
 
                 }
 
             ){
-                GlideImage(modifier = Modifier
-                    .width(218.dp)
-                    .height(256.dp),imageModel = eventdetail.eventdetail.imgurl, contentDescription = "artist", contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center,
-                    shimmerParams = ShimmerParams(
-                        baseColor = blackbg,
-                        highlightColor = Color.LightGray,
-                        durationMillis = 350,
-                        dropOff = 0.65f,
-                        tilt = 20f
-                    ),failure = {
-                        Box(modifier= Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(), contentAlignment = Alignment.Center) {
-
-                            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.comingsoon))
-                            val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
-                            LottieAnimation(
-                                composition,
-                                progress,
-                                modifier = Modifier.fillMaxHeight()
-                            )
-//                            Column(
-//                                Modifier
-//                                    .fillMaxWidth()
-//                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
-//                                Image(
-//                                    modifier = Modifier
-//                                        .width(60.dp)
-//                                        .height(60.dp),
-//                                    painter = painterResource(
-//                                        id = R.drawable.ic_sad_svgrepo_com
-//                                    ),
-//                                    contentDescription = null
-//                                )
-//                                Spacer(modifier = Modifier.height(10.dp))
-//                                Text(
-//                                    text = "Image Request Failed",
-//                                    style = TextStyle(
-//                                        color = Color(0xFF747474),
-//                                        fontFamily = hk_grotesk,
-//                                        fontWeight = FontWeight.Normal,
-//                                        fontSize = 12.sp
-//                                    )
-//                                )
-//                            }
-                        }
-
-                    }
-                )
-//                Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
-                Row(modifier = Modifier.padding(12.dp)) {
-//
-                    if (eventdetail.isLive.value) {
-                        Card(modifier = Modifier.wrapContentWidth(),
-                            shape = RoundedCornerShape(8.dp),) {
-                            Box(
-                                modifier = Modifier
-                                    .width(52.dp)
-                                    .height(23.dp)
-                                    .background(
-                                        color = colorResource(
-                                            id = R.color.ThemeRed
-                                        )
-                                    ), contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = "⬤ LIVE",
-                                    color = Color.White,
-                                    fontSize = 12.sp
-                                )
-                            }
-                        }
-                    }
-
+                Column {
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-//                            .padding(11.dp)
-                        ,contentAlignment = Alignment.TopEnd
+                            .width(188.dp)
+                            .height(211.dp),
                     ) {
+                        Card(shape = RoundedCornerShape(12.dp)) {
+                            GlideImage(modifier = Modifier,
+                                imageModel = eventdetail.eventdetail.imgurl,
+                                contentDescription = "artist",
+                                contentScale = ContentScale.Crop,
 
+                                alignment = Alignment.Center,
+                                shimmerParams = ShimmerParams(
+                                    baseColor = blackbg,
+                                    highlightColor = Color.LightGray,
+                                    durationMillis = 350,
+                                    dropOff = 0.65f,
+                                    tilt = 20f
+                                ),
+                                failure = {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(), contentAlignment = Alignment.Center
+                                    ) {
 
-                        if (eventdetail.eventdetail.stream) {
-                            if (!okstate.value) {
-
-                                Image(
-                                    modifier = Modifier
-                                        .width(30.dp)
-                                        .height(30.dp)
-                                        .clickable {
-                                            okstate.value = true
-                                            viewModelHm.OwnEventsWithLive.addNewItem(eventdetail.eventdetail);
-                                            ScheduleDatabase.addEventsInSchedule(
-                                                eventdetail.eventdetail,
-                                                context
+                                        val composition by rememberLottieComposition(
+                                            LottieCompositionSpec.RawRes(
+                                                R.raw.comingsoon
                                             )
-                                            okstate.value = true
-                                        },
-                                    painter = painterResource(id = R.drawable.circle_plus),
-                                    contentDescription = "null"
-                                )
+                                        )
+                                        val progress by animateLottieCompositionAsState(
+                                            composition,
+                                            iterations = LottieConstants.IterateForever
+                                        )
+                                        LottieAnimation(
+                                            composition,
+                                            progress,
+                                            modifier = Modifier.fillMaxHeight()
+                                        )
+                                        //                            Column(
+                                        //                                Modifier
+                                        //                                    .fillMaxWidth()
+                                        //                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                        //                                Image(
+                                        //                                    modifier = Modifier
+                                        //                                        .width(60.dp)
+                                        //                                        .height(60.dp),
+                                        //                                    painter = painterResource(
+                                        //                                        id = R.drawable.ic_sad_svgrepo_com
+                                        //                                    ),
+                                        //                                    contentDescription = null
+                                        //                                )
+                                        //                                Spacer(modifier = Modifier.height(10.dp))
+                                        //                                Text(
+                                        //                                    text = "Image Request Failed",
+                                        //                                    style = TextStyle(
+                                        //                                        color = Color(0xFF747474),
+                                        //                                        fontFamily = hk_grotesk,
+                                        //                                        fontWeight = FontWeight.Normal,
+                                        //                                        fontSize = 12.sp
+                                        //                                    )
+                                        //                                )
+                                        //                            }
+                                    }
+
+                                }
+                            )
+                        }
+                        Row(modifier = Modifier.padding(12.dp)) {
+//
+                            if (eventdetail.isLive.value) {
+                                Card(modifier = Modifier.wrapContentWidth(),
+                                    shape = RoundedCornerShape(8.dp),) {
+                                    Box(
+                                        modifier = Modifier
+                                            .width(52.dp)
+                                            .height(23.dp)
+                                            .background(
+                                                color = liveGreen
+                                            ), contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = "⬤ LIVE",
+                                            color = Color.White,
+                                            fontSize = 12.sp
+                                        )
+                                    }
+                                }
                             }
-                            if (okstate.value) {
-                                Image(
-                                    modifier = Modifier
-                                        .width(30.dp)
-                                        .height(30.dp)
-                                        .clickable {
-                                            Log.d("boxevent", eventdetail.toString())
+
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+//                            .padding(11.dp)
+                                ,contentAlignment = Alignment.TopEnd
+                            ) {
+
+
+                                if (eventdetail.eventdetail.stream) {
+                                    if (!okstate.value) {
+
+                                        Image(
+                                            modifier = Modifier
+                                                .width(30.dp)
+                                                .height(30.dp)
+                                                .clickable {
+                                                    okstate.value = true
+                                                    viewModelHm.OwnEventsWithLive.addNewItem(
+                                                        eventdetail.eventdetail
+                                                    );
+                                                    ScheduleDatabase.addEventsInSchedule(
+                                                        eventdetail.eventdetail,
+                                                        context
+                                                    )
+                                                    okstate.value = true
+                                                },
+                                            painter = painterResource(id = R.drawable.circle_plus),
+                                            contentDescription = "null"
+                                        )
+                                    }
+                                    if (okstate.value) {
+                                        Image(
+                                            modifier = Modifier
+                                                .width(30.dp)
+                                                .height(30.dp)
+                                                .clickable {
+                                                    Log.d("boxevent", eventdetail.toString())
 // about the tick and plus symbol
-                                            viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
+                                                    viewModelHm.OwnEventsWithLive.removeAnItem(
+                                                        eventdetail.eventdetail
+                                                    )
 
-                                            ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
-                                            Toast
-                                                .makeText(
-                                                    context,
-                                                    "event removed from schedule",
-                                                    Toast.LENGTH_SHORT
-                                                )
-                                                .show()
-                                            okstate.value = false
-                                        },
-                                    painter = painterResource(id = R.drawable.tickokay),
-                                    contentDescription = "null",
-                                    contentScale = ContentScale.FillBounds
-                                )
-                            }
-                        } else if (eventdetail.eventdetail.mode.replace("\\s".toRegex(), "")
-                                .uppercase() == "Offline".uppercase() && eventdetail.eventdetail.category.replace(
-                                "\\s".toRegex(),
-                                ""
-                            ) != "Competitions".uppercase()
-                        ) {
-                            if (!okstate.value) {
+                                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
+                                                    Toast
+                                                        .makeText(
+                                                            context,
+                                                            "event removed from schedule",
+                                                            Toast.LENGTH_SHORT
+                                                        )
+                                                        .show()
+                                                    okstate.value = false
+                                                },
+                                            painter = painterResource(id = R.drawable.tickokay),
+                                            contentDescription = "null",
+                                            contentScale = ContentScale.FillBounds
+                                        )
+                                    }
+                                } else if (eventdetail.eventdetail.mode.replace("\\s".toRegex(), "")
+                                        .uppercase() == "Offline".uppercase() && eventdetail.eventdetail.category.replace(
+                                        "\\s".toRegex(),
+                                        ""
+                                    ) != "Competitions".uppercase()
+                                ) {
+                                    if (!okstate.value) {
 
-                                Image(
-                                    modifier = Modifier
-                                        .width(30.dp)
-                                        .height(30.dp)
-                                        .clickable {
-                                            okstate.value = true
-                                            viewModelHm.OwnEventsWithLive.addNewItem(eventdetail.eventdetail);
-                                            ScheduleDatabase.addEventsInSchedule(
-                                                eventdetail.eventdetail,
-                                                context
-                                            )
-                                            okstate.value = true
-                                        },
-                                    painter = painterResource(id = R.drawable.circle_plus),
-                                    contentDescription = "null"
-                                )
-                            }
-                            if (okstate.value) {
-                                Image(
-                                    modifier = Modifier
-                                        .width(30.dp)
-                                        .height(30.dp)
-                                        .clickable {
-                                            Log.d("boxevent", eventdetail.toString())
+                                        Image(
+                                            modifier = Modifier
+                                                .width(30.dp)
+                                                .height(30.dp)
+                                                .clickable {
+                                                    okstate.value = true
+                                                    viewModelHm.OwnEventsWithLive.addNewItem(
+                                                        eventdetail.eventdetail
+                                                    );
+                                                    ScheduleDatabase.addEventsInSchedule(
+                                                        eventdetail.eventdetail,
+                                                        context
+                                                    )
+                                                    okstate.value = true
+                                                },
+                                            painter = painterResource(id = R.drawable.circle_plus),
+                                            contentDescription = "null"
+                                        )
+                                    }
+                                    if (okstate.value) {
+                                        Image(
+                                            modifier = Modifier
+                                                .width(30.dp)
+                                                .height(30.dp)
+                                                .clickable {
+                                                    Log.d("boxevent", eventdetail.toString())
 
-                                            viewModelHm.OwnEventsWithLive.removeAnItem(eventdetail.eventdetail)
+                                                    viewModelHm.OwnEventsWithLive.removeAnItem(
+                                                        eventdetail.eventdetail
+                                                    )
 
-                                            ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
-                                            Toast
-                                                .makeText(
-                                                    context,
-                                                    "event removed from schedule",
-                                                    Toast.LENGTH_SHORT
-                                                )
-                                                .show()
-                                            okstate.value = false
-                                        },
-                                    painter = painterResource(id = R.drawable.tickokay),
-                                    contentDescription = "null",
-                                    contentScale = ContentScale.FillBounds
-                                )
+                                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
+                                                    Toast
+                                                        .makeText(
+                                                            context,
+                                                            "event removed from schedule",
+                                                            Toast.LENGTH_SHORT
+                                                        )
+                                                        .show()
+                                                    okstate.value = false
+                                                },
+                                            painter = painterResource(id = R.drawable.tickokay),
+                                            contentDescription = "null",
+                                            contentScale = ContentScale.FillBounds
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
-                }
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Bottom
-                ){
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = Color.White)
-                        .padding(12.dp), contentAlignment = Alignment.BottomStart){
-                        Column {
-                            Text(text = eventdetail.eventdetail.artist, color = Color.Black, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, fontFamily = aileron)
-                            Spacer(modifier = Modifier.height(2.dp))
-//                        Text(text = eventdetail.eventdetail.category, style = TextStyle(color = Color.Black,fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
-//                            Text(text = "Time  |   Loc", style = TextStyle(color = Color.Black,fontFamily = aileron,fontWeight = FontWeight.Normal,fontSize = 12.sp))
-                            Row {
-                                Text(
-                                    text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
-                                    style = TextStyle(
-                                        color = black,
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 12.sp
-                                    )
-                                )
 
-                                //Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                    text = "| ${eventdetail.eventdetail.venue}",
-                                    style = TextStyle(
-                                        color = black,
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 12.sp
+//                Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.Bottom
+                    ){
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp, horizontal = 5.dp), contentAlignment = Alignment.BottomStart){
+                            Column {
+                                Text(text = eventdetail.eventdetail.artist, color = colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, fontFamily = aileron)
+                                Spacer(modifier = Modifier.height(8.dp))
+    //                        Text(text = eventdetail.eventdetail.category, style = TextStyle(color = Color.Black,fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
+    //                            Text(text = "Time  |   Loc", style = TextStyle(color = Color.Black,fontFamily = aileron,fontWeight = FontWeight.Normal,fontSize = 12.sp))
+                                Row {
+                                    Text(
+                                        text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                        style = TextStyle(
+                                            color = colors.onBackground,
+                                            fontFamily = aileron,
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 12.sp
+                                        )
                                     )
-                                )
+
+                                    //Spacer(modifier = Modifier.width(4.dp))
+                                    Text(
+                                        text = "| ${eventdetail.eventdetail.venue}",
+                                        style = TextStyle(
+                                            color = colors.onBackground,
+                                            fontFamily = aileron,
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 12.sp
+                                        )
+                                    )
+                                }
+
+    //                        if(eventdetail.eventdetail.stream) {
+    //                            Text(
+    //                                text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+    //                                style = TextStyle(
+    //                                    color = Color.Black,
+    //                                    fontFamily = hk_grotesk,
+    //                                    fontWeight = FontWeight.Normal,
+    //                                    fontSize = 14.sp
+    //                                )
+    //                            )
+    //                        }else if(!eventdetail.eventdetail.stream){
+    //                            if(eventdetail.eventdetail.mode.replace("\\s".toRegex(), "").uppercase()=="OFFLINE" && eventdetail.eventdetail.category.replace("\\s".toRegex(), "").uppercase()!="Competitions".uppercase()){
+    //                                Text(
+    //                                    text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+    //                                    style = TextStyle(
+    //                                        color = Color.Black,
+    //                                        fontFamily = hk_grotesk,
+    //                                        fontWeight = FontWeight.Normal,
+    //                                        fontSize = 14.sp
+    //                                    )
+    //                                )
+    //                            }
+    //                            else{
+    //                                Spacer(modifier = Modifier.height(16.dp))
+    //                            }
+    //                        }
+    //                        else{
+    //                            Spacer(modifier = Modifier.height(16.dp))
+    //                        }
+    //                        Spacer(modifier = Modifier.height(4.dp))
+    //                        Row {
+    //                            Box(modifier = Modifier
+    //                                .height(20.dp)
+    //                                .width(20.dp)) {
+    //                                Image(
+    //                                    painter = if (eventdetail.eventdetail.mode.uppercase().contains("ONLINE")) {
+    //                                        painterResource(id = R.drawable.online)
+    //                                    } else {
+    //                                        painterResource(id = R.drawable.onground)
+    //                                    },
+    //                                    contentDescription = null, modifier = Modifier.fillMaxSize(),alignment = Alignment.Center, contentScale =ContentScale.Crop
+    //                                )
+    //                            }
+    //                            Spacer(modifier = Modifier.width(4.dp))
+    //                            Text(text = eventdetail.eventdetail.mode.uppercase(),style = TextStyle(color = Color.Black,fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+    //                        }
                             }
-                            Spacer(modifier = Modifier.height(8.dp))
-//                        if(eventdetail.eventdetail.stream) {
-//                            Text(
-//                                text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
-//                                style = TextStyle(
-//                                    color = Color.Black,
-//                                    fontFamily = hk_grotesk,
-//                                    fontWeight = FontWeight.Normal,
-//                                    fontSize = 14.sp
-//                                )
-//                            )
-//                        }else if(!eventdetail.eventdetail.stream){
-//                            if(eventdetail.eventdetail.mode.replace("\\s".toRegex(), "").uppercase()=="OFFLINE" && eventdetail.eventdetail.category.replace("\\s".toRegex(), "").uppercase()!="Competitions".uppercase()){
-//                                Text(
-//                                    text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
-//                                    style = TextStyle(
-//                                        color = Color.Black,
-//                                        fontFamily = hk_grotesk,
-//                                        fontWeight = FontWeight.Normal,
-//                                        fontSize = 14.sp
-//                                    )
-//                                )
-//                            }
-//                            else{
-//                                Spacer(modifier = Modifier.height(16.dp))
-//                            }
-//                        }
-//                        else{
-//                            Spacer(modifier = Modifier.height(16.dp))
-//                        }
-//                        Spacer(modifier = Modifier.height(4.dp))
-//                        Row {
-//                            Box(modifier = Modifier
-//                                .height(20.dp)
-//                                .width(20.dp)) {
-//                                Image(
-//                                    painter = if (eventdetail.eventdetail.mode.uppercase().contains("ONLINE")) {
-//                                        painterResource(id = R.drawable.online)
-//                                    } else {
-//                                        painterResource(id = R.drawable.onground)
-//                                    },
-//                                    contentDescription = null, modifier = Modifier.fillMaxSize(),alignment = Alignment.Center, contentScale =ContentScale.Crop
-//                                )
-//                            }
-//                            Spacer(modifier = Modifier.width(4.dp))
-//                            Text(text = eventdetail.eventdetail.mode.uppercase(),style = TextStyle(color = Color.Black,fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
-//                        }
                         }
                     }
                 }
@@ -455,7 +499,8 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
         Card(modifier = Modifier.wrapContentWidth(),
             shape = RoundedCornerShape(8.dp),
             elevation = 5.dp) {
-            Box(modifier = Modifier.background(blackbg)
+            Box(modifier = Modifier
+                .background(blackbg)
                 .height(256.dp)
                 .width(218.dp)
                 .clickable {
@@ -465,7 +510,9 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
 //                        .beginTransaction()
 //                        .replace(R.id.fragmentContainerView, frg)
 //                        .commit()
-                    NavHostFragment.findNavController(Fragment).navigate(a,arguments);
+                    NavHostFragment
+                        .findNavController(Fragment)
+                        .navigate(a, arguments);
 
                     //  NavHostFragment.findNavController().navigate(R.id.action_eventFragment_to_competitionsFragment);
 
@@ -672,16 +719,18 @@ fun Event_card_upcoming(eventdetail: eventWithLive,viewModelHm: viewModelHome,co
 
 
 
-//
+
 //@Composable
 //@Preview
 //fun PreviewItem(){
 //    Alcheringa2022Theme {
 //        LazyRow(
-//                modifier = Modifier.fillMaxWidth(),
-//                horizontalArrangement = Arrangement.spacedBy(15.dp)
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.spacedBy(12.dp),
+//            contentPadding = PaddingValues(horizontal = 20.dp)
 //        ) {
-//            items(events) { dataEach -> Event_card(eventdetail = dataEach) }
-//        }
+//            items(events)
+//            { dataEach -> Event_card(
+//                eventdetail = eventWithLive(dataEach))}
 //    }
 //}

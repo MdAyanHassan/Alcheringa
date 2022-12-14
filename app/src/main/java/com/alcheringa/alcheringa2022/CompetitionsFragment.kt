@@ -11,12 +11,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
@@ -24,6 +29,7 @@ import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentCompetitionsBinding
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
+import com.alcheringa.alcheringa2022.ui.theme.aileron
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -187,12 +193,18 @@ class CompetitionsFragment : Fragment() {
     fun Events_row(heading: String,events_list:List<eventWithLive>) {
        if (events_list.isNotEmpty()){
         Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
-            Text(text = heading.uppercase(
-                Locale.getDefault()), style = MaterialTheme.typography.h2)
+            Text(text = heading.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
+                style = TextStyle(
+                    color = colors.onBackground,
+                    fontFamily = aileron,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+            )
         }
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 20.dp)
         ) { items(events_list) { dataEach -> context?.let { Event_card(eventdetail = dataEach,homeViewModel,it,this@CompetitionsFragment,Fm,R.id.action_competitionsFragment_to_events_Details_Fragment) } } }
 
         Spacer(modifier = Modifier.height(24.dp))}

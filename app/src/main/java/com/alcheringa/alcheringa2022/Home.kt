@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -279,7 +280,7 @@ class Home : Fragment() {
                             text = "Upcoming Events",
                             fontFamily = aileron,
                             fontWeight = FontWeight.Bold,
-                            color = black,
+                            color = colors.onBackground,
                             fontSize = 21.sp
                         )
                     }
@@ -309,7 +310,7 @@ class Home : Fragment() {
                             text = "Upcoming Events",
                             fontFamily = aileron,
                             fontWeight = FontWeight.Bold,
-                            color = black,
+                            color = colors.onBackground,
                             fontSize = 21.sp
                         )
                     }
@@ -355,7 +356,7 @@ class Home : Fragment() {
                         text = "Limited Time Merch",
                         fontFamily = aileron,
                         fontWeight = FontWeight.Bold,
-                        color = black,
+                        color = colors.onBackground,
                         fontSize = 21.sp
                     )
                     Box(modifier = Modifier
@@ -405,7 +406,7 @@ class Home : Fragment() {
                         text = "For You",
                         fontFamily = aileron,
                         fontWeight = FontWeight.Bold,
-                        color = black,
+                        color = colors.onBackground,
                         fontSize = 21.sp
                     )
 
@@ -460,7 +461,7 @@ class Home : Fragment() {
                         text = "For You",
                         fontFamily = aileron,
                         fontWeight = FontWeight.Bold,
-                        color = black,
+                        color = colors.onBackground,
                         fontSize = 21.sp
                     )
                     Box(modifier = Modifier
@@ -765,7 +766,7 @@ class Home : Fragment() {
         Card(
              modifier = Modifier
                  .fillMaxWidth()
-                 .padding(20.dp).background(white),
+                 .padding(20.dp),
             shape = RoundedCornerShape(
                 topStart = 36.dp,
                 bottomEnd = 36.dp,
@@ -773,8 +774,8 @@ class Home : Fragment() {
                 topEnd = 0.dp,
 
             ),
-            border = BorderStroke(2.dp, black),
-            backgroundColor = white
+            border = BorderStroke(2.dp, colors.secondary),
+            backgroundColor = colors.background
 
 
 
@@ -814,8 +815,7 @@ class Home : Fragment() {
                         count = count,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(404.dp)
-                            .background(white),
+                            .height(404.dp),
                         state = pagerState,
                         contentPadding = PaddingValues(top = 12.dp, start = 12.dp, end = 12.dp),
                         itemSpacing = (84.dp),
@@ -849,7 +849,7 @@ class Home : Fragment() {
 //                                    //                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
 //                                    //                                    )
 //                                },
-                            border = BorderStroke(1.5.dp, black),
+                            border = BorderStroke(1.5.dp, colors.secondary),
                             shape = RoundedCornerShape(28.dp)
 
                         ) {
@@ -864,7 +864,6 @@ class Home : Fragment() {
                                         modifier = Modifier
                                             .fillMaxHeight()
                                             .fillMaxWidth()
-                                            .background(white)
                                     ) {
                                         GlideImage(
                                             imageModel = eventdetails[page].eventdetail.imgurl,
@@ -1017,7 +1016,7 @@ class Home : Fragment() {
                         modifier = Modifier
                             .fillMaxHeight()
                             .align(Alignment.CenterHorizontally)
-                            .padding(vertical = 8.dp).background(white)
+                            .padding(vertical = 8.dp)
                     ) {
                         Card(
                             modifier = Modifier
@@ -1035,7 +1034,7 @@ class Home : Fragment() {
                                 HorizontalPagerIndicator(
 
                                     pagerState = pagerState,
-                                    activeColor = black,
+                                    activeColor = colors.onBackground,
                                     inactiveColor = midWhite,
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -1476,7 +1475,6 @@ class Home : Fragment() {
     @Composable
     fun merchBox(merch: List<merchmodelforHome>, drbls:List<Int>){
         val pagerState = rememberPagerState()
-        val pg_color = listOf(green, blu, pink);
         val textPaintStroke = Paint().asFrameworkPaint().apply {
             isAntiAlias = true
             style = android.graphics.Paint.Style.STROKE
@@ -1563,7 +1561,7 @@ class Home : Fragment() {
                 shape = RoundedCornerShape(16.dp),
                 backgroundColor = Color.Transparent,
                 elevation = 0.dp,
-                border = BorderStroke(1.5.dp, black)
+                border = BorderStroke(1.5.dp, colors.secondary)
             ) {
                 Box(modifier = Modifier
                     .clickable {

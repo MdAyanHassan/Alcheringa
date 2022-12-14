@@ -6,17 +6,20 @@
     android:layout_height="match_parent"
     android:background="#00010D"
     tools:context=".Events">
+
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/competitions_compose"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.0"
+        style="@style/Background"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@drawable/top_nav_bg"
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -25,34 +28,36 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0">
+        app:layout_constraintVertical_bias="0"
+        style="@style/Background">
+
         <ImageButton
             android:id="@+id/backbtn2"
             android:layout_width="9dp"
-            android:layout_height="16dp"
-            android:src="@drawable/back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:padding="50dp"
+            android:layout_height="27dp"
             android:layout_marginLeft="27dp"
-            app:layout_constraintRight_toLeftOf="@id/comp"/>
+            android:backgroundTint="#00FFFFFF"
+            android:padding="50dp"
+            android:src="@drawable/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/comp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/Background" />
 
         <TextView
             android:id="@+id/comp"
+            style="@style/Background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="COMPETITIONS"
-            android:fontFamily="@font/clash_display_700"
-
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginLeft="16dp"
+
+            android:fontFamily="@font/starguard"
+            android:text="Competitions"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn2"
             app:layout_constraintTop_toTopOf="parent" />
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

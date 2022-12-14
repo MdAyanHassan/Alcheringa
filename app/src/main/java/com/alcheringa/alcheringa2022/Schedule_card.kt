@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,7 +50,7 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
         )
     } else {
         M = Modifier.wrapContentWidth().border(
-            1.dp, color = black, RoundedCornerShape(16.dp))
+            1.dp, color = colors.secondary, RoundedCornerShape(16.dp))
     }
 
     Box(
@@ -61,10 +62,12 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
         Card(
             modifier = M,
             shape = RoundedCornerShape(16.dp),
-            elevation = 5.dp,
+            elevation = 0.dp,
+            backgroundColor = colors.background,
+
         ) {
 
-            Box(modifier = Modifier.background(Color.White)
+            Box(modifier = Modifier
                 .height(106.dp)
                 .width(220.dp)
                 .clickable {
@@ -99,13 +102,13 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Color.White)
+
                     .padding(16.dp), contentAlignment = Alignment.BottomStart
             ) {
                 Column {
                     Text(
                         text = eventdetail.eventdetail.artist,
-                        color = Color.Black,
+                        color = colors.onBackground,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.W700,
                         fontFamily = clash
@@ -115,7 +118,7 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
                     Text(
                         text = eventdetail.eventdetail.category,
                         style = TextStyle(
-                            color = Color.Black,
+                            color = colors.onBackground,
                             fontFamily = clash,
                             fontWeight = FontWeight.W400,
                             fontSize = 12.sp
@@ -127,7 +130,7 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
                         Text(
                             text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
                             style = TextStyle(
-                                color = black,
+                                color = colors.onBackground,
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 12.sp
@@ -138,7 +141,7 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
                         Text(
                             text = "| ${eventdetail.eventdetail.venue}",
                             style = TextStyle(
-                                color = black,
+                                color = colors.onBackground,
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 12.sp
