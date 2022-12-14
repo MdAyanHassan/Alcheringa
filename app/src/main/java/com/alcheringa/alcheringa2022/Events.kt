@@ -13,19 +13,31 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,12 +46,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
+import com.alcheringa.alcheringa2022.Model.eventWithLive
+
 import com.alcheringa.alcheringa2022.Model.venue
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
-import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
-import com.alcheringa.alcheringa2022.ui.theme.clash
-import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
+import com.alcheringa.alcheringa2022.ui.theme.*
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -67,12 +79,15 @@ class Events : Fragment() {
     var firebaseFirestore: FirebaseFirestore? = null
     var sharedPreferences: SharedPreferences? = null
     val venuelist= listOf<venue>(
-            venue(),
+            venue("Auditorium"),
             venue("Cricket Ground", LatLng(26.190761044728855, 91.69699071630549)),
             venue("Alcheringa Wall", LatLng(26.191978820911885, 91.69572236815209))
 
         )
 
+    val searchlist = mutableStateListOf<eventWithLive>()
+    var tg= mutableStateOf("")
+    var searchtext= mutableStateOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,6 +166,9 @@ class Events : Fragment() {
                         .verticalScroll(rememberScrollState())
                     /*.background(Color.Black)*/
             ) {
+                if(searchtext.value!=""){
+                 searchresultrow(heading = "SEARCH RESULTS")
+                }
 
                 Events_row(heading = "Critical Damage")
                 Events_row(heading = "Pronites")
@@ -212,6 +230,63 @@ class Events : Fragment() {
 
             Spacer(modifier = Modifier.height(24.dp))
         }
+    }
+
+    @Composable
+    fun searchresultrow(heading: String) {
+
+            Box(
+                modifier = Modifier.padding(
+                    horizontal = 20.dp,
+                    vertical = 12.dp
+                )
+            ) {
+                Text(
+                    text = heading,
+                    fontWeight = FontWeight.W600,
+                    fontSize = 16.sp,
+                    fontFamily = clash,
+                    color = Color.Black
+                )
+            }
+if (searchlist.isNotEmpty()) {
+    LazyRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(horizontal = 20.dp)
+    ) {
+        items(searchlist)
+        { dataEach ->
+            context?.let {
+                Event_card(
+                    eventdetail = dataEach,
+                    homeViewModel,
+                    it,
+                    this@Events,
+                    fgm,
+                    R.id.action_events_to_events_Details_Fragment2
+                )
+            }
+        }
+    }
+}
+        else{
+            Box(
+        modifier = Modifier.padding(
+        horizontal = 20.dp,
+                )
+            ) {
+                Text(
+                    text = "No results found for \"${searchtext.value}\"",
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = aileron
+                )
+            }
+}
+            Spacer(modifier = Modifier.height(24.dp))
+
     }
 
     @Composable
@@ -306,7 +381,7 @@ class Events : Fragment() {
 
 
 
-    @OptIn(ExperimentalMaterialApi::class)
+    @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
     @Composable
     fun MyContent(){
 
@@ -341,15 +416,57 @@ class Events : Fragment() {
             Box(
                 Modifier
                     .fillMaxSize()
-                    .padding(bottom = 184.dp)) {
+                    .padding(bottom = 184.dp), contentAlignment = Alignment.TopCenter) {
+
               mapview()
-            
+
+
+                Box( modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(horizontal = 15.dp, vertical = 20.dp) ) {
+                    val keyboardController = LocalSoftwareKeyboardController.current
+                   TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        shape = RoundedCornerShape(100.dp),
+                        placeholder = { Text("Search an event",) },
+                       leadingIcon = {Icon(Icons.Outlined.Search,"")},
+                        value = searchtext.value,
+                        textStyle = TextStyle(
+                        fontFamily = aileron,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 16.sp,),
+                        onValueChange = { v: String -> searchtext.value = v;filterlist() },
+                       keyboardOptions = KeyboardOptions(autoCorrect = false, imeAction = ImeAction.Search),
+                       keyboardActions = KeyboardActions(onSearch = {keyboardController?.hide();filterlist()}),
+                       singleLine = true,
+
+
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.White,
+                            textColor = Color.Black,
+                            placeholderColor = Color(0xffacacac),
+                            cursorColor = Color(0xffacacac),
+                            focusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent
+                        )
+                    )
+                }
         }
 
     }
 
 
     }
+    fun filterlist(){
+        searchlist.clear();
+        searchlist.addAll(homeViewModel.allEventsWithLive.filter { it.eventdetail.toString().contains(searchtext.value,true) })
+    }
+
     @Composable
     fun mapview() {
 
@@ -370,6 +487,7 @@ class Events : Fragment() {
             }
         }
     }
+
 
 
     override fun onResume() {
