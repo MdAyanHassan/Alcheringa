@@ -3,6 +3,8 @@ package com.alcheringa.alcheringa2022
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,6 +45,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
@@ -55,7 +58,10 @@ import com.alcheringa.alcheringa2022.Model.venue
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 
@@ -64,11 +70,13 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -82,8 +90,8 @@ class Events : Fragment() {
     var firebaseFirestore: FirebaseFirestore? = null
     var sharedPreferences: SharedPreferences? = null
     val venuelist= listOf<venue>(
-            venue("Auditorium"),
-            venue("Cricket Ground", LatLng(26.190761044728855, 91.69699071630549)),
+            venue("IITG Auditorium"),
+            venue("Pronites Ground", LatLng(26.190761044728855, 91.69699071630549)),
             venue("Alcheringa Wall", LatLng(26.191978820911885, 91.69572236815209))
 
         )
@@ -93,6 +101,10 @@ class Events : Fragment() {
     val searchlist = mutableStateListOf<eventWithLive>()
     var tg= mutableStateOf("")
     var searchtext= mutableStateOf("")
+
+    var cameraPositionState = CameraPositionState(
+        position = CameraPosition.fromLatLngZoom(venuelist[2].LatLng, 16f)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -492,7 +504,7 @@ if (searchlist.isNotEmpty()) {
                 var bordercolor=remember{ mutableStateOf(Color(0xffacacac)) }
 
                 if(tg.value==it){
-                    bgcolor.value=Color(0x88CDE9EE)
+                    bgcolor.value=Color(0xffCDE9EE)
                     bordercolor.value=Color(0xff7DC5D3)
 
                 }
@@ -504,21 +516,20 @@ if (searchlist.isNotEmpty()) {
 
 
                Card(
-                   Modifier.clickable {
-                       if(tg.value==it){
-                           tg.value="";
-                           bgcolor.value=Color.White
-                           bordercolor.value=Color(0xffacacac)
-                       }
-                       else
-                       {
-                           tg.value=it;
-                           bgcolor.value=Color(0x88CDE9EE)
-                           bordercolor.value=Color(0xff7DC5D3)
-                       }
+                   Modifier
+                       .clickable {
+                           if (tg.value == it) {
+                               tg.value = "";
+                               bgcolor.value = Color.White
+                               bordercolor.value = Color(0xffacacac)
+                           } else {
+                               tg.value = it;
+                               bgcolor.value = Color(0xffCDE9EE)
+                               bordercolor.value = Color(0xff7DC5D3)
+                           }
 
-                       filterlist()
-                   }
+                           filterlist()
+                       }
                        .wrapContentWidth()
                        .wrapContentHeight()
                        , border = BorderStroke(1.dp,bordercolor.value),
@@ -528,7 +539,8 @@ if (searchlist.isNotEmpty()) {
                 {
                     Box(modifier = Modifier
                         .wrapContentHeight()
-                        .wrapContentWidth().background(bgcolor.value), contentAlignment = Alignment.Center) {
+                        .wrapContentWidth()
+                        .background(bgcolor.value), contentAlignment = Alignment.Center) {
                         Text(modifier=Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                             text = it,
                             fontSize = 14.sp,
@@ -546,30 +558,65 @@ if (searchlist.isNotEmpty()) {
     fun filterlist(){
         searchlist.clear();
         searchlist.addAll(homeViewModel.allEventsWithLive.filter { it.eventdetail.toString().contains(searchtext.value,true) && it.eventdetail.toString().contains(tg.value.drop(3),true) })
+
+        //zooming map at the first event venue
+//        val firsteventvenue= venuelist.find { it.name==searchlist[0].eventdetail.venue }
+//        if(searchlist.isNotEmpty() && firsteventvenue!=null ){
+//            cameraPositionState.move(CameraUpdateFactory.newCameraPosition(CameraPosition(venuelist.random().LatLng, 16f,0f,0f)))
+//    }
     }
 
     @Composable
     fun mapview() {
+        val coroutinescope= rememberCoroutineScope()
+        coroutinescope.launch {
+        cameraPositionState.animate(CameraUpdateFactory.newCameraPosition(CameraPosition(venuelist.random().LatLng, 16f,0f,0f)))}
 
         val mainaudi = LatLng(26.191117262340942, 91.69295134231831)
-        val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(venuelist[2].LatLng, 16f)
-        }
+
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState
+            cameraPositionState = cameraPositionState,
         ) {
             venuelist.forEach {v->
                 Marker(
 
+                    icon = bitmapDescriptor(requireContext(),R.drawable.partylocationicon),
                     position = v.LatLng,
                     title = v.name,
-                    snippet = v.name
+                    snippet = v.des,
+//                    onClick = { searchtext.value=v.name;false}
+                onInfoWindowClick = {val gmmIntentUri =
+                    Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                    mapIntent.setPackage("com.google.android.apps.maps")
+                    startActivity(mapIntent)
+                }
                 )
             }
         }
     }
 
+
+    fun bitmapDescriptor(
+        context: Context,
+        vectorResId: Int
+    ): BitmapDescriptor? {
+
+        // retrieve the actual drawable
+        val drawable = ContextCompat.getDrawable(context, vectorResId) ?: return null
+        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+        val bm = Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+
+        // draw it onto the bitmap
+        val canvas = android.graphics.Canvas(bm)
+        drawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bm)
+    }
 
 
     override fun onResume() {
