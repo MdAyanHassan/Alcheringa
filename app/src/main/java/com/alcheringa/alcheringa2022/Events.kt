@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -47,6 +49,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.eventWithLive
+import com.alcheringa.alcheringa2022.Model.tagwithicon
 
 import com.alcheringa.alcheringa2022.Model.venue
 import com.alcheringa.alcheringa2022.Model.viewModelHome
@@ -84,6 +87,8 @@ class Events : Fragment() {
             venue("Alcheringa Wall", LatLng(26.191978820911885, 91.69572236815209))
 
         )
+    val taglist= listOf("💃  Dance","🎵  Music", "🎭  Stagecraft", "🕶  Vogue nation", "🙋‍  Class apart", "🎨  Art talkies", "📖  Literature","💻  Digital Dexterity", "🎥  Lights camera action","🌐  Informal")
+
 
     val searchlist = mutableStateListOf<eventWithLive>()
     var tg= mutableStateOf("")
@@ -166,7 +171,7 @@ class Events : Fragment() {
                         .verticalScroll(rememberScrollState())
                     /*.background(Color.Black)*/
             ) {
-                if(searchtext.value!=""){
+                if(searchtext.value!="" || tg.value!=""){
                  searchresultrow(heading = "SEARCH RESULTS")
                 }
 
@@ -277,7 +282,7 @@ if (searchlist.isNotEmpty()) {
                 )
             ) {
                 Text(
-                    text = "No results found for \"${searchtext.value}\"",
+                    text = "No results found for \"${searchtext.value} ${tg.value.drop(3)}\"",
                     color = Color.Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
@@ -421,16 +426,22 @@ if (searchlist.isNotEmpty()) {
               mapview()
 
 
-                Box( modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(horizontal = 15.dp, vertical = 20.dp) ) {
+               Column( modifier = Modifier
+                   .fillMaxWidth()
+                   .wrapContentHeight()
+                   .padding(vertical = 20.dp) ) {
                     val keyboardController = LocalSoftwareKeyboardController.current
+                   Box(modifier = Modifier
+                       .fillMaxWidth()
+                       .wrapContentHeight()
+                       .padding(horizontal = 15.dp,)){
                    TextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentHeight(),
-                        shape = RoundedCornerShape(100.dp),
+                            .wrapContentHeight()
+                            .clip(RoundedCornerShape(100.dp))
+                            .border(1.dp, Color(0xffacacac), RoundedCornerShape(100.dp)),
+//                        shape = RoundedCornerShape(100.dp),
                         placeholder = { Text("Search an event",) },
                        leadingIcon = {Icon(Icons.Outlined.Search,"")},
                         value = searchtext.value,
@@ -455,16 +466,86 @@ if (searchlist.isNotEmpty()) {
                             errorIndicatorColor = Color.Transparent
                         )
                     )
+                   }
+                   Spacer(modifier = Modifier.height(8.dp))
+                   tags()
+
                 }
+
         }
 
     }
 
 
     }
+    @Composable
+    fun tags(){
+
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState())
+            .wrapContentHeight()
+            , horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            Spacer(modifier = Modifier.width(15.dp))
+            taglist.forEach {
+                var bgcolor=remember{ mutableStateOf(Color.White) }
+                var bordercolor=remember{ mutableStateOf(Color(0xffacacac)) }
+
+                if(tg.value==it){
+                    bgcolor.value=Color(0x88CDE9EE)
+                    bordercolor.value=Color(0xff7DC5D3)
+
+                }
+                else
+                {
+                    bgcolor.value=Color.White
+                    bordercolor.value=Color(0xffacacac)
+                }
+
+
+               Card(
+                   Modifier.clickable {
+                       if(tg.value==it){
+                           tg.value="";
+                           bgcolor.value=Color.White
+                           bordercolor.value=Color(0xffacacac)
+                       }
+                       else
+                       {
+                           tg.value=it;
+                           bgcolor.value=Color(0x88CDE9EE)
+                           bordercolor.value=Color(0xff7DC5D3)
+                       }
+
+                       filterlist()
+                   }
+                       .wrapContentWidth()
+                       .wrapContentHeight()
+                       , border = BorderStroke(1.dp,bordercolor.value),
+                    shape = RoundedCornerShape(45.dp),
+                    backgroundColor = Color.White,
+                )
+                {
+                    Box(modifier = Modifier
+                        .wrapContentHeight()
+                        .wrapContentWidth().background(bgcolor.value), contentAlignment = Alignment.Center) {
+                        Text(modifier=Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                            text = it,
+                            fontSize = 14.sp,
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.Black
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.width(15.dp))
+        }
+        
+    }
     fun filterlist(){
         searchlist.clear();
-        searchlist.addAll(homeViewModel.allEventsWithLive.filter { it.eventdetail.toString().contains(searchtext.value,true) })
+        searchlist.addAll(homeViewModel.allEventsWithLive.filter { it.eventdetail.toString().contains(searchtext.value,true) && it.eventdetail.toString().contains(tg.value.drop(3),true) })
     }
 
     @Composable
@@ -480,6 +561,7 @@ if (searchlist.isNotEmpty()) {
         ) {
             venuelist.forEach {v->
                 Marker(
+
                     position = v.LatLng,
                     title = v.name,
                     snippet = v.name
