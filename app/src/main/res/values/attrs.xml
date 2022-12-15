@@ -5,4 +5,12 @@
         <attr name="count" format="integer" />
         <attr name="timeout" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="ShadowIndicatorBottomNavigationView">
+        <attr name="indicatorHeaderHeight" format="dimension|reference"/>
+        <attr name="indicatorHeaderColor" format="reference|color"/>
+        <attr name="indicatorShadowColor" format="reference|color"/>
+        <attr name="indicatorShadowVisible" format="boolean"/>
+    </declare-styleable>
 </resources>
+
