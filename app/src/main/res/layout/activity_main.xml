@@ -29,22 +29,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/my_nav" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.alcheringa.alcheringa2022.ShadowIndicatorBottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="68dp"
+        android:layout_height="72dp"
         android:background="#00010D"
-        android:padding="4dp"
+
         android:theme="@style/bottomNavigationView"
         app:itemBackground="@android:color/transparent"
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
         app:itemRippleColor="@android:color/transparent"
-        app:itemTextColor="@color/navigation_item_color"
-        app:labelVisibilityMode="labeled"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
+        app:menu="@menu/bottom_menu"
+        app:indicatorHeaderHeight="8dp"
+        app:indicatorHeaderColor="@color/navcolor"
+        app:indicatorShadowColor="@color/navcolor"
+        app:indicatorShadowVisible="true"
+        />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
