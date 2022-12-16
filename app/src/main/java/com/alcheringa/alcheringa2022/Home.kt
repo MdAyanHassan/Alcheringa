@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 
 import android.os.Bundle
 import android.util.Log
@@ -26,8 +27,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
@@ -59,6 +62,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
@@ -112,9 +116,13 @@ class Home : Fragment() {
     var onActiveDel= mutableStateOf(false)
     var isdragging=mutableStateOf(false)
     var home=false;
+    public val artistLive = MutableLiveData<String>()
 
     var firebaseFirestore: FirebaseFirestore? = null
     var sharedPreferences: SharedPreferences? = null
+
+    lateinit var eventfordes: eventWithLive
+    lateinit var similarlist:MutableList<eventWithLive>
 
 //    val events=mutableListOf(
 
@@ -249,244 +257,9 @@ class Home : Fragment() {
                 NotificationActivity::class.java));
         }
         binding.compose1.setContent {
-                Alcheringa2022Theme {
-                val scrollState= rememberScrollState()
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .verticalScroll(scrollState),
-                ) {
-//                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
-//                            binding.logoAlcher.layoutParams.width=with(LocalDensity.current){162.dp.toPx().toInt()}
-//                        binding.logoAlcher.layoutParams.height=with(LocalDensity.current){50.dp.toPx().toInt()}
-//                    }
-//                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_small_logo));
-//                        binding.logoAlcher.layoutParams.width= ViewGroup.LayoutParams.WRAP_CONTENT
-//                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
-//                    }
-
-                    horizontalScroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
-
-                    if (homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }
-                            .isNotEmpty()) {
-                        Text(
-                            modifier = Modifier.padding(
-                                start = 20.dp,
-                                bottom = 24.dp,
-                                top = 36.dp
-                            ),
-                            text = "Upcoming Events",
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.Bold,
-                            color = colors.onBackground,
-                            fontSize = 21.sp
-                        )
-                    }
-                    Box(
-                            modifier = Modifier
-                                    .fillMaxWidth()
-
-                    ) {
-                        LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                        ) {
-                            items(homeViewModel.allEventsWithLive.filter { data-> data.isLive.value }) { dataeach -> context?.let {
-                                Event_card(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_events_Details_Fragment) } }
-                        }
-
-                    }
-                    //TODO: Replace with actual check
-//                    if(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.isNotEmpty()) {
-                    if(true) {
-                        Text(
-                            modifier = Modifier.padding(
-                                start = 20.dp,
-                                bottom = 24.dp,
-                                top = 36.dp
-                            ),
-                            text = "Upcoming Events",
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.Bold,
-                            color = colors.onBackground,
-                            fontSize = 21.sp
-                        )
-                    }
-                    Box(modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        //TODO: Replace with sorted list
-                        val list=homeViewModel.allEventsWithLive.filter { data-> !(data.isLive.value) }.sortedBy { data->  (data.eventdetail.starttime.date*24*60 + ((data.eventdetail.starttime.hours*60)).toFloat() + (data.eventdetail.starttime.min.toFloat()))}
-                        LazyRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            contentPadding = PaddingValues(horizontal = 20.dp)
-                        ) {
-                            items(list)
-                            { dataEach ->
-                                context?.let {
-                                    Event_card(
-                                        eventdetail = dataEach,
-                                        homeViewModel,
-                                        it,
-                                        this@Home,
-                                        fm,
-                                        R.id.action_events_to_events_Details_Fragment2
-                                    )
-                                }
-                            }
-                        }
-//                        LazyRow(
-//                                modifier = Modifier.fillMaxWidth(),
-//                                horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-//                        ) {
-//                            items(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.sortedBy { data->  (data.eventdetail.starttime.date*24*60 + ((data.eventdetail.starttime.hours*60)).toFloat() + (data.eventdetail.starttime.min.toFloat()))
-//                            }) { dataeach -> context?.let { Event_card_upcoming(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_events_Details_Fragment) } }
-//                        }
-                    }
-
-                    Text(
-                        modifier = Modifier.padding(
-                            start = 20.dp,
-                            bottom = 24.dp,
-                            top = 36.dp
-                        ),
-                        text = "Limited Time Merch",
-                        fontFamily = aileron,
-                        fontWeight = FontWeight.Bold,
-                        color = colors.onBackground,
-                        fontSize = 21.sp
-                    )
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
-                                R.id.merch;
-                        }
-
-                    ) {
-                        val drbls= listOf(R.drawable.merch_bg_1,R.drawable.merch_bg_2,R.drawable.merch_bg_3)
-                        merchBox(merch = homeViewModel.merchhome
-                            .filter { it.Available }
-                                            ,drbls)
-                    }
-//                    Row(
-//                        Modifier
-//                            .fillMaxWidth()
-//                            .wrapContentHeight()
-//                            .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-//                        Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
-//                        Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
-//                            ,modifier = Modifier.clickable {
-//
-////                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
-////                                    R.id.schedule;
-//                            findNavController(this@Home).navigate(R.id.action_home2_to_schedule2);
-//
-////                            fm.beginTransaction()
-////                                .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
-////                                .commit()
-////                            })
-//                            })
-//                    }
-//                    Spacer(modifier = Modifier.height(20.dp))
-//                    mySchedule()
-//                    Spacer(modifier = Modifier.height(20.dp))
-//                    Text(modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(horizontal = 10.dp), text = "Hold and Drag to remove events", fontFamily = hk_grotesk, fontWeight = FontWeight.Bold, color = Color(0xffffffff), fontSize = 16.sp, textAlign = TextAlign.Center)
-                    Text(
-                        modifier = Modifier.padding(
-                            start = 20.dp,
-                            bottom = 24.dp,
-                            top = 36.dp
-                        ),
-                        text = "For You",
-                        fontFamily = aileron,
-                        fontWeight = FontWeight.Bold,
-                        color = colors.onBackground,
-                        fontSize = 21.sp
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-
-                    ) {
-                        LazyRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                        ) {
-                            val scheduleList = ScheduleDatabase(requireContext()).schedule;
-                            val crnttime = mutableStateOf(OwnTime())
-                            val c = Calendar.getInstance()
-                            var dt = 0
-                            if (c.get(Calendar.MONTH) == Calendar.FEBRUARY) {
-                                dt = c.get(Calendar.DATE) - 28
-                            } else {
-                                dt = c.get(Calendar.DATE)
-                            }
-                            crnttime.value =
-                                OwnTime(date = dt, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE))
-                            val eventdetails = mutableStateListOf<eventWithLive>()
-                            for(event in scheduleList){
-                                val eventdetail = eventWithLive(event, mutableStateOf(true))
-                                eventdetail.isLive.value = (c.get(Calendar.YEAR) == 2022) and
-                                        (c.get(Calendar.MONTH) == Calendar.MARCH) and
-                                        (c.get(Calendar.DATE) == eventdetail.eventdetail.starttime.date) and
-                                        (((eventdetail.eventdetail.starttime.hours * 60)..(eventdetail.eventdetail.starttime.hours * 60 + eventdetail.eventdetail.durationInMin))
-                                            .contains((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE)))
-                                eventdetails.add(eventdetail)
-                            }
-
-
-
-
-                            items(eventdetails.sortedBy { data->  (data.eventdetail.starttime.date*24*60 + ((data.eventdetail.starttime.hours*60)).toFloat() + (data.eventdetail.starttime.min.toFloat()))}) { dataeach -> context?.let {
-                                Schedule_card(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_schedule2) } }
-                        }
-
-                    }
-
-
-
-                    Text(
-                        modifier = Modifier.padding(
-                            start = 20.dp,
-                            bottom = 24.dp,
-                            top = 36.dp
-                        ),
-                        text = "For You",
-                        fontFamily = aileron,
-                        fontWeight = FontWeight.Bold,
-                        color = colors.onBackground,
-                        fontSize = 21.sp
-                    )
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                    ) {
-
-                        LazyRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                        ) {
-                            items(homeViewModel.allEventsWithLive.toList().shuffled().take(7)) {
-                                    dataeach ->
-                                context?.let {
-                                    /*if(dataeach.eventdetail.stream){
-                                        Event_card(eventdetail = dataeach,homeViewModel, it,fm)
-                                    }*/
-                                    Event_card(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_events_Details_Fragment)
-                                } }
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                }
-            }
+            MyContent();
         }
+
     }
 
 
@@ -1470,6 +1243,1100 @@ class Home : Fragment() {
 
     }
 
+    @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+    @Composable
+    fun MyContent() {
+        var artist : String by rememberSaveable{ mutableStateOf("") }
+
+        // Declaring a Boolean value to
+        // store bottom sheet collapsed state
+        val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+            bottomSheetState =
+            BottomSheetState(BottomSheetValue.Collapsed)
+        )
+
+        // Declaring Coroutine scope
+        val coroutineScope = rememberCoroutineScope()
+
+        // Creating a Bottom Sheet
+        Alcheringa2022Theme {
+            BottomSheetScaffold(
+                scaffoldState = bottomSheetScaffoldState,
+                sheetContent = {
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .border(4.dp, colors.secondary, RoundedCornerShape(40.dp, 40.dp))
+                ) {
+                    Box(
+                        Modifier
+                            .wrapContentHeight()
+                            .fillMaxWidth()
+                            .padding(top = 8.dp, bottom = 8.dp),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        Icon(
+                            painterResource(id = R.drawable.rectangle_expand), "",
+                            Modifier
+                                .width(60.dp)
+                                .height(5.dp), tint = Color(0xffacacac)
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                            eventfordes =
+                                homeViewModel.allEventsWithLive.filter { data -> data.eventdetail.artist == artist }[0]
+                            scheduleDatabase = ScheduleDatabase(context)
+
+                            Defaultimg(eventWithLive = eventfordes)
+                            if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
+                                    .uppercase() == "Competitions".uppercase()
+                            ) {
+                                Bottomviewcomp(eventWithLive = eventfordes)
+                            } else {
+                                Bottomviewnewevent(eventWithLive = eventfordes)
+                            }
+                            Spacer(modifier = Modifier.height(0.dp))
+                        }
+                    }
+                }
+
+
+
+
+
+
+                },
+                sheetPeekHeight = 0.dp, sheetShape = RoundedCornerShape(40.dp, 40.dp)
+
+            ) {
+                Alcheringa2022Theme {
+                    val scrollState = rememberScrollState()
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .verticalScroll(scrollState),
+                    ) {
+                        //                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
+                        //                            binding.logoAlcher.layoutParams.width=with(LocalDensity.current){162.dp.toPx().toInt()}
+                        //                        binding.logoAlcher.layoutParams.height=with(LocalDensity.current){50.dp.toPx().toInt()}
+                        //                    }
+                        //                    else{binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_small_logo));
+                        //                        binding.logoAlcher.layoutParams.width= ViewGroup.LayoutParams.WRAP_CONTENT
+                        //                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
+                        //                    }
+
+                        horizontalScroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
+
+                        if (homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }
+                                .isNotEmpty()) {
+                            Text(
+                                modifier = Modifier.padding(
+                                    start = 20.dp,
+                                    bottom = 24.dp,
+                                    top = 36.dp
+                                ),
+                                text = "Upcoming Events",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.Bold,
+                                color = colors.onBackground,
+                                fontSize = 21.sp
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+
+                        ) {
+                            LazyRow(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                contentPadding = PaddingValues(horizontal = 20.dp)
+                            ) {
+                                items(homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }) { dataeach ->
+                                    context?.let {
+                                        Event_card_Scaffold(
+                                            eventdetail = dataeach,
+                                            homeViewModel,
+                                            it,
+                                            artist
+                                        ) {
+                                            artist = dataeach.eventdetail.artist
+                                            coroutineScope.launch {
+                                                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                    bottomSheetScaffoldState.bottomSheetState.expand()
+                                                } else {
+                                                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        //TODO: Replace with actual check
+                        //                    if(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.isNotEmpty()) {
+                        if (true) {
+                            Text(
+                                modifier = Modifier.padding(
+                                    start = 20.dp,
+                                    bottom = 24.dp,
+                                    top = 36.dp
+                                ),
+                                text = "Upcoming Events",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.Bold,
+                                color = colors.onBackground,
+                                fontSize = 21.sp
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            //TODO: Replace with sorted list
+                            val list =
+                                homeViewModel.allEventsWithLive.filter { data -> !(data.isLive.value) }
+                                    .sortedBy { data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }
+                            LazyRow(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                contentPadding = PaddingValues(horizontal = 20.dp)
+                            ) {
+                                items(list)
+                                { dataEach ->
+                                    context?.let {
+                                        Event_card_Scaffold(
+                                            eventdetail = dataEach,
+                                            homeViewModel,
+                                            it,
+                                            artist
+                                        ) {
+                                            artist = dataEach.eventdetail.artist
+                                            coroutineScope.launch {
+                                                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                    bottomSheetScaffoldState.bottomSheetState.expand()
+                                                } else {
+                                                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            //                        LazyRow(
+                            //                                modifier = Modifier.fillMaxWidth(),
+                            //                                horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
+                            //                        ) {
+                            //                            items(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.sortedBy { data->  (data.eventdetail.starttime.date*24*60 + ((data.eventdetail.starttime.hours*60)).toFloat() + (data.eventdetail.starttime.min.toFloat()))
+                            //                            }) { dataeach -> context?.let { Event_card_upcoming(eventdetail = dataeach,homeViewModel, it,this@Home,fm,R.id.action_home2_to_events_Details_Fragment) } }
+                            //                        }
+                        }
+
+                        Text(
+                            modifier = Modifier.padding(
+                                start = 20.dp,
+                                bottom = 24.dp,
+                                top = 36.dp
+                            ),
+                            text = "Limited Time Merch",
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            color = colors.onBackground,
+                            fontSize = 21.sp
+                        )
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
+                                    R.id.merch;
+                            }
+
+                        ) {
+                            val drbls = listOf(
+                                R.drawable.merch_bg_1,
+                                R.drawable.merch_bg_2,
+                                R.drawable.merch_bg_3
+                            )
+                            merchBox(merch = homeViewModel.merchhome
+                                .filter { it.Available }, drbls
+                            )
+                        }
+                        //                    Row(
+                        //                        Modifier
+                        //                            .fillMaxWidth()
+                        //                            .wrapContentHeight()
+                        //                            .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                        //                        Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
+                        //                        Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
+                        //                            ,modifier = Modifier.clickable {
+                        //
+                        ////                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
+                        ////                                    R.id.schedule;
+                        //                            findNavController(this@Home).navigate(R.id.action_home2_to_schedule2);
+                        //
+                        ////                            fm.beginTransaction()
+                        ////                                .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
+                        ////                                .commit()
+                        ////                            })
+                        //                            })
+                        //                    }
+                        //                    Spacer(modifier = Modifier.height(20.dp))
+                        //                    mySchedule()
+                        //                    Spacer(modifier = Modifier.height(20.dp))
+                        //                    Text(modifier = Modifier
+                        //                        .fillMaxWidth()
+                        //                        .padding(horizontal = 10.dp), text = "Hold and Drag to remove events", fontFamily = hk_grotesk, fontWeight = FontWeight.Bold, color = Color(0xffffffff), fontSize = 16.sp, textAlign = TextAlign.Center)
+                        Text(
+                            modifier = Modifier.padding(
+                                start = 20.dp,
+                                bottom = 24.dp,
+                                top = 36.dp
+                            ),
+                            text = "For You",
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            color = colors.onBackground,
+                            fontSize = 21.sp
+                        )
+
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+
+                        ) {
+                            LazyRow(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                contentPadding = PaddingValues(horizontal = 20.dp)
+                            ) {
+                                val scheduleList = ScheduleDatabase(requireContext()).schedule;
+                                val crnttime = mutableStateOf(OwnTime())
+                                val c = Calendar.getInstance()
+                                var dt = 0
+                                if (c.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                                    dt = c.get(Calendar.DATE) - 28
+                                } else {
+                                    dt = c.get(Calendar.DATE)
+                                }
+                                crnttime.value =
+                                    OwnTime(
+                                        date = dt,
+                                        c.get(Calendar.HOUR_OF_DAY),
+                                        c.get(Calendar.MINUTE)
+                                    )
+                                val eventdetails = mutableStateListOf<eventWithLive>()
+                                for (event in scheduleList) {
+                                    val eventdetail = eventWithLive(event, mutableStateOf(true))
+                                    eventdetail.isLive.value = (c.get(Calendar.YEAR) == 2022) and
+                                            (c.get(Calendar.MONTH) == Calendar.MARCH) and
+                                            (c.get(Calendar.DATE) == eventdetail.eventdetail.starttime.date) and
+                                            (((eventdetail.eventdetail.starttime.hours * 60)..(eventdetail.eventdetail.starttime.hours * 60 + eventdetail.eventdetail.durationInMin))
+                                                .contains(
+                                                    (c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(
+                                                        Calendar.MINUTE
+                                                    )
+                                                ))
+                                    eventdetails.add(eventdetail)
+                                }
+
+
+
+
+                                items(eventdetails.sortedBy { data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }) { dataeach ->
+                                    context?.let {
+                                        Schedule_card(
+                                            eventdetail = dataeach,
+                                            homeViewModel,
+                                            it,
+                                            this@Home,
+                                            fm,
+                                            R.id.action_home2_to_schedule2
+                                        )
+                                    }
+                                }
+                            }
+
+                        }
+
+
+
+                        Text(
+                            modifier = Modifier.padding(
+                                start = 20.dp,
+                                bottom = 24.dp,
+                                top = 36.dp
+                            ),
+                            text = "For You",
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            color = colors.onBackground,
+                            fontSize = 21.sp
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+
+                            LazyRow(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                contentPadding = PaddingValues(horizontal = 20.dp)
+                            ) {
+                                items(
+                                    homeViewModel.allEventsWithLive.toList().shuffled().take(7)
+                                ) { dataeach ->
+                                    context?.let {
+                                        /*if(dataeach.eventdetail.stream){
+                                            Event_card(eventdetail = dataeach,homeViewModel, it,fm)
+                                        }*/
+                                        Event_card_Scaffold(
+                                            eventdetail = dataeach,
+                                            homeViewModel,
+                                            it,
+                                            artist
+                                        ) {
+                                            artist = dataeach.eventdetail.artist
+                                            coroutineScope.launch {
+                                                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                    bottomSheetScaffoldState.bottomSheetState.expand()
+                                                } else {
+                                                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun Defaultimg(eventWithLive: eventWithLive) {
+
+        Box(
+            modifier = Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)
+        ) {
+            Column {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(284.dp),
+                    shape = RoundedCornerShape(28.dp),
+                    border = BorderStroke(2.dp, colors.secondary)
+                ) {
+                    GlideImage(
+                        imageModel = eventWithLive.eventdetail.imgurl,
+                        contentDescription = "artist",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(284.dp),
+                        //                circularReveal = CircularReveal(300),
+
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop,
+                        shimmerParams = ShimmerParams(
+                            baseColor = Color.Black,
+                            highlightColor = orangeText,
+                            durationMillis = 350,
+                            dropOff = 0.65f,
+                            tilt = 20f
+                        ), failure = {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(), contentAlignment = Alignment.Center
+                            ) {
+                                val composition by rememberLottieComposition(
+                                    LottieCompositionSpec.RawRes(
+                                        R.raw.comingsoon
+                                    )
+                                )
+                                val progress by animateLottieCompositionAsState(
+                                    composition,
+                                    iterations = LottieConstants.IterateForever
+                                )
+                                LottieAnimation(
+                                    composition,
+                                    progress,
+                                    modifier = Modifier.fillMaxHeight()
+                                )
+                                //                            Column(
+                                //                                Modifier
+                                //                                    .fillMaxWidth()
+                                //                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                //                                Image(
+                                //                                    modifier = Modifier
+                                //                                        .width(60.dp)
+                                //                                        .height(60.dp),
+                                //                                    painter = painterResource(
+                                //                                        id = R.drawable.ic_sad_svgrepo_com
+                                //                                    ),
+                                //                                    contentDescription = null
+                                //                                )
+                                //                                Spacer(modifier = Modifier.height(10.dp))
+                                //                                Text(
+                                //                                    text = "Image Request Failed",
+                                //                                    style = TextStyle(
+                                //                                        color = Color(0xFF747474),
+                                //                                        fontFamily = hk_grotesk,
+                                //                                        fontWeight = FontWeight.Normal,
+                                //                                        fontSize = 12.sp
+                                //                                    )
+                                //                                )
+                                //                            }
+                            }
+
+                        }
+
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                    ) {
+                        Row {
+                            Text(
+                                text = eventWithLive.eventdetail.artist.uppercase(),
+                                color = colors.onBackground,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 28.sp,
+                                fontFamily = star_guard
+                            )
+                            if (eventWithLive.isLive.value) {
+                                Box(
+                                    modifier = Modifier
+                                        .width(68.dp)
+                                        .height(21.dp)
+                                        .clip(RoundedCornerShape(4.dp))
+                                        .background(liveGreen),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = "⬤ LIVE ",
+                                        color = white,
+                                        fontFamily = hk_grotesk, fontWeight = FontWeight.W500,
+                                        fontSize = 12.sp
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = eventWithLive.eventdetail.category,
+                            style = TextStyle(
+                                color = colors.onBackground,
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 16.sp
+                            )
+                        )
+                        Spacer(modifier = Modifier.height(11.dp))
+
+
+
+                    }
+
+                }
+            }
+
+
+        }
+    }
+
+
+
+
+    @Composable
+    fun Bottomviewcomp(eventWithLive:eventWithLive){
+        var isadded=remember{ mutableStateOf(false)}
+        LaunchedEffect(key1=Unit,block = {
+            isadded.value=homeViewModel.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
+
+        })
+
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)) {
+            Spacer(modifier = Modifier.height(30.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween)
+            {
+                Row(Modifier.wrapContentSize()) {
+
+
+                    Image(
+                        painter = if (eventWithLive.eventdetail.mode.uppercase().contains("ONLINE")) {
+                            painterResource(id = R.drawable.online)
+                        } else {
+                            painterResource(id = R.drawable.onground)
+                        },
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(16.dp)
+                            .height(16.dp),
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop
+
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = eventWithLive.eventdetail.mode.uppercase(),
+                        style = TextStyle(
+                            color = colorResource(id = R.color.textGray),
+                            fontFamily = hk_grotesk,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 14.sp
+                        )
+                    )
+                }
+
+                if (eventWithLive.eventdetail.stream) {
+                    Box(modifier = Modifier
+                        .wrapContentSize()
+                    ){
+
+
+                        if( !isadded.value) {
+
+                            Image( modifier = Modifier
+                                .width(18.dp)
+                                .height(18.dp)
+                                .clickable {
+                                    isadded.value = true
+                                    homeViewModel.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
+                                    scheduleDatabase.addEventsInSchedule(
+                                        eventWithLive.eventdetail,
+                                        context
+                                    )
+                                },
+                                painter = painterResource(id = R.drawable.add_icon),
+                                contentDescription ="null")
+                        }
+                        if(isadded.value)
+                        {
+                            Image( modifier = Modifier
+                                .width(20.dp)
+                                .height(20.dp)
+                                .clickable {
+                                    isadded.value = false
+                                    homeViewModel.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
+                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "Event removed from My Schedule",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
+                                },
+                                painter = painterResource(id = R.drawable.tickokay),
+                                contentDescription ="null", contentScale = ContentScale.FillBounds)
+                        }
+                    }
+                }
+            }
+            if (eventWithLive.eventdetail.stream) {
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(), Arrangement.Start)
+                {
+                    Image(
+                        painter = painterResource(id = R.drawable.schedule),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(20.dp)
+                            .height(20.dp),
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop)
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
+                        style = TextStyle(
+                            color = colorResource(id = R.color.textGray),
+                            fontFamily = clash,
+                            fontWeight = FontWeight.W500,
+                            fontSize = 20.sp
+                        )
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(text =eventfordes.eventdetail.descriptionEvent ,
+                fontFamily = hk_grotesk,
+                fontWeight = FontWeight.W600,
+                color = Color(0xffC7CCD1),
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(36.dp))
+            if (eventWithLive.isLive.value) {
+                Button(
+                    onClick = {
+                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
+                    },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        orangeText
+                    )
+                ) {
+                    Text(
+                        text = "Join Event",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = clash,
+                        color = Color.White
+                    )
+
+                }
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+            else if (!eventWithLive.isLive.value && eventWithLive.eventdetail.stream){
+                Button(
+                    onClick = {},
+                    Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        Color(0xff4A4949)
+                    )
+                ) { val c=Calendar.getInstance()
+                    if( (c.get(Calendar.YEAR)>2022) or
+                        ((c.get(Calendar.YEAR)==2022) and
+                                (c.get(Calendar.MONTH)> Calendar.MARCH)) or
+                        ((c.get(Calendar.YEAR)==2022) and
+                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                                (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
+                        ((c.get(Calendar.YEAR)==2022) and
+                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                                (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
+                                ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
+                                        <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+
+                    ){ Text(text="Event Finished!",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = clash,
+                        color = Color(0xffA3A7AC)
+                    )}
+                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
+                        Text(
+                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W600,
+                            fontFamily = clash,
+                            color = Color(0xffA3A7AC)
+                        )
+                    }
+                    else{
+                        Text(
+                            text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W600,
+                            fontFamily = clash,
+                            color = Color(0xffA3A7AC)
+                        )
+
+                    }
+                }
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
+//            if (isadded.value) {
+//                Button(
+//                    onClick = {
+//                        isadded.value= false
+//                        viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
+//                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+//                    },
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(55.dp),
+//                    shape = RoundedCornerShape(18.dp),
+//                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
+//                ) {
+//                    Text(
+//                        text = "Remove from My Schedule",
+//                        fontSize = 16.sp,
+//                        fontWeight = FontWeight.W600,
+//                        fontFamily = clash,
+//                        color = Color.White
+//                    )
+//                }
+//            }
+//            if (!isadded.value){
+//                Button(
+//                    onClick = { isadded.value= true
+//                        viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
+//                        scheduleDatabase.addEventsInSchedule(
+//                            eventWithLive.eventdetail,
+//                            context
+//                        )
+//                    },
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(55.dp),
+//                    shape = RoundedCornerShape(18.dp),
+//                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
+//                ) {
+//                    Text(
+//                        text = "Add to My Schedule",
+//                        fontSize = 18.sp,
+//                        fontWeight = FontWeight.W600,
+//                        fontFamily = clash,
+//                        color = Color.White
+//                    )
+//                }
+//            }
+
+            if(eventWithLive.eventdetail.reglink!= "") {
+
+                Button(
+                    onClick = {
+                        startActivity(
+                            Intent(Intent.ACTION_VIEW).setData(
+                                Uri.parse(
+                                    eventWithLive.eventdetail.reglink
+                                )
+                            )
+                        )
+                    },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
+                ) {
+                    Text(
+                        text = "Register",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = clash,
+                        color = Color.White
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+
+
+
+
+
+
+
+
+
+        }
+    }
+
+
+    @Composable
+    fun Bottomviewnewevent(eventWithLive:eventWithLive){
+        var isadded=remember{ mutableStateOf(false)}
+        LaunchedEffect(key1=Unit,block = {
+            isadded.value=homeViewModel.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
+
+        })
+
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)) {
+            Spacer(modifier = Modifier.height(30.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween)
+            {
+                Row(Modifier.wrapContentSize()) {
+
+
+                    Image(
+                        painter = if (eventWithLive.eventdetail.mode.uppercase().contains("ONLINE")) {
+                            painterResource(id = R.drawable.online)
+                        } else {
+                            painterResource(id = R.drawable.onground)
+                        },
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(16.dp)
+                            .height(16.dp),
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop
+
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = eventWithLive.eventdetail.mode.uppercase(),
+                        style = TextStyle(
+                            color = colorResource(id = R.color.textGray),
+                            fontFamily = hk_grotesk,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 14.sp
+                        )
+                    )
+                }
+
+                if (eventWithLive.eventdetail.stream) {
+                    Box(modifier = Modifier
+                        .wrapContentSize()
+                    ){
+
+
+                        if( !isadded.value) {
+
+                            Image( modifier = Modifier
+                                .width(18.dp)
+                                .height(18.dp)
+                                .clickable {
+                                    isadded.value = true
+                                    homeViewModel.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
+                                    scheduleDatabase.addEventsInSchedule(
+                                        eventWithLive.eventdetail,
+                                        context
+                                    )
+                                },
+                                painter = painterResource(id = R.drawable.add_icon),
+                                contentDescription ="null")
+                        }
+                        if(isadded.value)
+                        {
+                            Image( modifier = Modifier
+                                .width(20.dp)
+                                .height(20.dp)
+                                .clickable {
+                                    isadded.value = false
+                                    homeViewModel.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
+                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "Event removed from My Schedule",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
+                                },
+                                painter = painterResource(id = R.drawable.tickokay),
+                                contentDescription ="null", contentScale = ContentScale.FillBounds)
+                        }
+                    }
+                }
+            }
+            if (eventWithLive.eventdetail.stream) {
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(), Arrangement.Start)
+                {
+                    Image(
+                        painter = painterResource(id = R.drawable.schedule),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(20.dp)
+                            .height(20.dp),
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop)
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
+                        style = TextStyle(
+                            color = colorResource(id = R.color.textGray),
+                            fontFamily = clash,
+                            fontWeight = FontWeight.W500,
+                            fontSize = 20.sp
+                        )
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(text =eventfordes.eventdetail.descriptionEvent ,
+                fontFamily = hk_grotesk,
+                fontWeight = FontWeight.W600,
+                color = Color(0xffC7CCD1),
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(36.dp))
+            if (eventWithLive.isLive.value) {
+                Button(
+                    onClick = {
+                        if(eventWithLive.eventdetail.joinlink!=""){
+                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
+
+                        }
+
+                    },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        orangeText
+                    )
+                ) {
+                    Text(
+                        text = if(eventWithLive.eventdetail.joinlink=="")  "Running Offline" else "Join Event",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = clash,
+                        color = Color.White
+                    )
+
+                }
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+            else if (!eventWithLive.isLive.value && eventWithLive.eventdetail.stream){
+                Button(
+                    onClick = {},
+                    Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    shape = RoundedCornerShape(18.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        Color(0xff4A4949)
+                    )
+                ) { val c=Calendar.getInstance()
+                    if( (c.get(Calendar.YEAR)>2022) or
+                        ((c.get(Calendar.YEAR)==2022) and
+                                (c.get(Calendar.MONTH)> Calendar.MARCH)) or
+                        ((c.get(Calendar.YEAR)==2022) and
+                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                                (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
+                        ((c.get(Calendar.YEAR)==2022) and
+                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                                (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
+                                ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
+                                        <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+
+                    ){ Text(text="Event Finished!",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = clash,
+                        color = Color(0xffA3A7AC)
+                    )}
+                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
+                        Text(
+                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W600,
+                            fontFamily = clash,
+                            color = Color(0xffA3A7AC)
+                        )
+                    }
+                    else{
+                        Text(
+                            text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W600,
+                            fontFamily = clash,
+                            color = Color(0xffA3A7AC)
+                        )
+
+                    }
+                }
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
+//            if (isadded.value) {
+//                Button(
+//                    onClick = {
+//                        isadded.value= false
+//                        viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
+//                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+//                    },
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(55.dp),
+//                    shape = RoundedCornerShape(18.dp),
+//                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
+//                ) {
+//                    Text(
+//                        text = "Remove from My Schedule",
+//                        fontSize = 16.sp,
+//                        fontWeight = FontWeight.W600,
+//                        fontFamily = clash,
+//                        color = Color.White
+//                    )
+//                }
+//            }
+//            if (!isadded.value){
+//                Button(
+//                    onClick = { isadded.value= true
+//                        viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
+//                        scheduleDatabase.addEventsInSchedule(
+//                            eventWithLive.eventdetail,
+//                            context
+//                        )
+//                    },
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(55.dp),
+//                    shape = RoundedCornerShape(18.dp),
+//                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
+//                ) {
+//                    Text(
+//                        text = "Add to My Schedule",
+//                        fontSize = 18.sp,
+//                        fontWeight = FontWeight.W600,
+//                        fontFamily = clash,
+//                        color = Color.White
+//                    )
+//                }
+//            }
+
+//            Button(
+//                onClick =   { startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))}
+//                ,
+//                Modifier
+//                    .fillMaxWidth()
+//                    .height(55.dp),
+//                shape = RoundedCornerShape(18.dp),
+//                colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
+//            ) {
+//                Text(
+//                    text = "Register",
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.W600,
+//                    fontFamily = clash,
+//                    color = Color.White
+//                )
+//            }
+            Spacer(modifier = Modifier.height(24.dp))
+
+
+
+
+
+
+
+
+
+        }
+    }
 
     @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
     @Composable
