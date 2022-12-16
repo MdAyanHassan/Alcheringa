@@ -273,7 +273,9 @@ class Home : Fragment() {
 //                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
 //                    }
 
-                    newhorizontalscroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
+            if(homeViewModel.featuredEventsWithLivestate.isNotEmpty()) {
+                newhorizontalscroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
+            }
 
                     if (homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }
                             .isNotEmpty()) {
