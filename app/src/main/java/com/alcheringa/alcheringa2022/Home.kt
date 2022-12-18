@@ -1,5 +1,6 @@
 package com.alcheringa.alcheringa2022
 
+import ViewPagernew
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,9 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.compose.animation.core.*
 import androidx.compose.animation.splineBasedDecay
@@ -56,9 +60,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.util.lerp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.widget.Constraints
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
@@ -1337,7 +1343,9 @@ class Home : Fragment() {
                         //                        binding.logoAlcher.layoutParams.height=ViewGroup.LayoutParams.WRAP_CONTENT
                         //                    }
 
-                        horizontalScroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
+                        if(homeViewModel.featuredEventsWithLivestate.isNotEmpty()) {
+                            newhorizontalscroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
+                        }
 
                         if (homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }
                                 .isNotEmpty()) {
@@ -2683,6 +2691,170 @@ class Home : Fragment() {
 
 
     }
+
+
+
+
+
+    @Composable
+    fun newhorizontalscroll(eventdetails:SnapshotStateList<eventWithLive>){
+                var count= mutableStateOf(eventdetails.size)
+
+                Box(modifier = Modifier
+                    .fillMaxWidth().padding(start=20.dp)
+                    .wrapContentHeight()) {
+                    Column() {
+                        ViewPagernew(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight(),
+                            ) {
+                            repeat(count.value){
+                                    page ->
+                                ViewPagerChild {
+
+                            Card(
+                                border = BorderStroke(1.5.dp, colors.secondary),
+                                shape = RoundedCornerShape(16.dp)
+
+                            ) {
+                                Box() {
+
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+
+
+                                        ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxHeight()
+                                                .fillMaxWidth()
+                                        ) {
+                                            GlideImage(
+                                                imageModel = eventdetails[page].eventdetail.imgurl,
+                                                contentDescription = "artist",
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .aspectRatio(0.76f)
+                                                    .clickable {
+                                                        val arguments =
+                                                            bundleOf("Artist" to eventdetails[page].eventdetail.artist)
+                                                        findNavController(this@Home).navigate(
+                                                            R.id.action_home2_to_events_Details_Fragment,
+                                                            arguments
+                                                        )
+                                                    },
+                                                alignment = Alignment.Center,
+                                                contentScale = ContentScale.Crop,
+                                                shimmerParams = ShimmerParams(
+                                                    baseColor = blackbg,
+                                                    highlightColor = Color.LightGray,
+                                                    durationMillis = 350,
+                                                    dropOff = 0.65f,
+                                                    tilt = 20f
+                                                ), failure = {
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .fillMaxHeight(),
+                                                        contentAlignment = Alignment.Center
+                                                    ) {
+                                                        val composition by rememberLottieComposition(
+                                                            LottieCompositionSpec.RawRes(R.raw.comingsoon)
+                                                        )
+                                                        val progress by animateLottieCompositionAsState(
+                                                            composition,
+                                                            iterations = LottieConstants.IterateForever
+                                                        )
+                                                        LottieAnimation(
+                                                            composition,
+                                                            progress,
+                                                            modifier = Modifier.fillMaxHeight()
+                                                        )
+                                                    }
+
+                                                }
+
+
+                                            )
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                               )
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .padding(horizontal = 20.dp, vertical = 28.dp),
+                                                contentAlignment = Alignment.BottomStart
+                                            ) {
+                                                Column(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    horizontalAlignment = Alignment.Start
+                                                ) {
+                                                    Text(
+                                                        text = eventdetails[page].eventdetail.artist,
+                                                        color = Color.White,
+                                                        fontWeight = FontWeight.SemiBold,
+                                                        fontSize = 36.sp,
+                                                        fontFamily = aileron,
+                                                        textAlign = TextAlign.Start
+                                                    )
+                                                    Spacer(modifier = Modifier.height(4.dp))
+                                                    Text(
+                                                        text = eventdetails[page].eventdetail.category,
+                                                        style = TextStyle(
+                                                            color = colorResource(id = R.color.White),
+                                                            fontFamily = aileron,
+                                                            fontWeight = FontWeight.Normal,
+                                                            fontSize = 16.sp
+                                                        )
+                                                    )
+                                                    Spacer(modifier = Modifier.height(4.dp))
+
+                                                    Row {
+                                                        Text(
+                                                            text = "${eventdetails[page].eventdetail.starttime.date} Mar, ${if (eventdetails[page].eventdetail.starttime.hours > 12) "${eventdetails[page].eventdetail.starttime.hours - 12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min != 0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                                            style = TextStyle(
+                                                                color = white,
+                                                                fontFamily = aileron,
+                                                                fontWeight = FontWeight.Normal,
+                                                                fontSize = 16.sp
+                                                            )
+                                                        )
+
+                                                        //Spacer(modifier = Modifier.width(4.dp))
+                                                        Text(
+                                                            text = "| ${eventdetails[page].eventdetail.venue}",
+                                                            style = TextStyle(
+                                                                color = white,
+                                                                fontFamily = aileron,
+                                                                fontWeight = FontWeight.Normal,
+                                                                fontSize = 16.sp
+                                                            )
+                                                        )
+                                                    }
+                                                }
+
+                                            }
+
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        }
+                        }
+
+                    }
+                }
+            }
+
+
+
+
+
+
 
     override fun onResume() {
 //        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.menu?.findItem(R.id.home_nav)?.setChecked(true);
