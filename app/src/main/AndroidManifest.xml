@@ -27,20 +27,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Alcheringa2022"
         tools:ignore="LockedOrientationActivity">
+        <activity
+            android:name=".PickASide"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCyM292dJ064zSmyKG_AfdYlDS-kNf8mZw" />
+
         <activity
             android:name=".Order_Confirmed"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".DataUploadActivity"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".ImagePickerActivity"
             android:exported="true"
@@ -126,9 +128,9 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".CartActivity"
@@ -160,9 +162,7 @@
         <activity
             android:name=".Splash_Screen"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity
             android:name=".E_pass"
             android:exported="true"

@@ -21,6 +21,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
@@ -36,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -60,20 +62,14 @@ import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMapOptions
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.*
 
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.maps.android.compose.CameraPositionState
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.*
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.coroutineScope
@@ -102,9 +98,7 @@ class Events : Fragment() {
     var tg= mutableStateOf("")
     var searchtext= mutableStateOf("")
 
-    var cameraPositionState = CameraPositionState(
-        position = CameraPosition.fromLatLngZoom(venuelist[2].LatLng, 16f)
-    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,8 +158,10 @@ class Events : Fragment() {
 
         binding.eventsCompose.setContent {
 
+Alcheringa2022Theme() {
+    MyContent()
+}
 
-            MyContent()
 
 
 
@@ -194,7 +190,7 @@ class Events : Fragment() {
                 Events_row(heading = "Humor Fest")
                 Events_row(heading = "Campaigns")
                 Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
-                    Text(text = "COMPETITIONS", fontWeight = FontWeight.W600, fontSize = 16.sp, fontFamily = clash,color = Color.White)
+                    Text(text = "COMPETITIONS", fontWeight = FontWeight.W600, fontSize = 16.sp, fontFamily = clash,color = colors.onBackground)
                     Spacer(modifier = Modifier.height(14.dp))
                     imgcomp()
 
@@ -221,7 +217,7 @@ class Events : Fragment() {
                     fontWeight = FontWeight.W600,
                     fontSize = 16.sp,
                     fontFamily = clash,
-                    color = Color.Black
+                    color = colors.onBackground
                 )
             }
 
@@ -263,7 +259,7 @@ class Events : Fragment() {
                     fontWeight = FontWeight.W600,
                     fontSize = 16.sp,
                     fontFamily = clash,
-                    color = Color.Black
+                    color = colors.onBackground
                 )
             }
 if (searchlist.isNotEmpty()) {
@@ -295,7 +291,7 @@ if (searchlist.isNotEmpty()) {
             ) {
                 Text(
                     text = "No results found for \"${searchtext.value} ${tg.value.drop(3)}\"",
-                    color = Color.Black,
+                    color = colors.onBackground,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
                     fontFamily = aileron
@@ -413,17 +409,18 @@ if (searchlist.isNotEmpty()) {
 
         // Creating a Bottom Sheet
         BottomSheetScaffold(
-            scaffoldState = bottomSheetScaffoldState,
+            scaffoldState = bottomSheetScaffoldState, backgroundColor = colors.background, sheetBackgroundColor = colors.background, drawerBackgroundColor = colors.background,
             sheetContent =  {
                Box(
                    Modifier
                        .wrapContentHeight()
                        .fillMaxWidth()
-                       .padding(top = 8.dp, bottom = 4.dp), contentAlignment = Alignment.TopCenter) {
+                       .padding(top = 8.dp, bottom = 4.dp), contentAlignment = Alignment.TopCenter)
+               {
                    Icon(painterResource(id = R.drawable.rectangle_expand), "",
                        Modifier
                            .width(60.dp)
-                           .height(5.dp), tint = Color(0xffacacac))
+                           .height(5.dp), tint = colors.onSurface)
                }
                 Full_view()
             },
@@ -452,10 +449,14 @@ if (searchlist.isNotEmpty()) {
                             .fillMaxWidth()
                             .wrapContentHeight()
                             .clip(RoundedCornerShape(100.dp))
-                            .border(1.dp, Color(0xffacacac), RoundedCornerShape(100.dp)),
+                            .border(
+                                1.dp,
+                                if (isSystemInDarkTheme()) highWhite else midWhite,
+                                RoundedCornerShape(100.dp)
+                            ),
 //                        shape = RoundedCornerShape(100.dp),
                         placeholder = { Text("Search an event",) },
-                       leadingIcon = {Icon(Icons.Outlined.Search,"")},
+                       leadingIcon = {Icon(Icons.Outlined.Search,"", tint =  if (isSystemInDarkTheme()) highWhite else midWhite)},
                         value = searchtext.value,
                         textStyle = TextStyle(
                         fontFamily = aileron,
@@ -468,10 +469,10 @@ if (searchlist.isNotEmpty()) {
 
 
                         colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color.White,
-                            textColor = Color.Black,
+                            backgroundColor = colors.background,
+                            textColor = colors.onBackground,
                             placeholderColor = Color(0xffacacac),
-                            cursorColor = Color(0xffacacac),
+                            cursorColor = colors.onBackground,
                             focusedIndicatorColor = Color.Transparent,
                             disabledIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
@@ -498,19 +499,24 @@ if (searchlist.isNotEmpty()) {
             .horizontalScroll(rememberScrollState())
             .wrapContentHeight()
             , horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            val colors= colors
+            val isdark= isSystemInDarkTheme()
+            val selectedbgcolor=if (isdark) Color(0xff79C3D2) else Color(0xffCDE9EE)
+            val selectdbordercolor=if (isdark) Color(0xff034653) else Color(0xff7DC5D3)
+
             Spacer(modifier = Modifier.width(15.dp))
             taglist.forEach {
-                var bgcolor=remember{ mutableStateOf(Color.White) }
+                var bgcolor=remember{ mutableStateOf(colors.background) }
                 var bordercolor=remember{ mutableStateOf(Color(0xffacacac)) }
 
                 if(tg.value==it){
-                    bgcolor.value=Color(0xffCDE9EE)
-                    bordercolor.value=Color(0xff7DC5D3)
+                    bgcolor.value=selectedbgcolor
+                    bordercolor.value=selectdbordercolor
 
                 }
                 else
                 {
-                    bgcolor.value=Color.White
+                    bgcolor.value=colors.background
                     bordercolor.value=Color(0xffacacac)
                 }
 
@@ -520,33 +526,35 @@ if (searchlist.isNotEmpty()) {
                        .clickable {
                            if (tg.value == it) {
                                tg.value = "";
-                               bgcolor.value = Color.White
+                               bgcolor.value = colors.background
                                bordercolor.value = Color(0xffacacac)
                            } else {
                                tg.value = it;
-                               bgcolor.value = Color(0xffCDE9EE)
-                               bordercolor.value = Color(0xff7DC5D3)
+                               bgcolor.value = selectedbgcolor
+                               bordercolor.value = selectdbordercolor
                            }
 
                            filterlist()
                        }
                        .wrapContentWidth()
-                       .wrapContentHeight()
-                       , border = BorderStroke(1.dp,bordercolor.value),
-                    shape = RoundedCornerShape(45.dp),
-                    backgroundColor = Color.White,
-                )
+                       .wrapContentHeight(),
+                   border = BorderStroke(1.dp, bordercolor.value),
+                   shape = RoundedCornerShape(45.dp),
+                   backgroundColor = colors.background,
+               )
                 {
                     Box(modifier = Modifier
                         .wrapContentHeight()
                         .wrapContentWidth()
                         .background(bgcolor.value), contentAlignment = Alignment.Center) {
+
+                        val textcolor=if (isdark) {if(tg.value==it)colors.background else colors.onBackground}else colors.onBackground
                         Text(modifier=Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                             text = it,
                             fontSize = 14.sp,
                             fontFamily = aileron,
                             fontWeight = FontWeight.Normal,
-                            color = Color.Black
+                            color = textcolor
                         )
                     }
                 }
@@ -568,15 +576,25 @@ if (searchlist.isNotEmpty()) {
 
     @Composable
     fun mapview() {
+        var cameraPositionState = CameraPositionState(
+            position = CameraPosition.fromLatLngZoom(venuelist[2].LatLng, 16f)
+        )
+
         val coroutinescope= rememberCoroutineScope()
         coroutinescope.launch {
-        cameraPositionState.animate(CameraUpdateFactory.newCameraPosition(CameraPosition(venuelist.random().LatLng, 16f,0f,0f)))}
+        cameraPositionState.animate(CameraUpdateFactory.newCameraPosition(CameraPosition(venuelist.random().LatLng, 16f,0f,0f)))
+        }
 
         val mainaudi = LatLng(26.191117262340942, 91.69295134231831)
 
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState,
+            cameraPositionState = cameraPositionState, properties = MapProperties(
+                mapStyleOptions = MapStyleOptions.loadRawResourceStyle(
+                    requireContext(),
+                    if (isSystemInDarkTheme())R.raw.mapdark else R.raw.maplight
+                )
+            )
         ) {
             venuelist.forEach {v->
                 Marker(

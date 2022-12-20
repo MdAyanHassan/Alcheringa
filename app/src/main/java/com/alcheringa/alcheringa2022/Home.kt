@@ -2701,7 +2701,8 @@ class Home : Fragment() {
                 var count= mutableStateOf(eventdetails.size)
 
                 Box(modifier = Modifier
-                    .fillMaxWidth().padding(start=20.dp)
+                    .fillMaxWidth()
+//                    .padding(start=20.dp)
                     .wrapContentHeight()) {
                     Column() {
                         ViewPagernew(
