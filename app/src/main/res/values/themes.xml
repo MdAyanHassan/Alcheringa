@@ -26,9 +26,9 @@
         <item name="android:fontFamily">@font/starguard</item>
     </style>
 
-    <!--<style name="primaryText">
+    <style name="primaryText">
         <item name="android:textColor">@color/Black</item>
-    </style>-->
+    </style>
 
     <style name="secondaryText">
         <item name="android:textColor">@color/HighBlack</item>
