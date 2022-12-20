@@ -101,7 +101,7 @@ public class FaqPage extends AppCompatActivity {
 
     public void expand(ViewGroup view, View detailsText) {
         int v1 = (detailsText.getVisibility() ==View.GONE)? View.VISIBLE : View.GONE;
-        TransitionManager.beginDelayedTransition(view, new AutoTransition());
         detailsText.setVisibility(v1);
+        TransitionManager.beginDelayedTransition(view, new AutoTransition());
     }
 }

@@ -85,7 +85,7 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
             amt=amt+Long.parseLong(cartModelArrayList.get(i).getPrice())*Long.parseLong(cartModelArrayList.get(i).getCount());
             item_count=item_count+Long.parseLong(cartModelArrayList.get(i).getCount());
         }
-        total_amount=amt+".";
+        total_amount="Rs. "+amt+".";
         amount.setText(total_amount);
 
         items.setText(item_count+" items");

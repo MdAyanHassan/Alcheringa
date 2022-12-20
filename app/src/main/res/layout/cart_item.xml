@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_margin="10dp"
-    android:elevation="0dp"
-    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    app:cardCornerRadius="8dp"
     android:id="@+id/merch_cart"
     android:layout_height="wrap_content">
 
@@ -13,7 +13,7 @@
         android:id="@+id/bg_card"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        style="@style/Background"
+        android:background="@drawable/cart_item_border"
         android:paddingStart="20dp"
         android:paddingTop="24dp"
         android:paddingEnd="20dp"
@@ -109,8 +109,9 @@
                 <TextView
                     android:id="@+id/quantity"
                     style="@style/primaryText"
-                    android:layout_width="24dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="24dp"
+                    android:paddingHorizontal="8dp"
                     android:layout_marginStart="-2dp"
                     android:background="@drawable/cart_border_count"
                     android:fontFamily="@font/aileron_regular"

@@ -36,7 +36,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartViewHolder> {
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         holder.count.setText(cartModelList.get(position).getCount());
         holder.name.setText(cartModelList.get(position).getName());
-        holder.price.setText("₹ "+cartModelList.get(position).getPrice()+".");
+        holder.price.setText("Rs. "+cartModelList.get(position).getPrice()+".");
         holder.type.setText(cartModelList.get(position).getType());
         String size=cartModelList.get(position).getSize();
 /*        if(Objects.equals(size, "S")){
