@@ -33,7 +33,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-    BottomNavigationView bottomNavigationView;
+   ShadowIndicatorBottomNavigationView bottomNavigationView;
     Events events_fragment;
     SharedPreferences sharedPreferences;
     DBHandler dbHandler;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          NavController =
                 (NavController) Navigation.findNavController(this,R.id.fragmentContainerView);
         NavigationUI.setupWithNavController(bottomNavigationView,NavController);
-
+         NavController.addOnDestinationChangedListener((controller, destination, arguments) -> bottomNavigationView.onItemSelected(destination.getId(),true));
 
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

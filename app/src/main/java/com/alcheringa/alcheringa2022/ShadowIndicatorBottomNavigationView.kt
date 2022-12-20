@@ -109,7 +109,7 @@ class ShadowIndicatorBottomNavigationView : BottomNavigationView,
         }
     }
 
-    private fun onItemSelected(itemId: Int, animate: Boolean = true) {
+    fun onItemSelected(itemId: Int, animate: Boolean = true) {
         if (!isLaidOut) return
 
         // Interrupt any current animation, but don't set the end values,
