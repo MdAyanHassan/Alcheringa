@@ -29,15 +29,15 @@ public class ContactUs extends AppCompatActivity {
 
         back_btn=findViewById(R.id.backbtn);
         back_btn.setOnClickListener(v -> finish());
-        textView1=findViewById(R.id.name);
+        textView1=findViewById(R.id.name1);
         textView2=findViewById(R.id.name2);
         textView3=findViewById(R.id.name3);
         textView3.setText("Vishal Chelly");
         textView2.setText("Ch Venkat Vikas");
         textView1.setText("Ankit Agarwal");
 
-        buttonCall=findViewById(R.id.call_btn);
-        buttonEmail=findViewById(R.id.email_btn);
+        buttonCall=findViewById(R.id.call_btn1);
+        buttonEmail=findViewById(R.id.email_btn1);
         buttonCall2=findViewById(R.id.call_btn2);
         buttonEmail2=findViewById(R.id.email_btn2);
         buttonCall3=findViewById(R.id.call_btn3);
@@ -53,20 +53,20 @@ public class ContactUs extends AppCompatActivity {
 
             }
         });
-        buttonCall2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:8919054239"));
-                startActivity(intent);
-            }
-        });
 
         buttonEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_VIEW,
                         Uri.parse("mailto:ankit.a@alcheringa.in"));
+                startActivity(intent);
+            }
+        });
+        buttonCall2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:8919054239"));
                 startActivity(intent);
             }
         });
@@ -98,4 +98,4 @@ public class ContactUs extends AppCompatActivity {
             }
         });
     }
-    }
+}

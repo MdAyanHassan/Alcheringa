@@ -39,7 +39,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartViewHolder> {
         holder.price.setText("₹ "+cartModelList.get(position).getPrice()+".");
         holder.type.setText(cartModelList.get(position).getType());
         String size=cartModelList.get(position).getSize();
-        if(Objects.equals(size, "S")){
+/*        if(Objects.equals(size, "S")){
             size="Small";
         }
         else  if(Objects.equals(size, "M")){
@@ -50,7 +50,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartViewHolder> {
         }
         else  if(Objects.equals(size, "XL")){
             size="Extra Large";
-        }
+        }*/
         holder.size.setText(size);
         Glide.with(context).load(cartModelList.get(position).getImage()).into(holder.imageView);
 

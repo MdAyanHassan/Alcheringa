@@ -22,7 +22,7 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
     RecyclerView recyclerView;
     CartItemsAdapter cartItemsAdapter;
     List<cartModel> list;
-    TextView amount;
+    TextView amount, items;
     String total_amount;
     Button checkout_btn;
     DBHandler dbHandler;
@@ -55,6 +55,7 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
             setContentView(R.layout.activity_cart);
 
             amount=findViewById(R.id.order_total_value);
+            items = findViewById((R.id.item_counter));
             checkout_btn=findViewById(R.id.checkout_button);
 
             recyclerView=findViewById(R.id.cart_recyclerview);
@@ -78,12 +79,16 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
 
     private void calculate_amount() {
         long amt=0;
+        long item_count=0;
         for(int i = 0; i< cartModelArrayList.size(); i++){
             //Toast.makeText(getApplicationContext(), ""+ cartModelArrayList.get(i).getCount(), Toast.LENGTH_SHORT).show();
             amt=amt+Long.parseLong(cartModelArrayList.get(i).getPrice())*Long.parseLong(cartModelArrayList.get(i).getCount());
+            item_count=item_count+Long.parseLong(cartModelArrayList.get(i).getCount());
         }
         total_amount=amt+".";
         amount.setText(total_amount);
+
+        items.setText(item_count+" items");
     }
 
     private void populate_cart() {

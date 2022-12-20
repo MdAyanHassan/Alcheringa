@@ -12,7 +12,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     ImageView imageView;
     TextView remove_btn;
     TextView count;
-    TextView increment,decrement;
+    ImageView increment,decrement;
     com.alcheringa.alcheringa2022.onItemClick onItemClick;
     public CartViewHolder(@NonNull View itemView, com.alcheringa.alcheringa2022.onItemClick onItemClick) {
         super(itemView);
@@ -21,12 +21,12 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         price=itemView.findViewById(R.id.price);
         size=itemView.findViewById(R.id.size_2);
         imageView=itemView.findViewById(R.id.merch_image);
-        remove_btn=itemView.findViewById(R.id.remove_btn);
+//        remove_btn=itemView.findViewById(R.id.remove_btn);
         count=itemView.findViewById(R.id.quantity);
         increment=itemView.findViewById(R.id.add);
         decrement=itemView.findViewById(R.id.subtract);
         this.onItemClick= onItemClick;
-        remove_btn.setOnClickListener(this);
+//        remove_btn.setOnClickListener(this);
         increment.setOnClickListener(this);
         decrement.setOnClickListener(this);
 
@@ -42,9 +42,9 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
             case R.id.subtract:
                 onItemClick.OnDecrementClick(getAdapterPosition());
                 break;
-            case R.id.remove_btn:
+            /*case R.id.remove_btn:
                 onItemClick.Onclick(getAdapterPosition());
-                break;
+                break;*/
 
 
         }

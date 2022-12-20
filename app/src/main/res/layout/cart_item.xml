@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_margin="10dp"
     android:elevation="0dp"
@@ -9,20 +10,20 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:background="#2B2B2B"
         android:id="@+id/bg_card"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        style="@style/Background"
         android:paddingStart="20dp"
-        android:paddingTop="20dp"
-        android:paddingEnd="20dp">
+        android:paddingTop="24dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="24dp">
 
         <ImageView
             android:id="@+id/merch_image"
-            android:layout_width="119dp"
-            android:layout_height="137dp"
-            android:layout_marginBottom="23dp"
-            app:layout_constraintBottom_toTopOf="@+id/line"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +31,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/merch_dets"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="30dp"
             app:layout_constraintStart_toEndOf="@+id/merch_image"
             app:layout_constraintTop_toTopOf="parent">
@@ -39,193 +40,129 @@
                 android:id="@+id/hoodie_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/clash_display_700"
+                android:fontFamily="@font/aileron_semibold"
                 android:text="Lightning"
-                android:textColor="@color/white"
-                android:textSize="22sp"
+                style="@style/primaryText"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/type"
+                style="@style/secondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/clash_display_500"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/aileron_regular"
                 android:text="Hoodie"
-                android:textColor="@color/white"
                 android:textFontWeight="500"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hoodie_name"
-                app:layout_constraintVertical_bias="0.06" />
+                app:layout_constraintTop_toBottomOf="@+id/hoodie_name" />
 
             <TextView
                 android:id="@+id/size_1"
+                style="@style/secondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/hk_grotesk_400"
-                android:lineHeight="16.98sp"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/aileron_regular"
                 android:text="Size : "
-                android:textColor="@color/white"
                 android:textFontWeight="400"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/type"
-                app:layout_constraintVertical_bias="0.07" />
+                app:layout_constraintTop_toBottomOf="@+id/type" />
 
             <TextView
                 android:id="@+id/size_2"
+                style="@style/secondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/hk_grotesk_700"
-                android:lineHeight="16.98sp"
-                android:text="Medium"
-                android:textColor="@color/white"
-                android:textFontWeight="700"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/size_1"
-                app:layout_constraintTop_toBottomOf="@+id/type"
-                app:layout_constraintVertical_bias="0.07" />
-
-            <TextView
-                android:id="@+id/stock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/hk_grotesk_700"
-                android:lineHeight="16.98sp"
-                android:text="In stock"
-                android:textColor="#11D3D3"
+                android:fontFamily="@font/aileron_bold"
+                android:lineHeight="14sp"
+                android:text="M"
                 android:textFontWeight="700"
                 android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/size_1"
-                app:layout_constraintVertical_bias="0.04" />
+                app:layout_constraintBottom_toBottomOf="@+id/size_1"
+                app:layout_constraintStart_toEndOf="@+id/size_1" />
 
-            <TextView
-                android:id="@+id/price"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/merch_quant"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/clash_display_500"
-                android:text="₹ 799."
-                android:textColor="@color/white"
-                android:textFontWeight="500"
-                android:textSize="27sp"
+                android:layout_height="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/stock"
-                app:layout_constraintVertical_bias="0.09" />
+                app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/decimal_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="2dp"
-                android:fontFamily="@font/clash_display_500"
-                android:text="00"
-                android:textColor="#ffffff"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/price"
-                app:layout_constraintTop_toTopOf="@+id/price"
-                app:layout_constraintVertical_bias="0" />
+                <ImageView
+                    android:id="@+id/subtract"
+                    style="@style/primaryText"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/cart_border_minus"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_minus" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/quantity"
+                    style="@style/primaryText"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="-2dp"
+                    android:background="@drawable/cart_border_count"
+                    android:fontFamily="@font/aileron_regular"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textFontWeight="700"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/subtract"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/merch_dets"
-            app:layout_constraintWidth_percent="0.9" />
+                <ImageView
+                    android:id="@+id/add"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="-2dp"
+                    android:background="@drawable/cart_border_plus"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/quantity"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_plus" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/merch_quant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/line"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="13dp"
-            android:layout_marginTop="10dp"
-            android:paddingStart="4dp"
-            android:paddingEnd="6dp"
-            android:paddingBottom="3dp"
-            android:background="@drawable/cart_white_border_bg">
-
-            <TextView
-                android:id="@+id/subtract"
-                android:layout_width="30dp"
-                android:gravity="center"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:textColor="@color/white"
-                android:fontFamily="@font/hk_grotesk_700"
-                android:textFontWeight="700"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:fontFamily="@font/hk_grotesk_700"
-                android:textFontWeight="700"
-                android:textSize="18sp"
-                android:lineHeight="29.11sp"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/subtract"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="12dp" />
-
-            <TextView
-                android:id="@+id/add"
-                android:gravity="center"
-                android:layout_width="30dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:fontFamily="@font/hk_grotesk_700"
-                android:textFontWeight="700"
-                android:textSize="24sp"
-                android:textColor="@color/white"
-                android:layout_marginLeft="12dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/quantity" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/remove_btn"
+            android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="Remove"
-            android:textAllCaps="false"
-            android:textColor="#FF6565"
-            android:fontFamily="@font/hk_grotesk_400"
-            android:textFontWeight="700"
-            android:textSize="16sp"
-            android:lineHeight="21.83sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line"
+            android:text="₹ 799."
+            android:fontFamily="@font/aileron_bold"
+            style="@style/primaryText"
+            android:textFontWeight="500"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-             />
+            app:layout_constraintEnd_toStartOf="@id/decimal_price" />
+
+        <TextView
+            android:id="@+id/decimal_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:fontFamily="@font/aileron_bold"
+            style="@style/primaryText"
+            android:textFontWeight="500"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

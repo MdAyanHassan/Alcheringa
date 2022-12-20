@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    New Colours-->
+    <color name="HighWhite">#D9D9D9</color>
+    <color name="MidWhite">#ACACAC</color>
+    <color name="HighBlack">#2F2F2F</color>
+    <color name="MidBlack">#656565</color>
+    <color name="White">#F5F5F5</color>
+    <color name="Black">#0E0E0F</color>
+    <color name="Blu">#73D9ED</color>
+    <color name="DarkBlu">#19A6C2</color>
+    <color name="DarkYellow">#D1E56C</color>
+    <color name="AlertRed">#F14646</color>
+    <color name="Pink">#F96693</color>
+    <color name="OrangeText">#F35C41</color>
+    <color name="Green">#87DD79</color>
+    <color name="navcolor">#099FBC</color>
+    <color name="primaryCol">@color/White</color>
+    <color name="secondaryCol">@color/Black</color>
+    <color name="iconcolor">@color/MidWhite</color>
+
+</resources>

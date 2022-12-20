@@ -21,10 +21,55 @@
         <item name="colorOnPrimary">@color/White</item>
     </style>
 
-        <style name="Background">
-            <item name="android:background">@color/Black</item>
-            <item name="android:textColor">@color/White</item>
-            <item name="android:tint">@color/White</item>
-        </style>
+    <style name="headerText">
+        <item name="android:textColor">@color/White</item>
+        <item name="android:fontFamily">@font/starguard</item>
+    </style>
 
+    <style name="primaryText">
+        <item name="android:textColor">@color/White</item>
+    </style>
+
+    <style name="secondaryText">
+        <item name="android:textColor">@color/MidWhite</item>
+    </style>
+
+    <style name="subText">
+        <item name="android:textColor">@color/MidWhite</item>
+    </style>
+
+    <style name="tertiaryText">
+        <item name="android:textColor">@color/MidBlack</item>
+    </style>
+
+    <style name="accentText">
+        <item name="android:textColor">@color/OrangeText</item>
+    </style>
+
+    <style name="drawerMenu">
+        <item name="android:textColor">@color/MidWhite</item>
+        <item name="android:fontFamily">@font/aileron_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="itemIconTint">@color/MidWhite</item>
+    </style>
+
+    <style name="themeButton">
+        <item name="srcCompat">@drawable/ic_themechangelight</item>
+    </style>
+
+    <style name="cart">
+        <item name="srcCompat">@drawable/cart</item>
+    </style>
+
+    <!--<style name="Theme.Alcheringa2023" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/White</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="android:background">@color/Black</item>
+    </style>-->
+
+    <style name="Background">
+        <item name="android:background">@color/Black</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:tint">@color/White</item>
+    </style>
 </resources>

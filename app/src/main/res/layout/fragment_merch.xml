@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00010D"
+    style="@style/Background"
     tools:context=".MerchFragment">
 
 
@@ -20,11 +20,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@drawable/top_nav_bg"
         android:id="@+id/top_nav"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -32,12 +33,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0">
 
-        <ImageView
+        <TextView
+            style="@style/headerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:src="@drawable/ic_shop"
+            android:layout_marginLeft="16dp"
+            android:fontFamily="@font/starguard"
+            android:text="Shop"
+            android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,33 +51,29 @@
             android:id="@+id/cart"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@drawable/cart_black"
+            android:layout_marginEnd="30dp"
+            android:src="@drawable/cart_solid"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.903"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.461" />
+            app:layout_constraintEnd_toStartOf="@+id/account"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/account"
             android:layout_width="28dp"
             android:layout_height="28dp"
+            android:layout_marginEnd="30dp"
             android:src="@drawable/account"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.78"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.461" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/cart_count"
+            style="@style/cart_count_icon"
             app:layout_constraintBottom_toBottomOf="@id/cart"
             app:layout_constraintStart_toStartOf="@id/cart"
             tools:text="9"
-            android:id="@+id/cart_count"
-            tools:visibility="visible"
-            style="@style/cart_count_icon" />
+            tools:visibility="visible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

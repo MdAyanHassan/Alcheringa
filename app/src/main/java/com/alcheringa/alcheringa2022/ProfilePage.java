@@ -1,10 +1,13 @@
 package com.alcheringa.alcheringa2022;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -24,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,6 +63,7 @@ public class ProfilePage extends AppCompatActivity{
     TextView name;
     ImageView user_dp;
     ImageView edit_dp_button;
+    ImageView theme_btn;
     Button save_button;
     ImageButton back_btn;
 
@@ -83,7 +88,9 @@ public class ProfilePage extends AppCompatActivity{
         name = findViewById(R.id.user_name);
         user_dp = findViewById(R.id.profile_image);
         edit_dp_button = findViewById(R.id.edit_dp_button);
-        save_button = findViewById(R.id.SaveBtn);
+//        save_button = findViewById(R.id.SaveBtn);
+        back_btn = findViewById(R.id.backbtn);
+        theme_btn = findViewById(R.id.themeButton);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -102,7 +109,25 @@ public class ProfilePage extends AppCompatActivity{
             onProfileImageClick();
         });
 
-        save_button.setOnClickListener(v -> {
+        theme_btn.setOnLongClickListener(v -> {
+            int nightModeFlags =
+                    theme_btn.getContext().getResources().getConfiguration().uiMode &
+                            Configuration.UI_MODE_NIGHT_MASK;
+            switch (nightModeFlags) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+                    break;
+
+                case Configuration.UI_MODE_NIGHT_NO:
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    break;
+            }
+
+            return true;
+        });
+
+//        save_button.setOnClickListener(v -> {
+        back_btn.setOnClickListener(v -> {
             if(interests.size() >= 5){
                 uploadToFirebase();
                 Set<String> set = new HashSet<>(interests);
@@ -110,13 +135,14 @@ public class ProfilePage extends AppCompatActivity{
                 editor.putStringSet("interests", set);
                 editor.apply();
                 Toast.makeText(this,"Your changes are saved",Toast.LENGTH_SHORT).show();
+                finish();
             }else{
                 Toast.makeText(this, "Select atleast 5 interests to continue",Toast.LENGTH_SHORT).show();
             }
         });
 
-        back_btn = findViewById(R.id.backbtn);
-        back_btn.setOnClickListener(v -> finish());
+//        back_btn = findViewById(R.id.backbtn);
+//        back_btn.setOnClickListener(v -> finish());
     }
 
     private void loadProfile(String url) {
@@ -127,18 +153,18 @@ public class ProfilePage extends AppCompatActivity{
 
     void onProfileImageClick() {
         Dexter.withActivity(this)
-            .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            .withListener(new MultiplePermissionsListener() {
-                @Override
-                public void onPermissionsChecked(MultiplePermissionsReport report) {
-                    launchGalleryIntent();
-                }
+                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        launchGalleryIntent();
+                    }
 
-                @Override
-                public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                    token.continuePermissionRequest();
-                }
-            }).check();
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
     }
 
     private void showImagePickerOptions() {
@@ -255,7 +281,7 @@ public class ProfilePage extends AppCompatActivity{
 
     private void fill_user_details() {
         String shared_name = sharedPreferences.getString("name", "");
-         shared_photoUrl= sharedPreferences.getString("photourl", "");
+        shared_photoUrl= sharedPreferences.getString("photourl", "");
         interests.addAll(sharedPreferences.getStringSet("interests", new Set<String>() {
             @Override
             public int size() {

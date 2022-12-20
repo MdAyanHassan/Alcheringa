@@ -19,7 +19,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alcheringa.alcheringa2022.Database.DBHandler;
@@ -77,6 +80,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
          navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
+
+        View tnc_page, privacy_page, about_page;
+        TextView user_name, version, website;
+        ImageView user_photo;
+        String shared_name, shared_photoUrl;
+        version = findViewById(R.id.version);
+        version.setText("V "+ com.google.firebase.BuildConfig.VERSION_NAME);
+
+        website = findViewById(R.id.website_link);
+        website.setOnClickListener(v->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.alcheringa.in"))));
+
+        tnc_page = findViewById(R.id.tnc);
+        tnc_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),TermsAndConditions.class)));
+
+        privacy_page=findViewById(R.id.privacy_policy);
+        privacy_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),PrivacyPolicy.class)));
+
+        about_page=findViewById(R.id.about);
+        about_page.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),AboutPage.class)));
 
 
         /*boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
