@@ -3,16 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:backgroundTint="#000000">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/notification_item_bg"
         android:layout_marginBottom="4dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="4dp"
+        android:background="@drawable/cart_item_border">
         <LinearLayout
             android:id="@+id/info"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,17 +26,17 @@
                 android:id="@+id/heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/clash_display_500"
+                android:fontFamily="@font/aileron_bold"
                 tools:text="Mortal is starting to perform"
                 android:textSize="18sp"
-                android:textColor="#fff"/>
+                style="@style/primaryText"/>
             <TextView
-                android:fontFamily="@font/hk_grotesk_500"
+                android:fontFamily="@font/aileron_regular"
                 android:id="@+id/subHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Tap Here to watch Pronites"
-                android:textColor="#C7CCD1"
+                style="@style/subText"
                 android:textSize="14sp"/>
 
         </LinearLayout>
@@ -46,10 +45,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:fontFamily="@font/hk_grotesk_500"
+            android:fontFamily="@font/aileron_bold"
             android:gravity="end"
             android:textAlignment="textEnd"
-            android:textColor="#C7CCD1"
+            style="@style/primaryText"
             android:textSize="14sp"
             tools:text="23 m"
             app:layout_constraintTop_toTopOf="parent"
