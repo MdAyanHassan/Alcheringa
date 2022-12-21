@@ -14,31 +14,28 @@
         android:id="@+id/merch_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="80dp"
+        android:paddingTop="10dp"
         android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/top_nav" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_nav"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="72dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:background="@drawable/topheaderbottomborder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0">
+        style="@style/Background">
 
         <TextView
             style="@style/headerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginLeft="16dp"
             android:fontFamily="@font/starguard"
             android:text="Shop"
             android:textSize="36sp"
@@ -49,8 +46,8 @@
 
         <ImageView
             android:id="@+id/cart"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="30dp"
             android:src="@drawable/cart_solid"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -59,9 +56,9 @@
 
         <ImageView
             android:id="@+id/account"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="20dp"
             android:src="@drawable/account"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

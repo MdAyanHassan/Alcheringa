@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_margin="10dp"
-    app:cardElevation="0dp"
     app:cardCornerRadius="8dp"
     android:id="@+id/merch_cart"
     android:layout_height="wrap_content">
@@ -149,9 +148,11 @@
             android:fontFamily="@font/aileron_bold"
             style="@style/primaryText"
             android:textFontWeight="500"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintLeft_toRightOf="@id/merch_dets"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/decimal_price" />
+            app:layout_constraintRight_toLeftOf="@id/decimal_price" />
 
         <TextView
             android:id="@+id/decimal_price"
@@ -161,7 +162,7 @@
             android:fontFamily="@font/aileron_bold"
             style="@style/primaryText"
             android:textFontWeight="500"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
