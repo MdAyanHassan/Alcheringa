@@ -180,6 +180,7 @@
     <color name="primaryCol">@color/Black</color>
     <color name="secondaryCol">@color/White</color>
     <color name="iconcolor">@color/HighBlack</color>
+    <color name="bordercolor">@color/MidWhite</color>
 
 
 </resources>

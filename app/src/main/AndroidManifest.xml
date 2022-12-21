@@ -39,78 +39,78 @@
             android:name=".Order_Confirmed"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".DataUploadActivity"
             android:exported="true"></activity>
         <activity
             android:name=".ImagePickerActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".SizeChartActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".team"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".ScannerActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".NotificationActivity"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".ResetPassword"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".InterestsActivity"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".AboutPage"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".PrivacyPolicy"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".TermsAndConditions"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".FaqPage"
-            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- <activity -->
+            android:theme="@style/Theme.Alcheringa2022" /> <!-- <activity -->
         <!-- android:name=".EventDetailsActivity" -->
         <!-- android:exported="true" /> -->
         <!-- <activity -->
         <!-- android:name=".event_description_activity" -->
         <!-- android:exported="true" -->
         <!-- android:label="@string/title_activity_event_description" -->
-        <!-- android:theme="@style/Theme.AppCompat.NoActionBar" /> -->
+        <!-- android:theme="@style/Theme.Alcheringa2022" /> -->
         <activity
             android:name=".Account"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".OrderSummaryActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".AddAddressActivity"
             android:exported="true"
             android:label="@string/title_activity_add_address"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/Theme.Alcheringa2022"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".testing_activity"
@@ -120,12 +120,12 @@
         <activity
             android:name=".ContactUs"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".Greeting_page"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/Theme.Alcheringa2022">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -136,17 +136,17 @@
             android:name=".CartActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".SignUp"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".Login"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".Category_Activity"
             android:exported="true" />
@@ -154,36 +154,36 @@
             android:name=".MerchDescriptionActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".ProfilePage"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".Splash_Screen"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.Alcheringa2022"></activity>
         <activity
             android:name=".E_pass"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".YourOrders"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".Sponsors"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".Accordion_Activity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- DO NOT EDIT THE BELOW ACTIVITIES! -->
+            android:theme="@style/Theme.Alcheringa2022" /> <!-- DO NOT EDIT THE BELOW ACTIVITIES! -->
         <!-- Intent filter to capture System Browser or Authenticator calling back to our app after sign-in -->
         <activity
             android:name="com.microsoft.identity.client.BrowserTabActivity"
@@ -206,7 +206,7 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" /> <!-- cache directory file provider paths -->
+            android:theme="@style/Theme.Alcheringa2022" /> <!-- cache directory file provider paths -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

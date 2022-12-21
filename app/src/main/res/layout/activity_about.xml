@@ -10,9 +10,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="72dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/topheaderbottomborder"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:text="About"
             style="@style/headerText"
+            android:layout_marginLeft="10dp"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn"

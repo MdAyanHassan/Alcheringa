@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="72dp"
+        android:background="@drawable/topheaderbottomborder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,6 +33,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Privacy Policy"
+            android:layout_marginLeft="5dp"
+
             style="@style/headerText"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -1344,6 +1344,7 @@ class Home : Fragment() {
                         //                    }
 
                         if(homeViewModel.featuredEventsWithLivestate.isNotEmpty()) {
+                            Spacer(Modifier.height(20.dp))
                             newhorizontalscroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
                         }
 
@@ -2715,7 +2716,7 @@ class Home : Fragment() {
                                 ViewPagerChild {
 
                             Card(
-                                border = BorderStroke(1.5.dp, colors.secondary),
+                                border = BorderStroke(1.dp, colors.secondary),
                                 shape = RoundedCornerShape(16.dp)
 
                             ) {
