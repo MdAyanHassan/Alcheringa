@@ -379,32 +379,22 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                             .fillMaxWidth()
                             .padding(vertical = 8.dp, horizontal = 5.dp), contentAlignment = Alignment.BottomStart){
                             Column {
-                                Text(text = eventdetail.eventdetail.artist, color = colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, fontFamily = aileron)
+                                MarqueeText(text = eventdetail.eventdetail.artist, color = colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, fontFamily = aileron, gradientEdgeColor = Color.Transparent)
                                 Spacer(modifier = Modifier.height(8.dp))
     //                        Text(text = eventdetail.eventdetail.category, style = TextStyle(color = Color.Black,fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
     //                            Text(text = "Time  |   Loc", style = TextStyle(color = Color.Black,fontFamily = aileron,fontWeight = FontWeight.Normal,fontSize = 12.sp))
-                                Row {
-                                    Text(
-                                        text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+
+                                    MarqueeText(
+                                        text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"}" + "   |   ${eventdetail.eventdetail.venue}",
                                         style = TextStyle(
                                             color = colors.onBackground,
                                             fontFamily = aileron,
                                             fontWeight = FontWeight.Normal,
-                                            fontSize = 12.sp
-                                        )
+                                            fontSize = 12.sp,
+                                        ),
+                                        gradientEdgeColor = Color.Transparent
                                     )
 
-                                    //Spacer(modifier = Modifier.width(4.dp))
-                                    Text(
-                                        text = "| ${eventdetail.eventdetail.venue}",
-                                        style = TextStyle(
-                                            color = colors.onBackground,
-                                            fontFamily = aileron,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 12.sp
-                                        )
-                                    )
-                                }
 
     //                        if(eventdetail.eventdetail.stream) {
     //                            Text(

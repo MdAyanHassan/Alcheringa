@@ -13,7 +13,9 @@ private val DarkColorPalette = darkColors(
         secondary = midBlack,
         background = black,
         onBackground = white,
-        onSurface = highBlack
+        onSurface = highBlack,
+        secondaryVariant = midWhite
+
 )
 
 private val LightColorPalette = lightColors(
@@ -23,6 +25,7 @@ private val LightColorPalette = lightColors(
         background = white,
         onBackground = black,
         onSurface = midWhite,
+        secondaryVariant = midBlack
 
 
 
