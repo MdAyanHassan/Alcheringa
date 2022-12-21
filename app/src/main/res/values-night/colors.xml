@@ -18,5 +18,6 @@
     <color name="primaryCol">@color/White</color>
     <color name="secondaryCol">@color/Black</color>
     <color name="iconcolor">@color/MidWhite</color>
+    <color name="bordercolor">@color/MidBlack</color>
 
 </resources>
