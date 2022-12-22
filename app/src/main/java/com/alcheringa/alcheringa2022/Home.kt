@@ -1346,7 +1346,7 @@ class Home : Fragment() {
                         //                    }
 
                         if(homeViewModel.featuredEventsWithLivestate.isNotEmpty()) {
-                            Spacer(Modifier.height(20.dp))
+                            Spacer(Modifier.height(10.dp))
                             newhorizontalscroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
                         }
 
