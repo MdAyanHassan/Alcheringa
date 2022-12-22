@@ -6,10 +6,7 @@ import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -20,6 +17,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -93,13 +91,51 @@ val events=mutableListOf(
 
 )
 
+fun Modifier.coloredShadow(
+    color: Color,
+    alpha: Float = 0.2f,
+    borderRadius: Dp = 0.dp,
+    shadowRadius: Dp = 20.dp,
+    offsetY: Dp = 0.dp,
+    offsetX: Dp = 0.dp
+) = composed {
+
+    val shadowColor = color.copy(alpha = alpha).toArgb()
+    val transparent = color.copy(alpha= 0f).toArgb()
+
+    this.drawBehind {
+
+        this.drawIntoCanvas {
+            val paint = Paint()
+            val frameworkPaint = paint.asFrameworkPaint()
+            frameworkPaint.color = transparent
+
+            frameworkPaint.setShadowLayer(
+                shadowRadius.toPx(),
+                offsetX.toPx(),
+                offsetY.toPx(),
+                shadowColor
+            )
+            it.drawRoundRect(
+                0f,
+                0f,
+                this.size.width,
+                this.size.height,
+                borderRadius.toPx(),
+                borderRadius.toPx(),
+                paint
+            )
+        }
+    }
+}
+
 @Composable
 fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: Context, Fragment : Fragment, FragmentManager: androidx.fragment.app.FragmentManager , a : Int) {
     var ScheduleDatabase=ScheduleDatabase(context)
     var okstate= remember{ mutableStateOf(false)}
     var okstatenum= remember{ mutableStateOf(0)}
     var M = Modifier.wrapContentWidth()
-
+    val isdark= isSystemInDarkTheme()
     val animationProgress = remember {Animatable(300f)}
     LaunchedEffect(key1=Unit,block = {
         animationProgress.animateTo(
@@ -135,7 +171,17 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
 
     Box(
         Modifier
-            .graphicsLayer(translationY = animationProgress.value).width(200.dp))
+            .background(colors.background)
+            .coloredShadow(
+                colors.onBackground,
+                0.2f,
+                18.dp,
+                if (isdark) 20.dp else 10.dp,
+                if (isdark) 10.dp else 20.dp,
+                0.dp
+            )
+            .graphicsLayer(translationY = animationProgress.value)
+            .width(200.dp))
     {
         Text(text =viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp )
 

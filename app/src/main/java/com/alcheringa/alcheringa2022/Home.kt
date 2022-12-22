@@ -2494,7 +2494,7 @@ class Home : Fragment() {
                 .height(200.dp), state = pagerState
         ) { page ->
             Card(
-                modifier = Modifier
+                modifier = Modifier.background(colors.background).coloredShadow(colors.secondaryVariant,0.2f,12.dp,30.dp,5.dp,0.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .padding(horizontal = 20.dp),
@@ -2743,7 +2743,7 @@ class Home : Fragment() {
                     .wrapContentHeight()) {
                     Column() {
                         ViewPagernew(
-                            modifier = Modifier
+                            modifier = Modifier.background(colors.background).coloredShadow(colors.secondaryVariant,0.2f,12.dp,50.dp,15.dp,0.dp)
                                 .fillMaxWidth()
                                 .wrapContentHeight(),
                             ) {
