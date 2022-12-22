@@ -2743,7 +2743,7 @@ class Home : Fragment() {
                     .wrapContentHeight()) {
                     Column() {
                         ViewPagernew(
-                            modifier = Modifier.background(colors.background).coloredShadow(colors.secondaryVariant,0.2f,12.dp,50.dp,15.dp,0.dp)
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .wrapContentHeight(),
                             ) {
@@ -2818,7 +2818,16 @@ class Home : Fragment() {
                                             Box(
                                                 modifier = Modifier
                                                     .fillMaxSize()
-                                               )
+                                                                                            .background(
+                                                                                                brush = Brush.verticalGradient(
+                                                                                                    colors = listOf(
+                                                                                                        Color.Transparent,
+                                                                                                        black,
+                                                                                                    ),
+                                                                                                    startY = with(LocalDensity.current) { 100.dp.toPx() }
+                                                                                                )
+                                                                                            )
+                                            )
                                             Box(
                                                 modifier = Modifier
                                                     .fillMaxSize()
