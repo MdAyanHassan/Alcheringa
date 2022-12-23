@@ -41,6 +41,7 @@
 
     <style name="tertiaryText">
         <item name="android:textColor">@color/MidBlack</item>
+        <item name="android:textColorHint">@color/MidBlack</item>
     </style>
 
     <style name="accentText">

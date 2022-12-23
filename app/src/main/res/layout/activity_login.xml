@@ -4,20 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    style="@style/Background"
     tools:context=".Login">
 
     <ImageView
         android:id="@+id/back_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="@drawable/back_arrow"
-        app:layout_constraintBottom_toTopOf="@id/welcome_to_"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.041"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/backbtn2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.516" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -34,9 +32,8 @@
         android:id="@+id/text_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/starguard"
+        style="@style/headerText"
         android:text="Login"
-        android:textColor="#0E0E0F"
         android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="20dp"
@@ -50,7 +47,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/aileron_black"
         android:text="If you already have an account"
-        android:textColor="#0E0E0F"
+        style="@style/primaryText"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="20dp"
@@ -73,17 +70,17 @@
 
         <EditText
             android:id="@+id/password"
+            style="@style/tertiaryText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:autofillHints="emailAddress"
             android:background="@drawable/custom_edit_text"
             android:fontFamily="@font/aileron_regular"
             android:hint="Password"
+            android:textColor="@color/primaryCol"
             android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:textColor="@color/black"
-            android:textColorHint="#A1887F"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -120,8 +117,8 @@
         android:inputType="textEmailAddress"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
-        android:textColor="@color/black"
-        android:textColorHint="#B7B7B7"
+        android:textColor="@color/primaryCol"
+        style="@style/tertiaryText"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,33 +127,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.243" />
 
-    <TextView
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+    <LinearLayout
+        android:id="@+id/forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:fontFamily="@font/aileron_black"
-        android:gravity="center"
-        android:text="Forgot Password?"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Password_Relative_Layout" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.40"
-        android:id="@+id/forgot_password">
+        app:layout_constraintTop_toBottomOf="@+id/Password_Relative_Layout">
 
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/aileron_black"
+            android:gravity="center"
+            android:text="Forgot Password?"
+            android:textColor="@color/primaryCol"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/primaryCol" />
     </LinearLayout>
 
     <LinearLayout
@@ -192,7 +186,7 @@
             android:fontFamily="@font/aileron_regular"
             android:gravity="center"
             android:text="Continue with Outlook"
-            android:textColor="@color/black"
+            android:textColor="@color/primaryCol"
             android:textSize="18sp"
             android:translationX="40dp" />
     </LinearLayout>
@@ -230,7 +224,7 @@
             android:fontFamily="@font/aileron_regular"
             android:gravity="center"
             android:text="Continue with Google"
-            android:textColor="@color/black"
+            android:textColor="@color/primaryCol"
             android:textSize="18sp"
             android:translationX="40dp" />
     </LinearLayout>
@@ -253,7 +247,7 @@
         android:fontFamily="@font/aileron_regular"
         android:gravity="center"
         android:text="Don't have an account?"
-        android:textColor="@color/black"
+        android:textColor="@color/primaryCol"
         android:textSize="19sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -262,21 +256,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.923" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/signup_here"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/aileron_black"
-        android:gravity="center"
-        android:text="Signup here"
-        android:textColor="@color/black"
-        android:textSize="19sp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/already_have_an_account"
-        app:layout_constraintVertical_bias="0.509" />
+        app:layout_constraintTop_toTopOf="@+id/already_have_an_account">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/aileron_black"
+            android:gravity="center"
+            android:text="Signup here"
+            android:textColor="@color/primaryCol"
+            android:textSize="19sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/primaryCol" />
+
+    </LinearLayout>
+
 
     <com.alcheringa.alcheringa2022.LoaderView
         android:id="@+id/dots_progress"

@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
-    TextView SignupTextView;
+    LinearLayout SignupTextView;
     ImageView backButton;
     LinearLayout google_login_btn;
     GoogleSignInClient mGoogleSignInClient;
@@ -66,8 +66,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-/*        loaderView = findViewById(R.id.dots_progress);
-        loaderView.setVisibility(View.GONE);*/
+        loaderView = findViewById(R.id.dots_progress);
+        loaderView.setVisibility(View.GONE);
 
         SignupTextView =findViewById(R.id.signup_here);
         backButton =findViewById(R.id.back_button);
