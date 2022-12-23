@@ -15,6 +15,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -39,10 +41,7 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.ScheduleFragmentBinding
-import com.alcheringa.alcheringa2022.ui.theme.clash
-import com.alcheringa.alcheringa2022.ui.theme.greyText
-import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
-import com.alcheringa.alcheringa2022.ui.theme.orangeText
+import com.alcheringa.alcheringa2022.ui.theme.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -56,10 +55,11 @@ class Schedule : Fragment() {
     private lateinit var binding: ScheduleFragmentBinding
     private lateinit var fm: FragmentManager
     private val homeviewmodel:viewModelHome by activityViewModels()
+    private val datestate0 = mutableStateListOf<eventWithLive>()
     private val datestate1 = mutableStateListOf<eventWithLive>()
     private val datestate2 = mutableStateListOf<eventWithLive>()
     private val datestate3 = mutableStateListOf<eventWithLive>()
-    private var datestate = mutableStateOf<Int>(1)
+    private var datestate = mutableStateOf<Int>(0)
     var schedule=false;
 
     var firebaseFirestore: FirebaseFirestore? = null
@@ -72,6 +72,8 @@ class Schedule : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             homeviewmodel.allEventsWithLivedata.observe(requireActivity()){data->
+                datestate0.clear();
+                datestate0.addAll((data.filter { data -> data.eventdetail.starttime.date == 10 }))
                 datestate1.clear();
                 datestate1.addAll((data.filter { data -> data.eventdetail.starttime.date == 11 }))
                 datestate2.clear();
@@ -129,319 +131,432 @@ class Schedule : Fragment() {
             startActivity(Intent(context, NotificationActivity::class.java));
         }
         binding.scheduleCompose.setContent {
-            mySchedule()
+            Alcheringa2022Theme() {
+
+
+            mySchedule()}
         }
     }
 
 
     @Composable
     fun mySchedule() {
-        var color1 by remember { mutableStateOf(orangeText) }
-        var color2 by remember { mutableStateOf(greyText) }
-        var color3 by remember { mutableStateOf(greyText) }
+        val headerbgcolor=if(isSystemInDarkTheme())Color(0xff1C1C1C)else Color(0xffFAFBF5)
+        val bgcolor=if(isSystemInDarkTheme())Color(0xff2f2f2f)else Color(0xffababab)
 
         Column() {
 
-
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp), horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column(
-                    Modifier
-                        .fillMaxWidth(0.33f)
-                        .wrapContentHeight(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                    Text(text = "Day 0",
-                        fontWeight = FontWeight.W700,
-                        fontFamily = clash,
-                        color = color1,
-                        fontSize = 18.sp,
-                        modifier = Modifier.clickable {
-                            color1 = orangeText;color2 = greyText;color3 =
-                            greyText
-                            datestate.value = 1;
-                        })
-                    Spacer(modifier = Modifier.height(9.dp))
-                    if (color1.value == orangeText.value) {
-                        Canvas(
-                            modifier = Modifier
-                                .wrapContentHeight()
-                                .fillMaxWidth()
-
-                        ) {
-                            drawLine(
-                                color = orangeText,
-                                start = Offset(0f, 0f),
-                                end = Offset(size.width, 0f),
-                                strokeWidth = 2.dp.toPx(),
-                            )
-                        }
-                    }
-
-                }
-                Column(
-                    Modifier
-                        .fillMaxWidth(0.5f)
-                        .wrapContentHeight(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                    Text(text = "Day 1",
-                        fontWeight = FontWeight.W700,
-                        fontFamily = clash,
-                        color = color2,
-                        fontSize = 18.sp,
-                        modifier = Modifier.clickable {
-                            color1 = greyText;color2 = orangeText;color3 =
-                            greyText
-                            datestate.value = 2;
-                        })
-                    Spacer(modifier = Modifier.height(9.dp))
-                    if (color2.value == orangeText.value) {
-                        Canvas(
-                            modifier = Modifier
-                                .wrapContentHeight()
-                                .fillMaxWidth()
-
-                        ) {
-                            drawLine(
-                                color = orangeText,
-                                start = Offset(0f, 0f),
-                                end = Offset(size.width, 0f),
-                                strokeWidth = 2.dp.toPx(),
-                            )
-                        }
-                    }
-
-                }
-                Column(
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .background(colors.onBackground)
+                .padding(horizontal = 9.dp, vertical = 6.dp), contentAlignment = Alignment.Center) {
+                Row(
                     Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(colors.background)
+                        .padding(2.dp),
+//                        .padding(horizontal = 20.dp)
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-
-                    Text(text = "Day 2",
-                        fontWeight = FontWeight.W700,
-                        fontFamily = clash,
-                        color = color3,
-                        fontSize = 18.sp,
-                        modifier = Modifier.clickable {
-                            color1 = greyText;color2 = greyText;color3 =
-                            orangeText
-                            datestate.value = 3;
-                        })
-                    Spacer(modifier = Modifier.height(9.dp))
-                    if (color3.value == orangeText.value) {
-                        Canvas(
+                    Column(
+                        Modifier
+                            .fillMaxWidth(0.25f)
+                            .fillMaxHeight(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Card(
                             modifier = Modifier
-                                .wrapContentHeight()
                                 .fillMaxWidth()
-
+                                .fillMaxHeight(),
+                            shape = RoundedCornerShape(4.dp)
                         ) {
-                            drawLine(
-                                color = orangeText,
-                                start = Offset(0f, 0f),
-                                end = Offset(size.width, 0f),
-                                strokeWidth = 2.dp.toPx(),
-                            )
+
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(color = if (datestate.value == 0) colors.onBackground else colors.background),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(text = "Day 0",
+                                    fontWeight = FontWeight.W400,
+                                    fontFamily = star_guard,
+                                    color = if (datestate.value == 0) colors.background else colors.onBackground,
+//                            color = color1,
+//                                color = bgcolor,
+                                    fontSize = 18.sp,
+                                    modifier = Modifier.clickable {
+                                        datestate.value = 0;
+                                    })
+                            }
+                        }
+//
+
+                    }
+                    Column(
+                        Modifier
+                            .fillMaxWidth(0.33f)
+                            .fillMaxHeight(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            shape = RoundedCornerShape(4.dp)
+                        ) {
+
+                            Box(
+                                modifier = Modifier.background(color = if(datestate.value==1)colors.onBackground else colors.background,),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(text = "Day 1",
+                                    fontWeight = FontWeight.W400,
+                                    fontFamily = star_guard,
+                                    color =if(datestate.value==1)colors.background else colors.onBackground ,
+//                            color = color1,
+//                                color = bgcolor,
+                                    fontSize = 18.sp,
+                                    modifier = Modifier.clickable {
+                                        datestate.value = 1;
+                                    })
+//                                Spacer(modifier = Modifier.height(9.dp))
+//                    if (color2.value == orangeText.value) {
+//                        Canvas(
+//                            modifier = Modifier
+//                                .wrapContentHeight()
+//                                .fillMaxWidth()
+//
+//                        ) {
+//                            drawLine(
+//                                color = orangeText,
+//                                start = Offset(0f, 0f),
+//                                end = Offset(size.width, 0f),
+//                                strokeWidth = 2.dp.toPx(),
+//                            )
+//                        }
+//                    }
+                            }
                         }
                     }
 
+                    Column(
+                        Modifier
+                            .fillMaxWidth(0.5f)
+                            .fillMaxHeight(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            shape = RoundedCornerShape(4.dp)
+                        ) {
+
+                            Box(
+                                modifier = Modifier.background(color = if(datestate.value==2)colors.onBackground else colors.background),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(text = "Day 2",
+                                    fontWeight = FontWeight.W400,
+                                    fontFamily = star_guard,
+                                    color =if(datestate.value==2)colors.background else colors.onBackground,
+//                            color = color1,
+//                                color = bgcolor,
+                                    fontSize = 18.sp,
+                                    modifier = Modifier.clickable {
+
+                                        datestate.value =2;
+                                    })
+//                                Spacer(modifier = Modifier.height(9.dp))
+//                    if (color3.value == orangeText.value) {
+//                        Canvas(
+//                            modifier = Modifier
+//                                .wrapContentHeight()
+//                                .fillMaxWidth()
+//
+//                        ) {
+//                            drawLine(
+//                                color = orangeText,
+//                                start = Offset(0f, 0f),
+//                                end = Offset(size.width, 0f),
+//                                strokeWidth = 2.dp.toPx(),
+//                            )
+//                        }
+//                    }
+                            }
+                        }
+                    }
+                    Column(
+                        Modifier
+                            .fillMaxWidth(1f)
+                            .fillMaxHeight(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            shape = RoundedCornerShape(4.dp)
+                        ) {
+
+                            Box(
+                                modifier = Modifier.background(color = if(datestate.value==3)colors.onBackground else colors.background),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(text = "Day 3",
+                                    fontWeight = FontWeight.W400,
+                                    fontFamily = star_guard,
+                                    color = if(datestate.value==3)colors.background else colors.onBackground,
+//                            color = color1,
+//                                color = bgcolor,
+                                    fontSize = 18.sp,
+                                    modifier = Modifier.clickable {
+                                        datestate.value = 3;
+                                    })
+//                                Spacer(modifier = Modifier.height(9.dp))
+//                    if (color2.value == orangeText.value) {
+//                        Canvas(
+//                            modifier = Modifier
+//                                .wrapContentHeight()
+//                                .fillMaxWidth()
+//
+//                        ) {
+//                            drawLine(
+//                                color = orangeText,
+//                                start = Offset(0f, 0f),
+//                                end = Offset(size.width, 0f),
+//                                strokeWidth = 2.dp.toPx(),
+//                            )
+//                        }
+//                    }
+                            }
+                        }
+                    }
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Box(modifier = Modifier
+                .height(6.dp)
+                .fillMaxWidth()
+                .background(bgcolor))
             val horiscrollstate = rememberScrollState()
             Row(
                 Modifier
-                    .width(1245.dp)
+//                    .width(500.dp)
                     .horizontalScroll(horiscrollstate)
-
+                    .background(color = bgcolor)
             ) {
-                Spacer(modifier = Modifier.width(70.dp))
+                Spacer(modifier = Modifier.width(65.dp))
                 Row(
                     Modifier
-                        .width(2025.dp)
+//                        .width(2025.dp)
+                        .width(1656.dp)
                         , horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                ) { Box(modifier = Modifier
+                    .width(200.dp)
+                    .height(54.dp)
+                    .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                    .background(headerbgcolor), contentAlignment = Alignment.Center) {
                     Text(
                         text = "IITG Auditorium",
-                        fontWeight = FontWeight.W600,
-                        fontSize = 16.sp,
-                        fontFamily = clash,
-                        color = Color.White
+                        fontWeight = FontWeight.W400,
+                        fontSize = 20.sp,
+                        fontFamily = star_guard,
+                        color = colors.onBackground
                     )
                 }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Pronites Ground",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 16.sp,
-                            fontFamily = clash,
-                            color = Color.White
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
                         )
                     }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "NEU Stage",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 16.sp,
-                            fontFamily = clash,
-                            color = Color.White
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
                         )
                     }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Auditorium 1",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 16.sp,
-                            fontFamily = clash,
-                            color = Color.White
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
                         )
                     }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Auditorium 2",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 16.sp,
-                            fontFamily = clash,
-                            color = Color.White
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
                         )
                     }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Creators' Camp",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 16.sp,
-                            fontFamily = clash,
-                            color = Color.White
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
                         )
                     }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Gaming",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 16.sp,
-                            fontFamily = clash,
-                            color = Color.White
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
                         )
                     }
 
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Campaign",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 16.sp,
-                            fontFamily = clash,
-                            color = Color.White
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
                         )
                     }
                 }
             }
 
-            Row(
-                Modifier
-                    .width(1245.dp)
-                    .horizontalScroll(horiscrollstate)
-
-            ) {
-                Spacer(modifier = Modifier.width(70.dp))
-                Row(
-                    Modifier
-                        .width(2025.dp)
-                    , horizontalArrangement = Arrangement.SpaceEvenly
-                ) { Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
-                    Text(
-                        text = "Offline",
-                        fontWeight = FontWeight.W600,
-                        fontSize = 14.sp,
-                        fontFamily = hk_grotesk,
-                        color = Color(0xffA3A7AC)
-                    )
-                }
-
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
-                        Text(
-                            text = "Offline",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 14.sp,
-                            fontFamily = hk_grotesk,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
-                        Text(
-                            text = "Offline",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 14.sp,
-                            fontFamily = hk_grotesk,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
-                        Text(
-                            text = "PayTM Insider",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 14.sp,
-                            fontFamily = hk_grotesk,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
-                        Text(
-                            text = "PayTM Insider",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 14.sp,
-                            fontFamily = hk_grotesk,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
-                        Text(
-                            text = "PayTM Insider",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 14.sp,
-                            fontFamily = hk_grotesk,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
-                        Text(
-                            text = "PayTM Insider",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 14.sp,
-                            fontFamily = hk_grotesk,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-
-                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
-                        Text(
-                            text = "PayTM Insider",
-                            fontWeight = FontWeight.W600,
-                            fontSize = 14.sp,
-                            fontFamily = hk_grotesk,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-                }
-            }
-
-
+//            Row(
+//                Modifier
+//                    .width(1245.dp)
+//                    .horizontalScroll(horiscrollstate)
+//
+//            ) {
+//                Spacer(modifier = Modifier.width(70.dp))
+//                Row(
+//                    Modifier
+//                        .width(2025.dp)
+//                    , horizontalArrangement = Arrangement.SpaceEvenly
+//                ) { Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+//                    Text(
+//                        text = "Offline",
+//                        fontWeight = FontWeight.W600,
+//                        fontSize = 14.sp,
+//                        fontFamily = hk_grotesk,
+//                        color = Color(0xffA3A7AC)
+//                    )
+//                }
+//
+//                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+//                        Text(
+//                            text = "Offline",
+//                            fontWeight = FontWeight.W600,
+//                            fontSize = 14.sp,
+//                            fontFamily = hk_grotesk,
+//                            color = Color(0xffA3A7AC)
+//                        )
+//                    }
+//                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+//                        Text(
+//                            text = "Offline",
+//                            fontWeight = FontWeight.W600,
+//                            fontSize = 14.sp,
+//                            fontFamily = hk_grotesk,
+//                            color = Color(0xffA3A7AC)
+//                        )
+//                    }
+//                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+//                        Text(
+//                            text = "PayTM Insider",
+//                            fontWeight = FontWeight.W600,
+//                            fontSize = 14.sp,
+//                            fontFamily = hk_grotesk,
+//                            color = Color(0xffA3A7AC)
+//                        )
+//                    }
+//                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+//                        Text(
+//                            text = "PayTM Insider",
+//                            fontWeight = FontWeight.W600,
+//                            fontSize = 14.sp,
+//                            fontFamily = hk_grotesk,
+//                            color = Color(0xffA3A7AC)
+//                        )
+//                    }
+//                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+//                        Text(
+//                            text = "PayTM Insider",
+//                            fontWeight = FontWeight.W600,
+//                            fontSize = 14.sp,
+//                            fontFamily = hk_grotesk,
+//                            color = Color(0xffA3A7AC)
+//                        )
+//                    }
+//                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+//                        Text(
+//                            text = "PayTM Insider",
+//                            fontWeight = FontWeight.W600,
+//                            fontSize = 14.sp,
+//                            fontFamily = hk_grotesk,
+//                            color = Color(0xffA3A7AC)
+//                        )
+//                    }
+//
+//                    Box(modifier = Modifier.width(225.dp), contentAlignment = Alignment.TopCenter) {
+//                        Text(
+//                            text = "PayTM Insider",
+//                            fontWeight = FontWeight.W600,
+//                            fontSize = 14.sp,
+//                            fontFamily = hk_grotesk,
+//                            color = Color(0xffA3A7AC)
+//                        )
+//                    }
+//                }
+//            }
 
 
-            Spacer(modifier = Modifier.height(16.dp))
+
+
+//            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 Modifier
                     .width(1095.dp)
                     .height(975.dp)
                     .verticalScroll(rememberScrollState())
+                    .background(color = bgcolor)
                     ){
                 timecolummn()
                 Row(
@@ -449,98 +564,139 @@ class Schedule : Fragment() {
                         .wrapContentSize()
                         .horizontalScroll(horiscrollstate)) {
                     fullscheduleBox()}
-
             }
-
         }
-
-
     }
 
     @Composable
     fun timecolummn() {
-
-        Column(
-            Modifier
-                .width(70.dp)
-                .padding(start = 20.dp)
-                .height(975.dp), verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-            for (time in 9..11) {
-                Row(
-                    Modifier
-                        .height(65.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "$time AM", Modifier.width(50.dp),
-                        style = TextStyle(
-                            color = colorResource(id = R.color.textGray),
-                            fontFamily = clash,
-                            fontWeight = FontWeight.W600,
-                            fontSize = 14.sp
-                        )
-                    )
-
-
-                }
-
-            }
-
-            Row(
-                Modifier
-                    .height(65.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+        val headerbgcolor=if(isSystemInDarkTheme())Color(0xff1C1C1C)else Color(0xffFAFBF5)
+        val colors=colors
+        Column() {
+            Canvas(
+                modifier = Modifier
+                    .width(16.dp)
             ) {
-                Text(
-                    text = "12 PM", Modifier.width(50.dp),
-                    style = TextStyle(
-                        color = colorResource(id = R.color.textGray),
-                        fontFamily = clash,
-                        fontWeight = FontWeight.W600,
-                        fontSize = 14.sp
-                    )
+                drawLine(
+                    color = headerbgcolor,
+                    start = Offset(0f, 0f),
+                    end = Offset(0f, 10000f),
+                    strokeWidth = 16.dp.toPx()
                 )
-
-
+                drawCircle(color=headerbgcolor, radius = 8.dp.toPx(), center = Offset(this.center.x-6.dp.toPx(),this.center.y+6.dp.toPx()))
+                drawCircle(color=colors.onBackground, radius = 6.dp.toPx(), center = Offset(this.center.x-8.dp.toPx(),this.center.y+6.dp.toPx()))
             }
 
-            for (time in 1..11) {
+            Column(
+                Modifier
+                    .width(70.dp)
+                    .padding(start = 0.dp)
+                    .height(975.dp), verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                for (time in 9..11) {
+                    Row(
+                        Modifier
+                            .height(65.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Card(
+                            modifier = Modifier
+                                .width(55.dp)
+                                .height(34.dp),
+                            shape = RoundedCornerShape(50.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier.background(headerbgcolor),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "$time AM",
+                                    style = TextStyle(
+//                                color = colorResource(id = R.color.textGray),
+                                        color = colors.onBackground,
+                                        fontFamily = star_guard,
+                                        fontWeight = FontWeight.W400,
+                                        fontSize = 14.sp
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+
                 Row(
                     Modifier
                         .height(65.dp)
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "$time PM", Modifier.width(50.dp),
-                        style = TextStyle(
-                            color = colorResource(id = R.color.textGray),
-                            fontFamily = clash,
-                            fontWeight = FontWeight.W600,
-                            fontSize = 14.sp
-                        )
-                    )
-
-
+                    Card(
+                        modifier = Modifier
+                            .width(55.dp)
+                            .height(34.dp),
+                        shape = RoundedCornerShape(50.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier.background(headerbgcolor),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "12 PM",
+                                style = TextStyle(
+//                        color = colorResource(id = R.color.textGray),
+                                    color = colors.onBackground,
+                                    fontFamily = star_guard,
+                                    fontWeight = FontWeight.W400,
+                                    fontSize = 14.sp
+                                )
+                            )
+                        }
+                    }
                 }
 
-
+                for (time in 1..11) {
+                    Row(
+                        Modifier
+                            .height(65.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Card(
+                            modifier = Modifier
+                                .width(55.dp)
+                                .height(34.dp),
+                            shape = RoundedCornerShape(50.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier.background(headerbgcolor),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "$time PM",
+                                    style = TextStyle(
+//                            color = colorResource(id = R.color.textGray),\
+                                        color = colors.onBackground,
+                                        fontFamily = star_guard,
+                                        fontWeight = FontWeight.W400,
+                                        fontSize = 14.sp
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
             }
-
-
         }
-
     }
 
     @Composable
     fun fullscheduleBox() {
 
         Box(
-            Modifier
-                .width(2025.dp)
+            Modifier.offset(-35.dp)
+//                .width(2025.dp)
+                .width(1700.dp)
                 .height(975.dp)
 //                .horizontalScroll(rememberScrollState())
                ) {
@@ -565,8 +721,8 @@ class Schedule : Fragment() {
 
                                ) {
                                    drawLine(
-                                       color = Color(0xff192A3E),
-                                       start = Offset(0f, 0f),
+                                       color = Color(0x70FFFFFF),
+                                       start = Offset(100f, 0f),
                                        end = Offset(size.width, 0f),
                                        strokeWidth = 1.dp.toPx()
                                    )
@@ -591,8 +747,8 @@ class Schedule : Fragment() {
 
                            ) {
                                drawLine(
-                                   color = Color(0xff192A3E),
-                                   start = Offset(0f, 0f),
+                                   color = Color(0x70FFFFFF),
+                                   start = Offset(100f, 0f),
                                    end = Offset(size.width, 0f),
                                    strokeWidth = 1.dp.toPx()
                                )
@@ -614,29 +770,65 @@ class Schedule : Fragment() {
 
                                ) {
                                    drawLine(
-                                       color = Color(0xff192A3E),
-                                       start = Offset(0f, 0f),
+                                       color = Color(0x70FFFFFF),
+//                                       color = Color.White,
+                                       start = Offset(100f, 0f),
                                        end = Offset(size.width, 0f),
                                        strokeWidth = 1.dp.toPx()
                                    )
                                }
-
                            }
-
-
                        }
-
-
                    }
-            
-            Box(modifier = Modifier.offset(x=25.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
-            Box(modifier = Modifier.offset(x=275.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
-            Box(modifier = Modifier.offset(x=525.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
-            Box(modifier = Modifier.offset(x=775.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
-            Box(modifier = Modifier.offset(x=1025.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
-            Box(modifier = Modifier.offset(x=1275.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
-            Box(modifier = Modifier.offset(x=1525.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
-            Box(modifier = Modifier.offset(x=1775.dp).fillMaxHeight().width(225.dp).clip(RoundedCornerShape(8.dp)).background(Color(0x3D323C47)))
+            val coloroverlay=if(isSystemInDarkTheme())Color(0x50000000)else Color(0x50ffffff)
+            Box(modifier = Modifier
+                .offset(x = 36.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 242.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 448.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 654.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 860.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 1066.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 1272.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 1478.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
 
             if (datestate.value == 1) {
                 datestate1.forEach { data -> fullSchUserBox(eventdetail = data) }
@@ -689,74 +881,101 @@ class Schedule : Fragment() {
             remember { Animatable(eventdetail.eventdetail.durationInMin.toFloat() * (13f / 12f)) }
         val xdis =
             (((eventdetail.eventdetail.starttime.hours - 9) * 65).toFloat() + (eventdetail.eventdetail.starttime.min.toFloat() * (13f / 12f)) + 32f)
-        val ydis = (25
-                + (250
-                *catid.value
-                )
-                )
+        val ydis = (35 + (206 *catid.value))
         val xdisinpxcald = with(LocalDensity.current) { (xdis - 2).dp.toPx() }
         val ydisinpxcald = with(LocalDensity.current) { (ydis).dp.toPx() }
         var offsetX = remember { Animatable(ydisinpxcald) }
         var offsetY = remember { Animatable(xdisinpxcald) }
 
-        Box(
-            Modifier
-                .offset {
-                    IntOffset(
-                        offsetX.value
-                            .toInt(),
-                        offsetY.value
-                            .toInt()
-                    )
-                }
-                .height(lengthdp.value.dp)
-                .width(225.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(color.value)
-                .clickable {
+        Box(modifier=
+        Modifier
+            .offset {
+                IntOffset(
+                    offsetX.value
+                        .toInt(),
+                    offsetY.value
+                        .toInt()
+                )
+            }
+            .height(lengthdp.value.dp)
+            .width(200.dp)
+            .clip(RoundedCornerShape(4.dp))
+            .border(
+                BorderStroke(0.75.dp, if (isSystemInDarkTheme()) midWhite else black),
+                RoundedCornerShape(4.dp)
+            )
+//                .background(color.value)
+            .background(if (isSystemInDarkTheme()) Color(0xff1a1a1a) else Color.White)
+            .clickable {
 
-                    val frg = Events_Details_Fragment()
-                    val arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
-                    findNavController(this@Schedule).navigate(R.id.action_schedule_to_events_Details_Fragment,arguments);
+                val frg = Events_Details_Fragment()
+                val arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
+                findNavController(this@Schedule).navigate(
+                    R.id.action_schedule_to_events_Details_Fragment,
+                    arguments
+                );
 //                    fm
 //                        .beginTransaction()
 //                        .replace(R.id.fragmentContainerView, frg)
 //                        .addToBackStack(null)
 //                        .commit()
 
-                }
-                .pointerInput(Unit) {
-
-                }
+            }
+            .pointerInput(Unit) {
+            }
 
 
         ) {
-            Column(
+            Row(
                 Modifier
                     .fillMaxSize()
-                    .padding(top = 12.dp, start = 12.dp, end = 12.dp),
-                horizontalAlignment = Alignment.Start,
+                    .clip(RoundedCornerShape(4.dp)), horizontalArrangement = Arrangement.SpaceBetween) {
+
+                Canvas(
+                    modifier = Modifier
+                        .width(8.dp)
+                ) {
+                    drawLine(
+                        color = Color(0xffF5C771),
+                        start = Offset(0f, 0f),
+                        end = Offset(0f, lengthdp.value.dp.toPx()),
+                        strokeWidth = 8.dp.toPx()
+                    )
+                }
+
+
+
+
+
+                Column(
+                    Modifier
+                        .clip(RoundedCornerShape(4.dp))
+                        .fillMaxSize()
+                        .padding(top = 10.dp, start = 12.dp, end = 15.dp),
+                horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.Top
             ) {
                 Text(
                     text = eventdetail.eventdetail.artist,
-                    color = Color.White,
-                    fontWeight = FontWeight.W700,
-                    fontFamily = clash,
-                    fontSize = 14.sp,
+                    color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = star_guard,
+                    fontSize = 16.sp,
                     maxLines = 1
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = eventdetail.eventdetail.category,
                     style = TextStyle(
-                        color = colorResource(id = R.color.textGray),
-                        fontFamily = clash,
-                        fontWeight = FontWeight.W600,
-                        fontSize = 12.sp
+//                        color = colorResource(id = R.color.textGray),
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                        fontFamily = star_guard,
+                        fontWeight = FontWeight.W400,
+                        fontSize = 10.sp
                     )
                 )
             }
+        }
         }
 
 
