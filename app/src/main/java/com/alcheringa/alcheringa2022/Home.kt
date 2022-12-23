@@ -1348,7 +1348,7 @@ class Home : Fragment() {
                         //                    }
 
                         if(homeViewModel.featuredEventsWithLivestate.isNotEmpty()) {
-                            Spacer(Modifier.height(20.dp))
+                            Spacer(Modifier.height(10.dp))
                             newhorizontalscroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
                         }
 
@@ -2607,7 +2607,7 @@ class Home : Fragment() {
                 .height(200.dp), state = pagerState
         ) { page ->
             Card(
-                modifier = Modifier
+                modifier = Modifier.background(colors.background).coloredShadow(colors.secondaryVariant,0.2f,12.dp,30.dp,5.dp,0.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .padding(horizontal = 20.dp),
@@ -2931,7 +2931,16 @@ class Home : Fragment() {
                                             Box(
                                                 modifier = Modifier
                                                     .fillMaxSize()
-                                               )
+                                                                                            .background(
+                                                                                                brush = Brush.verticalGradient(
+                                                                                                    colors = listOf(
+                                                                                                        Color.Transparent,
+                                                                                                        black,
+                                                                                                    ),
+                                                                                                    startY = with(LocalDensity.current) { 100.dp.toPx() }
+                                                                                                )
+                                                                                            )
+                                            )
                                             Box(
                                                 modifier = Modifier
                                                     .fillMaxSize()

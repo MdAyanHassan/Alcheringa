@@ -54,7 +54,7 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
     }
 
     Box(
-        Modifier
+        Modifier.background(colors.background).coloredShadow(colors.onBackground,0.2f,12.dp,20.dp,10.dp,0.dp)
             .graphicsLayer(translationY = animationProgress.value)
     ) {
         Text(text = viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp)

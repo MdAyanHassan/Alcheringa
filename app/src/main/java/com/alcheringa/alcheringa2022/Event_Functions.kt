@@ -7,10 +7,7 @@ import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -54,7 +51,7 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
     var okstate= remember{ mutableStateOf(false) }
     var okstatenum= remember{ mutableStateOf(0) }
     var M = Modifier.wrapContentWidth()
-
+    val isdark= isSystemInDarkTheme()
     val animationProgress = remember { Animatable(300f) }
     LaunchedEffect(key1=Unit,block = {
         animationProgress.animateTo(
@@ -90,13 +87,17 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
 
     Box(
         Modifier
-            .graphicsLayer(translationY = animationProgress.value).width(200.dp)
             .background(colors.background)
+            .coloredShadow(colors.onBackground, 0.2f, 18.dp, if (isdark)20.dp else 10.dp, if (isdark)10.dp else 20.dp, 0.dp)
+            .graphicsLayer(translationY = animationProgress.value)
+            .width(200.dp)
+
 
             )
 
     {
         Text(text =viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp )
+
 
         Card(modifier = M.padding(6.dp),
             shape = RoundedCornerShape(12.dp),
