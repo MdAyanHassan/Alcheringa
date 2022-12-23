@@ -13,7 +13,7 @@
         android:layout_height="27dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/back_arrow"
+        android:background="@drawable/backbtn2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -253,16 +253,17 @@
         android:id="@+id/already_have_an_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/hk_grotesk_400"
+        android:fontFamily="@font/aileron_regular"
         android:gravity="center"
-        android:text="Already have an account?"
-        android:textColor="@color/black"
+        android:text="Don't have an account?"
+        android:textColor="@color/primaryCol"
         android:textSize="19sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.91" />
+        app:layout_constraintVertical_bias="0.923" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -271,14 +272,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/already_have_an_account"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="@+id/already_have_an_account">
 
         <TextView
             android:id="@+id/login_here"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/hk_grotesk_700"
+            android:fontFamily="@font/aileron_black"
             android:gravity="center"
             android:text="Login here"
             android:textColor="@color/black"
@@ -287,7 +287,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/White" />
+            android:background="@color/primaryCol" />
 
 
     </LinearLayout>
