@@ -16,9 +16,9 @@ public class YourOrdersViewHolder extends RecyclerView.ViewHolder {
         status=itemView.findViewById(R.id.order_status);
         merch_name=itemView.findViewById(R.id.merch_name);
         merch_details=itemView.findViewById(R.id.merch_details);
-        price=itemView.findViewById(R.id.price);
-        decimalprice = itemView.findViewById(R.id.decimal_price);
-        delivery_date= itemView.findViewById(R.id.deliver_date);
+//        price=itemView.findViewById(R.id.price);
+//        decimalprice = itemView.findViewById(R.id.decimal_price);
+//        delivery_date= itemView.findViewById(R.id.deliver_date);
         imageView=itemView.findViewById(R.id.merch_image);
     }
 }

@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -56,7 +57,7 @@ class viewModelHome : ViewModel() {
     val upcomingEventsLiveState = mutableStateListOf<eventWithLive>()
     val merchhome = mutableStateListOf<merchmodelforHome>()
     var crnttime = mutableStateOf(OwnTime())
-    val merchMerch = mutableStateListOf<merchModel>()
+    val merchMerch = SnapshotStateList<merchModel>()
 
 
     fun getAllEvents() {
@@ -155,8 +156,9 @@ class viewModelHome : ViewModel() {
 
     fun getMerchMerch(){
 
-        merchMerch.clear()
+
         fb.collection("Merch").get().addOnCompleteListener { task: Task<QuerySnapshot> ->
+            merchMerch.clear()
             for (documentSnapshot in task.result) {
                 val obj = documentSnapshot["Images"] as ArrayList<String>?
 

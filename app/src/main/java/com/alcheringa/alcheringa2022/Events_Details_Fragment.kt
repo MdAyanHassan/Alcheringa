@@ -18,15 +18,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
@@ -46,10 +47,7 @@ import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
 import com.alcheringa.alcheringa2022.databinding.ActivityEventDetailsBinding
-import com.alcheringa.alcheringa2022.ui.theme.clash
-import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
-import com.alcheringa.alcheringa2022.ui.theme.orangeText
-import com.alcheringa.alcheringa2022.ui.theme.vanguard
+import com.alcheringa.alcheringa2022.ui.theme.*
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
@@ -59,7 +57,7 @@ import java.util.*
 class Events_Details_Fragment : Fragment() {
     private lateinit var fgman: FragmentManager
     lateinit var args:Bundle
-    val viewModelHome: viewModelHome by activityViewModels()
+    val homeViewModel: viewModelHome by activityViewModels()
     lateinit var binding:ActivityEventDetailsBinding
     lateinit var eventfordes: eventWithLive
     lateinit var similarlist:MutableList<eventWithLive>
@@ -72,11 +70,11 @@ class Events_Details_Fragment : Fragment() {
 
 
         args=requireArguments()
-        eventfordes= viewModelHome.allEventsWithLive.filter { data-> data.eventdetail.artist== args.getString("Artist") }[0]
+        eventfordes= homeViewModel.allEventsWithLive.filter { data-> data.eventdetail.artist== args.getString("Artist") }[0]
         fgman=parentFragmentManager
         similarlist= mutableListOf<eventWithLive>()
         similarlist.addAll(
-        viewModelHome.allEventsWithLive.filter{ data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== eventfordes.eventdetail.type.replace("\\s".toRegex(), "").uppercase()})
+        homeViewModel.allEventsWithLive.filter{ data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== eventfordes.eventdetail.type.replace("\\s".toRegex(), "").uppercase()})
         similarlist.remove(eventfordes)
         scheduleDatabase= ScheduleDatabase(context)
 
@@ -103,20 +101,31 @@ class Events_Details_Fragment : Fragment() {
 
 
         binding.cvevdetail.setContent{
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xff00010C))
-                    .verticalScroll(rememberScrollState())) {
-                Defaultimg(eventWithLive = eventfordes)
-                if(eventfordes.eventdetail.category.replace("\\s".toRegex(), "").uppercase()=="Competitions".uppercase()){
-                Bottomviewcomp( eventWithLive = eventfordes) }
-                else {Bottomviewnewevent( eventWithLive = eventfordes)}
-                if(similarlist.isNotEmpty()){
-                similarEvents(heading = "SIMILAR EVENTS",similarlist)}
-                Spacer(modifier = Modifier.height(0.dp))
+            Alcheringa2022Theme {
+                Column(
+                    Modifier.fillMaxWidth()
+                ) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        Defaultimg(eventWithLive = eventfordes)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Bottomviewcomp(eventWithLive = eventfordes)
+                        if(similarlist.isNotEmpty()){
+                            similarEvents(heading = "SIMILAR EVENTS",similarlist)}
+                        Spacer(modifier = Modifier.height(24.dp))
+                    }
+                    eventButtons(eventWithLive = eventfordes)
+                }
             }
+
+
+
         }
+
 
 
     }
@@ -128,557 +137,588 @@ class Events_Details_Fragment : Fragment() {
 
         Box(
             modifier = Modifier
-                .height(473.dp)
+                .wrapContentHeight()
                 .fillMaxWidth()
+
         ) {
-            GlideImage(
-                imageModel = eventWithLive.eventdetail.imgurl,
-                contentDescription = "artist",
-                modifier= Modifier
-                    .fillMaxWidth()
-                    .height(473.dp),
-//                circularReveal = CircularReveal(300),
-
-                alignment = Alignment.Center,
-                contentScale = ContentScale.Crop,
-                shimmerParams = ShimmerParams(
-                    baseColor = Color.Black,
-                    highlightColor = orangeText,
-                    durationMillis = 350,
-                    dropOff = 0.65f,
-                    tilt = 20f
-                ),failure = {
-                    Box(modifier= Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(), contentAlignment = Alignment.Center) {
-                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.comingsoon))
-                        val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
-                        LottieAnimation(
-                            composition,
-                            progress,
-                            modifier = Modifier.fillMaxHeight()
-                        )
-//                            Column(
-//                                Modifier
-//                                    .fillMaxWidth()
-//                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
-//                                Image(
-//                                    modifier = Modifier
-//                                        .width(60.dp)
-//                                        .height(60.dp),
-//                                    painter = painterResource(
-//                                        id = R.drawable.ic_sad_svgrepo_com
-//                                    ),
-//                                    contentDescription = null
-//                                )
-//                                Spacer(modifier = Modifier.height(10.dp))
-//                                Text(
-//                                    text = "Image Request Failed",
-//                                    style = TextStyle(
-//                                        color = Color(0xFF747474),
-//                                        fontFamily = hk_grotesk,
-//                                        fontWeight = FontWeight.Normal,
-//                                        fontSize = 12.sp
-//                                    )
-//                                )
-//                            }
-                    }
-
-                }
-
-
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Black
-                            ), startY = with(LocalDensity.current) { 100.dp.toPx() }
-                        )
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(12.dp), contentAlignment = Alignment.BottomStart
-            ) {
-                Column(
+            Column {
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = eventWithLive.eventdetail.artist.uppercase(),
-                        color = Color.White,
-                        fontWeight = FontWeight.W600,
-                        fontSize = 60.sp,
-                        fontFamily = vanguard, textAlign = TextAlign.Center
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = eventWithLive.eventdetail.category,
-                        style = TextStyle(
-                            color = colorResource(id = R.color.textGray),
-                            fontFamily = clash,
-                            fontWeight = FontWeight.W600,
-                            fontSize = 16.sp
-                        )
-                    )
-                    Spacer(modifier = Modifier.height(11.dp))
-                    if (eventWithLive.isLive.value){
-                    Box(modifier = Modifier
-                        .width(68.dp)
-                        .height(21.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(Color(0xffC80915)), contentAlignment = Alignment.Center){
-                        Text(
-                            text = "⬤ LIVE ",
-                            color = Color.White,
-                            fontFamily = hk_grotesk, fontWeight = FontWeight.W500,
-                            fontSize = 12.sp
-                        )
-                    }
-                    }
+                        .height(284.dp),
+                    shape = RoundedCornerShape(0.dp),
 
+                    ) {
+                    GlideImage(
+                        imageModel = eventWithLive.eventdetail.imgurl,
+                        contentDescription = "artist",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(297.dp),
+                        //                circularReveal = CircularReveal(300),
 
-                }
-
-            }
-
-
-        }
-    }
-    @Composable
-    fun Bottomviewevents(eventWithLive:eventWithLive){
-        var isadded=remember{ mutableStateOf(false)}
-        isadded.value=viewModelHome.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)) {
-            Spacer(modifier = Modifier.height(30.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(), Arrangement.Start)
-            {
-                Image(
-                    painter = if (eventWithLive.eventdetail.mode.uppercase().contains("ONLINE")) {
-                        painterResource(id = R.drawable.online)
-                    } else {
-                        painterResource(id = R.drawable.onground)
-                    },
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(16.dp)
-                        .height(16.dp),
-                    alignment = Alignment.Center,
-                    contentScale = ContentScale.Crop
-
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = eventWithLive.eventdetail.mode.uppercase(),
-                    style = TextStyle(
-                        color = colorResource(id = R.color.textGray),
-                        fontFamily = hk_grotesk,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 14.sp
-                    )
-                )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(), Arrangement.Start)
-            {
-                Image(
-                    painter = painterResource(id = R.drawable.schedule),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(20.dp)
-                        .height(20.dp),
-                    alignment = Alignment.Center,
-                    contentScale = ContentScale.Crop)
-
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
-                    style = TextStyle(
-                        color = colorResource(id = R.color.textGray),
-                        fontFamily = clash,
-                        fontWeight = FontWeight.W500,
-                        fontSize = 20.sp
-                    )
-                )
-
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text =eventfordes.eventdetail.descriptionEvent ,
-                fontFamily = hk_grotesk,
-                fontWeight = FontWeight.W600,
-                color = Color(0xffC7CCD1),
-                fontSize = 16.sp
-            )
-            Spacer(modifier = Modifier.height(36.dp))
-            if (eventWithLive.isLive.value) {
-                Button(
-                    onClick = {
-                        if(eventWithLive.eventdetail.joinlink!=""){
-                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
-
-                        }
-
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        orangeText
-                    )
-                ) {
-                    Text(
-                        text = if(eventWithLive.eventdetail.joinlink=="")  "Running on Ground" else "Join Event",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color.White
-                    )
-
-                }
-            }
-            if (!eventWithLive.isLive.value){
-                Button(
-                    onClick = { /*TODO*/ },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(
-                       Color(0xff4A4949)
-                    )
-                ) { val c=Calendar.getInstance()
-                    if( (c.get(Calendar.YEAR)>2022) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
-                                ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
-                                        <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
-
-                    ){ Text(text="Event Finished!",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color(0xffA3A7AC)
-                    )}
-                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
-                        Text(
-                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
-                            fontFamily = clash,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-                    else{
-                    Text(
-                        text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color(0xffA3A7AC)
-                    )
-
-                    }
-                }
-
-            }
-            Spacer(modifier = Modifier.height(12.dp))
-            if (isadded.value) {
-                Button(
-                    onClick = {
-                         isadded.value= false
-                              viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
-                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-                ) {
-                    Text(
-                        text = "Remove from My Schedule",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color.White
-                    )
-                }
-            }
-            if (!isadded.value){
-                Button(
-                    onClick = { isadded.value= true
-                        viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
-                        scheduleDatabase.addEventsInSchedule(
-                            eventWithLive.eventdetail,
-                            context
-                        )
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-                ) {
-                    Text(
-                        text = "Add to My Schedule",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color.White
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(24.dp))
-
-
-
-
-
-
-
-
-
-        }
-    }
-
-    @Composable
-    fun similarEvents(heading: String, similarlist: MutableList<eventWithLive>) {
-        Box(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){Text(text = heading.uppercase(
-            Locale.getDefault()), fontWeight = FontWeight.W500, fontSize = 18.sp, fontFamily = clash, color = Color.White)}
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-        ) { items(similarlist)
-        {dataEach -> context?.let { Event_card(eventdetail = dataEach, viewModelHome, it, this@Events_Details_Fragment,fgman,R.id.action_events_Details_Fragment_self2) } } }
-
-        Spacer(modifier = Modifier.height(5.dp))
-    }
-
-
-
-
-
-
-
-
-
-    @Composable
-    fun Bottomviewcomp(eventWithLive:eventWithLive){
-        var isadded=remember{ mutableStateOf(false)}
-        LaunchedEffect(key1=Unit,block = {
-            isadded.value=viewModelHome.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
-
-        })
-
-         Column(
-             Modifier
-                 .fillMaxWidth()
-                 .padding(horizontal = 20.dp)) {
-            Spacer(modifier = Modifier.height(30.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween)
-            {
-                Row(Modifier.wrapContentSize()) {
-
-
-                Image(
-                    painter = if (eventWithLive.eventdetail.mode.uppercase().contains("ONLINE")) {
-                        painterResource(id = R.drawable.online)
-                    } else {
-                        painterResource(id = R.drawable.onground)
-                    },
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(16.dp)
-                        .height(16.dp),
-                    alignment = Alignment.Center,
-                    contentScale = ContentScale.Crop
-
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = eventWithLive.eventdetail.mode.uppercase(),
-                    style = TextStyle(
-                        color = colorResource(id = R.color.textGray),
-                        fontFamily = hk_grotesk,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 14.sp
-                    )
-                )
-                }
-
-                if (eventWithLive.eventdetail.stream) {
-                    Box(modifier = Modifier
-                        .wrapContentSize()
-                       ){
-
-
-                        if( !isadded.value) {
-
-                            Image( modifier = Modifier
-                                .width(18.dp)
-                                .height(18.dp)
-                                .clickable {
-                                    isadded.value = true
-                                    viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
-                                    scheduleDatabase.addEventsInSchedule(
-                                        eventWithLive.eventdetail,
-                                        context
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop,
+                        shimmerParams = ShimmerParams(
+                            baseColor = Color.Black,
+                            highlightColor = orangeText,
+                            durationMillis = 350,
+                            dropOff = 0.65f,
+                            tilt = 20f
+                        ), failure = {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(), contentAlignment = Alignment.Center
+                            ) {
+                                val composition by rememberLottieComposition(
+                                    LottieCompositionSpec.RawRes(
+                                        R.raw.comingsoon
                                     )
-                                },
-                                painter = painterResource(id = R.drawable.add_icon),
-                                contentDescription ="null")
+                                )
+                                val progress by animateLottieCompositionAsState(
+                                    composition,
+                                    iterations = LottieConstants.IterateForever
+                                )
+                                LottieAnimation(
+                                    composition,
+                                    progress,
+                                    modifier = Modifier.fillMaxHeight()
+                                )
+                                //                            Column(
+                                //                                Modifier
+                                //                                    .fillMaxWidth()
+                                //                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                //                                Image(
+                                //                                    modifier = Modifier
+                                //                                        .width(60.dp)
+                                //                                        .height(60.dp),
+                                //                                    painter = painterResource(
+                                //                                        id = R.drawable.ic_sad_svgrepo_com
+                                //                                    ),
+                                //                                    contentDescription = null
+                                //                                )
+                                //                                Spacer(modifier = Modifier.height(10.dp))
+                                //                                Text(
+                                //                                    text = "Image Request Failed",
+                                //                                    style = TextStyle(
+                                //                                        color = Color(0xFF747474),
+                                //                                        fontFamily = hk_grotesk,
+                                //                                        fontWeight = FontWeight.Normal,
+                                //                                        fontSize = 12.sp
+                                //                                    )
+                                //                                )
+                                //                            }
+                            }
+
                         }
-                        if(isadded.value)
-                        {
-                            Image( modifier = Modifier
-                                .width(20.dp)
-                                .height(20.dp)
-                                .clickable {
-                                    isadded.value = false
-                                    viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
-                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-                                    Toast
-                                        .makeText(
-                                            context,
-                                            "Event removed from My Schedule",
-                                            Toast.LENGTH_SHORT
-                                        )
-                                        .show()
-                                },
-                                painter = painterResource(id = R.drawable.tickokay),
-                                contentDescription ="null", contentScale = ContentScale.FillBounds)
-                        }
+
+                    )
+                }
+
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+
                     }
+
                 }
             }
-             if (eventWithLive.eventdetail.stream) {
-                 Spacer(modifier = Modifier.height(20.dp))
-                 Row(
-                     modifier = Modifier.fillMaxWidth(), Arrangement.Start)
-                 {
-                     Image(
-                         painter = painterResource(id = R.drawable.schedule),
-                         contentDescription = null,
-                         modifier = Modifier
-                             .width(20.dp)
-                             .height(20.dp),
-                         alignment = Alignment.Center,
-                         contentScale = ContentScale.Crop)
-                     Spacer(modifier = Modifier.width(6.dp))
-                     Text(
-                         text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
-                         style = TextStyle(
-                             color = colorResource(id = R.color.textGray),
-                             fontFamily = clash,
-                             fontWeight = FontWeight.W500,
-                             fontSize = 20.sp
-                         )
-                     )
-                 }
-             }
-             Spacer(modifier = Modifier.height(20.dp))
-            Text(text =eventfordes.eventdetail.descriptionEvent ,
-                fontFamily = hk_grotesk,
-                fontWeight = FontWeight.W600,
-                color = Color(0xffC7CCD1),
-                fontSize = 16.sp
-            )
-            Spacer(modifier = Modifier.height(36.dp))
-            if (eventWithLive.isLive.value) {
+
+
+
+    @Composable
+    fun eventButtons(eventWithLive: eventWithLive){
+        val c=Calendar.getInstance()
+        val isFinished = (c.get(Calendar.YEAR)>2022) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                        (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                        (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
+                        ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
+                                <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+
+        if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
+                .uppercase() == "Competitions".uppercase()
+        )
+        {
+
+            if (eventWithLive.isLive.value && eventWithLive.eventdetail.joinlink != "") {
                 Button(
                     onClick = {
                         startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
                     },
                     Modifier
                         .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        orangeText
+                        blu
                     )
                 ) {
                     Text(
                         text = "Join Event",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color.White
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black
                     )
 
                 }
-                Spacer(modifier = Modifier.height(12.dp))
+
             }
-            else if (!eventWithLive.isLive.value && eventWithLive.eventdetail.stream){
+            else if (isFinished){
                 Button(
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        Color(0xff4A4949)
+                        midWhite
                     )
-                ) { val c=Calendar.getInstance()
-                    if( (c.get(Calendar.YEAR)>2022) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
-                                ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
-                                        <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+                ) {
+                    Text(text="Event Finished!",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black
+                    )
+//                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
+//                        Text(
+//                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
+//                            fontSize = 14.sp,
+//                            fontWeight = FontWeight.W600,
+//                            fontFamily = clash,
+//                            color = Color(0xffA3A7AC)
+//                        )
+//                    }
+//                    else{
+//                        Text(
+//                            text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
+//                            fontSize = 14.sp,
+//                            fontWeight = FontWeight.W600,
+//                            fontFamily = clash,
+//                            color = Color(0xffA3A7AC)
+//                        )
+//
+//                    }
+                }
 
-                    ){ Text(text="Event Finished!",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color(0xffA3A7AC)
-                    )}
-                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
-                        Text(
-                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
-                            fontFamily = clash,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-                    else{
-                        Text(
-                            text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
-                            fontFamily = clash,
-                            color = Color(0xffA3A7AC)
-                        )
 
+            }
+            else{
+                Button(
+                    onClick = {
+                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
+                    },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        blu
+                    )
+                ) {
+                    Text(
+                        text = "Register",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black
+                    )
+
+                }
+
+            }
+        }
+        else
+        {
+//            if (eventWithLive.isLive.value) {
+//                Button(
+//                    onClick = {
+//                        if(eventWithLive.eventdetail.joinlink!=""){
+//                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
+//
+//                        }
+//
+//                    },
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(72.dp),
+//                    shape = RoundedCornerShape(0.dp),
+//                    colors = ButtonDefaults.buttonColors(
+//                        blu
+//                    )
+//                ) {
+//                    Text(
+//                        text = if(eventWithLive.eventdetail.joinlink=="")  "Running Offline" else "Join Event",
+//                        fontSize = 20.sp,
+//                        fontWeight = FontWeight.SemiBold,
+//                        fontFamily = aileron,
+//                        color = black
+//                    )
+//
+//                }
+//
+//            }
+//            else if (!eventWithLive.isLive.value && eventWithLive.eventdetail.stream){
+//                Button(
+//                    onClick = {},
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(72.dp),
+//                    shape = RoundedCornerShape(0.dp),
+//                    colors = ButtonDefaults.buttonColors(
+//                        midWhite
+//                    )
+//                ) { val c=Calendar.getInstance()
+//                    if( (c.get(Calendar.YEAR)>2022) or
+//                        ((c.get(Calendar.YEAR)==2022) and
+//                                (c.get(Calendar.MONTH)> Calendar.MARCH)) or
+//                        ((c.get(Calendar.YEAR)==2022) and
+//                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
+//                                (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
+//                        ((c.get(Calendar.YEAR)==2022) and
+//                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
+//                                (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
+//                                ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
+//                                        <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+//
+//                    ){ Text(text="Event Finished!",
+//                        fontSize = 20.sp,
+//                        fontWeight = FontWeight.SemiBold,
+//                        fontFamily = aileron,
+//                        color = black
+//                    )}
+//                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
+//                        Text(
+//                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
+//                            fontSize = 20.sp,
+//                            fontWeight = FontWeight.SemiBold,
+//                            fontFamily = aileron,
+//                            color = black
+//                        )
+//                    }
+//                    else{
+//                        Text(
+//                            text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
+//                            fontSize = 20.sp,
+//                            fontWeight = FontWeight.SemiBold,
+//                            fontFamily = aileron,
+//                            color = black
+//                        )
+//
+//                    }
+//                }
+//            }
+            if (isFinished){
+                Button(
+                    onClick = {},
+                    Modifier
+                        .fillMaxWidth()
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        midWhite
+                    )
+                ) {
+                    Text(text="Event Finished!",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black
+                    )
+                }
+            }
+            else if(eventWithLive.eventdetail.venue != "") {
+                Button(
+                    onClick = {
+                        //TODO: (Shantanu) Implement all venue locations
+                        val gmmIntentUri =
+                            Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
+                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                        mapIntent.setPackage("com.google.android.apps.maps")
+                        startActivity(mapIntent)
+                    },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        blu
+                    )
+                ) {
+                    Text(
+                        text = "Navigate to venue",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black
+                    )
+
+                }
+            }
+        }
+    }
+
+
+    @Composable
+    fun Bottomviewcomp(eventWithLive:eventWithLive){
+        val c=Calendar.getInstance()
+        val isFinished = (c.get(Calendar.YEAR)>2022) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                        (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                        (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
+                        ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
+                                <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+
+        var isadded=remember{ mutableStateOf(false)}
+        LaunchedEffect(key1=Unit,block = {
+            isadded.value=homeViewModel.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
+
+        })
+
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)) {
+            Spacer(modifier = Modifier.height(20.dp))
+//            Row(
+//                modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween)
+//            {
+//
+//                if (eventWithLive.eventdetail.stream) {
+//                    Box(modifier = Modifier
+//                        .wrapContentSize()
+//                    ){
+//
+//
+//                        if( !isadded.value) {
+//
+//                            Image( modifier = Modifier
+//                                .width(18.dp)
+//                                .height(18.dp)
+//                                .clickable {
+//                                    isadded.value = true
+//                                    homeViewModel.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
+//                                    scheduleDatabase.addEventsInSchedule(
+//                                        eventWithLive.eventdetail,
+//                                        context
+//                                    )
+//                                },
+//                                painter = painterResource(id = R.drawable.add_icon),
+//                                contentDescription ="null")
+//                        }
+//                        if(isadded.value)
+//                        {
+//                            Image( modifier = Modifier
+//                                .width(20.dp)
+//                                .height(20.dp)
+//                                .clickable {
+//                                    isadded.value = false
+//                                    homeViewModel.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
+//                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+//                                    Toast
+//                                        .makeText(
+//                                            context,
+//                                            "Event removed from My Schedule",
+//                                            Toast.LENGTH_SHORT
+//                                        )
+//                                        .show()
+//                                },
+//                                painter = painterResource(id = R.drawable.tickokay),
+//                                contentDescription ="null", contentScale = ContentScale.FillBounds)
+//                        }
+//                    }
+//                }
+//            }
+            if(eventWithLive.eventdetail.venue != ""){
+                Row(
+                    modifier = Modifier.fillMaxWidth(), Arrangement.Start, verticalAlignment = Alignment.CenterVertically)
+                {
+                    Image(
+                        painter = painterResource(id = R.drawable.location_pin),
+                        contentDescription = null,
+
+
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = eventWithLive.eventdetail.venue,
+                        style = TextStyle(
+                            color = MaterialTheme.colors.onBackground,
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp
+                        )
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(18.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(),
+                Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                )
+                {
+                    Image(
+                        painter = painterResource(id = R.drawable.schedule),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(24.dp)
+                            .height(24.dp),
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                        style = TextStyle(
+                            color = MaterialTheme.colors.onBackground,
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp
+                        )
+                    )
+                }
+
+
+                if (true) {
+                    Box(modifier = Modifier
+                        .height(40.dp)
+                        .border(1.dp, MaterialTheme.colors.secondary)
+                        .padding(10.dp)
+                    ){
+                        if( !isadded.value) {
+                            Row(Modifier.clickable {
+                                isadded.value = true
+                                homeViewModel.OwnEventsWithLive.addNewItem(
+                                    eventWithLive.eventdetail
+                                )
+                                scheduleDatabase.addEventsInSchedule(
+                                    eventWithLive.eventdetail,
+                                    context
+                                )
+
+
+                            })
+                            {
+
+                                Image(
+                                    modifier = Modifier
+                                        .width(18.dp)
+                                        .height(18.dp)
+                                    ,
+                                    painter = painterResource(id = R.drawable.add_icon),
+                                    contentDescription = "null",
+                                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+                                )
+                                Spacer(Modifier.width(10.dp))
+                                Text(
+                                    text = "Add to Schedule",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colors.onBackground,
+                                    fontSize = 16.sp
+                                )
+                            }
+
+                        }
+                        if(isadded.value)
+                        {
+                            Row(Modifier.clickable {
+                                isadded.value = false
+                                homeViewModel.OwnEventsWithLive.removeAnItem(
+                                    eventWithLive.eventdetail
+                                )
+                                scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)}
+
+                            ) {
+                                Image(
+                                    modifier = Modifier
+                                        .width(20.dp)
+                                        .height(20.dp)
+                                    ,
+                                    painter = painterResource(id = R.drawable.tickokay),
+                                    contentDescription = "null",
+                                    contentScale = ContentScale.FillBounds,
+                                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+                                )
+                                Spacer(Modifier.width(10.dp))
+                                Text(
+                                    text = "Added to Schedule",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colors.onBackground,
+                                    fontSize = 16.sp
+                                )
+                            }
+                        }
                     }
                 }
-                Spacer(modifier = Modifier.height(12.dp))
+
+
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text =eventfordes.eventdetail.descriptionEvent ,
+                fontFamily = aileron,
+                fontWeight = FontWeight.Normal,
+                color = MaterialTheme.colors.onBackground,
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(36.dp))
+//            if (!eventWithLive.isLive.value  && !isFinished){
+//                Button(
+//                    onClick = {},
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(72.dp),
+//                    shape = RoundedCornerShape(0.dp),
+//                    colors = ButtonDefaults.buttonColors(
+//                        midWhite
+//                    )
+//                ) {
+//
+//                        if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
+//                            Text(
+//                                text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
+//                                fontSize = 20.sp,
+//                                fontWeight = FontWeight.SemiBold,
+//                                fontFamily = aileron,
+//                                color = black
+//                            )
+//                        }
+//                        else{
+//                            Text(
+//                                text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
+//                                fontSize = 20.sp,
+//                                fontWeight = FontWeight.SemiBold,
+//                                fontFamily = aileron,
+//                                color = black
+//                            )
+//
+//                        }
+//
+//                }
+//
+//            }
 
 //            if (isadded.value) {
 //                Button(
@@ -726,34 +766,6 @@ class Events_Details_Fragment : Fragment() {
 //                    )
 //                }
 //            }
-
-             if(eventWithLive.eventdetail.reglink!= "") {
-
-                 Button(
-                     onClick = {
-                         startActivity(
-                             Intent(Intent.ACTION_VIEW).setData(
-                                 Uri.parse(
-                                     eventWithLive.eventdetail.reglink
-                                 )
-                             )
-                         )
-                     },
-                     Modifier
-                         .fillMaxWidth()
-                         .height(55.dp),
-                     shape = RoundedCornerShape(18.dp),
-                     colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-                 ) {
-                     Text(
-                         text = "Register",
-                         fontSize = 18.sp,
-                         fontWeight = FontWeight.W600,
-                         fontFamily = clash,
-                         color = Color.White
-                     )
-                 }
-             }
             Spacer(modifier = Modifier.height(24.dp))
 
 
@@ -768,287 +780,25 @@ class Events_Details_Fragment : Fragment() {
     }
 
 
-
-
-
     @Composable
-    fun Bottomviewnewevent(eventWithLive:eventWithLive){
-        var isadded=remember{ mutableStateOf(false)}
-        LaunchedEffect(key1=Unit,block = {
-            isadded.value=viewModelHome.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
+    fun similarEvents(heading: String, similarlist: MutableList<eventWithLive>) {
+        Box(
+            modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) )
+        {
+            Text(
+                text = heading,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                fontFamily = aileron,
+                color = colors.onBackground)}
+        Spacer(modifier = Modifier.height(16.dp))
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
+        ) { items(similarlist)
+        {dataEach -> context?.let { Event_card(eventdetail = dataEach, homeViewModel, it, this@Events_Details_Fragment,fgman,R.id.action_events_Details_Fragment_self2) } } }
 
-        })
-
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)) {
-            Spacer(modifier = Modifier.height(30.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween)
-            {
-                Row(Modifier.wrapContentSize()) {
-
-
-                    Image(
-                        painter = if (eventWithLive.eventdetail.mode.uppercase().contains("ONLINE")) {
-                            painterResource(id = R.drawable.online)
-                        } else {
-                            painterResource(id = R.drawable.onground)
-                        },
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(16.dp)
-                            .height(16.dp),
-                        alignment = Alignment.Center,
-                        contentScale = ContentScale.Crop
-
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = eventWithLive.eventdetail.mode.uppercase(),
-                        style = TextStyle(
-                            color = colorResource(id = R.color.textGray),
-                            fontFamily = hk_grotesk,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 14.sp
-                        )
-                    )
-                }
-
-                if (eventWithLive.eventdetail.stream) {
-                    Box(modifier = Modifier
-                        .wrapContentSize()
-                    ){
-
-
-                        if( !isadded.value) {
-
-                            Image( modifier = Modifier
-                                .width(18.dp)
-                                .height(18.dp)
-                                .clickable {
-                                    isadded.value = true
-                                    viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
-                                    scheduleDatabase.addEventsInSchedule(
-                                        eventWithLive.eventdetail,
-                                        context
-                                    )
-                                },
-                                painter = painterResource(id = R.drawable.add_icon),
-                                contentDescription ="null")
-                        }
-                        if(isadded.value)
-                        {
-                            Image( modifier = Modifier
-                                .width(20.dp)
-                                .height(20.dp)
-                                .clickable {
-                                    isadded.value = false
-                                    viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
-                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-                                    Toast
-                                        .makeText(
-                                            context,
-                                            "Event removed from My Schedule",
-                                            Toast.LENGTH_SHORT
-                                        )
-                                        .show()
-                                },
-                                painter = painterResource(id = R.drawable.tickokay),
-                                contentDescription ="null", contentScale = ContentScale.FillBounds)
-                        }
-                    }
-                }
-            }
-            if (eventWithLive.eventdetail.stream) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(), Arrangement.Start)
-                {
-                    Image(
-                        painter = painterResource(id = R.drawable.schedule),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(20.dp)
-                            .height(20.dp),
-                        alignment = Alignment.Center,
-                        contentScale = ContentScale.Crop)
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
-                        style = TextStyle(
-                            color = colorResource(id = R.color.textGray),
-                            fontFamily = clash,
-                            fontWeight = FontWeight.W500,
-                            fontSize = 20.sp
-                        )
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text =eventfordes.eventdetail.descriptionEvent ,
-                fontFamily = hk_grotesk,
-                fontWeight = FontWeight.W600,
-                color = Color(0xffC7CCD1),
-                fontSize = 16.sp
-            )
-            Spacer(modifier = Modifier.height(36.dp))
-            if (eventWithLive.isLive.value) {
-                Button(
-                    onClick = {
-                        if(eventWithLive.eventdetail.joinlink!=""){
-                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
-
-                        }
-
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        orangeText
-                    )
-                ) {
-                    Text(
-                        text = if(eventWithLive.eventdetail.joinlink=="")  "Running Offline" else "Join Event",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color.White
-                    )
-
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-            else if (!eventWithLive.isLive.value && eventWithLive.eventdetail.stream){
-                Button(
-                        onClick = {},
-                        Modifier
-                                .fillMaxWidth()
-                                .height(55.dp),
-                        shape = RoundedCornerShape(18.dp),
-                        colors = ButtonDefaults.buttonColors(
-                                Color(0xff4A4949)
-                        )
-                ) { val c=Calendar.getInstance()
-                    if( (c.get(Calendar.YEAR)>2022) or
-                            ((c.get(Calendar.YEAR)==2022) and
-                                    (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                            ((c.get(Calendar.YEAR)==2022) and
-                                    (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                    (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                            ((c.get(Calendar.YEAR)==2022) and
-                                    (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                    (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
-                                    ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
-                                            <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
-
-                    ){ Text(text="Event Finished!",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.W600,
-                            fontFamily = clash,
-                            color = Color(0xffA3A7AC)
-                    )}
-                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
-                        Text(
-                                text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.W600,
-                                fontFamily = clash,
-                                color = Color(0xffA3A7AC)
-                        )
-                    }
-                    else{
-                        Text(
-                                text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.W600,
-                                fontFamily = clash,
-                                color = Color(0xffA3A7AC)
-                        )
-
-                    }
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-
-//            if (isadded.value) {
-//                Button(
-//                    onClick = {
-//                        isadded.value= false
-//                        viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
-//                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-//                    },
-//                    Modifier
-//                        .fillMaxWidth()
-//                        .height(55.dp),
-//                    shape = RoundedCornerShape(18.dp),
-//                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-//                ) {
-//                    Text(
-//                        text = "Remove from My Schedule",
-//                        fontSize = 16.sp,
-//                        fontWeight = FontWeight.W600,
-//                        fontFamily = clash,
-//                        color = Color.White
-//                    )
-//                }
-//            }
-//            if (!isadded.value){
-//                Button(
-//                    onClick = { isadded.value= true
-//                        viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
-//                        scheduleDatabase.addEventsInSchedule(
-//                            eventWithLive.eventdetail,
-//                            context
-//                        )
-//                    },
-//                    Modifier
-//                        .fillMaxWidth()
-//                        .height(55.dp),
-//                    shape = RoundedCornerShape(18.dp),
-//                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-//                ) {
-//                    Text(
-//                        text = "Add to My Schedule",
-//                        fontSize = 18.sp,
-//                        fontWeight = FontWeight.W600,
-//                        fontFamily = clash,
-//                        color = Color.White
-//                    )
-//                }
-//            }
-
-//            Button(
-//                onClick =   { startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))}
-//                ,
-//                Modifier
-//                    .fillMaxWidth()
-//                    .height(55.dp),
-//                shape = RoundedCornerShape(18.dp),
-//                colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-//            ) {
-//                Text(
-//                    text = "Register",
-//                    fontSize = 18.sp,
-//                    fontWeight = FontWeight.W600,
-//                    fontFamily = clash,
-//                    color = Color.White
-//                )
-//            }
-            Spacer(modifier = Modifier.height(24.dp))
-
-
-
-
-
-
-
-
-
-        }
+        Spacer(modifier = Modifier.height(5.dp))
     }
 
 
