@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -58,15 +59,15 @@ public class Login extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     private static final String TAG = "TAG";
 
-    VideoView videoView;
+    //VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loaderView = findViewById(R.id.dots_progress);
-        loaderView.setVisibility(View.GONE);
+/*        loaderView = findViewById(R.id.dots_progress);
+        loaderView.setVisibility(View.GONE);*/
 
         SignupTextView =findViewById(R.id.signup_here);
         backButton =findViewById(R.id.back_button);
@@ -109,17 +110,17 @@ public class Login extends AppCompatActivity {
             public void handleOnBackPressed() { goBack(); }
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
-        loadVideo();
+        //loadVideo();
 
     }
 
     private void loadVideo() {
-        videoView=findViewById(R.id.videoview);
+        //videoView=findViewById(R.id.videoview);
         Uri uri= Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.greeting_video);
-        videoView.setVideoURI(uri);
-        videoView.start();
+        //videoView.setVideoURI(uri);
+        //videoView.start();
 
-        videoView.setOnPreparedListener(mp -> mp.setLooping(true));
+        //videoView.setOnPreparedListener(mp -> mp.setLooping(true));
     }
 
     private void goBack() {
@@ -164,7 +165,9 @@ public class Login extends AppCompatActivity {
                                 saveDetails(finalName, finalEmail, task2.getResult().getString("PhotoURL"));
                                 setInterests(email);
                                 loaderView.setVisibility(View.GONE);
-                                startMainActivity();
+                                if(Objects.equals(task2.getResult().getString("mode"), "white") || Objects.equals(task2.getResult().getString("mode"), "black"))
+                                    startMainActivity();
+                                else startInterestActivity();
                             }else{
                                 //final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                                 //assert currentUser != null;
@@ -256,30 +259,40 @@ public class Login extends AppCompatActivity {
                 FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
                 assert firebaseUser != null;
                 if(firebaseUser.isEmailVerified()){
-                    toast("Login Successful");
+                    //toast("Login Successful");
+                    firebaseFirestore.collection("USERS").document(email).collection("interests").document("interests").get().addOnCompleteListener(task1 -> {
+                        loaderView.setVisibility(View.GONE);
+                        if(task1.isSuccessful() && !task1.getResult().exists()){
+                            /*Intent intent = new Intent(this, PickASide.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);*/
+                        }else {
+                            setInterests(email);
+                            /*Intent intent = new Intent(this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);*/
+                        }
+                        //finish();
+                    });
+                    
                     firebaseFirestore.collection("USERS").document(email).get().addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
                             String nameString = task1.getResult().getString("Name");
                             Log.d(TAG, "The entire data obtained is: " + task1.getResult().getData());
                             saveDetails(nameString,email, task1.getResult().getString("PhotoURL"));
+
+                            loaderView.setVisibility(View.GONE);
+
+                            if(Objects.equals(task1.getResult().getString("mode"), "white") || Objects.equals(task1.getResult().getString("mode"), "black"))
+                                startMainActivity();
+                            else startInterestActivity();
                         }else{
+                            loaderView.setVisibility(View.GONE);
                             Toast.makeText(this, "Could not get username",Toast.LENGTH_SHORT).show();
                         }
                     });
-                    firebaseFirestore.collection("USERS").document(email).collection("interests").document("interests").get().addOnCompleteListener(task1 -> {
-                        loaderView.setVisibility(View.GONE);
-                        if(task1.isSuccessful() && !task1.getResult().exists()){
-                            Intent intent = new Intent(this, InterestsActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }else {
-                            setInterests(email);
-                            Intent intent = new Intent(this, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }
-                        finish();
-                    });
+
+
                 }
                 else{
                     loaderView.setVisibility(View.GONE);
@@ -357,7 +370,9 @@ public class Login extends AppCompatActivity {
                             loaderView.setVisibility(View.GONE);
                             Log.d(TAG, "Login with Google Successful");
                             toast("Welcome back "+ user.getDisplayName());
-                            startMainActivity();
+                            if(Objects.equals(task2.getResult().getString("mode"), "white") || Objects.equals(task2.getResult().getString("mode"), "black"))
+                                startMainActivity();
+                            else startInterestActivity();
                         }else{
                             //final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                             //assert currentUser != null;
@@ -381,7 +396,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void startInterestActivity(){
-        Intent intent = new Intent(this, InterestsActivity.class);
+        Intent intent = new Intent(this, PickASide.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
@@ -474,25 +489,25 @@ public class Login extends AppCompatActivity {
     }
     @Override
     protected void onResume() {
-        videoView.resume();
+        //videoView.resume();
         super.onResume();
     }
 
     @Override
     protected void onRestart() {
-        videoView.start();
+        //videoView.start();
         super.onRestart();
     }
 
     @Override
     protected void onPause() {
-        videoView.suspend();
+        //videoView.suspend();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        videoView.stopPlayback();
+        //videoView.stopPlayback();
         super.onDestroy();
     }
 

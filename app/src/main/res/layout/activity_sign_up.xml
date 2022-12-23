@@ -281,7 +281,7 @@
             android:fontFamily="@font/aileron_black"
             android:gravity="center"
             android:text="Login here"
-            android:textColor="@color/black"
+            android:textColor="@color/primaryCol"
             android:textSize="19sp" />
 
         <View
