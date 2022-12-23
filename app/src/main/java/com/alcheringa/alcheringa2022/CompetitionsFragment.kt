@@ -20,8 +20,10 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -31,11 +33,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
+import com.alcheringa.alcheringa2022.Model.addNewItem
 import com.alcheringa.alcheringa2022.Model.eventWithLive
+import com.alcheringa.alcheringa2022.Model.removeAnItem
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentCompetitionsBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
@@ -186,19 +191,39 @@ class CompetitionsFragment : Fragment() {
     fun Events_row(heading: String,events_list:List<eventWithLive>) {
 
        if (events_list.isNotEmpty()){
+           Spacer(modifier = Modifier.height(36.dp))
         Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
-            Text(text = heading.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
-                style = TextStyle(
-                    color = colors.onBackground,
+            Box(
+            ) {
+                Card(
+                    Modifier
+                        .height(10.dp)
+                        .offset(x = -5.dp, y = 16.dp)
+                        .alpha(0.4f),
+                    shape = RoundedCornerShape(100.dp),
+                    backgroundColor = orangeText
+
+                ){
+                    Text(
+
+                        text = "  "+heading.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }+"  ",
+                        fontFamily = aileron,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Transparent,
+                        fontSize = 21.sp
+                    )
+                }
+                Text(
+
+                    text = heading.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
                     fontFamily = aileron,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    color = colors.onBackground,
+                    fontSize = 21.sp
                 )
-            )
+            }
         }
-
-
-        Spacer(modifier = Modifier.height(24.dp))}
+        Spacer(modifier = Modifier.height(10.dp))}
     }
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
@@ -255,13 +280,14 @@ class CompetitionsFragment : Fragment() {
                                 scheduleDatabase = ScheduleDatabase(context)
 
                                 Defaultimg(eventWithLive = eventfordes)
-                                if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
-                                        .uppercase() == "Competitions".uppercase()
-                                ) {
-                                    Bottomviewcomp(eventWithLive = eventfordes)
-                                } else {
-                                    Bottomviewnewevent(eventWithLive = eventfordes)
-                                }
+//                                if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
+//                                        .uppercase() == "Competitions".uppercase()
+//                                ) {
+//                                    Bottomviewcomp(eventWithLive = eventfordes)
+//                                } else {
+//                                    Bottomviewnewevent(eventWithLive = eventfordes)
+//                                }
+                                Bottomviewcomp(eventWithLive = eventfordes)
                                 Spacer(modifier = Modifier.height(0.dp))
                             }
                         }
@@ -284,209 +310,271 @@ class CompetitionsFragment : Fragment() {
                                 .verticalScroll(rememberScrollState())
                             /*.background(Color.Black)*/
                         ) {
-                            Spacer(modifier = Modifier.height(70.dp))
-                            Events_row(heading = "VOGUE NATION",voguenationlist)
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                            ) { items(voguenationlist) { dataEach -> context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    homeViewModel,
-                                    it,
-                                    "artist"
+                            if(voguenationlist.isNotEmpty()){
+                                Events_row(heading = "VOGUE NATION", voguenationlist)
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
                                 ) {
-                                    artist = dataEach.eventdetail.artist
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                    items(voguenationlist) { dataEach ->
+                                        context?.let {
+                                            Event_card_Scaffold(
+                                                eventdetail = dataEach,
+                                                homeViewModel,
+                                                it,
+                                                "artist"
+                                            ) {
+                                                artist = dataEach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            } } }
+                            }
 
-                            Events_row(heading = "CLASS APART",classapartlist)
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                            ) { items(classapartlist) { dataEach -> context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    homeViewModel,
-                                    it,
-                                    "artist"
+                            if(classapartlist.isNotEmpty()){
+                                Events_row(heading = "CLASS APART", classapartlist)
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
                                 ) {
-                                    artist = dataEach.eventdetail.artist
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                    items(classapartlist) { dataEach ->
+                                        context?.let {
+                                            Event_card_Scaffold(
+                                                eventdetail = dataEach,
+                                                homeViewModel,
+                                                it,
+                                                "artist"
+                                            ) {
+                                                artist = dataEach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            } } }
+                            }
 
-                            Events_row(heading = "ANY BODY CAN DANCE",anybodycandancelist)
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                            ) { items(anybodycandancelist) { dataEach -> context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    homeViewModel,
-                                    it,
-                                    "artist"
+                            if(anybodycandancelist.isNotEmpty()){
+                                Events_row(heading = "ANY BODY CAN DANCE", anybodycandancelist)
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
                                 ) {
-                                    artist = dataEach.eventdetail.artist
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                    items(anybodycandancelist) { dataEach ->
+                                        context?.let {
+                                            Event_card_Scaffold(
+                                                eventdetail = dataEach,
+                                                homeViewModel,
+                                                it,
+                                                "artist"
+                                            ) {
+                                                artist = dataEach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            } } }
+                            }
 
-                            Events_row(heading = "MUSIC",musiclist)
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                            ) { items(musiclist) { dataEach -> context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    homeViewModel,
-                                    it,
-                                    "artist"
+                            if(musiclist.isNotEmpty()){
+                                Events_row(heading = "MUSIC", musiclist)
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
                                 ) {
-                                    artist = dataEach.eventdetail.artist
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                    items(musiclist) { dataEach ->
+                                        context?.let {
+                                            Event_card_Scaffold(
+                                                eventdetail = dataEach,
+                                                homeViewModel,
+                                                it,
+                                                "artist"
+                                            ) {
+                                                artist = dataEach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            } } }
+                            }
 
 
-                            Events_row(heading = "LITERARY",literarylist)
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                            ) { items(literarylist) { dataEach -> context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    homeViewModel,
-                                    it,
-                                    "artist"
+                            if(literarylist.isNotEmpty()){
+                                Events_row(heading = "LITERARY", literarylist)
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
                                 ) {
-                                    artist = dataEach.eventdetail.artist
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                    items(literarylist) { dataEach ->
+                                        context?.let {
+                                            Event_card_Scaffold(
+                                                eventdetail = dataEach,
+                                                homeViewModel,
+                                                it,
+                                                "artist"
+                                            ) {
+                                                artist = dataEach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            } } }
+                            }
 
 
-                            Events_row(heading = "ART TALKIES", arttalikieslist)
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                            ) { items(arttalikieslist) { dataEach -> context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    homeViewModel,
-                                    it,
-                                    "artist"
+                            if(arttalikieslist.isNotEmpty()){
+                                Events_row(heading = "ART TALKIES", arttalikieslist)
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
                                 ) {
-                                    artist = dataEach.eventdetail.artist
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                    items(arttalikieslist) { dataEach ->
+                                        context?.let {
+                                            Event_card_Scaffold(
+                                                eventdetail = dataEach,
+                                                homeViewModel,
+                                                it,
+                                                "artist"
+                                            ) {
+                                                artist = dataEach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            } } }
+                            }
 
-                            Events_row(heading = "DIGITAL DEXTERITY",digitaldextiritylist)
+                            if(digitaldextiritylist.isNotEmpty()){
+                                Events_row(heading = "DIGITAL DEXTERITY", digitaldextiritylist)
 
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                            ) { items(digitaldextiritylist) { dataEach -> context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    homeViewModel,
-                                    it,
-                                    "artist"
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
                                 ) {
-                                    artist = dataEach.eventdetail.artist
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                    items(digitaldextiritylist) { dataEach ->
+                                        context?.let {
+                                            Event_card_Scaffold(
+                                                eventdetail = dataEach,
+                                                homeViewModel,
+                                                it,
+                                                "artist"
+                                            ) {
+                                                artist = dataEach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            } } }
+                            }
 
 
-                            Events_row(heading = "LIGHTS CAMERA ACTION",lighcameraactionlist)
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                            ) { items(lighcameraactionlist) { dataEach -> context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    homeViewModel,
-                                    it,
-                                    "artist"
+                            if(lighcameraactionlist.isNotEmpty()){
+                                Events_row(heading = "LIGHTS CAMERA ACTION", lighcameraactionlist)
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
                                 ) {
-                                    artist = dataEach.eventdetail.artist
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                    items(lighcameraactionlist) { dataEach ->
+                                        context?.let {
+                                            Event_card_Scaffold(
+                                                eventdetail = dataEach,
+                                                homeViewModel,
+                                                it,
+                                                "artist"
+                                            ) {
+                                                artist = dataEach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            } } }
+                            }
 
 
-                            Events_row(heading = "MODEL UNITED NATIONS",mun)
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(horizontal = 20.dp)
-                            ) { items(mun) { dataEach -> context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    homeViewModel,
-                                    it,
-                                    "artist"
+                            if(mun.isNotEmpty()){
+                                Events_row(heading = "MODEL UNITED NATIONS", mun)
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
                                 ) {
-                                    artist = dataEach.eventdetail.artist
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                    items(mun) { dataEach ->
+                                        context?.let {
+                                            Event_card_Scaffold(
+                                                eventdetail = dataEach,
+                                                homeViewModel,
+                                                it,
+                                                "artist"
+                                            ) {
+                                                artist = dataEach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                            } } }
+                            }
                         }
                     }
 
@@ -501,22 +589,22 @@ class CompetitionsFragment : Fragment() {
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp)
+
         ) {
             Column {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(284.dp),
-                    shape = RoundedCornerShape(28.dp),
-                    border = BorderStroke(2.dp, colors.secondary)
-                ) {
+                    shape = RoundedCornerShape(28.dp, 28.dp),
+
+                    ) {
                     GlideImage(
                         imageModel = eventWithLive.eventdetail.imgurl,
                         contentDescription = "artist",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(284.dp),
+                            .height(297.dp),
                         //                circularReveal = CircularReveal(300),
 
                         alignment = Alignment.Center,
@@ -581,49 +669,52 @@ class CompetitionsFragment : Fragment() {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(8.dp)
+
+                        .border(1.dp, colors.secondary)
                 ) {
                     Column(
                         modifier = Modifier
+                            .padding(horizontal = 20.dp, vertical = 8.dp)
                             .fillMaxWidth()
                             .wrapContentHeight(),
                     ) {
-                        Row {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                text = eventWithLive.eventdetail.artist.uppercase(),
+                                text = eventWithLive.eventdetail.artist,
                                 color = colors.onBackground,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 28.sp,
-                                fontFamily = star_guard
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 42.sp,
+                                fontFamily = aileron
                             )
-                            if (eventWithLive.isLive.value) {
-                                Box(
-                                    modifier = Modifier
-                                        .width(68.dp)
-                                        .height(21.dp)
-                                        .clip(RoundedCornerShape(4.dp))
-                                        .background(liveGreen),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = "⬤ LIVE ",
-                                        color = white,
-                                        fontFamily = hk_grotesk, fontWeight = FontWeight.W500,
-                                        fontSize = 12.sp
-                                    )
-                                }
-                            }
+//                            if (eventWithLive.isLive.value) {
+//                                Box(
+//                                    modifier = Modifier
+//                                        .width(68.dp)
+//                                        .height(21.dp)
+//                                        .clip(RoundedCornerShape(4.dp))
+//                                        .background(liveGreen),
+//                                    contentAlignment = Alignment.Center
+//                                ) {
+//                                    Text(
+//                                        text = "⬤ LIVE ",
+//                                        color = white,
+//                                        fontFamily = hk_grotesk, fontWeight = FontWeight.W500,
+//                                        fontSize = 12.sp
+//                                    )
+//                                }
+//                            }
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = eventWithLive.eventdetail.category,
                             style = TextStyle(
                                 color = colors.onBackground,
                                 fontFamily = aileron,
-                                fontWeight = FontWeight.Normal,
+                                fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp
                             )
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
 
 
                     }
@@ -637,63 +728,64 @@ class CompetitionsFragment : Fragment() {
 
     @Composable
     fun eventButtons(eventWithLive: eventWithLive){
+        val c=Calendar.getInstance()
+        val isFinished = (c.get(Calendar.YEAR)>2022) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                        (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                        (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
+                        ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
+                                <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+
         if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
                 .uppercase() == "Competitions".uppercase()
-        ) {
+        )
+        {
 
-            if (eventWithLive.isLive.value) {
+            if (eventWithLive.isLive.value && eventWithLive.eventdetail.joinlink != "") {
                 Button(
                     onClick = {
                         startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
                     },
                     Modifier
                         .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        orangeText
+                        blu
                     )
                 ) {
                     Text(
                         text = "Join Event",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color.White
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black
                     )
 
                 }
-                Spacer(modifier = Modifier.height(12.dp))
+
             }
-            else if (!eventWithLive.isLive.value && eventWithLive.eventdetail.stream){
+            else if (isFinished){
                 Button(
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        Color(0xff4A4949)
+                        midWhite
                     )
-                ) { val c=Calendar.getInstance()
-                    if( (c.get(Calendar.YEAR)>2022) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
-                                ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
-                                        <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
-
-                    ){ Text(text="Event Finished!",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color(0xffA3A7AC)
-                    )}
+                ) {
+                    Text(text="Event Finished!",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black)
 //                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
 //                        Text(
 //                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
@@ -714,7 +806,159 @@ class CompetitionsFragment : Fragment() {
 //
 //                    }
                 }
-                Spacer(modifier = Modifier.height(12.dp))
+
+
+            }
+            else{
+                Button(
+                    onClick = {
+                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
+                    },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        blu
+                    )
+                ) {
+                    Text(
+                        text = "Register",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black
+                    )
+
+                }
+
+            }
+        }
+        else
+        {
+//            if (eventWithLive.isLive.value) {
+//                Button(
+//                    onClick = {
+//                        if(eventWithLive.eventdetail.joinlink!=""){
+//                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
+//
+//                        }
+//
+//                    },
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(72.dp),
+//                    shape = RoundedCornerShape(0.dp),
+//                    colors = ButtonDefaults.buttonColors(
+//                        blu
+//                    )
+//                ) {
+//                    Text(
+//                        text = if(eventWithLive.eventdetail.joinlink=="")  "Running Offline" else "Join Event",
+//                        fontSize = 20.sp,
+//                        fontWeight = FontWeight.SemiBold,
+//                        fontFamily = aileron,
+//                        color = black
+//                    )
+//
+//                }
+//
+//            }
+//            else if (!eventWithLive.isLive.value && eventWithLive.eventdetail.stream){
+//                Button(
+//                    onClick = {},
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(72.dp),
+//                    shape = RoundedCornerShape(0.dp),
+//                    colors = ButtonDefaults.buttonColors(
+//                        midWhite
+//                    )
+//                ) { val c=Calendar.getInstance()
+//                    if( (c.get(Calendar.YEAR)>2022) or
+//                        ((c.get(Calendar.YEAR)==2022) and
+//                                (c.get(Calendar.MONTH)> Calendar.MARCH)) or
+//                        ((c.get(Calendar.YEAR)==2022) and
+//                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
+//                                (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
+//                        ((c.get(Calendar.YEAR)==2022) and
+//                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
+//                                (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
+//                                ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
+//                                        <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+//
+//                    ){ Text(text="Event Finished!",
+//                        fontSize = 20.sp,
+//                        fontWeight = FontWeight.SemiBold,
+//                        fontFamily = aileron,
+//                        color = black
+//                    )}
+//                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
+//                        Text(
+//                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
+//                            fontSize = 20.sp,
+//                            fontWeight = FontWeight.SemiBold,
+//                            fontFamily = aileron,
+//                            color = black
+//                        )
+//                    }
+//                    else{
+//                        Text(
+//                            text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
+//                            fontSize = 20.sp,
+//                            fontWeight = FontWeight.SemiBold,
+//                            fontFamily = aileron,
+//                            color = black
+//                        )
+//
+//                    }
+//                }
+//            }
+            if (isFinished){
+                Button(
+                    onClick = {},
+                    Modifier
+                        .fillMaxWidth()
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        midWhite
+                    )
+                ) {
+                    Text(text="Event Finished!",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black)
+                }
+            }
+            else if(eventWithLive.eventdetail.venue != "") {
+                Button(
+                    onClick = {
+                        //TODO: (Shantanu) Implement all venue locations
+                        val gmmIntentUri =
+                            Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
+                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                        mapIntent.setPackage("com.google.android.apps.maps")
+                        startActivity(mapIntent)
+                    },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        blu
+                    )
+                ) {
+                    Text(
+                        text = "Navigate to venue",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black
+                    )
+
+                }
             }
         }
     }
@@ -722,6 +966,19 @@ class CompetitionsFragment : Fragment() {
 
     @Composable
     fun Bottomviewcomp(eventWithLive:eventWithLive){
+        val c=Calendar.getInstance()
+        val isFinished = (c.get(Calendar.YEAR)>2022) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                        (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
+                ((c.get(Calendar.YEAR)==2022) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                        (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
+                        ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
+                                <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+
         var isadded=remember{ mutableStateOf(false)}
         LaunchedEffect(key1=Unit,block = {
             isadded.value=homeViewModel.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
@@ -782,32 +1039,138 @@ class CompetitionsFragment : Fragment() {
 //                    }
 //                }
 //            }
-            if (true) {
-                Spacer(modifier = Modifier.height(20.dp))
+            if(eventWithLive.eventdetail.venue != ""){
                 Row(
-                    modifier = Modifier.fillMaxWidth(), Arrangement.Start)
+                    modifier = Modifier.fillMaxWidth(), Arrangement.Start, verticalAlignment = Alignment.CenterVertically)
+                {
+                    Image(
+                        painter = painterResource(id = R.drawable.location_pin),
+                        contentDescription = null,
+
+
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.onBackground))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = eventWithLive.eventdetail.venue,
+                        style = TextStyle(
+                            color = colors.onBackground,
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp
+                        )
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(18.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(),
+                Arrangement.SpaceBetween,) {
+                Row(
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                )
                 {
                     Image(
                         painter = painterResource(id = R.drawable.schedule),
                         contentDescription = null,
                         modifier = Modifier
-                            .width(20.dp)
-                            .height(20.dp),
+                            .width(24.dp)
+                            .height(24.dp),
                         alignment = Alignment.Center,
-                        contentScale = ContentScale.Crop)
-                    Spacer(modifier = Modifier.width(6.dp))
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.onBackground)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
+                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
                         style = TextStyle(
                             color = colors.onBackground,
                             fontFamily = aileron,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 16.sp
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp
                         )
                     )
                 }
+
+
+                if (true) {
+                    Box(modifier = Modifier
+                        .height(40.dp)
+                        .border(1.dp, colors.secondary)
+                        .padding(10.dp)
+                    ){
+                        if( !isadded.value) {
+                            Row()
+                            {
+
+                                Image(
+                                    modifier = Modifier
+                                        .width(18.dp)
+                                        .height(18.dp)
+                                        .clickable {
+                                            isadded.value = true
+                                            homeViewModel.OwnEventsWithLive.addNewItem(
+                                                eventWithLive.eventdetail
+                                            )
+                                            scheduleDatabase.addEventsInSchedule(
+                                                eventWithLive.eventdetail,
+                                                context
+                                            )
+                                        },
+                                    painter = painterResource(id = R.drawable.add_icon),
+                                    contentDescription = "null",
+                                    colorFilter = ColorFilter.tint(colors.onBackground)
+                                )
+                                Spacer(Modifier.width(10.dp))
+                                Text(
+                                    text = "Add to Schedule",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = colors.onBackground,
+                                    fontSize = 16.sp
+                                )
+                            }
+
+                        }
+                        if(isadded.value)
+                        {
+                            Row() {
+                                Image(
+                                    modifier = Modifier
+                                        .width(20.dp)
+                                        .height(20.dp)
+                                        .clickable {
+                                            isadded.value = false
+                                            homeViewModel.OwnEventsWithLive.removeAnItem(
+                                                eventWithLive.eventdetail
+                                            )
+                                            scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+
+                                        },
+                                    painter = painterResource(id = R.drawable.tickokay),
+                                    contentDescription = "null",
+                                    contentScale = ContentScale.FillBounds,
+                                    colorFilter = ColorFilter.tint(colors.onBackground)
+                                )
+                                Spacer(Modifier.width(10.dp))
+                                Text(
+                                    text = "Added to Schedule",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = colors.onBackground,
+                                    fontSize = 16.sp
+                                )
+                            }
+                        }
+                    }
+                }
+
+
             }
-            Spacer(modifier = Modifier.height(20.dp))
+
+            Spacer(modifier = Modifier.height(16.dp))
             Text(text =eventfordes.eventdetail.descriptionEvent ,
                 fontFamily = aileron,
                 fontWeight = FontWeight.Normal,
@@ -815,81 +1178,41 @@ class CompetitionsFragment : Fragment() {
                 fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(36.dp))
-            if (eventWithLive.isLive.value) {
-                Button(
-                    onClick = {
-                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        orangeText
-                    )
-                ) {
-                    Text(
-                        text = "Join Event",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color.White
-                    )
-
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-            else if (!eventWithLive.isLive.value && eventWithLive.eventdetail.stream){
-                Button(
-                    onClick = {},
-                    Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        Color(0xff4A4949)
-                    )
-                ) { val c=Calendar.getInstance()
-                    if( (c.get(Calendar.YEAR)>2022) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
-                                ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
-                                        <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
-
-                    ){ Text(text="Event Finished!",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color(0xffA3A7AC)
-                    )}
-                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
-                        Text(
-                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
-                            fontFamily = clash,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-                    else{
-                        Text(
-                            text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
-                            fontFamily = clash,
-                            color = Color(0xffA3A7AC)
-                        )
-
-                    }
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-            }
+//            if (!eventWithLive.isLive.value  && !isFinished){
+//                Button(
+//                    onClick = {},
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(72.dp),
+//                    shape = RoundedCornerShape(0.dp),
+//                    colors = ButtonDefaults.buttonColors(
+//                        midWhite
+//                    )
+//                ) {
+//
+//                        if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
+//                            Text(
+//                                text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
+//                                fontSize = 20.sp,
+//                                fontWeight = FontWeight.SemiBold,
+//                                fontFamily = aileron,
+//                                color = black
+//                            )
+//                        }
+//                        else{
+//                            Text(
+//                                text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
+//                                fontSize = 20.sp,
+//                                fontWeight = FontWeight.SemiBold,
+//                                fontFamily = aileron,
+//                                color = black
+//                            )
+//
+//                        }
+//
+//                }
+//
+//            }
 
 //            if (isadded.value) {
 //                Button(
@@ -950,284 +1273,4 @@ class CompetitionsFragment : Fragment() {
         }
     }
 
-
-    @Composable
-    fun Bottomviewnewevent(eventWithLive:eventWithLive){
-        var isadded=remember{ mutableStateOf(false)}
-        LaunchedEffect(key1=Unit,block = {
-            isadded.value=homeViewModel.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
-
-        })
-
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)) {
-            Spacer(modifier = Modifier.height(30.dp))
-//            Row(
-//                modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween)
-//            {
-//                Row(Modifier.wrapContentSize()) {
-//
-//
-//                    Image(
-//                        painter = if (eventWithLive.eventdetail.mode.uppercase().contains("ONLINE")) {
-//                            painterResource(id = R.drawable.online)
-//                        } else {
-//                            painterResource(id = R.drawable.onground)
-//                        },
-//                        contentDescription = null,
-//                        modifier = Modifier
-//                            .width(16.dp)
-//                            .height(16.dp),
-//                        alignment = Alignment.Center,
-//                        contentScale = ContentScale.Crop
-//
-//                    )
-//                    Spacer(modifier = Modifier.width(6.dp))
-//                    Text(
-//                        text = eventWithLive.eventdetail.mode.uppercase(),
-//                        style = TextStyle(
-//                            color = colorResource(id = R.color.textGray),
-//                            fontFamily = hk_grotesk,
-//                            fontWeight = FontWeight.Normal,
-//                            fontSize = 14.sp
-//                        )
-//                    )
-//                }
-//
-//                if (eventWithLive.eventdetail.stream) {
-//                    Box(modifier = Modifier
-//                        .wrapContentSize()
-//                    ){
-//
-//
-//                        if( !isadded.value) {
-//
-//                            Image( modifier = Modifier
-//                                .width(18.dp)
-//                                .height(18.dp)
-//                                .clickable {
-//                                    isadded.value = true
-//                                    homeViewModel.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
-//                                    scheduleDatabase.addEventsInSchedule(
-//                                        eventWithLive.eventdetail,
-//                                        context
-//                                    )
-//                                },
-//                                painter = painterResource(id = R.drawable.add_icon),
-//                                contentDescription ="null")
-//                        }
-//                        if(isadded.value)
-//                        {
-//                            Image( modifier = Modifier
-//                                .width(20.dp)
-//                                .height(20.dp)
-//                                .clickable {
-//                                    isadded.value = false
-//                                    homeViewModel.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
-//                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-//                                    Toast
-//                                        .makeText(
-//                                            context,
-//                                            "Event removed from My Schedule",
-//                                            Toast.LENGTH_SHORT
-//                                        )
-//                                        .show()
-//                                },
-//                                painter = painterResource(id = R.drawable.tickokay),
-//                                contentDescription ="null", contentScale = ContentScale.FillBounds)
-//                        }
-//                    }
-//                }
-//            }
-            if (eventWithLive.eventdetail.stream) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(), Arrangement.Start)
-                {
-                    Image(
-                        painter = painterResource(id = R.drawable.schedule),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(20.dp)
-                            .height(20.dp),
-                        alignment = Alignment.Center,
-                        contentScale = ContentScale.Crop)
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
-                        style = TextStyle(
-                            color = colorResource(id = R.color.textGray),
-                            fontFamily = clash,
-                            fontWeight = FontWeight.W500,
-                            fontSize = 20.sp
-                        )
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text =eventfordes.eventdetail.descriptionEvent ,
-                fontFamily = hk_grotesk,
-                fontWeight = FontWeight.W600,
-                color = Color(0xffC7CCD1),
-                fontSize = 16.sp
-            )
-            Spacer(modifier = Modifier.height(36.dp))
-            if (eventWithLive.isLive.value) {
-                Button(
-                    onClick = {
-                        if(eventWithLive.eventdetail.joinlink!=""){
-                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
-
-                        }
-
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        orangeText
-                    )
-                ) {
-                    Text(
-                        text = if(eventWithLive.eventdetail.joinlink=="")  "Running Offline" else "Join Event",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color.White
-                    )
-
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-            else if (!eventWithLive.isLive.value && eventWithLive.eventdetail.stream){
-                Button(
-                    onClick = {},
-                    Modifier
-                        .fillMaxWidth()
-                        .height(55.dp),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        Color(0xff4A4949)
-                    )
-                ) { val c=Calendar.getInstance()
-                    if( (c.get(Calendar.YEAR)>2022) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                        ((c.get(Calendar.YEAR)==2022) and
-                                (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                                (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
-                                ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
-                                        <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
-
-                    ){ Text(text="Event Finished!",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W600,
-                        fontFamily = clash,
-                        color = Color(0xffA3A7AC)
-                    )}
-                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
-                        Text(
-                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
-                            fontFamily = clash,
-                            color = Color(0xffA3A7AC)
-                        )
-                    }
-                    else{
-                        Text(
-                            text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
-                            fontFamily = clash,
-                            color = Color(0xffA3A7AC)
-                        )
-
-                    }
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-
-//            if (isadded.value) {
-//                Button(
-//                    onClick = {
-//                        isadded.value= false
-//                        viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
-//                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-//                    },
-//                    Modifier
-//                        .fillMaxWidth()
-//                        .height(55.dp),
-//                    shape = RoundedCornerShape(18.dp),
-//                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-//                ) {
-//                    Text(
-//                        text = "Remove from My Schedule",
-//                        fontSize = 16.sp,
-//                        fontWeight = FontWeight.W600,
-//                        fontFamily = clash,
-//                        color = Color.White
-//                    )
-//                }
-//            }
-//            if (!isadded.value){
-//                Button(
-//                    onClick = { isadded.value= true
-//                        viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
-//                        scheduleDatabase.addEventsInSchedule(
-//                            eventWithLive.eventdetail,
-//                            context
-//                        )
-//                    },
-//                    Modifier
-//                        .fillMaxWidth()
-//                        .height(55.dp),
-//                    shape = RoundedCornerShape(18.dp),
-//                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-//                ) {
-//                    Text(
-//                        text = "Add to My Schedule",
-//                        fontSize = 18.sp,
-//                        fontWeight = FontWeight.W600,
-//                        fontFamily = clash,
-//                        color = Color.White
-//                    )
-//                }
-//            }
-
-//            Button(
-//                onClick =   { startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))}
-//                ,
-//                Modifier
-//                    .fillMaxWidth()
-//                    .height(55.dp),
-//                shape = RoundedCornerShape(18.dp),
-//                colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-//            ) {
-//                Text(
-//                    text = "Register",
-//                    fontSize = 18.sp,
-//                    fontWeight = FontWeight.W600,
-//                    fontFamily = clash,
-//                    color = Color.White
-//                )
-//            }
-            Spacer(modifier = Modifier.height(24.dp))
-
-
-
-
-
-
-
-
-
-        }
-    }
 }
