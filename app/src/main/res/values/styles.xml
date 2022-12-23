@@ -71,25 +71,25 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:fontFamily">@font/clash_display_600</item>
+        <item name="android:textColor">#0E0E0F</item>
+        <item name="android:fontFamily">@font/aileron_semibold</item>
         <item name="android:layout_marginBottom">16dp</item>
     </style>
 
     <style name="order_summary_small_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/TextGrey</item>
+        <item name="android:textColor">#656565</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/hk_grotesk_600</item>
+        <item name="android:fontFamily">@font/aileron_semibold</item>
     </style>
 
     <style name="order_summary_medium_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">#0E0E0F</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:fontFamily">@font/hk_grotesk_600</item>
+        <item name="android:fontFamily">@font/aileron_semibold</item>
     </style>
 
     <style name="bottom_orange_button">
@@ -103,13 +103,25 @@
         <item name="android:padding">16.5dp</item>
     </style>
 
+    <style name="pay_btn_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/clash_display_700</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/custom_button</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:padding">16.5dp</item>
+    </style>
+
+
     <style name="order_summary_very_small_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">12dp</item>
-        <item name="android:textColor">#BCBCBC</item>
-        <item name="android:fontFamily">@font/hk_grotesk_400</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#0E0E0F</item>
+        <item name="android:fontFamily">@font/aileron_semibold</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="merch_size_selected">
@@ -168,7 +180,7 @@
         <item name="android:paddingStart">20dp</item>
         <item name="android:paddingEnd">20dp</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:fontFamily">@font/hk_grotesk_400</item>
+        <item name="android:fontFamily">@font/aileron_regular</item>
         <item name="android:textColorHint">#B7B7B7</item>
         <item name="android:background">@drawable/custom_edit_text</item>
         <item name="android:layout_gravity">center</item>
@@ -234,12 +246,25 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:padding">10dp</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/aileron_regular</item>
+        <item name="android:fontFamily">@font/aileron_black</item>
     </style>
 
     <style name="rounded_image_9dp">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">9dp</item>
+    </style>
+    <style name="Confirm_btn_new">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@drawable/custom_button_2</item>
+        <item name="android:fontFamily">@font/aileron_semibold</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>
 
