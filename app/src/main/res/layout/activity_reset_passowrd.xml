@@ -9,42 +9,43 @@
 
     <ImageView
         android:id="@+id/backbtn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="22dp"
         android:background="@android:color/transparent"
-        android:padding="16dp"
-        android:src="@drawable/back"
+        android:src="@drawable/backbtn2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView6"
+        style="@style/headerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reset Password"
-        style="@style/headerText"
+        android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.12" />
+        app:layout_constraintVertical_bias="0.11" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/textView3"
+        style="@style/subText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:fontFamily="@font/aileron_regular"
         android:text="Please enter the email address used to register your account."
+        android:textAlignment="center"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2"
-        style="@style/subText"
-        android:padding="30dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:fontFamily="@font/hk_grotesk_500"/>
+        app:layout_constraintVertical_bias="0.22" />
 
 
     <EditText
@@ -60,38 +61,49 @@
         android:hint="Email"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
-        android:textColor="@color/black"
-        android:textColorHint="#B7B7B7"
+        android:textColor="@color/primaryCol"
+        style="@style/tertiaryText"
         android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.37" />
+        app:layout_constraintVertical_bias="0.34" />
 
 
     <Button
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:id="@+id/reset_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="@drawable/custom_button"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/proceed_button"
+        android:elevation="0dp"
+        android:fontFamily="@font/aileron_regular"
         android:foreground="?android:attr/selectableItemBackground"
-        android:backgroundTint="#EE6337"
+        android:gravity="start|center_vertical"
+        android:paddingVertical="15dp"
+        android:paddingStart="20dp"
         android:text="Reset Password"
         android:textAllCaps="false"
-        android:fontFamily="@font/clash_display_700"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
+        android:textColor="@color/Black"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.86" />
+        app:layout_constraintVertical_bias="0.92" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/reset_password"
+        app:layout_constraintEnd_toEndOf="@+id/reset_password"
+        app:layout_constraintTop_toTopOf="@+id/reset_password"
+        app:srcCompat="@drawable/proceed_arrow" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
