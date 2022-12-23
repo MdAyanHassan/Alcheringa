@@ -1,6 +1,8 @@
 package com.alcheringa.alcheringa2022.Model
 
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
 
 import androidx.compose.runtime.mutableStateOf
@@ -8,11 +10,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
+import com.alcheringa.alcheringa2022.LoaderView
 import com.alcheringa.alcheringa2022.Model.eventdetail
 import com.alcheringa.alcheringa2022.Model.eventWithLive
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.security.AccessController.getContext
 import java.util.*
 
 fun <T> MutableLiveData<MutableList<T>>.addNewItem(item: T) {
@@ -50,6 +56,7 @@ class viewModelHome : ViewModel() {
     val upcomingEventsLiveState = mutableStateListOf<eventWithLive>()
     val merchhome = mutableStateListOf<merchmodelforHome>()
     var crnttime = mutableStateOf(OwnTime())
+    val merchMerch = mutableStateListOf<merchModel>()
 
 
     fun getAllEvents() {
@@ -144,6 +151,38 @@ class viewModelHome : ViewModel() {
             }.addOnFailureListener { Log.d("merch", "failed") }
 
         }
+    }
+
+    fun getMerchMerch(){
+
+        merchMerch.clear()
+        fb.collection("Merch").get().addOnCompleteListener { task: Task<QuerySnapshot> ->
+            for (documentSnapshot in task.result) {
+                val obj = documentSnapshot["Images"] as ArrayList<String>?
+
+                merchMerch.add(
+                    merchModel(
+                        documentSnapshot.getString("Name"),
+                        documentSnapshot.getString("Type"),
+                        documentSnapshot.getString("Price"),
+                        documentSnapshot.getString("Description"),
+                        documentSnapshot.getString("Image"),
+                        documentSnapshot.getBoolean("Available"),
+                        documentSnapshot.getBoolean("Small"),
+                        documentSnapshot.getBoolean("Medium"),
+                        documentSnapshot.getBoolean("Large"),
+                        documentSnapshot.getBoolean("ExtraLarge"),
+                        documentSnapshot.getBoolean("XXLarge"),
+                        obj,
+                        documentSnapshot.getString("Video"),
+                        documentSnapshot.getString("Small_Description"),
+                        documentSnapshot.getString("background"),
+                        documentSnapshot.getString("Merch_Default")
+                    )
+                )
+            }
+        }
+
     }
 
     fun getfeaturedEvents() {

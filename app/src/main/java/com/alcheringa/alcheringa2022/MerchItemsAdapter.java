@@ -20,9 +20,9 @@ public class MerchItemsAdapter extends RecyclerView.Adapter<MerchItemViewHolder>
     Context context;
     com.alcheringa.alcheringa2022.onItemClick onItemClick;
     int[] back = {
-            R.drawable.hoodie_bg,
-            R.drawable.tale_bg,
-            R.drawable.voyager_bg,
+            R.drawable.merch_bg_1,
+            R.drawable.merch_bg_2,
+            R.drawable.merch_bg_3,
     };
 
     public MerchItemsAdapter(List<merchModel> list, Context context, com.alcheringa.alcheringa2022.onItemClick onItemClick) {
