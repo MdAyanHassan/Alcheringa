@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_margin="10dp"
+    android:layout_marginBottom="6dp"
     app:cardCornerRadius="8dp"
     android:id="@+id/merch_cart"
     android:layout_height="wrap_content">
@@ -12,12 +12,9 @@
         android:id="@+id/bg_card"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:background="@drawable/cart_item_border"
-        android:paddingStart="20dp"
-        android:paddingTop="24dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="24dp"
-        android:layout_marginBottom="6dp">
+        android:background="@drawable/card_item_border"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="24dp" >
 
         <ImageView
             android:id="@+id/merch_image"
