@@ -1305,13 +1305,15 @@ class Home : Fragment() {
                             scheduleDatabase = ScheduleDatabase(context)
 
                             Defaultimg(eventWithLive = eventfordes)
-                            if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
-                                    .uppercase() == "Competitions".uppercase()
-                            ) {
-                                Bottomviewcomp(eventWithLive = eventfordes)
-                            } else {
-                                Bottomviewnewevent(eventWithLive = eventfordes)
-                            }
+//                            if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
+//                                    .uppercase() == "Competitions".uppercase()
+//                            ) {
+//                                Bottomviewcomp(eventWithLive = eventfordes)
+//                            } else {
+//                                Bottomviewnewevent(eventWithLive = eventfordes)
+//                            }
+                            Bottomviewcomp(eventWithLive = eventfordes)
+
                             Spacer(modifier = Modifier.height(0.dp))
                         }
                     }
@@ -1651,22 +1653,22 @@ class Home : Fragment() {
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp)
+
         ) {
             Column {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(284.dp),
-                    shape = RoundedCornerShape(28.dp),
-                    border = BorderStroke(2.dp, colors.secondary)
+                    shape = RoundedCornerShape(28.dp, 28.dp),
+
                 ) {
                     GlideImage(
                         imageModel = eventWithLive.eventdetail.imgurl,
                         contentDescription = "artist",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(284.dp),
+                            .height(297.dp),
                         //                circularReveal = CircularReveal(300),
 
                         alignment = Alignment.Center,
@@ -1731,49 +1733,52 @@ class Home : Fragment() {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(8.dp)
+
+                        .border(1.dp, colors.secondary)
                 ) {
                     Column(
                         modifier = Modifier
+                            .padding(horizontal = 20.dp, vertical = 8.dp)
                             .fillMaxWidth()
                             .wrapContentHeight(),
                     ) {
-                        Row {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                text = eventWithLive.eventdetail.artist.uppercase(),
+                                text = eventWithLive.eventdetail.artist,
                                 color = colors.onBackground,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 28.sp,
-                                fontFamily = star_guard
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 42.sp,
+                                fontFamily = aileron
                             )
-                            if (eventWithLive.isLive.value) {
-                                Box(
-                                    modifier = Modifier
-                                        .width(68.dp)
-                                        .height(21.dp)
-                                        .clip(RoundedCornerShape(4.dp))
-                                        .background(liveGreen),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = "⬤ LIVE ",
-                                        color = white,
-                                        fontFamily = hk_grotesk, fontWeight = FontWeight.W500,
-                                        fontSize = 12.sp
-                                    )
-                                }
-                            }
+//                            if (eventWithLive.isLive.value) {
+//                                Box(
+//                                    modifier = Modifier
+//                                        .width(68.dp)
+//                                        .height(21.dp)
+//                                        .clip(RoundedCornerShape(4.dp))
+//                                        .background(liveGreen),
+//                                    contentAlignment = Alignment.Center
+//                                ) {
+//                                    Text(
+//                                        text = "⬤ LIVE ",
+//                                        color = white,
+//                                        fontFamily = hk_grotesk, fontWeight = FontWeight.W500,
+//                                        fontSize = 12.sp
+//                                    )
+//                                }
+//                            }
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = eventWithLive.eventdetail.category,
                             style = TextStyle(
                                 color = colors.onBackground,
                                 fontFamily = aileron,
-                                fontWeight = FontWeight.Normal,
+                                fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp
                             )
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
 
 
                     }
@@ -1805,7 +1810,7 @@ class Home : Fragment() {
         )
         {
 
-            if (eventWithLive.isLive.value) {
+            if (eventWithLive.isLive.value && eventWithLive.eventdetail.joinlink != "") {
                 Button(
                     onClick = {
                         startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
@@ -1973,31 +1978,33 @@ class Home : Fragment() {
 //                    }
 //                }
 //            }
-            Button(
-                onClick = {
-                    //TODO: (Shantanu) Implement all venue locations
-                    val gmmIntentUri =
-                        Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
-                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                    mapIntent.setPackage("com.google.android.apps.maps")
-                    startActivity(mapIntent)
-                },
-                Modifier
-                    .fillMaxWidth()
-                    .height(72.dp),
-                shape = RoundedCornerShape(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    blu
-                )
-            ) {
-                Text(
-                    text = "Navigate to venue",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = aileron,
-                    color = black
-                )
+            if(eventWithLive.eventdetail.venue != "") {
+                Button(
+                    onClick = {
+                        //TODO: (Shantanu) Implement all venue locations
+                        val gmmIntentUri =
+                            Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
+                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                        mapIntent.setPackage("com.google.android.apps.maps")
+                        startActivity(mapIntent)
+                    },
+                    Modifier
+                        .fillMaxWidth()
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        blu
+                    )
+                ) {
+                    Text(
+                        text = "Navigate to venue",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black
+                    )
 
+                }
             }
         }
     }
@@ -2078,32 +2085,138 @@ class Home : Fragment() {
 //                    }
 //                }
 //            }
-            if (true) {
-                Spacer(modifier = Modifier.height(20.dp))
+                if(eventWithLive.eventdetail.venue != ""){
+                    Row(
+                        modifier = Modifier.fillMaxWidth(), Arrangement.Start, verticalAlignment = Alignment.CenterVertically)
+                    {
+                        Image(
+                            painter = painterResource(id = R.drawable.location_pin),
+                            contentDescription = null,
+
+
+                            alignment = Alignment.Center,
+                            contentScale = ContentScale.Crop,
+                            colorFilter = ColorFilter.tint(colors.onBackground))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = eventWithLive.eventdetail.venue,
+                            style = TextStyle(
+                                color = colors.onBackground,
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 18.sp
+                            )
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(18.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(),
+                Arrangement.SpaceBetween,) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(), Arrangement.Start)
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                )
                 {
                     Image(
                         painter = painterResource(id = R.drawable.schedule),
                         contentDescription = null,
                         modifier = Modifier
-                            .width(20.dp)
-                            .height(20.dp),
+                            .width(24.dp)
+                            .height(24.dp),
                         alignment = Alignment.Center,
-                        contentScale = ContentScale.Crop)
-                    Spacer(modifier = Modifier.width(6.dp))
+                        contentScale = ContentScale.Crop,
+                        colorFilter = ColorFilter.tint(colors.onBackground)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
+                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
                         style = TextStyle(
                             color = colors.onBackground,
                             fontFamily = aileron,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 16.sp
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp
                         )
                     )
                 }
+
+
+                    if (true) {
+                        Box(modifier = Modifier
+                            .height(40.dp)
+                            .border(1.dp, colors.secondary)
+                            .padding(10.dp)
+                        ){
+                            if( !isadded.value) {
+                                Row()
+                                {
+
+                                    Image(
+                                        modifier = Modifier
+                                            .width(18.dp)
+                                            .height(18.dp)
+                                            .clickable {
+                                                isadded.value = true
+                                                homeViewModel.OwnEventsWithLive.addNewItem(
+                                                    eventWithLive.eventdetail
+                                                )
+                                                scheduleDatabase.addEventsInSchedule(
+                                                    eventWithLive.eventdetail,
+                                                    context
+                                                )
+                                            },
+                                        painter = painterResource(id = R.drawable.add_icon),
+                                        contentDescription = "null",
+                                        colorFilter = ColorFilter.tint(colors.onBackground)
+                                    )
+                                    Spacer(Modifier.width(10.dp))
+                                    Text(
+                                        text = "Add to Schedule",
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = colors.onBackground,
+                                        fontSize = 16.sp
+                                    )
+                                }
+
+                            }
+                            if(isadded.value)
+                            {
+                                Row() {
+                                    Image(
+                                        modifier = Modifier
+                                            .width(20.dp)
+                                            .height(20.dp)
+                                            .clickable {
+                                                isadded.value = false
+                                                homeViewModel.OwnEventsWithLive.removeAnItem(
+                                                    eventWithLive.eventdetail
+                                                )
+                                                scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+
+                                            },
+                                        painter = painterResource(id = R.drawable.tickokay),
+                                        contentDescription = "null",
+                                        contentScale = ContentScale.FillBounds,
+                                        colorFilter = ColorFilter.tint(colors.onBackground)
+                                    )
+                                    Spacer(Modifier.width(10.dp))
+                                    Text(
+                                        text = "Added to Schedule",
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = colors.onBackground,
+                                        fontSize = 16.sp
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+
             }
-            Spacer(modifier = Modifier.height(20.dp))
+
+            Spacer(modifier = Modifier.height(16.dp))
             Text(text =eventfordes.eventdetail.descriptionEvent ,
                 fontFamily = aileron,
                 fontWeight = FontWeight.Normal,
@@ -2111,41 +2224,41 @@ class Home : Fragment() {
                 fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(36.dp))
-            if (!eventWithLive.isLive.value  && !isFinished){
-                Button(
-                    onClick = {},
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        midWhite
-                    )
-                ) {
-                    if(!isFinished){
-                        if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
-                            Text(
-                                text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
-                                color = black
-                            )
-                        }
-                        else{
-                            Text(
-                                text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
-                                color = black
-                            )
-
-                        }
-                    }
-                }
-
-            }
+//            if (!eventWithLive.isLive.value  && !isFinished){
+//                Button(
+//                    onClick = {},
+//                    Modifier
+//                        .fillMaxWidth()
+//                        .height(72.dp),
+//                    shape = RoundedCornerShape(0.dp),
+//                    colors = ButtonDefaults.buttonColors(
+//                        midWhite
+//                    )
+//                ) {
+//
+//                        if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
+//                            Text(
+//                                text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
+//                                fontSize = 20.sp,
+//                                fontWeight = FontWeight.SemiBold,
+//                                fontFamily = aileron,
+//                                color = black
+//                            )
+//                        }
+//                        else{
+//                            Text(
+//                                text = "Event will be available on day ${eventWithLive.eventdetail.starttime.date-11}",
+//                                fontSize = 20.sp,
+//                                fontWeight = FontWeight.SemiBold,
+//                                fontFamily = aileron,
+//                                color = black
+//                            )
+//
+//                        }
+//
+//                }
+//
+//            }
 
 //            if (isadded.value) {
 //                Button(
