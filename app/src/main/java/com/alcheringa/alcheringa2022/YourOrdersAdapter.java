@@ -41,13 +41,13 @@ public class YourOrdersAdapter extends RecyclerView.Adapter<YourOrdersViewHolder
         String status_text;
         if(Objects.equals(status, "true"))
         {
-            status_text = "Purchased";
+            status_text = "Ordered";
             holder.status.setTextColor(Color.parseColor("#11D3D3"));
         }
         else
         {
             status_text = "In progress";
-            holder.status.setTextColor(Color.parseColor("#EE6337"));
+            holder.status.setTextColor(Color.parseColor("#19A6C2"));
         }
 
         holder.status.setText(status_text);
@@ -69,12 +69,12 @@ public class YourOrdersAdapter extends RecyclerView.Adapter<YourOrdersViewHolder
 
         Log.d("YourAdapter", size);
 
-        String merch_details = yourOrders_ModelList.get(position).getMerch_type() + ", " + size + ", " + yourOrders_ModelList.get(position).getMerch_quantity() + " Qty";
+        String merch_details = size + ", " + yourOrders_ModelList.get(position).getMerch_quantity() + " Qty";
         holder.merch_details.setText(merch_details);
 
-        holder.price.setText("₹ "+yourOrders_ModelList.get(position).getPrice()+".");
+//        holder.price.setText("₹ "+yourOrders_ModelList.get(position).getPrice()+".");
 
-        holder.delivery_date.setText("Delivery by " + yourOrders_ModelList.get(position).getDelivery_date());
+//        holder.delivery_date.setText("Delivery by " + yourOrders_ModelList.get(position).getDelivery_date());
 
        Glide.with(context).load(yourOrders_ModelList.get(position).getImage()).into(holder.imageView);
     }

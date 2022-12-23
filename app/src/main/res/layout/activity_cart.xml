@@ -51,8 +51,7 @@
         android:id="@+id/cart_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:padding="20dp"
         app:layout_constraintBottom_toTopOf="@+id/checkout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -164,6 +163,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+<!--
     <com.alcheringa.alcheringa2022.LoaderView
         android:id="@+id/dots_progress"
         android:layout_width="match_parent"
@@ -172,6 +172,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:visibility="gone"/>
+        tools:visibility="gone"/> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

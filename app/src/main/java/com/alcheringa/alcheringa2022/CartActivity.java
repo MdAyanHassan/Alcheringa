@@ -68,8 +68,8 @@ public class CartActivity extends AppCompatActivity implements onItemClick {
             checkout_btn.setOnClickListener(v ->
                     startActivity(new Intent(getApplicationContext(), AddAddressActivity.class)));
 
-            loaderView = findViewById(R.id.dots_progress);
-            loaderView.setVisibility(View.GONE);
+            /*loaderView = findViewById(R.id.dots_progress);
+            loaderView.setVisibility(View.GONE);*/
         }
 
         ImageButton backBtn = findViewById(R.id.backbtn);
