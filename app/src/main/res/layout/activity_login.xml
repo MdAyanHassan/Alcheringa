@@ -34,13 +34,12 @@
         android:id="@+id/text_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:fontFamily="@font/starguard"
-        android:text="Email"
+        android:text="Login"
         android:textColor="#0E0E0F"
         android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome_to_"
         app:layout_constraintVertical_bias="0.012" />
@@ -49,13 +48,12 @@
         android:id="@+id/welcome_to_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:fontFamily="@font/aileron_black"
-        android:text="All you need is an Email"
+        android:text="If you already have an account"
         android:textColor="#0E0E0F"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.104"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.078" />
@@ -135,40 +133,42 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="324dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="24dp"
         android:fontFamily="@font/aileron_black"
         android:gravity="center"
         android:text="Forgot Password?"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/Password_Relative_Layout" />
 
     <LinearLayout
+        android:id="@+id/forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.40"
-        android:id="@+id/forgot_password">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.40">
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/sign_in_outlook"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/login_button_bg"
         android:foreground="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
@@ -194,17 +194,17 @@
             android:gravity="center"
             android:text="Continue with Outlook"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:translationX="40dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/google_login_btn"
         android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_height="44dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/login_button_bg"
         android:foreground="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
@@ -232,7 +232,7 @@
             android:gravity="center"
             android:text="Continue with Google"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:translationX="40dp" />
     </LinearLayout>
 
@@ -283,11 +283,11 @@
         android:id="@+id/dots_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:visibility="gone"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
