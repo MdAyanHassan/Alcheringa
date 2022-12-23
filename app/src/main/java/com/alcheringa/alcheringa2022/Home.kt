@@ -36,8 +36,10 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -89,6 +91,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.microsoft.identity.common.internal.cache.SharedPreferencesFileManager.getSharedPreferences
 
+
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
@@ -124,6 +127,7 @@ class Home : Fragment() {
     var isdragging=mutableStateOf(false)
     var home=false;
     public val artistLive = MutableLiveData<String>()
+
 
     var firebaseFirestore: FirebaseFirestore? = null
     var sharedPreferences: SharedPreferences? = null
@@ -1255,6 +1259,7 @@ class Home : Fragment() {
     @Composable
     fun MyContent() {
         var artist : String by rememberSaveable{ mutableStateOf("") }
+        var scheduleList by remember{ mutableStateOf(ScheduleDatabase(requireContext()).schedule)}
 
         // Declaring a Boolean value to
         // store bottom sheet collapsed state
@@ -1402,18 +1407,37 @@ class Home : Fragment() {
                         //TODO: Replace with actual check
                         //                    if(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.isNotEmpty()) {
                         if (true) {
-                            Text(
+                            Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
                                     bottom = 24.dp,
                                     top = 36.dp
                                 ),
-                                text = "Upcoming Events",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
-                                color = colors.onBackground,
-                                fontSize = 21.sp
-                            )
+                            ) {
+                                Card(
+                                    Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                                    shape = RoundedCornerShape(100.dp),
+                                    backgroundColor = orangeText
+
+                                ){
+                                    Text(
+
+                                        text = "  Upcoming Events  ",
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Transparent,
+                                        fontSize = 21.sp
+                                    )
+                                }
+                                Text(
+
+                                    text = "Upcoming Events",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.Bold,
+                                    color = colors.onBackground,
+                                    fontSize = 21.sp
+                                )
+                            }
                         }
                         Box(
                             modifier = Modifier
@@ -1458,18 +1482,37 @@ class Home : Fragment() {
                             //                        }
                         }
 
-                        Text(
+                        Box(
                             modifier = Modifier.padding(
                                 start = 20.dp,
                                 bottom = 24.dp,
                                 top = 36.dp
                             ),
-                            text = "Limited Time Merch",
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.Bold,
-                            color = colors.onBackground,
-                            fontSize = 21.sp
-                        )
+                        ) {
+                            Card(
+                                Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                                shape = RoundedCornerShape(100.dp),
+                                backgroundColor = orangeText
+
+                            ){
+                                Text(
+
+                                    text = "  Limited Time Merch  ",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Transparent,
+                                    fontSize = 21.sp
+                                )
+                            }
+                            Text(
+
+                                text = "Limited Time Merch",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.Bold,
+                                color = colors.onBackground,
+                                fontSize = 21.sp
+                            )
+                        }
                         Box(modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
@@ -1483,8 +1526,8 @@ class Home : Fragment() {
                                 R.drawable.merch_bg_2,
                                 R.drawable.merch_bg_3
                             )
-                            merchBox(merch = homeViewModel.merchhome
-                                .filter { it.Available }, drbls
+                            merchBox(merch = homeViewModel.merchMerch
+                                .filter { it.is_available }, drbls
                             )
                         }
                         //                    Row(
@@ -1512,21 +1555,40 @@ class Home : Fragment() {
                         //                    Text(modifier = Modifier
                         //                        .fillMaxWidth()
                         //                        .padding(horizontal = 10.dp), text = "Hold and Drag to remove events", fontFamily = hk_grotesk, fontWeight = FontWeight.Bold, color = Color(0xffffffff), fontSize = 16.sp, textAlign = TextAlign.Center)
-                        val scheduleList = ScheduleDatabase(requireContext()).schedule;
+
 
                         if(!scheduleList.isEmpty()) {
-                            Text(
+                            Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
                                     bottom = 24.dp,
                                     top = 36.dp
                                 ),
-                                text = "In Your Schedule",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
-                                color = colors.onBackground,
-                                fontSize = 21.sp
-                            )
+                            ) {
+                                Card(
+                                    Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                                    shape = RoundedCornerShape(100.dp),
+                                    backgroundColor = orangeText
+
+                                ){
+                                    Text(
+
+                                        text = "  In Your Schedule  ",
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Transparent,
+                                        fontSize = 21.sp
+                                    )
+                                }
+                                Text(
+
+                                    text = "In Your Schedule",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.Bold,
+                                    color = colors.onBackground,
+                                    fontSize = 21.sp
+                                )
+                            }
                         }
 
                         Box(
@@ -1590,18 +1652,37 @@ class Home : Fragment() {
 
 
 
-                        Text(
+                        Box(
                             modifier = Modifier.padding(
                                 start = 20.dp,
                                 bottom = 24.dp,
                                 top = 36.dp
                             ),
-                            text = "For You",
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.Bold,
-                            color = colors.onBackground,
-                            fontSize = 21.sp
-                        )
+                        ) {
+                            Card(
+                                Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                                shape = RoundedCornerShape(100.dp),
+                                backgroundColor = orangeText
+
+                            ){
+                                Text(
+
+                                    text = "  For You  ",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Transparent,
+                                    fontSize = 21.sp
+                                )
+                            }
+                            Text(
+
+                                text = "For You",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.Bold,
+                                color = colors.onBackground,
+                                fontSize = 21.sp
+                            )
+                        }
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -1876,7 +1957,7 @@ class Home : Fragment() {
             else{
                 Button(
                     onClick = {
-                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
+                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
                     },
                     Modifier
                         .fillMaxWidth()
@@ -1887,7 +1968,7 @@ class Home : Fragment() {
                     )
                 ) {
                     Text(
-                        text = "Join Event",
+                        text = "Register",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = aileron,
@@ -1978,7 +2059,25 @@ class Home : Fragment() {
 //                    }
 //                }
 //            }
-            if(eventWithLive.eventdetail.venue != "") {
+            if (isFinished){
+                Button(
+                    onClick = {},
+                    Modifier
+                        .fillMaxWidth()
+                        .height(72.dp),
+                    shape = RoundedCornerShape(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        midWhite
+                    )
+                ) {
+                    Text(text="Event Finished!",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = black)
+                }
+            }
+            else if(eventWithLive.eventdetail.venue != "") {
                 Button(
                     onClick = {
                         //TODO: (Shantanu) Implement all venue locations
@@ -2148,23 +2247,25 @@ class Home : Fragment() {
                             .padding(10.dp)
                         ){
                             if( !isadded.value) {
-                                Row()
+                                Row(Modifier.clickable {
+                                    isadded.value = true
+                                    homeViewModel.OwnEventsWithLive.addNewItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                    scheduleDatabase.addEventsInSchedule(
+                                        eventWithLive.eventdetail,
+                                        context
+                                    )
+
+
+                                })
                                 {
 
                                     Image(
                                         modifier = Modifier
                                             .width(18.dp)
                                             .height(18.dp)
-                                            .clickable {
-                                                isadded.value = true
-                                                homeViewModel.OwnEventsWithLive.addNewItem(
-                                                    eventWithLive.eventdetail
-                                                )
-                                                scheduleDatabase.addEventsInSchedule(
-                                                    eventWithLive.eventdetail,
-                                                    context
-                                                )
-                                            },
+                                            ,
                                         painter = painterResource(id = R.drawable.add_icon),
                                         contentDescription = "null",
                                         colorFilter = ColorFilter.tint(colors.onBackground)
@@ -2182,19 +2283,19 @@ class Home : Fragment() {
                             }
                             if(isadded.value)
                             {
-                                Row() {
+                                Row(Modifier.clickable {
+                                    isadded.value = false
+                                    homeViewModel.OwnEventsWithLive.removeAnItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)}
+
+                                    ) {
                                     Image(
                                         modifier = Modifier
                                             .width(20.dp)
                                             .height(20.dp)
-                                            .clickable {
-                                                isadded.value = false
-                                                homeViewModel.OwnEventsWithLive.removeAnItem(
-                                                    eventWithLive.eventdetail
-                                                )
-                                                scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-
-                                            },
+                                            ,
                                         painter = painterResource(id = R.drawable.tickokay),
                                         contentDescription = "null",
                                         contentScale = ContentScale.FillBounds,
@@ -2320,213 +2421,10 @@ class Home : Fragment() {
     }
 
 
-    @Composable
-    fun Bottomviewnewevent(eventWithLive:eventWithLive){
-        var isadded=remember{ mutableStateOf(false)}
-        LaunchedEffect(key1=Unit,block = {
-            isadded.value=homeViewModel.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
-
-        })
-
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)) {
-            Spacer(modifier = Modifier.height(20.dp))
-//            Row(
-//                modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween)
-//            {
-//                Row(Modifier.wrapContentSize()) {
-//
-//
-//                    Image(
-//                        painter = if (eventWithLive.eventdetail.mode.uppercase().contains("ONLINE")) {
-//                            painterResource(id = R.drawable.online)
-//                        } else {
-//                            painterResource(id = R.drawable.onground)
-//                        },
-//                        contentDescription = null,
-//                        modifier = Modifier
-//                            .width(16.dp)
-//                            .height(16.dp),
-//                        alignment = Alignment.Center,
-//                        contentScale = ContentScale.Crop
-//
-//                    )
-//                    Spacer(modifier = Modifier.width(6.dp))
-//                    Text(
-//                        text = eventWithLive.eventdetail.mode.uppercase(),
-//                        style = TextStyle(
-//                            color = colorResource(id = R.color.textGray),
-//                            fontFamily = hk_grotesk,
-//                            fontWeight = FontWeight.Normal,
-//                            fontSize = 14.sp
-//                        )
-//                    )
-//                }
-//
-//                if (eventWithLive.eventdetail.stream) {
-//                    Box(modifier = Modifier
-//                        .wrapContentSize()
-//                    ){
-//
-//
-//                        if( !isadded.value) {
-//
-//                            Image( modifier = Modifier
-//                                .width(18.dp)
-//                                .height(18.dp)
-//                                .clickable {
-//                                    isadded.value = true
-//                                    homeViewModel.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
-//                                    scheduleDatabase.addEventsInSchedule(
-//                                        eventWithLive.eventdetail,
-//                                        context
-//                                    )
-//                                },
-//                                painter = painterResource(id = R.drawable.add_icon),
-//                                contentDescription ="null")
-//                        }
-//                        if(isadded.value)
-//                        {
-//                            Image( modifier = Modifier
-//                                .width(20.dp)
-//                                .height(20.dp)
-//                                .clickable {
-//                                    isadded.value = false
-//                                    homeViewModel.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
-//                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-//                                    Toast
-//                                        .makeText(
-//                                            context,
-//                                            "Event removed from My Schedule",
-//                                            Toast.LENGTH_SHORT
-//                                        )
-//                                        .show()
-//                                },
-//                                painter = painterResource(id = R.drawable.tickokay),
-//                                contentDescription ="null", contentScale = ContentScale.FillBounds)
-//                        }
-//                    }
-//                }
-//            }
-            if (true) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(), Arrangement.Start)
-                {
-                    Image(
-                        painter = painterResource(id = R.drawable.schedule),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(20.dp)
-                            .height(20.dp),
-                        alignment = Alignment.Center,
-                        contentScale = ContentScale.Crop)
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if(eventWithLive.eventdetail.starttime.hours>12)"${eventWithLive.eventdetail.starttime.hours-12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min!=0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours>=12)"PM" else "AM"} ",
-                        style = TextStyle(
-                            color = colors.onBackground,
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 20.sp
-                        )
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text =eventfordes.eventdetail.descriptionEvent ,
-                fontFamily = aileron,
-                fontWeight = FontWeight.Normal,
-                color = colors.onBackground,
-                fontSize = 16.sp
-            )
-            Spacer(modifier = Modifier.height(36.dp))
-
-
-            }
-
-//            if (isadded.value) {
-//                Button(
-//                    onClick = {
-//                        isadded.value= false
-//                        viewModelHome.OwnEventsWithLive.removeAnItem(eventWithLive.eventdetail)
-//                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-//                    },
-//                    Modifier
-//                        .fillMaxWidth()
-//                        .height(55.dp),
-//                    shape = RoundedCornerShape(18.dp),
-//                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-//                ) {
-//                    Text(
-//                        text = "Remove from My Schedule",
-//                        fontSize = 16.sp,
-//                        fontWeight = FontWeight.W600,
-//                        fontFamily = clash,
-//                        color = Color.White
-//                    )
-//                }
-//            }
-//            if (!isadded.value){
-//                Button(
-//                    onClick = { isadded.value= true
-//                        viewModelHome.OwnEventsWithLive.addNewItem(eventWithLive.eventdetail)
-//                        scheduleDatabase.addEventsInSchedule(
-//                            eventWithLive.eventdetail,
-//                            context
-//                        )
-//                    },
-//                    Modifier
-//                        .fillMaxWidth()
-//                        .height(55.dp),
-//                    shape = RoundedCornerShape(18.dp),
-//                    colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-//                ) {
-//                    Text(
-//                        text = "Add to My Schedule",
-//                        fontSize = 18.sp,
-//                        fontWeight = FontWeight.W600,
-//                        fontFamily = clash,
-//                        color = Color.White
-//                    )
-//                }
-//            }
-
-//            Button(
-//                onClick =   { startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))}
-//                ,
-//                Modifier
-//                    .fillMaxWidth()
-//                    .height(55.dp),
-//                shape = RoundedCornerShape(18.dp),
-//                colors = ButtonDefaults.buttonColors(Color(0xff2B2B2B))
-//            ) {
-//                Text(
-//                    text = "Register",
-//                    fontSize = 18.sp,
-//                    fontWeight = FontWeight.W600,
-//                    fontFamily = clash,
-//                    color = Color.White
-//                )
-//            }
-
-
-
-
-
-
-
-
-
-
-    }
-
 
     @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
     @Composable
-    fun merchBox(merch: List<merchmodelforHome>, drbls:List<Int>){
+    fun merchBox(merch: List<merchModel>, drbls:List<Int>){
         val pagerState = rememberPagerState()
         val textPaintStroke = Paint().asFrameworkPaint().apply {
             isAntiAlias = true
@@ -2607,7 +2505,9 @@ class Home : Fragment() {
                 .height(200.dp), state = pagerState
         ) { page ->
             Card(
-                modifier = Modifier.background(colors.background).coloredShadow(colors.secondaryVariant,0.2f,12.dp,30.dp,5.dp,0.dp)
+                modifier = Modifier
+                    .background(colors.background)
+                    .coloredShadow(colors.secondaryVariant, 0.2f, 12.dp, 30.dp, 5.dp, 0.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .padding(horizontal = 20.dp),
@@ -2668,13 +2568,13 @@ class Home : Fragment() {
                                     onDraw = {
                                         drawIntoCanvas {
                                             it.nativeCanvas.drawText(
-                                                merch[page].Name.uppercase(),
+                                                merch[page].name,
                                                 0f,
                                                 0.dp.toPx(),
                                                 textPaintStroke
                                             )
                                             it.nativeCanvas.drawText(
-                                                merch[page].Name.uppercase(),
+                                                merch[page].name,
                                                 0f,
                                                 0.dp.toPx(),
                                                 textPaint
@@ -2684,7 +2584,7 @@ class Home : Fragment() {
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
-                                    text = merch[page].Type.uppercase(),
+                                    text = merch[page].material,
                                     color = black,
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 12.sp,
@@ -2717,13 +2617,13 @@ class Home : Fragment() {
                                     onDraw = {
                                         drawIntoCanvas {
                                             it.nativeCanvas.drawText(
-                                                "Rs. 1000.00",
+                                                "Rs. "+merch[page].price,
                                                 0f,
                                                 0.dp.toPx(),
                                                 textPaintStroke2
                                             )
                                             it.nativeCanvas.drawText(
-                                                "Rs. 1000.00",
+                                                "Rs. "+merch[page].price,
                                                 0f,
                                                 0.dp.toPx(),
                                                 textPaint2
@@ -2738,7 +2638,7 @@ class Home : Fragment() {
                                 .fillMaxHeight()
                                 .align(Alignment.CenterVertically)
                                 .padding(vertical = 10.dp),
-                                imageModel = merch[page].Image, contentDescription = "merch", contentScale = ContentScale.Fit,
+                                imageModel = merch[page].image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
                                 alignment = Alignment.Center,
                                 shimmerParams = ShimmerParams(
                                     baseColor = Color.Transparent,
@@ -2931,15 +2831,15 @@ class Home : Fragment() {
                                             Box(
                                                 modifier = Modifier
                                                     .fillMaxSize()
-                                                                                            .background(
-                                                                                                brush = Brush.verticalGradient(
-                                                                                                    colors = listOf(
-                                                                                                        Color.Transparent,
-                                                                                                        black,
-                                                                                                    ),
-                                                                                                    startY = with(LocalDensity.current) { 100.dp.toPx() }
-                                                                                                )
-                                                                                            )
+                                                    .background(
+                                                        brush = Brush.verticalGradient(
+                                                            colors = listOf(
+                                                                Color.Transparent,
+                                                                black,
+                                                            ),
+                                                            startY = with(LocalDensity.current) { 100.dp.toPx() }
+                                                        )
+                                                    )
                                             )
                                             Box(
                                                 modifier = Modifier

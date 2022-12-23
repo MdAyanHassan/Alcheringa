@@ -30,6 +30,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Brush
@@ -190,7 +191,31 @@ Alcheringa2022Theme() {
                 Events_row(heading = "Humor Fest")
                 Events_row(heading = "Campaigns")
                 Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
-                    Text(text = "COMPETITIONS", fontWeight = FontWeight.W600, fontSize = 16.sp, fontFamily = clash,color = colors.onBackground)
+                    Box() {
+                        Card(
+                            Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                            shape = RoundedCornerShape(100.dp),
+                            backgroundColor = orangeText
+
+                        ){
+                            Text(
+
+                                text = "  Competitions  ",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Transparent,
+                                fontSize = 21.sp
+                            )
+                        }
+                        Text(
+
+                            text = "Competitions",
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            color = colors.onBackground,
+                            fontSize = 21.sp
+                        )
+                    }
                     Spacer(modifier = Modifier.height(14.dp))
                     imgcomp()
 
@@ -212,13 +237,32 @@ Alcheringa2022Theme() {
                     vertical = 12.dp
                 )
             ) {
-                Text(
-                    text = heading.uppercase(Locale.getDefault()),
-                    fontWeight = FontWeight.W600,
-                    fontSize = 16.sp,
-                    fontFamily = clash,
-                    color = colors.onBackground
-                )
+                Box(
+                ) {
+                    Card(
+                        Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                        shape = RoundedCornerShape(100.dp),
+                        backgroundColor = orangeText
+
+                    ){
+                        Text(
+
+                            text = "  "+heading+"  ",
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Transparent,
+                            fontSize = 21.sp
+                        )
+                    }
+                    Text(
+
+                        text = heading,
+                        fontFamily = aileron,
+                        fontWeight = FontWeight.Bold,
+                        color = colors.onBackground,
+                        fontSize = 21.sp
+                    )
+                }
             }
 
             LazyRow(
