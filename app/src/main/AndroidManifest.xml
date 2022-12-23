@@ -30,7 +30,9 @@
         tools:ignore="LockedOrientationActivity">
         <activity
             android:name=".PickASide"
-            android:exported="false" />
+            android:exported="true" >
+        </activity>
+
 
 <!--        <activity-->
 <!--            android:name=".MerchActivityCompose"-->
