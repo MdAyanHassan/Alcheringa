@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 
@@ -56,9 +57,9 @@ public class SignUp extends AppCompatActivity {
     LinearLayout signInButton;
     FirebaseAuth firebaseAuth;
 
-    VideoView videoView;
+    //VideoView videoView;
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = SignUp.class.getSimpleName();
 
     LinearLayout signInButtonO;
     Button signupButton;
@@ -116,7 +117,7 @@ public class SignUp extends AppCompatActivity {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {@Override public void handleOnBackPressed() { goBack(); }};
         this.getOnBackPressedDispatcher().addCallback(this, callback);
 
-        video_load();
+        //video_load();
     }
 
     private void goBack() {
@@ -165,10 +166,13 @@ public class SignUp extends AppCompatActivity {
                                         startInterestActivity();
                                     }else{
                                         toast("Welcome back " + finalName);
-                                        Intent intent = new Intent(this, MainActivity.class);
+                                        if(Objects.equals(task2.getResult().getString("mode"), "white") || Objects.equals(task2.getResult().getString("mode"), "black"))
+                                            startMainActivity();
+                                        else startInterestActivity();
+                                        /*Intent intent = new Intent(this, MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
-                                        finish();
+                                        finish();*/
                                     }
                                 });
                             }catch(Exception e){
@@ -266,19 +270,23 @@ public class SignUp extends AppCompatActivity {
 
     private void RegisterUserInDatabaseCustom(String name, String email){
         firebaseFirestore.collection("USERS").document(email).addSnapshotListener((value, error) -> {
-            assert value != null;
-            if (!value.exists()) {
-                Map<String, Object> data = new HashMap<>();
-                data.put("Name", name);
-                data.put("Email", email);
-                firebaseFirestore.collection("USERS").document(email).set(data).
-                        addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "Added user in database");
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Error Occurred while adding user to the database", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+            //assert value != null;
+            try {
+                if (!(value != null && value.exists())) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("Name", name);
+                    data.put("Email", email);
+                    firebaseFirestore.collection("USERS").document(email).set(data).
+                            addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "Added user in database");
+                                } /*else {
+                                    Toast.makeText(getApplicationContext(), "Error Occurred while adding user to the database", Toast.LENGTH_SHORT).show();
+                                }*/
+                            });
+                }
+            } catch (Throwable t) {
+                t.printStackTrace();
             }
         });
     }
@@ -362,10 +370,13 @@ public class SignUp extends AppCompatActivity {
                                 startInterestActivity();
                             }else{
                                 toast("Welcome back " + user.getDisplayName());
-                                Intent intent = new Intent(this, MainActivity.class);
+                                if(Objects.equals(task2.getResult().getString("mode"), "white") || Objects.equals(task2.getResult().getString("mode"), "black"))
+                                    startMainActivity();
+                                else startInterestActivity();
+                                /*Intent intent = new Intent(this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
-                                finish();
+                                finish();*/
                             }
                         });
                     } else {
@@ -380,7 +391,14 @@ public class SignUp extends AppCompatActivity {
 
 
     private void startInterestActivity(){
-        Intent intent = new Intent(this, InterestsActivity.class);
+        Intent intent = new Intent(this, PickASide.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void startMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
@@ -456,28 +474,28 @@ public class SignUp extends AppCompatActivity {
     }
     @Override
     protected void onResume() {
-        videoView.resume();
+        //videoView.resume();
         super.onResume();
     }
 
     @Override
     protected void onRestart() {
-        videoView.start();
+        //videoView.start();
         super.onRestart();
     }
 
     @Override
     protected void onPause() {
-        videoView.suspend();
+        //videoView.suspend();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        videoView.stopPlayback();
+        //videoView.stopPlayback();
         super.onDestroy();
     }
-    private void video_load() {
+    /*private void video_load() {
         videoView=findViewById(R.id.videoview);
         Uri uri= Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.greeting_video);
         videoView.setVideoURI(uri);
@@ -489,6 +507,6 @@ public class SignUp extends AppCompatActivity {
                 mp.setLooping(true);
             }
         });
-    }
+    }*/
 
 }
