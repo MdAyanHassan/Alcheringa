@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NotificationActivity"
-    android:background="#000000">
+    style="@style/Background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -21,7 +21,7 @@
 
         <ImageButton
             android:id="@+id/backbtn"
-            android:layout_width="41dp"
+            android:layout_width="48dp"
             android:layout_height="48dp"
             android:padding="16dp"
             android:src="@drawable/back"
@@ -35,9 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Notifications"
-            android:textColor="@color/white"
-            android:fontFamily="@font/clash_display_700"
-            android:textSize="25sp"
+            style="@style/headerText"
+            android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn"
             app:layout_constraintTop_toTopOf="parent" />
@@ -59,14 +58,14 @@
 
     </ScrollView>
 
-    <com.alcheringa.alcheringa2022.LoaderView
+<!--    <com.alcheringa.alcheringa2022.LoaderView
         android:id="@+id/dots_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
