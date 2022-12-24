@@ -839,45 +839,45 @@ class Home : Fragment() {
     }
 
 
-   @Composable
-   fun mySchedule(){
-       var color1 by remember { mutableStateOf(orangeText)}
-       var color2 by remember { mutableStateOf(greyText)}
-       var color3 by remember { mutableStateOf(greyText)}
-       datestate=remember{ mutableStateOf(1)}
-       Column() {
-
-           Row(
-               Modifier
-                   .fillMaxWidth()
-                   .padding(horizontal = 32.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-               Text(text = "Day 0", fontWeight = FontWeight.W700, fontFamily = clash, color = color1, fontSize = 18.sp,
-                   modifier = Modifier.clickable { color1= orangeText;color2= greyText;color3=
-                       greyText
-                       datestate.value=1
-                   })
-
-               Text(text = "Day 1", fontWeight = FontWeight.W700, fontFamily = clash, color = color2,fontSize = 18.sp,
-                   modifier = Modifier.clickable { color1= greyText;color2= orangeText;color3= greyText;
-                       datestate.value=2
-               })
-
-               Text(text = "Day 2", fontWeight = FontWeight.W700, fontFamily = clash, color = color3,fontSize = 18.sp,
-                   modifier = Modifier.clickable { color1= greyText;color2= greyText;color3=
-                       orangeText
-                       datestate.value=3
-                   })
-
-           }
-           Spacer(modifier = Modifier.height(16.dp))
-           scheduleBox()
-
-
-       }
-
-
-
-   }
+//   @Composable
+//   fun mySchedule(){
+//       var color1 by remember { mutableStateOf(orangeText)}
+//       var color2 by remember { mutableStateOf(greyText)}
+//       var color3 by remember { mutableStateOf(greyText)}
+//       datestate=remember{ mutableStateOf(1)}
+//       Column() {
+//
+//           Row(
+//               Modifier
+//                   .fillMaxWidth()
+//                   .padding(horizontal = 32.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+//               Text(text = "Day 0", fontWeight = FontWeight.W700, fontFamily = clash, color = color1, fontSize = 18.sp,
+//                   modifier = Modifier.clickable { color1= orangeText;color2= greyText;color3=
+//                       greyText
+//                       datestate.value=1
+//                   })
+//
+//               Text(text = "Day 1", fontWeight = FontWeight.W700, fontFamily = clash, color = color2,fontSize = 18.sp,
+//                   modifier = Modifier.clickable { color1= greyText;color2= orangeText;color3= greyText;
+//                       datestate.value=2
+//               })
+//
+//               Text(text = "Day 2", fontWeight = FontWeight.W700, fontFamily = clash, color = color3,fontSize = 18.sp,
+//                   modifier = Modifier.clickable { color1= greyText;color2= greyText;color3=
+//                       orangeText
+//                       datestate.value=3
+//                   })
+//
+//           }
+//           Spacer(modifier = Modifier.height(16.dp))
+//           scheduleBox()
+//
+//
+//       }
+//
+//
+//
+//   }
 
 
 
@@ -1404,8 +1404,10 @@ class Home : Fragment() {
                             }
 
                         }
+                        val alphaval=if(isSystemInDarkTheme())0.4f else 0.2f
+
                         //TODO: Replace with actual check
-                        //                    if(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.isNotEmpty()) {
+                        //if(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.isNotEmpty()) {
                         if (true) {
                             Box(
                                 modifier = Modifier.padding(
@@ -1415,14 +1417,17 @@ class Home : Fragment() {
                                 ),
                             ) {
                                 Card(
-                                    Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                                    Modifier
+                                        .height(10.dp)
+                                        .offset(x = -5.dp, y = 16.dp)
+                                        .alpha(alphaval),
                                     shape = RoundedCornerShape(100.dp),
-                                    backgroundColor = orangeText
+                                    backgroundColor = textbg
 
                                 ){
                                     Text(
 
-                                        text = "  Upcoming Events  ",
+                                        text = "Upcoming Events  ",
                                         fontFamily = aileron,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Transparent,
@@ -1490,14 +1495,17 @@ class Home : Fragment() {
                             ),
                         ) {
                             Card(
-                                Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                                Modifier
+                                    .height(10.dp)
+                                    .offset(x = -5.dp, y = 16.dp)
+                                    .alpha(alphaval),
                                 shape = RoundedCornerShape(100.dp),
-                                backgroundColor = orangeText
+                                backgroundColor = textbg
 
                             ){
                                 Text(
 
-                                    text = "  Limited Time Merch  ",
+                                    text = "Limited Time Merch  ",
                                     fontFamily = aileron,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.Transparent,
@@ -1566,14 +1574,17 @@ class Home : Fragment() {
                                 ),
                             ) {
                                 Card(
-                                    Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                                    Modifier
+                                        .height(10.dp)
+                                        .offset(x = -5.dp, y = 16.dp)
+                                        .alpha(alphaval),
                                     shape = RoundedCornerShape(100.dp),
-                                    backgroundColor = orangeText
+                                    backgroundColor = textbg
 
                                 ){
                                     Text(
 
-                                        text = "  In Your Schedule  ",
+                                        text = "In Your Schedule  ",
                                         fontFamily = aileron,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Transparent,
@@ -1660,14 +1671,17 @@ class Home : Fragment() {
                             ),
                         ) {
                             Card(
-                                Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                                Modifier
+                                    .height(10.dp)
+                                    .offset(x = -5.dp, y = 16.dp)
+                                    .alpha(alphaval),
                                 shape = RoundedCornerShape(100.dp),
-                                backgroundColor = orangeText
+                                backgroundColor = textbg
 
                             ){
                                 Text(
 
-                                    text = "  For You  ",
+                                    text = "For You  ",
                                     fontFamily = aileron,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.Transparent,
