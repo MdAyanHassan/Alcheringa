@@ -274,7 +274,7 @@ public class Login extends AppCompatActivity {
                         }
                         //finish();
                     });
-                    
+
                     firebaseFirestore.collection("USERS").document(email).get().addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
                             String nameString = task1.getResult().getString("Name");
