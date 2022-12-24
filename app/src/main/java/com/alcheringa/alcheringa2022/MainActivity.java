@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alcheringa.alcheringa2022.Database.DBHandler;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,6 +36,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
    ShadowIndicatorBottomNavigationView bottomNavigationView;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     NavigationView navigationView;
     public static int index;
+    String shared_name, shared_photoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //bottomNavigationView.getMenu().getItem(2).setEnabled(false);
         //bottomNavigationView.setOnNavigationItemSelectedListener(this);
         sharedPreferences = getSharedPreferences("USER",MODE_PRIVATE);
+        shared_name = sharedPreferences.getString("name", "");
+        shared_photoUrl = sharedPreferences.getString("photourl", "");
+
+
         dbHandler=new DBHandler(getApplicationContext());
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
@@ -85,9 +92,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View tnc_page, privacy_page, about_page;
         TextView user_name, version, website;
         ImageView user_photo;
-        String shared_name, shared_photoUrl;
         version = findViewById(R.id.version);
         version.setText("V "+ com.google.firebase.BuildConfig.VERSION_NAME);
+
+        View header = navigationView.getHeaderView(0);
+        user_name = header.findViewById(R.id.user_name_text);
+        user_photo = header.findViewById(R.id.user_photo);
+        if(!shared_name.equals(""))
+        {
+            user_name.setText(shared_name);
+        }
+
+        if(!shared_photoUrl.equals(""))
+        {
+            Glide.with(this).load(shared_photoUrl).into(user_photo);
+        }
 
         website = findViewById(R.id.website_link);
         website.setOnClickListener(v->

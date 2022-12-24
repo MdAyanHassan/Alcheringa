@@ -27,6 +27,9 @@ public class ResetPassword extends AppCompatActivity {
 
         email = findViewById(R.id.email);
 
+        back=findViewById(R.id.backbtn);
+        back.setOnClickListener(view -> finish());
+
         sendOTP = findViewById(R.id.reset_password);
         sendOTP.setOnClickListener(view -> {
             String emailAddress = email.getText().toString();
@@ -59,7 +62,5 @@ public class ResetPassword extends AppCompatActivity {
             }
         });
 
-        back=findViewById(R.id.back_button);
-        back.setOnClickListener(view -> finish());
     }
 }

@@ -45,6 +45,7 @@
 
     <style name="tertiaryText">
         <item name="android:textColor">@color/MidWhite</item>
+        <item name="android:textColorHint">@color/MidWhite</item>
     </style>
 
     <style name="accentText">

@@ -28,7 +28,7 @@ public class NotificationActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     NotificationAdapter notificationAdapter;
     ArrayList<NotificationData> list;
-    LoaderView loaderView;
+//    LoaderView loaderView;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -47,8 +47,8 @@ public class NotificationActivity extends AppCompatActivity {
         ImageButton back_btn = findViewById(R.id.backbtn);
         back_btn.setOnClickListener(v -> finish());
 
-        loaderView = findViewById(R.id.dots_progress);
-        loaderView.setVisibility(View.VISIBLE);
+/*        loaderView = findViewById(R.id.dots_progress);
+        loaderView.setVisibility(View.VISIBLE);*/
 
         firebaseFirestore= FirebaseFirestore.getInstance();
         sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
@@ -75,7 +75,7 @@ public class NotificationActivity extends AppCompatActivity {
             }else{
                 Log.d(TAG, "Error getting documents", task.getException());
             }
-            loaderView.setVisibility(View.GONE);
+//            loaderView.setVisibility(View.GONE);
         });
     }
 }

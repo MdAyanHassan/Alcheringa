@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
-    TextView SignupTextView;
+    LinearLayout SignupTextView;
     ImageView backButton;
     LinearLayout google_login_btn;
     GoogleSignInClient mGoogleSignInClient;
@@ -274,7 +274,7 @@ public class Login extends AppCompatActivity {
                         }
                         //finish();
                     });
-                    
+
                     firebaseFirestore.collection("USERS").document(email).get().addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
                             String nameString = task1.getResult().getString("Name");

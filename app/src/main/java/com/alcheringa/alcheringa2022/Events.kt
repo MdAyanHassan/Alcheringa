@@ -191,16 +191,16 @@ Alcheringa2022Theme() {
                 Events_row(heading = "Humor Fest")
                 Events_row(heading = "Campaigns")
                 Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
-                    Box() {
+                    Box() {val alphaval=if(isSystemInDarkTheme())0.4f else 0.2f
                         Card(
-                            Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                            Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(alphaval),
                             shape = RoundedCornerShape(100.dp),
-                            backgroundColor = orangeText
+                            backgroundColor = textbg
 
                         ){
                             Text(
 
-                                text = "  Competitions  ",
+                                text = "Competitions  ",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.Transparent,
@@ -227,7 +227,7 @@ Alcheringa2022Theme() {
     }
 
     @Composable
-    fun Events_row(heading: String) {
+    fun Events_row(heading: String) {val alphaval=if(isSystemInDarkTheme())0.4f else 0.2f
         val list=homeViewModel.allEventsWithLive.filter {
                 data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()}
         if (list.isNotEmpty()) {
@@ -240,14 +240,14 @@ Alcheringa2022Theme() {
                 Box(
                 ) {
                     Card(
-                        Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(0.4f),
+                        Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(alphaval),
                         shape = RoundedCornerShape(100.dp),
-                        backgroundColor = orangeText
+                        backgroundColor = textbg
 
                     ){
                         Text(
 
-                            text = "  "+heading+"  ",
+                            text = ""+heading+"  ",
                             fontFamily = aileron,
                             fontWeight = FontWeight.Bold,
                             color = Color.Transparent,
