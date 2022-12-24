@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     public static int index;
     String shared_name, shared_photoUrl;
-
+    ImageView user_photo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         View tnc_page, privacy_page, about_page;
         TextView user_name, version, website;
-        ImageView user_photo;
+
         version = findViewById(R.id.version);
         version.setText("V "+ com.google.firebase.BuildConfig.VERSION_NAME);
 
@@ -260,6 +260,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         getVersionInfo();
         super.onResume();
+        String newshared_photoUrl = sharedPreferences.getString("photourl", "");
+        if(!newshared_photoUrl.equals("") && newshared_photoUrl != shared_photoUrl)
+        {
+            Glide.with(this).load(newshared_photoUrl).into(user_photo);
+        }
     }
 
     @Override
