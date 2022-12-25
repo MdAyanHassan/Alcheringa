@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
-    LinearLayout SignupTextView;
+    TextView SignupTextView;
     ImageView backButton;
     LinearLayout google_login_btn;
     GoogleSignInClient mGoogleSignInClient;
@@ -76,7 +76,7 @@ public class Login extends AppCompatActivity {
         Password=findViewById(R.id.password);
         signInButtonO = findViewById(R.id.sign_in_outlook);
         loginButton =findViewById(R.id.loginbtn);
-        LinearLayout forgotPassword = findViewById(R.id.forgot_password);
+        TextView forgotPassword = findViewById(R.id.forgot_password);
 
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore= FirebaseFirestore.getInstance();

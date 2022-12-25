@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -35,8 +36,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.clash
 import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
+import com.alcheringa.alcheringa2022.ui.theme.star_guard
 import kotlinx.coroutines.launch
 
 
@@ -50,31 +53,62 @@ class AddAddressActivity : ComponentActivity() {
         val sharedPreferences: SharedPreferences = this.getSharedPreferences("address", Context.MODE_PRIVATE)
         setContent {
             // A surface container using the 'background' color from the theme
+            Alcheringa2022Theme() {
+
+
             Surface(
                 modifier = Modifier.fillMaxSize(),
-                color = Color.Black,
+                color = colors.background,
 
-            ) {
+                ) {
 
                 ConstraintLayout(
                     modifier = Modifier.fillMaxSize(),
 
-                ) {
+                    ) {
                     val (btn, _) = createRefs()
 
                     val sp = getSharedPreferences("USER", MODE_PRIVATE)
                     var spName = sp.getString("name", "")
-                    if(spName==""){
-                        spName = sharedPreferences.getString("name","")
+                    if (spName == "") {
+                        spName = sharedPreferences.getString("name", "")
                     }
 
                     var name by remember { mutableStateOf(spName) }
-                    var phone by remember { mutableStateOf(sharedPreferences.getString("phone","")) }
-                    var pincode by remember { mutableStateOf(sharedPreferences.getString("pincode","")) }
-                    var house by remember { mutableStateOf(sharedPreferences.getString("house","")) }
-                    var road by remember { mutableStateOf(sharedPreferences.getString("road","")) }
-                    var city by remember { mutableStateOf(sharedPreferences.getString("city","")) }
-                    var state by remember { mutableStateOf(sharedPreferences.getString("state","")) }
+                    var phone by remember {
+                        mutableStateOf(
+                            sharedPreferences.getString(
+                                "phone",
+                                ""
+                            )
+                        )
+                    }
+                    var pincode by remember {
+                        mutableStateOf(
+                            sharedPreferences.getString(
+                                "pincode",
+                                ""
+                            )
+                        )
+                    }
+                    var house by remember {
+                        mutableStateOf(
+                            sharedPreferences.getString(
+                                "house",
+                                ""
+                            )
+                        )
+                    }
+                    var road by remember { mutableStateOf(sharedPreferences.getString("road", "")) }
+                    var city by remember { mutableStateOf(sharedPreferences.getString("city", "")) }
+                    var state by remember {
+                        mutableStateOf(
+                            sharedPreferences.getString(
+                                "state",
+                                ""
+                            )
+                        )
+                    }
 
                     val keyboardController = LocalSoftwareKeyboardController.current
                     val bringIntoViewRequester = remember { BringIntoViewRequester() }
@@ -95,10 +129,9 @@ class AddAddressActivity : ComponentActivity() {
                             horizontalArrangement = Arrangement.Start,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.back),
+                            Icon(
+                                painter = painterResource(id = R.drawable.back),tint=colors.secondaryVariant,
                                 contentDescription = null,
-                                contentScale = ContentScale.FillHeight,
                                 modifier = Modifier
                                     .height(80.dp)
                                     .width(32.dp)
@@ -110,10 +143,10 @@ class AddAddressActivity : ComponentActivity() {
                             )
                             Text(
                                 text = "Add Address",
-                                fontFamily = clash,
-                                fontWeight = FontWeight.W800,
-                                fontSize = 24.sp,
-                                color = Color.White,
+                                fontFamily = star_guard,
+                                fontWeight = FontWeight.W400,
+                                fontSize = 36.sp,
+                                color = colors.onBackground,
                                 modifier = Modifier.padding(vertical = 25.dp)
                             )
                         }
@@ -140,7 +173,7 @@ class AddAddressActivity : ComponentActivity() {
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.W500,
                                     fontFamily = clash,
-                                    color = Color.Black
+                                    color = colors.background
                                 )
                             }
 
@@ -167,7 +200,7 @@ class AddAddressActivity : ComponentActivity() {
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.W500,
                                     fontFamily = clash,
-                                    color = Color.White
+                                    color = colors.onBackground
                                 )
 
                             }
@@ -193,7 +226,7 @@ class AddAddressActivity : ComponentActivity() {
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.W500,
                                     fontFamily = clash,
-                                    color = Color.White
+                                    color = colors.onBackground
                                 )
 
                             }
@@ -246,23 +279,23 @@ class AddAddressActivity : ComponentActivity() {
                                 .fillMaxWidth()
                                 .padding(vertical = 24.dp),
                             fontWeight = FontWeight.W400,
-                            color = Color.White,
+                            color = colors.onBackground,
                             textAlign = TextAlign.Left,
                             fontSize = 16.sp
                         )
 
                         TextField(
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                            keyboardActions = KeyboardActions (
+                            keyboardActions = KeyboardActions(
                                 onNext = { focusManager.moveFocus(FocusDirection.Down) }
                             ),
                             textStyle = (
-                                TextStyle(
-                                    color = Color.White, fontWeight = FontWeight.W400,
-                                    fontFamily = hk_grotesk,
-                                    fontSize = 18.sp
-                                )
-                            ),
+                                    TextStyle(
+                                        color = colors.onBackground, fontWeight = FontWeight.W400,
+                                        fontFamily = hk_grotesk,
+                                        fontSize = 18.sp
+                                    )
+                                    ),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .onFocusEvent { focusState ->
@@ -275,10 +308,10 @@ class AddAddressActivity : ComponentActivity() {
                             maxLines = 1,
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
-                                cursorColor = Color.White,
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                backgroundColor = colorResource(id = R.color.textbackground)
+                                cursorColor = colors.onBackground,
+                               focusedIndicatorColor = colors.background,
+                               unfocusedIndicatorColor = colors.onSurface,
+                                backgroundColor = Color.Transparent
                             ),
                             shape = RoundedCornerShape(8.dp),
                             value = name!!,
@@ -287,9 +320,7 @@ class AddAddressActivity : ComponentActivity() {
                                 Text(
                                     text = "Full Name*",
                                     fontWeight = FontWeight.W400,
-                                    color = colorResource(
-                                        id = R.color.textfields
-                                    ),
+                                    color = colors.onSurface,
                                     fontFamily = hk_grotesk,
                                     fontSize = 18.sp
                                 )
@@ -299,10 +330,10 @@ class AddAddressActivity : ComponentActivity() {
                         TextField(
                             textStyle = (
                                     TextStyle(
-                                        color = Color.White, fontWeight = FontWeight.W400,
+                                        color = colors.onBackground, fontWeight = FontWeight.W400,
                                         fontFamily = hk_grotesk,
                                         fontSize = 18.sp
-                                        )
+                                    )
                                     ),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
@@ -317,18 +348,21 @@ class AddAddressActivity : ComponentActivity() {
                             maxLines = 1,
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
-                                cursorColor = Color.White,
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                backgroundColor = colorResource(id = R.color.textbackground)
+                                cursorColor = colors.onBackground,
+                               focusedIndicatorColor = colors.background,
+                               unfocusedIndicatorColor = colors.onSurface,
+                                backgroundColor = Color.Transparent
                             ),
                             value = phone!!,
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone, imeAction = ImeAction.Next),
-                            keyboardActions = KeyboardActions (
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Phone,
+                                imeAction = ImeAction.Next
+                            ),
+                            keyboardActions = KeyboardActions(
                                 onNext = { focusManager.moveFocus(FocusDirection.Down) }
                             ),
                             onValueChange = {
-                                if(it.length <= 10){
+                                if (it.length <= 10) {
                                     phone = it
                                 }
                             },
@@ -336,9 +370,7 @@ class AddAddressActivity : ComponentActivity() {
                                 Text(
                                     text = "Phone Number*", fontWeight = FontWeight.W400,
                                     fontFamily = hk_grotesk,
-                                    fontSize = 18.sp, color = colorResource(
-                                        id = R.color.textfields
-                                    )
+                                    fontSize = 18.sp, color = colors.onSurface
                                 )
                             },
                         )
@@ -346,11 +378,11 @@ class AddAddressActivity : ComponentActivity() {
 
                         TextField(
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                            keyboardActions = KeyboardActions (
+                            keyboardActions = KeyboardActions(
                                 onNext = { focusManager.moveFocus(FocusDirection.Down) }
                             ),
                             textStyle = (TextStyle(
-                                color = Color.White, fontWeight = FontWeight.W400,
+                                color = colors.onBackground, fontWeight = FontWeight.W400,
                                 fontFamily = hk_grotesk,
                                 fontSize = 18.sp
                             )),
@@ -367,10 +399,10 @@ class AddAddressActivity : ComponentActivity() {
                             maxLines = 1,
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
-                                cursorColor = Color.White,
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                backgroundColor = colorResource(id = R.color.textbackground)
+                                cursorColor = colors.onBackground,
+                               focusedIndicatorColor = colors.background,
+                               unfocusedIndicatorColor = colors.onSurface,
+                                backgroundColor = Color.Transparent
                             ),
                             value = house!!,
                             onValueChange = { house = it },
@@ -378,23 +410,21 @@ class AddAddressActivity : ComponentActivity() {
                                 Text(
                                     text = "House No, Building Name*", fontWeight = FontWeight.W400,
                                     fontFamily = hk_grotesk,
-                                    fontSize = 18.sp, color = colorResource(
-                                        id = R.color.textfields
-                                    )
+                                    fontSize = 18.sp, color = colors.onSurface
                                 )
                             })
                         Spacer(modifier = Modifier.height(12.dp))
 
                         TextField(
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                            keyboardActions = KeyboardActions (
+                            keyboardActions = KeyboardActions(
                                 onNext = { focusManager.moveFocus(FocusDirection.Down) }
                             ),
                             textStyle = (TextStyle(
-                            color = Color.White, fontWeight = FontWeight.W400,
-                            fontFamily = hk_grotesk,
-                            fontSize = 18.sp
-                        )), shape = RoundedCornerShape(8.dp),
+                                color = colors.onBackground, fontWeight = FontWeight.W400,
+                                fontFamily = hk_grotesk,
+                                fontSize = 18.sp
+                            )), shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .onFocusEvent { focusState ->
@@ -404,11 +434,11 @@ class AddAddressActivity : ComponentActivity() {
                                         }
                                     }
                                 },
-                                colors = TextFieldDefaults.textFieldColors(
-                                cursorColor = Color.White,
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                backgroundColor = colorResource(id = R.color.textbackground)
+                            colors = TextFieldDefaults.textFieldColors(
+                                cursorColor = colors.onBackground,
+                               focusedIndicatorColor = colors.background,
+                               unfocusedIndicatorColor = colors.onSurface,
+                                backgroundColor = Color.Transparent
                             ),
                             maxLines = 1,
                             singleLine = true,
@@ -418,9 +448,7 @@ class AddAddressActivity : ComponentActivity() {
                                 Text(
                                     text = "Road Name, Area, Colony*", fontWeight = FontWeight.W400,
                                     fontFamily = hk_grotesk,
-                                    fontSize = 18.sp, color = colorResource(
-                                        id = R.color.textfields
-                                    )
+                                    fontSize = 18.sp, color = colors.onSurface
                                 )
                             })
                         Spacer(modifier = Modifier.height(12.dp))
@@ -437,14 +465,14 @@ class AddAddressActivity : ComponentActivity() {
 
                             TextField(
                                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                                keyboardActions = KeyboardActions (
+                                keyboardActions = KeyboardActions(
                                     onNext = { focusManager.moveFocus(FocusDirection.Right) }
                                 ),
                                 textStyle = (TextStyle(
-                                color = Color.White, fontWeight = FontWeight.W400,
-                                fontFamily = hk_grotesk,
-                                fontSize = 18.sp
-                            )),
+                                    color = colors.onBackground, fontWeight = FontWeight.W400,
+                                    fontFamily = hk_grotesk,
+                                    fontSize = 18.sp
+                                )),
                                 shape = RoundedCornerShape(8.dp),
                                 modifier = Modifier
                                     .fillMaxWidth(0.487f)
@@ -458,10 +486,10 @@ class AddAddressActivity : ComponentActivity() {
                                 maxLines = 1,
                                 singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
-                                    cursorColor = Color.White,
-                                    focusedIndicatorColor = Color.Transparent,
-                                    unfocusedIndicatorColor = Color.Transparent,
-                                    backgroundColor = colorResource(id = R.color.textbackground)
+                                    cursorColor = colors.onBackground,
+                                   focusedIndicatorColor = colors.background,
+                                   unfocusedIndicatorColor = colors.onSurface,
+                                    backgroundColor = Color.Transparent
                                 ),
                                 value = city!!,
                                 onValueChange = { city = it },
@@ -480,16 +508,16 @@ class AddAddressActivity : ComponentActivity() {
 
                             TextField(
                                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                                keyboardActions = KeyboardActions (
+                                keyboardActions = KeyboardActions(
                                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                                 ),
                                 textStyle = (
                                         TextStyle(
-                                            color = Color.White, fontWeight = FontWeight.W400,
+                                            color = colors.onBackground, fontWeight = FontWeight.W400,
                                             fontFamily = hk_grotesk,
                                             fontSize = 18.sp
                                         )
-                                ),
+                                        ),
                                 shape = RoundedCornerShape(8.dp),
                                 modifier = Modifier
                                     .fillMaxWidth(0.9207f)
@@ -503,10 +531,10 @@ class AddAddressActivity : ComponentActivity() {
                                 maxLines = 1,
                                 singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
-                                    cursorColor = Color.White,
-                                    focusedIndicatorColor = Color.Transparent,
-                                    unfocusedIndicatorColor = Color.Transparent,
-                                    backgroundColor = colorResource(id = R.color.textbackground)
+                                    cursorColor = colors.onBackground,
+                                   focusedIndicatorColor = colors.background,
+                                   unfocusedIndicatorColor = colors.onSurface,
+                                    backgroundColor = Color.Transparent
                                 ),
                                 value = state!!,
                                 onValueChange = { state = it },
@@ -528,21 +556,21 @@ class AddAddressActivity : ComponentActivity() {
                         TextField(
                             textStyle = (
                                     TextStyle(
-                                        color = Color.White, fontWeight = FontWeight.W400,
+                                        color = colors.onBackground, fontWeight = FontWeight.W400,
                                         fontFamily = hk_grotesk,
                                         fontSize = 18.sp
                                     )
-                            ),
+                                    ),
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
                                 .fillMaxWidth(),
                             maxLines = 1,
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
-                                cursorColor = Color.White,
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                backgroundColor = colorResource(id = R.color.textbackground)
+                                cursorColor = colors.onBackground,
+                               focusedIndicatorColor = colors.background,
+                               unfocusedIndicatorColor = colors.onSurface,
+                                backgroundColor = Color.Transparent
                             ),
                             value = pincode!!,
                             onValueChange = { pincode = it },
@@ -550,13 +578,14 @@ class AddAddressActivity : ComponentActivity() {
                                 Text(
                                     text = "Pincode*", fontWeight = FontWeight.W400,
                                     fontFamily = hk_grotesk,
-                                    fontSize = 18.sp, color = colorResource(
-                                        id = R.color.textfields
-                                    )
+                                    fontSize = 18.sp, color = colors.onSurface
                                 )
                             },
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Phone),
-                            keyboardActions = KeyboardActions (
+                            keyboardOptions = KeyboardOptions(
+                                imeAction = ImeAction.Done,
+                                keyboardType = KeyboardType.Phone
+                            ),
+                            keyboardActions = KeyboardActions(
                                 onDone = { keyboardController?.hide() }
                             )
                         )
@@ -580,39 +609,71 @@ class AddAddressActivity : ComponentActivity() {
 
                                 when {
                                     name!!.isEmpty() -> {
-                                        Toast.makeText(applicationContext, "Please enter your name", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Please enter your name",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                     !isPhoneValid -> {
-                                        Toast.makeText(applicationContext, "Please enter a 10 digit phone number", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Please enter a 10 digit phone number",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                     house!!.isEmpty() -> {
-                                        Toast.makeText(applicationContext, "Please enter your House No and Building Name", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Please enter your House No and Building Name",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                     road!!.isEmpty() -> {
-                                        Toast.makeText(applicationContext, "Please enter your Road Name, Area and Colony", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Please enter your Road Name, Area and Colony",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                     city!!.isEmpty() -> {
-                                        Toast.makeText(applicationContext, "Please enter your City", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Please enter your City",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                     state!!.isEmpty() -> {
-                                        Toast.makeText(applicationContext, "Please enter your State", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Please enter your State",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                     (!isPinCodeValid) -> {
-                                        Toast.makeText(applicationContext, "Please enter a 6 digit numeric pincode", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Please enter a 6 digit numeric pincode",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
                                     else -> {
-                                        val editor:SharedPreferences.Editor =  sharedPreferences.edit()
-                                        editor.putString("name",name)
-                                        editor.putString("phone",phone)
-                                        editor.putString("house",house)
-                                        editor.putString("road",road)
-                                        editor.putString("city",city)
-                                        editor.putString("state",state)
-                                        editor.putString("pincode",pincode)
+                                        val editor: SharedPreferences.Editor =
+                                            sharedPreferences.edit()
+                                        editor.putString("name", name)
+                                        editor.putString("phone", phone)
+                                        editor.putString("house", house)
+                                        editor.putString("road", road)
+                                        editor.putString("city", city)
+                                        editor.putString("state", state)
+                                        editor.putString("pincode", pincode)
                                         editor.apply()
                                         //editor.commit()
 
-                                        val intent = Intent(applicationContext, OrderSummaryActivity::class.java)
+                                        val intent = Intent(
+                                            applicationContext,
+                                            OrderSummaryActivity::class.java
+                                        )
                                         intent.putExtra("name", name)
                                         intent.putExtra("phone", phone)
                                         intent.putExtra("house", house)
@@ -635,13 +696,14 @@ class AddAddressActivity : ComponentActivity() {
                         ) {
                             Text(
                                 text = "Proceed to Checkout", fontFamily = clash,
-                                fontWeight = FontWeight.W600, fontSize = 18.sp, color = Color.White
+                                fontWeight = FontWeight.W600, fontSize = 18.sp, color = colors.onBackground
                             )
                         }
                     }
 
                 }
             }
+        }
         }
     }
 
@@ -668,7 +730,7 @@ class AddAddressActivity : ComponentActivity() {
                     fontSize = 18.sp,
                     fontWeight = FontWeight.W500,
                     fontFamily = clash,
-                    color = Color.Black
+                    color = colors.background
                 )
 
             }
@@ -693,7 +755,7 @@ class AddAddressActivity : ComponentActivity() {
                     fontSize = 18.sp,
                     fontWeight = FontWeight.W500,
                     fontFamily = clash,
-                    color = Color.White
+                    color = colors.onBackground
                 )
 
             }
@@ -718,7 +780,7 @@ class AddAddressActivity : ComponentActivity() {
                     fontSize = 18.sp,
                     fontWeight = FontWeight.W500,
                     fontFamily = clash,
-                    color = Color.White
+                    color = colors.onBackground
                 )
 
             }

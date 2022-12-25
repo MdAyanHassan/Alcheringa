@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    style="@style/Background"
     tools:context=".Login">
 
     <ImageView
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/starguard"
         android:text="Login"
-        android:textColor="#0E0E0F"
+        android:textColor="@color/primaryCol"
         android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="20dp"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/aileron_black"
         android:text="If you already have an account"
-        android:textColor="#0E0E0F"
+        android:textColor="@color/primaryCol"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="20dp"
@@ -82,8 +82,8 @@
             android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:textColor="@color/black"
-            android:textColorHint="#A1887F"
+            android:textColor="@color/primaryCol"
+            android:textColorHint="#B7B7B7"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -120,7 +120,7 @@
         android:inputType="textEmailAddress"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
-        android:textColor="@color/black"
+        android:textColor="@color/primaryCol"
         android:textColorHint="#B7B7B7"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -138,26 +138,16 @@
         android:layout_marginTop="28dp"
         android:fontFamily="@font/aileron_black"
         android:gravity="center"
+        android:id="@+id/forgot_password"
         android:text="Forgot Password?"
-        android:textColor="@color/black"
+        android:textColor="@color/primaryCol"
         android:textSize="14sp"
+        android:background="@drawable/topheaderbottomborder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Password_Relative_Layout" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.40"
-        android:id="@+id/forgot_password">
 
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/sign_in_outlook"
@@ -166,6 +156,7 @@
         android:background="@drawable/login_button_bg"
         android:foreground="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
+        android:gravity="center"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -174,16 +165,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.646">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="5dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@drawable/outlook_logo"
-            android:translationX="40dp" />
+             />
 
         <TextView
             android:layout_width="wrap_content"
@@ -191,10 +185,11 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/aileron_regular"
             android:gravity="center"
-            android:text="Continue with Outlook"
-            android:textColor="@color/black"
+            android:text="Sign in with Outlook"
+            android:textColor="@color/primaryCol"
             android:textSize="18sp"
-            android:translationX="40dp" />
+            />
+    </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -207,21 +202,27 @@
         android:background="@drawable/login_button_bg"
         android:foreground="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sign_in_outlook">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:orientation="horizontal">
+
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="23dp"
-            android:layout_marginEnd="13dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@drawable/google_logo"
-            android:translationX="40dp" />
+             />
 
         <TextView
             android:layout_width="wrap_content"
@@ -229,10 +230,11 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/aileron_regular"
             android:gravity="center"
-            android:text="Continue with Google"
-            android:textColor="@color/black"
+            android:text="Sign in with Google"
+            android:textColor="@color/primaryCol"
             android:textSize="18sp"
-            android:translationX="40dp" />
+            />
+    </LinearLayout>
     </LinearLayout>
 
     <Button
@@ -253,7 +255,7 @@
         android:fontFamily="@font/aileron_regular"
         android:gravity="center"
         android:text="Don't have an account?"
-        android:textColor="@color/black"
+        android:textColor="@color/primaryCol"
         android:textSize="19sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -269,7 +271,8 @@
         android:fontFamily="@font/aileron_black"
         android:gravity="center"
         android:text="Signup here"
-        android:textColor="@color/black"
+        android:background="@drawable/topheaderbottomborder"
+        android:textColor="@color/primaryCol"
         android:textSize="19sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
