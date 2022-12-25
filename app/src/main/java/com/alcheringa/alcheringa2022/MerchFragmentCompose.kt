@@ -537,7 +537,7 @@ class MerchFragmentCompose : Fragment() {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .fillMaxHeight(0.75f)
+                            .fillMaxHeight(0.95f)
                             .border(
                                 2.dp,
                                 colors.secondary,
@@ -571,7 +571,7 @@ class MerchFragmentCompose : Fragment() {
                                     context = requireContext(),
                                     index
                                 )
-                                Spacer(modifier = Modifier.height(30.dp))
+                                Spacer(modifier = Modifier.height(0.dp))
                                 Text(
                                     homeViewModel.merchMerch[index].name,
                                     style = TextStyle(
