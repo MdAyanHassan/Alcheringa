@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.alcheringa.alcheringa2022.Database.DBHandler;
 import com.alcheringa.alcheringa2022.Model.cartModel;
@@ -61,7 +63,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     DBHandler dbHandler;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
-    Button Pay;
+    FrameLayout Pay;
     TextView name,address,total_price,total,order_total;
     LoaderView loaderView;
     ArrayList<cartModel> arrayList;
@@ -81,7 +83,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_summary);
+        setContentView(R.layout.checkout_new);
         builder=new Retrofit.Builder()
                 .baseUrl("https://docs.google.com/forms/u/0/d/e/1FAIpQLSfugQ32uHJp8XNA5-EwrGGcJgJeXwqzEOMaAKuyMBsC3jGFXg/")
                 .addConverterFactory(GsonConverterFactory.create());
@@ -95,7 +97,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         name=findViewById(R.id.name);
         address=findViewById(R.id.address);
         total_price=findViewById(R.id.total_mrp);
-        total=findViewById(R.id.total);
+//        total=findViewById(R.id.total);
         order_total=findViewById(R.id.order_total);
         loaderView = findViewById(R.id.dots_progress);
         shipping = findViewById(R.id.shipping_charge);
@@ -199,7 +201,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         int total_and_shipping = shipping_charges + (int) amt;
         String amount = MessageFormat.format("₹{0}.", amt);
         shipping.setText(String.format("₹%s.00", shipping_charges+""));
-        total.setText(String.format(Locale.getDefault(),"₹%d.00", total_and_shipping)); //total
+//        total.setText(String.format(Locale.getDefault(),"₹%d.00", total_and_shipping)); //total
         order_total.setText(String.format("₹%d.", total_and_shipping)); //bottom order total
 
         total_price.setText(String.format("%s00", amount));  //total MRP

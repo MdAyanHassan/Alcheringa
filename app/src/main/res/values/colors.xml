@@ -182,5 +182,6 @@
     <color name="iconcolor">@color/HighBlack</color>
     <color name="bordercolor">@color/MidWhite</color>
     <color name="separatorcolor">@color/MidWhite</color>
+    <color name="barbgcolor">@color/HighWhite</color>
 
 </resources>

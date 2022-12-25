@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    style="@style/Background"
     android:orientation="vertical"
     tools:context=".OrderSummaryActivity"
     tools:ignore="HardcodedText">
@@ -12,47 +12,46 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_nav"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
+        android:layout_height="72dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/topheaderbottomborder"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/back_button"
-            android:layout_width="41dp"
+            android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="12dp"
-            android:background="@android:color/transparent"
             android:padding="16dp"
             android:src="@drawable/back"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
+            android:layout_marginStart="12dp"
+            android:background="@android:color/transparent"/>
 
         <TextView
+            android:id="@+id/faq_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/starguard"
             android:text="Checkout"
-            android:textColor="#0E0E0F"
-            android:textSize="24sp"
+            style="@style/headerText"
+            android:layout_marginLeft="10dp"
+            android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintLeft_toRightOf="@id/back_button"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_nav">
-
-
+        app:layout_constraintTop_toBottomOf="@id/top_nav"
+        app:layout_constraintBottom_toTopOf="@id/bottom_part">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +60,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="36dp"
                 android:background="@drawable/checkout_top_background"
@@ -71,23 +70,20 @@
                     android:id="@+id/mid_number"
                     android:layout_width="160dp"
                     android:layout_height="38dp"
-                    android:width="50dp"
-                    android:height="50dp"
                     android:background="@drawable/ic_order_summary"
                     android:gravity="center_vertical"
-                    android:textColor="@color/black"
+                    android:textColor="@color/primaryCol"
                     android:textSize="18sp"
-                    android:translationX="90dp"
-                    app:layout_constraintLeft_toRightOf="@id/left_line"
-                    app:layout_constraintRight_toLeftOf="@+id/right_number"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:id="@+id/left_line"
-                    android:layout_width="55dp"
+                    android:layout_width="0dp"
                     android:layout_height="3dp"
-                    android:background="@color/black"
-                    android:translationX="36dp"
+                    android:background="@color/primaryCol"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/left_tick"
                     app:layout_constraintRight_toLeftOf="@+id/mid_number"
@@ -110,15 +106,14 @@
                     android:id="@+id/right_number"
                     android:layout_width="36dp"
                     android:layout_height="38dp"
-                    android:width="30dp"
-                    android:height="30dp"
                     android:background="@drawable/ic_pg_3"
                     android:gravity="center_vertical"
-                    android:textColor="@color/white"
+                    android:textColor="@color/secondaryCol"
                     android:textSize="18sp"
-                    android:translationX="148dp"
-                    app:layout_constraintLeft_toRightOf="@+id/mid_number"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                     />
 
                 <ImageView
                     android:id="@+id/left_tick"
@@ -126,8 +121,9 @@
                     android:layout_height="38dp"
                     android:background="@drawable/ic_frame_14848"
                     android:contentDescription="tick"
-                    app:layout_constraintRight_toLeftOf="@+id/left_line"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -142,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/aileron_semibold"
-                android:textColor="#0E0E0F"
+                android:textColor="@color/primaryCol"
                 android:textSize="18sp"
                 tools:text="Rishikesh Aryan Choudhary" />
 
@@ -162,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:fontFamily="@font/aileron_regular"
-                android:textColor="#0E0E0F"
+                android:textColor="@color/primaryCol"
                 android:textSize="16sp"
                 tools:text="Ph. No. 8398077353" />
 
@@ -175,7 +171,7 @@
                 android:id="@+id/items_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/black" />
+                android:background="@color/secondaryCol" />
         </LinearLayout>
 
     </ScrollView>
@@ -184,11 +180,13 @@
         android:id="@+id/bottom_part"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/dotted_border"
         android:orientation="vertical"
         android:padding="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="-14dp">
 
@@ -280,9 +278,10 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="348dp"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:id="@+id/pay_btn"
+            android:paddingHorizontal="20dp"
             android:layout_height="56dp"
             android:background="@drawable/custom_button_2"
             android:foreground="?android:attr/selectableItemBackground"
@@ -291,11 +290,10 @@
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="5dp"
+                android:layout_gravity="end|center"
                 android:adjustViewBounds="true"
                 android:src="@drawable/arrow_right"
-                android:translationX="300dp" />
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -303,13 +301,12 @@
                 android:fontFamily="@font/aileron_regular"
                 android:padding="8dp"
                 android:text="Proceed"
-                android:layout_gravity="center_vertical"
-                android:translationX="-10dp"
+                android:layout_gravity="start|center"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/Black"
                 android:textSize="20sp" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </FrameLayout>
 
     </LinearLayout>
 

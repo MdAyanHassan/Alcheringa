@@ -81,6 +81,10 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
         dbHandler=new DBHandler(this);
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
