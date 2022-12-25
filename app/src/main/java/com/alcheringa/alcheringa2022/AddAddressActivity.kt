@@ -36,10 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
-import com.alcheringa.alcheringa2022.ui.theme.clash
-import com.alcheringa.alcheringa2022.ui.theme.hk_grotesk
-import com.alcheringa.alcheringa2022.ui.theme.star_guard
+import com.alcheringa.alcheringa2022.ui.theme.*
 import kotlinx.coroutines.launch
 
 
@@ -309,7 +306,7 @@ class AddAddressActivity : ComponentActivity() {
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = colors.onBackground,
-                               focusedIndicatorColor = colors.background,
+                               focusedIndicatorColor = colors.onBackground,
                                unfocusedIndicatorColor = colors.onSurface,
                                 backgroundColor = Color.Transparent
                             ),
@@ -325,7 +322,7 @@ class AddAddressActivity : ComponentActivity() {
                                     fontSize = 18.sp
                                 )
                             })
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
                         TextField(
                             textStyle = (
@@ -349,7 +346,7 @@ class AddAddressActivity : ComponentActivity() {
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = colors.onBackground,
-                               focusedIndicatorColor = colors.background,
+                               focusedIndicatorColor = colors.onBackground,
                                unfocusedIndicatorColor = colors.onSurface,
                                 backgroundColor = Color.Transparent
                             ),
@@ -374,7 +371,7 @@ class AddAddressActivity : ComponentActivity() {
                                 )
                             },
                         )
-                        Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
                         TextField(
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -400,7 +397,7 @@ class AddAddressActivity : ComponentActivity() {
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = colors.onBackground,
-                               focusedIndicatorColor = colors.background,
+                               focusedIndicatorColor = colors.onBackground,
                                unfocusedIndicatorColor = colors.onSurface,
                                 backgroundColor = Color.Transparent
                             ),
@@ -413,7 +410,7 @@ class AddAddressActivity : ComponentActivity() {
                                     fontSize = 18.sp, color = colors.onSurface
                                 )
                             })
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
                         TextField(
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -436,7 +433,7 @@ class AddAddressActivity : ComponentActivity() {
                                 },
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = colors.onBackground,
-                               focusedIndicatorColor = colors.background,
+                               focusedIndicatorColor = colors.onBackground,
                                unfocusedIndicatorColor = colors.onSurface,
                                 backgroundColor = Color.Transparent
                             ),
@@ -451,7 +448,7 @@ class AddAddressActivity : ComponentActivity() {
                                     fontSize = 18.sp, color = colors.onSurface
                                 )
                             })
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
 
                         //var city by remember { mutableStateOf("") }
@@ -487,7 +484,7 @@ class AddAddressActivity : ComponentActivity() {
                                 singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
                                     cursorColor = colors.onBackground,
-                                   focusedIndicatorColor = colors.background,
+                                   focusedIndicatorColor = colors.onBackground,
                                    unfocusedIndicatorColor = colors.onSurface,
                                     backgroundColor = Color.Transparent
                                 ),
@@ -532,7 +529,7 @@ class AddAddressActivity : ComponentActivity() {
                                 singleLine = true,
                                 colors = TextFieldDefaults.textFieldColors(
                                     cursorColor = colors.onBackground,
-                                   focusedIndicatorColor = colors.background,
+                                   focusedIndicatorColor = colors.onBackground,
                                    unfocusedIndicatorColor = colors.onSurface,
                                     backgroundColor = Color.Transparent
                                 ),
@@ -552,7 +549,7 @@ class AddAddressActivity : ComponentActivity() {
 
                         }
 
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
                         TextField(
                             textStyle = (
                                     TextStyle(
@@ -568,7 +565,7 @@ class AddAddressActivity : ComponentActivity() {
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = colors.onBackground,
-                               focusedIndicatorColor = colors.background,
+                               focusedIndicatorColor = colors.onBackground,
                                unfocusedIndicatorColor = colors.onSurface,
                                 backgroundColor = Color.Transparent
                             ),
@@ -589,7 +586,7 @@ class AddAddressActivity : ComponentActivity() {
                                 onDone = { keyboardController?.hide() }
                             )
                         )
-                        Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
 
                     }
@@ -690,15 +687,28 @@ class AddAddressActivity : ComponentActivity() {
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(55.dp),
-                            shape = RoundedCornerShape(8.dp),
-                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.btnOrange))
+                                .height(56.dp),
+                            shape = RoundedCornerShape(12.dp),
+                            colors = ButtonDefaults.buttonColors(backgroundColor = blu)
                         ) {
-                            Text(
-                                text = "Proceed to Checkout", fontFamily = clash,
-                                fontWeight = FontWeight.W600, fontSize = 18.sp, color = colors.onBackground
-                            )
-                        }
+                            Row(modifier=
+                                Modifier.padding(horizontal=10.dp)
+                                    .fillMaxWidth()
+                                    .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = "Proceed",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 22.sp,
+                                    color = Color.Black
+                                )
+                                Icon(
+                                    painter = painterResource(id = R.drawable.arrow_right),
+                                    contentDescription = "arrowright",
+                                    tint = Color.Black
+                                )
+                            }
+                            }
                     }
 
                 }

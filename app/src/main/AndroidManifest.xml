@@ -127,7 +127,13 @@
             android:label="@string/title_activity_add_address"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.Alcheringa2022"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".testing_activity"
             android:exported="true"
@@ -143,11 +149,7 @@
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.Alcheringa2022">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".CartActivity"
