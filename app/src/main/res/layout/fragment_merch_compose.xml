@@ -23,7 +23,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_nav"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="72dp"
+        android:background="@drawable/topheaderbottomborder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

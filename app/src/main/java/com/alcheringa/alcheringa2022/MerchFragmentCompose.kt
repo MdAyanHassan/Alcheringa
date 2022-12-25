@@ -291,7 +291,7 @@ class MerchFragmentCompose : Fragment() {
         Alcheringa2022Theme {
             LazyColumn(
                 Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(bottom = 20.dp,top=20.dp)
 
             ) {
                 itemsIndexed(eventDetails){
