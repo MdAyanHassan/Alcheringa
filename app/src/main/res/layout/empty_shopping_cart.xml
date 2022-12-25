@@ -18,23 +18,21 @@
 
         <ImageButton
             android:id="@+id/backbtn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="16dp"
-            android:src="@drawable/back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="12dp"
-            android:background="@android:color/transparent"/>
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/backbtn2"
+            app:layout_constraintBottom_toBottomOf="@+id/toptextnav"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/toptextnav"
+            style="@style/headerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
             android:text="Cart"
-            style="@style/headerText"
-            android:layout_marginLeft="10dp"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn"
