@@ -1281,7 +1281,7 @@ class Home : Fragment() {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.75f)
+                        .fillMaxHeight(0.95f)
                         .border(2.dp, colors.secondary, RoundedCornerShape(40.dp, 40.dp))
                 ) {
                     Box(
@@ -1322,9 +1322,9 @@ class Home : Fragment() {
                             Spacer(modifier = Modifier.height(0.dp))
                         }
                     }
-                    if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-                        eventButtons(eventWithLive = eventfordes)
-                    }
+//                    if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+//                        eventButtons(eventWithLive = eventfordes)
+//                    }
                 }
 
 
