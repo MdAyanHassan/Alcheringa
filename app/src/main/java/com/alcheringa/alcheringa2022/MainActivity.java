@@ -299,23 +299,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
           case R.id.miSponsors: startActivity(new Intent(getApplicationContext(),Sponsors.class));break;
           case R.id.miTeam: startActivity(new Intent(getApplicationContext(),team.class));break;
 
-          case R.id.miSignOut: {
-              SharedPreferences.Editor editor = sharedPreferences.edit();
-              editor.remove("name");
-              editor.remove("email");
-              editor.remove("photourl");
-              editor.remove("interests");
-              editor.apply();
-              Intent intent = new Intent(getApplicationContext(),Login.class);
-              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-              firebaseAuth.signOut();
-              startActivity(intent);
-              finish();
-          }
-
-
-
-      }
+        }
 
         drawer.closeDrawer(Gravity.RIGHT);
 

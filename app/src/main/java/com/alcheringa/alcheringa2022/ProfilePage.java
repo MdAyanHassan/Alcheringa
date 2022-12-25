@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -72,7 +73,7 @@ public class ProfilePage extends AppCompatActivity{
     FirebaseStorage storage;
     StorageReference storageReference;
     String shared_photoUrl;
-
+    LinearLayoutCompat signout;
     ArrayList<String> interests;
 
     private Uri filePath;
@@ -91,7 +92,7 @@ public class ProfilePage extends AppCompatActivity{
 //        save_button = findViewById(R.id.SaveBtn);
         back_btn = findViewById(R.id.backbtn);
         theme_btn = findViewById(R.id.themeButton);
-
+        signout=findViewById(R.id.signoutprofile);
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -140,6 +141,24 @@ public class ProfilePage extends AppCompatActivity{
                 Toast.makeText(this, "Select atleast 5 interests to continue",Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        signout.setOnClickListener(v-> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.remove("name");
+            editor.remove("email");
+            editor.remove("photourl");
+            editor.remove("interests");
+            editor.apply();
+            Intent intent = new Intent(getApplicationContext(),Login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            firebaseAuth.signOut();
+            startActivity(intent);
+            finish();
+        });
+
+
+
 
 //        back_btn = findViewById(R.id.backbtn);
 //        back_btn.setOnClickListener(v -> finish());
@@ -353,7 +372,7 @@ public class ProfilePage extends AppCompatActivity{
         }));
 
         if(!shared_name.equals("")){
-            name.setText(shared_name);
+            name.setText(shared_name.substring(0, 1).toUpperCase() + shared_name.substring(1));
         }else{
             name.setText("No name found");
         }

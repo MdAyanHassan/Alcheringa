@@ -30,10 +30,7 @@
             android:id="@+id/miSponsors"
             android:icon="@drawable/ic_sponsor"
             android:title="Sponsors" />
-        <item
-            android:id="@+id/miSignOut"
-            android:icon="@drawable/signoutlogo"
-            android:title="Sign Out" />
+
 
 
     </group>

@@ -19,5 +19,6 @@
     <color name="secondaryCol">@color/Black</color>
     <color name="iconcolor">@color/MidWhite</color>
     <color name="bordercolor">@color/MidBlack</color>
+    <color name="separatorcolor">@color/HighBlack</color>
 
 </resources>
