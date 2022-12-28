@@ -64,7 +64,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
     FrameLayout Pay;
-    TextView name,address,total_price,total,order_total;
+    TextView name,address,phone,total_price,total,order_total;
     LoaderView loaderView;
     ArrayList<cartModel> arrayList;
     String user_phone;
@@ -96,6 +96,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         Pay=findViewById(R.id.pay_btn);
         name=findViewById(R.id.name);
         address=findViewById(R.id.address);
+        phone=findViewById(R.id.Phone_number);
         total_price=findViewById(R.id.total_mrp);
 //        total=findViewById(R.id.total);
         order_total=findViewById(R.id.order_total);
@@ -115,9 +116,10 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         Email = sharedPreferences.getString("email", "");
 
         name.setText(user_name);
-        address.setText(String.format("%s, %s\n%s, %s - %s\n%s",
-                user_house, user_road, user_city, user_state, user_pin_code, user_phone)
+        address.setText(String.format("%s, %s\n%s, %s - %s",
+                user_house, user_road, user_city, user_state, user_pin_code)
         );
+        phone.setText(String.format("Ph.no: %s", user_phone));
 
         arrayList = dbHandler.readCourses();
 
@@ -172,7 +174,7 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
                     shipping_charges = Integer.parseInt(document.getString("shipping"));
-                    shipping.setText(String.format("₹%s.00", document.getString("shipping")));
+                    shipping.setText(String.format("Rs. %s.", document.getString("shipping")));
                 }else{
                     Log.d(TAG, "Error getting documents: Document does not exist");
                 }
@@ -199,10 +201,10 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
             shipping_charges=0;
         }
         int total_and_shipping = shipping_charges + (int) amt;
-        String amount = MessageFormat.format("₹{0}.", amt);
-        shipping.setText(String.format("₹%s.00", shipping_charges+""));
+        String amount = MessageFormat.format("Rs. {0}.", amt);
+        shipping.setText(String.format("Rs. %s.00", shipping_charges+""));
 //        total.setText(String.format(Locale.getDefault(),"₹%d.00", total_and_shipping)); //total
-        order_total.setText(String.format("₹%d.", total_and_shipping)); //bottom order total
+        order_total.setText(String.format("Rs. %d.", total_and_shipping)); //bottom order total
 
         total_price.setText(String.format("%s00", amount));  //total MRP
         return amt;

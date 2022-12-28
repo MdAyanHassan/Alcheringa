@@ -18,23 +18,21 @@
 
         <ImageButton
             android:id="@+id/backbtn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="16dp"
-            android:src="@drawable/back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="12dp"
-            android:background="@android:color/transparent"/>
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/backbtn2"
+            app:layout_constraintBottom_toBottomOf="@+id/toptextnav"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/toptextnav"
+            style="@style/headerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
             android:text="Cart"
-            style="@style/headerText"
-            android:layout_marginLeft="10dp"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn"
@@ -43,53 +41,78 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="250dp"
             android:layout_height="250dp"
-            app:lottie_rawRes="@raw/noorders"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             android:contentDescription="@string/empty_shopping_cart"
-            android:layout_marginBottom="50dp"
-            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_autoPlay="true"/>
+            app:lottie_rawRes="@raw/noorders" />
 
         <TextView
+            style="@style/tertiaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your Cart is Empty"
-            android:textColor="@color/bordercolor"
-            android:fontFamily="@font/clash_display_600"
-            android:textSize="22sp"
+            android:layout_gravity="center"
             android:layout_marginBottom="16dp"
+            android:fontFamily="@font/aileron_bold"
+            android:text="Your Cart is Empty"
             android:textAlignment="center"
-            android:layout_gravity="center"/>
+            android:textSize="22sp" />
 
         <TextView
+            style="@style/tertiaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/aileron_regular"
             android:text="Looks like you haven’t added \n anything to your cart yet"
-            android:textSize="16sp"
-            android:textColor="@color/separatorcolor"
-            android:fontFamily="@font/hk_grotesk_400"
             android:textAlignment="center"
-            android:layout_gravity="center"
-            android:layout_marginBottom="64dp" />
-        <Button
-            android:id="@+id/start_shopping"
-            android:text="Start Shopping"
-            android:fontFamily="@font/clash_display_600"
-            style="@style/bottom_orange_button"
-            android:layout_gravity="center"
-            android:layout_width="188dp"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/start_shopping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:background="@drawable/proceed_button"
+        android:text="Start shopping"
+        android:textColor="@color/Black"
+        android:textSize="22sp"
+        android:textAllCaps="false"
+        android:fontFamily="@font/aileron_regular"
+        android:gravity="start|center_vertical"
+        android:paddingStart="20dp"
+        android:paddingVertical="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/start_shopping"
+        app:layout_constraintEnd_toEndOf="@+id/start_shopping"
+        app:layout_constraintTop_toTopOf="@+id/start_shopping"
+        app:srcCompat="@drawable/proceed_arrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

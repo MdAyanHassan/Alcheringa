@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-<<<<<<< HEAD
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/drawable/back.xml" value="0.2295" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/drawable/back2.xml" value="0.2295" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/drawable/custom_button.xml" value="0.2295" />
@@ -13,7 +12,6 @@
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/drawable/order_summary_item_bg.xml" value="0.2295" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_about.xml" value="0.192481884057971" />
 =======
-<<<<<<< HEAD
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/drawable/back2.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/layout/activity_about.xml" value="0.25" />
         <entry key="..\:/Users/shrey/Desktop/Alcheringa2022/app/src/main/res/layout/activity_account.xml" value="0.2" />
@@ -72,7 +70,7 @@
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_cart.xml" value="0.2234375" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_category.xml" value="0.2234375" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_contact_us.xml" value="0.264" />
-<<<<<<< HEAD
+
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_epass.xml" value="0.2234375" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_event_details.xml" value="0.2234375" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_faq_page.xml" value="0.2234375" />
@@ -91,7 +89,7 @@
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_reset_passowrd.xml" value="0.2234375" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_scanner.xml" value="0.13496376811594202" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_sign_up.xml" value="0.15353260869565216" />
-<<<<<<< HEAD
+
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_splash_screen.xml" value="0.2234375" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_sponsors.xml" value="0.2234375" />
         <entry key="..\:/Users/vipin/AndroidStudioProjects/Alcheringa2022/app/src/main/res/layout/activity_team.xml" value="0.19293478260869565" />
@@ -124,7 +122,7 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-<<<<<<< HEAD
+
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
 =======
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />

@@ -52,24 +52,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_nav"
         app:layout_constraintBottom_toTopOf="@id/bottom_part">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="18dp">
+            android:padding="20dp">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="36dp"
-                android:background="@drawable/checkout_top_background"
-                android:padding="12dp">
+                android:layout_height="52dp"
+                android:layout_marginBottom="30dp"
+                android:paddingHorizontal="14dp"
+                android:background="@drawable/checkout_top_background">
 
                 <TextView
                     android:id="@+id/mid_number"
-                    android:layout_width="160dp"
-                    android:layout_height="38dp"
+                    android:layout_width="166dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/ic_order_summary"
                     android:gravity="center_vertical"
                     android:textColor="@color/primaryCol"
@@ -104,26 +105,25 @@
 
                 <TextView
                     android:id="@+id/right_number"
-                    android:layout_width="36dp"
-                    android:layout_height="38dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:background="@drawable/ic_pg_3"
                     android:gravity="center_vertical"
                     android:textColor="@color/secondaryCol"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                     />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/left_tick"
-                    android:layout_width="36dp"
-                    android:layout_height="38dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:background="@drawable/ic_frame_14848"
                     android:contentDescription="tick"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -136,7 +136,7 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/aileron_semibold"
                 android:textColor="@color/primaryCol"
                 android:textSize="18sp"
@@ -146,9 +146,9 @@
                 android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/aileron_regular"
-                android:textColor="#656565"
+                style="@style/subText"
                 android:textSize="16sp"
                 tools:text="B-315 Lohit Hostel IIT Guwahati, Amingaon\nNorth Guwahati - 781039" />
 
@@ -156,7 +156,7 @@
                 android:id="@+id/Phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="@font/aileron_regular"
                 android:textColor="@color/primaryCol"
                 android:textSize="16sp"
@@ -164,7 +164,7 @@
 
             <TextView
                 style="@style/order_summary_heading_2"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="Items" />
 
             <ListView
@@ -180,23 +180,28 @@
         android:id="@+id/bottom_part"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/dotted_border"
         android:orientation="vertical"
-        android:padding="20dp"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="-14dp">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="10dp">
 
             <TextView
-                style="@style/order_summary_small_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/aileron_regular"
+                style="@style/secondaryText"
+                android:textSize="14sp"
                 android:text="Total MRP"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -204,21 +209,28 @@
 
             <TextView
                 android:id="@+id/total_mrp"
-                style="@style/order_summary_small_text"
-                android:fontFamily="@font/hk_grotesk_400"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/aileron_regular"
+                style="@style/secondaryText"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="₹3995.00" />
+                tools:text="Rs. 3995.00" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="20dp">
 
             <TextView
-                style="@style/order_summary_small_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/aileron_regular"
+                style="@style/secondaryText"
+                android:textSize="14sp"
                 android:text="Shipping Charges"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -226,53 +238,49 @@
 
             <TextView
                 android:id="@+id/shipping_charge"
-                style="@style/order_summary_small_text"
-                android:fontFamily="@font/hk_grotesk_400"
-                android:text="₹0.00"
+                style="@style/secondaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/aileron_regular"
+                android:text="Rs. 0.00"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
+<!--        <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginBottom="16dp"
-            android:background="#707683" />
+            android:background="#707683" />-->
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 style="@style/order_summary_medium_text"
-                android:fontFamily="@font/clash_display_500"
                 android:text="Order Total"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/order_total"
                 style="@style/order_summary_medium_text"
-                android:fontFamily="@font/clash_display_500"
-                android:textSize="27sp"
+                android:textSize="28sp"
                 app:layout_constraintEnd_toStartOf="@id/order_total_decimal"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="₹4064." />
+                tools:text="Rs. 4064." />
 
             <TextView
                 android:id="@+id/order_total_decimal"
                 style="@style/order_summary_medium_text"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="2dp"
-                android:fontFamily="@font/clash_display_500"
                 android:text="00"
-                android:textSize="18sp"
+                android:textSize="28sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
