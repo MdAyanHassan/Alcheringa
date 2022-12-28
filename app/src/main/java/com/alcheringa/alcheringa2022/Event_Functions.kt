@@ -62,6 +62,8 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
 
     if (eventdetail.isLive.value){
         M = Modifier
+            .clip(RoundedCornerShape(18.dp))
+            .background(colors.background)
             .wrapContentWidth()
             .border(
                 3.dp,
@@ -70,6 +72,8 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
     }
     else{
         M = Modifier
+            .clip(RoundedCornerShape(18.dp))
+            .background(colors.background)
             .wrapContentWidth()
             .border(
                 1.dp,
@@ -85,15 +89,20 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
         if(okstatenum.value==0){okstate.value=false}else{okstate.value=true}
     })
 
-    Box(
-        Modifier
-            .background(colors.background)
-            .coloredShadow(colors.onBackground, 0.2f, 18.dp, if (isdark)20.dp else 10.dp, if (isdark)10.dp else 20.dp, 0.dp)
-            .graphicsLayer(translationY = animationProgress.value)
-            .width(200.dp)
 
 
-            )
+
+    val bm= if(isSystemInDarkTheme())Modifier.background(colors.background)
+        .graphicsLayer(translationY = animationProgress.value)
+        .width(200.dp)
+    else Modifier.background(colors.background)
+        .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
+        .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
+        .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+        .graphicsLayer(translationY = animationProgress.value)
+        .width(200.dp)
+
+    Box(modifier = bm)
 
     {
         Text(text =viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp )

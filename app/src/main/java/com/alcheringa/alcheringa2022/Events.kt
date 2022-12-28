@@ -191,9 +191,12 @@ Alcheringa2022Theme() {
                 Events_row(heading = "Humor Fest")
                 Events_row(heading = "Campaigns")
                 Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
-                    Box() {val alphaval=if(isSystemInDarkTheme())0.4f else 0.2f
+                    Box() {val alphaval= 0.2f
                         Card(
-                            Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(alphaval),
+                            Modifier
+                                .height(10.dp)
+                                .offset(x = -5.dp, y = 16.dp)
+                                .alpha(alphaval),
                             shape = RoundedCornerShape(100.dp),
                             backgroundColor = textbg
 
@@ -240,7 +243,10 @@ Alcheringa2022Theme() {
                 Box(
                 ) {
                     Card(
-                        Modifier.height(10.dp).offset(x= -5.dp,y= 16.dp).alpha(alphaval),
+                        Modifier
+                            .height(10.dp)
+                            .offset(x = -5.dp, y = 16.dp)
+                            .alpha(alphaval),
                         shape = RoundedCornerShape(100.dp),
                         backgroundColor = textbg
 
@@ -468,7 +474,7 @@ if (searchlist.isNotEmpty()) {
                }
                 Full_view()
             },
-            sheetPeekHeight = 280.dp, sheetShape = RoundedCornerShape(32.dp)
+            sheetPeekHeight = if(tg.value=="" && searchtext.value=="")280.dp else 520.dp, sheetShape = RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp)
         
         ){
             Box(

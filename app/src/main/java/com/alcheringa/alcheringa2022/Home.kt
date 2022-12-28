@@ -1356,21 +1356,43 @@ class Home : Fragment() {
                             Spacer(Modifier.height(10.dp))
                             newhorizontalscroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
                         }
-
+                        val alphaval= 0.2f
                         if (homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }
                                 .isNotEmpty()) {
-                            Text(
+                            Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
                                     bottom = 24.dp,
                                     top = 36.dp
                                 ),
-                                text = "Upcoming Events",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
-                                color = colors.onBackground,
-                                fontSize = 21.sp
-                            )
+                            ) {
+                                Card(
+                                    Modifier
+                                        .height(10.dp)
+                                        .offset(x = -5.dp, y = 16.dp)
+                                        .alpha(alphaval),
+                                    shape = RoundedCornerShape(100.dp),
+                                    backgroundColor = textbg
+
+                                ){
+                                    Text(
+
+                                        text = "Ongoing Events  ",
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Transparent,
+                                        fontSize = 21.sp
+                                    )
+                                }
+                                Text(
+
+                                    text = "Ongoing Events",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.Bold,
+                                    color = colors.onBackground,
+                                    fontSize = 21.sp
+                                )
+                            }
                         }
                         Box(
                             modifier = Modifier
@@ -1404,7 +1426,7 @@ class Home : Fragment() {
                             }
 
                         }
-                        val alphaval=if(isSystemInDarkTheme())0.4f else 0.2f
+
 
                         //TODO: Replace with actual check
                         //if(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.isNotEmpty()) {
