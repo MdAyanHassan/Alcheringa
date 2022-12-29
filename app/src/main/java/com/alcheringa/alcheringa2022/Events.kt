@@ -73,7 +73,9 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.maps.android.compose.*
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -230,7 +232,7 @@ Alcheringa2022Theme() {
     }
 
     @Composable
-    fun Events_row(heading: String) {val alphaval=if(isSystemInDarkTheme())0.4f else 0.2f
+    fun Events_row(heading: String) {val alphaval= 0.2f
         val list=homeViewModel.allEventsWithLive.filter {
                 data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()}
         if (list.isNotEmpty()) {

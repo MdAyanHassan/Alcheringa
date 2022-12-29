@@ -36,8 +36,8 @@ public class Splash_Screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-       // videoView=findViewById(R.id.videoview);
-        //loadVideo();
+//        videoView=findViewById(R.id.videoview);
+//        loadVideo();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);

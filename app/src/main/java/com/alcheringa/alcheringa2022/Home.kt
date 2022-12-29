@@ -546,28 +546,11 @@ class Home : Fragment() {
 
     @OptIn(ExperimentalPagerApi::class)
     @Composable
-    fun horizontalScroll(eventdetails:SnapshotStateList<eventWithLive>){
+    fun horizontalScroll(eventdetails:List<eventWithLive>){
         val count = eventdetails.size
-        Card(
-             modifier = Modifier
-                 .fillMaxWidth()
-                 .padding(20.dp),
-            shape = RoundedCornerShape(
-                topStart = 36.dp,
-                bottomEnd = 36.dp,
-                bottomStart = 36.dp,
-                topEnd = 0.dp,
-
-            ),
-            border = BorderStroke(2.dp, colors.secondary),
-            backgroundColor = colors.background
-
-
-
-        ) {
-            Box(modifier = Modifier
+        Box(modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()) {
+                .wrapContentHeight()) {
                 Column() {
 
                     val pagerState = rememberPagerState()
@@ -581,61 +564,62 @@ class Home : Fragment() {
                     //                    )
                     //                }
                     //            }
-                    LaunchedEffect(key1 = pagerState.currentPage) {
-                        launch {
-
-                            delay(3000)
-                            with(pagerState) {
-                                val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
-                                tween<Float>(
-                                    durationMillis = 300,
-                                    easing = FastOutSlowInEasing
-                                )
-                                animateScrollToPage(page = target)
-
-                            }
-                        }
-                    }
+//                    LaunchedEffect(key1 = pagerState.currentPage) {
+//                        launch {
+//
+//                            delay(3000)
+//                            with(pagerState) {
+//                                val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
+//                                tween<Float>(
+//                                    durationMillis = 300,
+//                                    easing = FastOutSlowInEasing
+//                                )
+//                                animateScrollToPage(page = target)
+//
+//                            }
+//                        }
+//                    }
                     HorizontalPager(
                         count = count,
-                        modifier = Modifier
+                        modifier = Modifier.padding(start=15.dp)
                             .fillMaxWidth()
-                            .height(404.dp),
+                            .aspectRatio(0.781f),
                         state = pagerState,
-                        contentPadding = PaddingValues(top = 12.dp, start = 12.dp, end = 12.dp),
-                        itemSpacing = (84.dp),
+                        contentPadding = PaddingValues(top = 0.dp, start = 5.dp, end = 40.dp),
+                        itemSpacing = (5.dp),
 
                         ) { page ->
                         Card(
-//                            modifier = Modifier
-//                                .graphicsLayer {
-//                                    // Calculate the absolute offset for the current page from the
-//                                    // scroll position. We use the absolute value which allows us to mirror
-//                                    // any effects for both directions
-//                                    val pageOffset =
-//                                        calculateCurrentOffsetForPage(page).absoluteValue
-//
-//                                    // We animate the scaleX + scaleY, between 85% and 100%
-//                                    lerp(
-//                                        start = 0.30f,
-//                                        stop = 1f,
-//                                        fraction = 1f - (pageOffset.coerceIn(0f, 1f))
-//                                    ).also { scale ->
-//                                        //scaleX = scale
-//                                        //scaleY = scale
-//
-//                                    }
-//
-//
-//                                    //                                     We animate the alpha, between 50% and 100%
-//                                    //                                    alpha = lerp(
-//                                    //                                            start = 0.5f,
-//                                    //                                            stop = 1f,
-//                                    //                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-//                                    //                                    )
-//                                },
-                            border = BorderStroke(1.5.dp, colors.secondary),
-                            shape = RoundedCornerShape(28.dp)
+                            modifier = Modifier.clip(RoundedCornerShape(16.dp) )
+                                .graphicsLayer {
+                                    // Calculate the absolute offset for the current page from the
+                                    // scroll position. We use the absolute value which allows us to mirror
+                                    // any effects for both directions
+                                    val pageOffset =
+                                        calculateCurrentOffsetForPage(page).absoluteValue
+
+                                        transformOrigin= TransformOrigin(if(calculateCurrentOffsetForPage(page)>0)1f else 0f,0f)
+                                    // We animate the scaleX + scaleY, between 85% and 100%
+                                    lerp(
+                                        start = 0.11f,
+                                        stop = 1f,
+                                        fraction = 1f - (pageOffset.coerceIn(0f, 1f))
+                                    ).also {
+                                            scale ->
+                                        scaleX = scale
+                                        //scaleY = scale
+                                    }
+
+
+                                    //                                     We animate the alpha, between 50% and 100%
+                                    //                                    alpha = lerp(
+                                    //                                            start = 0.5f,
+                                    //                                            stop = 1f,
+                                    //                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                                    //                                    )
+                                },
+//                            border = BorderStroke(1.5.dp, colors.secondary),
+                            shape = RoundedCornerShape(16.dp)
 
                         ) {
                             Box() {
@@ -655,7 +639,7 @@ class Home : Fragment() {
                                             contentDescription = "artist",
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .height(473.dp)
+                                                .fillMaxHeight()
                                                 .clickable {
                                                     val arguments =
                                                         bundleOf("Artist" to eventdetails[page].eventdetail.artist)
@@ -737,53 +721,79 @@ class Home : Fragment() {
                                         Box(
                                             modifier = Modifier
                                                 .fillMaxSize()
-                                                .padding(horizontal = 20.dp, vertical = 28.dp),
+                                                ,
                                             contentAlignment = Alignment.BottomStart
                                         ) {
                                             Column(
-                                                modifier = Modifier.fillMaxWidth(),
+                                                modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                                                    .graphicsLayer {
+                                                        // Calculate the absolute offset for the current page from the
+                                                        // scroll position. We use the absolute value which allows us to mirror
+                                                        // any effects for both directions
+                                                        val pageOffset =
+                                                            calculateCurrentOffsetForPage(page).absoluteValue
+
+                                                        transformOrigin= TransformOrigin( 0.5f,1f)
+                                                        // We animate the scaleX + scaleY, between 85% and 100%
+                                                        lerp(
+                                                            start = 0f,
+                                                            stop = 1f,
+                                                            fraction = 1f - (pageOffset.coerceIn(0f, 1f))
+                                                        ).also {
+                                                                scale ->
+                                                            scaleY = scale
+                                                            //scaleY = scale
+
+                                                        }
+                                                                   }.clip(RoundedCornerShape(topStart = 16.dp,topEnd=0.dp)).background(Color(0xff0e0e0f)).padding(top=12.dp,bottom=20.dp,start=20.dp)
+
+
+
+                                                ,
                                                 horizontalAlignment = Alignment.Start
                                             ) {
-                                                Text(
-                                                    text = eventdetails[page].eventdetail.artist,
+                                                MarqueeText(
+                                                    text = "${eventdetails[page].eventdetail.artist}",
                                                     color = Color.White,
                                                     fontWeight = FontWeight.SemiBold,
                                                     fontSize = 36.sp,
                                                     fontFamily = aileron,
-                                                    textAlign = TextAlign.Start
+                                                    textAlign = TextAlign.Start,
+                                                    gradientEdgeColor = Color.Transparent,
                                                 )
                                                 Spacer(modifier = Modifier.height(4.dp))
-                                                Text(
-                                                    text = eventdetails[page].eventdetail.category,
-                                                    style = TextStyle(
-                                                        color = colorResource(id = R.color.White),
-                                                        fontFamily = aileron,
-                                                        fontWeight = FontWeight.Normal,
-                                                        fontSize = 16.sp
-                                                    )
-                                                )
-                                                Spacer(modifier = Modifier.height(4.dp))
+//                                                Text(
+//                                                    text = eventdetails[page].eventdetail.category,
+//                                                    style = TextStyle(
+//                                                        color = colorResource(id = R.color.White),
+//                                                        fontFamily = aileron,
+//                                                        fontWeight = FontWeight.Normal,
+//                                                        fontSize = 16.sp
+//                                                    )
+//                                                )
+//                                                Spacer(modifier = Modifier.height(4.dp))
 
-                                                Row {
+                                                Row() {
                                                     Text(
-                                                        text = "${eventdetails[page].eventdetail.starttime.date} Mar, ${if (eventdetails[page].eventdetail.starttime.hours > 12) "${eventdetails[page].eventdetail.starttime.hours - 12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min != 0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                                        text = "${eventdetails[page].eventdetail.starttime.date} Mar, ${if (eventdetails[page].eventdetail.starttime.hours > 12) "${eventdetails[page].eventdetail.starttime.hours - 12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min != 0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours >= 12) "PM" else "AM"} |",
                                                         style = TextStyle(
                                                             color = white,
                                                             fontFamily = aileron,
                                                             fontWeight = FontWeight.Normal,
-                                                            fontSize = 16.sp
-                                                        )
+                                                            fontSize = 16.sp,
+                                                        ),
+
                                                     )
 
                                                     //Spacer(modifier = Modifier.width(4.dp))
-                                                    Text(
-                                                        text = "| ${eventdetails[page].eventdetail.venue}",
+                                                    MarqueeText(
+                                                        text = " ${eventdetails[page].eventdetail.venue}",
                                                         style = TextStyle(
                                                             color = white,
                                                             fontFamily = aileron,
                                                             fontWeight = FontWeight.Normal,
                                                             fontSize = 16.sp
-                                                        )
+                                                        ),gradientEdgeColor = Color.Transparent
                                                     )
                                                 }
                                             }
@@ -797,44 +807,44 @@ class Home : Fragment() {
                         }
                     }
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .align(Alignment.CenterHorizontally)
-                            .padding(vertical = 8.dp)
-                    ) {
-                        Card(
-                            modifier = Modifier
-
-                                .width(184.dp)
-                                .height(20.dp),
-                            shape = RoundedCornerShape(36.dp),
-                            backgroundColor = midWhite
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight()
-                            ) {
-                                HorizontalPagerIndicator(
-
-                                    pagerState = pagerState,
-                                    activeColor = colors.onBackground,
-                                    inactiveColor = midWhite,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .fillMaxHeight()
-                                        .padding(3.dp),
-                                    indicatorShape = RoundedCornerShape(36.dp),
-                                    indicatorWidth = (178 / 5).dp
-
-                                )
-                            }
-                        }
-                    }
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxHeight()
+//                            .align(Alignment.CenterHorizontally)
+//                            .padding(vertical = 8.dp)
+//                    ) {
+//                        Card(
+//                            modifier = Modifier
+//
+//                                .width(184.dp)
+//                                .height(20.dp),
+//                            shape = RoundedCornerShape(36.dp),
+//                            backgroundColor = midWhite
+//                        ) {
+//                            Box(
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .fillMaxHeight()
+//                            ) {
+//                                HorizontalPagerIndicator(
+//
+//                                    pagerState = pagerState,
+//                                    activeColor = colors.onBackground,
+//                                    inactiveColor = midWhite,
+//                                    modifier = Modifier
+//                                        .fillMaxWidth()
+//                                        .fillMaxHeight()
+//                                        .padding(3.dp),
+//                                    indicatorShape = RoundedCornerShape(36.dp),
+//                                    indicatorWidth = (178 / 5).dp
+//
+//                                )
+//                            }
+//                        }
+//                    }
                 }
             }
-        }
+
 
     }
 
@@ -1354,7 +1364,7 @@ class Home : Fragment() {
 
                         if(homeViewModel.featuredEventsWithLivestate.isNotEmpty()) {
                             Spacer(Modifier.height(10.dp))
-                            newhorizontalscroll(eventdetails = homeViewModel.featuredEventsWithLivestate)
+                            horizontalScroll(eventdetails = List(10) {homeViewModel.featuredEventsWithLivestate}.flatten())
                         }
                         val alphaval= 0.2f
                         if (homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }
