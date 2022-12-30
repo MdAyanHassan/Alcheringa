@@ -62,22 +62,22 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
 
     if (eventdetail.isLive.value){
         M = Modifier
-            .clip(RoundedCornerShape(18.dp))
+            .clip(RoundedCornerShape(16.dp))
             .background(colors.background)
             .wrapContentWidth()
             .border(
                 3.dp,
-                color = liveGreen, RoundedCornerShape(18.dp)
+                color = liveGreen, RoundedCornerShape(16.dp)
             )
     }
     else{
         M = Modifier
-            .clip(RoundedCornerShape(18.dp))
+            .clip(RoundedCornerShape(16.dp))
             .background(colors.background)
             .wrapContentWidth()
             .border(
-                1.dp,
-                color = MaterialTheme.colors.secondary, RoundedCornerShape(18.dp)
+                1.5f.dp,
+                color = MaterialTheme.colors.onBackground, RoundedCornerShape(16.dp)
             )
     }
 
@@ -96,9 +96,9 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
         .graphicsLayer(translationY = animationProgress.value)
         .width(200.dp)
     else Modifier.background(colors.background)
-        .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
-        .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
-        .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+        .coloredShadow(colors.onBackground, 0.01f, 16.dp, 1.dp, 20.dp, 0.dp)
+        .coloredShadow(colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
+        .coloredShadow(colors.onBackground, 0.24f, 16.dp, 1.dp, 4.dp, 0.dp)
         .graphicsLayer(translationY = animationProgress.value)
         .width(200.dp)
 
