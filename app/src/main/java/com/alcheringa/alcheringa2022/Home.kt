@@ -549,8 +549,8 @@ class Home : Fragment() {
     fun horizontalScroll(eventdetails:List<eventWithLive>){
         val count = eventdetails.size
         Box(modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()) {
+            .fillMaxWidth()
+            .wrapContentHeight()) {
                 Column() {
 
                     val pagerState = rememberPagerState()
@@ -579,53 +579,67 @@ class Home : Fragment() {
 //                            }
 //                        }
 //                    }
+                    val hpm= if(isSystemInDarkTheme()) Modifier
+                        .padding(start = 15.dp)
+                        .fillMaxWidth()
+                        .aspectRatio(0.781f)
+                        .coloredShadow(colors.onBackground, 0.24f, 16.dp, 37.dp, -5.dp, 5.dp)
+                    else Modifier
+                        .padding(start = 15.dp)
+                        .fillMaxWidth()
+                        .aspectRatio(0.781f)
                     HorizontalPager(
                         count = count,
-                        modifier = Modifier.padding(start=15.dp)
-                            .fillMaxWidth()
-                            .aspectRatio(0.781f),
+                        modifier = hpm,
                         state = pagerState,
-                        contentPadding = PaddingValues(top = 0.dp, start = 5.dp, end = 40.dp),
+                        contentPadding = PaddingValues(top = 0.dp, start = 5.dp, end = 40.dp, bottom = 0.dp),
                         itemSpacing = (5.dp),
 
                         ) { page ->
+
+
                         Card(
                             modifier = Modifier.clip(RoundedCornerShape(16.dp) )
-                                .graphicsLayer {
-                                    // Calculate the absolute offset for the current page from the
-                                    // scroll position. We use the absolute value which allows us to mirror
-                                    // any effects for both directions
-                                    val pageOffset =
-                                        calculateCurrentOffsetForPage(page).absoluteValue
-
-                                        transformOrigin= TransformOrigin(if(calculateCurrentOffsetForPage(page)>0)1f else 0f,0f)
-                                    // We animate the scaleX + scaleY, between 85% and 100%
-                                    lerp(
-                                        start = 0.11f,
-                                        stop = 1f,
-                                        fraction = 1f - (pageOffset.coerceIn(0f, 1f))
-                                    ).also {
-                                            scale ->
-                                        scaleX = scale
-                                        //scaleY = scale
-                                    }
-
-
-                                    //                                     We animate the alpha, between 50% and 100%
-                                    //                                    alpha = lerp(
-                                    //                                            start = 0.5f,
-                                    //                                            stop = 1f,
-                                    //                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                                    //                                    )
-                                },
-//                            border = BorderStroke(1.5.dp, colors.secondary),
+                             ,
+                            border = BorderStroke(1.5.dp, colors.onBackground),
                             shape = RoundedCornerShape(16.dp)
 
                         ) {
                             Box() {
 
                                 Card(
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+
+                                        .graphicsLayer {
+                                            // Calculate the absolute offset for the current page from the
+                                            // scroll position. We use the absolute value which allows us to mirror
+                                            // any effects for both directions
+                                            val pageOffset =
+                                                calculateCurrentOffsetForPage(page).absoluteValue
+
+                                            transformOrigin = TransformOrigin(
+                                                if (calculateCurrentOffsetForPage(page) > 0) 1f else 0f,
+                                                0f
+                                            )
+                                            // We animate the scaleX + scaleY, between 85% and 100%
+                                            lerp(
+                                                start = 0.11f,
+                                                stop = 1f,
+                                                fraction = 1f - (pageOffset.coerceIn(0f, 1f))
+                                            ).also { scale ->
+                                                scaleX = scale
+                                                //scaleY = scale
+                                            }
+
+
+                                            //                                     We animate the alpha, between 50% and 100%
+                                            //                                    alpha = lerp(
+                                            //                                            start = 0.5f,
+                                            //                                            stop = 1f,
+                                            //                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                                            //                                    )
+                                        },
 
 
                                     ) {
@@ -720,12 +734,14 @@ class Home : Fragment() {
                                         )
                                         Box(
                                             modifier = Modifier
-                                                .fillMaxSize()
+                                                .fillMaxSize().padding(4.dp)
                                                 ,
                                             contentAlignment = Alignment.BottomStart
                                         ) {
                                             Column(
-                                                modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .wrapContentHeight()
                                                     .graphicsLayer {
                                                         // Calculate the absolute offset for the current page from the
                                                         // scroll position. We use the absolute value which allows us to mirror
@@ -733,19 +749,34 @@ class Home : Fragment() {
                                                         val pageOffset =
                                                             calculateCurrentOffsetForPage(page).absoluteValue
 
-                                                        transformOrigin= TransformOrigin( 0.5f,1f)
+                                                        transformOrigin = TransformOrigin(0.5f, 1f)
                                                         // We animate the scaleX + scaleY, between 85% and 100%
                                                         lerp(
                                                             start = 0f,
                                                             stop = 1f,
-                                                            fraction = 1f - (pageOffset.coerceIn(0f, 1f))
-                                                        ).also {
-                                                                scale ->
+                                                            fraction = 1f - (pageOffset.coerceIn(
+                                                                0f,
+                                                                1f
+                                                            ))
+                                                        ).also { scale ->
                                                             scaleY = scale
                                                             //scaleY = scale
 
                                                         }
-                                                                   }.clip(RoundedCornerShape(topStart = 16.dp,topEnd=0.dp)).background(Color(0xff0e0e0f)).padding(top=12.dp,bottom=20.dp,start=20.dp)
+                                                    }
+                                                    .clip(
+                                                        RoundedCornerShape(
+                                                            topStart = 16.dp,
+                                                            topEnd = 0.dp,
+                                                            bottomStart = 16.dp,bottomEnd = 16.dp
+                                                        )
+                                                    )
+                                                    .background(Color(0xff0e0e0f))
+                                                    .padding(
+                                                        top = 12.dp,
+                                                        bottom = 20.dp,
+                                                        start = 20.dp
+                                                    )
 
 
 
@@ -761,7 +792,7 @@ class Home : Fragment() {
                                                     textAlign = TextAlign.Start,
                                                     gradientEdgeColor = Color.Transparent,
                                                 )
-                                                Spacer(modifier = Modifier.height(4.dp))
+                                                Spacer(modifier = Modifier.height(0.dp))
 //                                                Text(
 //                                                    text = eventdetails[page].eventdetail.category,
 //                                                    style = TextStyle(
@@ -890,7 +921,61 @@ class Home : Fragment() {
 //   }
 
 
+@Composable
+fun compbox(){
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)) {
 
+        val cmpm=if(isSystemInDarkTheme())   Modifier
+            .coloredShadow(Color(0xffffc311), 0.5f, 16.dp, 25.dp, 0.dp, 0.dp)
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clip(RoundedCornerShape(16.dp))
+            .background(colors.background)
+            .border(3.dp, Color(0xffffc311), RoundedCornerShape(16.dp))
+            .clickable {    NavHostFragment.findNavController(this@Home).navigate(R.id.action_home_nav_to_competitionsFragment); }
+            else
+            Modifier
+                .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
+                .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
+                .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .clip(RoundedCornerShape(16.dp))
+                .background(colors.background)
+                .border(1.5f.dp, colors.onBackground, RoundedCornerShape(16.dp))
+                .clickable {    NavHostFragment.findNavController(this@Home).navigate(R.id.action_home_nav_to_competitionsFragment); }
+
+
+
+        Box(
+            modifier=cmpm
+        )
+            {
+            
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                    Column() {
+                        Text(fontFamily = aileron, fontWeight = FontWeight.W600, fontSize = 16.sp, color = colors.onBackground, text = "Explore our Competetions")
+                        Spacer(Modifier.height(6.dp))
+                        Text(fontFamily = aileron, fontWeight = FontWeight.W400, fontSize = 12.sp, color = colors.onBackground, text = "Register. Compete. Win")
+                        Spacer(Modifier.height(12.dp))
+                        Text(fontFamily = aileron, fontWeight = FontWeight.W700, fontSize = 13.sp, color = darkBlu, text = "Explore more")
+
+                    }
+                    Image(painter = painterResource(id = R.drawable.cup1), contentDescription ="" ,modifier=Modifier.height(72.dp) )
+
+
+                    
+                }
+                
+             }
+        }
+}
 
     @Composable
     fun scheduleBox() {
@@ -1363,10 +1448,52 @@ class Home : Fragment() {
                         //                    }
 
                         if(homeViewModel.featuredEventsWithLivestate.isNotEmpty()) {
-                            Spacer(Modifier.height(10.dp))
+                            Spacer(Modifier.height(20.dp))
                             horizontalScroll(eventdetails = List(10) {homeViewModel.featuredEventsWithLivestate}.flatten())
                         }
+
                         val alphaval= 0.2f
+
+                        Box(
+                            modifier = Modifier.padding(
+                                start = 20.dp,
+                                bottom = 24.dp,
+                                top = 36.dp
+                            ),
+                        ) {
+                            Card(
+                                Modifier
+                                    .height(10.dp)
+                                    .offset(x = -5.dp, y = 16.dp)
+                                    .alpha(alphaval),
+                                shape = RoundedCornerShape(100.dp),
+                                backgroundColor = textbg
+
+                            ){
+                                Text(
+
+                                    text = "Competetions  ",
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Transparent,
+                                    fontSize = 21.sp
+                                )
+                            }
+                            Text(
+
+                                text = "Competetions",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.Bold,
+                                color = colors.onBackground,
+                                fontSize = 21.sp
+                            )
+                        }
+                        compbox()
+
+
+
+
+
                         if (homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }
                                 .isNotEmpty()) {
                             Box(
