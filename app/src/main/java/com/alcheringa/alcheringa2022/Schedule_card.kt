@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -45,17 +46,30 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
     })
 
     if (eventdetail.isLive.value) {
-        M = Modifier.wrapContentWidth().border(
-            3.dp, color = liveGreen, RoundedCornerShape(16.dp)
-        )
+        M = Modifier
+            .wrapContentWidth()
+            .border(
+                3.dp, color = liveGreen, RoundedCornerShape(16.dp)
+            )
     } else {
-        M = Modifier.wrapContentWidth().border(
-            1.dp, color = colors.secondary, RoundedCornerShape(16.dp))
+        M = Modifier
+            .wrapContentWidth()
+            .border(
+                1.5f.dp, color = colors.onBackground, RoundedCornerShape(16.dp)
+            )
     }
-
-    Box(
-        Modifier.background(colors.background).coloredShadow(colors.onBackground,0.2f,12.dp,20.dp,10.dp,0.dp)
+        val scm=if(isSystemInDarkTheme()) Modifier
+                .background(colors.background)
+                .coloredShadow(colors.onBackground, 0.3f, 16.dp, 17.dp, 0.dp, 0.dp)
+                .graphicsLayer(translationY = animationProgress.value)
+                else Modifier
+            .background(colors.background)
+            .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
+            .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
+            .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
             .graphicsLayer(translationY = animationProgress.value)
+    Box(
+       modifier = scm
     ) {
         Text(text = viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp)
 
@@ -72,7 +86,9 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
                 .width(220.dp)
                 .clickable {
                     val arguments = bundleOf("Artist" to eventdetail.eventdetail.artist)
-                    NavHostFragment.findNavController(Fragment).navigate(a,arguments);
+                    NavHostFragment
+                        .findNavController(Fragment)
+                        .navigate(a, arguments);
                 }
             )
             Row(horizontalArrangement = Arrangement.Center,) {

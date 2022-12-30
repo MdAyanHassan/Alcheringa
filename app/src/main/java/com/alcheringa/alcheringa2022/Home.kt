@@ -583,7 +583,7 @@ class Home : Fragment() {
                         .padding(start = 15.dp)
                         .fillMaxWidth()
                         .aspectRatio(0.781f)
-                        .coloredShadow(colors.onBackground, 0.24f, 16.dp, 37.dp, -5.dp, 5.dp)
+                        .coloredShadow(colors.onBackground, 0.15f, 16.dp, 17.dp, -5.dp, -5.dp)
                     else Modifier
                         .padding(start = 15.dp)
                         .fillMaxWidth()
@@ -929,7 +929,7 @@ fun compbox(){
             .padding(horizontal = 20.dp)) {
 
         val cmpm=if(isSystemInDarkTheme())   Modifier
-            .coloredShadow(Color(0xffffc311), 0.5f, 16.dp, 25.dp, 0.dp, 0.dp)
+            .coloredShadow(Color(0xffffc311), 0.5f, 16.dp, 20.dp, 0.dp, 0.dp)
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(RoundedCornerShape(16.dp))
