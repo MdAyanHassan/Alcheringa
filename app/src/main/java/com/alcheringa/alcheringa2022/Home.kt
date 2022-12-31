@@ -617,18 +617,23 @@ class Home : Fragment() {
                                             // any effects for both directions
                                             val pageOffset =
                                                 calculateCurrentOffsetForPage(page).absoluteValue
+                                            Log.d("pageoffsetpager","$pageOffset")
 
                                             transformOrigin = TransformOrigin(
-                                                if (calculateCurrentOffsetForPage(page) > 0) 1f else 0f,
+                                                if (calculateCurrentOffsetForPage(page) >= 0) 1f else
+                                                    0f,
                                                 0f
                                             )
                                             // We animate the scaleX + scaleY, between 85% and 100%
                                             lerp(
                                                 start = 0.11f,
                                                 stop = 1f,
-                                                fraction = 1f - (pageOffset.coerceIn(0f, 1f))
+                                                fraction = 1f - (pageOffset.coerceIn(0.0f, 1f))
                                             ).also { scale ->
-                                                scaleX = scale
+                                                if(pageOffset%1f!=0f){
+                                                scaleX =
+//                                                    if(calculateCurrentOffsetForPage(page)==0.0f) 1f else
+                                                        scale}
                                                 //scaleY = scale
                                             }
 
@@ -759,7 +764,7 @@ class Home : Fragment() {
                                                                 1f
                                                             ))
                                                         ).also { scale ->
-                                                            scaleY = scale
+                                                            if(pageOffset%1f!=0f){ scaleY = scale}
                                                             //scaleY = scale
 
                                                         }
