@@ -1698,9 +1698,10 @@ fun compbox(){
                                 R.drawable.merch_bg_2,
                                 R.drawable.merch_bg_3
                             )
-                            merchBox(merch = homeViewModel.merchMerch
+                            if(homeViewModel.merchMerch.isNotEmpty()){
+                            merchBoxnew(merch = homeViewModel.merchMerch
                                 .filter { it.is_available }, drbls
-                            )
+                            )}
                         }
                         //                    Row(
                         //                        Modifier
@@ -2872,6 +2873,269 @@ fun compbox(){
 
 
     }
+
+
+    @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
+    @Composable
+    fun merchBoxnew(merch: List<merchModel>, drbls:List<Int>){
+        val textPaintStroke = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.STROKE
+            textSize = 88f
+            color = android.graphics.Color.BLACK
+            strokeWidth = 18f
+            typeface = resources.getFont(R.font.starguard)
+            strokeMiter= 10f
+            strokeJoin = android.graphics.Paint.Join.ROUND
+        }
+
+        val textPaint = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.FILL
+            textSize = 88F
+            typeface = resources.getFont(R.font.starguard)
+            color = android.graphics.Color.WHITE
+        }
+
+        val textPaintStroke1 = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.STROKE
+            textSize = 44F
+            color = android.graphics.Color.BLACK
+            strokeWidth = 9f
+            typeface = resources.getFont(R.font.starguard)
+            strokeMiter= 10f
+            strokeJoin = android.graphics.Paint.Join.ROUND
+        }
+
+        val textPaint1 = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.FILL
+            textSize = 44F
+            typeface = resources.getFont(R.font.starguard)
+            color = android.graphics.Color.WHITE
+        }
+
+        val textPaintStroke2 = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.STROKE
+            textSize = 66F
+            color = android.graphics.Color.BLACK
+            strokeWidth = 16f
+            typeface = resources.getFont(R.font.starguard)
+            strokeMiter= 10f
+            strokeJoin = android.graphics.Paint.Join.ROUND
+        }
+
+        val textPaint2 = Paint().asFrameworkPaint().apply {
+            isAntiAlias = true
+            style = android.graphics.Paint.Style.FILL
+            textSize = 66F
+            typeface = resources.getFont(R.font.starguard)
+            color = ContextCompat.getColor(requireContext(), R.color.Green)
+        }
+
+        ViewPagernew(modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+        )
+        {repeat(merch.size){page ->ViewPagerChild{
+            Card(
+                modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                    .background(colors.background)
+                    .coloredShadow(colors.secondaryVariant, 0.2f, 16.dp, 30.dp, 5.dp, 0.dp)
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(horizontal = 0.dp),
+                shape = RoundedCornerShape(16.dp),
+                backgroundColor = Color.Transparent,
+                elevation = 0.dp,
+                border = BorderStroke(1.5.dp, colors.secondary)
+            ) {
+                Box(modifier = Modifier
+                    .clickable {
+                        findNavController(this@Home).navigate(R.id.action_home2_to_merchFragment)
+
+//                fm.beginTransaction()
+//                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
+//                    .commit()
+                    }
+                    .height(200.dp)
+                    .fillMaxWidth()
+
+                ){
+                    Image(painter = painterResource(id = drbls[page]), contentDescription = null,
+                        Modifier
+                            .height(200.dp)
+                            .fillMaxWidth()
+                            .align(Alignment.BottomCenter), contentScale = ContentScale.Crop, alignment = Alignment.Center)
+
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+
+                    ){
+
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight()
+                                .align(Alignment.BottomStart)
+                                .padding(horizontal = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+
+
+
+                            Column(
+                                Modifier
+                                    .fillMaxWidth(0.5F)
+                                    .fillMaxHeight()
+                                    .padding(top = 60.dp)
+
+                            ) {
+//                                Text(
+//                                    text = merch[page].Name.uppercase(),
+//                                    color = Color.White,
+//                                    fontWeight = FontWeight.Normal,
+//                                    fontSize = 32.sp,
+//                                    fontFamily = star_guard,
+//                                )
+                                Canvas(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onDraw = {
+                                        drawIntoCanvas {
+                                            it.nativeCanvas.drawText(
+                                                merch[page].name,
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaintStroke
+                                            )
+                                            it.nativeCanvas.drawText(
+                                                merch[page].name,
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaint
+                                            )
+                                        }
+                                    }
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = merch[page].material,
+                                    color = black,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 12.sp,
+                                    fontFamily = star_guard,
+                                )
+                                Spacer(modifier = Modifier.height(52.dp))
+                                Canvas(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onDraw = {
+                                        drawIntoCanvas {
+                                            it.nativeCanvas.drawText(
+                                                "At just",
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaintStroke1
+                                            )
+                                            it.nativeCanvas.drawText(
+                                                "At just",
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaint1
+                                            )
+                                        }
+                                    }
+                                )
+                                Spacer(modifier = Modifier.height(34.dp))
+
+                                Canvas(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onDraw = {
+                                        drawIntoCanvas {
+                                            it.nativeCanvas.drawText(
+                                                "Rs. "+merch[page].price,
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaintStroke2
+                                            )
+                                            it.nativeCanvas.drawText(
+                                                "Rs. "+merch[page].price,
+                                                0f,
+                                                0.dp.toPx(),
+                                                textPaint2
+                                            )
+                                        }
+                                    }
+                                )
+
+                            }
+
+                            GlideImage(modifier = Modifier
+                                .fillMaxHeight()
+                                .align(Alignment.CenterVertically)
+                                .padding(vertical = 10.dp),
+                                imageModel = merch[page].image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
+                                alignment = Alignment.Center,
+                                shimmerParams = ShimmerParams(
+                                    baseColor = Color.Transparent,
+                                    highlightColor = Color.LightGray,
+                                    durationMillis = 350,
+                                    dropOff = 0.65f,
+                                    tilt = 20f
+                                ),failure = {
+                                    Box(modifier= Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(), contentAlignment = Alignment.Center) {
+                                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.failure))
+                                        val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+                                        LottieAnimation(
+                                            composition,
+                                            progress,
+                                            modifier = Modifier.fillMaxHeight()
+                                        )
+//                            Column(
+//                                Modifier
+//                                    .fillMaxWidth()
+//                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+//                                Image(
+//                                    modifier = Modifier
+//                                        .width(60.dp)
+//                                        .height(60.dp),
+//                                    painter = painterResource(
+//                                        id = R.drawable.ic_sad_svgrepo_com
+//                                    ),
+//                                    contentDescription = null
+//                                )
+//                                Spacer(modifier = Modifier.height(10.dp))
+//                                Text(
+//                                    text = "Image Request Failed",
+//                                    style = TextStyle(
+//                                        color = Color(0xFF747474),
+//                                        fontFamily = hk_grotesk,
+//                                        fontWeight = FontWeight.Normal,
+//                                        fontSize = 12.sp
+//                                    )
+//                                )
+//                            }
+                                    }
+
+                                }
+                            )}
+
+
+
+
+
+                    }}}}}}
+
+
+    }
+
+
+
+
+
+
     @Composable
     fun Lottieonactivedelete(rId:Int) {
 

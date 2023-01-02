@@ -172,11 +172,11 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
     val bm= if(isSystemInDarkTheme())Modifier.background(colors.background)
         .graphicsLayer(translationY = animationProgress.value)
         .width(200.dp)
-    else Modifier.background(colors.background)
+    else Modifier.background(colors.background).graphicsLayer(translationY = animationProgress.value)
         .coloredShadow(colors.onBackground, 0.01f, 16.dp, 1.dp, 20.dp, 0.dp)
         .coloredShadow(colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
         .coloredShadow(colors.onBackground, 0.24f, 16.dp, 1.dp, 4.dp, 0.dp)
-        .graphicsLayer(translationY = animationProgress.value)
+
         .width(200.dp)
     Box(
         modifier=bm)
