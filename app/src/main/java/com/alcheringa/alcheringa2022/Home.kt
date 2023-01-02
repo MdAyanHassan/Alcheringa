@@ -17,6 +17,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.*
 import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.*
@@ -90,6 +91,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.microsoft.identity.common.internal.cache.SharedPreferencesFileManager.getSharedPreferences
+
 
 
 import com.skydoves.landscapist.ShimmerParams
@@ -1361,6 +1363,7 @@ fun compbox(){
         var artist : String by rememberSaveable{ mutableStateOf("") }
         var scheduleList by remember{ mutableStateOf(ScheduleDatabase(requireContext()).schedule)}
 
+
         // Declaring a Boolean value to
         // store bottom sheet collapsed state
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -1422,9 +1425,9 @@ fun compbox(){
                             Spacer(modifier = Modifier.height(0.dp))
                         }
                     }
-//                    if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-//                        eventButtons(eventWithLive = eventfordes)
-//                    }
+                    if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                        eventButtons(eventWithLive = eventfordes)
+                    }
                 }
 
 
@@ -1441,7 +1444,8 @@ fun compbox(){
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
-                            .verticalScroll(scrollState),
+                            .verticalScroll(scrollState)
+                            ,
                     ) {
                         //                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
                         //                            binding.logoAlcher.layoutParams.width=with(LocalDensity.current){162.dp.toPx().toInt()}
@@ -1558,6 +1562,7 @@ fun compbox(){
                                             coroutineScope.launch {
                                                 if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
                                                     bottomSheetScaffoldState.bottomSheetState.expand()
+
                                                 } else {
                                                     bottomSheetScaffoldState.bottomSheetState.collapse()
                                                 }
@@ -1902,6 +1907,11 @@ fun compbox(){
 
                     }
                 }
+                BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                    coroutineScope.launch {
+                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                    }
+                }
             }
         }
     }
@@ -2002,6 +2012,7 @@ fun compbox(){
                             .fillMaxWidth()
                             .wrapContentHeight(),
                     ) {
+                        Spacer(modifier = Modifier.height(10.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 text = eventWithLive.eventdetail.artist,

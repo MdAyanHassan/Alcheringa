@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -329,6 +330,7 @@ class CompetitionsFragment : Fragment() {
                                                 coroutineScope.launch {
                                                     if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
                                                         bottomSheetScaffoldState.bottomSheetState.expand()
+
                                                     } else {
                                                         bottomSheetScaffoldState.bottomSheetState.collapse()
                                                     }
@@ -577,6 +579,11 @@ class CompetitionsFragment : Fragment() {
                             }
                         }
                     }
+                BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                    coroutineScope.launch {
+                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                    }
+                }
 
             }
         }

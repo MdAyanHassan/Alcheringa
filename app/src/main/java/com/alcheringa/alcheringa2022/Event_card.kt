@@ -306,7 +306,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                             ) {
 
 
-                                if (eventdetail.eventdetail.stream) {
+                                if (true) {
                                     if (!okstate.value) {
 
                                         Image(
@@ -324,7 +324,8 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                                     )
                                                     okstate.value = true
                                                 },
-                                            painter = painterResource(id = R.drawable.circle_plus),
+                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_plus_dark)}
+                                            else{painterResource(id = R.drawable.circle_plus)},
                                             contentDescription = "null"
                                         )
                                     }
@@ -350,7 +351,8 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                                         .show()
                                                     okstate.value = false
                                                 },
-                                            painter = painterResource(id = R.drawable.tickokay),
+                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_check_dark)}
+                                            else{painterResource(id = R.drawable.circle_check_light)},
                                             contentDescription = "null",
                                             contentScale = ContentScale.FillBounds
                                         )
@@ -378,7 +380,8 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                                     )
                                                     okstate.value = true
                                                 },
-                                            painter = painterResource(id = R.drawable.circle_plus),
+                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_plus_dark)}
+                                            else{painterResource(id = R.drawable.circle_plus)},
                                             contentDescription = "null"
                                         )
                                     }
@@ -404,7 +407,8 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                                         .show()
                                                     okstate.value = false
                                                 },
-                                            painter = painterResource(id = R.drawable.tickokay),
+                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_check_dark)}
+                                            else{painterResource(id = R.drawable.circle_check_light)},
                                             contentDescription = "null",
                                             contentScale = ContentScale.FillBounds
                                         )
