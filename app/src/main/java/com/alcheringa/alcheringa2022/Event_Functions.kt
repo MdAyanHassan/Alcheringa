@@ -95,7 +95,7 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
     val bm= if(isSystemInDarkTheme()) Modifier
         .background(colors.background)
         .graphicsLayer(translationY = animationProgress.value)
-        .width(200.dp)
+        .width(220.dp)
 
          else Modifier.background(colors.background).graphicsLayer(translationY = animationProgress.value)
 
@@ -103,7 +103,7 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
         .coloredShadow(colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
         .coloredShadow(colors.onBackground, 0.24f, 16.dp, 1.dp, 4.dp, 0.dp)
 
-        .width(200.dp)
+        .width(220.dp)
 
     Box(modifier = bm)
 
@@ -111,7 +111,7 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
         Text(text =viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp )
 
 
-        Card(modifier = M.padding(6.dp),
+        Card(modifier = M.padding(0.dp),
             shape = RoundedCornerShape(12.dp),
             backgroundColor = colors.background,
             elevation = 0.dp
@@ -144,10 +144,10 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                 Column {
                     Box(
                         modifier = Modifier
-                            .width(188.dp)
-                            .height(211.dp),
+                            .width(220.dp)
+                            .height(182.dp),
                     ) {
-                        Card(shape = RoundedCornerShape(12.dp)) {
+                        Card(shape = RoundedCornerShape(topStart=12.dp, topEnd = 12.dp)) {
                             GlideImage(modifier = Modifier,
                                 imageModel = eventdetail.eventdetail.imgurl,
                                 contentDescription = "artist",
@@ -360,7 +360,7 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                     ){
                         Box(modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp, horizontal = 5.dp), contentAlignment = Alignment.BottomStart){
+                            .padding(bottom = 16.dp, top = 12.dp, start=16.dp), contentAlignment = Alignment.BottomStart){
                             Column {
                                 MarqueeText(text = eventdetail.eventdetail.artist, color = MaterialTheme.colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, fontFamily = aileron, gradientEdgeColor = Color.Transparent)
                                 Spacer(modifier = Modifier.height(8.dp))
