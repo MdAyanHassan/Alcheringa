@@ -27,6 +27,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +52,8 @@ class Sponsors : AppCompatActivity() {
     lateinit var firestore:FirebaseFirestore
     lateinit var loaderView:LoaderView
     var sponserlist= mutableListOf<sponsersnew>()
+    val headersponsers= mutableStateListOf<sponsersnew>()
+    val generalsponsers=mutableStateListOf<sponsersnew>()
 
     @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,8 +72,7 @@ class Sponsors : AppCompatActivity() {
 
 
 
-        val headersponsers=sponserlist.filter { sponsersnew -> sponsersnew.isHeading }
-        val generalsponsers=sponserlist.filter { sponsersnew -> !sponsersnew.isHeading }
+
         binding.sponsorCv.setContent {
 
             LazyVerticalGrid(cells=GridCells.Fixed(2),
@@ -101,13 +103,15 @@ class Sponsors : AppCompatActivity() {
     }
 
     private fun populate_sponsors() {
-        firestore!!.collection("SponsorsNew").get().addOnSuccessListener { task ->
+        firestore!!.collection("SponsersNew").get().addOnSuccessListener { task ->
             for (documentSnapshot in task) {
-                Log.d("sponsor", documentSnapshot.getString("Logo")!!)
+                Log.d("sponsor", documentSnapshot.getString("imageurl")!!)
                 sponserlist.add(
                     documentSnapshot.toObject(sponsersnew::class.java)
                 )
             }
+           headersponsers.addAll(sponserlist.filter { sponsersnew -> sponsersnew.heading })
+             generalsponsers.addAll(sponserlist.filter { sponsersnew -> !sponsersnew.heading })
             loaderView.visibility = View.GONE
         }.addOnFailureListener{Log.d("sponsor", "failed")}
     }
