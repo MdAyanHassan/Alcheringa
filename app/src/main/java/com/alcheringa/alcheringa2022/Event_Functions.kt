@@ -92,10 +92,13 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
 
 
 
-    val bm= if(isSystemInDarkTheme())Modifier.background(colors.background)
+    val bm= if(isSystemInDarkTheme()) Modifier
+        .background(colors.background)
         .graphicsLayer(translationY = animationProgress.value)
         .width(200.dp)
-    else Modifier.background(colors.background).graphicsLayer(translationY = animationProgress.value)
+
+         else Modifier.background(colors.background).graphicsLayer(translationY = animationProgress.value)
+
         .coloredShadow(colors.onBackground, 0.01f, 16.dp, 1.dp, 20.dp, 0.dp)
         .coloredShadow(colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
         .coloredShadow(colors.onBackground, 0.24f, 16.dp, 1.dp, 4.dp, 0.dp)
@@ -238,7 +241,7 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                             ) {
 
 
-                                if (eventdetail.eventdetail.stream) {
+                                if (true) {
                                     if (!okstate.value) {
 
                                         Image(
@@ -256,7 +259,8 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                                     )
                                                     okstate.value = true
                                                 },
-                                            painter = painterResource(id = R.drawable.circle_plus),
+                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_plus_dark)}
+                                                        else{painterResource(id = R.drawable.circle_plus)},
                                             contentDescription = "null"
                                         )
                                     }
@@ -282,7 +286,8 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                                         .show()
                                                     okstate.value = false
                                                 },
-                                            painter = painterResource(id = R.drawable.tickokay),
+                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_check_dark)}
+                                            else{painterResource(id = R.drawable.circle_check_light)},
                                             contentDescription = "null",
                                             contentScale = ContentScale.FillBounds
                                         )
@@ -310,7 +315,8 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                                     )
                                                     okstate.value = true
                                                 },
-                                            painter = painterResource(id = R.drawable.circle_plus),
+                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_plus_dark)}
+                                            else{painterResource(id = R.drawable.circle_plus)},
                                             contentDescription = "null"
                                         )
                                     }
@@ -336,7 +342,8 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                                         .show()
                                                     okstate.value = false
                                                 },
-                                            painter = painterResource(id = R.drawable.tickokay),
+                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_check_dark)}
+                                            else{painterResource(id = R.drawable.circle_check_light)},
                                             contentDescription = "null",
                                             contentScale = ContentScale.FillBounds
                                         )
