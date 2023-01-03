@@ -246,8 +246,8 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
 
                                         Image(
                                             modifier = Modifier
-                                                .width(30.dp)
-                                                .height(30.dp)
+                                                .width(35.dp)
+                                                .height(35.dp)
                                                 .clickable {
                                                     okstate.value = true
                                                     viewModelHm.OwnEventsWithLive.addNewItem(
@@ -267,8 +267,8 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                     if (okstate.value) {
                                         Image(
                                             modifier = Modifier
-                                                .width(30.dp)
-                                                .height(30.dp)
+                                                .width(35.dp)
+                                                .height(35.dp)
                                                 .clickable {
                                                     Log.d("boxevent", eventdetail.toString())
 // about the tick and plus symbol

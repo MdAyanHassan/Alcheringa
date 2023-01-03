@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    style="@style/Background"
     tools:context=".team">
 
 
@@ -20,7 +20,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/top_nav_bg"
+        android:background="@drawable/topheaderbottomborder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -41,10 +41,10 @@
             android:id="@+id/faq_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Team"
-            android:textColor="@color/white"
-            android:fontFamily="@font/clash_display_700"
-            android:textSize="25sp"
+            android:text="   Team"
+            style="@style/headerText"
+            android:fontFamily="@font/starguard"
+            android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn"
             app:layout_constraintTop_toTopOf="parent" />

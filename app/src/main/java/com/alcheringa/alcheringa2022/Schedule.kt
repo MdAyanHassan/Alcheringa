@@ -14,6 +14,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.AbsoluteCutCornerShape
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme.colors
@@ -551,14 +553,17 @@ class Schedule : Fragment() {
 
 
 //            Spacer(modifier = Modifier.height(16.dp))
+            var vert = rememberScrollState()
+//            Log.d("XValue","hello! ${vert.value}")
             Row(
                 Modifier
                     .width(1095.dp)
                     .height(975.dp)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(vert)
                     .background(color = bgcolor)
                     ){
                 timecolummn()
+
                 Row(
                     Modifier
                         .wrapContentSize()
@@ -572,6 +577,7 @@ class Schedule : Fragment() {
     fun timecolummn() {
         val headerbgcolor=if(isSystemInDarkTheme())Color(0xff1C1C1C)else Color(0xffFAFBF5)
         val colors=colors
+
         Column() {
             Canvas(
                 modifier = Modifier
@@ -580,9 +586,10 @@ class Schedule : Fragment() {
                 drawLine(
                     color = headerbgcolor,
                     start = Offset(0f, 0f),
-                    end = Offset(0f, 10000f),
+                    end = Offset(0f, 2600f),
                     strokeWidth = 16.dp.toPx()
                 )
+
                 drawCircle(color=headerbgcolor, radius = 8.dp.toPx(), center = Offset(this.center.x-6.dp.toPx(),this.center.y+6.dp.toPx()))
                 drawCircle(color=colors.onBackground, radius = 6.dp.toPx(), center = Offset(this.center.x-8.dp.toPx(),this.center.y+6.dp.toPx()))
             }
@@ -604,7 +611,7 @@ class Schedule : Fragment() {
                             modifier = Modifier
                                 .width(55.dp)
                                 .height(34.dp),
-                            shape = RoundedCornerShape(50.dp)
+                            shape = AbsoluteRoundedCornerShape(topLeft = 0.dp, topRight = 50.dp, bottomLeft = 0.dp, bottomRight = 50.dp)
                         ) {
                             Box(
                                 modifier = Modifier.background(headerbgcolor),
@@ -635,7 +642,7 @@ class Schedule : Fragment() {
                         modifier = Modifier
                             .width(55.dp)
                             .height(34.dp),
-                        shape = RoundedCornerShape(50.dp)
+                        shape = AbsoluteRoundedCornerShape(topLeft = 0.dp, topRight = 50.dp, bottomLeft = 0.dp, bottomRight = 50.dp)
                     ) {
                         Box(
                             modifier = Modifier.background(headerbgcolor),
@@ -666,7 +673,7 @@ class Schedule : Fragment() {
                             modifier = Modifier
                                 .width(55.dp)
                                 .height(34.dp),
-                            shape = RoundedCornerShape(50.dp)
+                            shape = AbsoluteRoundedCornerShape(topLeft = 0.dp, topRight = 50.dp, bottomLeft = 0.dp, bottomRight = 50.dp)
                         ) {
                             Box(
                                 modifier = Modifier.background(headerbgcolor),
@@ -694,7 +701,8 @@ class Schedule : Fragment() {
     fun fullscheduleBox() {
 
         Box(
-            Modifier.offset(-35.dp)
+            Modifier
+                .offset(-35.dp)
 //                .width(2025.dp)
                 .width(1700.dp)
                 .height(975.dp)
