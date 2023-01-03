@@ -15,11 +15,8 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
 
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.ContentAlpha.medium
@@ -27,6 +24,7 @@ import androidx.compose.material.MaterialTheme.colors
 
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -54,6 +52,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.DBHandler
+import com.alcheringa.alcheringa2022.MainActivity.index
 import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.merchModel
 import com.alcheringa.alcheringa2022.Model.viewModelHome
@@ -496,7 +495,9 @@ class MerchFragmentCompose : Fragment() {
         }
 
 
-    @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+    @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
+        ExperimentalFoundationApi::class
+    )
     @Composable
     fun MyContent() {
         var index by rememberSaveable {mutableStateOf(0)}
@@ -505,18 +506,7 @@ class MerchFragmentCompose : Fragment() {
         val lengths = arrayListOf<String>("27", "28", "28.5", "29.25", "30")
         val widths = arrayListOf<String>("38", "40", "42", "44", "46")
         val shoulders = arrayListOf<String>("17.5", "18.5", "19.5", "20.5", "21.5")
-        var isAvailable = arrayListOf<Boolean>(
-            homeViewModel.merchMerch[index].small,
-            homeViewModel.merchMerch[index].medium,
-            homeViewModel.merchMerch[index].large,
-            homeViewModel.merchMerch[index].xlarge,
-            homeViewModel.merchMerch[index].xxLarge,
-        )
-        var isInStock = homeViewModel.merchMerch[index].xxLarge ||
-                        homeViewModel.merchMerch[index].xlarge ||
-                        homeViewModel.merchMerch[index].medium ||
-                        homeViewModel.merchMerch[index].large ||
-                        homeViewModel.merchMerch[index].small
+
         var txtCol = black
         var boxColor: Color by remember {
             mutableStateOf(Color.Transparent)
@@ -570,7 +560,22 @@ class MerchFragmentCompose : Fragment() {
                                     .height(5.dp), tint = Color(0xffacacac)
                             )
                         }
+
                         if(bottomSheetScaffoldState.bottomSheetState.isExpanded){
+
+                            var currentMerch = homeViewModel.merchMerch[index]
+                            var isAvailable = arrayListOf<Boolean>(
+                                currentMerch.small,
+                                currentMerch.medium,
+                                currentMerch.large,
+                                currentMerch.xlarge,
+                                currentMerch.xxLarge,
+                            )
+                            var isInStock = currentMerch.xxLarge ||
+                                    currentMerch.xlarge ||
+                                    currentMerch.medium ||
+                                    currentMerch.large ||
+                                    currentMerch.small
 
                             Column(
                                 Modifier
@@ -579,13 +584,13 @@ class MerchFragmentCompose : Fragment() {
                                     .fillMaxWidth()
                                     .padding(horizontal = 30.dp)) {
                                 horizontalpager(
-                                    merModel = homeViewModel.merchMerch[index],
+                                    merModel = currentMerch,
                                     context = requireContext(),
                                     index
                                 )
                                 Spacer(modifier = Modifier.height(0.dp))
                                 Text(
-                                    homeViewModel.merchMerch[index].name,
+                                    currentMerch.name,
                                     style = TextStyle(
                                         fontFamily = aileron,
                                         fontWeight = FontWeight.Bold,
@@ -595,7 +600,7 @@ class MerchFragmentCompose : Fragment() {
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
-                                    homeViewModel.merchMerch[index].material,
+                                    currentMerch.material,
                                     style = TextStyle(
                                         fontFamily = aileron,
                                         fontWeight = FontWeight.Normal,
@@ -605,7 +610,7 @@ class MerchFragmentCompose : Fragment() {
                                 )
                                 Spacer(modifier = Modifier.height(12.dp))
                                 Text(
-                                    "Rs. "+ homeViewModel.merchMerch[index].price,
+                                    "Rs. "+ currentMerch.price,
                                     style = TextStyle(
                                         fontFamily = aileron,
                                         fontWeight = FontWeight.Bold,
@@ -687,7 +692,7 @@ class MerchFragmentCompose : Fragment() {
                                                                 }
                                                                 .background(boxColor)
                                                                 .border(0.5.dp, colors.secondary)
-                                                                .padding(horizontal = 8.dp),
+                                                                .padding(horizontal = 4.dp),
                                                             Alignment.Center
                                                         ) {
                                                             Text(
@@ -925,7 +930,7 @@ class MerchFragmentCompose : Fragment() {
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 Text(
-                                    homeViewModel.merchMerch[index].description,
+                                    currentMerch.description,
                                     style = TextStyle(
                                         fontFamily = aileron,
                                         fontWeight = FontWeight.Normal,
@@ -946,15 +951,15 @@ class MerchFragmentCompose : Fragment() {
                                         onClick = {
                                             if(isInStock && merchSize != ""){
                                                 dbHandler.addNewitemIncart(
-                                                    homeViewModel.merchMerch[index].name,
-                                                    homeViewModel.merchMerch[index].price,
+                                                    currentMerch.name,
+                                                    currentMerch.price,
                                                     merchSize,
                                                     "1",
-                                                    homeViewModel.merchMerch[index].image_url,
-                                                    homeViewModel.merchMerch[index].material,
+                                                    currentMerch.image_url,
+                                                    currentMerch.material,
                                                     requireContext()
                                                 )
-                                                Toast.makeText(requireContext(), homeViewModel.merchMerch[index].name + " added to cart", Toast.LENGTH_SHORT).show()
+                                                Toast.makeText(requireContext(), currentMerch.name + " added to cart", Toast.LENGTH_SHORT).show()
                                                 setCartCountIcon()
                                             }
                                             else if(!isInStock){
@@ -993,12 +998,12 @@ class MerchFragmentCompose : Fragment() {
                                             else{
 
                                                 dbHandler.addNewitemIncart(
-                                                    homeViewModel.merchMerch[index].name,
-                                                    homeViewModel.merchMerch[index].price,
+                                                    currentMerch.name,
+                                                    currentMerch.price,
                                                     merchSize,
                                                     "1",
-                                                    homeViewModel.merchMerch[index].image_url,
-                                                    homeViewModel.merchMerch[index].material,
+                                                    currentMerch.image_url,
+                                                    currentMerch.material,
                                                     requireContext()
                                                 )
                                                 startActivity(Intent(requireContext(), CartActivity::class.java))
@@ -1041,14 +1046,27 @@ class MerchFragmentCompose : Fragment() {
 
 
                 ) {
-                    MerchCards(eventDetails = homeViewModel.merchMerch){
-                        index = it
-                        coroutineScope.launch {
-                            bottomSheetScaffoldState.bottomSheetState.expand()
-                        }
+                    LazyVerticalGrid(
+                        cells = GridCells.Fixed(2) ,
+                        content = {
+                            itemsIndexed(homeViewModel.merchMerch){ i, dataeach ->
+                                MerchGridItem(merch = dataeach) {
+                                    index = i
+                                    coroutineScope.launch {
+                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                            bottomSheetScaffoldState.bottomSheetState.expand()
+
+                                        } else {
+                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        contentPadding = PaddingValues(10.dp)
 
 
-                    }
+                    )
                 BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
                     coroutineScope.launch {
                         bottomSheetScaffoldState.bottomSheetState.collapse()
@@ -1224,6 +1242,99 @@ class MerchFragmentCompose : Fragment() {
                     .align(Alignment.CenterHorizontally)
                     .padding(16.dp)
             )
+        }
+
+    }
+
+    @Composable
+    fun MerchGridItem(merch: merchModel, onClick: () -> Unit){
+        Card(
+            Modifier
+                .wrapContentHeight()
+                .padding(10.dp)
+                .clickable(
+                    onClick = onClick,
+                    enabled = true
+                ),
+            border = BorderStroke(1.5.dp, colors.onSurface),
+            shape = RoundedCornerShape(24.dp),
+            backgroundColor = colors.background
+        ) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(vertical = 30.dp, horizontal = 20.dp)
+                ,
+                Alignment.Center){
+                Column(verticalArrangement = Arrangement.Center) {
+                    GlideImage(modifier = Modifier
+                        .fillMaxHeight()
+                        .align(Alignment.CenterHorizontally)
+                        .padding(vertical = 10.dp),
+                        imageModel = merch.image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
+                        alignment = Alignment.Center,
+                        shimmerParams = ShimmerParams(
+                            baseColor = Color.Transparent,
+                            highlightColor = Color.LightGray,
+                            durationMillis = 350,
+                            dropOff = 0.65f,
+                            tilt = 20f
+                        ),failure = {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(), contentAlignment = Alignment.Center
+                            ) {
+                                val composition by rememberLottieComposition(
+                                    LottieCompositionSpec.RawRes(R.raw.failure)
+                                )
+                                val progress by animateLottieCompositionAsState(
+                                    composition,
+                                    iterations = LottieConstants.IterateForever
+                                )
+                                LottieAnimation(
+                                    composition,
+                                    progress,
+                                    modifier = Modifier.fillMaxHeight()
+                                )
+                            }
+                        })
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        merch.name,
+                        style = TextStyle(
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = colors.onBackground
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        merch.material,
+                        style = TextStyle(
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 14.sp,
+                            color = colors.secondaryVariant
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        "Rs. "+ merch.price + ".00",
+                        style = TextStyle(
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            color = colors.onBackground
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+
+                }
+            }
+
         }
 
     }
