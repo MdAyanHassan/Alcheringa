@@ -140,7 +140,6 @@ class Schedule : Fragment() {
         }
     }
 
-
     @Composable
     fun mySchedule() {
         val headerbgcolor=if(isSystemInDarkTheme())Color(0xff1C1C1C)else Color(0xffFAFBF5)
