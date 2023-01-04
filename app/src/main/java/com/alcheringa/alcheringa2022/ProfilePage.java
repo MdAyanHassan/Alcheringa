@@ -129,7 +129,7 @@ public class ProfilePage extends AppCompatActivity{
 
 //        save_button.setOnClickListener(v -> {
         back_btn.setOnClickListener(v -> {
-            if(interests.size() >= 5){
+            /*if(interests.size() >= 5){*/
                 uploadToFirebase();
                 Set<String> set = new HashSet<>(interests);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -137,9 +137,9 @@ public class ProfilePage extends AppCompatActivity{
                 editor.apply();
                 Toast.makeText(this,"Your changes are saved",Toast.LENGTH_SHORT).show();
                 finish();
-            }else{
+            /*}else{
                 Toast.makeText(this, "Select atleast 5 interests to continue",Toast.LENGTH_SHORT).show();
-            }
+            }*/
         });
 
 
