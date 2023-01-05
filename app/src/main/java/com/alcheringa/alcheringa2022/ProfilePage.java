@@ -15,7 +15,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -89,7 +91,7 @@ public class ProfilePage extends AppCompatActivity{
         name = findViewById(R.id.user_name);
         user_dp = findViewById(R.id.profile_image);
         edit_dp_button = findViewById(R.id.edit_dp_button);
-//        save_button = findViewById(R.id.SaveBtn);
+        save_button = findViewById(R.id.SaveBtn);
         back_btn = findViewById(R.id.backbtn);
         theme_btn = findViewById(R.id.themeButton);
         signout=findViewById(R.id.signoutprofile);
@@ -127,9 +129,26 @@ public class ProfilePage extends AppCompatActivity{
             return true;
         });
 
-//        save_button.setOnClickListener(v -> {
-        back_btn.setOnClickListener(v -> {
-            /*if(interests.size() >= 5){*/
+        /*theme_btn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ViewGroup.LayoutParams params = view.getLayoutParams();
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    params.width+=3; params.height+=20;
+                    view.setLayoutParams(params);
+                }
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    params.width-=3; params.height-=20;
+                    view.setLayoutParams(params);
+                    view.performClick();
+                }
+                return false;
+            }
+        });*/
+
+        save_button.setOnClickListener(v -> {
+//        back_btn.setOnClickListener(v -> {
+            if(interests.size() >= 5){
                 uploadToFirebase();
                 Set<String> set = new HashSet<>(interests);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -137,9 +156,9 @@ public class ProfilePage extends AppCompatActivity{
                 editor.apply();
                 Toast.makeText(this,"Your changes are saved",Toast.LENGTH_SHORT).show();
                 finish();
-            /*}else{
+            }else{
                 Toast.makeText(this, "Select atleast 5 interests to continue",Toast.LENGTH_SHORT).show();
-            }*/
+            }
         });
 
 
@@ -160,8 +179,8 @@ public class ProfilePage extends AppCompatActivity{
 
 
 
-//        back_btn = findViewById(R.id.backbtn);
-//        back_btn.setOnClickListener(v -> finish());
+        back_btn = findViewById(R.id.backbtn);
+        back_btn.setOnClickListener(v -> finish());
     }
 
     private void loadProfile(String url) {
@@ -456,16 +475,18 @@ public class ProfilePage extends AppCompatActivity{
         TextView t = (TextView) v;
 
         int color = t.getCurrentTextColor();
-        String hexColor = String.format("#%06X", (0xFFFFFF & color));
+//        String hexColor = String.format("#%06X", (0xFFFFFF & color));
+        int primary = getResources().getColor(R.color.primaryCol);
 
-        if (hexColor.equals("#FFFFFF")) {
+        if (color == 0xffee6337) {
+            t.setBackgroundResource(R.drawable.interests);
+            t.setTextColor(Color.parseColor(String.format("#%06X", primary)));
+            interests.remove(t.getText().toString());
+
+        } else {
             t.setBackgroundResource(R.drawable.interests_highlighted);
             t.setTextColor(Color.parseColor("#EE6337"));
             interests.add(t.getText().toString());
-        } else {
-            t.setBackgroundResource(R.drawable.interests);
-            t.setTextColor(Color.parseColor("#FFFFFF"));
-            interests.remove(t.getText().toString());
         }
 
     }
