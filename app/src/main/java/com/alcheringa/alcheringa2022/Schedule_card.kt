@@ -60,7 +60,7 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
     }
         val scm=if(isSystemInDarkTheme()) Modifier
                 .background(colors.background)
-                .coloredShadow(colors.onBackground, 0.3f, 16.dp, 17.dp, 0.dp, 0.dp)
+                .coloredShadow(colors.onBackground, 0.39f, 16.dp, 25.dp, 0.dp, 0.dp)
                 .graphicsLayer(translationY = animationProgress.value)
                 else Modifier
             .background(colors.background)

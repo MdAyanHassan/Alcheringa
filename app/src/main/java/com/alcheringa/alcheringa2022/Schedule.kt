@@ -140,7 +140,6 @@ class Schedule : Fragment() {
         }
     }
 
-
     @Composable
     fun mySchedule() {
         val headerbgcolor=if(isSystemInDarkTheme())Color(0xff1C1C1C)else Color(0xffFAFBF5)
@@ -350,8 +349,8 @@ class Schedule : Fragment() {
                 Spacer(modifier = Modifier.width(65.dp))
                 Row(
                     Modifier
-//                        .width(2025.dp)
-                        .width(1656.dp)
+//                        .width(1656.dp)
+                        .width(4538.dp)
                         , horizontalArrangement = Arrangement.SpaceEvenly
                 ) { Box(modifier = Modifier
                     .width(200.dp)
@@ -359,7 +358,7 @@ class Schedule : Fragment() {
                     .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                     .background(headerbgcolor), contentAlignment = Alignment.Center) {
                     Text(
-                        text = "IITG Auditorium",
+                        text = "Auditorium",
                         fontWeight = FontWeight.W400,
                         fontSize = 20.sp,
                         fontFamily = star_guard,
@@ -372,7 +371,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Pronites Ground",
+                            text = "Mini Auditorium",
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
@@ -385,7 +384,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "NEU Stage",
+                            text = "Expo Stage",
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
@@ -398,7 +397,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Auditorium 1",
+                            text = "MCH",
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
@@ -411,7 +410,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Auditorium 2",
+                            text = "Behind Graffiti Wall",
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
@@ -424,7 +423,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Creators' Camp",
+                            text = "Football Field",
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
@@ -437,7 +436,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Gaming",
+                            text = "Basketball Courts",
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
@@ -451,7 +450,190 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Campaign",
+                            text = "Voley Ball Court",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Library Shed",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Lecture Hall 1",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Lecture Hall 2",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Lecture Hall 3",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Lecture Hall 4",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Rocko Stage",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Pronite Stage",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Conference Hall 1",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Conference Hall 2",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Conference Hall 3",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Conference Hall 4",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Core 1",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Senate Hall",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "OLD SAC WALL",
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
@@ -558,6 +740,7 @@ class Schedule : Fragment() {
             Row(
                 Modifier
                     .width(1095.dp)
+//                    .width(3000.dp)
                     .height(975.dp)
                     .verticalScroll(vert)
                     .background(color = bgcolor)
@@ -704,7 +887,8 @@ class Schedule : Fragment() {
             Modifier
                 .offset(-35.dp)
 //                .width(2025.dp)
-                .width(1700.dp)
+//                .width(1700.dp)
+                .width(4600.dp)
                 .height(975.dp)
 //                .horizontalScroll(rememberScrollState())
                ) {
@@ -781,7 +965,7 @@ class Schedule : Fragment() {
                                        color = Color(0x70FFFFFF),
 //                                       color = Color.White,
                                        start = Offset(100f, 0f),
-                                       end = Offset(size.width, 0f),
+                                       end = Offset(size.width-6, 0f),
                                        strokeWidth = 1.dp.toPx()
                                    )
                                }
@@ -837,6 +1021,91 @@ class Schedule : Fragment() {
                 .width(200.dp)
                 .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
                 .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 1684.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 1890.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 2096.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 2302.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 2508.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 2714.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 2920.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 3126.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 3332.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 3538.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 3744.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 3950.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 4156.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 4362.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+
 
             if (datestate.value == 1) {
                 datestate1.forEach { data -> fullSchUserBox(eventdetail = data) }
