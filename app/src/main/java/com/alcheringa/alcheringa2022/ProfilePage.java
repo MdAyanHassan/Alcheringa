@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -494,6 +495,7 @@ public class ProfilePage extends AppCompatActivity{
 
     public void interestItemOnClick(View v) {
         TextView t = (TextView) v;
+        save_button.setVisibility(View.VISIBLE);
 
         int color = t.getCurrentTextColor();
 //        String hexColor = String.format("#%06X", (0xFFFFFF & color));

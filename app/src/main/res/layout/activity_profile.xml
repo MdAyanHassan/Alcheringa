@@ -268,9 +268,10 @@
                     android:textColor="@color/Black"
                     android:textSize="18sp"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/aileron_regular"
+                    android:fontFamily="@font/aileron_semibold"
                     android:gravity="center|center_vertical"
-                    android:text="Save" />
+                    android:text="Save"
+                    android:visibility="gone"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_height="wrap_content"
