@@ -3,6 +3,8 @@ package com.alcheringa.alcheringa2022;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 
 import android.Manifest;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -145,6 +147,40 @@ public class ProfilePage extends AppCompatActivity{
                 return false;
             }
         });*/
+
+        theme_btn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(theme_btn, "scaleX", 1.08f);
+                        ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(theme_btn, "scaleY", 1.08f);
+                        scaleUpX.setDuration(1000);
+                        scaleUpY.setDuration(1000);
+
+                        AnimatorSet scaleUp = new AnimatorSet();
+                        scaleUp.play(scaleUpX).with(scaleUpY);
+
+                        scaleUp.start();
+                        break;
+
+                    /*case MotionEvent.ACTION_UP:
+                        ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(theme_btn, "scaleX", 1f);
+                        ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(theme_btn, "scaleY", 1f);
+                        scaleDownX.setDuration(1000);
+                        scaleDownY.setDuration(1000);
+
+                        AnimatorSet scaleDown = new AnimatorSet();
+                        scaleDown.play(scaleDownX).with(scaleDownY);
+
+                        scaleDown.start();
+                        view.performClick();
+                        break;*/
+                }
+
+                    return false;
+            }
+        });
 
         save_button.setOnClickListener(v -> {
 //        back_btn.setOnClickListener(v -> {
