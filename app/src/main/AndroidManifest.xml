@@ -145,11 +145,6 @@
             android:exported="true"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.Alcheringa2022">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".CartActivity"
@@ -181,7 +176,13 @@
         <activity
             android:name=".Splash_Screen"
             android:exported="true"
-            android:theme="@style/Theme.Alcheringa2022" />
+            android:theme="@style/Theme.Alcheringa2022">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".E_pass"
