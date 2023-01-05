@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,6 +34,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
+import com.airbnb.lottie.animation.keyframe.BaseKeyframeAnimation;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -113,18 +116,36 @@ public class ProfilePage extends AppCompatActivity{
         });
 
         theme_btn.setOnLongClickListener(v -> {
-            int nightModeFlags =
-                    theme_btn.getContext().getResources().getConfiguration().uiMode &
-                            Configuration.UI_MODE_NIGHT_MASK;
-            switch (nightModeFlags) {
-                case Configuration.UI_MODE_NIGHT_YES:
-                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-                    break;
+            Animation anmtn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.themebuttonanim);
+            anmtn.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
 
-                case Configuration.UI_MODE_NIGHT_NO:
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    break;
-            }
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    int nightModeFlags =
+                            theme_btn.getContext().getResources().getConfiguration().uiMode &
+                                    Configuration.UI_MODE_NIGHT_MASK;
+                    switch (nightModeFlags) {
+                        case Configuration.UI_MODE_NIGHT_YES:
+                            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+                            break;
+
+                        case Configuration.UI_MODE_NIGHT_NO:
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            v.startAnimation(anmtn);
+
 
             return true;
         });
