@@ -1,7 +1,9 @@
 package com.alcheringa.alcheringa2022
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BlurMaskFilter
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.core.Animatable
@@ -26,9 +28,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.alpha
 import androidx.fragment.app.Fragment
 import com.airbnb.lottie.compose.*
@@ -97,7 +102,9 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
         .graphicsLayer(translationY = animationProgress.value)
         .width(220.dp)
 
-         else Modifier.background(colors.background).graphicsLayer(translationY = animationProgress.value)
+         else Modifier
+        .background(colors.background)
+        .graphicsLayer(translationY = animationProgress.value)
 
         .coloredShadow(colors.onBackground, 0.01f, 16.dp, 1.dp, 20.dp, 0.dp)
         .coloredShadow(colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
@@ -358,10 +365,10 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                         modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.Bottom
                     ){
-                        Box(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp, top = 12.dp, start=16.dp), contentAlignment = Alignment.BottomStart){
-                            Column {
+                        Row(modifier = Modifier
+                            .fillMaxWidth().wrapContentHeight()
+                            .padding(start = 16.dp, end = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+                            Column(Modifier.fillMaxWidth(0.73f).padding(bottom = 16.dp, top = 12.dp)) {
                                 MarqueeText(text = eventdetail.eventdetail.artist, color = MaterialTheme.colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, fontFamily = aileron, gradientEdgeColor = Color.Transparent)
                                 Spacer(modifier = Modifier.height(8.dp))
                                 //                        Text(text = eventdetail.eventdetail.category, style = TextStyle(color = Color.Black,fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
@@ -427,6 +434,58 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                 //                            Text(text = eventdetail.eventdetail.mode.uppercase(),style = TextStyle(color = Color.Black,fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
                                 //                        }
                             }
+
+                            var v= venuelist.find{it.name.replace("\\s".toRegex(), "").uppercase()==eventdetail.eventdetail.venue.replace("\\s".toRegex(), "").uppercase()}
+                            if(v!=null){
+
+                            Box(modifier = Modifier.fillMaxWidth()
+                                .clickable {
+                                    val gmmIntentUri =
+                                        Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                        mapIntent.setPackage("com.google.android.apps.maps")
+                                        context.startActivity(mapIntent)
+
+                                }
+
+                                , contentAlignment = Alignment.Center){
+
+                                val compositionbg by rememberLottieComposition(
+                                    LottieCompositionSpec.RawRes(
+                                        R.raw.navigatebganimm
+                                    )
+                                )
+
+                                val progressbg by animateLottieCompositionAsState(
+                                    compositionbg, iterations = LottieConstants.IterateForever
+                                )
+                                LottieAnimation(
+                                    composition = compositionbg,
+                                    progress = progressbg,
+
+                                    modifier = Modifier.fillMaxWidth().height(50.dp)
+                                )
+
+                                val compositionfg by rememberLottieComposition(
+                                    LottieCompositionSpec.RawRes(
+                                        R.raw.navigatefganimm
+                                    )
+                                )
+
+                                val progressfg by animateLottieCompositionAsState(
+                                    compositionfg, iterations = 3
+                                )
+                                LottieAnimation(
+                                    compositionfg,
+                                    progressfg,
+                                    modifier = Modifier.height(18.dp)
+                                )
+
+                            }
+                        }
+                            
+                            
+                            
                         }
                     }
                 }
