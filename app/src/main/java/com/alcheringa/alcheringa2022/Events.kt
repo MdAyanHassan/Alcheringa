@@ -78,7 +78,19 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
+val venuelist= listOf<venue>(
+    venue("IITG Auditorium", LatLng = LatLng(26.191117262340942, 91.69295134231831) ),
+    venue("Pronites Ground", LatLng(26.190761044728855, 91.69699071630549)),
+    venue("Creators Camp", LatLng(26.192746220233865, 91.6990506613767)),
+    venue("Gaming", LatLng(26.191475431167117, 91.6920447314818)),
+    venue("Campaign", LatLng(26.191978820911885, 91.69572236815209)),
+    venue("NEU Stage", LatLng(26.191978820911885, 91.69572236815209)),
+    venue("Auditorium 1", LatLng = LatLng(26.191117262340942, 91.69295134231831) ),
+    venue("Auditorium 2", LatLng = LatLng(26.191117262340942, 91.69295134231831) ),
+    venue("Alcheringa Wall", LatLng(26.191978820911885, 91.69572236815209)),
 
+
+    )
 
 class Events : Fragment() {
 
@@ -88,12 +100,7 @@ class Events : Fragment() {
 
     var firebaseFirestore: FirebaseFirestore? = null
     var sharedPreferences: SharedPreferences? = null
-    val venuelist= listOf<venue>(
-            venue("IITG Auditorium"),
-            venue("Pronites Ground", LatLng(26.190761044728855, 91.69699071630549)),
-            venue("Alcheringa Wall", LatLng(26.191978820911885, 91.69572236815209))
 
-        )
     val taglist= listOf("💃  Dance","🎵  Music", "🎭  Stagecraft", "🕶  Vogue nation", "🙋‍  Class apart", "🎨  Art talkies", "📖  Literature","💻  Digital Dexterity", "🎥  Lights camera action","🌐  Informal")
 
 
