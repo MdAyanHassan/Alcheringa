@@ -1250,6 +1250,7 @@ class MerchFragmentCompose : Fragment() {
     fun MerchGridItem(merch: merchModel, onClick: () -> Unit){
         Card(
             Modifier
+                .fillMaxWidth(0.5f)
                 .wrapContentHeight()
                 .padding(10.dp)
                 .clickable(
@@ -1307,7 +1308,8 @@ class MerchFragmentCompose : Fragment() {
                             fontSize = 18.sp,
                             color = colors.onBackground
                         ),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
@@ -1318,7 +1320,8 @@ class MerchFragmentCompose : Fragment() {
                             fontSize = 14.sp,
                             color = colors.secondaryVariant
                         ),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
@@ -1329,7 +1332,8 @@ class MerchFragmentCompose : Fragment() {
                             fontSize = 20.sp,
                             color = colors.onBackground
                         ),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
 
                 }

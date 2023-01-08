@@ -242,7 +242,7 @@ class Events_Details_Fragment : Fragment() {
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
 
-        if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
+        if (eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
                 .uppercase() == "Competitions".uppercase()
         )
         {
@@ -286,8 +286,7 @@ class Events_Details_Fragment : Fragment() {
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = aileron,
-                        color = black
-                    )
+                        color = black)
 //                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
 //                        Text(
 //                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
@@ -431,40 +430,72 @@ class Events_Details_Fragment : Fragment() {
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = aileron,
-                        color = black
-                    )
+                        color = black)
                 }
             }
             else if(eventWithLive.eventdetail.venue != "") {
-                Button(
-                    onClick = {
-                        //TODO: (Shantanu) Implement all venue locations
-                        val gmmIntentUri =
-                            Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
-                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                        mapIntent.setPackage("com.google.android.apps.maps")
-                        startActivity(mapIntent)
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        blu
-                    )
-                ) {
-                    Text(
-                        text = "Navigate to venue",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = black
-                    )
+                Row {
+                    if (eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") {
+                        Button(
+                            onClick = {
+                                //TODO: Set Buy pass link
 
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(72.dp)
+                                .border(1.dp, colors.onBackground),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                colors.background
+                            )
+                        ) {
+                            Text(
+                                text = "Buy Tickets",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = colors.onBackground
+                            )
+
+                        }
+                    }
+
+                    Button(
+                        onClick = {
+                            //TODO: (Shantanu) Implement all venue locations
+                            val gmmIntentUri =
+                                Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
+                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                            mapIntent.setPackage("com.google.android.apps.maps")
+                            startActivity(mapIntent)
+                        },
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .height(72.dp)
+                            .border(1.dp, colors.onBackground),
+                        shape = RoundedCornerShape(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            blu
+                        )
+                    ) {
+                        Text(
+                            text = "Navigate to venue",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = aileron,
+                            color = black,
+                            textAlign = TextAlign.Center
+                        )
+
+                    }
                 }
             }
         }
     }
+
 
 
     @Composable
@@ -553,12 +584,12 @@ class Events_Details_Fragment : Fragment() {
 
                         alignment = Alignment.Center,
                         contentScale = ContentScale.Crop,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground))
+                        colorFilter = ColorFilter.tint(colors.onBackground))
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = eventWithLive.eventdetail.venue,
                         style = TextStyle(
-                            color = MaterialTheme.colors.onBackground,
+                            color = colors.onBackground,
                             fontFamily = aileron,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 18.sp
@@ -569,8 +600,7 @@ class Events_Details_Fragment : Fragment() {
             Spacer(modifier = Modifier.height(18.dp))
 
             Row(modifier = Modifier.fillMaxWidth(),
-                Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically) {
+                Arrangement.SpaceBetween,) {
                 Row(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
@@ -584,13 +614,13 @@ class Events_Details_Fragment : Fragment() {
                             .height(24.dp),
                         alignment = Alignment.Center,
                         contentScale = ContentScale.Crop,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+                        colorFilter = ColorFilter.tint(colors.onBackground)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
                         style = TextStyle(
-                            color = MaterialTheme.colors.onBackground,
+                            color = colors.onBackground,
                             fontFamily = aileron,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 18.sp
@@ -599,76 +629,85 @@ class Events_Details_Fragment : Fragment() {
                 }
 
 
-                if (true) {
-                    Box(modifier = Modifier
-                        .height(40.dp)
-                        .border(1.dp, MaterialTheme.colors.secondary)
-                        .padding(10.dp)
-                    ){
-                        if( !isadded.value) {
-                            Row(Modifier.clickable {
-                                isadded.value = true
-                                homeViewModel.OwnEventsWithLive.addNewItem(
-                                    eventWithLive.eventdetail
-                                )
-                                scheduleDatabase.addEventsInSchedule(
-                                    eventWithLive.eventdetail,
-                                    context
-                                )
-
-
-                            })
-                            {
-
-                                Image(
-                                    modifier = Modifier
-                                        .width(18.dp)
-                                        .height(18.dp)
-                                    ,
-                                    painter = painterResource(id = R.drawable.add_icon),
-                                    contentDescription = "null",
-                                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
-                                )
-                                Spacer(Modifier.width(10.dp))
-                                Text(
-                                    text = "Add to Schedule",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colors.onBackground,
-                                    fontSize = 16.sp
-                                )
-                            }
-
+                Box(modifier = Modifier
+                    .height(40.dp)
+                    .border(1.dp, colors.secondary)
+                    .wrapContentWidth()
+                    .background(
+                        if(isSystemInDarkTheme() && isadded.value){
+                            Color(31, 89, 22, 255)
                         }
-                        if(isadded.value)
-                        {
-                            Row(Modifier.clickable {
-                                isadded.value = false
-                                homeViewModel.OwnEventsWithLive.removeAnItem(
-                                    eventWithLive.eventdetail
-                                )
-                                scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)}
+                        else if (isadded.value){
+                            green
+                        }
+                        else{
+                            colors.background
+                        }
+                    )
+                ){
+                    if( !isadded.value) {
+                        Row(Modifier.clickable {
+                            isadded.value = true
+                            homeViewModel.OwnEventsWithLive.addNewItem(
+                                eventWithLive.eventdetail
+                            )
+                            scheduleDatabase.addEventsInSchedule(
+                                eventWithLive.eventdetail,
+                                context
+                            )
 
-                            ) {
-                                Image(
-                                    modifier = Modifier
-                                        .width(20.dp)
-                                        .height(20.dp)
-                                    ,
-                                    painter = painterResource(id = R.drawable.tickokay),
-                                    contentDescription = "null",
-                                    contentScale = ContentScale.FillBounds,
-                                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
-                                )
-                                Spacer(Modifier.width(10.dp))
-                                Text(
-                                    text = "Added to Schedule",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colors.onBackground,
-                                    fontSize = 16.sp
-                                )
-                            }
+
+                        }.padding(10.dp))
+                        {
+
+                            Image(
+                                modifier = Modifier
+                                    .width(18.dp)
+                                    .height(18.dp)
+                                ,
+                                painter = painterResource(id = R.drawable.add_icon),
+                                contentDescription = "null",
+                                colorFilter = ColorFilter.tint(colors.onBackground)
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = "Add to Schedule",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.SemiBold,
+                                color = colors.onBackground,
+                                fontSize = 16.sp
+                            )
+                        }
+
+                    }
+                    if(isadded.value)
+                    {
+                        Row(Modifier.clickable {
+                            isadded.value = false
+                            homeViewModel.OwnEventsWithLive.removeAnItem(
+                                eventWithLive.eventdetail
+                            )
+                            scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)}.padding(10.dp)
+
+                        ) {
+                            Image(
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                                ,
+                                painter = painterResource(id = R.drawable.tickokay),
+                                contentDescription = "null",
+                                contentScale = ContentScale.FillBounds,
+                                colorFilter = ColorFilter.tint(colors.onBackground)
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = "Added to Schedule",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.SemiBold,
+                                color = colors.onBackground,
+                                fontSize = 16.sp
+                            )
                         }
                     }
                 }
@@ -680,7 +719,7 @@ class Events_Details_Fragment : Fragment() {
             Text(text =eventfordes.eventdetail.descriptionEvent ,
                 fontFamily = aileron,
                 fontWeight = FontWeight.Normal,
-                color = MaterialTheme.colors.onBackground,
+                color = colors.onBackground,
                 fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(36.dp))
