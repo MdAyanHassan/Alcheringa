@@ -21,10 +21,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.*
 import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.FlingBehavior
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
-import androidx.compose.foundation.gestures.forEachGesture
+import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -1449,7 +1446,7 @@ fun compbox(){
 
 
             ) {
-                Alcheringa2022Theme {
+                Alcheringa2022Theme() {
                     val scrollState = rememberScrollState()
 
                     Column(
@@ -1457,6 +1454,15 @@ fun compbox(){
                             .fillMaxWidth()
                             .wrapContentHeight()
                             .verticalScroll(scrollState)
+                            .pointerInput(Unit) {
+                                detectTapGestures(onTap = {
+                                    coroutineScope.launch {
+                                        if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                        }
+                                    }
+                                })
+                            }
                             ,
                     ) {
                         //                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
@@ -1784,63 +1790,60 @@ fun compbox(){
                             }
                         }
 
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
 
-                        ) {
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                contentPadding = PaddingValues(horizontal = 20.dp)
+                        if(homeViewModel.allEventsWithLive.isNotEmpty()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+
                             ) {
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
+                                ) {
 
-                                val crnttime = mutableStateOf(OwnTime())
-                                val c = Calendar.getInstance()
-                                var dt = 0
-                                if (c.get(Calendar.MONTH) == Calendar.FEBRUARY) {
-                                    dt = c.get(Calendar.DATE) - 28
-                                } else {
-                                    dt = c.get(Calendar.DATE)
-                                }
-                                crnttime.value =
-                                    OwnTime(
-                                        date = dt,
-                                        c.get(Calendar.HOUR_OF_DAY),
-                                        c.get(Calendar.MINUTE)
-                                    )
-                                val eventdetails = mutableStateListOf<eventWithLive>()
-                                for (event in scheduleList) {
-                                    val eventdetail = eventWithLive(event, mutableStateOf(true))
-                                    eventdetail.isLive.value = (c.get(Calendar.YEAR) == 2022) and
-                                            (c.get(Calendar.MONTH) == Calendar.MARCH) and
-                                            (c.get(Calendar.DATE) == eventdetail.eventdetail.starttime.date) and
-                                            (((eventdetail.eventdetail.starttime.hours * 60)..(eventdetail.eventdetail.starttime.hours * 60 + eventdetail.eventdetail.durationInMin))
-                                                .contains(
-                                                    (c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(
-                                                        Calendar.MINUTE
-                                                    )
-                                                ))
-                                    eventdetails.add(eventdetail)
-                                }
-
-
-
-
-                                items(eventdetails.sortedBy { data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }) { dataeach ->
-                                    context?.let {
-                                        Schedule_card(
-                                            eventdetail = dataeach,
-                                            homeViewModel,
-                                            it,
-                                            this@Home,
-                                            fm,
-                                            R.id.action_home2_to_schedule2
+                                    val crnttime = mutableStateOf(OwnTime())
+                                    val c = Calendar.getInstance()
+                                    var dt = 0
+                                    if (c.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                                        dt = c.get(Calendar.DATE) - 28
+                                    } else {
+                                        dt = c.get(Calendar.DATE)
+                                    }
+                                    crnttime.value =
+                                        OwnTime(
+                                            date = dt,
+                                            c.get(Calendar.HOUR_OF_DAY),
+                                            c.get(Calendar.MINUTE)
                                         )
+                                    val eventdetails = mutableStateListOf<eventWithLive>()
+
+                                    for (event in scheduleList) {
+                                        //event.venue = homeViewModel.allEventsWithLive.filter { data -> data.eventdetail.artist == event.artist }[0].eventdetail.venue
+                                        val eventdet =
+                                            homeViewModel.allEventsWithLive.filter { data -> data.eventdetail.artist == event.artist }[0]
+                                        eventdetails.add(eventdet)
+                                    }
+
+
+
+
+                                    items(eventdetails.sortedBy { data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }) { dataeach ->
+                                        context?.let {
+                                            Schedule_card(
+                                                eventdetail = dataeach,
+                                                homeViewModel,
+                                                it,
+                                                this@Home,
+                                                fm,
+                                                R.id.action_home2_to_schedule2
+                                            )
+                                        }
                                     }
                                 }
-                            }
 
+                            }
                         }
 
 
@@ -2479,30 +2482,31 @@ fun compbox(){
                     .border(1.dp, colors.secondary)
                     .wrapContentWidth()
                     .background(
-                        if(isSystemInDarkTheme() && isadded.value){
+                        if (isSystemInDarkTheme() && isadded.value) {
                             Color(31, 89, 22, 255)
-                        }
-                        else if (isadded.value){
+                        } else if (isadded.value) {
                             green
-                        }
-                        else{
+                        } else {
                             colors.background
                         }
-                            )
+                    )
                 ){
                     if( !isadded.value) {
-                        Row(Modifier.clickable {
-                            isadded.value = true
-                            homeViewModel.OwnEventsWithLive.addNewItem(
-                                eventWithLive.eventdetail
-                            )
-                            scheduleDatabase.addEventsInSchedule(
-                                eventWithLive.eventdetail,
-                                context
-                            )
+                        Row(
+                            Modifier
+                                .clickable {
+                                    isadded.value = true
+                                    homeViewModel.OwnEventsWithLive.addNewItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                    scheduleDatabase.addEventsInSchedule(
+                                        eventWithLive.eventdetail,
+                                        context
+                                    )
 
 
-                        }.padding(10.dp))
+                                }
+                                .padding(10.dp))
                         {
 
                             Image(
@@ -2527,12 +2531,16 @@ fun compbox(){
                     }
                     if(isadded.value)
                     {
-                        Row(Modifier.clickable {
-                            isadded.value = false
-                            homeViewModel.OwnEventsWithLive.removeAnItem(
-                                eventWithLive.eventdetail
-                            )
-                            scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)}.padding(10.dp)
+                        Row(
+                            Modifier
+                                .clickable {
+                                    isadded.value = false
+                                    homeViewModel.OwnEventsWithLive.removeAnItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                }
+                                .padding(10.dp)
 
                             ) {
                             Image(
