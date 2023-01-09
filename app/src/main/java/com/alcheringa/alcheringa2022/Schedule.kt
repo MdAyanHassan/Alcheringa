@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -127,7 +128,8 @@ class Schedule : Fragment() {
         })
 
         binding.account.setOnClickListener {
-            startActivity(Intent(context, Account::class.java));
+//            startActivity(Intent(context, ProfilePage::class.java));
+            (activity as MainActivity).drawer.openDrawer(Gravity.RIGHT)
         }
         binding.pass.setOnClickListener{
             startActivity(Intent(context, NotificationActivity::class.java));
