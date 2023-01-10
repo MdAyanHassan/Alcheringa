@@ -8,8 +8,43 @@
     style="@style/Background"
     tools:context=".ContactUs">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@drawable/topheaderbottomborder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0">
 
-    <ImageView
+
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/backbtn2"
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView5"
+            style="@style/headerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="Contact Us"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/backbtn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--<ImageView
         android:id="@+id/backbtn"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -33,7 +68,7 @@
         android:layout_marginTop="20dp"
         android:textSize="36sp"
         app:layout_constraintLeft_toRightOf="@id/backbtn"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contact_1"
@@ -47,7 +82,7 @@
         android:padding="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contact_us_text">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <TextView
             android:id="@+id/name1"
@@ -88,34 +123,78 @@
                 app:shapeAppearanceOverlay="@style/rounded_image_9dp"
                 app:srcCompat="@drawable/nitish" />
 
-            <Button
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/call_btn1"
                 android:layout_width="148dp"
                 android:layout_height="44dp"
                 android:background="@drawable/contact_border_2"
-                android:fontFamily="@font/aileron_bold"
-                android:paddingHorizontal="29dp"
-                android:text="Call"
-                android:textAllCaps="false"
-                android:textColor="@color/OrangeText"
-                android:textSize="16sp"
+                android:paddingHorizontal="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <Button
+                <ImageView
+                    android:id="@+id/callicon1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.25"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_call_icon" />
+
+                <TextView
+                    android:id="@+id/calltext1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/aileron_bold"
+                    android:text="Call"
+                    android:textColor="@color/OrangeText"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/callicon1"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/email_btn1"
                 android:layout_width="148dp"
                 android:layout_height="44dp"
                 android:layout_marginBottom="8dp"
-                android:paddingHorizontal="16dp"
                 android:background="@drawable/contact_border_2"
-                android:fontFamily="@font/aileron_bold"
-                android:text="Email"
-                android:textAllCaps="false"
-                android:textColor="@color/OrangeText"
-                android:textSize="16sp"
+                android:paddingHorizontal="16dp"
                 app:layout_constraintBottom_toTopOf="@+id/call_btn1"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/emailicon1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.17"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_email_icon" />
+
+                <TextView
+                    android:id="@+id/emailtext1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/aileron_bold"
+                    android:text="Email"
+                    android:textColor="@color/OrangeText"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/emailicon1"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -171,34 +250,78 @@
                 app:shapeAppearanceOverlay="@style/rounded_image_9dp"
                 app:srcCompat="@drawable/atharva" />
 
-            <Button
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/call_btn2"
                 android:layout_width="148dp"
                 android:layout_height="44dp"
                 android:background="@drawable/contact_border_2"
-                android:fontFamily="@font/aileron_bold"
-                android:paddingHorizontal="29dp"
-                android:text="Call"
-                android:textAllCaps="false"
-                android:textColor="@color/OrangeText"
-                android:textSize="16sp"
+                android:paddingHorizontal="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <Button
+                <ImageView
+                    android:id="@+id/callicon2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.25"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_call_icon" />
+
+                <TextView
+                    android:id="@+id/calltext2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/aileron_bold"
+                    android:text="Call"
+                    android:textColor="@color/OrangeText"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/callicon2"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/email_btn2"
                 android:layout_width="148dp"
                 android:layout_height="44dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/contact_border_2"
-                android:fontFamily="@font/aileron_bold"
                 android:paddingHorizontal="16dp"
-                android:text="Email"
-                android:textAllCaps="false"
-                android:textColor="@color/OrangeText"
-                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/call_btn2"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/emailicon2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.17"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_email_icon" />
+
+                <TextView
+                    android:id="@+id/emailtext2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/aileron_bold"
+                    android:text="Email"
+                    android:textColor="@color/OrangeText"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/emailicon2"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -254,34 +377,78 @@
                 app:shapeAppearanceOverlay="@style/rounded_image_9dp"
                 app:srcCompat="@drawable/fahim" />
 
-            <Button
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/call_btn3"
                 android:layout_width="148dp"
                 android:layout_height="44dp"
                 android:background="@drawable/contact_border_2"
-                android:fontFamily="@font/aileron_bold"
-                android:paddingHorizontal="29dp"
-                android:text="Call"
-                android:textAllCaps="false"
-                android:textColor="@color/OrangeText"
-                android:textSize="16sp"
+                android:paddingHorizontal="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <Button
+                <ImageView
+                    android:id="@+id/callicon3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.25"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_call_icon" />
+
+                <TextView
+                    android:id="@+id/calltext3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/aileron_bold"
+                    android:text="Call"
+                    android:textColor="@color/OrangeText"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/callicon3"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/email_btn3"
                 android:layout_width="148dp"
                 android:layout_height="44dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/contact_border_2"
-                android:fontFamily="@font/aileron_bold"
                 android:paddingHorizontal="16dp"
-                android:text="Email"
-                android:textAllCaps="false"
-                android:textColor="@color/OrangeText"
-                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/call_btn3"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/emailicon3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.17"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_email_icon" />
+
+                <TextView
+                    android:id="@+id/emailtext3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/aileron_bold"
+                    android:text="Email"
+                    android:textColor="@color/OrangeText"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/emailicon3"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

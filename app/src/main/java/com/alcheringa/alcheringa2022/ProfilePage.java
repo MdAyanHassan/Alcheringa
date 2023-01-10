@@ -153,51 +153,21 @@ public class ProfilePage extends AppCompatActivity{
             return true;
         });
 
-        /*theme_btn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                ViewGroup.LayoutParams params = view.getLayoutParams();
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    params.width+=3; params.height+=20;
-                    view.setLayoutParams(params);
-                }
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    params.width-=3; params.height-=20;
-                    view.setLayoutParams(params);
-                    view.performClick();
-                }
-                return false;
-            }
-        });*/
-
         theme_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(theme_btn, "scaleX", 1.08f);
-                        ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(theme_btn, "scaleY", 1.08f);
-                        scaleUpX.setDuration(1000);
-                        scaleUpY.setDuration(1000);
+                        ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(theme_btn, "scaleX", 1.28f);
+                        ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(theme_btn, "scaleY", 1.28f);
+                        scaleUpX.setDuration(1500);
+                        scaleUpY.setDuration(1500);
 
                         AnimatorSet scaleUp = new AnimatorSet();
                         scaleUp.play(scaleUpX).with(scaleUpY);
 
                         scaleUp.start();
                         break;
-
-                    /*case MotionEvent.ACTION_UP:
-                        ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(theme_btn, "scaleX", 1f);
-                        ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(theme_btn, "scaleY", 1f);
-                        scaleDownX.setDuration(1000);
-                        scaleDownY.setDuration(1000);
-
-                        AnimatorSet scaleDown = new AnimatorSet();
-                        scaleDown.play(scaleDownX).with(scaleDownY);
-
-                        scaleDown.start();
-                        view.performClick();
-                        break;*/
                 }
 
                     return false;
@@ -579,7 +549,7 @@ public class ProfilePage extends AppCompatActivity{
                     String interest_name = t.getText().toString();
                     if(interests.contains(interest_name)){
                         t.setBackgroundResource(R.drawable.interests_highlighted);
-                        t.setTextColor(Color.parseColor("#EE6337"));
+                        t.setTextColor(Color.parseColor("#73D9ED"));
                     }
                 }
             }
