@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -133,6 +134,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         setListViewHeightBasedOnItems(listView);
         ImageButton backBtn = findViewById(R.id.back_button);
         backBtn.setOnClickListener(v -> finish());
+        ImageView prev = findViewById((R.id.left_tick));
+        prev.setOnClickListener(v -> finish());
 
         loaderView.setVisibility(View.GONE);
         Pay.setOnClickListener(v -> {
