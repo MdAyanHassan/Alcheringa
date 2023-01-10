@@ -395,7 +395,8 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void startMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        //Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, PickASide.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
