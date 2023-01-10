@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.TouchDelegate
 import android.view.View
 import android.widget.Toast
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -217,7 +218,7 @@ class Events_Details_Fragment : Fragment() {
                 }
 
 
-                        Spacer(modifier = Modifier.height(8.dp))
+
 
 
                     }
@@ -523,7 +524,7 @@ class Events_Details_Fragment : Fragment() {
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)) {
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 //            Row(
 //                modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween)
 //            {
@@ -597,10 +598,12 @@ class Events_Details_Fragment : Fragment() {
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(18.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Row(modifier = Modifier.fillMaxWidth(),
-                Arrangement.SpaceBetween,) {
+                Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Row(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
@@ -627,37 +630,39 @@ class Events_Details_Fragment : Fragment() {
                         )
                     )
                 }
-
+                Spacer(modifier = Modifier.width(24.dp))
 
                 Box(modifier = Modifier
                     .height(40.dp)
                     .border(1.dp, colors.secondary)
+                    .animateContentSize()
                     .wrapContentWidth()
                     .background(
-                        if(isSystemInDarkTheme() && isadded.value){
+                        if (isSystemInDarkTheme() && isadded.value) {
                             Color(31, 89, 22, 255)
-                        }
-                        else if (isadded.value){
+                        } else if (isadded.value) {
                             green
-                        }
-                        else{
+                        } else {
                             colors.background
                         }
                     )
                 ){
                     if( !isadded.value) {
-                        Row(Modifier.clickable {
-                            isadded.value = true
-                            homeViewModel.OwnEventsWithLive.addNewItem(
-                                eventWithLive.eventdetail
-                            )
-                            scheduleDatabase.addEventsInSchedule(
-                                eventWithLive.eventdetail,
-                                context
-                            )
+                        Row(
+                            Modifier
+                                .clickable {
+                                    isadded.value = true
+                                    homeViewModel.OwnEventsWithLive.addNewItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                    scheduleDatabase.addEventsInSchedule(
+                                        eventWithLive.eventdetail,
+                                        context
+                                    )
 
 
-                        }.padding(10.dp))
+                                }
+                                .padding(10.dp))
                         {
 
                             Image(
@@ -670,24 +675,29 @@ class Events_Details_Fragment : Fragment() {
                                 colorFilter = ColorFilter.tint(colors.onBackground)
                             )
                             Spacer(Modifier.width(10.dp))
-                            Text(
+                            MarqueeText(
                                 text = "Add to Schedule",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.SemiBold,
                                 color = colors.onBackground,
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                gradientEdgeColor = Color.Transparent
                             )
                         }
 
                     }
                     if(isadded.value)
                     {
-                        Row(Modifier.clickable {
-                            isadded.value = false
-                            homeViewModel.OwnEventsWithLive.removeAnItem(
-                                eventWithLive.eventdetail
-                            )
-                            scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)}.padding(10.dp)
+                        Row(
+                            Modifier
+                                .clickable {
+                                    isadded.value = false
+                                    homeViewModel.OwnEventsWithLive.removeAnItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                }
+                                .padding(10.dp)
 
                         ) {
                             Image(
@@ -701,12 +711,14 @@ class Events_Details_Fragment : Fragment() {
                                 colorFilter = ColorFilter.tint(colors.onBackground)
                             )
                             Spacer(Modifier.width(10.dp))
-                            Text(
+                            MarqueeText(
                                 text = "Added to Schedule",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.SemiBold,
                                 color = colors.onBackground,
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                gradientEdgeColor = Color.Transparent
+
                             )
                         }
                     }
@@ -715,7 +727,7 @@ class Events_Details_Fragment : Fragment() {
 
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(28.dp))
             Text(text =eventfordes.eventdetail.descriptionEvent ,
                 fontFamily = aileron,
                 fontWeight = FontWeight.Normal,

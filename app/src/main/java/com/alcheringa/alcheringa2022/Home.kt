@@ -18,6 +18,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.*
 import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.*
@@ -282,6 +283,8 @@ class Home : Fragment() {
                 homeViewModel.allEventsWithLive.addAll(data)
                 homeViewModel.upcomingEventsLiveState.clear()
                 homeViewModel.upcomingEventsLiveState.addAll(data)
+                homeViewModel.forYouEvents.clear()
+                homeViewModel.forYouEvents.addAll(homeViewModel.allEventsWithLive.shuffled().take(7))
             }
             homeViewModel.featuredEventsWithLivedata.observe(requireActivity()){   data->
                 homeViewModel.featuredEventsWithLivestate.clear()
@@ -1219,18 +1222,13 @@ fun compbox(){
 
 
 
-                            if ((182.dp..221.dp).contains(offsetY.value.toDp()) and
-                                ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
-                                    .toPx()
-                                    .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
-                                    (offsetX.value)
-                                        .toInt()
-                                ))
-                            ) {
-                                onActiveDel.value = true
-                            } else {
-                                onActiveDel.value = false
-                            }
+                            onActiveDel.value = (182.dp..221.dp).contains(offsetY.value.toDp()) and
+                                    ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
+                                        .toPx()
+                                        .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
+                                        (offsetX.value)
+                                            .toInt()
+                                    ))
 
 
                         },
@@ -1677,11 +1675,12 @@ fun compbox(){
                         }
 
                         Box(
-                            modifier = Modifier.padding(
-                                start = 20.dp,
-                                bottom = 24.dp,
-                                top = 36.dp
-                            ).offset(y = 40.dp),
+                            modifier = Modifier
+                                .padding(
+                                    start = 20.dp,
+                                    bottom = 24.dp,
+                                )
+                                .offset(y = 60.dp),
 
                         ) {
                             Card(
@@ -1824,72 +1823,72 @@ fun compbox(){
 
 
 
-                        Box(
-                            modifier = Modifier.padding(
-                                start = 20.dp,
-                                bottom = 24.dp,
-                                top = 36.dp
-                            ),
-                        ) {
-                            Card(
-                                Modifier
-                                    .height(10.dp)
-                                    .offset(x = -5.dp, y = 16.dp)
-                                    .alpha(alphaval),
-                                shape = RoundedCornerShape(100.dp),
-                                backgroundColor = textbg
+                        if(homeViewModel.forYouEvents.isNotEmpty()) {
+                            Box(
+                                modifier = Modifier.padding(
+                                    start = 20.dp,
+                                    bottom = 24.dp,
+                                    top = 36.dp
+                                ),
+                            ) {
+                                Card(
+                                    Modifier
+                                        .height(10.dp)
+                                        .offset(x = -5.dp, y = 16.dp)
+                                        .alpha(alphaval),
+                                    shape = RoundedCornerShape(100.dp),
+                                    backgroundColor = textbg
 
-                            ){
+                                ) {
+                                    Text(
+
+                                        text = "For You  ",
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Transparent,
+                                        fontSize = 21.sp
+                                    )
+                                }
                                 Text(
 
-                                    text = "For You  ",
+                                    text = "For You",
                                     fontFamily = aileron,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.Transparent,
+                                    color = colors.onBackground,
                                     fontSize = 21.sp
                                 )
                             }
-                            Text(
 
-                                text = "For You",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
-                                color = colors.onBackground,
-                                fontSize = 21.sp
-                            )
-                        }
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                contentPadding = PaddingValues(horizontal = 20.dp)
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
                             ) {
-                                items(
-                                    homeViewModel.allEventsWithLive
-//                                        .toList()
-                                        .shuffled()
-                                        .take(7)
-                                ) { dataeach ->
-                                    context?.let {
-                                        /*if(dataeach.eventdetail.stream){
+
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
+                                ) {
+                                    items(
+                                        homeViewModel.forYouEvents
+                                    ) { dataeach ->
+                                        context?.let {
+                                            /*if(dataeach.eventdetail.stream){
                                             Event_card(eventdetail = dataeach,homeViewModel, it,fm)
                                         }*/
-                                        Event_card_Scaffold(
-                                            eventdetail = dataeach,
-                                            homeViewModel,
-                                            it,
-                                            artist
-                                        ) {
-                                            artist = dataeach.eventdetail.artist
-                                            coroutineScope.launch {
-                                                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                    bottomSheetScaffoldState.bottomSheetState.expand()
-                                                } else {
-                                                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                                            Event_card_Scaffold(
+                                                eventdetail = dataeach,
+                                                homeViewModel,
+                                                it,
+                                                artist
+                                            ) {
+                                                artist = dataeach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
                                                 }
                                             }
                                         }
@@ -2263,32 +2262,6 @@ fun compbox(){
             }
             else if(eventWithLive.eventdetail.venue != "") {
                 Row {
-                    if (eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") {
-                        Button(
-                            onClick = {
-                                //TODO: Set Buy pass link
-
-                            },
-                            Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .height(72.dp)
-                                .border(1.dp, colors.onBackground),
-                            shape = RoundedCornerShape(0.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                colors.background
-                            )
-                        ) {
-                            Text(
-                                text = "Buy Tickets",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
-                                color = colors.onBackground
-                            )
-
-                        }
-                    }
 
                     Button(
                         onClick = {
@@ -2306,7 +2279,7 @@ fun compbox(){
                             .border(1.dp, colors.onBackground),
                         shape = RoundedCornerShape(0.dp),
                         colors = ButtonDefaults.buttonColors(
-                            blu
+                            colors.background
                         )
                     ) {
                         Text(
@@ -2314,11 +2287,40 @@ fun compbox(){
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = aileron,
-                            color = black,
+                            color = colors.onBackground,
                             textAlign = TextAlign.Center
                         )
 
                     }
+
+                    if (eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") {
+                        Button(
+                            onClick = {
+                                //TODO: Set Buy pass link
+
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(72.dp)
+                                .border(1.dp, colors.onBackground),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                blu
+                            )
+                        ) {
+                            Text(
+                                text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
+                                else "Get your Passes",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = colors.onBackground
+                            )
+
+                        }
+                    }
+
                 }
             }
         }
@@ -2427,7 +2429,9 @@ fun compbox(){
                 Spacer(modifier = Modifier.height(18.dp))
 
             Row(modifier = Modifier.fillMaxWidth(),
-                Arrangement.SpaceBetween,) {
+                Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Row(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
@@ -2454,11 +2458,12 @@ fun compbox(){
                         )
                     )
                 }
-
+                Spacer(modifier = Modifier.width(24.dp))
 
                 Box(modifier = Modifier
                     .height(40.dp)
                     .border(1.dp, colors.secondary)
+                    .animateContentSize()
                     .wrapContentWidth()
                     .background(
                         if (isSystemInDarkTheme() && isadded.value) {
@@ -2498,12 +2503,13 @@ fun compbox(){
                                 colorFilter = ColorFilter.tint(colors.onBackground)
                             )
                             Spacer(Modifier.width(10.dp))
-                            Text(
+                            MarqueeText(
                                 text = "Add to Schedule",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.SemiBold,
                                 color = colors.onBackground,
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                gradientEdgeColor = Color.Transparent
                             )
                         }
 
@@ -2533,12 +2539,14 @@ fun compbox(){
                                 colorFilter = ColorFilter.tint(colors.onBackground)
                             )
                             Spacer(Modifier.width(10.dp))
-                            Text(
+                            MarqueeText(
                                 text = "Added to Schedule",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.SemiBold,
                                 color = colors.onBackground,
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                gradientEdgeColor = Color.Transparent
+
                             )
                         }
                     }
@@ -2988,7 +2996,7 @@ fun compbox(){
 
         ViewPagernew(modifier = Modifier
             .fillMaxWidth()
-            .height(240.dp)
+            .height(280.dp)
         )
         {repeat(merch.size){page ->ViewPagerChild{
             Box(

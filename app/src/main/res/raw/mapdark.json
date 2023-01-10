@@ -7,7 +7,7 @@
                 "saturation": 36
             },
             {
-                "color": "#000000"
+                "color": "#b59494"
             },
             {
                 "lightness": 40
@@ -66,86 +66,23 @@
         ]
     },
     {
-        "featureType": "administrative.country",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.province",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.locality",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.neighborhood",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.land_parcel",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
         "featureType": "landscape",
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#000000"
+                "lightness": 20
             },
             {
-                "lightness": 20
+                "color": "#323232"
             }
         ]
     },
     {
-        "featureType": "landscape.man_made",
+        "featureType": "poi",
         "elementType": "all",
         "stylers": [
             {
-                "visibility": "on"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape.natural.landcover",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "on"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape.natural.terrain",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "on"
+                "visibility": "off"
             }
         ]
     },
@@ -158,15 +95,51 @@
             },
             {
                 "lightness": 21
+            },
+            {
+                "visibility": "simplified"
             }
         ]
     },
     {
-        "featureType": "road.highway",
-        "elementType": "all",
+        "featureType": "poi",
+        "elementType": "geometry.fill",
         "stylers": [
             {
                 "visibility": "on"
+            },
+            {
+                "color": "#484f3f"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#c8bebe"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "visibility": "off"
             }
         ]
     },
@@ -175,10 +148,10 @@
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#000000"
+                "lightness": 17
             },
             {
-                "lightness": 17
+                "color": "#141204"
             }
         ]
     },
@@ -191,9 +164,15 @@
             },
             {
                 "lightness": 29
-            },
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels.text",
+        "stylers": [
             {
-                "weight": 0.2
+                "color": "#626260"
             }
         ]
     },
@@ -201,11 +180,11 @@
         "featureType": "road.arterial",
         "elementType": "geometry",
         "stylers": [
-            {
-                "color": "#000000"
-            },
             {
                 "lightness": 18
+            },
+            {
+                "color": "#141204"
             }
         ]
     },
@@ -214,7 +193,7 @@
         "elementType": "labels.text",
         "stylers": [
             {
-                "visibility": "on"
+                "color": "#626260"
             }
         ]
     },
@@ -223,31 +202,10 @@
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#000000"
-            },
-            {
                 "lightness": 16
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "saturation": "-100"
             },
             {
-                "lightness": "0"
-            },
-            {
-                "gamma": "1.00"
-            },
-            {
-                "weight": "1.00"
-            },
-            {
-                "hue": "#ff0000"
+                "color": "#141204"
             }
         ]
     },
@@ -256,16 +214,7 @@
         "elementType": "labels.text",
         "stylers": [
             {
-                "visibility": "on"
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "labels.icon",
-        "stylers": [
-            {
-                "visibility": "off"
+                "color": "#626260"
             }
         ]
     },
@@ -278,18 +227,6 @@
             },
             {
                 "lightness": 19
-            },
-            {
-                "visibility": "on"
-            }
-        ]
-    },
-    {
-        "featureType": "transit",
-        "elementType": "labels.text",
-        "stylers": [
-            {
-                "visibility": "off"
             }
         ]
     },
@@ -298,13 +235,10 @@
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#388ea3"
-            },
-            {
                 "lightness": 17
             },
             {
-                "visibility": "on"
+                "color": "#4c6189"
             }
         ]
     }
