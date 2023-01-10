@@ -210,7 +210,8 @@ public class Login extends AppCompatActivity {
     }
 
     private void startMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        //Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, PickASide.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
@@ -470,14 +471,14 @@ public class Login extends AppCompatActivity {
         if(view.getId()==R.id.show_pass_btn){
 
             if(!Password.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
-                ((ImageView)(view)).setImageResource(R.drawable.show);
+                ((ImageView)(view)).setImageResource(R.drawable.hide);
 
                 //Show Password
                 Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 Password.setSelection(Password.getText().length());
             }
             else{
-                ((ImageView)(view)).setImageResource(R.drawable.hide);
+                ((ImageView)(view)).setImageResource(R.drawable.show);
 
                 //Hide Password
                 //Password.setTransformationMethod(HiddenPassTransformationMethod.getInstance());

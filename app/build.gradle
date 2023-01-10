@@ -93,6 +93,8 @@ dependencies {
 
     //dexter permissions
 
+    implementation 'com.android.databinding:viewbinding:4.0.1'
+
     implementation "com.karumi:dexter:5.0.0"
     implementation 'com.github.yalantis:ucrop:2.2.6'
 

@@ -62,17 +62,17 @@ public class OrderSummaryAdapter extends ArrayAdapter<cartModel> {
         name.setText(currentItem.getName());
 
         TextView price = currentItemView.findViewById(R.id.price);
-        price.setText(String.format("₹%s.", currentItem.getPrice()));
+        price.setText(String.format("Rs. %s.", currentItem.getPrice()));
 
         TextView details = currentItemView.findViewById(R.id.details);
-        String size = "";
-        switch (currentItem.getSize()){
+        String size = currentItem.getSize();
+        /*switch (currentItem.getSize()){
             case "S": size = "Small"; break;
             case "M": size = "Medium"; break;
             case "L": size = "Large"; break;
             case "XL": size = "Extra Large"; break;
-        }
-        details.setText(String.format("%s, %s, %s Qty", currentItem.getType(), size, currentItem.getCount()));
+        }*/
+        details.setText(String.format("%s, Size %s, %s Qty", currentItem.getType(), size, currentItem.getCount()));
 
         /*TextView delivery = currentItemView.findViewById(R.id.delivery);
         SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM", Locale.getDefault());

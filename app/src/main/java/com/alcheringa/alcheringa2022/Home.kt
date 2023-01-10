@@ -590,12 +590,12 @@ class Home : Fragment() {
                     val hpm= if(isSystemInDarkTheme()) Modifier
                         .padding(start = 15.dp)
                         .fillMaxWidth()
-                        .aspectRatio(0.781f)
+                        .wrapContentHeight()
                         .coloredShadow(colors.onBackground, 0.25f, 16.dp, 20.dp, -5.dp, -5.dp)
                     else Modifier
                         .padding(start = 15.dp)
                         .fillMaxWidth()
-                        .aspectRatio(0.781f)
+                        .wrapContentHeight()
                     HorizontalPager(
                         count = count,
                         modifier = hpm,
@@ -618,6 +618,7 @@ class Home : Fragment() {
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
+                                        .aspectRatio(0.781f)
 
                                         .graphicsLayer {
                                             // Calculate the absolute offset for the current page from the

@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.TransformationMethod;
@@ -34,7 +32,6 @@ import java.util.regex.Pattern;
 
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 
@@ -82,7 +79,7 @@ public class SignUp extends AppCompatActivity {
         Name=findViewById(R.id.name);
         Email=findViewById(R.id.email);
         Password=findViewById(R.id.password);
-        signInButton = findViewById(R.id.signInButton);
+        signInButton = findViewById(R.id.google_login_btn);
         signupButton=findViewById(R.id.signupbutton);
         signInButtonO = findViewById(R.id.sign_in_outlook);
         backButton =findViewById(R.id.back_button);
@@ -398,7 +395,8 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void startMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        //Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, PickASide.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
@@ -455,14 +453,14 @@ public class SignUp extends AppCompatActivity {
         if(view.getId()==R.id.show_pass_btn){
 
             if(!Password.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
-                ((ImageView)(view)).setImageResource(R.drawable.show);
+                ((ImageView)(view)).setImageResource(R.drawable.hide);
 
                 //Show Password
                 Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 Password.setSelection(Password.getText().length());
             }
             else{
-                ((ImageView)(view)).setImageResource(R.drawable.hide);
+                ((ImageView)(view)).setImageResource(R.drawable.show);
 
                 //Hide Password
                 //Password.setTransformationMethod(HiddenPassTransformationMethod.getInstance());
