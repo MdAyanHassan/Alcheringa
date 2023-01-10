@@ -45,7 +45,7 @@
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
         android:textColor="@color/primaryCol"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -202,7 +202,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/signInButton"
+        android:id="@+id/google_login_btn"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_marginStart="20dp"
