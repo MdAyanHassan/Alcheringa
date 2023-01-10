@@ -255,7 +255,7 @@ fun Event_card_Scaffold(
                                             , contentAlignment = Alignment.Center
                                     ) {
                                         Text(
-                                            text = "⬤ LIVE",
+                                            text = "● Live",
                                             color = colors.background,
                                             fontSize = 16.sp,
                                             fontFamily = aileron,
@@ -340,8 +340,8 @@ fun Event_card_Scaffold(
 
                                         Image(
                                             modifier = Modifier
-                                                .width(30.dp)
-                                                .height(30.dp)
+                                                .width(35.dp)
+                                                .height(35.dp)
                                                 .clickable {
                                                     okstate.value = true
                                                     viewModelHm.OwnEventsWithLive.addNewItem(
@@ -364,8 +364,8 @@ fun Event_card_Scaffold(
                                     if (okstate.value) {
                                         Image(
                                             modifier = Modifier
-                                                .width(30.dp)
-                                                .height(30.dp)
+                                                .width(35.dp)
+                                                .height(35.dp)
                                                 .clickable {
                                                     Log.d("boxevent", eventdetail.toString())
 

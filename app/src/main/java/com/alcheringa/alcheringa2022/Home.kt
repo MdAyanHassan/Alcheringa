@@ -286,16 +286,22 @@ class Home : Fragment() {
             homeViewModel.featuredEventsWithLivedata.observe(requireActivity()){   data->
                 homeViewModel.featuredEventsWithLivestate.clear()
                 homeViewModel.featuredEventsWithLivestate.addAll(data)
+
             }
             homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
+                homeViewModel.OwnEventsWithLiveState.clear()
+                homeViewModel.OwnEventsWithLiveState.addAll(data.map{eventWithLive(it)})
                 homeViewModel.OwnEventsLiveState.clear()
                 homeViewModel.OwnEventsLiveState.addAll(data)
-                datestate1.clear();
-                datestate1.addAll(liveToWithY(data.filter { data -> data.starttime.date == 11 }))
-                datestate2.clear();
-                datestate2.addAll(liveToWithY(data.filter { data -> data.starttime.date == 12 }))
-                datestate3.clear();
-                datestate3.addAll(liveToWithY(data.filter { data -> data.starttime.date == 13 }))
+                homeViewModel.OwnEventsWithLiveState.sortedBy{ data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }
+
+
+//                datestate1.clear();
+//                datestate1.addAll(liveToWithY(data.filter { data -> data.starttime.date == 11 }))
+//                datestate2.clear();
+//                datestate2.addAll(liveToWithY(data.filter { data -> data.starttime.date == 12 }))
+//                datestate3.clear();
+//                datestate3.addAll(liveToWithY(data.filter { data -> data.starttime.date == 13 }))
             }
 
 
@@ -1370,7 +1376,6 @@ fun compbox(){
     @Composable
     fun MyContent() {
         var artist : String by rememberSaveable{ mutableStateOf("") }
-        var scheduleList by remember{ mutableStateOf(ScheduleDatabase(requireContext()).schedule)}
 
 
         // Declaring a Boolean value to
@@ -1635,16 +1640,13 @@ fun compbox(){
                             modifier = Modifier
                                 .fillMaxWidth()
                         ) {
-                            //TODO: Replace with sorted list
-                            val list =
-                                homeViewModel.allEventsWithLive.filter { data -> !(data.isLive.value) }
-                                    .sortedBy { data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }
+
                             LazyRow(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                                 contentPadding = PaddingValues(horizontal = 20.dp)
                             ) {
-                                items(list)
+                                items(homeViewModel.upcomingEventsLiveState)
                                 { dataEach ->
                                     context?.let {
                                         Event_card_Scaffold(
@@ -1753,7 +1755,7 @@ fun compbox(){
                         //                        .padding(horizontal = 10.dp), text = "Hold and Drag to remove events", fontFamily = hk_grotesk, fontWeight = FontWeight.Bold, color = Color(0xffffffff), fontSize = 16.sp, textAlign = TextAlign.Center)
 
 
-                        if(!scheduleList.isEmpty()) {
+                        if(homeViewModel.OwnEventsWithLiveState.isNotEmpty()) {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
@@ -1802,34 +1804,7 @@ fun compbox(){
                                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                                     contentPadding = PaddingValues(horizontal = 20.dp)
                                 ) {
-
-                                    val crnttime = mutableStateOf(OwnTime())
-                                    val c = Calendar.getInstance()
-                                    var dt = 0
-                                    if (c.get(Calendar.MONTH) == Calendar.FEBRUARY) {
-                                        dt = c.get(Calendar.DATE) - 28
-                                    } else {
-                                        dt = c.get(Calendar.DATE)
-                                    }
-                                    crnttime.value =
-                                        OwnTime(
-                                            date = dt,
-                                            c.get(Calendar.HOUR_OF_DAY),
-                                            c.get(Calendar.MINUTE)
-                                        )
-                                    val eventdetails = mutableStateListOf<eventWithLive>()
-
-                                    for (event in scheduleList) {
-                                        //event.venue = homeViewModel.allEventsWithLive.filter { data -> data.eventdetail.artist == event.artist }[0].eventdetail.venue
-                                        val eventdet =
-                                            homeViewModel.allEventsWithLive.filter { data -> data.eventdetail.artist == event.artist }[0]
-                                        eventdetails.add(eventdet)
-                                    }
-
-
-
-
-                                    items(eventdetails.sortedBy { data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }) { dataeach ->
+                                    items(homeViewModel.OwnEventsWithLiveState) { dataeach ->
                                         context?.let {
                                             Schedule_card(
                                                 eventdetail = dataeach,
@@ -1837,7 +1812,7 @@ fun compbox(){
                                                 it,
                                                 this@Home,
                                                 fm,
-                                                R.id.action_home2_to_schedule2
+                                                R.id.action_home2_to_events_Details_Fragment
                                             )
                                         }
                                     }
@@ -1893,7 +1868,10 @@ fun compbox(){
                                 contentPadding = PaddingValues(horizontal = 20.dp)
                             ) {
                                 items(
-                                    homeViewModel.allEventsWithLive.toList().shuffled().take(7)
+                                    homeViewModel.allEventsWithLive
+//                                        .toList()
+                                        .shuffled()
+                                        .take(7)
                                 ) { dataeach ->
                                     context?.let {
                                         /*if(dataeach.eventdetail.stream){
