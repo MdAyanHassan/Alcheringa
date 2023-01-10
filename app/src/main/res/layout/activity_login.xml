@@ -37,6 +37,7 @@
         android:layout_marginStart="20dp"
         android:fontFamily="@font/starguard"
         android:text="Login"
+        android:letterSpacing="0.03"
         android:textColor="@color/primaryCol"
         android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
