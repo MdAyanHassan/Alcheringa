@@ -109,7 +109,7 @@ public class YourOrders extends AppCompatActivity {
 
             startShopping = findViewById(R.id.start_shopping);
             startShopping.setOnClickListener((v) -> {
-                Intent i = new Intent(this, MerchFragment.class);
+                Intent i = new Intent(this, MainActivity.class);
                 i.putExtra("fragment", "merch");
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(i);

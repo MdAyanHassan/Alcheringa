@@ -25,8 +25,7 @@
             android:layout_height="200dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/usernew"
-            app:civ_border_width="1dp"
-            app:civ_border_color="@color/primaryCol"
+            app:civ_border_width="0dp"
 
             />
 

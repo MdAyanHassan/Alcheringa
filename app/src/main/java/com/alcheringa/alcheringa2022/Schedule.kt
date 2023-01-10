@@ -356,6 +356,7 @@ class Schedule : Fragment() {
                         fontWeight = FontWeight.W400,
                         fontSize = 20.sp,
                         fontFamily = star_guard,
+                        style = TextStyle(letterSpacing = 0.5.sp),
                         color = colors.onBackground
                     )
                 }
@@ -369,6 +370,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -382,6 +384,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -395,6 +398,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -408,6 +412,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -421,6 +426,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -434,6 +440,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -448,6 +455,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -462,6 +470,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -475,6 +484,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -488,6 +498,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -501,6 +512,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -514,6 +526,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -527,6 +540,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -540,6 +554,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -553,6 +568,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -566,6 +582,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -579,6 +596,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -592,6 +610,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -605,6 +624,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -618,6 +638,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -631,6 +652,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -644,6 +666,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -653,10 +676,11 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Near Lake ( In front of Audi )",
+                            text = "Near Lake \n( In front of Audi )",
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -670,6 +694,7 @@ class Schedule : Fragment() {
                             fontWeight = FontWeight.W400,
                             fontSize = 20.sp,
                             fontFamily = star_guard,
+                            style = TextStyle(letterSpacing = 1.sp),
                             color = colors.onBackground
                         )
                     }
@@ -1282,8 +1307,8 @@ class Schedule : Fragment() {
                 Text(
                     text = eventdetail.eventdetail.artist,
                     color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                    fontWeight = FontWeight.W400,
-                    fontFamily = star_guard,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = aileron,
                     fontSize = 16.sp,
                     maxLines = 1
                 )
@@ -1293,8 +1318,8 @@ class Schedule : Fragment() {
                     style = TextStyle(
 //                        color = colorResource(id = R.color.textGray),
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                        fontFamily = star_guard,
-                        fontWeight = FontWeight.W400,
+                        fontFamily = aileron,
+                        fontWeight = FontWeight.Bold,
                         fontSize = 10.sp
                     )
                 )
