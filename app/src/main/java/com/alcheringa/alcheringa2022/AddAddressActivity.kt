@@ -19,11 +19,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
@@ -32,7 +30,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -129,8 +126,8 @@ class AddAddressActivity : ComponentActivity() {
                                 contentDescription = null,
                                 modifier = Modifier
                                     .height(80.dp)
-                                    .width(32.dp)
-                                    .padding(top = 32.dp, bottom = 32.dp, start = 7.dp, end = 16.dp)
+                                    .width(50.dp)
+                                    .padding(top = 30.dp, bottom = 30.dp, start = 7.dp, end = 16.dp)
                                     .clickable(
                                         enabled = true,
                                         onClickLabel = "Back Button",
@@ -161,10 +158,10 @@ class AddAddressActivity : ComponentActivity() {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
-                                    .wrapContentWidth()
+                                    .fillMaxWidth()
                                     .height(52.dp)
 //                                    .padding(start = 6.dp)
-                                    .background(color = Color(0xffACACAC))
+                                    .background(color = Color(0xffACACAC)).padding(horizontal=6.dp), horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Card(
                                     modifier = Modifier
@@ -186,7 +183,7 @@ class AddAddressActivity : ComponentActivity() {
                                         horizontalArrangement = Arrangement.Center
                                     ) {
                                         Image(
-                                            painter = painterResource(id = R.drawable.home),
+                                            painter = painterResource(id = R.drawable.home2),
                                             contentDescription = null
                                         )
                                         Box(
@@ -207,7 +204,7 @@ class AddAddressActivity : ComponentActivity() {
                                     }
                                 }
 
-                                Spacer(modifier = Modifier.width(23.dp))
+
 
 //                                Box(
 //                                    modifier = Modifier
@@ -228,7 +225,7 @@ class AddAddressActivity : ComponentActivity() {
                                     )
                                 }
 
-                                Spacer(modifier = Modifier.width(84.dp))
+
 //                                Box(
 //                                    modifier = Modifier
 //                                        .width(66.dp)
