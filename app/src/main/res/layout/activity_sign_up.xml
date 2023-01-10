@@ -37,7 +37,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/custom_edit_text"
+        android:background="@drawable/login_edit_text_background"
         android:fontFamily="@font/aileron_regular"
         android:gravity="center_vertical"
         android:hint="Name"
@@ -60,7 +60,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/custom_edit_text"
+        android:background="@drawable/login_edit_text_background"
         android:fontFamily="@font/aileron_regular"
         android:gravity="center_vertical"
         android:hint="Email Address"
@@ -93,7 +93,7 @@
             style="@style/tertiaryText"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/custom_edit_text"
+            android:background="@drawable/login_edit_text_background"
             android:fontFamily="@font/aileron_regular"
             android:gravity="center_vertical"
             android:hint="Password"
@@ -113,7 +113,7 @@
             android:alpha=".5"
             android:onClick="ShowHidePass"
             android:padding="5dp"
-            android:src="@drawable/hide"
+            android:src="@drawable/show"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </RelativeLayout>
 
