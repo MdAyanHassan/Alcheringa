@@ -97,7 +97,7 @@ class Events_Details_Fragment : Fragment() {
 
 
 
-        binding.constraintLayout.setOnClickListener{requireActivity().onBackPressed()}
+        binding.backbtn2.setOnClickListener{requireActivity().onBackPressed()}
 
 
         binding.cvevdetail.setContent{
