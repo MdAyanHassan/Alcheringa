@@ -96,13 +96,13 @@
         app:layout_constraintTop_toTopOf="@+id/start_shopping"
         app:srcCompat="@drawable/proceed_arrow" />
 
-    <!--    <com.alcheringa.alcheringa2022.LoaderView
+        <com.alcheringa.alcheringa2022.LoaderView
             android:id="@+id/dots_progress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />-->
+            app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

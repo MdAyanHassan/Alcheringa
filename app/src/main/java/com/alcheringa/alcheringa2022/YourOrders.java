@@ -44,8 +44,8 @@ public class YourOrders extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_your_orders);
 
-/*        loaderView = findViewById(R.id.dots_progress);
-        loaderView.setVisibility(View.VISIBLE);*/
+        loaderView = findViewById(R.id.dots_progress);
+        loaderView.setVisibility(View.VISIBLE);
 
         recyclerView = findViewById(R.id.user_orders_recyclerview);
         imageView = findViewById(R.id.backbtn);
@@ -88,7 +88,7 @@ public class YourOrders extends AppCompatActivity {
             }
 
             recyclerView.setAdapter(yourOrders_adapter);
-//            loaderView.setVisibility(View.GONE);
+            loaderView.setVisibility(View.GONE);
 
             if(yourOrders_modelList.size() == 0){
                 setContentView(R.layout.empty_your_orders);
@@ -109,7 +109,7 @@ public class YourOrders extends AppCompatActivity {
 
             startShopping = findViewById(R.id.start_shopping);
             startShopping.setOnClickListener((v) -> {
-                Intent i = new Intent(this, MainActivity.class);
+                Intent i = new Intent(this, MerchFragment.class);
                 i.putExtra("fragment", "merch");
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(i);
