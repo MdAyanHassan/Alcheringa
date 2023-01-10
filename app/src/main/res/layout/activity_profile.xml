@@ -8,25 +8,52 @@
     app:layout_constraintWidth_max="238dp"
     tools:context=".ProfilePage">
 
-    <ImageButton
-        android:id="@+id/backbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:minWidth="48dp"
-        android:minHeight="48dp"
-        android:src="@drawable/back"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@drawable/topheaderbottomborder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintVertical_bias="0">
+
+
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="16dp"
+            android:src="@drawable/backbtn2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="12dp"
+            android:background="@android:color/transparent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            style="@style/headerText"
+            android:layout_marginLeft="10dp"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/backbtn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="24dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backbtn">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -49,11 +76,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginBottom="20dp"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/theme_button"
                     android:longClickable="true"
-                    android:scaleType="fitCenter"
+                    android:scaleX="1"
+                    android:scaleY="1"
                     android:theme="@style/themeButton"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -69,35 +98,35 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
+
                     <FrameLayout
+                        android:id="@+id/imageframe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imageframe"
                         android:layout_marginTop="2dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                    <com.mikhaellopez.circularimageview.CircularImageView
-                        android:id="@+id/profile_image"
-                        android:layout_width="215dp"
-                        android:layout_height="215dp"
-                        android:src="@drawable/usernew"
-                        app:civ_border_color="@color/primaryCol"
-                        app:civ_border_width="1dp"
-                        android:layout_gravity="center"
-                         />
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/profile_image"
+                            android:layout_width="215dp"
+                            android:layout_height="215dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/usernew"
+                            app:civ_border_color="@color/primaryCol"
+                            app:civ_border_width="1dp" />
 
 
-                    <ImageView
-                        android:id="@+id/edit_dp_button"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_edit_dp"
-                        android:layout_gravity="bottom|right"
-                        app:layout_constraintBottom_toTopOf="@id/user_name"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/profile_image" />
+                        <ImageView
+                            android:id="@+id/edit_dp_button"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="bottom|right"
+                            android:src="@drawable/ic_edit_dp"
+                            app:layout_constraintBottom_toTopOf="@id/user_name"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/profile_image" />
                     </FrameLayout>
 
                     <TextView
@@ -105,11 +134,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:paddingBottom="50dp"
                         android:fontFamily="@font/starguard"
                         android:gravity="center_horizontal"
-                        android:textSize="28sp"
+                        android:paddingBottom="50dp"
                         android:textAlignment="center"
+                        android:textSize="28sp"
                         android:theme="@style/primaryText"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +147,6 @@
                         tools:text="Adolph Blaine Charles David Earl Frederick" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -263,42 +291,43 @@
                     android:id="@+id/SaveBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/proceed_button"
                     android:layout_marginTop="20dp"
-                    android:textColor="@color/Black"
-                    android:textSize="18sp"
-                    android:textAllCaps="false"
+                    android:background="@drawable/proceed_button"
                     android:fontFamily="@font/aileron_semibold"
                     android:gravity="center|center_vertical"
                     android:text="Save"
-                    android:visibility="gone"/>
+                    android:textAllCaps="false"
+                    android:textColor="@color/Black"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
                     android:id="@+id/signoutprofile"
-                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="40dp">
+                    android:layout_marginTop="40dp"
+                    android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/signoutlogo"/>
+                        android:src="@drawable/signoutlogo" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="Signout"
                         android:fontFamily="@font/aileron_bold"
-                        android:textSize="20dp"
-                        android:textColor="#EE6337"/>
+                        android:text="Signout"
+                        android:textColor="#EE6337"
+                        android:textSize="20dp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </ScrollView>

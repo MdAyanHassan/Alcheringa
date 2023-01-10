@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_marginBottom="6dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="37dp"
     android:id="@+id/merch_ur_orders_page"
     android:layout_height="wrap_content">
 

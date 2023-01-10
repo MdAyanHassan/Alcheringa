@@ -54,6 +54,7 @@ class viewModelHome : ViewModel() {
     val featuredEventsWithLivestate = mutableStateListOf<eventWithLive>()
     val OwnEventsWithLive = MutableLiveData<MutableList<eventdetail>>()
     val OwnEventsLiveState = mutableStateListOf<eventdetail>()
+    val OwnEventsWithLiveState = mutableStateListOf<eventWithLive>()
     val upcomingEventsLiveState = mutableStateListOf<eventWithLive>()
     val merchhome = mutableStateListOf<merchmodelforHome>()
     var crnttime = mutableStateOf(OwnTime())
@@ -103,6 +104,15 @@ class viewModelHome : ViewModel() {
                                 .contains((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE)))
                 }
 
+                for (data in OwnEventsWithLiveState) {
+
+                    data.isLive.value = (c.get(Calendar.YEAR) == 2022) and
+                            (c.get(Calendar.MONTH) == Calendar.MARCH) and
+                            (c.get(Calendar.DATE) == data.eventdetail.starttime.date) and
+                            (((data.eventdetail.starttime.hours * 60)..(data.eventdetail.starttime.hours * 60 + data.eventdetail.durationInMin))
+                                .contains((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE)))
+                }
+
 
                 for (data in allEventsWithLive) {
 
@@ -128,7 +138,7 @@ class viewModelHome : ViewModel() {
 
 
 
-                delay(900)
+                delay(5000)
                 Log.d("livecheck", "done")
 
 
