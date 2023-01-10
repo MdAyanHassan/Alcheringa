@@ -27,13 +27,12 @@
             android:id="@+id/backbtn2"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:layout_marginLeft="27dp"
-            android:src="@drawable/back"
             android:background="@android:color/transparent"
+            android:paddingStart="27dp"
+            android:src="@drawable/back"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/artistname"
-            app:layout_constraintStart_toStartOf="parent"
 
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -41,21 +40,30 @@
             style="@style/Background"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="32dp"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
+
             android:fontFamily="@font/starguard"
             android:marqueeRepeatLimit="marquee_forever"
-
             android:scrollHorizontally="true"
+
             android:singleLine="true"
             android:text="Artist"
-
             android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/backbtn2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/backbtn2"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="27dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

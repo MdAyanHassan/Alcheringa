@@ -21,9 +21,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/app_logo_updated"
+        android:icon="@mipmap/alcher_logo_23"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/app_logo_updated_round"
+        android:roundIcon="@mipmap/alcher_logo_23_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Alcheringa2022"
 
@@ -58,7 +58,7 @@
         </activity>
         <activity
             android:name=".DataUploadActivity"
-            android:exported="true"></activity>
+            android:exported="true"/>
 
         <activity
             android:name=".ImagePickerActivity"
@@ -121,7 +121,9 @@
             android:name=".OrderSummaryActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.Alcheringa2022" />
+            android:theme="@style/Theme.Alcheringa2022" >
+
+        </activity>
         <activity
             android:name=".AddAddressActivity"
             android:exported="true"

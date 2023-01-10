@@ -3,6 +3,8 @@ package com.alcheringa.alcheringa2022;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 
 import android.Manifest;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -151,22 +153,26 @@ public class ProfilePage extends AppCompatActivity{
             return true;
         });
 
-        /*theme_btn.setOnTouchListener(new View.OnTouchListener() {
+        theme_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                ViewGroup.LayoutParams params = view.getLayoutParams();
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    params.width+=3; params.height+=20;
-                    view.setLayoutParams(params);
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(theme_btn, "scaleX", 1.28f);
+                        ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(theme_btn, "scaleY", 1.28f);
+                        scaleUpX.setDuration(1500);
+                        scaleUpY.setDuration(1500);
+
+                        AnimatorSet scaleUp = new AnimatorSet();
+                        scaleUp.play(scaleUpX).with(scaleUpY);
+
+                        scaleUp.start();
+                        break;
                 }
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    params.width-=3; params.height-=20;
-                    view.setLayoutParams(params);
-                    view.performClick();
-                }
-                return false;
+
+                    return false;
             }
-        });*/
+        });
 
         save_button.setOnClickListener(v -> {
 //        back_btn.setOnClickListener(v -> {
@@ -543,7 +549,7 @@ public class ProfilePage extends AppCompatActivity{
                     String interest_name = t.getText().toString();
                     if(interests.contains(interest_name)){
                         t.setBackgroundResource(R.drawable.interests_highlighted);
-                        t.setTextColor(Color.parseColor("#EE6337"));
+                        t.setTextColor(Color.parseColor("#73D9ED"));
                     }
                 }
             }
