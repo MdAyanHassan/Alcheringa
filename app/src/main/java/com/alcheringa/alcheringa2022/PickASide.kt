@@ -113,7 +113,7 @@ class PickASide : AppCompatActivity() {
         val moveMorgok = ObjectAnimator.ofFloat(furiousMorgok, "translationX", -250f*m).apply {
             duration = animationDuration
         }
-        val moveLadyX = ObjectAnimator.ofFloat(alcherLady, "translationX", -190f*m).apply {
+        val moveLadyX = ObjectAnimator.ofFloat(alcherLady, "translationX", -290f*m).apply {
             duration = animationDuration
         }
         val moveLadyY = ObjectAnimator.ofFloat(alcherLady, "translationY", 150f*m).apply {
@@ -125,10 +125,10 @@ class PickASide : AppCompatActivity() {
         val scaleLadyY = ObjectAnimator.ofFloat(alcherLady, "scaleY", if(color=="white") 1.15f else 1f).apply {
             duration = animationDuration
         }
-        val scaleMorgokX = ObjectAnimator.ofFloat(furiousMorgok, "scaleX", if(color=="black") 1.15f else 1f).apply {
+        val scaleMorgokX = ObjectAnimator.ofFloat(furiousMorgok, "scaleX", if(color=="black") 1.3f else 1f).apply {
             duration = animationDuration
         }
-        val scaleMorgokY = ObjectAnimator.ofFloat(furiousMorgok, "scaleY", if(color=="black") 1.15f else 1f).apply {
+        val scaleMorgokY = ObjectAnimator.ofFloat(furiousMorgok, "scaleY", if(color=="black") 1.3f else 1f).apply {
             duration = animationDuration
         }
         val moveTextUp1 = ObjectAnimator.ofFloat(blackSideText, "translationY", -150f*m).apply {
@@ -162,8 +162,8 @@ class PickASide : AppCompatActivity() {
             play(moveBG).with(scaleLadyY)
             play(moveBG).with(rotateBG)
             play(moveBG).with(scaleBG)
-            //play(moveBG).with(scaleMorgokX)
-            //play(moveBG).with(scaleMorgokY)
+            play(moveBG).with(scaleMorgokX)
+            play(moveBG).with(scaleMorgokY)
             start()
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {

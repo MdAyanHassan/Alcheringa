@@ -176,7 +176,7 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
                                 , contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "⬤ LIVE",
+                                    text = "● Live",
                                     color = colors.background,
                                     fontSize = 12.sp,
                                     fontFamily = aileron,
