@@ -1,5 +1,6 @@
 package com.alcheringa.alcheringa2022;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,12 +12,12 @@ import android.widget.TextView;
 
 public class ContactUs extends AppCompatActivity {
 
-    Button buttonEmail;
-    Button buttonCall;
-    Button buttonCall2;
-    Button buttonEmail2;
-    Button buttonCall3;
-    Button buttonEmail3;
+    ConstraintLayout buttonEmail;
+    ConstraintLayout buttonCall;
+    ConstraintLayout buttonCall2;
+    ConstraintLayout buttonEmail2;
+    ConstraintLayout buttonCall3;
+    ConstraintLayout buttonEmail3;
     ImageView back_btn;
     TextView textView1,textView2,textView3;
 

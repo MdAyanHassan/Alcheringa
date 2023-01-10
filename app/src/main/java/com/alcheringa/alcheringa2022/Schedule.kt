@@ -135,13 +135,10 @@ class Schedule : Fragment() {
             startActivity(Intent(context, NotificationActivity::class.java));
         }
         binding.scheduleCompose.setContent {
-            Alcheringa2022Theme() {
-
-
+            Alcheringa2022Theme(){
             mySchedule()}
         }
     }
-
     @Composable
     fun mySchedule() {
         val headerbgcolor=if(isSystemInDarkTheme())Color(0xff1C1C1C)else Color(0xffFAFBF5)
@@ -336,11 +333,6 @@ class Schedule : Fragment() {
                     }
                 }
             }
-
-            Box(modifier = Modifier
-                .height(6.dp)
-                .fillMaxWidth()
-                .background(bgcolor))
             val horiscrollstate = rememberScrollState()
             Row(
                 Modifier
@@ -352,7 +344,7 @@ class Schedule : Fragment() {
                 Row(
                     Modifier
 //                        .width(1656.dp)
-                        .width(4538.dp)
+                        .width(5156.dp)
                         , horizontalArrangement = Arrangement.SpaceEvenly
                 ) { Box(modifier = Modifier
                     .width(200.dp)
@@ -642,6 +634,45 @@ class Schedule : Fragment() {
                             color = colors.onBackground
                         )
                     }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "AUDI PARK",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Near Lake ( In front of Audi )",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Entire Campus",
+                            fontWeight = FontWeight.W400,
+                            fontSize = 20.sp,
+                            fontFamily = star_guard,
+                            color = colors.onBackground
+                        )
+                    }
                 }
             }
 
@@ -737,14 +768,13 @@ class Schedule : Fragment() {
 
 
 //            Spacer(modifier = Modifier.height(16.dp))
-            var vert = rememberScrollState()
 //            Log.d("XValue","hello! ${vert.value}")
             Row(
                 Modifier
                     .width(1095.dp)
 //                    .width(3000.dp)
                     .height(975.dp)
-                    .verticalScroll(vert)
+                    .verticalScroll(rememberScrollState())
                     .background(color = bgcolor)
                     ){
                 timecolummn()
@@ -764,6 +794,7 @@ class Schedule : Fragment() {
         val colors=colors
 
         Column() {
+
             Canvas(
                 modifier = Modifier
                     .width(16.dp)
@@ -890,7 +921,7 @@ class Schedule : Fragment() {
                 .offset(-35.dp)
 //                .width(2025.dp)
 //                .width(1700.dp)
-                .width(4600.dp)
+                .width(5218.dp)
                 .height(975.dp)
 //                .horizontalScroll(rememberScrollState())
                ) {
@@ -915,7 +946,7 @@ class Schedule : Fragment() {
 
                                ) {
                                    drawLine(
-                                       color = Color(0x70FFFFFF),
+                                       color = Color(0xff000000),
                                        start = Offset(100f, 0f),
                                        end = Offset(size.width, 0f),
                                        strokeWidth = 1.dp.toPx()
@@ -941,7 +972,7 @@ class Schedule : Fragment() {
 
                            ) {
                                drawLine(
-                                   color = Color(0x70FFFFFF),
+                                   color = Color(0xff000000),
                                    start = Offset(100f, 0f),
                                    end = Offset(size.width, 0f),
                                    strokeWidth = 1.dp.toPx()
@@ -964,7 +995,7 @@ class Schedule : Fragment() {
 
                                ) {
                                    drawLine(
-                                       color = Color(0x70FFFFFF),
+                                       color = Color(0xff000000),
 //                                       color = Color.White,
                                        start = Offset(100f, 0f),
                                        end = Offset(size.width-6, 0f),
@@ -1107,6 +1138,24 @@ class Schedule : Fragment() {
                 .width(200.dp)
                 .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
                 .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 4568.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 4774.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 4980.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
 
 
             if (datestate.value == 1) {
@@ -1118,9 +1167,6 @@ class Schedule : Fragment() {
             if (datestate.value == 3) {
                 datestate3.forEach { data -> fullSchUserBox(eventdetail = data) }
             }
-
-
-
            }
 
     }
@@ -1131,16 +1177,16 @@ class Schedule : Fragment() {
     fun fullSchUserBox(
         eventdetail: eventWithLive
     ) {
-        val coroutineScope = rememberCoroutineScope()
-        val color = remember {
-            mutableStateOf(
-                listOf(
-                    Color(0xffC80915),
-                    Color(0xff1E248D),
-                    Color(0xffEE6337)
-                ).random()
-            )
-        }
+//        val coroutineScope = rememberCoroutineScope()
+//        val color = remember {
+//            mutableStateOf(
+//                listOf(
+//                    Color(0xffC80915),
+//                    Color(0xff1E248D),
+//                    Color(0xffEE6337)
+//                ).random()
+//            )
+//        }
         var catid= remember { mutableStateOf(6) }
             when(eventdetail.eventdetail.venue.replace("\\s".toRegex(), "").uppercase()){
 
@@ -1154,7 +1200,6 @@ class Schedule : Fragment() {
                 "Campaign".replace("\\s".toRegex(), "").uppercase()-> catid.value=7
 
             }
-
 
         var lengthdp =
             remember { Animatable(eventdetail.eventdetail.durationInMin.toFloat() * (13f / 12f)) }

@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Window;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -37,6 +38,7 @@ public class Splash_Screen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash_screen);
         videoView=findViewById(R.id.videoview);
         videoView.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.splash_screen));

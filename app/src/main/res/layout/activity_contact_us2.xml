@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/Background"
+    tools:context=".ContactUs">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contact_Us_constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/topheaderbottomborder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="7.87dp"
+            android:layout_height="15.75dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="26dp"
+            android:background="@android:color/transparent"
+            android:padding="16dp"
+            android:src="@drawable/backbtn2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/contact_us_text"
+            style="@style/headerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48dp"
+            android:text="Contact Us"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/backbtn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contact_1"
+        android:layout_width="0dp"
+        android:layout_height="194dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="37dp"
+        android:background="@drawable/contact_border_1"
+        android:padding="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contact_Us_constraintLayout">
+
+        <TextView
+            android:id="@+id/name1"
+            style="@style/primaryText"
+            android:layout_width="0dp"
+            android:layout_height="20sp"
+            android:fontFamily="@font/aileron_bold"
+            android:gravity="center_vertical"
+            android:text="Arnold Williams"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title1"
+            style="@style/subText"
+            android:layout_width="match_parent"
+            android:layout_height="24sp"
+            android:fontFamily="@font/aileron_regular"
+            android:gravity="center_vertical"
+            android:text="Pr &amp;  branding"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name1" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title1">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/rounded_image_9dp"
+                app:srcCompat="@drawable/nitish" />
+
+            <Button
+                android:id="@+id/call_btn1"
+                android:layout_width="147.5dp"
+                android:layout_height="43dp"
+                android:background="@drawable/contact_border_2"
+                android:foreground="@drawable/ic_call_icon"
+                android:paddingHorizontal="29dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            <!--            android:fontFamily="@font/aileron_bold"-->
+            <!--            android:text="Call"-->
+            <!--            android:textAllCaps="false"-->
+            <!--            android:textColor="@color/OrangeText"-->
+            <!--            android:textSize="16sp"-->
+
+            <Button
+                android:id="@+id/email_btn1"
+                android:layout_width="147.5dp"
+                android:layout_height="43dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/contact_border_2"
+                android:foreground="@drawable/ic_email_icon"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/call_btn1"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            <!--            android:fontFamily="@font/aileron_bold"-->
+            <!--            android:textAllCaps="false"-->
+            <!--            android:textColor="@color/OrangeText"-->
+            <!--            android:textSize="16sp"-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contact_2"
+        android:layout_width="0dp"
+        android:layout_height="194dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/contact_border_1"
+        android:padding="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contact_1">
+
+        <TextView
+            android:id="@+id/name2"
+            style="@style/primaryText"
+            android:layout_width="0dp"
+            android:layout_height="20sp"
+            android:fontFamily="@font/aileron_bold"
+            android:gravity="center_vertical"
+            android:text="Arnold Williams"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title2"
+            style="@style/subText"
+            android:layout_width="match_parent"
+            android:layout_height="24sp"
+            android:fontFamily="@font/aileron_regular"
+            android:gravity="center_vertical"
+            android:text="Pr &amp;  branding"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name2" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title2">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/rounded_image_9dp"
+                app:srcCompat="@drawable/atharva" />
+
+            <Button
+                android:id="@+id/call_btn2"
+                android:layout_width="147.5dp"
+                android:layout_height="43dp"
+                android:background="@drawable/contact_border_2"
+                android:foreground="@drawable/ic_call_icon"
+                android:paddingHorizontal="29dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            <!--            android:fontFamily="@font/aileron_bold"-->
+            <!--            android:text="Call"-->
+            <!--            android:textAllCaps="false"-->
+            <!--            android:textColor="@color/OrangeText"-->
+            <!--            android:textSize="16sp"-->
+
+            <Button
+                android:id="@+id/email_btn2"
+                android:layout_width="147.5dp"
+                android:layout_height="43dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/contact_border_2"
+                android:foreground="@drawable/ic_email_icon"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/call_btn2"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            <!--            android:fontFamily="@font/aileron_bold"-->
+            <!--            android:textAllCaps="false"-->
+            <!--            android:textColor="@color/OrangeText"-->
+            <!--            android:textSize="16sp"-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contact_3"
+        android:layout_width="0dp"
+        android:layout_height="194dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/contact_border_1"
+        android:padding="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contact_2">
+        <!--        android:layout_marginTop="24dp"-->
+
+        <TextView
+            android:id="@+id/name3"
+            style="@style/primaryText"
+            android:layout_width="0dp"
+            android:layout_height="20sp"
+            android:fontFamily="@font/aileron_bold"
+            android:gravity="center_vertical"
+            android:text="Arnold Williams"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title3"
+            style="@style/subText"
+            android:layout_width="match_parent"
+            android:layout_height="24sp"
+            android:fontFamily="@font/aileron_regular"
+            android:gravity="center_vertical"
+            android:text="Pr &amp;  branding"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name3" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title3">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/rounded_image_9dp"
+                app:srcCompat="@drawable/fahim" />
+
+            <Button
+                android:id="@+id/call_btn3"
+                android:layout_width="147.5dp"
+                android:layout_height="43dp"
+                android:background="@drawable/contact_border_2"
+                android:foreground="@drawable/ic_call_icon"
+                android:paddingHorizontal="29dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            <!--            android:fontFamily="@font/aileron_bold"-->
+            <!--            android:text="Call"-->
+            <!--            android:textAllCaps="false"-->
+            <!--            android:textColor="@color/OrangeText"-->
+            <!--            android:textSize="16sp"-->
+
+            <Button
+                android:id="@+id/email_btn3"
+                android:layout_width="147.5dp"
+                android:layout_height="43dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/contact_border_2"
+                android:foreground="@drawable/ic_email_icon"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/call_btn3"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            <!--            android:fontFamily="@font/aileron_bold"-->
+            <!--            android:textAllCaps="false"-->
+            <!--            android:textColor="@color/OrangeText"-->
+            <!--            android:textSize="16sp"-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
