@@ -42,40 +42,47 @@ import com.alcheringa.alcheringa2022.Model.addNewItem
 import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.removeAnItem
 import com.alcheringa.alcheringa2022.Model.viewModelHome
-import com.alcheringa.alcheringa2022.ui.theme.aileron
-import com.alcheringa.alcheringa2022.ui.theme.blackbg
-import com.alcheringa.alcheringa2022.ui.theme.blu
-import com.alcheringa.alcheringa2022.ui.theme.liveGreen
+import com.alcheringa.alcheringa2022.ui.theme.*
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 
 @Composable
-fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: Context, artist: String, onCardClick : ()-> Unit) {
-    var ScheduleDatabase= ScheduleDatabase(context)
-    var okstate= remember{ mutableStateOf(false) }
-    var okstatenum= remember{ mutableStateOf(0) }
+fun Event_card_Scaffold(
+    eventdetail: eventWithLive,
+    viewModelHm: viewModelHome,
+    context: Context,
+    artist: String,
+    onCardClick: () -> Unit
+) {
+    var ScheduleDatabase = ScheduleDatabase(context)
+    var okstate = remember { mutableStateOf(false) }
+    var okstatenum = remember { mutableStateOf(0) }
     var M = Modifier.wrapContentWidth()
-    val isdark= isSystemInDarkTheme()
+    val isdark = isSystemInDarkTheme()
     val animationProgress = remember { Animatable(300f) }
-    LaunchedEffect(key1=Unit,block = {
+    LaunchedEffect(key1 = Unit, block = {
         animationProgress.animateTo(
             targetValue = 0f,
             animationSpec = tween(300, easing = FastOutSlowInEasing)
         )
     })
 
-    if (eventdetail.isLive.value){
+    if (eventdetail.isLive.value) {
         M = Modifier
             .clip(RoundedCornerShape(16.dp))
             .background(colors.background)
             .wrapContentWidth()
             .border(
                 3.dp,
-                color = liveGreen, RoundedCornerShape(16.dp)
+                color = if (isSystemInDarkTheme()) {
+                    liveGreenDark
+                } else {
+                    liveGreen
+                },
+                RoundedCornerShape(16.dp)
             )
-    }
-    else{
+    } else {
         M = Modifier
             .clip(RoundedCornerShape(16.dp))
             .background(colors.background)
@@ -86,18 +93,22 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
             )
     }
 
-    LaunchedEffect(key1=Unit,block = {
-        okstatenum.value=0
-        viewModelHm.OwnEventsLiveState.forEach{
-                data-> if( data.artist==eventdetail.eventdetail.artist){okstatenum.value+=1}
+    LaunchedEffect(key1 = Unit, block = {
+        okstatenum.value = 0
+        viewModelHm.OwnEventsLiveState.forEach { data ->
+            if (data.artist == eventdetail.eventdetail.artist) {
+                okstatenum.value += 1
+            }
         }
-        if(okstatenum.value==0){okstate.value=false}else{okstate.value=true}
+        if (okstatenum.value == 0) {
+            okstate.value = false
+        } else {
+            okstate.value = true
+        }
     })
 
 
-
-
-    val bm= if(isSystemInDarkTheme()) Modifier
+    val bm = if (isSystemInDarkTheme()) Modifier
         .background(colors.background)
         .graphicsLayer(translationY = animationProgress.value)
         .width(220.dp)
@@ -115,23 +126,25 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
     Box(modifier = bm)
 
     {
-        Text(text =viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp )
+        Text(text = viewModelHm.OwnEventsLiveState.size.toString(), fontSize = 0.sp)
 
 
-        Card(modifier = M.padding(0.dp),
+        Card(
+            modifier = M.padding(0.dp),
             shape = RoundedCornerShape(12.dp),
             backgroundColor = colors.background,
             elevation = 0.dp
 
 
-        ){
+        ) {
 
-            Box(modifier = Modifier
-                .clickable(
+            Box(
+                modifier = Modifier
+                    .clickable(
 
-                    onClick = onCardClick,
-                    enabled = true,
-                )
+                        onClick = onCardClick,
+                        enabled = true,
+                    )
 //                {
 //                    val frg = Events_Details_Fragment()
 //
@@ -147,14 +160,14 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
 //
 //                }
 
-            ){
+            ) {
                 Column {
                     Box(
                         modifier = Modifier
                             .width(220.dp)
                             .height(182.dp),
                     ) {
-                        Card(shape = RoundedCornerShape(topStart=12.dp, topEnd = 12.dp)) {
+                        Card(shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)) {
                             GlideImage(modifier = Modifier,
                                 imageModel = eventdetail.eventdetail.imgurl,
                                 contentDescription = "artist",
@@ -221,20 +234,32 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                         Row(modifier = Modifier.padding(12.dp)) {
 //
                             if (eventdetail.isLive.value) {
-                                Card(modifier = Modifier.wrapContentWidth(),
-                                    shape = RoundedCornerShape(8.dp),) {
+                                Card(
+                                    modifier = Modifier
+                                        .wrapContentWidth()
+                                    ,
+                                    shape = RoundedCornerShape(8.dp),
+                                    backgroundColor =
+                                        if (isSystemInDarkTheme()) {
+                                            liveGreenDark
+                                        } else {
+                                            liveGreen
+                                        }
+                                    ,
+                                ) {
                                     Box(
                                         modifier = Modifier
-                                            .width(52.dp)
-                                            .height(23.dp)
-                                            .background(
-                                                color = liveGreen
-                                            ), contentAlignment = Alignment.Center
+                                            .wrapContentSize()
+                                            .padding(horizontal = 6.dp, vertical = 2.dp)
+//
+                                            , contentAlignment = Alignment.Center
                                     ) {
                                         Text(
                                             text = "⬤ LIVE",
-                                            color = Color.White,
-                                            fontSize = 12.sp
+                                            color = colors.background,
+                                            fontSize = 16.sp,
+                                            fontFamily = aileron,
+                                            fontWeight = FontWeight.Normal
                                         )
                                     }
                                 }
@@ -244,7 +269,7 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                 modifier = Modifier
                                     .fillMaxWidth()
 //                            .padding(11.dp)
-                                ,contentAlignment = Alignment.TopEnd
+                                , contentAlignment = Alignment.TopEnd
                             ) {
 
 
@@ -266,8 +291,11 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                                     )
                                                     okstate.value = true
                                                 },
-                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_plus_dark)}
-                                                        else{painterResource(id = R.drawable.circle_plus)},
+                                            painter = if (isSystemInDarkTheme()) {
+                                                painterResource(id = R.drawable.circle_plus_dark)
+                                            } else {
+                                                painterResource(id = R.drawable.circle_plus)
+                                            },
                                             contentDescription = "null"
                                         )
                                     }
@@ -293,8 +321,11 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                                         .show()
                                                     okstate.value = false
                                                 },
-                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_check_dark)}
-                                            else{painterResource(id = R.drawable.circle_check_light)},
+                                            painter = if (isSystemInDarkTheme()) {
+                                                painterResource(id = R.drawable.circle_check_dark)
+                                            } else {
+                                                painterResource(id = R.drawable.circle_check_light)
+                                            },
                                             contentDescription = "null",
                                             contentScale = ContentScale.FillBounds
                                         )
@@ -322,8 +353,11 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                                     )
                                                     okstate.value = true
                                                 },
-                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_plus_dark)}
-                                            else{painterResource(id = R.drawable.circle_plus)},
+                                            painter = if (isSystemInDarkTheme()) {
+                                                painterResource(id = R.drawable.circle_plus_dark)
+                                            } else {
+                                                painterResource(id = R.drawable.circle_plus)
+                                            },
                                             contentDescription = "null"
                                         )
                                     }
@@ -349,8 +383,11 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                                         .show()
                                                     okstate.value = false
                                                 },
-                                            painter = if(isSystemInDarkTheme()){painterResource(id = R.drawable.circle_check_dark)}
-                                            else{painterResource(id = R.drawable.circle_check_light)},
+                                            painter = if (isSystemInDarkTheme()) {
+                                                painterResource(id = R.drawable.circle_check_dark)
+                                            } else {
+                                                painterResource(id = R.drawable.circle_check_light)
+                                            },
                                             contentDescription = "null",
                                             contentScale = ContentScale.FillBounds
                                         )
@@ -364,27 +401,42 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                     Column(
                         modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.Bottom
-                    ){
-                        Row(modifier = Modifier
-                            .fillMaxWidth().wrapContentHeight()
-                            .padding(start = 16.dp, end = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
-                            Column(Modifier.fillMaxWidth(0.73f).padding(bottom = 16.dp, top = 12.dp)) {
-                                MarqueeText(text = eventdetail.eventdetail.artist, color = MaterialTheme.colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, fontFamily = aileron, gradientEdgeColor = Color.Transparent)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .padding(start = 16.dp, end = 5.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth(0.73f)
+                                    .padding(bottom = 16.dp, top = 12.dp)
+                            ) {
+                                MarqueeText(
+                                    text = eventdetail.eventdetail.artist,
+                                    color = MaterialTheme.colors.onBackground,
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = aileron,
+                                    gradientEdgeColor = Color.Transparent
+                                )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 //                        Text(text = eventdetail.eventdetail.category, style = TextStyle(color = Color.Black,fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
                                 //                            Text(text = "Time  |   Loc", style = TextStyle(color = Color.Black,fontFamily = aileron,fontWeight = FontWeight.Normal,fontSize = 12.sp))
 
-                                    MarqueeText(
-                                        text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} " +"   |   ${eventdetail.eventdetail.venue}",
-                                        style = TextStyle(
-                                            color = MaterialTheme.colors.onBackground,
-                                            fontFamily = aileron,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 12.sp
-                                        ),
-                                        gradientEdgeColor = Color.Transparent
-                                    )
-
+                                MarqueeText(
+                                    text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} " + "   |   ${eventdetail.eventdetail.venue}",
+                                    style = TextStyle(
+                                        color = MaterialTheme.colors.onBackground,
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = 12.sp
+                                    ),
+                                    gradientEdgeColor = Color.Transparent
+                                )
 
 
                                 //                        if(eventdetail.eventdetail.stream) {
@@ -435,57 +487,63 @@ fun Event_card_Scaffold(eventdetail: eventWithLive, viewModelHm: viewModelHome, 
                                 //                        }
                             }
 
-                            var v= venuelist.find{it.name.replace("\\s".toRegex(), "").uppercase()==eventdetail.eventdetail.venue.replace("\\s".toRegex(), "").uppercase()}
-                            if(v!=null){
+                            var v = venuelist.find {
+                                it.name.replace("\\s".toRegex(), "")
+                                    .uppercase() == eventdetail.eventdetail.venue.replace(
+                                    "\\s".toRegex(),
+                                    ""
+                                ).uppercase()
+                            }
+                            if (v != null) {
 
-                            Box(modifier = Modifier.fillMaxWidth()
-                                .clickable {
-                                    val gmmIntentUri =
-                                        Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        val gmmIntentUri =
+                                            Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
                                         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                                         mapIntent.setPackage("com.google.android.apps.maps")
                                         context.startActivity(mapIntent)
 
+                                    }, contentAlignment = Alignment.Center) {
+
+                                    val compositionbg by rememberLottieComposition(
+                                        LottieCompositionSpec.RawRes(
+                                            R.raw.navigatebganimm
+                                        )
+                                    )
+
+                                    val progressbg by animateLottieCompositionAsState(
+                                        compositionbg, iterations = LottieConstants.IterateForever
+                                    )
+                                    LottieAnimation(
+                                        composition = compositionbg,
+                                        progress = progressbg,
+
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(50.dp)
+                                    )
+
+                                    val compositionfg by rememberLottieComposition(
+                                        LottieCompositionSpec.RawRes(
+                                            R.raw.navigatefganimm
+                                        )
+                                    )
+
+                                    val progressfg by animateLottieCompositionAsState(
+                                        compositionfg, iterations = 3
+                                    )
+                                    LottieAnimation(
+                                        compositionfg,
+                                        progressfg,
+                                        modifier = Modifier.height(18.dp)
+                                    )
+
                                 }
-
-                                , contentAlignment = Alignment.Center){
-
-                                val compositionbg by rememberLottieComposition(
-                                    LottieCompositionSpec.RawRes(
-                                        R.raw.navigatebganimm
-                                    )
-                                )
-
-                                val progressbg by animateLottieCompositionAsState(
-                                    compositionbg, iterations = LottieConstants.IterateForever
-                                )
-                                LottieAnimation(
-                                    composition = compositionbg,
-                                    progress = progressbg,
-
-                                    modifier = Modifier.fillMaxWidth().height(50.dp)
-                                )
-
-                                val compositionfg by rememberLottieComposition(
-                                    LottieCompositionSpec.RawRes(
-                                        R.raw.navigatefganimm
-                                    )
-                                )
-
-                                val progressfg by animateLottieCompositionAsState(
-                                    compositionfg, iterations = 3
-                                )
-                                LottieAnimation(
-                                    compositionfg,
-                                    progressfg,
-                                    modifier = Modifier.height(18.dp)
-                                )
-
                             }
-                        }
-                            
-                            
-                            
+
+
                         }
                     }
                 }

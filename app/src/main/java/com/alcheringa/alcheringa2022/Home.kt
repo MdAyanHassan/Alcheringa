@@ -21,10 +21,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.*
 import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.FlingBehavior
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
-import androidx.compose.foundation.gestures.forEachGesture
+import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -619,7 +616,7 @@ class Home : Fragment() {
                                             // any effects for both directions
                                             val pageOffset =
                                                 calculateCurrentOffsetForPage(page).absoluteValue
-                                            Log.d("pageoffsetpager","$pageOffset")
+                                            Log.d("pageoffsetpager", "$pageOffset")
 
                                             transformOrigin = TransformOrigin(
                                                 if (calculateCurrentOffsetForPage(page) >= 0) 1f else
@@ -632,10 +629,11 @@ class Home : Fragment() {
                                                 stop = 1f,
                                                 fraction = 1f - (pageOffset.coerceIn(0.0f, 1f))
                                             ).also { scale ->
-                                                if(pageOffset%1f!=0f){
-                                                scaleX =
+                                                if (pageOffset % 1f != 0f) {
+                                                    scaleX =
 //                                                    if(calculateCurrentOffsetForPage(page)==0.0f) 1f else
-                                                        scale}
+                                                        scale
+                                                }
                                                 //scaleY = scale
                                             }
 
@@ -741,7 +739,8 @@ class Home : Fragment() {
                                         )
                                         Box(
                                             modifier = Modifier
-                                                .fillMaxSize().padding(4.dp)
+                                                .fillMaxSize()
+                                                .padding(4.dp)
                                                 ,
                                             contentAlignment = Alignment.BottomStart
                                         ) {
@@ -766,7 +765,9 @@ class Home : Fragment() {
                                                                 1f
                                                             ))
                                                         ).also { scale ->
-                                                            if(pageOffset%1f!=0f){ scaleY = scale}
+                                                            if (pageOffset % 1f != 0f) {
+                                                                scaleY = scale
+                                                            }
                                                             //scaleY = scale
 
                                                         }
@@ -775,7 +776,7 @@ class Home : Fragment() {
                                                         RoundedCornerShape(
                                                             topStart = 16.dp,
                                                             topEnd = 0.dp,
-                                                            bottomStart = 16.dp,bottomEnd = 16.dp
+                                                            bottomStart = 16.dp, bottomEnd = 16.dp
                                                         )
                                                     )
                                                     .background(Color(0xff0e0e0f))
@@ -935,14 +936,18 @@ fun compbox(){
             .fillMaxWidth()
             .padding(horizontal = 20.dp)) {
 
-        val cmpm=if(isSystemInDarkTheme())   Modifier
+        val cmpm=if(isSystemInDarkTheme()) Modifier
             .coloredShadow(Color(0xffffc311), 0.7f, 16.dp, 30.dp, 0.dp, 0.dp)
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(RoundedCornerShape(16.dp))
             .background(colors.background)
             .border(3.dp, Color(0xffffc311), RoundedCornerShape(16.dp))
-            .clickable {    NavHostFragment.findNavController(this@Home).navigate(R.id.action_home_nav_to_competitionsFragment); }
+            .clickable {
+                NavHostFragment
+                    .findNavController(this@Home)
+                    .navigate(R.id.action_home_nav_to_competitionsFragment);
+            }
             else
             Modifier
                 .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
@@ -953,7 +958,11 @@ fun compbox(){
                 .clip(RoundedCornerShape(16.dp))
                 .background(colors.background)
                 .border(1.5f.dp, colors.onBackground, RoundedCornerShape(16.dp))
-                .clickable {    NavHostFragment.findNavController(this@Home).navigate(R.id.action_home_nav_to_competitionsFragment); }
+                .clickable {
+                    NavHostFragment
+                        .findNavController(this@Home)
+                        .navigate(R.id.action_home_nav_to_competitionsFragment);
+                }
 
 
 
@@ -1437,7 +1446,7 @@ fun compbox(){
 
 
             ) {
-                Alcheringa2022Theme {
+                Alcheringa2022Theme() {
                     val scrollState = rememberScrollState()
 
                     Column(
@@ -1445,6 +1454,15 @@ fun compbox(){
                             .fillMaxWidth()
                             .wrapContentHeight()
                             .verticalScroll(scrollState)
+                            .pointerInput(Unit) {
+                                detectTapGestures(onTap = {
+                                    coroutineScope.launch {
+                                        if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                        }
+                                    }
+                                })
+                            }
                             ,
                     ) {
                         //                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
@@ -1772,63 +1790,60 @@ fun compbox(){
                             }
                         }
 
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
 
-                        ) {
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                contentPadding = PaddingValues(horizontal = 20.dp)
+                        if(homeViewModel.allEventsWithLive.isNotEmpty()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+
                             ) {
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
+                                ) {
 
-                                val crnttime = mutableStateOf(OwnTime())
-                                val c = Calendar.getInstance()
-                                var dt = 0
-                                if (c.get(Calendar.MONTH) == Calendar.FEBRUARY) {
-                                    dt = c.get(Calendar.DATE) - 28
-                                } else {
-                                    dt = c.get(Calendar.DATE)
-                                }
-                                crnttime.value =
-                                    OwnTime(
-                                        date = dt,
-                                        c.get(Calendar.HOUR_OF_DAY),
-                                        c.get(Calendar.MINUTE)
-                                    )
-                                val eventdetails = mutableStateListOf<eventWithLive>()
-                                for (event in scheduleList) {
-                                    val eventdetail = eventWithLive(event, mutableStateOf(true))
-                                    eventdetail.isLive.value = (c.get(Calendar.YEAR) == 2022) and
-                                            (c.get(Calendar.MONTH) == Calendar.MARCH) and
-                                            (c.get(Calendar.DATE) == eventdetail.eventdetail.starttime.date) and
-                                            (((eventdetail.eventdetail.starttime.hours * 60)..(eventdetail.eventdetail.starttime.hours * 60 + eventdetail.eventdetail.durationInMin))
-                                                .contains(
-                                                    (c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(
-                                                        Calendar.MINUTE
-                                                    )
-                                                ))
-                                    eventdetails.add(eventdetail)
-                                }
-
-
-
-
-                                items(eventdetails.sortedBy { data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }) { dataeach ->
-                                    context?.let {
-                                        Schedule_card(
-                                            eventdetail = dataeach,
-                                            homeViewModel,
-                                            it,
-                                            this@Home,
-                                            fm,
-                                            R.id.action_home2_to_schedule2
+                                    val crnttime = mutableStateOf(OwnTime())
+                                    val c = Calendar.getInstance()
+                                    var dt = 0
+                                    if (c.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                                        dt = c.get(Calendar.DATE) - 28
+                                    } else {
+                                        dt = c.get(Calendar.DATE)
+                                    }
+                                    crnttime.value =
+                                        OwnTime(
+                                            date = dt,
+                                            c.get(Calendar.HOUR_OF_DAY),
+                                            c.get(Calendar.MINUTE)
                                         )
+                                    val eventdetails = mutableStateListOf<eventWithLive>()
+
+                                    for (event in scheduleList) {
+                                        //event.venue = homeViewModel.allEventsWithLive.filter { data -> data.eventdetail.artist == event.artist }[0].eventdetail.venue
+                                        val eventdet =
+                                            homeViewModel.allEventsWithLive.filter { data -> data.eventdetail.artist == event.artist }[0]
+                                        eventdetails.add(eventdet)
+                                    }
+
+
+
+
+                                    items(eventdetails.sortedBy { data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }) { dataeach ->
+                                        context?.let {
+                                            Schedule_card(
+                                                eventdetail = dataeach,
+                                                homeViewModel,
+                                                it,
+                                                this@Home,
+                                                fm,
+                                                R.id.action_home2_to_schedule2
+                                            )
+                                        }
                                     }
                                 }
-                            }
 
+                            }
                         }
 
 
@@ -2076,7 +2091,7 @@ fun compbox(){
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
 
-        if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
+        if (eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
                 .uppercase() == "Competitions".uppercase()
         )
         {
@@ -2268,31 +2283,63 @@ fun compbox(){
                 }
             }
             else if(eventWithLive.eventdetail.venue != "") {
-                Button(
-                    onClick = {
-                        //TODO: (Shantanu) Implement all venue locations
-                        val gmmIntentUri =
-                            Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
-                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                        mapIntent.setPackage("com.google.android.apps.maps")
-                        startActivity(mapIntent)
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        blu
-                    )
-                ) {
-                    Text(
-                        text = "Navigate to venue",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = black
-                    )
+                Row {
+                    if (eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") {
+                        Button(
+                            onClick = {
+                                //TODO: Set Buy pass link
 
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(72.dp)
+                                .border(1.dp, colors.onBackground),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                colors.background
+                            )
+                        ) {
+                            Text(
+                                text = "Buy Tickets",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = colors.onBackground
+                            )
+
+                        }
+                    }
+
+                    Button(
+                        onClick = {
+                            //TODO: (Shantanu) Implement all venue locations
+                            val gmmIntentUri =
+                                Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
+                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                            mapIntent.setPackage("com.google.android.apps.maps")
+                            startActivity(mapIntent)
+                        },
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .height(72.dp)
+                            .border(1.dp, colors.onBackground),
+                        shape = RoundedCornerShape(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            blu
+                        )
+                    ) {
+                        Text(
+                            text = "Navigate to venue",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = aileron,
+                            color = black,
+                            textAlign = TextAlign.Center
+                        )
+
+                    }
                 }
             }
         }
@@ -2430,14 +2477,24 @@ fun compbox(){
                 }
 
 
-                    if (true) {
-                        Box(modifier = Modifier
-                            .height(40.dp)
-                            .border(1.dp, colors.secondary)
-                            .padding(10.dp)
-                        ){
-                            if( !isadded.value) {
-                                Row(Modifier.clickable {
+                Box(modifier = Modifier
+                    .height(40.dp)
+                    .border(1.dp, colors.secondary)
+                    .wrapContentWidth()
+                    .background(
+                        if (isSystemInDarkTheme() && isadded.value) {
+                            Color(31, 89, 22, 255)
+                        } else if (isadded.value) {
+                            green
+                        } else {
+                            colors.background
+                        }
+                    )
+                ){
+                    if( !isadded.value) {
+                        Row(
+                            Modifier
+                                .clickable {
                                     isadded.value = true
                                     homeViewModel.OwnEventsWithLive.addNewItem(
                                         eventWithLive.eventdetail
@@ -2448,61 +2505,65 @@ fun compbox(){
                                     )
 
 
-                                })
-                                {
-
-                                    Image(
-                                        modifier = Modifier
-                                            .width(18.dp)
-                                            .height(18.dp)
-                                            ,
-                                        painter = painterResource(id = R.drawable.add_icon),
-                                        contentDescription = "null",
-                                        colorFilter = ColorFilter.tint(colors.onBackground)
-                                    )
-                                    Spacer(Modifier.width(10.dp))
-                                    Text(
-                                        text = "Add to Schedule",
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.SemiBold,
-                                        color = colors.onBackground,
-                                        fontSize = 16.sp
-                                    )
                                 }
+                                .padding(10.dp))
+                        {
 
-                            }
-                            if(isadded.value)
-                            {
-                                Row(Modifier.clickable {
+                            Image(
+                                modifier = Modifier
+                                    .width(18.dp)
+                                    .height(18.dp)
+                                    ,
+                                painter = painterResource(id = R.drawable.add_icon),
+                                contentDescription = "null",
+                                colorFilter = ColorFilter.tint(colors.onBackground)
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = "Add to Schedule",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.SemiBold,
+                                color = colors.onBackground,
+                                fontSize = 16.sp
+                            )
+                        }
+
+                    }
+                    if(isadded.value)
+                    {
+                        Row(
+                            Modifier
+                                .clickable {
                                     isadded.value = false
                                     homeViewModel.OwnEventsWithLive.removeAnItem(
                                         eventWithLive.eventdetail
                                     )
-                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)}
-
-                                    ) {
-                                    Image(
-                                        modifier = Modifier
-                                            .width(20.dp)
-                                            .height(20.dp)
-                                            ,
-                                        painter = painterResource(id = R.drawable.tickokay),
-                                        contentDescription = "null",
-                                        contentScale = ContentScale.FillBounds,
-                                        colorFilter = ColorFilter.tint(colors.onBackground)
-                                    )
-                                    Spacer(Modifier.width(10.dp))
-                                    Text(
-                                        text = "Added to Schedule",
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.SemiBold,
-                                        color = colors.onBackground,
-                                        fontSize = 16.sp
-                                    )
+                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
                                 }
-                            }
+                                .padding(10.dp)
+
+                            ) {
+                            Image(
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                                    ,
+                                painter = painterResource(id = R.drawable.tickokay),
+                                contentDescription = "null",
+                                contentScale = ContentScale.FillBounds,
+                                colorFilter = ColorFilter.tint(colors.onBackground)
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = "Added to Schedule",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.SemiBold,
+                                color = colors.onBackground,
+                                fontSize = 16.sp
+                            )
                         }
                     }
+                }
 
 
             }
@@ -2947,12 +3008,13 @@ fun compbox(){
         }
 
         ViewPagernew(modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
+            .fillMaxWidth()
+            .height(200.dp)
         )
         {repeat(merch.size){page ->ViewPagerChild{
             Card(
-                modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                modifier = Modifier
+                    .clip(RoundedCornerShape(16.dp))
                     .background(colors.background)
                     .coloredShadow(colors.secondaryVariant, 0.2f, 16.dp, 30.dp, 5.dp, 0.dp)
                     .fillMaxWidth()

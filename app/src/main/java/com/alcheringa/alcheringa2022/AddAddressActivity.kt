@@ -19,6 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
@@ -54,11 +55,8 @@ class AddAddressActivity : ComponentActivity() {
 
 
             Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = colors.background,
-
-                ) {
-
+                modifier = Modifier.fillMaxSize().background(color = colors.background),
+                ){
                 ConstraintLayout(
                     modifier = Modifier.fillMaxSize(),
 
@@ -139,7 +137,7 @@ class AddAddressActivity : ComponentActivity() {
                                         onClick = { finish() })
                             )
                             Text(
-                                text = "Add Address",
+                                text = "  Checkout",
                                 fontFamily = star_guard,
                                 fontWeight = FontWeight.W400,
                                 fontSize = 36.sp,
@@ -147,139 +145,162 @@ class AddAddressActivity : ComponentActivity() {
                                 modifier = Modifier.padding(vertical = 25.dp)
                             )
                         }
-
 //                      Header
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
+                        Card(modifier = Modifier
+                            .width(388.dp)
+                            .height(52.dp)
+//                            .background(color = Color(0xffACACAC), shape = RoundedCornerShape(100.dp))
+                            ,shape = RoundedCornerShape(100.dp)) {
                             Box(
                                 modifier = Modifier
-
-                                    .wrapContentSize()
-                                    .padding(horizontal = 10.dp),
+                                    .width(388.dp)
+                                    .height(52.dp)
+                                    .background(color = Color(0xffACACAC)),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ellipse_white),
-                                    contentDescription = null
-                                )
-                                Text(
-                                    text = "1",
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.W500,
-                                    fontFamily = clash,
-                                    color = colors.background
-                                )
-                            }
-
-
-                            Box(
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
-                                    .width(66.dp)
-                                    .height(2.dp)
-                                    .background(color = colorResource(id = R.color.LineGray))
-                            )
+                                    .wrapContentWidth()
+                                    .height(52.dp)
+//                                    .padding(start = 6.dp)
+                                    .background(color = Color(0xffACACAC))
+                            ) {
+                                Card(
+                                    modifier = Modifier
+                                        .width(143.dp)
+                                        .height(40.dp)
+//                                        .background(color = Color(0xff73D9ED))
+                                        .border(
+                                            2.dp,
+                                            color = Color(0xff0E0E0F),
+                                            shape = RoundedCornerShape(100.dp)
+                                        ), shape = RoundedCornerShape(100.dp)
+                                ) {
+                                    Row(
+                                        modifier = Modifier
+                                            .width(143.dp)
+                                            .height(40.dp)
+                                            .background(color = Color(0xff73D9ED)),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.home),
+                                            contentDescription = null
+                                        )
+                                        Box(
+                                            modifier = Modifier
+                                                .wrapContentWidth()
+                                                .height(19.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = " Add address",
+                                                fontSize = 16.sp,
+                                                fontWeight = FontWeight.W600,
+                                                fontFamily = aileron,
+//                                                color = colors.onBackground
+                                            color = Color.Black
+                                            )
+                                        }
+                                    }
+                                }
+
+                                Spacer(modifier = Modifier.width(23.dp))
+
+//                                Box(
+//                                    modifier = Modifier
+//                                        .width(66.dp)
+//                                        .height(2.dp)
+//                                        .background(color = colorResource(id = R.color.LineGray))
+//                                )
 //            Image(painter = painterResource(id = R.drawable.line), contentDescription =null)
-                            Box(
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .padding(horizontal = 10.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ellipse_white_transparent),
-                                    contentDescription = null
-                                )
-                                Text(
-                                    text = "2",
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.W500,
-                                    fontFamily = clash,
-                                    color = colors.onBackground
-                                )
+                                Box(
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .padding(horizontal = 10.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_frame_order_cinfirmed),
+                                        contentDescription = null
+                                    )
+                                }
 
-                            }
-                            Box(
-                                modifier = Modifier
-                                    .width(66.dp)
-                                    .height(2.dp)
-                                    .background(color = colorResource(id = R.color.LineGray))
-                            )
+                                Spacer(modifier = Modifier.width(84.dp))
+//                                Box(
+//                                    modifier = Modifier
+//                                        .width(66.dp)
+//                                        .height(2.dp)
+//                                        .background(color = colorResource(id = R.color.LineGray))
+//                                )
 //            Image(painter = painterResource(id = R.drawable.line), contentDescription =null, modifier = Modifier.width(65.dp))
-                            Box(
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .padding(horizontal = 10.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ellipse_white_transparent),
-                                    contentDescription = null
-                                )
-                                Text(
-                                    text = "3",
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.W500,
-                                    fontFamily = clash,
-                                    color = colors.onBackground
-                                )
-
+                                Box(
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .padding(horizontal = 10.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_frame_payment),
+                                        contentDescription = null
+                                    )
+                                }
                             }
-
+                        }
                         }
 
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .padding(top = 12.dp),
-                            horizontalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            Text(
-                                modifier = Modifier.wrapContentSize(),
-                                text = "Address",
-                                fontSize = 14.sp,
-                                fontFamily = hk_grotesk,
-                                fontWeight = FontWeight.W400,
-                                color = colorResource(
-                                    id = R.color.textgreybehind
-                                )
-                            )
-                            Text(
-                                modifier = Modifier.wrapContentSize(),
-                                text = "Order Summary",
-                                fontSize = 14.sp,
-                                fontFamily = hk_grotesk,
-                                fontWeight = FontWeight.W400,
-                                color = colorResource(
-                                    id = R.color.textgreybehind
-                                )
-                            )
-                            Text(
-                                modifier = Modifier.wrapContentSize(),
-                                text = "Payment",
-                                fontSize = 14.sp,
-                                fontFamily = hk_grotesk,
-                                fontWeight = FontWeight.W400,
-                                color = colorResource(
-                                    id = R.color.textgreybehind
-                                )
-                            )
-                        }
+//                        Row(
+//                            Modifier
+//                                .fillMaxWidth()
+//                                .wrapContentHeight()
+//                                .padding(top = 12.dp),
+//                            horizontalArrangement = Arrangement.SpaceEvenly
+//                        ) {
+//                            Text(
+//                                modifier = Modifier.wrapContentSize(),
+//                                text = "Add Address",
+//                                fontSize = 14.sp,
+//                                fontFamily = hk_grotesk,
+//                                fontWeight = FontWeight.W400,
+//                                color = colorResource(
+//                                    id = R.color.textgreybehind
+//                                )
+//                            )
+//                            Text(
+//                                modifier = Modifier.wrapContentSize(),
+//                                text = "Order Summary",
+//                                fontSize = 14.sp,
+//                                fontFamily = hk_grotesk,
+//                                fontWeight = FontWeight.W400,
+//                                color = colorResource(
+//                                    id = R.color.textgreybehind
+//                                )
+//                            )
+//                            Text(
+//                                modifier = Modifier.wrapContentSize(),
+//                                text = "Payment",
+//                                fontSize = 14.sp,
+//                                fontFamily = hk_grotesk,
+//                                fontWeight = FontWeight.W400,
+//                                color = colorResource(
+//                                    id = R.color.textgreybehind
+//                                )
+//                            )
+//                        }
 
-                        Text(
-                            text = "*Mandatory Fields",
-                            fontFamily = hk_grotesk,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 24.dp),
-                            fontWeight = FontWeight.W400,
-                            color = colors.onBackground,
-                            textAlign = TextAlign.Left,
-                            fontSize = 16.sp
-                        )
+//                        Text(
+//                            text = "*Mandatory Fields",
+//                            fontFamily = hk_grotesk,
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .padding(vertical = 24.dp),
+//                            fontWeight = FontWeight.W400,
+//                            color = colors.onBackground,
+//                            textAlign = TextAlign.Left,
+//                            fontSize = 16.sp
+//                        )
 
                         TextField(
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -692,9 +713,10 @@ class AddAddressActivity : ComponentActivity() {
                             colors = ButtonDefaults.buttonColors(backgroundColor = blu)
                         ) {
                             Row(modifier=
-                                Modifier.padding(horizontal=10.dp)
-                                    .fillMaxWidth()
-                                    .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Modifier
+                                .padding(horizontal = 10.dp)
+                                .fillMaxWidth()
+                                .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                                 Text(
                                     text = "Proceed",
                                     fontFamily = aileron,
@@ -708,9 +730,8 @@ class AddAddressActivity : ComponentActivity() {
                                     tint = Color.Black
                                 )
                             }
-                            }
+                        }
                     }
-
                 }
             }
         }
@@ -737,10 +758,10 @@ class AddAddressActivity : ComponentActivity() {
                 )
                 Text(
                     text = "1",
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.W500,
-                    fontFamily = clash,
-                    color = colors.background
+                    fontFamily = aileron,
+                    color = colors.onBackground
                 )
 
             }
@@ -794,8 +815,6 @@ class AddAddressActivity : ComponentActivity() {
                 )
 
             }
-
-
         }
     }
 }
