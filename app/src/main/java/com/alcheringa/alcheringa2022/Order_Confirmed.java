@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,7 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
     Button Pay;
+    FrameLayout continue_shopping;
     TextView name,address,total_price,total,order_total;
     LoaderView loaderView;
     ArrayList<cartModel> arrayList;
@@ -81,10 +83,6 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
         dbHandler=new DBHandler(this);
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
@@ -113,6 +111,16 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });
+        continue_shopping=findViewById(R.id.continue_shopping);
+        continue_shopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
