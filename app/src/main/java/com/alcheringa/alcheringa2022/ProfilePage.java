@@ -507,14 +507,14 @@ public class ProfilePage extends AppCompatActivity{
 //        String hexColor = String.format("#%06X", (0xFFFFFF & color));
         int primary = getResources().getColor(R.color.primaryCol);
 
-        if (color == 0xffee6337) {
+        if (color == 0xff73D9ED) {
             t.setBackgroundResource(R.drawable.interests);
             t.setTextColor(Color.parseColor(String.format("#%06X", primary)));
             interests.remove(t.getText().toString());
 
         } else {
             t.setBackgroundResource(R.drawable.interests_highlighted);
-            t.setTextColor(Color.parseColor("#EE6337"));
+            t.setTextColor(Color.parseColor("#73D9ED"));
             interests.add(t.getText().toString());
         }
 

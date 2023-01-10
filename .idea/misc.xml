@@ -13,6 +13,7 @@
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/drawable/home.xml" value="0.214" />
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/drawable/interests.xml" value="0.165" />
+        <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/drawable/interests_highlighted.xml" value="0.1355" />
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/drawable/splash_screen.xml" value="0.236" />
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/layout/activity_cart.xml" value="0.23981481481481481" />
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/layout/activity_contact_us.xml" value="0.264" />
@@ -24,6 +25,8 @@
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/layout/activity_splash_screen.xml" value="0.24547101449275363" />
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/layout/activity_your_orders.xml" value="0.14375" />
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/layout/cart_item.xml" value="0.24537037037037038" />
+        <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/layout/checkout_new.xml" value="0.24314056563951034" />
+        <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/layout/order_summary_item.xml" value="0.24314056563951034" />
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/layout/your_orders_item.xml" value="0.14375" />
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/mipmap-anydpi-v26/alcher_logo.xml" value="0.1" />
         <entry key="..\:/AppOps/Alcheringa2022/app/src/main/res/mipmap-anydpi-v26/alcher_logo_23.xml" value="0.1" />
