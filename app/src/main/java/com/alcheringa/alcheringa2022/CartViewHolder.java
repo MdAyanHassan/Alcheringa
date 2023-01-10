@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -12,6 +13,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     ImageView imageView;
     TextView remove_btn;
     TextView count;
+    ConstraintLayout card;
     ImageView increment,decrement;
     com.alcheringa.alcheringa2022.onItemClick onItemClick;
     public CartViewHolder(@NonNull View itemView, com.alcheringa.alcheringa2022.onItemClick onItemClick) {
@@ -23,6 +25,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         imageView=itemView.findViewById(R.id.merch_image);
 //        remove_btn=itemView.findViewById(R.id.remove_btn);
         count=itemView.findViewById(R.id.quantity);
+        card = itemView.findViewById(R.id.bg_card);
         increment=itemView.findViewById(R.id.add);
         decrement=itemView.findViewById(R.id.subtract);
         this.onItemClick= onItemClick;
