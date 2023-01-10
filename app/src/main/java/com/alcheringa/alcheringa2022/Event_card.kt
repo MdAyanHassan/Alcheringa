@@ -1,6 +1,8 @@
 package com.alcheringa.alcheringa2022
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.core.Animatable
@@ -12,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -279,20 +282,32 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                         Row(modifier = Modifier.padding(12.dp)) {
 //
                             if (eventdetail.isLive.value) {
-                                Card(modifier = Modifier.wrapContentWidth(),
-                                    shape = RoundedCornerShape(8.dp),) {
+                                Card(
+                                    modifier = Modifier
+                                        .wrapContentWidth()
+                                    ,
+                                    shape = RoundedCornerShape(8.dp),
+                                    backgroundColor =
+                                    if (isSystemInDarkTheme()) {
+                                        liveGreenDark
+                                    } else {
+                                        liveGreen
+                                    }
+                                    ,
+                                ) {
                                     Box(
                                         modifier = Modifier
-                                            .width(52.dp)
-                                            .height(23.dp)
-                                            .background(
-                                                color = liveGreen
-                                            ), contentAlignment = Alignment.Center
+                                            .wrapContentSize()
+                                            .padding(horizontal = 6.dp, vertical = 2.dp)
+//
+                                        , contentAlignment = Alignment.Center
                                     ) {
                                         Text(
-                                            text = "⬤ LIVE",
-                                            color = Color.White,
-                                            fontSize = 12.sp
+                                            text = "● Live",
+                                            color = colors.background,
+                                            fontSize = 16.sp,
+                                            fontFamily = aileron,
+                                            fontWeight = FontWeight.Normal
                                         )
                                     }
                                 }
@@ -311,8 +326,8 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
 
                                         Image(
                                             modifier = Modifier
-                                                .width(30.dp)
-                                                .height(30.dp)
+                                                .width(35.dp)
+                                                .height(35.dp)
                                                 .clickable {
                                                     okstate.value = true
                                                     viewModelHm.OwnEventsWithLive.addNewItem(
@@ -332,8 +347,8 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                     if (okstate.value) {
                                         Image(
                                             modifier = Modifier
-                                                .width(30.dp)
-                                                .height(30.dp)
+                                                .width(35.dp)
+                                                .height(35.dp)
                                                 .clickable {
                                                     Log.d("boxevent", eventdetail.toString())
 // about the tick and plus symbol
@@ -367,8 +382,8 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
 
                                         Image(
                                             modifier = Modifier
-                                                .width(30.dp)
-                                                .height(30.dp)
+                                                .width(35.dp)
+                                                .height(35.dp)
                                                 .clickable {
                                                     okstate.value = true
                                                     viewModelHm.OwnEventsWithLive.addNewItem(
@@ -388,8 +403,8 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                     if (okstate.value) {
                                         Image(
                                             modifier = Modifier
-                                                .width(30.dp)
-                                                .height(30.dp)
+                                                .width(35.dp)
+                                                .height(35.dp)
                                                 .clickable {
                                                     Log.d("boxevent", eventdetail.toString())
 
@@ -423,74 +438,148 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                         modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.Bottom
                     ){
-                        Box(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top=12.dp, bottom=16.dp,start=16.dp,end=0.dp), contentAlignment = Alignment.BottomStart){
-                            Column {
-                                MarqueeText(text = eventdetail.eventdetail.artist, color = colors.onBackground, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, fontFamily = aileron, gradientEdgeColor = Color.Transparent)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .padding(start = 16.dp, end = 5.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth(0.73f)
+                                    .padding(bottom = 16.dp, top = 12.dp)
+                            ) {
+                                MarqueeText(
+                                    text = eventdetail.eventdetail.artist,
+                                    color = MaterialTheme.colors.onBackground,
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = aileron,
+                                    gradientEdgeColor = Color.Transparent
+                                )
                                 Spacer(modifier = Modifier.height(8.dp))
-    //                        Text(text = eventdetail.eventdetail.category, style = TextStyle(color = Color.Black,fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
-    //                            Text(text = "Time  |   Loc", style = TextStyle(color = Color.Black,fontFamily = aileron,fontWeight = FontWeight.Normal,fontSize = 12.sp))
+                                //                        Text(text = eventdetail.eventdetail.category, style = TextStyle(color = Color.Black,fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
+                                //                            Text(text = "Time  |   Loc", style = TextStyle(color = Color.Black,fontFamily = aileron,fontWeight = FontWeight.Normal,fontSize = 12.sp))
 
-                                    MarqueeText(
-                                        text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"}" + "   |   ${eventdetail.eventdetail.venue}",
-                                        style = TextStyle(
-                                            color = colors.onBackground,
-                                            fontFamily = aileron,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 12.sp,
-                                        ),
-                                        gradientEdgeColor = Color.Transparent
+                                MarqueeText(
+                                    text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} " + "   |   ${eventdetail.eventdetail.venue}",
+                                    style = TextStyle(
+                                        color = MaterialTheme.colors.onBackground,
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = 12.sp
+                                    ),
+                                    gradientEdgeColor = Color.Transparent
+                                )
+
+
+                                //                        if(eventdetail.eventdetail.stream) {
+                                //                            Text(
+                                //                                text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                //                                style = TextStyle(
+                                //                                    color = Color.Black,
+                                //                                    fontFamily = hk_grotesk,
+                                //                                    fontWeight = FontWeight.Normal,
+                                //                                    fontSize = 14.sp
+                                //                                )
+                                //                            )
+                                //                        }else if(!eventdetail.eventdetail.stream){
+                                //                            if(eventdetail.eventdetail.mode.replace("\\s".toRegex(), "").uppercase()=="OFFLINE" && eventdetail.eventdetail.category.replace("\\s".toRegex(), "").uppercase()!="Competitions".uppercase()){
+                                //                                Text(
+                                //                                    text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                //                                    style = TextStyle(
+                                //                                        color = Color.Black,
+                                //                                        fontFamily = hk_grotesk,
+                                //                                        fontWeight = FontWeight.Normal,
+                                //                                        fontSize = 14.sp
+                                //                                    )
+                                //                                )
+                                //                            }
+                                //                            else{
+                                //                                Spacer(modifier = Modifier.height(16.dp))
+                                //                            }
+                                //                        }
+                                //                        else{
+                                //                            Spacer(modifier = Modifier.height(16.dp))
+                                //                        }
+                                //                        Spacer(modifier = Modifier.height(4.dp))
+                                //                        Row {
+                                //                            Box(modifier = Modifier
+                                //                                .height(20.dp)
+                                //                                .width(20.dp)) {
+                                //                                Image(
+                                //                                    painter = if (eventdetail.eventdetail.mode.uppercase().contains("ONLINE")) {
+                                //                                        painterResource(id = R.drawable.online)
+                                //                                    } else {
+                                //                                        painterResource(id = R.drawable.onground)
+                                //                                    },
+                                //                                    contentDescription = null, modifier = Modifier.fillMaxSize(),alignment = Alignment.Center, contentScale =ContentScale.Crop
+                                //                                )
+                                //                            }
+                                //                            Spacer(modifier = Modifier.width(4.dp))
+                                //                            Text(text = eventdetail.eventdetail.mode.uppercase(),style = TextStyle(color = Color.Black,fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
+                                //                        }
+                            }
+
+                            var v = venuelist.find {
+                                it.name.replace("\\s".toRegex(), "")
+                                    .uppercase() == eventdetail.eventdetail.venue.replace(
+                                    "\\s".toRegex(),
+                                    ""
+                                ).uppercase()
+                            }
+                            if (v != null) {
+
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        val gmmIntentUri =
+                                            Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                        mapIntent.setPackage("com.google.android.apps.maps")
+                                        context.startActivity(mapIntent)
+
+                                    }, contentAlignment = Alignment.Center) {
+
+                                    val compositionbg by rememberLottieComposition(
+                                        LottieCompositionSpec.RawRes(
+                                            R.raw.navigatebganimm
+                                        )
                                     )
 
+                                    val progressbg by animateLottieCompositionAsState(
+                                        compositionbg, iterations = LottieConstants.IterateForever
+                                    )
+                                    LottieAnimation(
+                                        composition = compositionbg,
+                                        progress = progressbg,
 
-    //                        if(eventdetail.eventdetail.stream) {
-    //                            Text(
-    //                                text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
-    //                                style = TextStyle(
-    //                                    color = Color.Black,
-    //                                    fontFamily = hk_grotesk,
-    //                                    fontWeight = FontWeight.Normal,
-    //                                    fontSize = 14.sp
-    //                                )
-    //                            )
-    //                        }else if(!eventdetail.eventdetail.stream){
-    //                            if(eventdetail.eventdetail.mode.replace("\\s".toRegex(), "").uppercase()=="OFFLINE" && eventdetail.eventdetail.category.replace("\\s".toRegex(), "").uppercase()!="Competitions".uppercase()){
-    //                                Text(
-    //                                    text = "${eventdetail.eventdetail.starttime.date} Mar, ${if (eventdetail.eventdetail.starttime.hours > 12) "${eventdetail.eventdetail.starttime.hours - 12}" else eventdetail.eventdetail.starttime.hours}${if (eventdetail.eventdetail.starttime.min != 0) ":${eventdetail.eventdetail.starttime.min}" else ""} ${if (eventdetail.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
-    //                                    style = TextStyle(
-    //                                        color = Color.Black,
-    //                                        fontFamily = hk_grotesk,
-    //                                        fontWeight = FontWeight.Normal,
-    //                                        fontSize = 14.sp
-    //                                    )
-    //                                )
-    //                            }
-    //                            else{
-    //                                Spacer(modifier = Modifier.height(16.dp))
-    //                            }
-    //                        }
-    //                        else{
-    //                            Spacer(modifier = Modifier.height(16.dp))
-    //                        }
-    //                        Spacer(modifier = Modifier.height(4.dp))
-    //                        Row {
-    //                            Box(modifier = Modifier
-    //                                .height(20.dp)
-    //                                .width(20.dp)) {
-    //                                Image(
-    //                                    painter = if (eventdetail.eventdetail.mode.uppercase().contains("ONLINE")) {
-    //                                        painterResource(id = R.drawable.online)
-    //                                    } else {
-    //                                        painterResource(id = R.drawable.onground)
-    //                                    },
-    //                                    contentDescription = null, modifier = Modifier.fillMaxSize(),alignment = Alignment.Center, contentScale =ContentScale.Crop
-    //                                )
-    //                            }
-    //                            Spacer(modifier = Modifier.width(4.dp))
-    //                            Text(text = eventdetail.eventdetail.mode.uppercase(),style = TextStyle(color = Color.Black,fontFamily = hk_grotesk,fontWeight = FontWeight.Normal,fontSize = 14.sp))
-    //                        }
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(50.dp)
+                                    )
+
+                                    val compositionfg by rememberLottieComposition(
+                                        LottieCompositionSpec.RawRes(
+                                            R.raw.navigatefganimm
+                                        )
+                                    )
+
+                                    val progressfg by animateLottieCompositionAsState(
+                                        compositionfg, iterations = 3
+                                    )
+                                    LottieAnimation(
+                                        compositionfg,
+                                        progressfg,
+                                        modifier = Modifier.height(18.dp)
+                                    )
+
+                                }
                             }
+
+
                         }
                     }
                 }
