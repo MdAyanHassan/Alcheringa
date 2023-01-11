@@ -175,10 +175,10 @@ fun Event_card_Scaffold(
 
                                 alignment = Alignment.Center,
                                 shimmerParams = ShimmerParams(
-                                    baseColor = blackbg,
-                                    highlightColor = Color.LightGray,
-                                    durationMillis = 350,
-                                    dropOff = 0.65f,
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
                                     tilt = 20f
                                 ),
                                 failure = {

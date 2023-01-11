@@ -435,12 +435,12 @@ class MerchFragmentCompose : Fragment() {
                                         imageModel = dataEach.image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
                                         alignment = Alignment.Center,
                                         shimmerParams = ShimmerParams(
-                                            baseColor = Color.Transparent,
-                                            highlightColor = Color.LightGray,
-                                            durationMillis = 350,
-                                            dropOff = 0.65f,
-                                            tilt = 20f
-                                        ),failure = {
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
+                                    tilt = 20f
+                                ),failure = {
                                             Box(modifier= Modifier
                                                 .fillMaxWidth()
                                                 .fillMaxHeight(), contentAlignment = Alignment.Center) {
@@ -1292,10 +1292,10 @@ class MerchFragmentCompose : Fragment() {
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Fit,
                                         shimmerParams = ShimmerParams(
-                                            baseColor = Color.Black,
-                                            highlightColor = Color.LightGray,
-                                            durationMillis = 350,
-                                            dropOff = 0.65f,
+                                            baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                            highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                            durationMillis = 1500,
+                                            dropOff = 1f,
                                             tilt = 20f
                                         ), failure = {
                                             Box(
@@ -1378,10 +1378,10 @@ class MerchFragmentCompose : Fragment() {
                         imageModel = merch.image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
                         alignment = Alignment.Center,
                         shimmerParams = ShimmerParams(
-                            baseColor = if(isSystemInDarkTheme()) highBlack else highWhite,
-                            highlightColor = if(isSystemInDarkTheme()) midBlack else midWhite,
-                            durationMillis = 350,
-                            dropOff = 0.65f,
+                            baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                            highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                            durationMillis = 1500,
+                            dropOff = 1f,
                             tilt = 20f
                         ),failure = {
                             Box(

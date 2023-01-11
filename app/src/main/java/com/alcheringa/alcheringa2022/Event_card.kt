@@ -222,11 +222,11 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                 contentScale = ContentScale.Crop,
 
                                 alignment = Alignment.Center,
-                                shimmerParams = ShimmerParams(
-                                    baseColor = blackbg,
-                                    highlightColor = Color.LightGray,
-                                    durationMillis = 350,
-                                    dropOff = 0.65f,
+                               shimmerParams = ShimmerParams(
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
                                     tilt = 20f
                                 ),
                                 failure = {
