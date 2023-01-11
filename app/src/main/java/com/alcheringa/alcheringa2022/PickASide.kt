@@ -6,15 +6,17 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
+import java.security.AccessController.getContext
 
 
 class PickASide : AppCompatActivity() {
@@ -45,10 +47,10 @@ class PickASide : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pick_a_side)
 
-        sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE)
-
-        firebaseAuth = FirebaseAuth.getInstance()
-        firebaseFirestore = FirebaseFirestore.getInstance()
+//        sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE)
+//
+//        firebaseAuth = FirebaseAuth.getInstance()
+//        firebaseFirestore = FirebaseFirestore.getInstance()
 
         blackSideText = findViewById(R.id.black_side_text)
         whiteSideText = findViewById(R.id.white_side_text)
@@ -72,34 +74,44 @@ class PickASide : AppCompatActivity() {
 
     private fun submit() {
         if(!clickable) return
-        uploadToFirebase()
-        val editor = sharedPreferences!!.edit()
-        editor.putString("mode", status)
-        editor.apply()
+//        uploadToFirebase()
+//        val editor = sharedPreferences!!.edit()
+//        editor.putString("mode", status)
+//        editor.apply()
+        when (status) {
+            "white" -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_NO
+            )
+            "black" -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_YES
+            )
+        }
+        Toast.makeText(applicationContext, if (status=="black")"Welcome to the dark side!" else "The Alcher Lady welcomes you!", Toast.LENGTH_SHORT).show()
+
         startActivity(Intent(applicationContext, MainActivity::class.java))
         finish()
     }
 
-    private fun uploadToFirebase() {
-        //val data = hashMapOf("mode" to status)
-
-        val user = firebaseAuth.currentUser!!
-        val email = user.email!!
-        val doc = firebaseFirestore.collection("USERS").document(email)
-        doc
-            .update("mode",status)
-            //.set(data, SetOptions.merge())
-            .addOnSuccessListener {
-                Toast.makeText(this, if (status=="black")"Welcome to the dark side!" else "The Alcher Lady welcomes you!", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "Added side successfully to Firebase")
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to add your choice to database", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "Failed to add side to Firebase")
-            }
-
-
-    }
+//    private fun uploadToFirebase() {
+//        //val data = hashMapOf("mode" to status)
+//
+//        val user = firebaseAuth.currentUser!!
+//        val email = user.email!!
+//        val doc = firebaseFirestore.collection("USERS").document(email)
+//        doc
+//            .update("mode",status)
+//            //.set(data, SetOptions.merge())
+//            .addOnSuccessListener {
+//                Toast.makeText(this, if (status=="black")"Welcome to the dark side!" else "The Alcher Lady welcomes you!", Toast.LENGTH_SHORT).show()
+//                Log.d(TAG, "Added side successfully to Firebase")
+//            }
+//            .addOnFailureListener {
+//                Toast.makeText(this, "Failed to add your choice to database", Toast.LENGTH_SHORT).show()
+//                Log.d(TAG, "Failed to add side to Firebase")
+//            }
+//
+//
+//    }
 
     private fun click(color: String){
         if(!clickable || color==status) return
