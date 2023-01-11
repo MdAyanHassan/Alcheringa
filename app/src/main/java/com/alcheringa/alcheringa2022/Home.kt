@@ -1,26 +1,20 @@
 package com.alcheringa.alcheringa2022
 
+
 import ViewPagernew
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.*
-import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
@@ -37,45 +31,28 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.Placeable
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.util.lerp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.constraintlayout.widget.Constraints
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
@@ -85,21 +62,13 @@ import com.google.accompanist.pager.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.microsoft.identity.common.internal.cache.SharedPreferencesFileManager.getSharedPreferences
-
-
-
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
-import org.apache.commons.lang3.StringUtils.mid
 import java.util.*
 import kotlin.math.absoluteValue
-import kotlin.math.roundToInt
-
 
 
 /**
@@ -1466,8 +1435,7 @@ fun compbox(){
                                         }
                                     }
                                 })
-                            }
-                            ,
+                            },
                     ) {
                         //                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
                         //                            binding.logoAlcher.layoutParams.width=with(LocalDensity.current){162.dp.toPx().toInt()}
@@ -2070,8 +2038,10 @@ fun compbox(){
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
 
-        if (eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
-                .uppercase() == "Competitions".uppercase()
+        if ( // TODO: replace with below check, commented out temporarily for demonstrations
+            false
+//            eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
+//                .uppercase() == "Competitions".uppercase()
         )
         {
 
@@ -2243,7 +2213,10 @@ fun compbox(){
 //                    }
 //                }
 //            }
-            if (isFinished){
+            if (
+//                isFinished
+            false
+            ){
                 Button(
                     onClick = {},
                     Modifier
@@ -2284,7 +2257,7 @@ fun compbox(){
                         )
                     ) {
                         Text(
-                            text = "Navigate to venue",
+                            text = "Navigate▲",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = aileron,
@@ -2294,10 +2267,16 @@ fun compbox(){
 
                     }
 
-                    if (eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") {
+
                         Button(
                             onClick = {
                                 //TODO: Set Buy pass link
+                                startActivity(
+                                    Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("http://pass.alcheringa.in")
+                                    )
+                                )
 
                             },
                             Modifier
@@ -2312,7 +2291,7 @@ fun compbox(){
                         ) {
                             Text(
                                 text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
-                                else "Get your Passes",
+                                else "Get Passes",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 fontFamily = aileron,
@@ -2320,7 +2299,7 @@ fun compbox(){
                             )
 
                         }
-                    }
+
 
                 }
             }

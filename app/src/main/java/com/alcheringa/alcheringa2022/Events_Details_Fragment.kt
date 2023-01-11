@@ -243,8 +243,10 @@ class Events_Details_Fragment : Fragment() {
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
 
-        if (eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
-                .uppercase() == "Competitions".uppercase()
+        if ( // TODO: replace with below check, commented out temporarily for demonstrations
+            false
+//            eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
+//                .uppercase() == "Competitions".uppercase()
         )
         {
 
@@ -416,7 +418,10 @@ class Events_Details_Fragment : Fragment() {
 //                    }
 //                }
 //            }
-            if (isFinished){
+            if ( // TODO: replace with isfinished varibale, commented out temporarily for demonstrations
+//                isFinished
+                false
+            ){
                 Button(
                     onClick = {},
                     Modifier
@@ -436,32 +441,6 @@ class Events_Details_Fragment : Fragment() {
             }
             else if(eventWithLive.eventdetail.venue != "") {
                 Row {
-                    if (eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") {
-                        Button(
-                            onClick = {
-                                //TODO: Set Buy pass link
-
-                            },
-                            Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .height(72.dp)
-                                .border(1.dp, colors.onBackground),
-                            shape = RoundedCornerShape(0.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                colors.background
-                            )
-                        ) {
-                            Text(
-                                text = "Buy Tickets",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
-                                color = colors.onBackground
-                            )
-
-                        }
-                    }
 
                     Button(
                         onClick = {
@@ -479,19 +458,54 @@ class Events_Details_Fragment : Fragment() {
                             .border(1.dp, colors.onBackground),
                         shape = RoundedCornerShape(0.dp),
                         colors = ButtonDefaults.buttonColors(
-                            blu
+                            colors.background
                         )
                     ) {
                         Text(
-                            text = "Navigate to venue",
+                            text = "Navigate▲",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = aileron,
-                            color = black,
+                            color = colors.onBackground,
                             textAlign = TextAlign.Center
                         )
 
                     }
+
+
+                    Button(
+                        onClick = {
+                            //TODO: Set Buy pass link
+                            startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("http://pass.alcheringa.in")
+                                )
+                            )
+
+                        },
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .height(72.dp)
+                            .border(1.dp, colors.onBackground),
+                        shape = RoundedCornerShape(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            blu
+                        )
+                    ) {
+                        Text(
+                            text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
+                            else "Get Passes",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = aileron,
+                            color = colors.onBackground
+                        )
+
+                    }
+
+
                 }
             }
         }
