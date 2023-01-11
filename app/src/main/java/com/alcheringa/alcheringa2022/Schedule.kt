@@ -10,12 +10,8 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -28,8 +24,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
@@ -39,7 +36,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.viewModelHome
@@ -67,6 +63,7 @@ class Schedule : Fragment() {
 
     var firebaseFirestore: FirebaseFirestore? = null
     var sharedPreferences: SharedPreferences? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -794,15 +791,16 @@ class Schedule : Fragment() {
 
 //            Spacer(modifier = Modifier.height(16.dp))
 //            Log.d("XValue","hello! ${vert.value}")
+            val verticalscrollstate=rememberScrollState()
             Row(
                 Modifier
                     .width(1095.dp)
 //                    .width(3000.dp)
                     .height(975.dp)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(verticalscrollstate)
                     .background(color = bgcolor)
                     ){
-                timecolummn()
+                timecolummn(verticalscrollstate)
 
                 Row(
                     Modifier
@@ -814,11 +812,19 @@ class Schedule : Fragment() {
     }
 
     @Composable
-    fun timecolummn() {
+    fun timecolummn(state: ScrollState) {
         val headerbgcolor=if(isSystemInDarkTheme())Color(0xff1C1C1C)else Color(0xffFAFBF5)
         val colors=colors
+        var columnHeightpx by remember {
+            mutableStateOf(0f)
+        }
+        val localdensity=LocalDensity.current
+        val currentdisplayheight= with(localdensity){LocalConfiguration.current.screenHeightDp.dp.toPx()}
 
-        Column() {
+
+        Column(Modifier.width(54.dp).onGloballyPositioned { coordinates ->
+
+        }) {
 
             Canvas(
                 modifier = Modifier
@@ -832,7 +838,10 @@ class Schedule : Fragment() {
                 )
 
                 drawCircle(color=headerbgcolor, radius = 8.dp.toPx(), center = Offset(this.center.x-6.dp.toPx(),this.center.y+6.dp.toPx()))
-                drawCircle(color=colors.onBackground, radius = 6.dp.toPx(), center = Offset(this.center.x-8.dp.toPx(),this.center.y+6.dp.toPx()))
+
+
+
+//                drawCircle(color=colors.onBackground, radius = 6.dp.toPx(), center = Offset(this.center.x-8.dp.toPx(),( state.value+ 6.dp.toPx() +((state.value * currentdisplayheight)/2600f))))
             }
 
             Column(
@@ -935,6 +944,20 @@ class Schedule : Fragment() {
                     }
                 }
             }
+
+        }
+        Canvas(
+            modifier = Modifier
+                .width(16.dp)
+        ) {
+            drawCircle(
+                color = colors.onBackground,
+                radius = 6.dp.toPx(),
+                center = Offset(
+                    this.center.x - 61.dp.toPx(),
+                    (state.value + 6.dp.toPx() + ((state.value *(currentdisplayheight-250.dp.toPx())/(900.dp.toPx()-(currentdisplayheight-250.dp.toPx()))) ))
+                )
+            )
         }
     }
 
