@@ -71,6 +71,7 @@ public class NotificationActivity extends AppCompatActivity {
                             documentSnapshot.getDate("Timestamp")
                     ));
                 }
+                if(!list.isEmpty()){findViewById(R.id.emptynotificationview).setVisibility(View.GONE);}
                 notificationAdapter.notifyDataSetChanged();
             }else{
                 Log.d(TAG, "Error getting documents", task.getException());
