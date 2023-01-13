@@ -2976,7 +2976,7 @@ fun compbox(){
 
         ViewPagernew(modifier = Modifier
             .fillMaxWidth()
-            .height(280.dp)
+            .aspectRatio(1.54f)
         )
         {repeat(merch.size){page ->ViewPagerChild{
             Box(
@@ -2988,7 +2988,7 @@ fun compbox(){
                         .background(colors.background)
                         .coloredShadow(colors.secondaryVariant, 0.2f, 16.dp, 30.dp, 5.dp, 0.dp)
                         .fillMaxWidth()
-                        .height(200.dp)
+                        .aspectRatio(1.94f)
                         .padding(horizontal = 0.dp),
                     shape = RoundedCornerShape(16.dp),
                     backgroundColor = Color.Transparent,
@@ -3003,16 +3003,18 @@ fun compbox(){
                             //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
                             //                    .commit()
                         }
-                        .height(200.dp)
+
                         .fillMaxWidth()
+                        .aspectRatio(1.94f)
 
                     ) {
                         Image(
                             painter = painterResource(id = drbls[page]),
                             contentDescription = null,
                             Modifier
-                                .height(200.dp)
+
                                 .fillMaxWidth()
+                                .aspectRatio(1.94f)
                                 .align(Alignment.BottomCenter),
                             contentScale = ContentScale.Crop,
                             alignment = Alignment.Center
@@ -3039,7 +3041,7 @@ fun compbox(){
                                     Modifier
                                         .fillMaxWidth(0.5F)
                                         .fillMaxHeight()
-                                        .padding(top = 60.dp)
+                                    , verticalArrangement = Arrangement.SpaceEvenly
 
                                 ) {
                                     //                                Text(
@@ -3049,74 +3051,79 @@ fun compbox(){
                                     //                                    fontSize = 32.sp,
                                     //                                    fontFamily = star_guard,
                                     //                                )
-                                    Canvas(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        onDraw = {
-                                            drawIntoCanvas {
-                                                it.nativeCanvas.drawText(
-                                                    merch[page].name,
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaintStroke
-                                                )
-                                                it.nativeCanvas.drawText(
-                                                    merch[page].name,
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaint
-                                                )
+                                    Column(Modifier.padding(top=16.dp)) {
+                                        Canvas(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            onDraw = {
+                                                drawIntoCanvas {
+                                                    it.nativeCanvas.drawText(
+                                                        merch[page].name,
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaintStroke
+                                                    )
+                                                    it.nativeCanvas.drawText(
+                                                        merch[page].name,
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaint
+                                                    )
+                                                }
                                             }
-                                        }
-                                    )
-                                    Spacer(modifier = Modifier.height(4.dp))
-                                    Text(
-                                        text = merch[page].material,
-                                        color = black,
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 12.sp,
-                                        fontFamily = star_guard,
-                                    )
-                                    Spacer(modifier = Modifier.height(52.dp))
-                                    Canvas(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        onDraw = {
-                                            drawIntoCanvas {
-                                                it.nativeCanvas.drawText(
-                                                    "At just",
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaintStroke1
-                                                )
-                                                it.nativeCanvas.drawText(
-                                                    "At just",
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaint1
-                                                )
-                                            }
-                                        }
-                                    )
-                                    Spacer(modifier = Modifier.height(34.dp))
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            text = merch[page].material,
+                                            color = black,
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 12.sp,
+                                            fontFamily = star_guard,
+                                        )
 
-                                    Canvas(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        onDraw = {
-                                            drawIntoCanvas {
-                                                it.nativeCanvas.drawText(
-                                                    "Rs. " + merch[page].price,
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaintStroke2
-                                                )
-                                                it.nativeCanvas.drawText(
-                                                    "Rs. " + merch[page].price,
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaint2
-                                                )
+                                    }
+
+                                    Column {
+                                        Canvas(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            onDraw = {
+                                                drawIntoCanvas {
+                                                    it.nativeCanvas.drawText(
+                                                        "At just",
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaintStroke1
+                                                    )
+                                                    it.nativeCanvas.drawText(
+                                                        "At just",
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaint1
+                                                    )
+                                                }
                                             }
-                                        }
-                                    )
+                                        )
+                                        Spacer(modifier = Modifier.height(28.dp))
+
+                                        Canvas(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            onDraw = {
+                                                drawIntoCanvas {
+                                                    it.nativeCanvas.drawText(
+                                                        "Rs. " + merch[page].price,
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaintStroke2
+                                                    )
+                                                    it.nativeCanvas.drawText(
+                                                        "Rs. " + merch[page].price,
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaint2
+                                                    )
+                                                }
+                                            }
+                                        )
+                                    }
 
                                 }
 

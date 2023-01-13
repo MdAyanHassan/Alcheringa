@@ -161,10 +161,10 @@ class Events_Details_Fragment : Fragment() {
                         alignment = Alignment.Center,
                         contentScale = ContentScale.Crop,
                         shimmerParams = ShimmerParams(
-                            baseColor = Color.Black,
-                            highlightColor = orangeText,
-                            durationMillis = 350,
-                            dropOff = 0.65f,
+                            baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                            highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                            durationMillis = 1500,
+                            dropOff = 1f,
                             tilt = 20f
                         ), failure = {
                             Box(
