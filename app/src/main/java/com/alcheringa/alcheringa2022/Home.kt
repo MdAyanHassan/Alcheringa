@@ -167,7 +167,7 @@ class Home : Fragment() {
 
         homeViewModel.getfeaturedEvents()
         homeViewModel.getAllEvents()
-        homeViewModel.getMerchHome()
+//        homeViewModel.getMerchHome()
         homeViewModel.getMerchMerch()
 //        Log.d("vipin",eventslist.toString());
 //        homeViewModel.pushEvents(homeViewModel.AllEvents)
@@ -1690,6 +1690,9 @@ fun compbox(){
                             val drbls = listOf(
                                 R.drawable.merch_bg_1,
                                 R.drawable.merch_bg_2,
+                                R.drawable.merch_bg_3,
+                                R.drawable.merch_bg_1,
+                                R.drawable.merch_bg_2,
                                 R.drawable.merch_bg_3
                             )
                             if(homeViewModel.merchMerch.isNotEmpty()){
@@ -3141,7 +3144,7 @@ fun compbox(){
             ){
                 GlideImage(
                     modifier = Modifier
-                        .padding(end = 24.dp)
+                        .padding(end = 16.dp)
                         .fillMaxWidth(0.5f),
                     imageModel = merch[page].image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
                     alignment = Alignment.Center,
