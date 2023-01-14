@@ -833,7 +833,7 @@ class Schedule : Fragment() {
                 drawLine(
                     color = headerbgcolor,
                     start = Offset(0f, 0f),
-                    end = Offset(0f, 2600f),
+                    end = Offset(0f, 975.dp.toPx()),
                     strokeWidth = 16.dp.toPx()
                 )
 
