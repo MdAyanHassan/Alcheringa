@@ -161,14 +161,16 @@ class Home : Fragment() {
         fm=parentFragmentManager
 
         scheduleDatabase=ScheduleDatabase(context)
-        homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
+
+        if(homeViewModel.OwnEventsWithLiveState.isEmpty()){
+        homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)}
 
 
 
-        homeViewModel.getfeaturedEvents()
-        homeViewModel.getAllEvents()
+        if(homeViewModel.featuredEventsWithLivestate.isEmpty()) { homeViewModel.getfeaturedEvents() }
+        if(homeViewModel.allEventsWithLive.isEmpty()){ homeViewModel.getAllEvents() }
 //        homeViewModel.getMerchHome()
-        homeViewModel.getMerchMerch()
+        if(homeViewModel.merchMerch.isEmpty()){ homeViewModel.getMerchMerch() }
 //        Log.d("vipin",eventslist.toString());
 //        homeViewModel.pushEvents(homeViewModel.AllEvents)
 

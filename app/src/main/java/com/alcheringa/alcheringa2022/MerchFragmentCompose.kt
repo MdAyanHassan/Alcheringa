@@ -99,7 +99,7 @@ class MerchFragmentCompose : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        homeViewModel.getMerchMerch()
+        if(homeViewModel.merchMerch.isEmpty()) { homeViewModel.getMerchMerch() }
         dbHandler= DBHandler(requireContext())
     }
 
