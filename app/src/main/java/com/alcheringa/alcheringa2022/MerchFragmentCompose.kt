@@ -58,6 +58,8 @@ import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.merchModel
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.ui.theme.*
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.accompanist.pager.*
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -428,7 +430,8 @@ class MerchFragmentCompose : Fragment() {
 
                                     }
 
-                                    GlideImage(modifier = Modifier
+                                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(
+                                        DiskCacheStrategy.AUTOMATIC)},modifier = Modifier
                                         .fillMaxHeight()
                                         .align(Alignment.CenterVertically)
                                         .padding(vertical = 10.dp),
@@ -1285,7 +1288,7 @@ class MerchFragmentCompose : Fragment() {
                                         .padding(20.dp)
                                         .fillMaxWidth(), contentAlignment = Alignment.Center
                                 ) {
-                                    GlideImage(
+                                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
                                         imageModel = images[page],
                                         contentDescription = "artist",
                                         modifier = Modifier.fillMaxHeight(),
@@ -1371,7 +1374,7 @@ class MerchFragmentCompose : Fragment() {
                 ,
                 Alignment.Center){
                 Column(verticalArrangement = Arrangement.Center) {
-                    GlideImage(modifier = Modifier
+                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},modifier = Modifier
                         .fillMaxHeight()
                         .align(Alignment.CenterHorizontally)
                         .padding(vertical = 10.dp),

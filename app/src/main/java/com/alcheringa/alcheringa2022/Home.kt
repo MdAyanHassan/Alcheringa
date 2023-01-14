@@ -58,6 +58,8 @@ import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
 import com.alcheringa.alcheringa2022.databinding.FragmentHomeBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.accompanist.pager.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -634,7 +636,7 @@ class Home : Fragment() {
                                             .fillMaxHeight()
                                             .fillMaxWidth()
                                     ) {
-                                        GlideImage(
+                                        GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
                                             imageModel = eventdetails[page].eventdetail.imgurl,
                                             contentDescription = "artist",
                                             modifier = Modifier
@@ -957,7 +959,7 @@ fun compbox(){
                         .fillMaxWidth()
                         .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                     Column() {
-                        Text(fontFamily = aileron, fontWeight = FontWeight.W600, fontSize = 16.sp, color = colors.onBackground, text = "Explore our Competetions")
+                        Text(fontFamily = aileron, fontWeight = FontWeight.W600, fontSize = 16.sp, color = colors.onBackground, text = "Explore our competitions")
                         Spacer(Modifier.height(6.dp))
                         Text(fontFamily = aileron, fontWeight = FontWeight.W400, fontSize = 12.sp, color = colors.onBackground, text = "Register. Compete. Win")
                         Spacer(Modifier.height(12.dp))
@@ -1473,7 +1475,7 @@ fun compbox(){
                             ){
                                 Text(
 
-                                    text = "Competetions  ",
+                                    text = "competitions  ",
                                     fontFamily = aileron,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.Transparent,
@@ -1482,7 +1484,7 @@ fun compbox(){
                             }
                             Text(
 
-                                text = "Competetions",
+                                text = "competitions",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.Bold,
                                 color = colors.onBackground,
@@ -1900,7 +1902,7 @@ fun compbox(){
                     shape = RoundedCornerShape(28.dp, 28.dp),
 
                 ) {
-                    GlideImage(
+                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
                         imageModel = eventWithLive.eventdetail.imgurl,
                         contentDescription = "artist",
                         modifier = Modifier
@@ -1963,7 +1965,7 @@ fun compbox(){
                             }
 
                         }
-
+                        ,
                     )
                 }
 
@@ -2857,7 +2859,7 @@ fun compbox(){
 
                             }
 
-                            GlideImage(modifier = Modifier
+                            GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},modifier = Modifier
                                 .fillMaxHeight()
                                 .align(Alignment.CenterVertically)
                                 .padding(vertical = 10.dp),
@@ -3144,7 +3146,7 @@ fun compbox(){
                 Modifier.fillMaxSize(),
                 Alignment.TopEnd
             ){
-                GlideImage(
+                GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
                     modifier = Modifier
                         .padding(end = 16.dp)
                         .fillMaxWidth(0.5f),
@@ -3270,7 +3272,7 @@ fun compbox(){
                                                 .fillMaxHeight()
                                                 .fillMaxWidth()
                                         ) {
-                                            GlideImage(
+                                            GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
                                                 imageModel = eventdetails[page].eventdetail.imgurl,
                                                 contentDescription = "artist",
                                                 modifier = Modifier

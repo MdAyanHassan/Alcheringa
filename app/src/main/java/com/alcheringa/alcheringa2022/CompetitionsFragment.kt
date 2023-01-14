@@ -349,7 +349,7 @@ class CompetitionsFragment : Fragment() {
                                                 RoundedCornerShape(100.dp)
                                             ),
 //                        shape = RoundedCornerShape(100.dp),
-                                        placeholder = { Text("Search a competetion",) },
+                                        placeholder = { Text("Search a competition",) },
                                         leadingIcon = {Icon(Icons.Outlined.Search,"", tint =  if (isSystemInDarkTheme()) highWhite else midWhite)},
                                         value = searchtext.value,
                                         textStyle = TextStyle(
@@ -387,7 +387,7 @@ class CompetitionsFragment : Fragment() {
 
                                 if (searchtext.value != "" || tg.value != "") {
 
-                                   Events_row(heading ="Search Results" , events_list = searchlist)
+                                    Events_row(heading = "Search Results", events_list = searchlist)
                                     if (searchlist.isNotEmpty()) {
 
                                         LazyRow(
@@ -435,36 +435,37 @@ class CompetitionsFragment : Fragment() {
                                         }
                                     }
                                 }
+                                else{
 
-                                if (voguenationlist.isNotEmpty()) {
-                                    Events_row(heading = "Vogue Nation", voguenationlist)
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(voguenationlist) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                    if (voguenationlist.isNotEmpty()) {
+                                        Events_row(heading = "Vogue Nation", voguenationlist)
+                                        LazyRow(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                            contentPadding = PaddingValues(horizontal = 20.dp)
+                                        ) {
+                                            items(voguenationlist) { dataEach ->
+                                                context?.let {
+                                                    Event_card_Scaffold(
+                                                        eventdetail = dataEach,
+                                                        homeViewModel,
+                                                        it,
+                                                        "artist"
+                                                    ) {
+                                                        artist = dataEach.eventdetail.artist
+                                                        coroutineScope.launch {
+                                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                                bottomSheetScaffoldState.bottomSheetState.expand()
 
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                            } else {
+                                                                bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                            }
                                                         }
                                                     }
                                                 }
                                             }
                                         }
                                     }
-                                }
 
                                 if (classapartlist.isNotEmpty()) {
                                     Events_row(heading = "Class apart", classapartlist)
@@ -705,6 +706,7 @@ class CompetitionsFragment : Fragment() {
                                         }
                                     }
                                 }
+                            }
                             }
                         }
                     }

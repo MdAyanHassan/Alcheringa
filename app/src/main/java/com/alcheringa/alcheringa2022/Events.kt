@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Space
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -110,9 +111,39 @@ class Events : Fragment() {
 
 
 
+    lateinit var criticaldamageslist: List<eventWithLive>
+    lateinit var proniteslist : List<eventWithLive>
+    lateinit var proshowslist : List<eventWithLive>
+    lateinit var creatorscampslist: List<eventWithLive>
+    lateinit var humorfestslist : List<eventWithLive>
+    lateinit var camppaignslist : List<eventWithLive>
+
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fgm=parentFragmentManager
+
+
+        criticaldamageslist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Critical Damage".replace("\\s".toRegex(), "").uppercase()}
+
+        proniteslist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Pronites".replace("\\s".toRegex(), "").uppercase()}
+
+        proshowslist =homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Proshows".replace("\\s".toRegex(), "").uppercase()}
+
+        creatorscampslist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Creators' Camp".replace("\\s".toRegex(), "").uppercase()}
+
+        humorfestslist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Humor Fest".replace("\\s".toRegex(), "").uppercase()}
+
+        camppaignslist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Campaigns".replace("\\s".toRegex(), "").uppercase()}
     }
 
 
@@ -190,48 +221,54 @@ Alcheringa2022Theme() {
                     /*.background(Color.Black)*/
             ) {
                 if(searchtext.value!="" || tg.value!=""){
-                 searchresultrow(heading = "SEARCH RESULTS")
+                 searchresultrow(heading = "Search Results")
+                    Spacer(modifier = Modifier.height(435.dp))
+                }
+                  else {
+                    Events_row(heading = "Critical Damage", criticaldamageslist)
+                    Events_row(heading = "Pronites", proniteslist)
+                    Events_row(heading = "Proshows", proshowslist)
+                    Events_row(heading = "Creators' Camp", creatorscampslist)
+                    Events_row(heading = "Humor Fest", humorfestslist)
+                    Events_row(heading = "Campaigns", camppaignslist)
                 }
 
-                Events_row(heading = "Critical Damage")
-                Events_row(heading = "Pronites")
-                Events_row(heading = "Proshows")
-                Events_row(heading = "Creators' Camp")
-                Events_row(heading = "Humor Fest")
-                Events_row(heading = "Campaigns")
-                Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
-                    Box() {val alphaval= 0.2f
-                        Card(
-                            Modifier
-                                .height(10.dp)
-                                .offset(x = -5.dp, y = 16.dp)
-                                .alpha(alphaval),
-                            shape = RoundedCornerShape(100.dp),
-                            backgroundColor = textbg
 
-                        ){
-                            Text(
 
-                                text = "Competitions  ",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Transparent,
-                                fontSize = 21.sp
-                            )
-                        }
-                        Text(
 
-                            text = "Competitions",
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.Bold,
-                            color = colors.onBackground,
-                            fontSize = 21.sp
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(14.dp))
-                    imgcomp()
-
-                }
+//                Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
+//                    Box() {val alphaval= 0.2f
+//                        Card(
+//                            Modifier
+//                                .height(10.dp)
+//                                .offset(x = -5.dp, y = 16.dp)
+//                                .alpha(alphaval),
+//                            shape = RoundedCornerShape(100.dp),
+//                            backgroundColor = textbg
+//
+//                        ){
+//                            Text(
+//
+//                                text = "Competitions  ",
+//                                fontFamily = aileron,
+//                                fontWeight = FontWeight.Bold,
+//                                color = Color.Transparent,
+//                                fontSize = 21.sp
+//                            )
+//                        }
+//                        Text(
+//
+//                            text = "Competitions",
+//                            fontFamily = aileron,
+//                            fontWeight = FontWeight.Bold,
+//                            color = colors.onBackground,
+//                            fontSize = 21.sp
+//                        )
+//                    }
+//                    Spacer(modifier = Modifier.height(14.dp))
+//                    imgcomp()
+//
+//                }
 
 
             }
@@ -239,9 +276,7 @@ Alcheringa2022Theme() {
     }
 
     @Composable
-    fun Events_row(heading: String) {val alphaval= 0.2f
-        val list=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== heading.replace("\\s".toRegex(), "").uppercase()}
+    fun Events_row(heading: String,list:List<eventWithLive>) {val alphaval= 0.2f
         if (list.isNotEmpty()) {
             Box(
                 modifier = Modifier.padding(
@@ -307,20 +342,42 @@ Alcheringa2022Theme() {
     @Composable
     fun searchresultrow(heading: String) {
 
+        Box(
+            modifier = Modifier.padding(
+                horizontal = 20.dp,
+                vertical = 12.dp
+            )
+        ) {
             Box(
-                modifier = Modifier.padding(
-                    horizontal = 20.dp,
-                    vertical = 12.dp
-                )
             ) {
+                Card(
+                    Modifier
+                        .height(10.dp)
+                        .offset(x = -5.dp, y = 16.dp)
+                        .alpha(0.2f),
+                    shape = RoundedCornerShape(100.dp),
+                    backgroundColor = textbg
+
+                ){
+                    Text(
+
+                        text = ""+heading+"  ",
+                        fontFamily = aileron,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Transparent,
+                        fontSize = 21.sp
+                    )
+                }
                 Text(
+
                     text = heading,
-                    fontWeight = FontWeight.W600,
-                    fontSize = 16.sp,
-                    fontFamily = clash,
-                    color = colors.onBackground
+                    fontFamily = aileron,
+                    fontWeight = FontWeight.Bold,
+                    color = colors.onBackground,
+                    fontSize = 21.sp
                 )
             }
+        }
 if (searchlist.isNotEmpty()) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
@@ -483,7 +540,7 @@ if (searchlist.isNotEmpty()) {
                }
                 Full_view()
             },
-            sheetPeekHeight = if(tg.value=="" && searchtext.value=="")280.dp else 520.dp, sheetShape = RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp)
+            sheetPeekHeight = if(tg.value!="" || searchtext.value!="")520.dp else 280.dp, sheetShape = RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp)
         
         ){
             Box(
@@ -668,7 +725,7 @@ if (searchlist.isNotEmpty()) {
                     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                     mapIntent.setPackage("com.google.android.apps.maps")
                     startActivity(mapIntent)
-                }
+                },
                 )
             }
         }

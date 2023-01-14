@@ -43,6 +43,8 @@ import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.removeAnItem
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.ui.theme.*
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -168,7 +170,8 @@ fun Event_card_Scaffold(
                             .height(182.dp),
                     ) {
                         Card(shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)) {
-                            GlideImage(modifier = Modifier,
+                           GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
+                               modifier = Modifier,
                                 imageModel = eventdetail.eventdetail.imgurl,
                                 contentDescription = "artist",
                                 contentScale = ContentScale.Crop,

@@ -49,6 +49,8 @@ import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
 import com.alcheringa.alcheringa2022.databinding.ActivityEventDetailsBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
@@ -150,7 +152,8 @@ class Events_Details_Fragment : Fragment() {
                     shape = RoundedCornerShape(0.dp),
 
                     ) {
-                    GlideImage(
+                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(
+                        DiskCacheStrategy.AUTOMATIC)},
                         imageModel = eventWithLive.eventdetail.imgurl,
                         contentDescription = "artist",
                         modifier = Modifier
