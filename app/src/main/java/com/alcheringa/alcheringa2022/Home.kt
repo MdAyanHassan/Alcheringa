@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -573,50 +574,59 @@ class Home : Fragment() {
                         count = count,
                         modifier = hpm,
                         state = pagerState,
-                        contentPadding = PaddingValues(top = 0.dp, start = 5.dp, end = 40.dp, bottom = 0.dp),
+                        contentPadding = PaddingValues(top = 0.dp, start = 5.dp, end = 50.dp, bottom = 0.dp),
                         itemSpacing = (5.dp),
 
                         ) { page ->
+                        val widthparent=remember { mutableStateOf(0f)}
+                        val localdensity= LocalDensity.current
 
-
-                        Card(
-                            modifier = Modifier.clip(RoundedCornerShape(16.dp) )
-                             ,
-                            border = BorderStroke(1.5.dp, colors.onBackground),
-                            shape = RoundedCornerShape(16.dp)
+                       Box(
+                            modifier = Modifier.onGloballyPositioned { coordinates ->
+                                widthparent.value = with(localdensity){coordinates.size.width.dp.toPx()}
+                            }
+                                .fillMaxWidth()
+                                .aspectRatio(0.781f)
+                             , contentAlignment = if(calculateCurrentOffsetForPage(page)<=0)Alignment.CenterStart else Alignment.CenterEnd
 
                         ) {
                             Box() {
+                                val pageOffset =
+                                    calculateCurrentOffsetForPage(page).absoluteValue
+                                var widthfr= remember {mutableStateOf(0.12f)}
+                                if (pageOffset % 1f != 0f) {
+                                    widthfr.value =
+                                        lerp(
+                                            start = 0.12f,
+                                            stop = 1f,
+                                            fraction = 1f - (pageOffset.coerceIn(
+                                                0.0f,
+                                                1f
+                                            ))
+                                        )
+                                }
 
                                 Card(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .aspectRatio(0.781f)
-
+                                        .fillMaxWidth(if(0.01f>=pageOffset) 1f else widthfr.value)
                                         .graphicsLayer {
                                             // Calculate the absolute offset for the current page from the
                                             // scroll position. We use the absolute value which allows us to mirror
                                             // any effects for both directions
-                                            val pageOffset =
-                                                calculateCurrentOffsetForPage(page).absoluteValue
-                                            Log.d("pageoffsetpager", "$pageOffset")
 
-                                            transformOrigin = TransformOrigin(
-                                                if (calculateCurrentOffsetForPage(page) >= 0) 1f else
-                                                    0f,
-                                                0f
-                                            )
+                                            Log.d("pageoffsetpager", "$pageOffset")
                                             // We animate the scaleX + scaleY, between 85% and 100%
                                             lerp(
                                                 start = 0.11f,
                                                 stop = 1f,
                                                 fraction = 1f - (pageOffset.coerceIn(0.0f, 1f))
                                             ).also { scale ->
-                                                if (pageOffset % 1f != 0f) {
-                                                    scaleX =
-//                                                    if(calculateCurrentOffsetForPage(page)==0.0f) 1f else
-                                                        scale
-                                                }
+//                                                if (pageOffset % 1f != 0f) {
+//                                                    translationX=
+//                                                    if(calculateCurrentOffsetForPage(page)<0.0f) -widthparent.value*(1-(if(0.1f>=pageOffset) 1f else widthfr.value))
+//
+//                                                    else 0f
+//                                                }
                                                 //scaleY = scale
                                             }
 
@@ -627,7 +637,8 @@ class Home : Fragment() {
                                             //                                            stop = 1f,
                                             //                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
                                             //                                    )
-                                        },
+                                        }.clip(RoundedCornerShape(16.dp)).border(1.5.dp,colors.onBackground,RoundedCornerShape(16.dp)),
+
 
 
                                     ) {
@@ -727,33 +738,36 @@ class Home : Fragment() {
                                                 ,
                                             contentAlignment = Alignment.BottomStart
                                         ) {
+                                            val heightparent=remember{ mutableStateOf(0f) }
+                                            var heightoff= remember {mutableStateOf(0f)}
+
+                                                heightoff.value =
+                                                    lerp(
+                                                        start = 0f,
+                                                        stop = 1f,
+                                                        fraction = (pageOffset.coerceIn(
+                                                            0.0f,
+                                                            1f
+                                                        ))
+                                                    )
+
                                             Column(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .wrapContentHeight()
+                                                    .wrapContentHeight().onGloballyPositioned { coordinates ->
+                                                        heightparent.value = with(localdensity){coordinates.size.height.dp.toPx()}
+                                                    }
                                                     .graphicsLayer {
                                                         // Calculate the absolute offset for the current page from the
                                                         // scroll position. We use the absolute value which allows us to mirror
                                                         // any effects for both directions
-                                                        val pageOffset =
-                                                            calculateCurrentOffsetForPage(page).absoluteValue
 
-                                                        transformOrigin = TransformOrigin(0.5f, 1f)
-                                                        // We animate the scaleX + scaleY, between 85% and 100%
-                                                        lerp(
-                                                            start = 0f,
-                                                            stop = 1f,
-                                                            fraction = 1f - (pageOffset.coerceIn(
-                                                                0f,
-                                                                1f
-                                                            ))
-                                                        ).also { scale ->
                                                             if (pageOffset % 1f != 0f) {
-                                                                scaleY = scale
+                                                                translationY=heightoff.value*heightparent.value
                                                             }
                                                             //scaleY = scale
 
-                                                        }
+
                                                     }
                                                     .clip(
                                                         RoundedCornerShape(
@@ -771,6 +785,7 @@ class Home : Fragment() {
 
 
 
+
                                                 ,
                                                 horizontalAlignment = Alignment.Start
                                             ) {
@@ -784,16 +799,6 @@ class Home : Fragment() {
                                                     gradientEdgeColor = Color.Transparent,
                                                 )
                                                 Spacer(modifier = Modifier.height(0.dp))
-//                                                Text(
-//                                                    text = eventdetails[page].eventdetail.category,
-//                                                    style = TextStyle(
-//                                                        color = colorResource(id = R.color.White),
-//                                                        fontFamily = aileron,
-//                                                        fontWeight = FontWeight.Normal,
-//                                                        fontSize = 16.sp
-//                                                    )
-//                                                )
-//                                                Spacer(modifier = Modifier.height(4.dp))
 
                                                 Row() {
                                                     Text(
@@ -803,11 +808,10 @@ class Home : Fragment() {
                                                             fontFamily = aileron,
                                                             fontWeight = FontWeight.Normal,
                                                             fontSize = 16.sp,
-                                                        ),
+                                                        ),maxLines=1
 
                                                     )
 
-                                                    //Spacer(modifier = Modifier.width(4.dp))
                                                     MarqueeText(
                                                         text = " ${eventdetails[page].eventdetail.venue}",
                                                         style = TextStyle(
