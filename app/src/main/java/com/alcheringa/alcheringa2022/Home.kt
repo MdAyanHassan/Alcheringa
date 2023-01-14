@@ -751,6 +751,8 @@ class Home : Fragment() {
                                                         ))
                                                     )
 
+                                            if(0.9999f>pageOffset ){
+
                                             Column(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
@@ -822,6 +824,7 @@ class Home : Fragment() {
                                                         ),gradientEdgeColor = Color.Transparent
                                                     )
                                                 }
+                                            }
                                             }
 
                                         }
