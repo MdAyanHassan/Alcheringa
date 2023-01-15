@@ -1463,7 +1463,7 @@ fun compbox(){
                             ){
                                 Text(
 
-                                    text = "competitions  ",
+                                    text = "Competitions  ",
                                     fontFamily = aileron,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.Transparent,
@@ -1472,7 +1472,7 @@ fun compbox(){
                             }
                             Text(
 
-                                text = "competitions",
+                                text = "Competitions",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.Bold,
                                 color = colors.onBackground,
@@ -2069,17 +2069,17 @@ fun compbox(){
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(72.dp),
+                        .height(72.dp).border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        midWhite
+                        colors.background
                     )
                 ) {
                      Text(text="Event Finished!",
                          fontSize = 20.sp,
                          fontWeight = FontWeight.SemiBold,
                          fontFamily = aileron,
-                         color = black)
+                         color = colors.onSurface)
 //                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
 //                        Text(
 //                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
@@ -2216,17 +2216,17 @@ fun compbox(){
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(72.dp),
+                        .height(72.dp).border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        midWhite
+                        colors.background
                     )
                 ) {
                     Text(text="Event Finished!",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = aileron,
-                        color = black)
+                        color = colors.onSurface)
                 }
             }
             else if(eventWithLive.eventdetail.venue != "") {
