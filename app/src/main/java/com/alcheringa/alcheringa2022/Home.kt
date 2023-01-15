@@ -72,6 +72,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.math.absoluteValue
+import kotlin.math.sqrt
 
 
 /**
@@ -565,9 +566,9 @@ class Home : Fragment() {
                         .padding(start = 15.dp)
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .coloredShadow(colors.onBackground, 0.25f, 16.dp, 20.dp, -5.dp, -5.dp)
+//                        .coloredShadow(colors.onBackground, 0.25f, 16.dp, 20.dp, -5.dp, -5.dp)
                     else Modifier
-                        .padding(start = 15.dp)
+                        .padding(start = 15.dp,bottom=20.dp)
                         .fillMaxWidth()
                         .wrapContentHeight()
                     HorizontalPager(
@@ -581,6 +582,8 @@ class Home : Fragment() {
                         val widthparent=remember { mutableStateOf(0f)}
                         val localdensity= LocalDensity.current
 
+
+
                        Box(
                             modifier = Modifier.onGloballyPositioned { coordinates ->
                                 widthparent.value = with(localdensity){coordinates.size.width.dp.toPx()}
@@ -589,8 +592,15 @@ class Home : Fragment() {
                                 .aspectRatio(0.781f)
                              , contentAlignment = if(calculateCurrentOffsetForPage(page)<=0)Alignment.CenterStart else Alignment.CenterEnd
 
-                        ) {
-                            Box() {
+                        ) { val bmh=if(isSystemInDarkTheme()) Modifier else Modifier
+                           .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
+                           .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
+                           .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+                            Box(Modifier
+                                .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
+                                .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
+                                .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+                            ) {
                                 val pageOffset =
                                     calculateCurrentOffsetForPage(page).absoluteValue
                                 var widthfr= remember {mutableStateOf(0.12f)}
@@ -609,38 +619,8 @@ class Home : Fragment() {
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth(if(0.01f>=pageOffset) 1f else widthfr.value)
-                                        .graphicsLayer {
-                                            // Calculate the absolute offset for the current page from the
-                                            // scroll position. We use the absolute value which allows us to mirror
-                                            // any effects for both directions
-
-                                            Log.d("pageoffsetpager", "$pageOffset")
-                                            // We animate the scaleX + scaleY, between 85% and 100%
-                                            lerp(
-                                                start = 0.11f,
-                                                stop = 1f,
-                                                fraction = 1f - (pageOffset.coerceIn(0.0f, 1f))
-                                            ).also { scale ->
-//                                                if (pageOffset % 1f != 0f) {
-//                                                    translationX=
-//                                                    if(calculateCurrentOffsetForPage(page)<0.0f) -widthparent.value*(1-(if(0.1f>=pageOffset) 1f else widthfr.value))
-//
-//                                                    else 0f
-//                                                }
-                                                //scaleY = scale
-                                            }
-
-
-                                            //                                     We animate the alpha, between 50% and 100%
-                                            //                                    alpha = lerp(
-                                            //                                            start = 0.5f,
-                                            //                                            stop = 1f,
-                                            //                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                                            //                                    )
-                                        }.clip(RoundedCornerShape(16.dp)).border(1.5.dp,colors.onBackground,RoundedCornerShape(16.dp)),
-
-
-
+                                        .clip(RoundedCornerShape(16.dp)).border(1.5.dp,colors.onBackground,RoundedCornerShape(16.dp))
+                                       ,
                                     ) {
                                     Box(
                                         modifier = Modifier
@@ -740,6 +720,7 @@ class Home : Fragment() {
                                         ) {
                                             val heightparent=remember{ mutableStateOf(0f) }
                                             var heightoff= remember {mutableStateOf(0f)}
+                                            Log.d("pager2",calculateCurrentOffsetForPage(1).toString())
 
                                                 heightoff.value =
                                                     lerp(
@@ -765,7 +746,7 @@ class Home : Fragment() {
                                                         // any effects for both directions
 
                                                             if (pageOffset % 1f != 0f) {
-                                                                translationY=heightoff.value*heightparent.value
+                                                                translationY= (heightoff.value*heightoff.value*heightoff.value*heightparent.value)
                                                             }
                                                             //scaleY = scale
 
