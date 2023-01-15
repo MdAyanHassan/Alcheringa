@@ -183,5 +183,5 @@
     <color name="bordercolor">@color/MidWhite</color>
     <color name="separatorcolor">@color/MidWhite</color>
     <color name="barbgcolor">@color/HighWhite</color>
-
+    <color name="selectedtagcolor">@color/Blu</color>
 </resources>

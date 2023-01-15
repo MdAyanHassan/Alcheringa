@@ -21,5 +21,6 @@
     <color name="bordercolor">@color/MidBlack</color>
     <color name="separatorcolor">@color/HighBlack</color>
     <color name="barbgcolor">@color/HighBlack</color>
+    <color name="selectedtagcolor">@color/DarkBlu</color>
 
 </resources>

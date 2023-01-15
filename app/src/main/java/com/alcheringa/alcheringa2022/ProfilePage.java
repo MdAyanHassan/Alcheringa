@@ -506,15 +506,16 @@ public class ProfilePage extends AppCompatActivity{
         int color = t.getCurrentTextColor();
 //        String hexColor = String.format("#%06X", (0xFFFFFF & color));
         int primary = getResources().getColor(R.color.primaryCol);
+        int selectedtagcolor= getResources().getColor(R.color.selectedtagcolor);
 
-        if (color == 0xff73D9ED) {
+        if (color == selectedtagcolor) {
             t.setBackgroundResource(R.drawable.interests);
             t.setTextColor(Color.parseColor(String.format("#%06X", primary)));
             interests.remove(t.getText().toString());
 
         } else {
             t.setBackgroundResource(R.drawable.interests_highlighted);
-            t.setTextColor(Color.parseColor("#73D9ED"));
+            t.setTextColor(Color.parseColor(String.format("#%06X", selectedtagcolor)));
             interests.add(t.getText().toString());
         }
 
@@ -539,6 +540,7 @@ public class ProfilePage extends AppCompatActivity{
     }
 
     public void setInterests() {
+        int selectedtagcolor=getResources().getColor(R.color.selectedtagcolor);
         LinearLayout parent_l = findViewById(R.id.interests_layout);
         Log.d("TAG", "setInterests: we are here");
         if(interests.size() > 0){
@@ -549,7 +551,7 @@ public class ProfilePage extends AppCompatActivity{
                     String interest_name = t.getText().toString();
                     if(interests.contains(interest_name)){
                         t.setBackgroundResource(R.drawable.interests_highlighted);
-                        t.setTextColor(Color.parseColor("#73D9ED"));
+                        t.setTextColor(selectedtagcolor);
                     }
                 }
             }
