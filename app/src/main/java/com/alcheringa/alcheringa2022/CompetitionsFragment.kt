@@ -763,7 +763,7 @@ class CompetitionsFragment : Fragment() {
                             ) {
                                 val composition by rememberLottieComposition(
                                     LottieCompositionSpec.RawRes(
-                                        R.raw.comingsoon
+                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
                                     )
                                 )
                                 val progress by animateLottieCompositionAsState(

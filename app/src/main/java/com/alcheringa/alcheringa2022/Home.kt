@@ -657,7 +657,7 @@ class Home : Fragment() {
                                                     contentAlignment = Alignment.Center
                                                 ) {
                                                     val composition by rememberLottieComposition(
-                                                        LottieCompositionSpec.RawRes(R.raw.comingsoon)
+                                                        LottieCompositionSpec.RawRes(if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight)
                                                     )
                                                     val progress by animateLottieCompositionAsState(
                                                         composition,
@@ -1890,7 +1890,8 @@ fun compbox(){
                     shape = RoundedCornerShape(28.dp, 28.dp),
 
                 ) {
-                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
+                    GlideImage(
+                        requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC) },
                         imageModel = eventWithLive.eventdetail.imgurl,
                         contentDescription = "artist",
                         modifier = Modifier
@@ -1901,12 +1902,13 @@ fun compbox(){
                         alignment = Alignment.Center,
                         contentScale = ContentScale.Crop,
                         shimmerParams = ShimmerParams(
-                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
-                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
-                                    durationMillis = 1500,
-                                    dropOff = 1f,
-                                    tilt = 20f
-                                ), failure = {
+                            baseColor = if (isSystemInDarkTheme()) black else highWhite,
+                            highlightColor = if (isSystemInDarkTheme()) highBlack else white,
+                            durationMillis = 1500,
+                            dropOff = 1f,
+                            tilt = 20f
+                        ),
+                        failure = {
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -1914,7 +1916,7 @@ fun compbox(){
                             ) {
                                 val composition by rememberLottieComposition(
                                     LottieCompositionSpec.RawRes(
-                                        R.raw.comingsoon
+                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
                                     )
                                 )
                                 val progress by animateLottieCompositionAsState(
@@ -1952,8 +1954,7 @@ fun compbox(){
                                 //                            }
                             }
 
-                        }
-                        ,
+                        },
                     )
                 }
 
@@ -3290,7 +3291,7 @@ fun compbox(){
                                                         contentAlignment = Alignment.Center
                                                     ) {
                                                         val composition by rememberLottieComposition(
-                                                            LottieCompositionSpec.RawRes(R.raw.comingsoon)
+                                                            LottieCompositionSpec.RawRes(if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight)
                                                         )
                                                         val progress by animateLottieCompositionAsState(
                                                             composition,

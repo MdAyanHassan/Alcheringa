@@ -240,7 +240,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
 
                                         val composition by rememberLottieComposition(
                                             LottieCompositionSpec.RawRes(
-                                                R.raw.comingsoon
+                                                if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
                                             )
                                         )
                                         val progress by animateLottieCompositionAsState(
