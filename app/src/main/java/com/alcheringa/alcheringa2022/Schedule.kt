@@ -139,14 +139,14 @@ class Schedule : Fragment() {
     @Composable
     fun mySchedule() {
         val headerbgcolor=if(isSystemInDarkTheme())Color(0xff1C1C1C)else Color(0xffFAFBF5)
-        val bgcolor=if(isSystemInDarkTheme())Color(0xff2f2f2f)else Color(0xffababab)
+        val bgcolor=if(isSystemInDarkTheme())Color(0xff2f2f2f)else Color(0xffd7d7d7)
 
         Column() {
 
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
-                .background(colors.onBackground)
+                .background(bgcolor)
                 .padding(horizontal = 9.dp, vertical = 6.dp), contentAlignment = Alignment.Center) {
                 Row(
                     Modifier
@@ -177,12 +177,12 @@ class Schedule : Fragment() {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(text = "Day 0",
-                                    fontWeight = FontWeight.W400,
-                                    fontFamily = star_guard,
+                                    fontWeight = FontWeight.W900,
+                                    fontFamily = aileron,
                                     color = if (datestate.value == 0) colors.background else colors.onBackground,
 //                            color = color1,
 //                                color = bgcolor,
-                                    fontSize = 18.sp,
+                                    fontSize = 16.sp,
                                     modifier = Modifier.clickable {
                                         datestate.value = 0;
                                     })
@@ -208,12 +208,12 @@ class Schedule : Fragment() {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(text = "Day 1",
-                                    fontWeight = FontWeight.W400,
-                                    fontFamily = star_guard,
+                                    fontWeight = FontWeight.W900,
+                                    fontFamily = aileron,
                                     color =if(datestate.value==1)colors.background else colors.onBackground ,
 //                            color = color1,
 //                                color = bgcolor,
-                                    fontSize = 18.sp,
+                                    fontSize = 16.sp,
                                     modifier = Modifier.clickable {
                                         datestate.value = 1;
                                     })
@@ -254,12 +254,12 @@ class Schedule : Fragment() {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(text = "Day 2",
-                                    fontWeight = FontWeight.W400,
-                                    fontFamily = star_guard,
+                                    fontWeight = FontWeight.W900,
+                                    fontFamily = aileron,
                                     color =if(datestate.value==2)colors.background else colors.onBackground,
 //                            color = color1,
 //                                color = bgcolor,
-                                    fontSize = 18.sp,
+                                    fontSize = 16.sp,
                                     modifier = Modifier.clickable {
 
                                         datestate.value =2;
@@ -300,12 +300,12 @@ class Schedule : Fragment() {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(text = "Day 3",
-                                    fontWeight = FontWeight.W400,
-                                    fontFamily = star_guard,
+                                    fontWeight = FontWeight.W900,
+                                    fontFamily = aileron,
                                     color = if(datestate.value==3)colors.background else colors.onBackground,
 //                            color = color1,
 //                                color = bgcolor,
-                                    fontSize = 18.sp,
+                                    fontSize = 16.sp,
                                     modifier = Modifier.clickable {
                                         datestate.value = 3;
                                     })
@@ -337,7 +337,7 @@ class Schedule : Fragment() {
                     .horizontalScroll(horiscrollstate)
                     .background(color = bgcolor)
             ) {
-                Spacer(modifier = Modifier.width(65.dp))
+                Spacer(modifier = Modifier.width(76.dp))
                 Row(
                     Modifier
 //                        .width(1656.dp)
@@ -350,10 +350,9 @@ class Schedule : Fragment() {
                     .background(headerbgcolor), contentAlignment = Alignment.Center) {
                     Text(
                         text = "Auditorium",
-                        fontWeight = FontWeight.W400,
-                        fontSize = 20.sp,
-                        fontFamily = star_guard,
-                        style = TextStyle(letterSpacing = 0.5.sp),
+                        fontWeight = FontWeight.W600,
+                        fontSize = 16.sp,
+                        fontFamily = aileron,
                         color = colors.onBackground
                     )
                 }
@@ -364,10 +363,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Mini Auditorium",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -378,10 +376,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Expo Stage",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -392,10 +389,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "MCH",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -406,10 +402,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Behind Graffiti Wall",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -420,10 +415,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Football Field",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -434,10 +428,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Basketball Courts",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -449,10 +442,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Voley Ball Court",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -464,10 +456,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Library Shed",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -478,10 +469,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Lecture Hall 1",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -492,10 +482,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Lecture Hall 2",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -506,10 +495,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Lecture Hall 3",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -520,10 +508,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Lecture Hall 4",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -534,10 +521,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Rocko Stage",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -548,10 +534,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Pronite Stage",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -562,10 +547,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Conference Hall 1",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -576,10 +560,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Conference Hall 2",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -590,10 +573,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Conference Hall 3",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -604,10 +586,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Conference Hall 4",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -618,10 +599,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Core 1",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -632,10 +612,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Senate Hall",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -646,10 +625,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "OLD SAC WALL",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -660,10 +638,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "AUDI PARK",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -674,10 +651,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Near Lake \n( In front of Audi )",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -688,10 +664,9 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Entire Campus",
-                            fontWeight = FontWeight.W400,
-                            fontSize = 20.sp,
-                            fontFamily = star_guard,
-                            style = TextStyle(letterSpacing = 1.sp),
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
                             color = colors.onBackground
                         )
                     }
@@ -822,9 +797,12 @@ class Schedule : Fragment() {
         val currentdisplayheight= with(localdensity){LocalConfiguration.current.screenHeightDp.dp.toPx()}
 
 
-        Column(Modifier.width(54.dp).onGloballyPositioned { coordinates ->
+        Column(
+            Modifier
+                .width(65.dp)
+                .onGloballyPositioned { coordinates ->
 
-        }) {
+                }) {
 
             Canvas(
                 modifier = Modifier
@@ -846,7 +824,7 @@ class Schedule : Fragment() {
 
             Column(
                 Modifier
-                    .width(70.dp)
+                    .width(62.dp)
                     .padding(start = 0.dp)
                     .height(975.dp), verticalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -859,8 +837,8 @@ class Schedule : Fragment() {
                     ) {
                         Card(
                             modifier = Modifier
-                                .width(55.dp)
-                                .height(34.dp),
+                                .width(62.dp)
+                                .height(40.dp),
                             shape = AbsoluteRoundedCornerShape(topLeft = 0.dp, topRight = 50.dp, bottomLeft = 0.dp, bottomRight = 50.dp)
                         ) {
                             Box(
@@ -868,12 +846,12 @@ class Schedule : Fragment() {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "$time AM",
+                                    text = "$time am",
                                     style = TextStyle(
 //                                color = colorResource(id = R.color.textGray),
                                         color = colors.onBackground,
-                                        fontFamily = star_guard,
-                                        fontWeight = FontWeight.W400,
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.W700,
                                         fontSize = 14.sp
                                     )
                                 )
@@ -890,8 +868,8 @@ class Schedule : Fragment() {
                 ) {
                     Card(
                         modifier = Modifier
-                            .width(55.dp)
-                            .height(34.dp),
+                            .width(62.dp)
+                            .height(40.dp),
                         shape = AbsoluteRoundedCornerShape(topLeft = 0.dp, topRight = 50.dp, bottomLeft = 0.dp, bottomRight = 50.dp)
                     ) {
                         Box(
@@ -899,12 +877,12 @@ class Schedule : Fragment() {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "12 PM",
+                                text = "12 pm",
                                 style = TextStyle(
 //                        color = colorResource(id = R.color.textGray),
                                     color = colors.onBackground,
-                                    fontFamily = star_guard,
-                                    fontWeight = FontWeight.W400,
+                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.W700,
                                     fontSize = 14.sp
                                 )
                             )
@@ -921,8 +899,8 @@ class Schedule : Fragment() {
                     ) {
                         Card(
                             modifier = Modifier
-                                .width(55.dp)
-                                .height(34.dp),
+                                .width(62.dp)
+                                .height(40.dp),
                             shape = AbsoluteRoundedCornerShape(topLeft = 0.dp, topRight = 50.dp, bottomLeft = 0.dp, bottomRight = 50.dp)
                         ) {
                             Box(
@@ -930,12 +908,12 @@ class Schedule : Fragment() {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "$time PM",
+                                    text = "$time pm",
                                     style = TextStyle(
 //                            color = colorResource(id = R.color.textGray),\
                                         color = colors.onBackground,
-                                        fontFamily = star_guard,
-                                        fontWeight = FontWeight.W400,
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.W700,
                                         fontSize = 14.sp
                                     )
                                 )
@@ -954,7 +932,7 @@ class Schedule : Fragment() {
                 color = colors.onBackground,
                 radius = 6.dp.toPx(),
                 center = Offset(
-                    this.center.x - 61.dp.toPx(),
+                    this.center.x - 72.dp.toPx(),
                     (state.value + 6.dp.toPx() + ((state.value *(currentdisplayheight-250.dp.toPx())/(900.dp.toPx()-(currentdisplayheight-250.dp.toPx()))) ))
                 )
             )
@@ -963,6 +941,7 @@ class Schedule : Fragment() {
 
     @Composable
     fun fullscheduleBox() {
+        val linecolor=if(isSystemInDarkTheme()) Color.Black else Color(0xffA5B082)
 
         Box(
             Modifier
@@ -994,7 +973,7 @@ class Schedule : Fragment() {
 
                                ) {
                                    drawLine(
-                                       color = Color(0xff000000),
+                                       color = linecolor,
                                        start = Offset(100f, 0f),
                                        end = Offset(size.width, 0f),
                                        strokeWidth = 1.dp.toPx()
@@ -1020,7 +999,7 @@ class Schedule : Fragment() {
 
                            ) {
                                drawLine(
-                                   color = Color(0xff000000),
+                                   color = linecolor,
                                    start = Offset(100f, 0f),
                                    end = Offset(size.width, 0f),
                                    strokeWidth = 1.dp.toPx()
@@ -1043,7 +1022,7 @@ class Schedule : Fragment() {
 
                                ) {
                                    drawLine(
-                                       color = Color(0xff000000),
+                                       color = linecolor,
 //                                       color = Color.White,
                                        start = Offset(100f, 0f),
                                        end = Offset(size.width-6, 0f),
@@ -1053,7 +1032,7 @@ class Schedule : Fragment() {
                            }
                        }
                    }
-            val coloroverlay=if(isSystemInDarkTheme())Color(0x50000000)else Color(0x50ffffff)
+            val coloroverlay=if(isSystemInDarkTheme())Color(0x50000000)else Color(0x60DFE1D2)
             Box(modifier = Modifier
                 .offset(x = 36.dp)
                 .fillMaxHeight()
@@ -1311,7 +1290,7 @@ class Schedule : Fragment() {
                         color = Color(0xffF5C771),
                         start = Offset(0f, 0f),
                         end = Offset(0f, lengthdp.value.dp.toPx()),
-                        strokeWidth = 8.dp.toPx()
+                        strokeWidth = 16.dp.toPx()
                     )
                 }
 
@@ -1327,16 +1306,15 @@ class Schedule : Fragment() {
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.Top
             ) {
-                Text(
+                MarqueeText(
                     text = eventdetail.eventdetail.artist,
                     color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                     fontWeight = FontWeight.Bold,
                     fontFamily = aileron,
-                    fontSize = 16.sp,
-                    maxLines = 1
+                    fontSize = 16.sp,gradientEdgeColor = Color.Transparent
                 )
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(
+                MarqueeText(
                     text = eventdetail.eventdetail.category,
                     style = TextStyle(
 //                        color = colorResource(id = R.color.textGray),
@@ -1344,7 +1322,7 @@ class Schedule : Fragment() {
                         fontFamily = aileron,
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp
-                    )
+                    ),gradientEdgeColor = Color.Transparent
                 )
             }
         }

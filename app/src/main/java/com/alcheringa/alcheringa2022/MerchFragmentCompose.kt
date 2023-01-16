@@ -1308,7 +1308,7 @@ class MerchFragmentCompose : Fragment() {
                                             ) {
                                                 val composition by rememberLottieComposition(
                                                     LottieCompositionSpec.RawRes(
-                                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
+                                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoongray
                                                     )
                                                 )
                                                 val progress by animateLottieCompositionAsState(
