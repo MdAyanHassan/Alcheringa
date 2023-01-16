@@ -446,7 +446,7 @@ class MerchFragmentCompose : Fragment() {
                                 ),failure = {
                                             Box(modifier= Modifier
                                                 .fillMaxWidth()
-                                                .fillMaxHeight(), contentAlignment = Alignment.Center) {
+                                                .height(80.dp), contentAlignment = Alignment.Center) {
                                                 val composition by rememberLottieComposition(
                                                     LottieCompositionSpec.RawRes(R.raw.failure))
                                                 val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
@@ -1304,35 +1304,24 @@ class MerchFragmentCompose : Fragment() {
                                             Box(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .height(473.dp), contentAlignment = Alignment.Center
+                                                    .fillMaxHeight(), contentAlignment = Alignment.Center
                                             ) {
-                                                Column(
-                                                    Modifier
-                                                        .fillMaxWidth()
-                                                        .wrapContentHeight(),
-                                                    horizontalAlignment = Alignment.CenterHorizontally
-                                                ) {
-                                                    Image(
-                                                        modifier = Modifier
-                                                            .width(60.dp)
-                                                            .height(60.dp),
-                                                        painter = painterResource(
-                                                            id = R.drawable.ic_sad_svgrepo_com
-                                                        ),
-                                                        contentDescription = null
+                                                val composition by rememberLottieComposition(
+                                                    LottieCompositionSpec.RawRes(
+                                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
                                                     )
-                                                    Spacer(modifier = Modifier.height(10.dp))
-                                                    Text(
-                                                        text = "Image Request Failed",
-                                                        style = TextStyle(
-                                                            color = Color(0xFF747474),
-                                                            fontFamily = hk_grotesk,
-                                                            fontWeight = FontWeight.Normal,
-                                                            fontSize = 12.sp
-                                                        )
-                                                    )
-                                                }
+                                                )
+                                                val progress by animateLottieCompositionAsState(
+                                                    composition,
+                                                    iterations = LottieConstants.IterateForever
+                                                )
+                                                LottieAnimation(
+                                                    composition,
+                                                    progress,
+                                                    modifier = Modifier.fillMaxHeight()
+                                                )
                                             }
+
                                         }
                                     )
                                 }
@@ -1390,7 +1379,7 @@ class MerchFragmentCompose : Fragment() {
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .fillMaxHeight(), contentAlignment = Alignment.Center
+                                    .height(80.dp), contentAlignment = Alignment.Center
                             ) {
                                 val composition by rememberLottieComposition(
                                     LottieCompositionSpec.RawRes(R.raw.failure)
