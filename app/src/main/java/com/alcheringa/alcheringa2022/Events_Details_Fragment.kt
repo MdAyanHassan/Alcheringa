@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.TouchDelegate
 import android.view.View
 import android.widget.Toast
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -48,6 +49,8 @@ import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
 import com.alcheringa.alcheringa2022.databinding.ActivityEventDetailsBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
@@ -149,7 +152,8 @@ class Events_Details_Fragment : Fragment() {
                     shape = RoundedCornerShape(0.dp),
 
                     ) {
-                    GlideImage(
+                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(
+                        DiskCacheStrategy.AUTOMATIC)},
                         imageModel = eventWithLive.eventdetail.imgurl,
                         contentDescription = "artist",
                         modifier = Modifier
@@ -160,10 +164,10 @@ class Events_Details_Fragment : Fragment() {
                         alignment = Alignment.Center,
                         contentScale = ContentScale.Crop,
                         shimmerParams = ShimmerParams(
-                            baseColor = Color.Black,
-                            highlightColor = orangeText,
-                            durationMillis = 350,
-                            dropOff = 0.65f,
+                            baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                            highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                            durationMillis = 1500,
+                            dropOff = 1f,
                             tilt = 20f
                         ), failure = {
                             Box(
@@ -173,7 +177,7 @@ class Events_Details_Fragment : Fragment() {
                             ) {
                                 val composition by rememberLottieComposition(
                                     LottieCompositionSpec.RawRes(
-                                        R.raw.comingsoon
+                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
                                     )
                                 )
                                 val progress by animateLottieCompositionAsState(
@@ -217,7 +221,7 @@ class Events_Details_Fragment : Fragment() {
                 }
 
 
-                        Spacer(modifier = Modifier.height(8.dp))
+
 
 
                     }
@@ -242,8 +246,10 @@ class Events_Details_Fragment : Fragment() {
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
 
-        if (eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
-                .uppercase() == "Competitions".uppercase()
+        if ( // TODO: replace with below check, commented out temporarily for demonstrations
+            false
+//            eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
+//                .uppercase() == "Competitions".uppercase()
         )
         {
 
@@ -415,7 +421,10 @@ class Events_Details_Fragment : Fragment() {
 //                    }
 //                }
 //            }
-            if (isFinished){
+            if ( // TODO: replace with isfinished varibale, commented out temporarily for demonstrations
+//                isFinished
+                false
+            ){
                 Button(
                     onClick = {},
                     Modifier
@@ -435,32 +444,6 @@ class Events_Details_Fragment : Fragment() {
             }
             else if(eventWithLive.eventdetail.venue != "") {
                 Row {
-                    if (eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") {
-                        Button(
-                            onClick = {
-                                //TODO: Set Buy pass link
-
-                            },
-                            Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .height(72.dp)
-                                .border(1.dp, colors.onBackground),
-                            shape = RoundedCornerShape(0.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                colors.background
-                            )
-                        ) {
-                            Text(
-                                text = "Buy Tickets",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
-                                color = colors.onBackground
-                            )
-
-                        }
-                    }
 
                     Button(
                         onClick = {
@@ -478,19 +461,54 @@ class Events_Details_Fragment : Fragment() {
                             .border(1.dp, colors.onBackground),
                         shape = RoundedCornerShape(0.dp),
                         colors = ButtonDefaults.buttonColors(
-                            blu
+                            colors.background
                         )
                     ) {
                         Text(
-                            text = "Navigate to venue",
+                            text = "Navigate▲",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = aileron,
-                            color = black,
+                            color = colors.onBackground,
                             textAlign = TextAlign.Center
                         )
 
                     }
+
+
+                    Button(
+                        onClick = {
+                            //TODO: Set Buy pass link
+                            startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("http://pass.alcheringa.in")
+                                )
+                            )
+
+                        },
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .height(72.dp)
+                            .border(1.dp, colors.onBackground),
+                        shape = RoundedCornerShape(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            blu
+                        )
+                    ) {
+                        Text(
+                            text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
+                            else "Get Passes",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = aileron,
+                            color = colors.onBackground
+                        )
+
+                    }
+
+
                 }
             }
         }
@@ -523,7 +541,7 @@ class Events_Details_Fragment : Fragment() {
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)) {
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 //            Row(
 //                modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween)
 //            {
@@ -597,10 +615,12 @@ class Events_Details_Fragment : Fragment() {
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(18.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Row(modifier = Modifier.fillMaxWidth(),
-                Arrangement.SpaceBetween,) {
+                Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Row(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
@@ -627,37 +647,39 @@ class Events_Details_Fragment : Fragment() {
                         )
                     )
                 }
-
+                Spacer(modifier = Modifier.width(24.dp))
 
                 Box(modifier = Modifier
                     .height(40.dp)
                     .border(1.dp, colors.secondary)
+                    .animateContentSize()
                     .wrapContentWidth()
                     .background(
-                        if(isSystemInDarkTheme() && isadded.value){
+                        if (isSystemInDarkTheme() && isadded.value) {
                             Color(31, 89, 22, 255)
-                        }
-                        else if (isadded.value){
+                        } else if (isadded.value) {
                             green
-                        }
-                        else{
+                        } else {
                             colors.background
                         }
                     )
                 ){
                     if( !isadded.value) {
-                        Row(Modifier.clickable {
-                            isadded.value = true
-                            homeViewModel.OwnEventsWithLive.addNewItem(
-                                eventWithLive.eventdetail
-                            )
-                            scheduleDatabase.addEventsInSchedule(
-                                eventWithLive.eventdetail,
-                                context
-                            )
+                        Row(
+                            Modifier
+                                .clickable {
+                                    isadded.value = true
+                                    homeViewModel.OwnEventsWithLive.addNewItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                    scheduleDatabase.addEventsInSchedule(
+                                        eventWithLive.eventdetail,
+                                        context
+                                    )
 
 
-                        }.padding(10.dp))
+                                }
+                                .padding(10.dp))
                         {
 
                             Image(
@@ -670,24 +692,29 @@ class Events_Details_Fragment : Fragment() {
                                 colorFilter = ColorFilter.tint(colors.onBackground)
                             )
                             Spacer(Modifier.width(10.dp))
-                            Text(
+                            MarqueeText(
                                 text = "Add to Schedule",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.SemiBold,
                                 color = colors.onBackground,
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                gradientEdgeColor = Color.Transparent
                             )
                         }
 
                     }
                     if(isadded.value)
                     {
-                        Row(Modifier.clickable {
-                            isadded.value = false
-                            homeViewModel.OwnEventsWithLive.removeAnItem(
-                                eventWithLive.eventdetail
-                            )
-                            scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)}.padding(10.dp)
+                        Row(
+                            Modifier
+                                .clickable {
+                                    isadded.value = false
+                                    homeViewModel.OwnEventsWithLive.removeAnItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                }
+                                .padding(10.dp)
 
                         ) {
                             Image(
@@ -701,12 +728,14 @@ class Events_Details_Fragment : Fragment() {
                                 colorFilter = ColorFilter.tint(colors.onBackground)
                             )
                             Spacer(Modifier.width(10.dp))
-                            Text(
+                            MarqueeText(
                                 text = "Added to Schedule",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.SemiBold,
                                 color = colors.onBackground,
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                gradientEdgeColor = Color.Transparent
+
                             )
                         }
                     }
@@ -715,7 +744,7 @@ class Events_Details_Fragment : Fragment() {
 
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(28.dp))
             Text(text =eventfordes.eventdetail.descriptionEvent ,
                 fontFamily = aileron,
                 fontWeight = FontWeight.Normal,

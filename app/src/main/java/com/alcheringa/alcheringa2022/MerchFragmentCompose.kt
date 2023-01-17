@@ -58,6 +58,8 @@ import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.merchModel
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.ui.theme.*
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.accompanist.pager.*
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -99,7 +101,7 @@ class MerchFragmentCompose : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        homeViewModel.getMerchMerch()
+        if(homeViewModel.merchMerch.isEmpty()) { homeViewModel.getMerchMerch() }
         dbHandler= DBHandler(requireContext())
     }
 
@@ -428,22 +430,23 @@ class MerchFragmentCompose : Fragment() {
 
                                     }
 
-                                    GlideImage(modifier = Modifier
+                                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(
+                                        DiskCacheStrategy.AUTOMATIC)},modifier = Modifier
                                         .fillMaxHeight()
                                         .align(Alignment.CenterVertically)
                                         .padding(vertical = 10.dp),
                                         imageModel = dataEach.image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
                                         alignment = Alignment.Center,
                                         shimmerParams = ShimmerParams(
-                                            baseColor = Color.Transparent,
-                                            highlightColor = Color.LightGray,
-                                            durationMillis = 350,
-                                            dropOff = 0.65f,
-                                            tilt = 20f
-                                        ),failure = {
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
+                                    tilt = 20f
+                                ),failure = {
                                             Box(modifier= Modifier
                                                 .fillMaxWidth()
-                                                .fillMaxHeight(), contentAlignment = Alignment.Center) {
+                                                .height(80.dp), contentAlignment = Alignment.Center) {
                                                 val composition by rememberLottieComposition(
                                                     LottieCompositionSpec.RawRes(R.raw.failure))
                                                 val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
@@ -529,6 +532,7 @@ class MerchFragmentCompose : Fragment() {
 
         // Declaring Coroutine scope
         val coroutineScope = rememberCoroutineScope()
+        var scrollState = rememberScrollState()
 
 
 
@@ -553,411 +557,459 @@ class MerchFragmentCompose : Fragment() {
                             currentMerch.small
 
                     Box(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-
-                        ,
-                        Alignment.BottomCenter
+                        contentAlignment = Alignment.BottomCenter
                     ) {
-                        Box(
+                        Column(
                             Modifier
                                 .fillMaxWidth()
                                 .fillMaxHeight()
-                                .padding(top = 200.dp)
+                                .verticalScroll(scrollState),
                         ) {
-                            Card(
-                                shape = RoundedCornerShape(40.dp, 40.dp),
-                                border = BorderStroke(2.dp, colors.onBackground),
-                                backgroundColor = colors.background,
-                            ) {
-                                if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-                                    Column(
-                                        Modifier
-                                            .verticalScroll(rememberScrollState())
-                                            .fillMaxWidth()
-                                            .fillMaxHeight(0.5f)
-                                            .padding(
-                                                start = 30.dp,
-                                                end = 30.dp,
-                                                bottom = 80.dp,
-                                                top = 200.dp
-                                            ),
-                                    )
-                                    {
+                            Box() {
+                                Box(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight()
+                                        .padding(top = 200.dp)
 
-                                        Text(
-                                            currentMerch.name,
-                                            style = TextStyle(
-                                                fontFamily = aileron,
-                                                fontWeight = FontWeight.Bold,
-                                                fontSize = 24.sp,
-                                                color = colors.onBackground
+                                ) {
+                                    Card(
+                                        shape = RoundedCornerShape(40.dp, 40.dp),
+                                        border = BorderStroke(2.dp, colors.onBackground),
+                                        backgroundColor = colors.background,
+                                    ) {
+                                        if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                                            Column(
+                                                Modifier
+
+                                                    .fillMaxWidth()
+                                                    .fillMaxHeight(0.5f)
+                                                    .padding(
+                                                        start = 30.dp,
+                                                        end = 30.dp,
+                                                        bottom = 80.dp,
+                                                        top = 200.dp
+                                                    ),
                                             )
-                                        )
-                                        Spacer(modifier = Modifier.height(4.dp))
-                                        Text(
-                                            currentMerch.material,
-                                            style = TextStyle(
-                                                fontFamily = aileron,
-                                                fontWeight = FontWeight.Normal,
-                                                fontSize = 14.sp,
-                                                color = colors.secondaryVariant
-                                            )
-                                        )
-                                        Spacer(modifier = Modifier.height(12.dp))
-                                        Text(
-                                            "Rs. " + currentMerch.price,
-                                            style = TextStyle(
-                                                fontFamily = aileron,
-                                                fontWeight = FontWeight.Bold,
-                                                fontSize = 32.sp,
-                                                color = colors.onBackground
-                                            )
-                                        )
-                                        Spacer(modifier = Modifier.height(24.dp))
-                                        Row(
-                                            Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.SpaceBetween
-                                        ) {
-                                            Text(
-                                                "Select Sizes",
-                                                style = TextStyle(
-                                                    fontFamily = aileron,
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontSize = 14.sp,
-                                                    color = colors.onBackground
+                                            {
+
+                                                Text(
+                                                    currentMerch.name,
+                                                    style = TextStyle(
+                                                        fontFamily = aileron,
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 24.sp,
+                                                        color = colors.onBackground
+                                                    )
                                                 )
-                                            )
-                                            Text(
-                                                "Size chart",
-                                                style = TextStyle(
-                                                    fontFamily = aileron,
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontSize = 14.sp,
-                                                    color = blu
-                                                ),
-                                                modifier = Modifier.clickable {
-                                                    //                                            val intent1 = Intent(requireContext(), SizeChartActivity::class.java)
-                                                    //                                            intent1.putExtra("type",homeViewModel.merchMerch[index].material)
-                                                    //                                            startActivity(intent1)
-                                                    isSizeChartExpanded = !isSizeChartExpanded
+                                                Spacer(modifier = Modifier.height(4.dp))
+                                                Text(
+                                                    currentMerch.material,
+                                                    style = TextStyle(
+                                                        fontFamily = aileron,
+                                                        fontWeight = FontWeight.Normal,
+                                                        fontSize = 14.sp,
+                                                        color = colors.secondaryVariant
+                                                    )
+                                                )
+                                                Spacer(modifier = Modifier.height(12.dp))
+                                                Text(
+                                                    "Rs. " + currentMerch.price,
+                                                    style = TextStyle(
+                                                        fontFamily = aileron,
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 32.sp,
+                                                        color = colors.onBackground
+                                                    )
+                                                )
+                                                Spacer(modifier = Modifier.height(24.dp))
+                                                Row(
+                                                    Modifier.fillMaxWidth(),
+                                                    horizontalArrangement = Arrangement.SpaceBetween
+                                                ) {
+                                                    Text(
+                                                        "Select Sizes",
+                                                        style = TextStyle(
+                                                            fontFamily = aileron,
+                                                            fontWeight = FontWeight.Bold,
+                                                            fontSize = 14.sp,
+                                                            color = colors.onBackground
+                                                        )
+                                                    )
+                                                    Text(
+                                                        "Size chart",
+                                                        style = TextStyle(
+                                                            fontFamily = aileron,
+                                                            fontWeight = FontWeight.Bold,
+                                                            fontSize = 14.sp,
+                                                            color = blu
+                                                        ),
+                                                        modifier = Modifier.clickable {
+                                                            //                                            val intent1 = Intent(requireContext(), SizeChartActivity::class.java)
+                                                            //                                            intent1.putExtra("type",homeViewModel.merchMerch[index].material)
+                                                            //                                            startActivity(intent1)
+                                                            isSizeChartExpanded =
+                                                                !isSizeChartExpanded
+                                                        }
+                                                    )
+
+
                                                 }
-                                            )
+                                                Spacer(modifier = Modifier.height(20.dp))
+                                                Card(
+                                                    Modifier
+                                                        .wrapContentHeight()
+                                                        .animateContentSize(),
+                                                    shape = RoundedCornerShape(9.dp),
+                                                    border = BorderStroke(1.dp, colors.secondary)
+                                                ) {
+                                                    Box() {
+                                                        Column() {
+                                                            LazyRow(
+                                                                modifier = Modifier.height(42.dp)
+                                                            ) {
+                                                                itemsIndexed(sizes) { i, dataeach ->
+                                                                    context?.let {
+                                                                        var boxColor: Color =
+                                                                            if (!isAvailable[i]) {
+                                                                                midWhite
+                                                                            } else if (merchSize == dataeach) {
+                                                                                blu
+                                                                            } else {
+                                                                                colors.background
+                                                                            }
+                                                                        txtCol =
+                                                                            if (boxColor == blu) {
+                                                                                black
+                                                                            } else {
+                                                                                colors.onBackground
+                                                                            }
 
+                                                                        Box(
+                                                                            Modifier
+                                                                                .fillMaxHeight()
+                                                                                .fillParentMaxWidth(
+                                                                                    0.2f
+                                                                                )
+                                                                                .clickable {
+                                                                                    if (isAvailable[i]) {
+                                                                                        if (merchSize == dataeach) {
+                                                                                            merchSize =
+                                                                                                ""
+                                                                                        } else {
+                                                                                            merchSize =
+                                                                                                dataeach
+                                                                                        }
 
-                                        }
-                                        Spacer(modifier = Modifier.height(20.dp))
-                                        Card(
-                                            Modifier
-                                                .wrapContentHeight()
-                                                .animateContentSize(),
-                                            shape = RoundedCornerShape(9.dp),
-                                            border = BorderStroke(1.dp, colors.secondary)
-                                        ) {
-                                            Box() {
-                                                Column() {
-                                                    LazyRow(
-                                                        modifier = Modifier.height(42.dp)
-                                                    ) {
-                                                        itemsIndexed(sizes) { i, dataeach ->
-                                                            context?.let {
-                                                                var boxColor: Color =
-                                                                    if (!isAvailable[i]) {
-                                                                        midWhite
-                                                                    } else if (merchSize == dataeach) {
-                                                                        blu
-                                                                    } else {
-                                                                        colors.background
+                                                                                    }
+                                                                                }
+                                                                                .background(boxColor)
+                                                                                .border(
+                                                                                    0.5.dp,
+                                                                                    colors.secondary
+                                                                                )
+                                                                                .padding(horizontal = 4.dp),
+                                                                            Alignment.Center
+                                                                        ) {
+                                                                            Text(
+                                                                                dataeach,
+                                                                                style = TextStyle(
+                                                                                    fontFamily = aileron,
+                                                                                    fontWeight = FontWeight.Bold,
+                                                                                    fontSize = 16.sp,
+                                                                                    color = txtCol
+                                                                                ),
+
+                                                                                )
+                                                                        }
                                                                     }
-                                                                txtCol = if (boxColor == blu) {
-                                                                    black
-                                                                } else {
-                                                                    colors.onBackground
                                                                 }
 
-                                                                Box(
-                                                                    Modifier
-                                                                        .fillMaxHeight()
-                                                                        .fillParentMaxWidth(0.2f)
-                                                                        .clickable {
-                                                                            if (isAvailable[i]) {
-                                                                                if (merchSize == dataeach) {
-                                                                                    merchSize = ""
-                                                                                } else {
-                                                                                    merchSize =
-                                                                                        dataeach
-                                                                                }
-
-                                                                            }
-                                                                        }
-                                                                        .background(boxColor)
-                                                                        .border(
-                                                                            0.5.dp,
-                                                                            colors.secondary
-                                                                        )
-                                                                        .padding(horizontal = 4.dp),
-                                                                    Alignment.Center
+                                                            }
+                                                            if (isSizeChartExpanded) {
+                                                                Text(
+                                                                    "Length",
+                                                                    style = TextStyle(
+                                                                        fontFamily = aileron,
+                                                                        fontWeight = FontWeight.SemiBold,
+                                                                        fontSize = 12.sp,
+                                                                        color = colors.onBackground
+                                                                    ),
+                                                                    modifier = Modifier
+                                                                        .fillMaxWidth()
+                                                                        .padding(5.dp),
+                                                                    textAlign = TextAlign.Center
+                                                                )
+                                                                LazyRow(
+                                                                    modifier = Modifier.height(42.dp)
                                                                 ) {
-                                                                    Text(
-                                                                        dataeach,
-                                                                        style = TextStyle(
-                                                                            fontFamily = aileron,
-                                                                            fontWeight = FontWeight.Bold,
-                                                                            fontSize = 16.sp,
-                                                                            color = txtCol
-                                                                        ),
-
-                                                                        )
-                                                                }
-                                                            }
-                                                        }
-
-                                                    }
-                                                    if (isSizeChartExpanded) {
-                                                        Text(
-                                                            "Length",
-                                                            style = TextStyle(
-                                                                fontFamily = aileron,
-                                                                fontWeight = FontWeight.SemiBold,
-                                                                fontSize = 12.sp,
-                                                                color = colors.onBackground
-                                                            ),
-                                                            modifier = Modifier
-                                                                .fillMaxWidth()
-                                                                .padding(5.dp),
-                                                            textAlign = TextAlign.Center
-                                                        )
-                                                        LazyRow(
-                                                            modifier = Modifier.height(42.dp)
-                                                        ) {
-                                                            itemsIndexed(lengths) { i, dataeach ->
-                                                                context?.let {
-                                                                    boxColor =
-                                                                        if (!isAvailable[i]) {
-                                                                            midWhite
-                                                                        } else if (merchSize == sizes[i]) {
-                                                                            blu
-                                                                        } else {
-                                                                            colors.background
-                                                                        }
-                                                                    txtCol = if (boxColor == blu) {
-                                                                        black
-                                                                    } else {
-                                                                        colors.onBackground
-                                                                    }
-
-                                                                    Box(
-                                                                        Modifier
-                                                                            .fillMaxHeight()
-                                                                            .fillParentMaxWidth(0.2f)
-                                                                            .clickable {
-                                                                                if (isAvailable[i]) {
-                                                                                    if (merchSize == sizes[i]) {
-                                                                                        merchSize =
-                                                                                            ""
-                                                                                    } else {
-                                                                                        merchSize =
-                                                                                            sizes[i]
-                                                                                    }
-
+                                                                    itemsIndexed(lengths) { i, dataeach ->
+                                                                        context?.let {
+                                                                            boxColor =
+                                                                                if (!isAvailable[i]) {
+                                                                                    midWhite
+                                                                                } else if (merchSize == sizes[i]) {
+                                                                                    blu
+                                                                                } else {
+                                                                                    colors.background
                                                                                 }
-                                                                            }
-                                                                            .background(boxColor)
-                                                                            .border(
-                                                                                0.5.dp,
-                                                                                colors.secondary
-                                                                            )
-                                                                            .padding(horizontal = 8.dp),
-                                                                        Alignment.Center
-                                                                    ) {
-                                                                        Text(
-                                                                            dataeach,
-                                                                            style = TextStyle(
-                                                                                fontFamily = aileron,
-                                                                                fontWeight = FontWeight.SemiBold,
-                                                                                fontSize = 16.sp,
-                                                                                color = txtCol
-                                                                            ),
+                                                                            txtCol =
+                                                                                if (boxColor == blu) {
+                                                                                    black
+                                                                                } else {
+                                                                                    colors.onBackground
+                                                                                }
 
-                                                                            )
+                                                                            Box(
+                                                                                Modifier
+                                                                                    .fillMaxHeight()
+                                                                                    .fillParentMaxWidth(
+                                                                                        0.2f
+                                                                                    )
+                                                                                    .clickable {
+                                                                                        if (isAvailable[i]) {
+                                                                                            if (merchSize == sizes[i]) {
+                                                                                                merchSize =
+                                                                                                    ""
+                                                                                            } else {
+                                                                                                merchSize =
+                                                                                                    sizes[i]
+                                                                                            }
+
+                                                                                        }
+                                                                                    }
+                                                                                    .background(
+                                                                                        boxColor
+                                                                                    )
+                                                                                    .border(
+                                                                                        0.5.dp,
+                                                                                        colors.secondary
+                                                                                    )
+                                                                                    .padding(
+                                                                                        horizontal = 8.dp
+                                                                                    ),
+                                                                                Alignment.Center
+                                                                            ) {
+                                                                                Text(
+                                                                                    dataeach,
+                                                                                    style = TextStyle(
+                                                                                        fontFamily = aileron,
+                                                                                        fontWeight = FontWeight.SemiBold,
+                                                                                        fontSize = 16.sp,
+                                                                                        color = txtCol
+                                                                                    ),
+
+                                                                                    )
+                                                                            }
+                                                                        }
                                                                     }
                                                                 }
-                                                            }
-                                                        }
-                                                        Text(
-                                                            "Chest width (2x)",
-                                                            style = TextStyle(
-                                                                fontFamily = aileron,
-                                                                fontWeight = FontWeight.SemiBold,
-                                                                fontSize = 12.sp,
-                                                                color = colors.onBackground
-                                                            ),
-                                                            modifier = Modifier
-                                                                .fillMaxWidth()
-                                                                .padding(5.dp),
-                                                            textAlign = TextAlign.Center
-                                                        )
-                                                        LazyRow(
-                                                            modifier = Modifier.height(42.dp)
-                                                        ) {
-                                                            itemsIndexed(widths) { i, dataeach ->
-                                                                context?.let {
-                                                                    boxColor =
-                                                                        if (!isAvailable[i]) {
-                                                                            midWhite
-                                                                        } else if (merchSize == sizes[i]) {
-                                                                            blu
-                                                                        } else {
-                                                                            colors.background
-                                                                        }
-                                                                    txtCol = if (boxColor == blu) {
-                                                                        black
-                                                                    } else {
-                                                                        colors.onBackground
-                                                                    }
-
-                                                                    Box(
-                                                                        Modifier
-                                                                            .fillMaxHeight()
-                                                                            .fillParentMaxWidth(0.2f)
-                                                                            .clickable {
-                                                                                if (isAvailable[i]) {
-                                                                                    if (merchSize == sizes[i]) {
-                                                                                        merchSize =
-                                                                                            ""
-                                                                                    } else {
-                                                                                        merchSize =
-                                                                                            sizes[i]
-                                                                                    }
-
+                                                                Text(
+                                                                    "Chest width (2x)",
+                                                                    style = TextStyle(
+                                                                        fontFamily = aileron,
+                                                                        fontWeight = FontWeight.SemiBold,
+                                                                        fontSize = 12.sp,
+                                                                        color = colors.onBackground
+                                                                    ),
+                                                                    modifier = Modifier
+                                                                        .fillMaxWidth()
+                                                                        .padding(5.dp),
+                                                                    textAlign = TextAlign.Center
+                                                                )
+                                                                LazyRow(
+                                                                    modifier = Modifier.height(42.dp)
+                                                                ) {
+                                                                    itemsIndexed(widths) { i, dataeach ->
+                                                                        context?.let {
+                                                                            boxColor =
+                                                                                if (!isAvailable[i]) {
+                                                                                    midWhite
+                                                                                } else if (merchSize == sizes[i]) {
+                                                                                    blu
+                                                                                } else {
+                                                                                    colors.background
                                                                                 }
-                                                                            }
-                                                                            .background(boxColor)
-                                                                            .border(
-                                                                                0.5.dp,
-                                                                                colors.secondary
-                                                                            )
-                                                                            .padding(horizontal = 8.dp),
-                                                                        Alignment.Center
-                                                                    ) {
-                                                                        Text(
-                                                                            dataeach,
-                                                                            style = TextStyle(
-                                                                                fontFamily = aileron,
-                                                                                fontWeight = FontWeight.SemiBold,
-                                                                                fontSize = 16.sp,
-                                                                                color = txtCol
-                                                                            ),
+                                                                            txtCol =
+                                                                                if (boxColor == blu) {
+                                                                                    black
+                                                                                } else {
+                                                                                    colors.onBackground
+                                                                                }
 
-                                                                            )
+                                                                            Box(
+                                                                                Modifier
+                                                                                    .fillMaxHeight()
+                                                                                    .fillParentMaxWidth(
+                                                                                        0.2f
+                                                                                    )
+                                                                                    .clickable {
+                                                                                        if (isAvailable[i]) {
+                                                                                            if (merchSize == sizes[i]) {
+                                                                                                merchSize =
+                                                                                                    ""
+                                                                                            } else {
+                                                                                                merchSize =
+                                                                                                    sizes[i]
+                                                                                            }
+
+                                                                                        }
+                                                                                    }
+                                                                                    .background(
+                                                                                        boxColor
+                                                                                    )
+                                                                                    .border(
+                                                                                        0.5.dp,
+                                                                                        colors.secondary
+                                                                                    )
+                                                                                    .padding(
+                                                                                        horizontal = 8.dp
+                                                                                    ),
+                                                                                Alignment.Center
+                                                                            ) {
+                                                                                Text(
+                                                                                    dataeach,
+                                                                                    style = TextStyle(
+                                                                                        fontFamily = aileron,
+                                                                                        fontWeight = FontWeight.SemiBold,
+                                                                                        fontSize = 16.sp,
+                                                                                        color = txtCol
+                                                                                    ),
+
+                                                                                    )
+                                                                            }
+                                                                        }
                                                                     }
                                                                 }
-                                                            }
-                                                        }
-                                                        Text(
-                                                            "Across shoulder",
-                                                            style = TextStyle(
-                                                                fontFamily = aileron,
-                                                                fontWeight = FontWeight.SemiBold,
-                                                                fontSize = 12.sp,
-                                                                color = colors.onBackground
-                                                            ),
-                                                            modifier = Modifier
-                                                                .fillMaxWidth()
-                                                                .padding(5.dp),
-                                                            textAlign = TextAlign.Center
-                                                        )
-                                                        LazyRow(
-                                                            modifier = Modifier.height(42.dp)
-                                                        ) {
-                                                            itemsIndexed(shoulders) { i, dataeach ->
-                                                                context?.let {
-                                                                    var boxColor: Color =
-                                                                        if (!isAvailable[i]) {
-                                                                            midWhite
-                                                                        } else if (merchSize == sizes[i]) {
-                                                                            blu
-                                                                        } else {
-                                                                            colors.background
-                                                                        }
-                                                                    txtCol = if (boxColor == blu) {
-                                                                        black
-                                                                    } else {
-                                                                        colors.onBackground
-                                                                    }
-
-                                                                    Box(
-                                                                        Modifier
-                                                                            .fillMaxHeight()
-                                                                            .fillParentMaxWidth(0.2f)
-                                                                            .clickable {
-                                                                                if (isAvailable[i]) {
-                                                                                    if (merchSize == sizes[i]) {
-                                                                                        merchSize =
-                                                                                            ""
-                                                                                    } else {
-                                                                                        merchSize =
-                                                                                            sizes[i]
-                                                                                    }
-
+                                                                Text(
+                                                                    "Across shoulder",
+                                                                    style = TextStyle(
+                                                                        fontFamily = aileron,
+                                                                        fontWeight = FontWeight.SemiBold,
+                                                                        fontSize = 12.sp,
+                                                                        color = colors.onBackground
+                                                                    ),
+                                                                    modifier = Modifier
+                                                                        .fillMaxWidth()
+                                                                        .padding(5.dp),
+                                                                    textAlign = TextAlign.Center
+                                                                )
+                                                                LazyRow(
+                                                                    modifier = Modifier.height(42.dp)
+                                                                ) {
+                                                                    itemsIndexed(shoulders) { i, dataeach ->
+                                                                        context?.let {
+                                                                            var boxColor: Color =
+                                                                                if (!isAvailable[i]) {
+                                                                                    midWhite
+                                                                                } else if (merchSize == sizes[i]) {
+                                                                                    blu
+                                                                                } else {
+                                                                                    colors.background
                                                                                 }
-                                                                            }
-                                                                            .background(boxColor)
-                                                                            .border(
-                                                                                0.5.dp,
-                                                                                colors.secondary
-                                                                            )
-                                                                            .padding(horizontal = 8.dp),
-                                                                        Alignment.Center
-                                                                    ) {
-                                                                        Text(
-                                                                            dataeach,
-                                                                            style = TextStyle(
-                                                                                fontFamily = aileron,
-                                                                                fontWeight = FontWeight.SemiBold,
-                                                                                fontSize = 16.sp,
-                                                                                color = txtCol
-                                                                            ),
+                                                                            txtCol =
+                                                                                if (boxColor == blu) {
+                                                                                    black
+                                                                                } else {
+                                                                                    colors.onBackground
+                                                                                }
 
-                                                                            )
+                                                                            Box(
+                                                                                Modifier
+                                                                                    .fillMaxHeight()
+                                                                                    .fillParentMaxWidth(
+                                                                                        0.2f
+                                                                                    )
+                                                                                    .clickable {
+                                                                                        if (isAvailable[i]) {
+                                                                                            if (merchSize == sizes[i]) {
+                                                                                                merchSize =
+                                                                                                    ""
+                                                                                            } else {
+                                                                                                merchSize =
+                                                                                                    sizes[i]
+                                                                                            }
+
+                                                                                        }
+                                                                                    }
+                                                                                    .background(
+                                                                                        boxColor
+                                                                                    )
+                                                                                    .border(
+                                                                                        0.5.dp,
+                                                                                        colors.secondary
+                                                                                    )
+                                                                                    .padding(
+                                                                                        horizontal = 8.dp
+                                                                                    ),
+                                                                                Alignment.Center
+                                                                            ) {
+                                                                                Text(
+                                                                                    dataeach,
+                                                                                    style = TextStyle(
+                                                                                        fontFamily = aileron,
+                                                                                        fontWeight = FontWeight.SemiBold,
+                                                                                        fontSize = 16.sp,
+                                                                                        color = txtCol
+                                                                                    ),
+
+                                                                                    )
+                                                                            }
+                                                                        }
                                                                     }
                                                                 }
                                                             }
                                                         }
                                                     }
+
                                                 }
+
+                                                Spacer(modifier = Modifier.height(24.dp))
+                                                Text(
+                                                    "Product Description",
+                                                    style = TextStyle(
+                                                        fontFamily = aileron,
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 14.sp,
+                                                        color = colors.onBackground
+                                                    )
+                                                )
+                                                Spacer(modifier = Modifier.height(16.dp))
+                                                Text(
+                                                    currentMerch.description,
+                                                    style = TextStyle(
+                                                        fontFamily = aileron,
+                                                        fontWeight = FontWeight.Normal,
+                                                        fontSize = 14.sp,
+                                                        color = colors.onBackground
+                                                    )
+                                                )
+                                                Spacer(modifier = Modifier.height(32.dp))
+
                                             }
-
                                         }
-
-                                        Spacer(modifier = Modifier.height(24.dp))
-                                        Text(
-                                            "Product Description",
-                                            style = TextStyle(
-                                                fontFamily = aileron,
-                                                fontWeight = FontWeight.Bold,
-                                                fontSize = 14.sp,
-                                                color = colors.onBackground
-                                            )
-                                        )
-                                        Spacer(modifier = Modifier.height(16.dp))
-                                        Text(
-                                            currentMerch.description,
-                                            style = TextStyle(
-                                                fontFamily = aileron,
-                                                fontWeight = FontWeight.Normal,
-                                                fontSize = 14.sp,
-                                                color = colors.onBackground
-                                            )
-                                        )
-                                        Spacer(modifier = Modifier.height(32.dp))
-
                                     }
                                 }
+
+
+
+                                Box(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight()
+                                        .padding(vertical = 32.dp),
+                                    Alignment.TopCenter
+                                ) {
+                                    horizontalpager(
+                                        merModel = currentMerch,
+                                        context = requireContext(),
+                                        index
+                                    )
+                                }
+
+
                             }
                         }
-
                         Box(
                             Modifier
                                 .border(1.dp, colors.onBackground),
@@ -1067,24 +1119,6 @@ class MerchFragmentCompose : Fragment() {
                                 }
                             }
                         }
-
-                        Box(
-                            Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight()
-                                .padding(vertical = 32.dp)
-                            ,
-                            Alignment.TopCenter
-                        ){
-                            horizontalpager(
-                                merModel = currentMerch,
-                                context = requireContext(),
-                                index
-                            )
-                        }
-
-
-
                     }
 
 
@@ -1254,51 +1288,40 @@ class MerchFragmentCompose : Fragment() {
                                         .padding(20.dp)
                                         .fillMaxWidth(), contentAlignment = Alignment.Center
                                 ) {
-                                    GlideImage(
+                                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
                                         imageModel = images[page],
                                         contentDescription = "artist",
                                         modifier = Modifier.fillMaxHeight(),
                                         alignment = Alignment.Center,
                                         contentScale = ContentScale.Fit,
                                         shimmerParams = ShimmerParams(
-                                            baseColor = Color.Black,
-                                            highlightColor = Color.LightGray,
-                                            durationMillis = 350,
-                                            dropOff = 0.65f,
+                                            baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                            highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                            durationMillis = 1500,
+                                            dropOff = 1f,
                                             tilt = 20f
                                         ), failure = {
                                             Box(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .height(473.dp), contentAlignment = Alignment.Center
+                                                    .fillMaxHeight(), contentAlignment = Alignment.Center
                                             ) {
-                                                Column(
-                                                    Modifier
-                                                        .fillMaxWidth()
-                                                        .wrapContentHeight(),
-                                                    horizontalAlignment = Alignment.CenterHorizontally
-                                                ) {
-                                                    Image(
-                                                        modifier = Modifier
-                                                            .width(60.dp)
-                                                            .height(60.dp),
-                                                        painter = painterResource(
-                                                            id = R.drawable.ic_sad_svgrepo_com
-                                                        ),
-                                                        contentDescription = null
+                                                val composition by rememberLottieComposition(
+                                                    LottieCompositionSpec.RawRes(
+                                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoongray
                                                     )
-                                                    Spacer(modifier = Modifier.height(10.dp))
-                                                    Text(
-                                                        text = "Image Request Failed",
-                                                        style = TextStyle(
-                                                            color = Color(0xFF747474),
-                                                            fontFamily = hk_grotesk,
-                                                            fontWeight = FontWeight.Normal,
-                                                            fontSize = 12.sp
-                                                        )
-                                                    )
-                                                }
+                                                )
+                                                val progress by animateLottieCompositionAsState(
+                                                    composition,
+                                                    iterations = LottieConstants.IterateForever
+                                                )
+                                                LottieAnimation(
+                                                    composition,
+                                                    progress,
+                                                    modifier = Modifier.fillMaxHeight()
+                                                )
                                             }
+
                                         }
                                     )
                                 }
@@ -1340,23 +1363,23 @@ class MerchFragmentCompose : Fragment() {
                 ,
                 Alignment.Center){
                 Column(verticalArrangement = Arrangement.Center) {
-                    GlideImage(modifier = Modifier
+                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},modifier = Modifier
                         .fillMaxHeight()
                         .align(Alignment.CenterHorizontally)
                         .padding(vertical = 10.dp),
                         imageModel = merch.image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
                         alignment = Alignment.Center,
                         shimmerParams = ShimmerParams(
-                            baseColor = if(isSystemInDarkTheme()) highBlack else highWhite,
-                            highlightColor = if(isSystemInDarkTheme()) midBlack else midWhite,
-                            durationMillis = 350,
-                            dropOff = 0.65f,
+                            baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                            highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                            durationMillis = 1500,
+                            dropOff = 1f,
                             tilt = 20f
                         ),failure = {
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .fillMaxHeight(), contentAlignment = Alignment.Center
+                                    .height(80.dp), contentAlignment = Alignment.Center
                             ) {
                                 val composition by rememberLottieComposition(
                                     LottieCompositionSpec.RawRes(R.raw.failure)

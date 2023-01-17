@@ -60,6 +60,39 @@
 
     </ScrollView>
 
+
+    <LinearLayout
+        android:id="@+id/emptynotificationview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:contentDescription=""
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/emptynotification" />
+
+        <TextView
+            style="@style/tertiaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/aileron_bold"
+            android:text="No new notifications!"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 <!--    <com.alcheringa.alcheringa2022.LoaderView
         android:id="@+id/dots_progress"
         android:layout_width="match_parent"

@@ -43,6 +43,8 @@ import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
 import com.alcheringa.alcheringa2022.ui.theme.*
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -216,17 +218,17 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                             .height(182.dp),
                     ) {
                         Card(shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)) {
-                            GlideImage(modifier = Modifier,
+                            GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},modifier = Modifier,
                                 imageModel = eventdetail.eventdetail.imgurl,
                                 contentDescription = "artist",
                                 contentScale = ContentScale.Crop,
 
                                 alignment = Alignment.Center,
-                                shimmerParams = ShimmerParams(
-                                    baseColor = blackbg,
-                                    highlightColor = Color.LightGray,
-                                    durationMillis = 350,
-                                    dropOff = 0.65f,
+                               shimmerParams = ShimmerParams(
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
                                     tilt = 20f
                                 ),
                                 failure = {
@@ -238,7 +240,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
 
                                         val composition by rememberLottieComposition(
                                             LottieCompositionSpec.RawRes(
-                                                R.raw.comingsoon
+                                                if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
                                             )
                                         )
                                         val progress by animateLottieCompositionAsState(

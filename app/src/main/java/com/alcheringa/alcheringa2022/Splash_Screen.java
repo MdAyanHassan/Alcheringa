@@ -8,12 +8,15 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -38,7 +41,14 @@ public class Splash_Screen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        }
         setContentView(R.layout.activity_splash_screen);
         videoView=findViewById(R.id.videoview);
         videoView.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.splash_screen));

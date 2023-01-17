@@ -8,13 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -26,11 +31,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -79,6 +86,12 @@ class CompetitionsFragment : Fragment() {
     lateinit var lighcameraactionlist: List<eventWithLive>
     lateinit var eventfordes: eventWithLive
     lateinit var  scheduleDatabase:ScheduleDatabase
+    val taglist= listOf("💃  Dance","🎵  Music", "🎭  Stagecraft", "🕶  Vogue nation", "🙋‍  Class apart", "🎨  Art talkies", "📖  Literature","💻  Digital Dexterity", "🎥  Lights camera action","🌐  Informal")
+
+
+    val searchlist = mutableStateListOf<eventWithLive>()
+    var tg= mutableStateOf("")
+    var searchtext= mutableStateOf("")
 
 
 
@@ -190,41 +203,46 @@ class CompetitionsFragment : Fragment() {
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun Events_row(heading: String,events_list:List<eventWithLive>) {
-
+        val alphaval= 0.2f
+        Spacer(modifier = Modifier.height(20.dp))
        if (events_list.isNotEmpty()){
-           Spacer(modifier = Modifier.height(36.dp))
-        Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
-            Box(
-            ) {
-                Card(
-                    Modifier
-                        .height(10.dp)
-                        .offset(x = -5.dp, y = 16.dp)
-                        .alpha(0.4f),
-                    shape = RoundedCornerShape(100.dp),
-                    backgroundColor = orangeText
+           Box(
+               modifier = Modifier.padding(
+                   horizontal = 20.dp,
+                   vertical = 12.dp
+               )
+           ) {
+               Box(
+               ) {
+                   Card(
+                       Modifier
+                           .height(10.dp)
+                           .offset(x = -5.dp, y = 16.dp)
+                           .alpha(alphaval),
+                       shape = RoundedCornerShape(100.dp),
+                       backgroundColor = textbg
 
-                ){
-                    Text(
+                   ){
+                       Text(
 
-                        text = "  "+heading.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }+"  ",
-                        fontFamily = aileron,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Transparent,
-                        fontSize = 21.sp
-                    )
-                }
-                Text(
+                           text = ""+heading+"  ",
+                           fontFamily = aileron,
+                           fontWeight = FontWeight.Bold,
+                           color = Color.Transparent,
+                           fontSize = 21.sp
+                       )
+                   }
+                   Text(
 
-                    text = heading.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
-                    fontFamily = aileron,
-                    fontWeight = FontWeight.Bold,
-                    color = colors.onBackground,
-                    fontSize = 21.sp
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(10.dp))}
+                       text = heading,
+                       fontFamily = aileron,
+                       fontWeight = FontWeight.Bold,
+                       color = colors.onBackground,
+                       fontSize = 21.sp
+                   )
+               }
+           }
+        Spacer(modifier = Modifier.height(0.dp))}
     }
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
@@ -252,8 +270,8 @@ class CompetitionsFragment : Fragment() {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .fillMaxHeight(0.75f)
-                            .border(4.dp, colors.secondary, RoundedCornerShape(40.dp, 40.dp))
+                            .fillMaxHeight(0.95f)
+                            .border(2.dp, colors.secondary, RoundedCornerShape(40.dp, 40.dp))
                     ) {
                         Box(
                             Modifier
@@ -266,7 +284,7 @@ class CompetitionsFragment : Fragment() {
                                 painterResource(id = R.drawable.rectangle_expand), "",
                                 Modifier
                                     .width(60.dp)
-                                    .height(5.dp), tint = Color(0xffacacac)
+                                    .height(5.dp), tint = colors.onSurface
                             )
                         }
                         Column(
@@ -281,14 +299,15 @@ class CompetitionsFragment : Fragment() {
                                 scheduleDatabase = ScheduleDatabase(context)
 
                                 Defaultimg(eventWithLive = eventfordes)
-//                                if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
-//                                        .uppercase() == "Competitions".uppercase()
-//                                ) {
-//                                    Bottomviewcomp(eventWithLive = eventfordes)
-//                                } else {
-//                                    Bottomviewnewevent(eventWithLive = eventfordes)
-//                                }
+//                            if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
+//                                    .uppercase() == "Competitions".uppercase()
+//                            ) {
+//                                Bottomviewcomp(eventWithLive = eventfordes)
+//                            } else {
+//                                Bottomviewnewevent(eventWithLive = eventfordes)
+//                            }
                                 Bottomviewcomp(eventWithLive = eventfordes)
+
                                 Spacer(modifier = Modifier.height(0.dp))
                             }
                         }
@@ -308,31 +327,381 @@ class CompetitionsFragment : Fragment() {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .verticalScroll(rememberScrollState())
+
                             /*.background(Color.Black)*/
                         ) {
-                            if(voguenationlist.isNotEmpty()){
-                                Events_row(heading = "VOGUE NATION", voguenationlist)
-                                LazyRow(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    contentPadding = PaddingValues(horizontal = 20.dp)
-                                ) {
-                                    items(voguenationlist) { dataEach ->
-                                        context?.let {
-                                            Event_card_Scaffold(
-                                                eventdetail = dataEach,
-                                                homeViewModel,
-                                                it,
-                                                "artist"
-                                            ) {
-                                                artist = dataEach.eventdetail.artist
-                                                coroutineScope.launch {
-                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                        bottomSheetScaffoldState.bottomSheetState.expand()
 
-                                                    } else {
-                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                            Column( modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .padding(top = 5.dp) ) {
+                                val keyboardController = LocalSoftwareKeyboardController.current
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight()
+                                    .padding(horizontal = 15.dp,)){
+                                    TextField(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .wrapContentHeight()
+                                            .clip(RoundedCornerShape(100.dp))
+                                            .border(
+                                                1.dp,
+                                                if (isSystemInDarkTheme()) highWhite else midWhite,
+                                                RoundedCornerShape(100.dp)
+                                            ),
+//                        shape = RoundedCornerShape(100.dp),
+                                        placeholder = { Text("Search a competition",) },
+                                        leadingIcon = {Icon(Icons.Outlined.Search,"", tint =  if (isSystemInDarkTheme()) highWhite else midWhite)},
+                                        value = searchtext.value,
+                                        textStyle = TextStyle(
+                                            fontFamily = aileron,
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 16.sp,),
+                                        onValueChange = { v: String -> searchtext.value = v;filterlist() },
+                                        keyboardOptions = KeyboardOptions(autoCorrect = false, imeAction = ImeAction.Search),
+                                        keyboardActions = KeyboardActions(onSearch = {keyboardController?.hide();filterlist()}),
+                                        singleLine = true,
+
+
+                                        colors = TextFieldDefaults.textFieldColors(
+                                            backgroundColor = colors.background,
+                                            textColor = colors.onBackground,
+                                            placeholderColor = Color(0xffacacac),
+                                            cursorColor = colors.onBackground,
+                                            focusedIndicatorColor = Color.Transparent,
+                                            disabledIndicatorColor = Color.Transparent,
+                                            unfocusedIndicatorColor = Color.Transparent,
+                                            errorIndicatorColor = Color.Transparent
+                                        )
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(15.dp))
+                                tags()
+                                Spacer(modifier = Modifier.height(15.dp))
+                             Divider(color= colorResource(id = R.color.bordercolor), thickness = 1.dp)
+
+                            }
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .verticalScroll(rememberScrollState()).offset(y=-6.dp)) {
+
+                                if (searchtext.value != "" || tg.value != "") {
+
+                                    Events_row(heading = "Search Results", events_list = searchlist)
+                                    if (searchlist.isNotEmpty()) {
+
+                                        LazyRow(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                            contentPadding = PaddingValues(horizontal = 20.dp)
+                                        ) {
+                                            items(searchlist) { dataEach ->
+                                                context?.let {
+                                                    Event_card_Scaffold(
+                                                        eventdetail = dataEach,
+                                                        homeViewModel,
+                                                        it,
+                                                        "artist"
+                                                    ) {
+                                                        artist = dataEach.eventdetail.artist
+                                                        coroutineScope.launch {
+                                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                                bottomSheetScaffoldState.bottomSheetState.expand()
+                                                            } else {
+                                                                bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Box(
+                                            modifier = Modifier.padding(
+                                                horizontal = 20.dp,
+                                            )
+                                        ) {
+                                            Text(
+                                                text = "No results found for \"${searchtext.value} ${
+                                                    tg.value.drop(
+                                                        3
+                                                    )
+                                                }\"",
+                                                color = colors.onBackground,
+                                                fontSize = 16.sp,
+                                                fontWeight = FontWeight.Normal,
+                                                fontFamily = aileron
+                                            )
+                                        }
+                                    }
+                                }
+                                else{
+
+                                    if (voguenationlist.isNotEmpty()) {
+                                        Events_row(heading = "Vogue Nation", voguenationlist)
+                                        LazyRow(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                            contentPadding = PaddingValues(horizontal = 20.dp)
+                                        ) {
+                                            items(voguenationlist) { dataEach ->
+                                                context?.let {
+                                                    Event_card_Scaffold(
+                                                        eventdetail = dataEach,
+                                                        homeViewModel,
+                                                        it,
+                                                        "artist"
+                                                    ) {
+                                                        artist = dataEach.eventdetail.artist
+                                                        coroutineScope.launch {
+                                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                                bottomSheetScaffoldState.bottomSheetState.expand()
+
+                                                            } else {
+                                                                bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                if (classapartlist.isNotEmpty()) {
+                                    Events_row(heading = "Class apart", classapartlist)
+                                    LazyRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 20.dp)
+                                    ) {
+                                        items(classapartlist) { dataEach ->
+                                            context?.let {
+                                                Event_card_Scaffold(
+                                                    eventdetail = dataEach,
+                                                    homeViewModel,
+                                                    it,
+                                                    "artist"
+                                                ) {
+                                                    artist = dataEach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (anybodycandancelist.isNotEmpty()) {
+                                    Events_row(heading = "Any Body Can Dance", anybodycandancelist)
+                                    LazyRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 20.dp)
+                                    ) {
+                                        items(anybodycandancelist) { dataEach ->
+                                            context?.let {
+                                                Event_card_Scaffold(
+                                                    eventdetail = dataEach,
+                                                    homeViewModel,
+                                                    it,
+                                                    "artist"
+                                                ) {
+                                                    artist = dataEach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (musiclist.isNotEmpty()) {
+                                    Events_row(heading = "Music", musiclist)
+                                    LazyRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 20.dp)
+                                    ) {
+                                        items(musiclist) { dataEach ->
+                                            context?.let {
+                                                Event_card_Scaffold(
+                                                    eventdetail = dataEach,
+                                                    homeViewModel,
+                                                    it,
+                                                    "artist"
+                                                ) {
+                                                    artist = dataEach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+
+                                if (literarylist.isNotEmpty()) {
+                                    Events_row(heading = "Literary", literarylist)
+                                    LazyRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 20.dp)
+                                    ) {
+                                        items(literarylist) { dataEach ->
+                                            context?.let {
+                                                Event_card_Scaffold(
+                                                    eventdetail = dataEach,
+                                                    homeViewModel,
+                                                    it,
+                                                    "artist"
+                                                ) {
+                                                    artist = dataEach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+
+                                if (arttalikieslist.isNotEmpty()) {
+                                    Events_row(heading = "Art Talkies", arttalikieslist)
+                                    LazyRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 20.dp)
+                                    ) {
+                                        items(arttalikieslist) { dataEach ->
+                                            context?.let {
+                                                Event_card_Scaffold(
+                                                    eventdetail = dataEach,
+                                                    homeViewModel,
+                                                    it,
+                                                    "artist"
+                                                ) {
+                                                    artist = dataEach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (digitaldextiritylist.isNotEmpty()) {
+                                    Events_row(heading = "Digital Dexterity", digitaldextiritylist)
+
+                                    LazyRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 20.dp)
+                                    ) {
+                                        items(digitaldextiritylist) { dataEach ->
+                                            context?.let {
+                                                Event_card_Scaffold(
+                                                    eventdetail = dataEach,
+                                                    homeViewModel,
+                                                    it,
+                                                    "artist"
+                                                ) {
+                                                    artist = dataEach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+
+                                if (lighcameraactionlist.isNotEmpty()) {
+                                    Events_row(
+                                        heading = "Lights Camera Actions",
+                                        lighcameraactionlist
+                                    )
+                                    LazyRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 20.dp)
+                                    ) {
+                                        items(lighcameraactionlist) { dataEach ->
+                                            context?.let {
+                                                Event_card_Scaffold(
+                                                    eventdetail = dataEach,
+                                                    homeViewModel,
+                                                    it,
+                                                    "artist"
+                                                ) {
+                                                    artist = dataEach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+
+                                if (mun.isNotEmpty()) {
+                                    Events_row(heading = "Model United Nations", mun)
+                                    LazyRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 20.dp)
+                                    ) {
+                                        items(mun) { dataEach ->
+                                            context?.let {
+                                                Event_card_Scaffold(
+                                                    eventdetail = dataEach,
+                                                    homeViewModel,
+                                                    it,
+                                                    "artist"
+                                                ) {
+                                                    artist = dataEach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
                                                     }
                                                 }
                                             }
@@ -340,242 +709,6 @@ class CompetitionsFragment : Fragment() {
                                     }
                                 }
                             }
-
-                            if(classapartlist.isNotEmpty()){
-                                Events_row(heading = "CLASS APART", classapartlist)
-                                LazyRow(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    contentPadding = PaddingValues(horizontal = 20.dp)
-                                ) {
-                                    items(classapartlist) { dataEach ->
-                                        context?.let {
-                                            Event_card_Scaffold(
-                                                eventdetail = dataEach,
-                                                homeViewModel,
-                                                it,
-                                                "artist"
-                                            ) {
-                                                artist = dataEach.eventdetail.artist
-                                                coroutineScope.launch {
-                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                        bottomSheetScaffoldState.bottomSheetState.expand()
-                                                    } else {
-                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            if(anybodycandancelist.isNotEmpty()){
-                                Events_row(heading = "ANY BODY CAN DANCE", anybodycandancelist)
-                                LazyRow(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    contentPadding = PaddingValues(horizontal = 20.dp)
-                                ) {
-                                    items(anybodycandancelist) { dataEach ->
-                                        context?.let {
-                                            Event_card_Scaffold(
-                                                eventdetail = dataEach,
-                                                homeViewModel,
-                                                it,
-                                                "artist"
-                                            ) {
-                                                artist = dataEach.eventdetail.artist
-                                                coroutineScope.launch {
-                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                        bottomSheetScaffoldState.bottomSheetState.expand()
-                                                    } else {
-                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            if(musiclist.isNotEmpty()){
-                                Events_row(heading = "MUSIC", musiclist)
-                                LazyRow(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    contentPadding = PaddingValues(horizontal = 20.dp)
-                                ) {
-                                    items(musiclist) { dataEach ->
-                                        context?.let {
-                                            Event_card_Scaffold(
-                                                eventdetail = dataEach,
-                                                homeViewModel,
-                                                it,
-                                                "artist"
-                                            ) {
-                                                artist = dataEach.eventdetail.artist
-                                                coroutineScope.launch {
-                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                        bottomSheetScaffoldState.bottomSheetState.expand()
-                                                    } else {
-                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-
-                            if(literarylist.isNotEmpty()){
-                                Events_row(heading = "LITERARY", literarylist)
-                                LazyRow(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    contentPadding = PaddingValues(horizontal = 20.dp)
-                                ) {
-                                    items(literarylist) { dataEach ->
-                                        context?.let {
-                                            Event_card_Scaffold(
-                                                eventdetail = dataEach,
-                                                homeViewModel,
-                                                it,
-                                                "artist"
-                                            ) {
-                                                artist = dataEach.eventdetail.artist
-                                                coroutineScope.launch {
-                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                        bottomSheetScaffoldState.bottomSheetState.expand()
-                                                    } else {
-                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-
-                            if(arttalikieslist.isNotEmpty()){
-                                Events_row(heading = "ART TALKIES", arttalikieslist)
-                                LazyRow(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    contentPadding = PaddingValues(horizontal = 20.dp)
-                                ) {
-                                    items(arttalikieslist) { dataEach ->
-                                        context?.let {
-                                            Event_card_Scaffold(
-                                                eventdetail = dataEach,
-                                                homeViewModel,
-                                                it,
-                                                "artist"
-                                            ) {
-                                                artist = dataEach.eventdetail.artist
-                                                coroutineScope.launch {
-                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                        bottomSheetScaffoldState.bottomSheetState.expand()
-                                                    } else {
-                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            if(digitaldextiritylist.isNotEmpty()){
-                                Events_row(heading = "DIGITAL DEXTERITY", digitaldextiritylist)
-
-                                LazyRow(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    contentPadding = PaddingValues(horizontal = 20.dp)
-                                ) {
-                                    items(digitaldextiritylist) { dataEach ->
-                                        context?.let {
-                                            Event_card_Scaffold(
-                                                eventdetail = dataEach,
-                                                homeViewModel,
-                                                it,
-                                                "artist"
-                                            ) {
-                                                artist = dataEach.eventdetail.artist
-                                                coroutineScope.launch {
-                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                        bottomSheetScaffoldState.bottomSheetState.expand()
-                                                    } else {
-                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-
-                            if(lighcameraactionlist.isNotEmpty()){
-                                Events_row(heading = "LIGHTS CAMERA ACTION", lighcameraactionlist)
-                                LazyRow(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    contentPadding = PaddingValues(horizontal = 20.dp)
-                                ) {
-                                    items(lighcameraactionlist) { dataEach ->
-                                        context?.let {
-                                            Event_card_Scaffold(
-                                                eventdetail = dataEach,
-                                                homeViewModel,
-                                                it,
-                                                "artist"
-                                            ) {
-                                                artist = dataEach.eventdetail.artist
-                                                coroutineScope.launch {
-                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                        bottomSheetScaffoldState.bottomSheetState.expand()
-                                                    } else {
-                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-
-                            if(mun.isNotEmpty()){
-                                Events_row(heading = "MODEL UNITED NATIONS", mun)
-                                LazyRow(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    contentPadding = PaddingValues(horizontal = 20.dp)
-                                ) {
-                                    items(mun) { dataEach ->
-                                        context?.let {
-                                            Event_card_Scaffold(
-                                                eventdetail = dataEach,
-                                                homeViewModel,
-                                                it,
-                                                "artist"
-                                            ) {
-                                                artist = dataEach.eventdetail.artist
-                                                coroutineScope.launch {
-                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                        bottomSheetScaffoldState.bottomSheetState.expand()
-                                                    } else {
-                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
                             }
                         }
                     }
@@ -630,7 +763,7 @@ class CompetitionsFragment : Fragment() {
                             ) {
                                 val composition by rememberLottieComposition(
                                     LottieCompositionSpec.RawRes(
-                                        R.raw.comingsoon
+                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
                                     )
                                 )
                                 val progress by animateLottieCompositionAsState(
@@ -782,17 +915,17 @@ class CompetitionsFragment : Fragment() {
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(72.dp),
+                        .height(72.dp).border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        midWhite
+                        colors.background
                     )
                 ) {
                     Text(text="Event Finished!",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = aileron,
-                        color = black)
+                        color = colors.onSurface)
 //                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
 //                        Text(
 //                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
@@ -926,17 +1059,17 @@ class CompetitionsFragment : Fragment() {
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(72.dp),
+                        .height(72.dp).border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        midWhite
+                       colors.background
                     )
                 ) {
                     Text(text="Event Finished!",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = aileron,
-                        color = black)
+                        color = colors.onSurface)
                 }
             }
             else if(eventWithLive.eventdetail.venue != "") {
@@ -1073,7 +1206,9 @@ class CompetitionsFragment : Fragment() {
             Spacer(modifier = Modifier.height(18.dp))
 
             Row(modifier = Modifier.fillMaxWidth(),
-                Arrangement.SpaceBetween,) {
+                Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Row(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
@@ -1100,76 +1235,96 @@ class CompetitionsFragment : Fragment() {
                         )
                     )
                 }
+                Spacer(modifier = Modifier.width(24.dp))
 
-
-                if (true) {
-                    Box(modifier = Modifier
-                        .height(40.dp)
-                        .border(1.dp, colors.secondary)
-                        .padding(10.dp)
-                    ){
-                        if( !isadded.value) {
-                            Row()
-                            {
-
-                                Image(
-                                    modifier = Modifier
-                                        .width(18.dp)
-                                        .height(18.dp)
-                                        .clickable {
-                                            isadded.value = true
-                                            homeViewModel.OwnEventsWithLive.addNewItem(
-                                                eventWithLive.eventdetail
-                                            )
-                                            scheduleDatabase.addEventsInSchedule(
-                                                eventWithLive.eventdetail,
-                                                context
-                                            )
-                                        },
-                                    painter = painterResource(id = R.drawable.add_icon),
-                                    contentDescription = "null",
-                                    colorFilter = ColorFilter.tint(colors.onBackground)
-                                )
-                                Spacer(Modifier.width(10.dp))
-                                Text(
-                                    text = "Add to Schedule",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = colors.onBackground,
-                                    fontSize = 16.sp
-                                )
-                            }
-
+                Box(modifier = Modifier
+                    .height(40.dp)
+                    .border(1.dp, colors.secondary)
+                    .animateContentSize()
+                    .wrapContentWidth()
+                    .background(
+                        if (isSystemInDarkTheme() && isadded.value) {
+                            Color(31, 89, 22, 255)
+                        } else if (isadded.value) {
+                            green
+                        } else {
+                            colors.background
                         }
-                        if(isadded.value)
-                        {
-                            Row() {
-                                Image(
-                                    modifier = Modifier
-                                        .width(20.dp)
-                                        .height(20.dp)
-                                        .clickable {
-                                            isadded.value = false
-                                            homeViewModel.OwnEventsWithLive.removeAnItem(
-                                                eventWithLive.eventdetail
-                                            )
-                                            scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                    )
+                ){
+                    if( !isadded.value) {
+                        Row(
+                            Modifier
+                                .clickable {
+                                    isadded.value = true
+                                    homeViewModel.OwnEventsWithLive.addNewItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                    scheduleDatabase.addEventsInSchedule(
+                                        eventWithLive.eventdetail,
+                                        context
+                                    )
 
-                                        },
-                                    painter = painterResource(id = R.drawable.tickokay),
-                                    contentDescription = "null",
-                                    contentScale = ContentScale.FillBounds,
-                                    colorFilter = ColorFilter.tint(colors.onBackground)
-                                )
-                                Spacer(Modifier.width(10.dp))
-                                Text(
-                                    text = "Added to Schedule",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = colors.onBackground,
-                                    fontSize = 16.sp
-                                )
-                            }
+
+                                }
+                                .padding(10.dp))
+                        {
+
+                            Image(
+                                modifier = Modifier
+                                    .width(18.dp)
+                                    .height(18.dp)
+                                ,
+                                painter = painterResource(id = R.drawable.add_icon),
+                                contentDescription = "null",
+                                colorFilter = ColorFilter.tint(colors.onBackground)
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            MarqueeText(
+                                text = "Add to Schedule",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.SemiBold,
+                                color = colors.onBackground,
+                                fontSize = 16.sp,
+                                gradientEdgeColor = Color.Transparent
+                            )
+                        }
+
+                    }
+                    if(isadded.value)
+                    {
+                        Row(
+                            Modifier
+                                .clickable {
+                                    isadded.value = false
+                                    homeViewModel.OwnEventsWithLive.removeAnItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                }
+                                .padding(10.dp)
+
+                        ) {
+                            Image(
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                                ,
+                                painter = painterResource(id = R.drawable.tickokay),
+                                contentDescription = "null",
+                                contentScale = ContentScale.FillBounds,
+                                colorFilter = ColorFilter.tint(colors.onBackground)
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            MarqueeText(
+                                text = "Added to Schedule",
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.SemiBold,
+                                color = colors.onBackground,
+                                fontSize = 16.sp,
+                                gradientEdgeColor = Color.Transparent
+
+                            )
                         }
                     }
                 }
@@ -1278,6 +1433,93 @@ class CompetitionsFragment : Fragment() {
 
 
         }
+    }
+    @Composable
+    fun tags(){
+
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState())
+            .wrapContentHeight()
+            , horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            val colors= colors
+            val isdark= isSystemInDarkTheme()
+            val selectedbgcolor=if (isdark) Color(0xff79C3D2) else Color(0xffCDE9EE)
+            val selectdbordercolor=if (isdark) Color(0xff034653) else Color(0xff7DC5D3)
+
+            Spacer(modifier = Modifier.width(15.dp))
+            taglist.forEach {
+                var bgcolor=remember{ mutableStateOf(colors.background) }
+                var bordercolor=remember{ mutableStateOf(Color(0xffacacac)) }
+
+                if(tg.value==it){
+                    bgcolor.value=selectedbgcolor
+                    bordercolor.value=selectdbordercolor
+
+                }
+                else
+                {
+                    bgcolor.value=colors.background
+                    bordercolor.value=Color(0xffacacac)
+                }
+
+
+                Card(
+                    Modifier
+                        .clickable {
+                            if (tg.value == it) {
+                                tg.value = "";
+                                bgcolor.value = colors.background
+                                bordercolor.value = Color(0xffacacac)
+                            } else {
+                                tg.value = it;
+                                bgcolor.value = selectedbgcolor
+                                bordercolor.value = selectdbordercolor
+                            }
+
+                            filterlist()
+                        }
+                        .wrapContentWidth()
+                        .wrapContentHeight(),
+                    border = BorderStroke(1.dp, bordercolor.value),
+                    shape = RoundedCornerShape(45.dp),
+                    backgroundColor = colors.background,
+                )
+                {
+                    Box(modifier = Modifier
+                        .wrapContentHeight()
+                        .wrapContentWidth()
+                        .background(bgcolor.value), contentAlignment = Alignment.Center) {
+
+                        val textcolor=if (isdark) {if(tg.value==it)colors.background else colors.onBackground}else colors.onBackground
+                        Text(modifier=Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                            text = it,
+                            fontSize = 14.sp,
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Normal,
+                            color = textcolor
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.width(15.dp))
+        }
+
+    }
+
+
+    fun filterlist(){
+        searchlist.clear();
+        searchlist.addAll(homeViewModel.allEventsWithLive.filter {it.eventdetail.category.replace(
+            "\\s".toRegex(),
+            ""
+        ).uppercase() == "Competitions".uppercase() && it.eventdetail.toString().contains(searchtext.value,true) && it.eventdetail.toString().contains(tg.value.drop(3),true) })
+
+        //zooming map at the first event venue
+//        val firsteventvenue= venuelist.find { it.name==searchlist[0].eventdetail.venue }
+//        if(searchlist.isNotEmpty() && firsteventvenue!=null )
+//            cameraPositionState.move(CameraUpdateFactory.newCameraPosition(CameraPosition(venuelist.random().LatLng, 16f,0f,0f)))
+//    }
     }
 
 }

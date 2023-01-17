@@ -59,7 +59,7 @@ class viewModelHome : ViewModel() {
     val merchhome = mutableStateListOf<merchmodelforHome>()
     var crnttime = mutableStateOf(OwnTime())
     val merchMerch = SnapshotStateList<merchModel>()
-
+    val forYouEvents = mutableStateListOf<eventWithLive>()
 
     fun getAllEvents() {
         viewModelScope.launch {

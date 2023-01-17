@@ -1,25 +1,20 @@
 package com.alcheringa.alcheringa2022
 
+
 import ViewPagernew
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.*
-import androidx.compose.animation.splineBasedDecay
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
@@ -36,69 +31,48 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.Placeable
-import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.util.lerp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.constraintlayout.widget.Constraints
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
 import com.alcheringa.alcheringa2022.databinding.FragmentHomeBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.accompanist.pager.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.microsoft.identity.common.internal.cache.SharedPreferencesFileManager.getSharedPreferences
-
-
-
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
-import org.apache.commons.lang3.StringUtils.mid
 import java.util.*
 import kotlin.math.absoluteValue
-import kotlin.math.roundToInt
-
+import kotlin.math.sqrt
 
 
 /**
@@ -191,14 +165,16 @@ class Home : Fragment() {
         fm=parentFragmentManager
 
         scheduleDatabase=ScheduleDatabase(context)
-        homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
+
+        if(homeViewModel.OwnEventsWithLiveState.isEmpty()){
+        homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)}
 
 
 
-        homeViewModel.getfeaturedEvents()
-        homeViewModel.getAllEvents()
-        homeViewModel.getMerchHome()
-        homeViewModel.getMerchMerch()
+        if(homeViewModel.featuredEventsWithLivestate.isEmpty()) { homeViewModel.getfeaturedEvents() }
+        if(homeViewModel.allEventsWithLive.isEmpty()){ homeViewModel.getAllEvents() }
+//        homeViewModel.getMerchHome()
+        if(homeViewModel.merchMerch.isEmpty()){ homeViewModel.getMerchMerch() }
 //        Log.d("vipin",eventslist.toString());
 //        homeViewModel.pushEvents(homeViewModel.AllEvents)
 
@@ -282,6 +258,8 @@ class Home : Fragment() {
                 homeViewModel.allEventsWithLive.addAll(data)
                 homeViewModel.upcomingEventsLiveState.clear()
                 homeViewModel.upcomingEventsLiveState.addAll(data)
+                homeViewModel.forYouEvents.clear()
+                homeViewModel.forYouEvents.addAll(homeViewModel.allEventsWithLive.shuffled().take(7))
             }
             homeViewModel.featuredEventsWithLivedata.observe(requireActivity()){   data->
                 homeViewModel.featuredEventsWithLivestate.clear()
@@ -588,79 +566,68 @@ class Home : Fragment() {
                         .padding(start = 15.dp)
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .coloredShadow(colors.onBackground, 0.25f, 16.dp, 20.dp, -5.dp, -5.dp)
+//                        .coloredShadow(colors.onBackground, 0.25f, 16.dp, 20.dp, -5.dp, -5.dp)
                     else Modifier
-                        .padding(start = 15.dp)
+                        .padding(start = 15.dp,bottom=20.dp)
                         .fillMaxWidth()
                         .wrapContentHeight()
                     HorizontalPager(
                         count = count,
                         modifier = hpm,
                         state = pagerState,
-                        contentPadding = PaddingValues(top = 0.dp, start = 5.dp, end = 40.dp, bottom = 0.dp),
+                        contentPadding = PaddingValues(top = 0.dp, start = 5.dp, end = 50.dp, bottom = 0.dp),
                         itemSpacing = (5.dp),
 
                         ) { page ->
+                        val widthparent=remember { mutableStateOf(0f)}
+                        val localdensity= LocalDensity.current
 
 
-                        Card(
-                            modifier = Modifier.clip(RoundedCornerShape(16.dp) )
-                             ,
-                            border = BorderStroke(1.5.dp, colors.onBackground),
-                            shape = RoundedCornerShape(16.dp)
 
-                        ) {
-                            Box() {
+                       Box(
+                            modifier = Modifier.onGloballyPositioned { coordinates ->
+                                widthparent.value = with(localdensity){coordinates.size.width.dp.toPx()}
+                            }
+                                .fillMaxWidth()
+                                .aspectRatio(0.781f)
+                             , contentAlignment = if(calculateCurrentOffsetForPage(page)<=0)Alignment.CenterStart else Alignment.CenterEnd
+
+                        ) { val bmh=if(isSystemInDarkTheme()) Modifier else Modifier
+                           .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
+                           .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
+                           .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+                            Box(Modifier
+                                .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
+                                .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
+                                .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+                            ) {
+                                val pageOffset =
+                                    calculateCurrentOffsetForPage(page).absoluteValue
+                                var widthfr= remember {mutableStateOf(0.12f)}
+                                if (pageOffset % 1f != 0f) {
+                                    widthfr.value =
+                                        lerp(
+                                            start = 0.12f,
+                                            stop = 1f,
+                                            fraction = 1f - (pageOffset.coerceIn(
+                                                0.0f,
+                                                1f
+                                            ))
+                                        )
+                                }
 
                                 Card(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .aspectRatio(0.781f)
-
-                                        .graphicsLayer {
-                                            // Calculate the absolute offset for the current page from the
-                                            // scroll position. We use the absolute value which allows us to mirror
-                                            // any effects for both directions
-                                            val pageOffset =
-                                                calculateCurrentOffsetForPage(page).absoluteValue
-                                            Log.d("pageoffsetpager", "$pageOffset")
-
-                                            transformOrigin = TransformOrigin(
-                                                if (calculateCurrentOffsetForPage(page) >= 0) 1f else
-                                                    0f,
-                                                0f
-                                            )
-                                            // We animate the scaleX + scaleY, between 85% and 100%
-                                            lerp(
-                                                start = 0.11f,
-                                                stop = 1f,
-                                                fraction = 1f - (pageOffset.coerceIn(0.0f, 1f))
-                                            ).also { scale ->
-                                                if (pageOffset % 1f != 0f) {
-                                                    scaleX =
-//                                                    if(calculateCurrentOffsetForPage(page)==0.0f) 1f else
-                                                        scale
-                                                }
-                                                //scaleY = scale
-                                            }
-
-
-                                            //                                     We animate the alpha, between 50% and 100%
-                                            //                                    alpha = lerp(
-                                            //                                            start = 0.5f,
-                                            //                                            stop = 1f,
-                                            //                                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                                            //                                    )
-                                        },
-
-
+                                        .fillMaxWidth(if(0.01f>=pageOffset) 1f else widthfr.value)
+                                        .clip(RoundedCornerShape(16.dp)).border(1.5.dp,colors.onBackground,RoundedCornerShape(16.dp))
+                                       ,
                                     ) {
                                     Box(
                                         modifier = Modifier
                                             .fillMaxHeight()
                                             .fillMaxWidth()
                                     ) {
-                                        GlideImage(
+                                        GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
                                             imageModel = eventdetails[page].eventdetail.imgurl,
                                             contentDescription = "artist",
                                             modifier = Modifier
@@ -676,13 +643,13 @@ class Home : Fragment() {
                                                 },
                                             alignment = Alignment.Center,
                                             contentScale = ContentScale.Crop,
-                                            shimmerParams = ShimmerParams(
-                                                baseColor = blackbg,
-                                                highlightColor = Color.LightGray,
-                                                durationMillis = 350,
-                                                dropOff = 0.65f,
-                                                tilt = 20f
-                                            ), failure = {
+                                          shimmerParams = ShimmerParams(
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
+                                    tilt = 20f
+                                ), failure = {
                                                 Box(
                                                     modifier = Modifier
                                                         .fillMaxWidth()
@@ -690,7 +657,7 @@ class Home : Fragment() {
                                                     contentAlignment = Alignment.Center
                                                 ) {
                                                     val composition by rememberLottieComposition(
-                                                        LottieCompositionSpec.RawRes(R.raw.comingsoon)
+                                                        LottieCompositionSpec.RawRes(if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight)
                                                     )
                                                     val progress by animateLottieCompositionAsState(
                                                         composition,
@@ -751,33 +718,39 @@ class Home : Fragment() {
                                                 ,
                                             contentAlignment = Alignment.BottomStart
                                         ) {
+                                            val heightparent=remember{ mutableStateOf(0f) }
+                                            var heightoff= remember {mutableStateOf(0f)}
+                                            Log.d("pager2",calculateCurrentOffsetForPage(1).toString())
+
+                                                heightoff.value =
+                                                    lerp(
+                                                        start = 0f,
+                                                        stop = 1f,
+                                                        fraction = (pageOffset.coerceIn(
+                                                            0.0f,
+                                                            1f
+                                                        ))
+                                                    )
+
+                                            if(0.9999f>pageOffset ){
+
                                             Column(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .wrapContentHeight()
+                                                    .wrapContentHeight().onGloballyPositioned { coordinates ->
+                                                        heightparent.value = with(localdensity){coordinates.size.height.dp.toPx()}
+                                                    }
                                                     .graphicsLayer {
                                                         // Calculate the absolute offset for the current page from the
                                                         // scroll position. We use the absolute value which allows us to mirror
                                                         // any effects for both directions
-                                                        val pageOffset =
-                                                            calculateCurrentOffsetForPage(page).absoluteValue
 
-                                                        transformOrigin = TransformOrigin(0.5f, 1f)
-                                                        // We animate the scaleX + scaleY, between 85% and 100%
-                                                        lerp(
-                                                            start = 0f,
-                                                            stop = 1f,
-                                                            fraction = 1f - (pageOffset.coerceIn(
-                                                                0f,
-                                                                1f
-                                                            ))
-                                                        ).also { scale ->
                                                             if (pageOffset % 1f != 0f) {
-                                                                scaleY = scale
+                                                                translationY= (heightoff.value*heightoff.value*heightoff.value*heightparent.value)
                                                             }
                                                             //scaleY = scale
 
-                                                        }
+
                                                     }
                                                     .clip(
                                                         RoundedCornerShape(
@@ -795,6 +768,7 @@ class Home : Fragment() {
 
 
 
+
                                                 ,
                                                 horizontalAlignment = Alignment.Start
                                             ) {
@@ -808,16 +782,6 @@ class Home : Fragment() {
                                                     gradientEdgeColor = Color.Transparent,
                                                 )
                                                 Spacer(modifier = Modifier.height(0.dp))
-//                                                Text(
-//                                                    text = eventdetails[page].eventdetail.category,
-//                                                    style = TextStyle(
-//                                                        color = colorResource(id = R.color.White),
-//                                                        fontFamily = aileron,
-//                                                        fontWeight = FontWeight.Normal,
-//                                                        fontSize = 16.sp
-//                                                    )
-//                                                )
-//                                                Spacer(modifier = Modifier.height(4.dp))
 
                                                 Row() {
                                                     Text(
@@ -827,11 +791,10 @@ class Home : Fragment() {
                                                             fontFamily = aileron,
                                                             fontWeight = FontWeight.Normal,
                                                             fontSize = 16.sp,
-                                                        ),
+                                                        ),maxLines=1
 
                                                     )
 
-                                                    //Spacer(modifier = Modifier.width(4.dp))
                                                     MarqueeText(
                                                         text = " ${eventdetails[page].eventdetail.venue}",
                                                         style = TextStyle(
@@ -842,6 +805,7 @@ class Home : Fragment() {
                                                         ),gradientEdgeColor = Color.Transparent
                                                     )
                                                 }
+                                            }
                                             }
 
                                         }
@@ -983,7 +947,7 @@ fun compbox(){
                         .fillMaxWidth()
                         .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                     Column() {
-                        Text(fontFamily = aileron, fontWeight = FontWeight.W600, fontSize = 16.sp, color = colors.onBackground, text = "Explore our Competetions")
+                        Text(fontFamily = aileron, fontWeight = FontWeight.W600, fontSize = 16.sp, color = colors.onBackground, text = "Explore our competitions")
                         Spacer(Modifier.height(6.dp))
                         Text(fontFamily = aileron, fontWeight = FontWeight.W400, fontSize = 12.sp, color = colors.onBackground, text = "Register. Compete. Win")
                         Spacer(Modifier.height(12.dp))
@@ -1220,18 +1184,13 @@ fun compbox(){
 
 
 
-                            if ((182.dp..221.dp).contains(offsetY.value.toDp()) and
-                                ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
-                                    .toPx()
-                                    .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
-                                    (offsetX.value)
-                                        .toInt()
-                                ))
-                            ) {
-                                onActiveDel.value = true
-                            } else {
-                                onActiveDel.value = false
-                            }
+                            onActiveDel.value = (182.dp..221.dp).contains(offsetY.value.toDp()) and
+                                    ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
+                                        .toPx()
+                                        .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
+                                        (offsetX.value)
+                                            .toInt()
+                                    ))
 
 
                         },
@@ -1468,8 +1427,7 @@ fun compbox(){
                                         }
                                     }
                                 })
-                            }
-                            ,
+                            },
                     ) {
                         //                    if (scrollState.value==0){binding.logoAlcher.setImageDrawable(resources.getDrawable(R.drawable.ic_alcher_final_logo))
                         //                            binding.logoAlcher.layoutParams.width=with(LocalDensity.current){162.dp.toPx().toInt()}
@@ -1505,7 +1463,7 @@ fun compbox(){
                             ){
                                 Text(
 
-                                    text = "Competetions  ",
+                                    text = "Competitions  ",
                                     fontFamily = aileron,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.Transparent,
@@ -1514,7 +1472,7 @@ fun compbox(){
                             }
                             Text(
 
-                                text = "Competetions",
+                                text = "Competitions",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.Bold,
                                 color = colors.onBackground,
@@ -1678,11 +1636,12 @@ fun compbox(){
                         }
 
                         Box(
-                            modifier = Modifier.padding(
-                                start = 20.dp,
-                                bottom = 24.dp,
-                                top = 36.dp
-                            ).offset(y = 40.dp),
+                            modifier = Modifier
+                                .padding(
+                                    start = 20.dp,
+                                    bottom = 24.dp,
+                                )
+                                .offset(y = 60.dp),
 
                         ) {
                             Card(
@@ -1721,6 +1680,9 @@ fun compbox(){
 
                         ) {
                             val drbls = listOf(
+                                R.drawable.merch_bg_1,
+                                R.drawable.merch_bg_2,
+                                R.drawable.merch_bg_3,
                                 R.drawable.merch_bg_1,
                                 R.drawable.merch_bg_2,
                                 R.drawable.merch_bg_3
@@ -1825,72 +1787,72 @@ fun compbox(){
 
 
 
-                        Box(
-                            modifier = Modifier.padding(
-                                start = 20.dp,
-                                bottom = 24.dp,
-                                top = 36.dp
-                            ),
-                        ) {
-                            Card(
-                                Modifier
-                                    .height(10.dp)
-                                    .offset(x = -5.dp, y = 16.dp)
-                                    .alpha(alphaval),
-                                shape = RoundedCornerShape(100.dp),
-                                backgroundColor = textbg
+                        if(homeViewModel.forYouEvents.isNotEmpty()) {
+                            Box(
+                                modifier = Modifier.padding(
+                                    start = 20.dp,
+                                    bottom = 24.dp,
+                                    top = 36.dp
+                                ),
+                            ) {
+                                Card(
+                                    Modifier
+                                        .height(10.dp)
+                                        .offset(x = -5.dp, y = 16.dp)
+                                        .alpha(alphaval),
+                                    shape = RoundedCornerShape(100.dp),
+                                    backgroundColor = textbg
 
-                            ){
+                                ) {
+                                    Text(
+
+                                        text = "For You  ",
+                                        fontFamily = aileron,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Transparent,
+                                        fontSize = 21.sp
+                                    )
+                                }
                                 Text(
 
-                                    text = "For You  ",
+                                    text = "For You",
                                     fontFamily = aileron,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.Transparent,
+                                    color = colors.onBackground,
                                     fontSize = 21.sp
                                 )
                             }
-                            Text(
 
-                                text = "For You",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
-                                color = colors.onBackground,
-                                fontSize = 21.sp
-                            )
-                        }
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-
-                            LazyRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                contentPadding = PaddingValues(horizontal = 20.dp)
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
                             ) {
-                                items(
-                                    homeViewModel.allEventsWithLive
-//                                        .toList()
-                                        .shuffled()
-                                        .take(7)
-                                ) { dataeach ->
-                                    context?.let {
-                                        /*if(dataeach.eventdetail.stream){
+
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
+                                ) {
+                                    items(
+                                        homeViewModel.forYouEvents
+                                    ) { dataeach ->
+                                        context?.let {
+                                            /*if(dataeach.eventdetail.stream){
                                             Event_card(eventdetail = dataeach,homeViewModel, it,fm)
                                         }*/
-                                        Event_card_Scaffold(
-                                            eventdetail = dataeach,
-                                            homeViewModel,
-                                            it,
-                                            artist
-                                        ) {
-                                            artist = dataeach.eventdetail.artist
-                                            coroutineScope.launch {
-                                                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                    bottomSheetScaffoldState.bottomSheetState.expand()
-                                                } else {
-                                                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                                            Event_card_Scaffold(
+                                                eventdetail = dataeach,
+                                                homeViewModel,
+                                                it,
+                                                artist
+                                            ) {
+                                                artist = dataeach.eventdetail.artist
+                                                coroutineScope.launch {
+                                                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    } else {
+                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                    }
                                                 }
                                             }
                                         }
@@ -1929,6 +1891,7 @@ fun compbox(){
 
                 ) {
                     GlideImage(
+                        requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC) },
                         imageModel = eventWithLive.eventdetail.imgurl,
                         contentDescription = "artist",
                         modifier = Modifier
@@ -1939,12 +1902,13 @@ fun compbox(){
                         alignment = Alignment.Center,
                         contentScale = ContentScale.Crop,
                         shimmerParams = ShimmerParams(
-                            baseColor = Color.Black,
-                            highlightColor = orangeText,
-                            durationMillis = 350,
-                            dropOff = 0.65f,
+                            baseColor = if (isSystemInDarkTheme()) black else highWhite,
+                            highlightColor = if (isSystemInDarkTheme()) highBlack else white,
+                            durationMillis = 1500,
+                            dropOff = 1f,
                             tilt = 20f
-                        ), failure = {
+                        ),
+                        failure = {
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -1952,7 +1916,7 @@ fun compbox(){
                             ) {
                                 val composition by rememberLottieComposition(
                                     LottieCompositionSpec.RawRes(
-                                        R.raw.comingsoon
+                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
                                     )
                                 )
                                 val progress by animateLottieCompositionAsState(
@@ -1990,8 +1954,7 @@ fun compbox(){
                                 //                            }
                             }
 
-                        }
-
+                        },
                     )
                 }
 
@@ -2071,8 +2034,10 @@ fun compbox(){
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
 
-        if (eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
-                .uppercase() == "Competitions".uppercase()
+        if ( // TODO: replace with below check, commented out temporarily for demonstrations
+            false
+//            eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
+//                .uppercase() == "Competitions".uppercase()
         )
         {
 
@@ -2105,17 +2070,17 @@ fun compbox(){
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(72.dp),
+                        .height(72.dp).border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        midWhite
+                        colors.background
                     )
                 ) {
                      Text(text="Event Finished!",
                          fontSize = 20.sp,
                          fontWeight = FontWeight.SemiBold,
                          fontFamily = aileron,
-                         color = black)
+                         color = colors.onSurface)
 //                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
 //                        Text(
 //                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
@@ -2244,52 +2209,29 @@ fun compbox(){
 //                    }
 //                }
 //            }
-            if (isFinished){
+            if (
+//                isFinished
+            false
+            ){
                 Button(
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(72.dp),
+                        .height(72.dp).border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        midWhite
+                        colors.background
                     )
                 ) {
                     Text(text="Event Finished!",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = aileron,
-                        color = black)
+                        color = colors.onSurface)
                 }
             }
             else if(eventWithLive.eventdetail.venue != "") {
                 Row {
-                    if (eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") {
-                        Button(
-                            onClick = {
-                                //TODO: Set Buy pass link
-
-                            },
-                            Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .height(72.dp)
-                                .border(1.dp, colors.onBackground),
-                            shape = RoundedCornerShape(0.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                colors.background
-                            )
-                        ) {
-                            Text(
-                                text = "Buy Tickets",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
-                                color = colors.onBackground
-                            )
-
-                        }
-                    }
 
                     Button(
                         onClick = {
@@ -2307,19 +2249,54 @@ fun compbox(){
                             .border(1.dp, colors.onBackground),
                         shape = RoundedCornerShape(0.dp),
                         colors = ButtonDefaults.buttonColors(
-                            blu
+                            colors.background
                         )
                     ) {
                         Text(
-                            text = "Navigate to venue",
+                            text = "Navigate▲",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = aileron,
-                            color = black,
+                            color = colors.onBackground,
                             textAlign = TextAlign.Center
                         )
 
                     }
+
+
+                        Button(
+                            onClick = {
+                                //TODO: Set Buy pass link
+                                startActivity(
+                                    Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("http://pass.alcheringa.in")
+                                    )
+                                )
+
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(72.dp)
+                                .border(1.dp, colors.onBackground),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                blu
+                            )
+                        ) {
+                            Text(
+                                text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
+                                else "Get Passes",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = colors.onBackground
+                            )
+
+                        }
+
+
                 }
             }
         }
@@ -2428,7 +2405,9 @@ fun compbox(){
                 Spacer(modifier = Modifier.height(18.dp))
 
             Row(modifier = Modifier.fillMaxWidth(),
-                Arrangement.SpaceBetween,) {
+                Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Row(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
@@ -2455,11 +2434,12 @@ fun compbox(){
                         )
                     )
                 }
-
+                Spacer(modifier = Modifier.width(24.dp))
 
                 Box(modifier = Modifier
                     .height(40.dp)
                     .border(1.dp, colors.secondary)
+                    .animateContentSize()
                     .wrapContentWidth()
                     .background(
                         if (isSystemInDarkTheme() && isadded.value) {
@@ -2499,12 +2479,13 @@ fun compbox(){
                                 colorFilter = ColorFilter.tint(colors.onBackground)
                             )
                             Spacer(Modifier.width(10.dp))
-                            Text(
+                            MarqueeText(
                                 text = "Add to Schedule",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.SemiBold,
                                 color = colors.onBackground,
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                gradientEdgeColor = Color.Transparent
                             )
                         }
 
@@ -2534,12 +2515,14 @@ fun compbox(){
                                 colorFilter = ColorFilter.tint(colors.onBackground)
                             )
                             Spacer(Modifier.width(10.dp))
-                            Text(
+                            MarqueeText(
                                 text = "Added to Schedule",
                                 fontFamily = aileron,
                                 fontWeight = FontWeight.SemiBold,
                                 color = colors.onBackground,
-                                fontSize = 16.sp
+                                fontSize = 16.sp,
+                                gradientEdgeColor = Color.Transparent
+
                             )
                         }
                     }
@@ -2865,17 +2848,17 @@ fun compbox(){
 
                             }
 
-                            GlideImage(modifier = Modifier
+                            GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},modifier = Modifier
                                 .fillMaxHeight()
                                 .align(Alignment.CenterVertically)
                                 .padding(vertical = 10.dp),
                                 imageModel = merch[page].image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
                                 alignment = Alignment.Center,
-                                shimmerParams = ShimmerParams(
-                                    baseColor = Color.Transparent,
-                                    highlightColor = Color.LightGray,
-                                    durationMillis = 350,
-                                    dropOff = 0.65f,
+                               shimmerParams = ShimmerParams(
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
                                     tilt = 20f
                                 ),failure = {
                                     Box(modifier= Modifier
@@ -2989,7 +2972,7 @@ fun compbox(){
 
         ViewPagernew(modifier = Modifier
             .fillMaxWidth()
-            .height(240.dp)
+            .aspectRatio(1.54f)
         )
         {repeat(merch.size){page ->ViewPagerChild{
             Box(
@@ -3001,7 +2984,7 @@ fun compbox(){
                         .background(colors.background)
                         .coloredShadow(colors.secondaryVariant, 0.2f, 16.dp, 30.dp, 5.dp, 0.dp)
                         .fillMaxWidth()
-                        .height(200.dp)
+                        .aspectRatio(1.94f)
                         .padding(horizontal = 0.dp),
                     shape = RoundedCornerShape(16.dp),
                     backgroundColor = Color.Transparent,
@@ -3016,16 +2999,18 @@ fun compbox(){
                             //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
                             //                    .commit()
                         }
-                        .height(200.dp)
+
                         .fillMaxWidth()
+                        .aspectRatio(1.94f)
 
                     ) {
                         Image(
                             painter = painterResource(id = drbls[page]),
                             contentDescription = null,
                             Modifier
-                                .height(200.dp)
+
                                 .fillMaxWidth()
+                                .aspectRatio(1.94f)
                                 .align(Alignment.BottomCenter),
                             contentScale = ContentScale.Crop,
                             alignment = Alignment.Center
@@ -3052,7 +3037,7 @@ fun compbox(){
                                     Modifier
                                         .fillMaxWidth(0.5F)
                                         .fillMaxHeight()
-                                        .padding(top = 60.dp)
+                                    , verticalArrangement = Arrangement.SpaceEvenly
 
                                 ) {
                                     //                                Text(
@@ -3062,74 +3047,79 @@ fun compbox(){
                                     //                                    fontSize = 32.sp,
                                     //                                    fontFamily = star_guard,
                                     //                                )
-                                    Canvas(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        onDraw = {
-                                            drawIntoCanvas {
-                                                it.nativeCanvas.drawText(
-                                                    merch[page].name,
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaintStroke
-                                                )
-                                                it.nativeCanvas.drawText(
-                                                    merch[page].name,
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaint
-                                                )
+                                    Column(Modifier.padding(top=16.dp)) {
+                                        Canvas(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            onDraw = {
+                                                drawIntoCanvas {
+                                                    it.nativeCanvas.drawText(
+                                                        merch[page].name,
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaintStroke
+                                                    )
+                                                    it.nativeCanvas.drawText(
+                                                        merch[page].name,
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaint
+                                                    )
+                                                }
                                             }
-                                        }
-                                    )
-                                    Spacer(modifier = Modifier.height(4.dp))
-                                    Text(
-                                        text = merch[page].material,
-                                        color = black,
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 12.sp,
-                                        fontFamily = star_guard,
-                                    )
-                                    Spacer(modifier = Modifier.height(52.dp))
-                                    Canvas(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        onDraw = {
-                                            drawIntoCanvas {
-                                                it.nativeCanvas.drawText(
-                                                    "At just",
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaintStroke1
-                                                )
-                                                it.nativeCanvas.drawText(
-                                                    "At just",
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaint1
-                                                )
-                                            }
-                                        }
-                                    )
-                                    Spacer(modifier = Modifier.height(34.dp))
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            text = merch[page].material,
+                                            color = black,
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 12.sp,
+                                            fontFamily = star_guard,
+                                        )
 
-                                    Canvas(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        onDraw = {
-                                            drawIntoCanvas {
-                                                it.nativeCanvas.drawText(
-                                                    "Rs. " + merch[page].price,
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaintStroke2
-                                                )
-                                                it.nativeCanvas.drawText(
-                                                    "Rs. " + merch[page].price,
-                                                    0f,
-                                                    0.dp.toPx(),
-                                                    textPaint2
-                                                )
+                                    }
+
+                                    Column {
+                                        Canvas(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            onDraw = {
+                                                drawIntoCanvas {
+                                                    it.nativeCanvas.drawText(
+                                                        "At just",
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaintStroke1
+                                                    )
+                                                    it.nativeCanvas.drawText(
+                                                        "At just",
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaint1
+                                                    )
+                                                }
                                             }
-                                        }
-                                    )
+                                        )
+                                        Spacer(modifier = Modifier.height(28.dp))
+
+                                        Canvas(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            onDraw = {
+                                                drawIntoCanvas {
+                                                    it.nativeCanvas.drawText(
+                                                        "Rs. " + merch[page].price,
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaintStroke2
+                                                    )
+                                                    it.nativeCanvas.drawText(
+                                                        "Rs. " + merch[page].price,
+                                                        0f,
+                                                        0.dp.toPx(),
+                                                        textPaint2
+                                                    )
+                                                }
+                                            }
+                                        )
+                                    }
 
                                 }
 
@@ -3145,19 +3135,19 @@ fun compbox(){
                 Modifier.fillMaxSize(),
                 Alignment.TopEnd
             ){
-                GlideImage(
+                GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
                     modifier = Modifier
-                        .padding(end = 24.dp)
+                        .padding(end = 16.dp)
                         .fillMaxWidth(0.5f),
                     imageModel = merch[page].image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
                     alignment = Alignment.Center,
-                    shimmerParams = ShimmerParams(
-                        baseColor = Color.Transparent,
-                        highlightColor = Color.LightGray,
-                        durationMillis = 350,
-                        dropOff = 0.65f,
-                        tilt = 20f
-                    ),failure = {
+                  shimmerParams = ShimmerParams(
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
+                                    tilt = 20f
+                                ),failure = {
                         Box(modifier= Modifier
                             .fillMaxWidth()
                             .fillMaxHeight(), contentAlignment = Alignment.Center) {
@@ -3271,7 +3261,7 @@ fun compbox(){
                                                 .fillMaxHeight()
                                                 .fillMaxWidth()
                                         ) {
-                                            GlideImage(
+                                            GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
                                                 imageModel = eventdetails[page].eventdetail.imgurl,
                                                 contentDescription = "artist",
                                                 modifier = Modifier
@@ -3287,13 +3277,13 @@ fun compbox(){
                                                     },
                                                 alignment = Alignment.Center,
                                                 contentScale = ContentScale.Crop,
-                                                shimmerParams = ShimmerParams(
-                                                    baseColor = blackbg,
-                                                    highlightColor = Color.LightGray,
-                                                    durationMillis = 350,
-                                                    dropOff = 0.65f,
-                                                    tilt = 20f
-                                                ), failure = {
+                                               shimmerParams = ShimmerParams(
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
+                                    tilt = 20f
+                                ), failure = {
                                                     Box(
                                                         modifier = Modifier
                                                             .fillMaxWidth()
@@ -3301,7 +3291,7 @@ fun compbox(){
                                                         contentAlignment = Alignment.Center
                                                     ) {
                                                         val composition by rememberLottieComposition(
-                                                            LottieCompositionSpec.RawRes(R.raw.comingsoon)
+                                                            LottieCompositionSpec.RawRes(if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight)
                                                         )
                                                         val progress by animateLottieCompositionAsState(
                                                             composition,
