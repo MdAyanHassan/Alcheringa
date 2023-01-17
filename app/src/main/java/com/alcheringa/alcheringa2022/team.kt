@@ -1,22 +1,17 @@
 package com.alcheringa.alcheringa2022
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
@@ -28,31 +23,83 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import com.alcheringa.alcheringa2022.Model.member
 import com.alcheringa.alcheringa2022.databinding.ActivityTeamBinding
-import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
 
 class team : AppCompatActivity() {
     private lateinit var binding: ActivityTeamBinding
     val devteam= listOf(
-        member(R.drawable.vipin,"Vipin Jaluthria","Head","https://www.instagram.com/vip_itd/","https://www.facebook.com/vipin.jaluthria.9/","https://www.linkedin.com/in/vipinjaluthria/")
-        ,member(R.drawable.grid,"Shreya Goel","Core Team Member","https://www.instagram.com/shreyagoel2706/","https://www.facebook.com/shreya.goel.7399","https://www.linkedin.com/in/shreyagoel/")
-        ,member(R.drawable.nitish,"Nitish Singh Chauhan","Executive")
-        ,member(R.drawable.atharva,"Atharva Tagalpallewar","Executive","https://www.instagram.com/atagalpallewar/",lnkdurl ="https://www.linkedin.com/in/atharva-tagalpallewar/")
+        member(
+            R.drawable.nitish,
+            "Nitish Singh Chauhan",
+            "Head")
+        ,member(
+            R.drawable.atharva,
+            "Atharva Tagalpallewar",
+            "Head",
+            "https://www.instagram.com/atagalpallewar/",
+            "https://www.linkedin.com/in/atharva-tagalpallewar/"),
+        member(
+            R.drawable.shanta,
+            "Shantanu Chaudahri",
+            "Executive",
+            "https://www.instagram.com/krab_shanta/",
+            lnkdurl = "https://www.linkedin.com/in/shanta11")
+        ,member(
+            R.drawable.krishi,
+            "Vedhant Krishi S",
+            "Executive",
+            "https://www.instagram.com/vedhant.krishi._/",
+            lnkdurl = "https://www.linkedin.com/in/vedhant-krishi-74224b21a/")
+        ,member(
+            R.drawable.shri,
+            "Shrivathsa",
+            "Executive",
+            "https://www.instagram.com/5hri_07/",
+            lnkdurl = "https://www.linkedin.com/in/shrivathsa729/"),
+        member(
+            R.drawable.divyesh,
+            "Divyesh Agrawal",
+            "Executive",
+            "https://www.instagram.com/agarwal_divyesh/",
+            lnkdurl = "https://www.linkedin.com/in/divyesh-agarwal-48a750231"),
+        member(
+            R.drawable.rashmi,
+            "Rashmi Bajaj",
+            "Executive",
+            "https://www.instagram.com/r_bajaj047/",
+
+            lnkdurl = "https://www.linkedin.com/in/rashmi-bajaj-70b386230")
     )
-    val desteam= listOf(
-        member(R.drawable.fahim,"Mohammed Fahim","Head","https://www.instagram.com/faahym/","https://www.facebook.com/faahym","https://www.linkedin.com/in/faahym/")
-        ,member(R.drawable.rishikesh,"Rishikesh Aryan C","Executive","https://instagram.com/rishhiiikesh","https://www.facebook.com/Rishhiiikesh","https://www.linkedin.com/in/rishhiiikesh")
-        ,member(R.drawable.bodh,"Tsewang Bodh","Executive","https://www.instagram.com/tsewang.png/", lnkdurl = "https://www.linkedin.com/in/tsewang-bodh-7b20a1210/")
+    val desteam = listOf(
+        member(
+            R.drawable.fahim,
+            "Mohammed Fahim",
+            "Head",
+            "https://www.instagram.com/faahym/",
+            "https://www.facebook.com/faahym",
+            "https://www.linkedin.com/in/faahym/"
+        ),
+        member(
+            R.drawable.rishikesh,
+            "Kavinash S",
+            "Executive",
+            "https://www.instagram.com/xorkavi/",
+            "https://www.facebook.com/kavinash8/",
+            "https://www.linkedin.com/in/kavinas-sundaramurthy-a2abb5226/"
+        ),
+        member(
+            R.drawable.shivam,
+            "Shivam Kumar Roy",
+            "Executive",
+            "https://www.instagram.com/_shivam.roy/",
+            lnkdurl = "https://www.linkedin.com/in/shivam-roy1/"
+        )
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
