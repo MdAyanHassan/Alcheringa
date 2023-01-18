@@ -531,9 +531,7 @@ class Home : Fragment() {
     @Composable
     fun horizontalScroll(eventdetails:List<eventWithLive>){
         val count = eventdetails.size
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()) {
+        Box() {
                 Column() {
 
                     val pagerState = rememberPagerState()
@@ -565,12 +563,15 @@ class Home : Fragment() {
                     val hpm= if(isSystemInDarkTheme()) Modifier
                         .padding(start = 15.dp)
                         .fillMaxWidth()
-                        .wrapContentHeight()
+                        .aspectRatio(0.781f)
+
 //                        .coloredShadow(colors.onBackground, 0.25f, 16.dp, 20.dp, -5.dp, -5.dp)
                     else Modifier
                         .padding(start = 15.dp,bottom=20.dp)
                         .fillMaxWidth()
-                        .wrapContentHeight()
+                        .aspectRatio(0.781f)
+
+
                     HorizontalPager(
                         count = count,
                         modifier = hpm,
@@ -590,6 +591,7 @@ class Home : Fragment() {
                             }
                                 .fillMaxWidth()
                                 .aspectRatio(0.781f)
+
                              , contentAlignment = if(calculateCurrentOffsetForPage(page)<=0)Alignment.CenterStart else Alignment.CenterEnd
 
                         ) { val bmh=if(isSystemInDarkTheme()) Modifier else Modifier
@@ -1439,7 +1441,7 @@ fun compbox(){
                         //                    }
 
                         if(homeViewModel.featuredEventsWithLivestate.isNotEmpty()) {
-                            Spacer(Modifier.height(20.dp))
+
                             horizontalScroll(eventdetails = List(10) {homeViewModel.featuredEventsWithLivestate}.flatten())
                         }
 

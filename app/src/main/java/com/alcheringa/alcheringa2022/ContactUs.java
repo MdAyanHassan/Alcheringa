@@ -33,9 +33,9 @@ public class ContactUs extends AppCompatActivity {
         textView1=findViewById(R.id.name1);
         textView2=findViewById(R.id.name2);
         textView3=findViewById(R.id.name3);
-        textView3.setText("Vishal Chelly");
-        textView2.setText("Ch Venkat Vikas");
-        textView1.setText("Ankit Agarwal");
+        textView3.setText("Siddhant singh");
+        textView2.setText("Akshara reddy");
+        textView1.setText("Quasim Khan");
 
         buttonCall=findViewById(R.id.call_btn1);
         buttonEmail=findViewById(R.id.email_btn1);
@@ -49,7 +49,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:9983072631"));
+                intent.setData(Uri.parse("tel:+917763959688"));
                 startActivity(intent);
 
             }
@@ -59,7 +59,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("mailto:ankit.a@alcheringa.in"));
+                        Uri.parse("mailto:quasim@alcheringa.in"));
                 startActivity(intent);
             }
         });
@@ -67,7 +67,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:8919054239"));
+                intent.setData(Uri.parse("tel:+919908991939"));
                 startActivity(intent);
             }
         });
@@ -76,7 +76,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("mailto:vikas@alcheringa.in"));
+                        Uri.parse("mailto:akshara@alcheringa.in"));
                 startActivity(intent);
             }
         });
@@ -84,7 +84,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:7331104679"));
+                intent.setData(Uri.parse("tel:+919310859978"));
                 startActivity(intent);
             }
         });
@@ -94,7 +94,7 @@ public class ContactUs extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("mailto:vishal@alcheringa.in"));
+                        Uri.parse("mailto:siddhant.s@alcheringa.in"));
                 startActivity(intent);
             }
         });

@@ -79,14 +79,14 @@ class team : AppCompatActivity() {
     val desteam = listOf(
         member(
             R.drawable.fahim,
-            "Mohammed Fahim",
+            "Ayush Shivam",
             "Head",
-            "https://www.instagram.com/faahym/",
-            "https://www.facebook.com/faahym",
-            "https://www.linkedin.com/in/faahym/"
+            "https://www.instagram.com/sigh.yush/",
+            "https://www.facebook.com/profile.php?id=100002442294419",
+            "https://www.linkedin.com/in/ayush-singh-5065881a1/"
         ),
         member(
-            R.drawable.rishikesh,
+            R.drawable.xork,
             "Kavinash S",
             "Executive",
             "https://www.instagram.com/xorkavi/",

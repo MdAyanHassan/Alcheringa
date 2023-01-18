@@ -1130,7 +1130,8 @@ class MerchFragmentCompose : Fragment() {
                 },
                 sheetShape = RoundedCornerShape(40.dp, 40.dp),
                 sheetBackgroundColor = Color.Transparent,
-                sheetElevation = 0.dp
+                sheetElevation = 0.dp,
+                sheetPeekHeight = 0.dp
 
 
             ) {

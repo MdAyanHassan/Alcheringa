@@ -65,6 +65,7 @@ fun ViewPagernew(
     modifier: Modifier = Modifier,
     verticalOrientation: Boolean = false,
 
+
     content: ViewPagerScope.() -> Unit = {}
 ) {
    val paddingend= LocalDensity.current.run { 20.dp.toPx().toInt() }
@@ -92,7 +93,7 @@ fun ViewPagernew(
             this.clipToPadding=false
             this.offscreenPageLimit=3
             this.layoutParams.apply { setPadding(paddingstart,0, paddingend,0) }
-            this.setPageTransformer(SliderTransformer(3))
+            this.setPageTransformer(SliderTransformer(4))
         } }
     ) {
         if(verticalOrientation) it.orientation = ViewPager2.ORIENTATION_VERTICAL
