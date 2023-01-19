@@ -7,7 +7,10 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
+import androidx.compose.ui.graphics.ShaderBrush
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.doOnPreDraw
@@ -141,7 +144,7 @@ class ShadowIndicatorBottomNavigationView : BottomNavigationView,
                 val rightShadow = (indicator.centerX() + indicator.width() / 2) - indicatorHeaderHeight / 2
                 val bottomShadow = itemView.bottom.toFloat()
 
-                shadowPaint.shader = LinearGradient(0f, 0f, 0f, itemView.height.toFloat(), intArrayOf(getColorWithAlpha(indicatorShadowColor, 40), Color.TRANSPARENT), null, Shader.TileMode.CLAMP)
+                shadowPaint.shader = LinearGradient(0f, 0f, 0f, itemView.height.toFloat(), intArrayOf(getColorWithAlpha(indicatorShadowColor, 30), getColorWithAlpha(indicatorShadowColor, 30)), null, Shader.TileMode.CLAMP)
 
                 shadow.set(leftShadow, topShadow.toFloat(), rightShadow, bottomShadow.toFloat())
                 path = Path()
@@ -161,7 +164,7 @@ class ShadowIndicatorBottomNavigationView : BottomNavigationView,
                 invalidate()
             }
 
-            interpolator = OvershootInterpolator()
+            interpolator = OvershootInterpolator(1f)
 
             val distanceToMove = abs(fromCenterX - itemView.centerX)
             duration = if (animate) calculateDuration(distanceToMove) else 0L
