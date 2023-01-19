@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.colorResource
@@ -65,25 +66,27 @@ fun Schedule_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, contex
             )
     }
         val scm=if(isSystemInDarkTheme()) Modifier
-            .background(colors.background)
-            .coloredShadow(
-                if (eventdetail.isLive.value) {
-                    liveGreen
-                } else {
-                    colors.onBackground
-                },
-                0.39f,
-                16.dp,
-                25.dp,
-                0.dp,
-                0.dp
-            )
+
+//            .coloredShadow(
+//                if (eventdetail.isLive.value) {
+//                    liveGreen
+//                } else {
+//                    colors.onBackground
+//                },
+//                0.39f,
+//                16.dp,
+//                25.dp,
+//                0.dp,
+//                0.dp
+//            ).background(colors.background)
             .graphicsLayer(translationY = animationProgress.value)
                 else Modifier
-            .background(colors.background)
+
             .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
             .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
             .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(colors.background)
             .graphicsLayer(translationY = animationProgress.value)
     Box(
        modifier = scm
