@@ -14,18 +14,13 @@ import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.ContentAlpha.medium
 import androidx.compose.material.MaterialTheme.colors
-
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -37,7 +32,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -49,12 +43,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.DBHandler
-import com.alcheringa.alcheringa2022.MainActivity.index
-import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.merchModel
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.ui.theme.*
@@ -70,7 +61,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firestore.admin.v1.Index
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
@@ -150,13 +140,18 @@ class MerchFragmentCompose : Fragment() {
         merchModelList = SnapshotStateList()
         //populate_merch()
         setCartCountIcon()
-
+        var popUp = -1
+        if (arguments != null){
+            popUp = MerchFragmentComposeArgs.fromBundle(arguments!!).merchPopup
+        }
 
 
         compose = view.findViewById(R.id.compose1)
         compose.setContent {
             if(homeViewModel.merchMerch.isNotEmpty()){
-                MyContent()
+
+                MyContent(popUp)
+
             }
         }
 
@@ -503,8 +498,8 @@ class MerchFragmentCompose : Fragment() {
         ExperimentalFoundationApi::class
     )
     @Composable
-    fun MyContent() {
-        var index by rememberSaveable {mutableStateOf(0)}
+    fun MyContent(popUp: Int) {
+        var index by rememberSaveable {mutableStateOf(if (popUp==-1) 0 else popUp)}
 
         val sizes = arrayListOf<String>("S", "M", "L", "XL", "XXL")
         val lengths = arrayListOf<String>("27", "28", "28.5", "29.25", "30")
@@ -527,7 +522,7 @@ class MerchFragmentCompose : Fragment() {
         // store bottom sheet collapsed state
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState =
-            BottomSheetState(BottomSheetValue.Collapsed)
+            BottomSheetState(if(popUp!=-1) BottomSheetValue.Expanded else BottomSheetValue.Collapsed)
         )
 
         // Declaring Coroutine scope

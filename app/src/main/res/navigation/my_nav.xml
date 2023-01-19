@@ -29,7 +29,12 @@
         android:id="@+id/merch"
         android:name="com.alcheringa.alcheringa2022.MerchFragmentCompose"
         android:label="fragment_merch"
-        tools:layout="@layout/fragment_merch_compose" />
+        tools:layout="@layout/fragment_merch_compose" >
+        <argument
+            android:name="merch_popup"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
     <fragment
         android:id="@+id/home_nav"
         android:name="com.alcheringa.alcheringa2022.Home"

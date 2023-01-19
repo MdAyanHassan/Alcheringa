@@ -34,7 +34,7 @@ class SliderTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTr
                     translationX = DEFAULT_TRANSLATION_X
                     scaleX = DEFAULT_SCALE
                     scaleY = DEFAULT_SCALE
-                    alpha = 1f
+                    alpha = if(position>=-0.98f) 1f else 0f
                 }
                 position <= offscreenPageLimit - 1 -> {
                     scaleX = scaleFactor
