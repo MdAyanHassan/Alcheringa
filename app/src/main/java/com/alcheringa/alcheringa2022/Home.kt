@@ -2995,7 +2995,8 @@ fun compbox(){
                 ) {
                     Box(modifier = Modifier
                         .clickable {
-                            findNavController(this@Home).navigate(R.id.action_home2_to_merchFragment)
+                            val action = HomeDirections.actionHome2ToMerchFragment(page)
+                            findNavController(this@Home).navigate(action)
 
                             //                fm.beginTransaction()
                             //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)

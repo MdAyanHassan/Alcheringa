@@ -168,6 +168,17 @@ public class ProfilePage extends AppCompatActivity{
 
                         scaleUp.start();
                         break;
+                    case MotionEvent.ACTION_UP:
+                        ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(theme_btn, "scaleX", 1f);
+                        ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(theme_btn, "scaleY", 1f);
+                        scaleDownX.setDuration(1500);
+                        scaleDownY.setDuration(1500);
+
+                        AnimatorSet scaleDown = new AnimatorSet();
+                        scaleDown.play(scaleDownX).with(scaleDownY);
+
+                        scaleDown.start();
+
                 }
 
                     return false;
