@@ -715,7 +715,7 @@ if (searchlist.isNotEmpty()) {
             venuelist.forEach {v->
                 Marker(
 
-                    icon = bitmapDescriptor(requireContext(),R.drawable.partylocationicon),
+                    icon = bitmapDescriptor(requireContext(),if(isSystemInDarkTheme())R.drawable.darkmapmarker else R.drawable.lightmapmarker),
                     position = v.LatLng,
                     title = v.name,
                     snippet = v.des,
