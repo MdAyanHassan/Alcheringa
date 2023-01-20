@@ -87,7 +87,7 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
         builder=new Retrofit.Builder()
-                .baseUrl("https://docs.google.com/forms/u/0/d/e/1FAIpQLSfugQ32uHJp8XNA5-EwrGGcJgJeXwqzEOMaAKuyMBsC3jGFXg/")
+                .baseUrl("https://docs.google.com/forms/d/e/1FAIpQLSd2uK87A7zPdbag7B9BCPqf5O_MyOw8CDz7mr7D4B0Q_h7ynA/")
                 .addConverterFactory(GsonConverterFactory.create());
         retrofit=builder.build();
         Intent intent = getIntent();
@@ -169,22 +169,22 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
 
         for(int i=0;i<order_list.size();i++){
             Map<String,Object> data=new HashMap<>();
-            data.put("entry.131168542",order_list.get(i).getName());
-            data.put("entry.1664498189",order_list.get(i).getPrice());
-            data.put("entry.2091239120",order_list.get(i).getSize());
-            data.put("entry.363590504",order_list.get(i).getType());
-            data.put("entry.2040691413",new Date()+"");
-            data.put("entry.1576164204",user_phone);
-            data.put("entry.1382179014",user_house);
-            data.put("entry.1495324823",user_road);
-            data.put("entry.2048595423",user_state);
-            data.put("entry.1655477142",user_city);
-            data.put("entry.848668946",user_pin_code);
-            data.put("entry.822567484",PaymentId);
-            data.put("entry.1277791907",""+amount);
-            data.put("entry.1392578640",order_list.get(i).getCount());
-            data.put("entry.559020023",user_name);
-            data.put("entry.1216607284",Email);
+            data.put("entry.1217211808",order_list.get(i).getName());
+            data.put("entry.365380202",order_list.get(i).getPrice());
+            data.put("entry.1596700490",order_list.get(i).getSize());
+            data.put("entry.1406401370",order_list.get(i).getType());
+            data.put("entry.461981693",new Date()+"");
+            data.put("entry.271845590",user_phone);
+            data.put("entry.1853344447",user_house);
+            data.put("entry.1389883145",user_road);
+            data.put("entry.1369895676",user_state);
+            data.put("entry.701619952",user_city);
+            data.put("entry.1333764685",user_pin_code);
+            data.put("entry.505659208",PaymentId);
+            data.put("entry.1800146690",""+amount);
+            data.put("entry.1596610928",order_list.get(i).getCount());
+            data.put("entry.2032856044",user_name);
+            data.put("entry.121322222",Email);
             Volley(data);
             //total_price += Integer.parseInt(order_list.get(i).getPrice());
         };
