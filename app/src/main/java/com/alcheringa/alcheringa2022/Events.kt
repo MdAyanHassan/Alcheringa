@@ -80,17 +80,32 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 val venuelist= listOf<venue>(
-    venue("IITG Auditorium", LatLng = LatLng(26.191117262340942, 91.69295134231831) ),
-    venue("Pronites Ground", LatLng(26.190761044728855, 91.69699071630549)),
-    venue("Creators Camp", LatLng(26.192746220233865, 91.6990506613767)),
-    venue("Gaming", LatLng(26.191475431167117, 91.6920447314818)),
-    venue("Campaign", LatLng(26.191978820911885, 91.69572236815209)),
-    venue("NEU Stage", LatLng(26.191978820911885, 91.69572236815209)),
-    venue("Auditorium 1", LatLng = LatLng(26.191117262340942, 91.69295134231831) ),
-    venue("Auditorium 2", LatLng = LatLng(26.191117262340942, 91.69295134231831) ),
-    venue("Alcheringa Wall", LatLng(26.191978820911885, 91.69572236815209)),
-
-
+    venue("Auditorium", LatLng = LatLng(26.19112208804196, 91.69303176849581) ),
+    venue("Mini Auditorium", LatLng = LatLng(26.191117262340942, 91.69295134231831) ),
+    venue("Expo Stage", LatLng = LatLng(26.190595470457254, 91.69299907458895) ),
+    venue("Front of Graffiti Wall", LatLng = LatLng(26.19191890474476, 91.6959432542479) ),
+    venue("Behind Graffiti Wall", LatLng = LatLng(26.191951998262304, 91.69573068917616) ),
+    venue("Football Field", LatLng = LatLng(26.193022124942964, 91.69694866004637) ),
+    venue("Basketball Courts", LatLng = LatLng(26.19204463910141, 91.69785644684545) ),
+    venue("Volley Ball Court", LatLng = LatLng(26.19204023599347, 91.697370658238481) ),
+    venue("Library Shed", LatLng = LatLng(26.189551715246374, 91.69337795595325) ),
+    venue("Lecture Hall 1", LatLng = LatLng(26.18887122024269, 91.6915540343227) ),
+    venue("Lecture Hall 2", LatLng = LatLng(26.18887122024269, 91.69120740403123) ),
+    venue("Lecture Hall 3", LatLng = LatLng(26.189187623768493, 91.69123232548078) ),
+    venue("Lecture Hall 4", LatLng = LatLng(26.189188928272614, 91.69158633771725) ),
+    venue("Rocko Stage", LatLng = LatLng(26.189865803005024, 91.693858248184) ),
+    venue("Pronite Stage", LatLng = LatLng(26.1897968961693, 91.697434871485) ),
+    venue("Conference Hall 1", LatLng = LatLng(26.19108400387418, 91.69259517438542) ),
+    venue("Conference Hall 2", LatLng = LatLng(26.191301512939837, 91.69261825980088) ),
+    venue("Conference Hall 3", LatLng = LatLng(26.19136365831258, 91.69223157909188) ),
+    venue("Conference Hall 4", LatLng = LatLng(26.19112543420372, 91.69223157909188) ),
+    venue("Core 5", LatLng = LatLng(26.18611265371866, 91.68929712769904) ),
+    venue("Senate Hall", LatLng = LatLng(26.190302521884597, 91.69210573526523) ),
+    venue("Old Sac Wall", LatLng = LatLng(26.192563559521556, 91.69583138918674) ),
+    venue("Audi Park", LatLng = LatLng(26.190218676220958, 91.69300182135102) ),
+    venue("Athletics Field", LatLng = LatLng(26.19290020378757, 91.69813175683815) ),
+    venue("Entire Campus", LatLng = LatLng(26.190213221922317, 91.6929932588851) ),
+    venue("Library Basement", LatLng = LatLng(26.18950374874834, 91.6934319403298) ),
     )
 
 class Events : Fragment() {
@@ -693,13 +708,11 @@ if (searchlist.isNotEmpty()) {
     @Composable
     fun mapview() {
         var cameraPositionState = CameraPositionState(
-            position = CameraPosition.fromLatLngZoom(venuelist[2].LatLng, 16f)
+            position = CameraPosition.fromLatLngZoom(venuelist[2].LatLng, 17f)
         )
 
         val coroutinescope= rememberCoroutineScope()
-        coroutinescope.launch {
-        cameraPositionState.animate(CameraUpdateFactory.newCameraPosition(CameraPosition(venuelist.random().LatLng, 16f,0f,0f)))
-        }
+
 
         val mainaudi = LatLng(26.191117262340942, 91.69295134231831)
 

@@ -341,7 +341,7 @@ class Schedule : Fragment() {
                 Row(
                     Modifier
 //                        .width(1656.dp)
-                        .width(5156.dp)
+                        .width(5362.dp)
                         , horizontalArrangement = Arrangement.SpaceEvenly
                 ) { Box(modifier = Modifier
                     .width(200.dp)
@@ -388,7 +388,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "MCH",
+                            text = "Front of Graffiti Wall",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = aileron,
@@ -441,7 +441,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Voley Ball Court",
+                            text = "Volley Ball Court",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = aileron,
@@ -598,7 +598,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Core 1",
+                            text = "Core 5",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = aileron,
@@ -624,7 +624,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "OLD SAC WALL",
+                            text = "Old Sac Wall",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = aileron,
@@ -637,7 +637,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "AUDI PARK",
+                            text = "Audi Park",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = aileron,
@@ -650,7 +650,7 @@ class Schedule : Fragment() {
                         .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Near Lake \n( In front of Audi )",
+                            text = "Athletics Field",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = aileron,
@@ -664,6 +664,19 @@ class Schedule : Fragment() {
                         .background(headerbgcolor), contentAlignment = Alignment.Center) {
                         Text(
                             text = "Entire Campus",
+                            fontWeight = FontWeight.W600,
+                            fontSize = 16.sp,
+                            fontFamily = aileron,
+                            color = colors.onBackground
+                        )
+                    }
+                    Box(modifier = Modifier
+                        .width(200.dp)
+                        .height(54.dp)
+                        .clip(RoundedCornerShape(topEnd = 4.dp, topStart = 4.dp))
+                        .background(headerbgcolor), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Library Basement",
                             fontWeight = FontWeight.W600,
                             fontSize = 16.sp,
                             fontFamily = aileron,
@@ -948,7 +961,7 @@ class Schedule : Fragment() {
                 .offset(-35.dp)
 //                .width(2025.dp)
 //                .width(1700.dp)
-                .width(5218.dp)
+                .width(5424.dp)
                 .height(975.dp)
 //                .horizontalScroll(rememberScrollState())
                ) {
@@ -1183,6 +1196,12 @@ class Schedule : Fragment() {
                 .width(200.dp)
                 .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
                 .background(coloroverlay))
+            Box(modifier = Modifier
+                .offset(x = 5186.dp)
+                .fillMaxHeight()
+                .width(200.dp)
+                .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
+                .background(coloroverlay))
 
 
             if (datestate.value == 1) {
@@ -1214,18 +1233,36 @@ class Schedule : Fragment() {
 //                ).random()
 //            )
 //        }
+
         var catid= remember { mutableStateOf(6) }
             when(eventdetail.eventdetail.venue.replace("\\s".toRegex(), "").uppercase()){
 
-                "IITG Auditorium".replace("\\s".toRegex(), "").uppercase()-> catid.value=0
-                "Pronites Ground".replace("\\s".toRegex(), "").uppercase()->catid.value=1
-                "NEU Stage".replace("\\s".toRegex(), "").uppercase()-> catid.value=2
-                "Auditorium 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=3
-                "Auditorium 2".replace("\\s".toRegex(), "").uppercase()->catid.value=4
-                "Creators' Camp".replace("\\s".toRegex(), "").uppercase()-> catid.value=5
-                "Gaming".replace("\\s".toRegex(), "").uppercase()-> catid.value=6
-                "Campaign".replace("\\s".toRegex(), "").uppercase()-> catid.value=7
-
+                "Auditorium".replace("\\s".toRegex(), "").uppercase()-> catid.value=0
+                "Mini Auditorium".replace("\\s".toRegex(), "").uppercase()->catid.value=1
+                "Expo Stage".replace("\\s".toRegex(), "").uppercase()-> catid.value=2
+                "Front of Graffiti Wall".replace("\\s".toRegex(), "").uppercase()-> catid.value=3
+                "Behind Graffiti Wall".replace("\\s".toRegex(), "").uppercase()->catid.value=4
+                "Football Field".replace("\\s".toRegex(), "").uppercase()-> catid.value=5
+                "Basketball Courts".replace("\\s".toRegex(), "").uppercase()-> catid.value=6
+                "Volley Ball Court".replace("\\s".toRegex(), "").uppercase()-> catid.value=7
+                "Library Shed".replace("\\s".toRegex(), "").uppercase()-> catid.value=8
+                "Lecture Hall 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=9
+                "Lecture Hall 2".replace("\\s".toRegex(), "").uppercase()-> catid.value=10
+                "Lecture Hall 3".replace("\\s".toRegex(), "").uppercase()-> catid.value=11
+                "Lecture Hall 4".replace("\\s".toRegex(), "").uppercase()-> catid.value=12
+                "Rocko Stage".replace("\\s".toRegex(), "").uppercase()-> catid.value=13
+                "Pronite Stage".replace("\\s".toRegex(), "").uppercase()-> catid.value=14
+                "Conference Hall 1".replace("\\s".toRegex(), "").uppercase()-> catid.value=15
+                "Conference Hall 2".replace("\\s".toRegex(), "").uppercase()-> catid.value=16
+                "Conference Hall 3".replace("\\s".toRegex(), "").uppercase()-> catid.value=17
+                "Conference Hall 4".replace("\\s".toRegex(), "").uppercase()-> catid.value=18
+                "Core 5".replace("\\s".toRegex(), "").uppercase()-> catid.value=19
+                "Senate Hall".replace("\\s".toRegex(), "").uppercase()-> catid.value=20
+                "Old Sac Wall".replace("\\s".toRegex(), "").uppercase()-> catid.value=21
+                "Audi Park".replace("\\s".toRegex(), "").uppercase()-> catid.value=22
+                "Athletics Field".replace("\\s".toRegex(), "").uppercase()-> catid.value=23
+                "Entire Campus".replace("\\s".toRegex(), "").uppercase()-> catid.value=24
+                "Library Basement".replace("\\s".toRegex(), "").uppercase()-> catid.value=25
             }
 
         var lengthdp =
