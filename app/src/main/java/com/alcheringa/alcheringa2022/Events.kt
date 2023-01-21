@@ -132,6 +132,8 @@ class Events : Fragment() {
     lateinit var creatorscampslist: List<eventWithLive>
     lateinit var humorfestslist : List<eventWithLive>
     lateinit var camppaignslist : List<eventWithLive>
+    lateinit var mun : List<eventWithLive>
+    lateinit var otherlist : List<eventWithLive>
 
 
 
@@ -158,7 +160,12 @@ class Events : Fragment() {
                 data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Humor Fest".replace("\\s".toRegex(), "").uppercase()}
 
         camppaignslist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Campaigns".replace("\\s".toRegex(), "").uppercase()}
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Kartavya".replace("\\s".toRegex(), "").uppercase()}
+        mun=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "MUN".replace("\\s".toRegex(), "").uppercase()}
+        otherlist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "OTHER EVENTS".replace("\\s".toRegex(), "").uppercase()}
+
     }
 
 
@@ -240,12 +247,15 @@ Alcheringa2022Theme() {
                     Spacer(modifier = Modifier.height(435.dp))
                 }
                   else {
-                    Events_row(heading = "Critical Damage", criticaldamageslist)
-                    Events_row(heading = "Pronites", proniteslist)
-                    Events_row(heading = "Proshows", proshowslist)
-                    Events_row(heading = "Creators' Camp", creatorscampslist)
-                    Events_row(heading = "Humor Fest", humorfestslist)
-                    Events_row(heading = "Campaigns", camppaignslist)
+
+                    if(criticaldamageslist.isNotEmpty()){ Events_row(heading = "Critical Damage", criticaldamageslist) }
+                    if(proniteslist.isNotEmpty()){ Events_row(heading = "Pronites", proniteslist) }
+                    if(proshowslist.isNotEmpty()){ Events_row(heading = "Proshows", proshowslist) }
+                    if(creatorscampslist.isNotEmpty()){ Events_row(heading = "Creators' Camp", creatorscampslist) }
+                    if(humorfestslist.isNotEmpty()){ Events_row(heading = "Humor Fest", humorfestslist) }
+                    if(camppaignslist.isNotEmpty()){ Events_row(heading = "Kartavya", camppaignslist) }
+                    if(mun.isNotEmpty()){ Events_row(heading = "MUN", mun) }
+                    if(otherlist.isNotEmpty()){Events_row(heading = "Other Events", list = otherlist)}
                 }
 
 
