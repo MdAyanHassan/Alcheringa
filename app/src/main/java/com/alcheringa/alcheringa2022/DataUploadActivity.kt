@@ -18,7 +18,7 @@ class DataUploadActivity : AppCompatActivity() {
 
         fun pushEvents(evnts: List<eventdetail>) {
             for (evnt in evnts) {
-                fb.collection("AllEvents").document(evnt.artist).set(evnt).addOnSuccessListener {
+                fb.collection("AllEvents").document(evnt.artist + " 2023").set(evnt).addOnSuccessListener {
                     Log.d("pushevents", "process succeed")
                 }.addOnFailureListener {
                     Log.d("pushevents", "process failed")
@@ -51,118 +51,104 @@ class DataUploadActivity : AppCompatActivity() {
 //
 //            )
 //        pushSponsers(sponserlist)
-        val newEvents= listOf(
+        val newEvents= listOf<eventdetail>(
+                eventdetail(
+                    artist = "Haute Couture",
+                    category = "Competition",
+                    starttime = OwnTime(4, 12, 0),
+                    imgurl = "",
+                    durationInMin = 90,
+                    genre = listOf("Fashion", "Ethnic", "Traditional"),
+                    descriptionEvent = "Ever felt so thunder seeing someone so immaculately dressed that you run out of cheers and words. Haute Couture, where the most glamorous people show off their skills as they walk the ramp, a fashion show evoking all those creative peeps to put on their thinking caps and come out with the most innovative theme-based fashion show.",
+                    venue = "Auditorium",
+                    type = "Vogue Nation",
+                    reglink = ""
+                ),
+            eventdetail(
+                artist = "States of Dress",
+                category = "Competition",
+                starttime = OwnTime(5, 9, 0),
+                imgurl = "",
+                durationInMin = 180,
+                genre = listOf("Fashion", "Ethnic", "Traditional"),
+                descriptionEvent = "Design the best outfit for your friend using trash. Use your origami and fashion skills to make the perfect dress!",
+                venue = "Library Shed",
+                type = "Vogue Nation",
+                reglink = ""
+            ),
+            eventdetail(
+                artist = "Glamour Nova",
+                category = "Competition",
+                starttime = OwnTime(4, 10, 0),
+                imgurl = "",
+                durationInMin = 420,
+                genre = listOf("Fashion", "Ethnic", "Traditional"),
+                descriptionEvent = "Online Fashion Design and Photoshoot Competition",
+                venue = "Entire Campus",
+                type = "Vogue Nation",
+                reglink = ""
+            ),
+            eventdetail(
+                artist = "Chirag Panjwani",
+                category = "Stand Up",
+                starttime = OwnTime(5, 14, 0),
+                imgurl = "",
+                durationInMin = 30,
+                genre = listOf(""),
+                descriptionEvent = "Coming soon...",
+                venue = "Auditorium",
+                type = "Proshow",
+                reglink = ""
+            ),
+            eventdetail(
+                artist = "Rahul Kharbanda",
+                category = "Magician",
+                starttime = OwnTime(4, 14, 0),
+                imgurl = "",
+                durationInMin = 30,
+                genre = listOf(""),
+                descriptionEvent = "Coming soon...",
+                venue = "Auditorium",
+                type = "Proshow",
+                reglink = ""
+            ),
+            eventdetail(
+                artist = "Bikram Sarkar",
+                category = "Stunt",
+                starttime = OwnTime(5, 13, 0),
+                imgurl = "",
+                durationInMin = 30,
+                genre = listOf(""),
+                descriptionEvent = "Coming soon...",
+                venue = "Old Sac Wall",
+                type = "Proshow",
+                reglink = ""
+            ),
+            eventdetail(
+                artist = "Sen Jansen",
+                category = "Dancer",
+                starttime = OwnTime(4, 17, 0),
+                imgurl = "",
+                durationInMin = 30,
+                genre = listOf("Dance"),
+                descriptionEvent = "Coming soon...",
+                venue = "Expo Stage",
+                type = "Proshow",
+                reglink = ""
+            ),
+            eventdetail(
+                artist = "Yashmita Hattangdi",
+                category = "Band Performance",
+                starttime = OwnTime(5, 17, 0),
+                imgurl = "",
+                durationInMin = 30,
+                genre = listOf("Bands", "Music"),
+                descriptionEvent = "Coming soon...",
+                venue = "Auditorium",
+                type = "Proshow",
+                reglink = ""
+            ),
 
-            /*eventdetail("George Redd","Comedian",OwnTime(13,17,30),"Online","",30,listOf("Art"),"","Auditorium 1","Proshows","","", true),
-            eventdetail("Wes Gama","Graffiti",OwnTime(13,17,0),"Online","",30,listOf("Art"),"","Auditorium 1","Proshows","","",true),
-            eventdetail("Evgeny Khmara","Instrumentalist",OwnTime(12,17,30),"Online","",30,listOf("Music"),"","Auditorium 2","Proshows","","", true),
-            eventdetail("Jos Repertory Theatre","Theatre",OwnTime(13,17,0),"Online","",30,listOf("Drama"),"","Auditorium 2","Proshows","","", true),*/
-            /*eventdetail(
-                "Ekaterina",
-                "Painter",
-                OwnTime(12,17,0),
-                "Online",
-                "",
-                30,listOf("Art"),
-                "",
-                "Auditorium 2",
-                "Proshows",
-                "",
-                "",
-                true
-            ),*/
-            /*eventdetail(
-                "Photography Workshop",
-                "Shivang Mehta",
-                OwnTime(12,15,0),
-                "Online",
-                "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2FPhotography%20Workshop.jpg?alt=media&token=e0722096-975d-4ba6-9aa3-5659840ff099",
-                60,
-                listOf("Art"),
-                "An international award-winning wildlife photographer and the best-selling author of ‘A Decade with Tigers' and 'Chasing Horizons: Learnings from Africa', Shivang Mehta has donned many hats in his long career, including that of a journalist and a PR professional. Stay tuned for this fascinating session!",
-                "Auditorium 2",
-                "Creators' Camp",
-                "",
-                "",
-                true
-            ),
-            eventdetail(
-                "Chess Panel",
-                "Mr RB Ramesh",
-                OwnTime(12,11,0),
-                "Online",
-                "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2FChess%20Panel.jpg?alt=media&token=0a2012bd-d99f-4158-82e4-6c10abdf25e6",
-                60,
-                listOf("Fun"),
-                "In our Chess’s panel, we have RB Ramesh who is a very well known indian chess grandmaster from Bangalore who won the 2002 British Championship and 2007 Commonwealth Championship. Join us to know more about his history and maybe a few tricks that he keeps under his sleeve.",
-                "Creators' Camp",
-                "Creators' Camp",
-                "",
-                "",
-                true
-            ),
-            eventdetail(
-                "Gamers' Province 2",
-                "Lokesh Gamer",
-                OwnTime(13,11,0),
-                "Online",
-                "",
-                60,
-                listOf("Fun"),
-                "In our Gamers’ Province Panel, we have Gaming pro Lokesh Gamer, who has proved himeself multiple times in Free Fire.His love for Free Fire has him streaming it on his Youtube Channels. Join in to know about their journey from start to being one of the renowed E-sports streamer in the country.",
-                "Creators' Camp",
-                "Creators' Camp",
-                "",
-                "",
-                true
-            ),
-            eventdetail(
-                "Gamers' Province 3",
-                "8Bit Mamba | S8UL Regatos | S8UL Viper",
-                OwnTime(13,15,0),
-                "Online",
-                "",
-                60,
-                listOf("Fun"),
-                "In our Gamers’ Province Panel, we have Gaming Pro’s 8 Bit Mamba, S8UL Regaltos and S8UL Viper. All find common love for BGMI and now even Valorant and have been streaming both on their Youtube Channels. Join in to know about their journey from start to being one of the renowed E-sports streamers in the country.",
-                "Creators' Camp",
-                "Creators' Camp",
-                "",
-                "",
-                true
-            ),*/
-            /*eventdetail(
-                "FinTalk",
-                "Basavraj Tonagatti | Preeti Zinde",
-                OwnTime(12,12,0),
-                "Online",
-                "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2FFinTalk.jpg?alt=media&token=104144ae-b764-45de-9f52-56aec902e24b",
-                60,
-                listOf("Finance"),
-                "In our Fin Talk panel, we have Basavraj Tongatti and Preeti Zinde are very well known Finance Guru.",
-                "Creators' Camp",
-                "Creators' Camp",
-                "",
-                "",
-                true
-            ),*/
-
-
-            eventdetail(
-                "East Regional Finale",
-                "ParxHunt",
-                OwnTime(13,17,30),
-                "OFFLINE",
-                "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2FGroup%20Singing%20Performance.jpg?alt=media&token=f60896f9-8611-4a29-9abe-b073fd279af9",
-                60,
-                listOf("Music"),
-                "If you've ever wondered what combining two timeless art forms would be like, we have the answer. We are glad that East regional is hosting their finale with us, experience the culmination of music and humor at its finest.",
-                "IITG Auditorium",
-                "Other Events",
-                "",
-                "",
-                true
-            ),
 
 
             )

@@ -84,6 +84,10 @@ class CompetitionsFragment : Fragment() {
     lateinit var arttalikieslist: List<eventWithLive>
     lateinit var digitaldextiritylist: List<eventWithLive>
     lateinit var lighcameraactionlist: List<eventWithLive>
+    lateinit var stagecraftlist: List<eventWithLive>
+    lateinit var sportslist: List<eventWithLive>
+    lateinit var quizlist: List<eventWithLive>
+    lateinit var otherlist: List<eventWithLive>
     lateinit var eventfordes: eventWithLive
     lateinit var  scheduleDatabase:ScheduleDatabase
     val taglist= listOf("💃  Dance","🎵  Music", "🎭  Stagecraft", "🕶  Vogue nation", "🙋‍  Class apart", "🎨  Art talkies", "📖  Literature","💻  Digital Dexterity", "🎥  Lights camera action","🌐  Informal")
@@ -171,6 +175,15 @@ class CompetitionsFragment : Fragment() {
 
         lighcameraactionlist=homeViewModel.allEventsWithLive.filter {
                 data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "LIGHTS CAMERA ACTION".replace("\\s".toRegex(), "").uppercase()}
+        stagecraftlist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "STAGECRAFT".replace("\\s".toRegex(), "").uppercase()}
+
+        sportslist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "SPORTS".replace("\\s".toRegex(), "").uppercase()}
+        otherlist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "OTHER COMPETITIONS".replace("\\s".toRegex(), "").uppercase()}
+        quizlist=homeViewModel.allEventsWithLive.filter {
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "QUIZ".replace("\\s".toRegex(), "").uppercase()}
 
     }
 
@@ -678,9 +691,134 @@ class CompetitionsFragment : Fragment() {
                                         }
                                     }
                                 }
+                                if (stagecraftlist.isNotEmpty()) {
+                                    Events_row(
+                                        heading = "Stagecraft",
+                                        stagecraftlist
+                                    )
+                                    LazyRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 20.dp)
+                                    ) {
+                                        items(stagecraftlist) { dataEach ->
+                                            context?.let {
+                                                Event_card_Scaffold(
+                                                    eventdetail = dataEach,
+                                                    homeViewModel,
+                                                    it,
+                                                    "artist"
+                                                ) {
+                                                    artist = dataEach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                    if (quizlist.isNotEmpty()) {
+                                        Events_row(
+                                            heading = "Stagecraft",
+                                            quizlist
+                                        )
+                                        LazyRow(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                            contentPadding = PaddingValues(horizontal = 20.dp)
+                                        ) {
+                                            items(quizlist) { dataEach ->
+                                                context?.let {
+                                                    Event_card_Scaffold(
+                                                        eventdetail = dataEach,
+                                                        homeViewModel,
+                                                        it,
+                                                        "artist"
+                                                    ) {
+                                                        artist = dataEach.eventdetail.artist
+                                                        coroutineScope.launch {
+                                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                                bottomSheetScaffoldState.bottomSheetState.expand()
+                                                            } else {
+                                                                bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                if (sportslist.isNotEmpty()) {
+                                    Events_row(
+                                        heading = "Sports",
+                                        sportslist
+                                    )
+                                    LazyRow(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 20.dp)
+                                    ) {
+                                        items(sportslist) { dataEach ->
+                                            context?.let {
+                                                Event_card_Scaffold(
+                                                    eventdetail = dataEach,
+                                                    homeViewModel,
+                                                    it,
+                                                    "artist"
+                                                ) {
+                                                    artist = dataEach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                    if (otherlist.isNotEmpty()) {
+                                        Events_row(
+                                            heading = "Others",
+                                            otherlist
+                                        )
+                                        LazyRow(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                            contentPadding = PaddingValues(horizontal = 20.dp)
+                                        ) {
+                                            items(otherlist) { dataEach ->
+                                                context?.let {
+                                                    Event_card_Scaffold(
+                                                        eventdetail = dataEach,
+                                                        homeViewModel,
+                                                        it,
+                                                        "artist"
+                                                    ) {
+                                                        artist = dataEach.eventdetail.artist
+                                                        coroutineScope.launch {
+                                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                                bottomSheetScaffoldState.bottomSheetState.expand()
+                                                            } else {
+                                                                bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
 
 
-                                if (mun.isNotEmpty()) {
+
+                                    if (mun.isNotEmpty()) {
                                     Events_row(heading = "Model United Nations", mun)
                                     LazyRow(
                                         modifier = Modifier.fillMaxWidth(),

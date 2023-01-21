@@ -12,7 +12,7 @@ data class eventdetail(
     val artist:String="",
     val category:String="",
     val starttime: OwnTime= OwnTime(0,0,0),
-    val mode: String="Online",
+    val mode: String="Offline",
     val imgurl:String="",
     var durationInMin:Int = 60,
     var genre:List<String> = emptyList(),
@@ -21,7 +21,7 @@ data class eventdetail(
     val type:String="",
     val joinlink:String="https://alcheringa.in",
     val reglink:String="https://alcheringa.in",
-    var stream:Boolean = true,
+    var stream:Boolean = false,
 //    var peopleCustomized: Int=0,
     ):Parcelable
 
