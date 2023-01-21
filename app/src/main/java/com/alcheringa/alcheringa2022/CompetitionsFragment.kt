@@ -1309,17 +1309,6 @@ class CompetitionsFragment : Fragment() {
     @Composable
     fun Bottomviewcomp(eventWithLive:eventWithLive){
         val c=Calendar.getInstance()
-        val isFinished = (c.get(Calendar.YEAR)>2022) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                        (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
-                        (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
-                        ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
-                                <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
 
         var isadded=remember{ mutableStateOf(false)}
         LaunchedEffect(key1=Unit,block = {
@@ -1428,7 +1417,7 @@ class CompetitionsFragment : Fragment() {
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                        text = "${eventWithLive.eventdetail.starttime.date} Feb, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
                         style = TextStyle(
                             color = colors.onBackground,
                             fontFamily = aileron,
