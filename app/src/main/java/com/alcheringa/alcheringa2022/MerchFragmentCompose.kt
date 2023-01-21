@@ -502,9 +502,8 @@ class MerchFragmentCompose : Fragment() {
         var index by rememberSaveable {mutableStateOf(if (popUp==-1) 0 else popUp)}
 
         val sizes = arrayListOf<String>("S", "M", "L", "XL", "XXL")
-        val lengths = arrayListOf<String>("27", "28", "28.5", "29.25", "30")
-        val widths = arrayListOf<String>("38", "40", "42", "44", "46")
-        val shoulders = arrayListOf<String>("17.5", "18.5", "19.5", "20.5", "21.5")
+
+
 
         var txtCol = black
         var boxColor: Color by remember {
@@ -516,6 +515,7 @@ class MerchFragmentCompose : Fragment() {
         var isSizeChartExpanded by remember {
             mutableStateOf(false)
         }
+
 
 
         // Declaring a Boolean value to
@@ -722,6 +722,9 @@ class MerchFragmentCompose : Fragment() {
 
                                                             }
                                                             if (isSizeChartExpanded) {
+                                                                val lengths = arrayListOf<String>("27", "28", "28.5", "29.25", "30")
+                                                                val widths = arrayListOf<String>("38", "40", "42", "44", "46")
+                                                                val shoulders = arrayListOf<String>("17.5", "18.5", "19.5", "20.5", "21.5")
                                                                 Text(
                                                                     "Length",
                                                                     style = TextStyle(

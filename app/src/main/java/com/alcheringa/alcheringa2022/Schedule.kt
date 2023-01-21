@@ -73,13 +73,13 @@ class Schedule : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             homeviewmodel.allEventsWithLivedata.observe(requireActivity()){data->
                 datestate0.clear();
-                datestate0.addAll((data.filter { data -> data.eventdetail.starttime.date == 10 }))
+                datestate0.addAll((data.filter { data -> data.eventdetail.starttime.date == 2 }))
                 datestate1.clear();
-                datestate1.addAll((data.filter { data -> data.eventdetail.starttime.date == 11 }))
+                datestate1.addAll((data.filter { data -> data.eventdetail.starttime.date == 3 }))
                 datestate2.clear();
-                datestate2.addAll((data.filter { data -> data.eventdetail.starttime.date == 12 }))
+                datestate2.addAll((data.filter { data -> data.eventdetail.starttime.date == 4 }))
                 datestate3.clear();
-                datestate3.addAll((data.filter { data -> data.eventdetail.starttime.date == 13 }))
+                datestate3.addAll((data.filter { data -> data.eventdetail.starttime.date == 5 }))
             }
         }
 
@@ -1203,7 +1203,9 @@ class Schedule : Fragment() {
                 .clip(RoundedCornerShape(bottomEnd = 4.dp, bottomStart = 4.dp))
                 .background(coloroverlay))
 
-
+            if (datestate.value == 0) {
+                datestate0.forEach { data -> fullSchUserBox(eventdetail = data) }
+            }
             if (datestate.value == 1) {
                 datestate1.forEach { data -> fullSchUserBox(eventdetail = data) }
             }

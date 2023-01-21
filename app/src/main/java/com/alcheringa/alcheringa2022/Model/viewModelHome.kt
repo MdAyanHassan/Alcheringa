@@ -86,7 +86,7 @@ class viewModelHome : ViewModel() {
                 val c = Calendar.getInstance()
                 var dt = 0
                 if (c.get(Calendar.MONTH) == Calendar.FEBRUARY) {
-                    dt = c.get(Calendar.DATE) - 28
+                    dt = c.get(Calendar.DATE) - 31
                 } else {
                     dt = c.get(Calendar.DATE)
                 }
@@ -97,8 +97,8 @@ class viewModelHome : ViewModel() {
 
                 for (data in allEventsWithLive) {
 
-                    data.isLive.value = (c.get(Calendar.YEAR) == 2022) and
-                            (c.get(Calendar.MONTH) == Calendar.MARCH) and
+                    data.isLive.value = (c.get(Calendar.YEAR) == 2023) and
+                            (c.get(Calendar.MONTH) == Calendar.FEBRUARY) and
                             (c.get(Calendar.DATE) == data.eventdetail.starttime.date) and
                             (((data.eventdetail.starttime.hours * 60)..(data.eventdetail.starttime.hours * 60 + data.eventdetail.durationInMin))
                                 .contains((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE)))
@@ -106,8 +106,8 @@ class viewModelHome : ViewModel() {
 
                 for (data in OwnEventsWithLiveState) {
 
-                    data.isLive.value = (c.get(Calendar.YEAR) == 2022) and
-                            (c.get(Calendar.MONTH) == Calendar.MARCH) and
+                    data.isLive.value = (c.get(Calendar.YEAR) == 2023) and
+                            (c.get(Calendar.MONTH) == Calendar.FEBRUARY) and
                             (c.get(Calendar.DATE) == data.eventdetail.starttime.date) and
                             (((data.eventdetail.starttime.hours * 60)..(data.eventdetail.starttime.hours * 60 + data.eventdetail.durationInMin))
                                 .contains((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE)))
@@ -116,14 +116,14 @@ class viewModelHome : ViewModel() {
 
                 for (data in allEventsWithLive) {
 
-                    if ((c.get(Calendar.YEAR) > 2022) or
-                        ((c.get(Calendar.YEAR) == 2022) and
-                                (c.get(Calendar.MONTH) > Calendar.MARCH)) or
-                        ((c.get(Calendar.YEAR) == 2022) and
-                                (c.get(Calendar.MONTH) == Calendar.MARCH) and
+                    if ((c.get(Calendar.YEAR) > 2023) or
+                        ((c.get(Calendar.YEAR) == 2023) and
+                                (c.get(Calendar.MONTH) > Calendar.FEBRUARY)) or
+                        ((c.get(Calendar.YEAR) == 2023) and
+                                (c.get(Calendar.MONTH) == Calendar.FEBRUARY) and
                                 (c.get(Calendar.DATE) > data.eventdetail.starttime.date)) or
-                        ((c.get(Calendar.YEAR) == 2022) and
-                                (c.get(Calendar.MONTH) == Calendar.MARCH) and
+                        ((c.get(Calendar.YEAR) == 2023) and
+                                (c.get(Calendar.MONTH) == Calendar.FEBRUARY) and
                                 (c.get(Calendar.DATE) == data.eventdetail.starttime.date) and
                                 (((data.eventdetail.starttime.hours * 60 + data.eventdetail.durationInMin))
                                         < ((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE))))
@@ -352,7 +352,7 @@ class viewModelHome : ViewModel() {
 //            venue = "Auditorium 1",
 //            imgurl = "",
 //            type = "Class Apart",
-//            descriptionEvent = "Think you are a great rapper? Then its time to win hearts with your beats. Some say rapping is the best form of expression! Choice of words , rhythm or shear passion. Here's the biggest online Rapping Competition of 2022 hosted by Alcheringa\n",
+//            descriptionEvent = "Think you are a great rapper? Then its time to win hearts with your beats. Some say rapping is the best form of expression! Choice of words , rhythm or shear passion. Here's the biggest online Rapping Competition of 2023 hosted by Alcheringa\n",
 //            genre = listOf("Music")
 //        ),
 //        eventdetail(
@@ -542,7 +542,7 @@ class viewModelHome : ViewModel() {
 //        eventdetail("Sixth String","Competitions", starttime = OwnTime(12, 13, 0) ,durationInMin = 60, venue = "Auditorium 2" ,imgurl = "", type = "Competitions",descriptionEvent = "Where words fail, music speaks. Let your guitar speak for you as we showcase your skills on the biggest cultural fest in the whole of North-East India, Alcheringa. \n", genre = listOf("Music")),
 //        eventdetail("So You think You can Dance","Competitions", starttime = OwnTime(12, 15, 0) ,durationInMin = 90, venue = "Auditorium 1" ,type = "Competitions",imgurl = "", descriptionEvent = "This dance event full of high spirit, ultimate competition and enthusiasm, organised under north-east unveiled, this enormous dance event experiences a great amount of participation of talented dancers from all over the north-east. High level of dedication towards dance can be seen In each move of their dance styles.", genre = listOf("Dance")),
 //        eventdetail("Just Reel it","Competitions", starttime = OwnTime(12, 16, 0) ,durationInMin = 30, venue = "Auditorium 2" ,imgurl = "",type = "Competitions", descriptionEvent = "Ever wondered…. I could make that reels on instagram! Well, to all the fans of reels out there, here we are to give you an opportunity to show your creativity and skills with Musicaly, an online reels making competition for all the creative peeps to put on their thinking caps and come out with the most creative short video—------------=.\n", genre = listOf("Music", "Dance")),
-//        eventdetail("Rap Battle","Competitions", starttime = OwnTime(13, 12, 0) ,durationInMin = 60, venue = "Auditorium 1" ,imgurl = "",type = "Competitions", descriptionEvent = "Think you are a great rapper? Then its time to win hearts with your beats. Some say rapping is the best form of expression! Choice of words , rhythm or shear passion. Here's the biggest online Rapping Competition of 2022 hosted by Alcheringa\n", genre = listOf("Music")),
+//        eventdetail("Rap Battle","Competitions", starttime = OwnTime(13, 12, 0) ,durationInMin = 60, venue = "Auditorium 1" ,imgurl = "",type = "Competitions", descriptionEvent = "Think you are a great rapper? Then its time to win hearts with your beats. Some say rapping is the best form of expression! Choice of words , rhythm or shear passion. Here's the biggest online Rapping Competition of 2023 hosted by Alcheringa\n", genre = listOf("Music")),
 //        eventdetail("Directors' Cut", "Competitions", starttime = OwnTime(13, 13, 0) ,durationInMin = 120, venue = "Auditorium 2" ,imgurl = "",type = "Competitions", descriptionEvent = "Director’s cut provides the perfect curtain for your film direction skills, your way of portraying ideas through a story, the art of film and short movie making in general. This competition will force you to propel yourself towards the peak of your skills and come out  the best out of the all round competition. \n", genre = listOf("Drama")),
 //        eventdetail("Literary Module","Competitions", starttime = OwnTime(13, 14, 0) ,durationInMin = 60, venue = "Auditorium 1" ,imgurl = "",type = "Competitions", genre = listOf("Literary")),
 //        eventdetail("Electric Heels","Competitions", starttime = OwnTime(13, 15, 0) ,durationInMin = 90, venue = "Auditorium 1" ,imgurl = "",type = "Competitions", descriptionEvent = "Presenting to you Electric heels, the most exhilarating group dance contest where the best Dance squads across the nation dance their way to win one of the flagship events of alcheringa, we believe in uniqueness. So your style, your rhythm, your beats and our arena. let's see what you got!\n", genre = listOf("Dance")),
