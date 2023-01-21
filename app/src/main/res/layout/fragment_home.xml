@@ -28,28 +28,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-<!--        <TextView-->
+        <com.alcheringa.alcheringa2022.TextViewOutline
+            android:id="@+id/logoAlcher"
+            android:padding="10dp"
+            android:textColor="@color/secondaryCol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/starguard"
+            android:text="@string/app_name"
+            android:textSize="36sp"
+            android:shadowColor="@color/primaryCol"
+            android:shadowDx="8"
+            android:shadowDy="8"
+            android:shadowRadius="0.1"
+            app:outlineColor="@color/primaryCol"
+            app:outlineSize="1dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+<!--        <ImageView-->
 <!--            android:id="@+id/logoAlcher"-->
-<!--            style="@style/headerText"-->
+<!--            android:src="@drawable/alcheringa"-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
 <!--            android:layout_marginStart="20dp"-->
-<!--            android:fontFamily="@font/starguard"-->
-<!--            android:text="@string/app_name"-->
-<!--            android:textSize="36sp"-->
 <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-        <ImageView
-            android:id="@+id/logoAlcher"
-            android:src="@drawable/alcheringa"
-            android:layout_width="173.6dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-             />
+<!--             />-->
 
         <ImageView
             android:id="@+id/account"
