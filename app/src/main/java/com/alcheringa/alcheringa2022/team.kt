@@ -46,7 +46,7 @@ class team : AppCompatActivity() {
             "https://www.linkedin.com/in/atharva-tagalpallewar/"),
         member(
             R.drawable.shanta,
-            "Shantanu Chaudahri",
+            "Shantanu Chaudhari",
             "Executive",
             "https://www.instagram.com/krab_shanta/",
             lnkdurl = "https://www.linkedin.com/in/shanta11")
@@ -78,8 +78,8 @@ class team : AppCompatActivity() {
     )
     val desteam = listOf(
         member(
-            R.drawable.fahim,
-            "Ayush Shivam",
+            R.drawable.ayush,
+            "Ayush Singh",
             "Head",
             "https://www.instagram.com/sigh.yush/",
             "https://www.facebook.com/profile.php?id=100002442294419",

@@ -121,7 +121,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/rounded_image_9dp"
-                app:srcCompat="@drawable/nitish" />
+                app:srcCompat="@drawable/qasim" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/call_btn1"
@@ -248,7 +248,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/rounded_image_9dp"
-                app:srcCompat="@drawable/atharva" />
+                app:srcCompat="@drawable/akshara" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/call_btn2"
@@ -375,7 +375,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/rounded_image_9dp"
-                app:srcCompat="@drawable/fahim" />
+                app:srcCompat="@drawable/siddhant" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/call_btn3"
