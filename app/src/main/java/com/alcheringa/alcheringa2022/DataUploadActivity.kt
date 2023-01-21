@@ -549,7 +549,7 @@ class DataUploadActivity : AppCompatActivity() {
                 descriptionEvent = "This shorter version of Basketball is your shot at glory and a" +
                         "chance for you to vindicate your love for the game. Come," +
                         "play your best shot",
-                venue = "Basketball Court",
+                venue = "Basketball Courts",
                 type = "Sports",
                 reglink = "https://registrations.alcheringa.in/"
             ),
