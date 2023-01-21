@@ -234,65 +234,41 @@ class Events_Details_Fragment : Fragment() {
     @Composable
     fun eventButtons(eventWithLive: eventWithLive){
         val c=Calendar.getInstance()
-        val isFinished = (c.get(Calendar.YEAR)>2022) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+        val isFinished = (c.get(Calendar.YEAR)>2023) or
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)> Calendar.FEBRUARY)) or
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
                         (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
                         (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+        var v = venuelist.find { it.name.replace("\\s".toRegex(), "").uppercase() == eventWithLive.eventdetail.venue.replace("\\s".toRegex(), "").uppercase() }
 
         if ( // TODO: replace with below check, commented out temporarily for demonstrations
-            false
-//            eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
-//                .uppercase() == "Competitions".uppercase()
+
+            eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
+                .uppercase() == "Competitions".uppercase()
         )
         {
-
-            if (eventWithLive.isLive.value && eventWithLive.eventdetail.joinlink != "") {
-                Button(
-                    onClick = {
-                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        blu
-                    )
-                ) {
-                    Text(
-                        text = "Join Event",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = black
-                    )
-
-                }
-
-            }
-            else if (isFinished){
+            if (isFinished){
                 Button(
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(72.dp),
+                        .height(72.dp).border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        midWhite
+                        colors.background
                     )
                 ) {
                     Text(text="Event Finished!",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = aileron,
-                        color = black)
+                        color = colors.onSurface)
 //                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
 //                        Text(
 //                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
@@ -317,27 +293,65 @@ class Events_Details_Fragment : Fragment() {
 
             }
             else{
-                Button(
-                    onClick = {
-                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        blu
-                    )
-                ) {
-                    Text(
-                        text = "Register",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = black
-                    )
+                Row {
+                    if(v != null) {
+                        Button(
+                            onClick = {
+                                //TODO: (Shantanu) Implement all venue locations
+                                val gmmIntentUri =
+                                    Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                mapIntent.setPackage("com.google.android.apps.maps")
+                                startActivity(mapIntent)
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(72.dp)
+                                .border(1.dp, colors.onBackground),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                colors.background
+                            )
+                        ) {
+                            Text(
+                                text = "Navigate▲",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = colors.onBackground,
+                                textAlign = TextAlign.Center
+                            )
+
+                        }
+                    }
+
+                    Button(
+                        onClick = {
+                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
+                        },
+                        Modifier
+                            .fillMaxWidth()
+                            .height(72.dp)
+                            .weight(1f),
+                        shape = RoundedCornerShape(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            blu
+                        )
+                    ) {
+                        Text(
+                            text = "Register",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = aileron,
+                            color = black
+                        )
+
+                    }
+
 
                 }
+
 
             }
         }
@@ -421,60 +435,59 @@ class Events_Details_Fragment : Fragment() {
 //                    }
 //                }
 //            }
-            if ( // TODO: replace with isfinished varibale, commented out temporarily for demonstrations
-//                isFinished
-                false
+            if (
+                isFinished
             ){
                 Button(
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(72.dp),
+                        .height(72.dp).border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        midWhite
+                        colors.background
                     )
                 ) {
                     Text(text="Event Finished!",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = aileron,
-                        color = black)
+                        color = colors.onSurface)
                 }
             }
-            else if(eventWithLive.eventdetail.venue != "") {
+            else {
                 Row {
+                    if(v != null) {
+                        Button(
+                            onClick = {
+                                //TODO: (Shantanu) Implement all venue locations
+                                val gmmIntentUri =
+                                    Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                mapIntent.setPackage("com.google.android.apps.maps")
+                                startActivity(mapIntent)
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(72.dp)
+                                .border(1.dp, colors.onBackground),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                colors.background
+                            )
+                        ) {
+                            Text(
+                                text = "Navigate▲",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = colors.onBackground,
+                                textAlign = TextAlign.Center
+                            )
 
-                    Button(
-                        onClick = {
-                            //TODO: (Shantanu) Implement all venue locations
-                            val gmmIntentUri =
-                                Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
-                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                            mapIntent.setPackage("com.google.android.apps.maps")
-                            startActivity(mapIntent)
-                        },
-                        Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .height(72.dp)
-                            .border(1.dp, colors.onBackground),
-                        shape = RoundedCornerShape(0.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            colors.background
-                        )
-                    ) {
-                        Text(
-                            text = "Navigate▲",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = aileron,
-                            color = colors.onBackground,
-                            textAlign = TextAlign.Center
-                        )
-
+                        }
                     }
-
 
                     Button(
                         onClick = {
@@ -499,7 +512,7 @@ class Events_Details_Fragment : Fragment() {
                     ) {
                         Text(
                             text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
-                            else "Get Passes",
+                            else "Get Card",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = aileron,
@@ -519,14 +532,14 @@ class Events_Details_Fragment : Fragment() {
     @Composable
     fun Bottomviewcomp(eventWithLive:eventWithLive){
         val c=Calendar.getInstance()
-        val isFinished = (c.get(Calendar.YEAR)>2022) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+        val isFinished = (c.get(Calendar.YEAR)>2023) or
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)> Calendar.FEBRUARY)) or
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
                         (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
                         (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))

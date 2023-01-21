@@ -38,6 +38,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,6 +53,8 @@ import com.alcheringa.alcheringa2022.Model.removeAnItem
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentCompetitionsBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
@@ -878,6 +881,7 @@ class CompetitionsFragment : Fragment() {
 
                     ) {
                     GlideImage(
+                        requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC) },
                         imageModel = eventWithLive.eventdetail.imgurl,
                         contentDescription = "artist",
                         modifier = Modifier
@@ -888,12 +892,13 @@ class CompetitionsFragment : Fragment() {
                         alignment = Alignment.Center,
                         contentScale = ContentScale.Crop,
                         shimmerParams = ShimmerParams(
-                            baseColor = Color.Black,
-                            highlightColor = orangeText,
-                            durationMillis = 350,
-                            dropOff = 0.65f,
+                            baseColor = if (isSystemInDarkTheme()) black else highWhite,
+                            highlightColor = if (isSystemInDarkTheme()) highBlack else white,
+                            durationMillis = 1500,
+                            dropOff = 1f,
                             tilt = 20f
-                        ), failure = {
+                        ),
+                        failure = {
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -939,8 +944,7 @@ class CompetitionsFragment : Fragment() {
                                 //                            }
                             }
 
-                        }
-
+                        },
                     )
                 }
 
@@ -956,6 +960,7 @@ class CompetitionsFragment : Fragment() {
                             .fillMaxWidth()
                             .wrapContentHeight(),
                     ) {
+                        Spacer(modifier = Modifier.height(10.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 text = eventWithLive.eventdetail.artist,
@@ -1007,48 +1012,26 @@ class CompetitionsFragment : Fragment() {
     @Composable
     fun eventButtons(eventWithLive: eventWithLive){
         val c=Calendar.getInstance()
-        val isFinished = (c.get(Calendar.YEAR)>2022) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+        val isFinished = (c.get(Calendar.YEAR)>2023) or
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)> Calendar.FEBRUARY)) or
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
                         (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
                         (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+        var v = venuelist.find { it.name.replace("\\s".toRegex(), "").uppercase() == eventWithLive.eventdetail.venue.replace("\\s".toRegex(), "").uppercase() }
 
-        if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
+        if ( // TODO: replace with below check, commented out temporarily for demonstrations
+
+            eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
                 .uppercase() == "Competitions".uppercase()
         )
         {
-
-            if (eventWithLive.isLive.value && eventWithLive.eventdetail.joinlink != "") {
-                Button(
-                    onClick = {
-                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        blu
-                    )
-                ) {
-                    Text(
-                        text = "Join Event",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = black
-                    )
-
-                }
-
-            }
-            else if (isFinished){
+            if (isFinished){
                 Button(
                     onClick = {},
                     Modifier
@@ -1088,27 +1071,65 @@ class CompetitionsFragment : Fragment() {
 
             }
             else{
-                Button(
-                    onClick = {
-                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        blu
-                    )
-                ) {
-                    Text(
-                        text = "Register",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = black
-                    )
+                Row {
+                    if(v != null) {
+                        Button(
+                            onClick = {
+                                //TODO: (Shantanu) Implement all venue locations
+                                val gmmIntentUri =
+                                    Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                mapIntent.setPackage("com.google.android.apps.maps")
+                                startActivity(mapIntent)
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(72.dp)
+                                .border(1.dp, colors.onBackground),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                colors.background
+                            )
+                        ) {
+                            Text(
+                                text = "Navigate▲",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = colors.onBackground,
+                                textAlign = TextAlign.Center
+                            )
+
+                        }
+                    }
+
+                    Button(
+                        onClick = {
+                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
+                        },
+                        Modifier
+                            .fillMaxWidth()
+                            .height(72.dp)
+                            .weight(1f),
+                        shape = RoundedCornerShape(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            blu
+                        )
+                    ) {
+                        Text(
+                            text = "Register",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = aileron,
+                            color = black
+                        )
+
+                    }
+
 
                 }
+
 
             }
         }
@@ -1192,7 +1213,9 @@ class CompetitionsFragment : Fragment() {
 //                    }
 //                }
 //            }
-            if (isFinished){
+            if (
+                isFinished
+            ){
                 Button(
                     onClick = {},
                     Modifier
@@ -1200,7 +1223,7 @@ class CompetitionsFragment : Fragment() {
                         .height(72.dp).border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                       colors.background
+                        colors.background
                     )
                 ) {
                     Text(text="Event Finished!",
@@ -1210,31 +1233,72 @@ class CompetitionsFragment : Fragment() {
                         color = colors.onSurface)
                 }
             }
-            else if(eventWithLive.eventdetail.venue != "") {
-                Button(
-                    onClick = {
-                        //TODO: (Shantanu) Implement all venue locations
-                        val gmmIntentUri =
-                            Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
-                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                        mapIntent.setPackage("com.google.android.apps.maps")
-                        startActivity(mapIntent)
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        blu
-                    )
-                ) {
-                    Text(
-                        text = "Navigate to venue",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = black
-                    )
+            else {
+                Row {
+                    if(v != null) {
+                        Button(
+                            onClick = {
+                                //TODO: (Shantanu) Implement all venue locations
+                                val gmmIntentUri =
+                                    Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                mapIntent.setPackage("com.google.android.apps.maps")
+                                startActivity(mapIntent)
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(72.dp)
+                                .border(1.dp, colors.onBackground),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                colors.background
+                            )
+                        ) {
+                            Text(
+                                text = "Navigate▲",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = colors.onBackground,
+                                textAlign = TextAlign.Center
+                            )
+
+                        }
+                    }
+
+                    Button(
+                        onClick = {
+                            //TODO: Set Buy pass link
+                            startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("http://pass.alcheringa.in")
+                                )
+                            )
+
+                        },
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .height(72.dp)
+                            .border(1.dp, colors.onBackground),
+                        shape = RoundedCornerShape(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            blu
+                        )
+                    ) {
+                        Text(
+                            text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
+                            else "Get Card",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = aileron,
+                            color = colors.onBackground
+                        )
+
+                    }
+
 
                 }
             }

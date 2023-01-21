@@ -198,24 +198,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         new AlertDialog.Builder(MainActivity.this).setView(R.layout.animationforupdatedialogue)
                 .setTitle("New Version is Available")
-                .setMessage("Click ok to download new version")
                 .setCancelable(false)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) { try {
-                            Intent viewIntent =
-                                    new Intent("android.intent.action.VIEW",
-                                            Uri.parse("https://play.google.com/store/apps/details?id=com.alcheringa.alcheringa2022"));
-                            startActivity(viewIntent);
-                        }catch(Exception e) {
-                            Toast.makeText(getApplicationContext(),"Unable to Connect Try Again...",
-                                    Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                        }
+                .setPositiveButton("Download Update", (dialog, which) -> { try {
+                        Intent viewIntent =
+                                new Intent("android.intent.action.VIEW",
+                                        Uri.parse("https://play.google.com/store/apps/details?id=com.alcheringa.alcheringa2022"));
+                        startActivity(viewIntent);
+                    }catch(Exception e) {
+                        Toast.makeText(getApplicationContext(),"Unable to Connect Try Again...",
+                                Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
                     }
                 })
 
+
+
                 // A null listener allows the button to dismiss the dialog and take no further action.
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                //.setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
 

@@ -6,7 +6,7 @@
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="250dp"
         android:layout_height="250dp"
-        app:lottie_rawRes="@raw/updateanim"
+        app:lottie_rawRes="@raw/update_app"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

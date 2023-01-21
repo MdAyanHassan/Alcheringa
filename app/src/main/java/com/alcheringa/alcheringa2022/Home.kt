@@ -560,21 +560,24 @@ class Home : Fragment() {
 //                            }
 //                        }
 //                    }
-                    val hpm= if(isSystemInDarkTheme()) Modifier
-                        .padding(start = 15.dp)
-                        .fillMaxWidth()
-                        .aspectRatio(0.781f)
+//                    val hpm= if(isSystemInDarkTheme()) Modifier
+//                        .padding(start = 15.dp)
+//                        .fillMaxWidth()
+//
+//
+////                        .coloredShadow(colors.onBackground, 0.25f, 16.dp, 20.dp, -5.dp, -5.dp)
+//                    else Modifier
+//                        .padding(start = 15.dp,bottom=20.dp)
+//                        .fillMaxWidth()
 
-//                        .coloredShadow(colors.onBackground, 0.25f, 16.dp, 20.dp, -5.dp, -5.dp)
-                    else Modifier
-                        .padding(start = 15.dp,bottom=20.dp)
-                        .fillMaxWidth()
-                        .aspectRatio(0.781f)
 
 
                     HorizontalPager(
                         count = count,
-                        modifier = hpm,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 15.dp)
+                            .aspectRatio(0.8f),
                         state = pagerState,
                         contentPadding = PaddingValues(top = 0.dp, start = 5.dp, end = 50.dp, bottom = 0.dp),
                         itemSpacing = (5.dp),
@@ -586,9 +589,11 @@ class Home : Fragment() {
 
 
                        Box(
-                            modifier = Modifier.onGloballyPositioned { coordinates ->
-                                widthparent.value = with(localdensity){coordinates.size.width.dp.toPx()}
-                            }
+                            modifier = Modifier
+                                .onGloballyPositioned { coordinates ->
+                                    widthparent.value =
+                                        with(localdensity) { coordinates.size.width.dp.toPx() }
+                                }
                                 .fillMaxWidth()
                                 .aspectRatio(0.781f)
 
@@ -598,10 +603,32 @@ class Home : Fragment() {
                            .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
                            .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
                            .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
-                            Box(Modifier
-                                .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
-                                .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
-                                .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+                            Box(
+                                Modifier
+                                    .coloredShadow(
+                                        colors.onBackground,
+                                        0.01f,
+                                        18.dp,
+                                        1.dp,
+                                        20.dp,
+                                        0.dp
+                                    )
+                                    .coloredShadow(
+                                        colors.onBackground,
+                                        0.06f,
+                                        18.dp,
+                                        1.dp,
+                                        12.dp,
+                                        0.dp
+                                    )
+                                    .coloredShadow(
+                                        colors.onBackground,
+                                        0.24f,
+                                        18.dp,
+                                        1.dp,
+                                        4.dp,
+                                        0.dp
+                                    )
                             ) {
                                 val pageOffset =
                                     calculateCurrentOffsetForPage(page).absoluteValue
@@ -620,8 +647,13 @@ class Home : Fragment() {
 
                                 Card(
                                     modifier = Modifier
-                                        .fillMaxWidth(if(0.01f>=pageOffset) 1f else widthfr.value)
-                                        .clip(RoundedCornerShape(16.dp)).border(1.5.dp,colors.onBackground,RoundedCornerShape(16.dp))
+                                        .fillMaxWidth(if (0.01f >= pageOffset) 1f else widthfr.value)
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .border(
+                                            1.5.dp,
+                                            colors.onBackground,
+                                            RoundedCornerShape(16.dp)
+                                        )
                                        ,
                                     ) {
                                     Box(
@@ -739,18 +771,21 @@ class Home : Fragment() {
                                             Column(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .wrapContentHeight().onGloballyPositioned { coordinates ->
-                                                        heightparent.value = with(localdensity){coordinates.size.height.dp.toPx()}
+                                                    .wrapContentHeight()
+                                                    .onGloballyPositioned { coordinates ->
+                                                        heightparent.value =
+                                                            with(localdensity) { coordinates.size.height.dp.toPx() }
                                                     }
                                                     .graphicsLayer {
                                                         // Calculate the absolute offset for the current page from the
                                                         // scroll position. We use the absolute value which allows us to mirror
                                                         // any effects for both directions
 
-                                                            if (pageOffset % 1f != 0f) {
-                                                                translationY= (heightoff.value*heightoff.value*heightoff.value*heightparent.value)
-                                                            }
-                                                            //scaleY = scale
+                                                        if (pageOffset % 1f != 0f) {
+                                                            translationY =
+                                                                (heightoff.value * heightoff.value * heightoff.value * heightparent.value)
+                                                        }
+                                                        //scaleY = scale
 
 
                                                     }
@@ -1361,7 +1396,7 @@ fun compbox(){
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(0.95f)
-                        .border(2.dp, colors.secondary, RoundedCornerShape(40.dp, 40.dp))
+                        .border(2.dp, colors.onBackground, RoundedCornerShape(40.dp, 40.dp))
                 ) {
                     Box(
                         Modifier
@@ -1451,7 +1486,7 @@ fun compbox(){
                             modifier = Modifier.padding(
                                 start = 20.dp,
                                 bottom = 24.dp,
-                                top = 36.dp
+
                             ),
                         ) {
                             Card(
@@ -2024,55 +2059,32 @@ fun compbox(){
     @Composable
     fun eventButtons(eventWithLive: eventWithLive){
         val c=Calendar.getInstance()
-        val isFinished = (c.get(Calendar.YEAR)>2022) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+        val isFinished = (c.get(Calendar.YEAR)>2023) or
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)> Calendar.FEBRUARY)) or
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
                         (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                ((c.get(Calendar.YEAR)==2022) and
-                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
+                ((c.get(Calendar.YEAR)==2023) and
+                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
                         (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
+        var v = venuelist.find { it.name.replace("\\s".toRegex(), "").uppercase() == eventWithLive.eventdetail.venue.replace("\\s".toRegex(), "").uppercase() }
 
         if ( // TODO: replace with below check, commented out temporarily for demonstrations
-            false
-//            eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
-//                .uppercase() == "Competitions".uppercase()
+
+            eventWithLive.eventdetail.category.replace("\\s".toRegex(), "")
+                .uppercase() == "Competitions".uppercase()
         )
         {
-
-            if (eventWithLive.isLive.value && eventWithLive.eventdetail.joinlink != "") {
-                Button(
-                    onClick = {
-                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.joinlink)))
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        blu
-                    )
-                ) {
-                    Text(
-                        text = "Join Event",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = black
-                    )
-
-                }
-
-            }
-            else if (isFinished){
+            if (isFinished){
                 Button(
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(72.dp).border(1.dp, colors.onBackground),
+                        .height(72.dp)
+                        .border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
                         colors.background
@@ -2107,27 +2119,65 @@ fun compbox(){
 
             }
             else{
-                Button(
-                    onClick = {
-                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
-                    },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        blu
-                    )
-                ) {
-                    Text(
-                        text = "Register",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = black
-                    )
+                Row {
+                    if(v != null) {
+                        Button(
+                            onClick = {
+                                //TODO: (Shantanu) Implement all venue locations
+                                val gmmIntentUri =
+                                    Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                mapIntent.setPackage("com.google.android.apps.maps")
+                                startActivity(mapIntent)
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(72.dp)
+                                .border(1.dp, colors.onBackground),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                colors.background
+                            )
+                        ) {
+                            Text(
+                                text = "Navigate▲",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = colors.onBackground,
+                                textAlign = TextAlign.Center
+                            )
+
+                        }
+                    }
+
+                    Button(
+                        onClick = {
+                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
+                        },
+                        Modifier
+                            .fillMaxWidth()
+                            .height(72.dp)
+                            .weight(1f),
+                        shape = RoundedCornerShape(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            blu
+                        )
+                    ) {
+                        Text(
+                            text = "Register",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = aileron,
+                            color = black
+                        )
+
+                    }
+
 
                 }
+
 
             }
         }
@@ -2212,14 +2262,14 @@ fun compbox(){
 //                }
 //            }
             if (
-//                isFinished
-            false
+                isFinished
             ){
                 Button(
                     onClick = {},
                     Modifier
                         .fillMaxWidth()
-                        .height(72.dp).border(1.dp, colors.onBackground),
+                        .height(72.dp)
+                        .border(1.dp, colors.onBackground),
                     shape = RoundedCornerShape(0.dp),
                     colors = ButtonDefaults.buttonColors(
                         colors.background
@@ -2232,39 +2282,39 @@ fun compbox(){
                         color = colors.onSurface)
                 }
             }
-            else if(eventWithLive.eventdetail.venue != "") {
+            else {
                 Row {
+                    if(v != null) {
+                        Button(
+                            onClick = {
+                                //TODO: (Shantanu) Implement all venue locations
+                                val gmmIntentUri =
+                                    Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                mapIntent.setPackage("com.google.android.apps.maps")
+                                startActivity(mapIntent)
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(72.dp)
+                                .border(1.dp, colors.onBackground),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                colors.background
+                            )
+                        ) {
+                            Text(
+                                text = "Navigate▲",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = colors.onBackground,
+                                textAlign = TextAlign.Center
+                            )
 
-                    Button(
-                        onClick = {
-                            //TODO: (Shantanu) Implement all venue locations
-                            val gmmIntentUri =
-                                Uri.parse("google.navigation:q=26.190761044728855,91.69699071630549")
-                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                            mapIntent.setPackage("com.google.android.apps.maps")
-                            startActivity(mapIntent)
-                        },
-                        Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .height(72.dp)
-                            .border(1.dp, colors.onBackground),
-                        shape = RoundedCornerShape(0.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            colors.background
-                        )
-                    ) {
-                        Text(
-                            text = "Navigate▲",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = aileron,
-                            color = colors.onBackground,
-                            textAlign = TextAlign.Center
-                        )
-
+                        }
                     }
-
 
                         Button(
                             onClick = {
@@ -2289,7 +2339,7 @@ fun compbox(){
                         ) {
                             Text(
                                 text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
-                                else "Get Passes",
+                                else "Get Card",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 fontFamily = aileron,
