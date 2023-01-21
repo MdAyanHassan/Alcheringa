@@ -2,6 +2,7 @@ package com.alcheringa.alcheringa2022;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,7 +47,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Order_Confirmed extends AppCompatActivity implements PaymentResultWithDataListener {
-
+    ConstraintLayout confirmview;
     ImageButton back_btn;
     DBHandler dbHandler;
     FirebaseAuth firebaseAuth;
@@ -83,6 +84,8 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         dbHandler=new DBHandler(this);
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
@@ -105,6 +108,8 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
         Email = sharedPreferences.getString("email", "");
         amount=calculate_amount();
         setContentView(R.layout.activity_order_confirmed);
+        loaderView=findViewById(R.id.dots_progress);
+        confirmview=findViewById(R.id.confirmview);
         Checkout.preload(getApplicationContext());
         startPayment(100);
         back_btn=findViewById(R.id.backbtn);
@@ -233,15 +238,23 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
                         addOnCompleteListener(task1 -> {
                             if(task1.isSuccessful()){
                                 AddToExcel(arrayList,PaymentId);
+                                loaderView.setVisibility(View.GONE);
+                                confirmview.setVisibility(View.VISIBLE);
                                 Toast.makeText(getApplicationContext(), "Your order is placed", Toast.LENGTH_SHORT).show();
+
                             }
                             else{
-                                Toast.makeText(getApplicationContext(), "Some Error Occurred orders", Toast.LENGTH_SHORT).show();
+
+                                Toast.makeText(getApplicationContext(), "Some error occurred while placing your orders, try again ! ", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                finish();
                             }
                         });
             }
             else{
-                Toast.makeText(getApplicationContext(), "Some Error Occurred users", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Some error occurred while placing your orders, try again !", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
 
             }
         });
