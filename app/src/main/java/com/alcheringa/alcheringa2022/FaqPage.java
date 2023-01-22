@@ -16,8 +16,8 @@ import android.widget.TextView;
 public class FaqPage extends AppCompatActivity {
 
     TextView contact_us;
-    TextView detailsText1, detailsText2, detailsText3,detailsText4, detailsText5, detailsText6,detailsText7, detailsText8,detailsText9,detailsText10, detailsText11, detailsText12,detailsText13, detailsText15;
-    LinearLayout faq1, faq2, faq3,faq4, faq5, faq6,faq7, faq8, faq9,faq10, faq12, faq13,faq15;
+    TextView detailsText1, detailsText2,detailsText4, detailsText5, detailsText6,detailsText7, detailsText8,detailsText9,detailsText10, detailsText11, detailsText12,detailsText13;
+    LinearLayout faq1, faq2,faq4, faq5, faq6,faq7, faq8, faq9,faq10, faq12, faq13;
     ImageButton back_btn;
 
     @Override
@@ -30,7 +30,7 @@ public class FaqPage extends AppCompatActivity {
 
         detailsText1 = findViewById(R.id.details1);
         detailsText2 = findViewById(R.id.details2);
-        detailsText3 = findViewById(R.id.details3);
+
         detailsText4 = findViewById(R.id.details4);
         detailsText5 = findViewById(R.id.details5);
         detailsText6 = findViewById(R.id.details6);
@@ -39,7 +39,7 @@ public class FaqPage extends AppCompatActivity {
 
         detailsText10 = findViewById(R.id.details10);
         detailsText12 = findViewById(R.id.details12);
-        detailsText15 = findViewById(R.id.details15);
+
         //detailsText13 = findViewById(R.id.details14);
 
 
@@ -49,9 +49,7 @@ public class FaqPage extends AppCompatActivity {
         faq1.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         faq1.setOnClickListener(v -> expand(faq1, detailsText1));
 
-        faq15 = findViewById(R.id.faq15);
-        faq15.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        faq15.setOnClickListener(v -> expand(faq15, detailsText15));
+
 
         faq4 = findViewById(R.id.faq4);
         faq4.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
@@ -91,9 +89,7 @@ public class FaqPage extends AppCompatActivity {
         faq2.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         faq2.setOnClickListener(v -> expand(faq2, detailsText2));
 
-        faq3 = findViewById(R.id.faq3);
-        faq3.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        faq3.setOnClickListener(v -> expand(faq3, detailsText3));
+
 
         back_btn=findViewById(R.id.backbtn);
         back_btn.setOnClickListener(v -> finish());
