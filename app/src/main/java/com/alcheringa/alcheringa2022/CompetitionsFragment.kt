@@ -153,7 +153,7 @@ class CompetitionsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         Fm= parentFragmentManager
         mun=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "MUN".replace("\\s".toRegex(), "").uppercase()}
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase()}
 
         voguenationlist=homeViewModel.allEventsWithLive.filter {
           data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "VOGUE NATION".replace("\\s".toRegex(), "").uppercase()}
@@ -1703,7 +1703,7 @@ class CompetitionsFragment : Fragment() {
         searchlist.addAll(homeViewModel.allEventsWithLive.filter {it.eventdetail.category.replace(
             "\\s".toRegex(),
             ""
-        ).uppercase() == "Competitions".uppercase() && it.eventdetail.toString().contains(searchtext.value,true) && it.eventdetail.toString().contains(tg.value.drop(3),true) })
+        ).uppercase() == "Competitions".uppercase() && it.eventdetail.toString().contains(searchtext.value,true) && it.eventdetail.toString().contains(tg.value.drop(3).trim(),true) })
 
         //zooming map at the first event venue
 //        val firsteventvenue= venuelist.find { it.name==searchlist[0].eventdetail.venue }
