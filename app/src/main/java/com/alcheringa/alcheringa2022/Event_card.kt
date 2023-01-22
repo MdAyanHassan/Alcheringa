@@ -552,7 +552,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                     )
 
                                     val progressbg by animateLottieCompositionAsState(
-                                        compositionbg, iterations = LottieConstants.IterateForever
+                                        compositionbg, iterations = 3
                                     )
                                     LottieAnimation(
                                         composition = compositionbg,

@@ -517,7 +517,7 @@ fun Event_card_Scaffold(
                                     )
 
                                     val progressbg by animateLottieCompositionAsState(
-                                        compositionbg, iterations = LottieConstants.IterateForever
+                                        compositionbg, iterations = 3
                                     )
                                     LottieAnimation(
                                         composition = compositionbg,
