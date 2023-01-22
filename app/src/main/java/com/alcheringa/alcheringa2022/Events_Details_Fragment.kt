@@ -495,7 +495,7 @@ class Events_Details_Fragment : Fragment() {
                             startActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
-                                    Uri.parse("http://pass.alcheringa.in")
+                                    Uri.parse("http://card.alcheringa.in")
                                 )
                             )
 
@@ -511,8 +511,7 @@ class Events_Details_Fragment : Fragment() {
                         )
                     ) {
                         Text(
-                            text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
-                            else "Get Card",
+                            text = "Get Card",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = aileron,

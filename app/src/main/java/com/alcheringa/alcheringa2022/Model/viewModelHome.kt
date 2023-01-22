@@ -50,6 +50,7 @@ class viewModelHome : ViewModel() {
     val fb = FirebaseFirestore.getInstance()
     val allEventsWithLivedata = MutableLiveData<MutableList<eventWithLive>>()
     val allEventsWithLive = mutableStateListOf<eventWithLive>()
+    val liveEvents = mutableStateListOf<eventWithLive>()
     val featuredEventsWithLivedata = MutableLiveData<MutableList<eventWithLive>>()
     val featuredEventsWithLivestate = mutableStateListOf<eventWithLive>()
     val OwnEventsWithLive = MutableLiveData<MutableList<eventdetail>>()
@@ -93,7 +94,7 @@ class viewModelHome : ViewModel() {
                 crnttime.value =
                     OwnTime(date = dt, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE))
                 delay(50)
-
+                liveEvents.clear()
 
                 for (data in allEventsWithLive) {
 
@@ -102,6 +103,7 @@ class viewModelHome : ViewModel() {
                             (c.get(Calendar.DATE) == data.eventdetail.starttime.date) and
                             (((data.eventdetail.starttime.hours * 60)..(data.eventdetail.starttime.hours * 60 + data.eventdetail.durationInMin))
                                 .contains((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE)))
+                    if(data.isLive.value){ liveEvents.add(data) }
                 }
 
                 for (data in OwnEventsWithLiveState) {
@@ -125,7 +127,7 @@ class viewModelHome : ViewModel() {
                         ((c.get(Calendar.YEAR) == 2023) and
                                 (c.get(Calendar.MONTH) == Calendar.FEBRUARY) and
                                 (c.get(Calendar.DATE) == data.eventdetail.starttime.date) and
-                                (((data.eventdetail.starttime.hours * 60 + data.eventdetail.durationInMin))
+                                (((data.eventdetail.starttime.hours * 60))
                                         < ((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE))))
 
                     ) {
@@ -135,6 +137,7 @@ class viewModelHome : ViewModel() {
 //                        upcomingEventsLiveState.remove(data)
 //                    }
                 }
+                upcomingEventsLiveState.sortBy { it.eventdetail.starttime.date*24*60 + it.eventdetail.starttime.hours*60 +it.eventdetail.starttime.min }
 
 
 

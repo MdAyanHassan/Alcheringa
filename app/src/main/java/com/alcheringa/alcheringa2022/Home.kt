@@ -1522,8 +1522,7 @@ fun compbox(){
 
 
 
-                        if (homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }
-                                .isNotEmpty()) {
+                        if (homeViewModel.liveEvents.isNotEmpty()) {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
@@ -1569,7 +1568,7 @@ fun compbox(){
                                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                                 contentPadding = PaddingValues(horizontal = 20.dp)
                             ) {
-                                items(homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }) { dataeach ->
+                                items(homeViewModel.liveEvents) { dataeach ->
                                     context?.let {
                                         Event_card_Scaffold(
                                             eventdetail = dataeach,
@@ -2287,7 +2286,6 @@ fun compbox(){
                     if(v != null) {
                         Button(
                             onClick = {
-                                //TODO: (Shantanu) Implement all venue locations
                                 val gmmIntentUri =
                                     Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
                                 val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
@@ -2322,7 +2320,7 @@ fun compbox(){
                                 startActivity(
                                     Intent(
                                         Intent.ACTION_VIEW,
-                                        Uri.parse("http://pass.alcheringa.in")
+                                        Uri.parse("http://card.alcheringa.in")
                                     )
                                 )
 
@@ -2338,8 +2336,7 @@ fun compbox(){
                             )
                         ) {
                             Text(
-                                text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
-                                else "Get Card",
+                                text = "Get Card",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 fontFamily = aileron,
