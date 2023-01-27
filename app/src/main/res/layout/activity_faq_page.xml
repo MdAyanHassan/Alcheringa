@@ -123,36 +123,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/faq3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="20dp"
-                android:animateLayoutChanges="true"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/primaryText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/aileron_bold"
-                    android:text="Can outsiders come to offline Alcher?"
-                    android:textSize="16sp"
-                    android:lineHeight="20sp"   />
-
-                <TextView
-                    android:id="@+id/details3"
-                    style="@style/subText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:fontFamily="@font/aileron_regular"
-                    android:lineHeight="24sp"
-                    android:text="No. The offline Alcheringa fest is only for campus residents. However, you can catch the action through the exclusive Alcheringa live stream on the PayTM Insider app."
-                    android:textSize="14sp"
-                    android:visibility="gone" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/faq4"
@@ -167,7 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/aileron_bold"
-                    android:text="How can I stream Alcheringa online events?"
+                    android:text="How can I buy Alcher cards?"
                     android:textSize="16sp"
                     android:lineHeight="20sp"   />
 
@@ -179,8 +149,7 @@
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/aileron_regular"
                     android:lineHeight="24sp"
-                    android:text="Alcheringa 2022 online and offline will be streamed on Paytm Insider. Tap Join Now on the app and meet us there!
-"
+                    android:text="Head over to the events section of the App and click on get card to purchase your Alcher cards for yourself and your friends."
                     android:textSize="14sp"
                     android:visibility="gone" />
 
@@ -211,7 +180,7 @@
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/aileron_regular"
                     android:lineHeight="24sp"
-                    android:text="Sign up at registrations.alcheringa.in and bring your A-game to Alcheringa 22’s exciting range of competitions."
+                    android:text="Head over to the Competitions tab, choose the competition of your choice, get yourself registered and bring your game to Alcheringa 23’s exciting range of competitions."
                     android:textSize="14sp"
                     android:visibility="gone" />
 
@@ -242,7 +211,7 @@
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/aileron_regular"
                     android:lineHeight="24sp"
-                    android:text="Campus residents have exclusive access to offline events, but everyone can join our live streams and online events on our platform! Tap Join Now on the app."
+                    android:text="You purchase Alcher cards through which you can avail a legion of benefits like Free access to pronites, discounts on merchandise and many more benefits awaiting in campus."
                     android:textSize="14sp"
                     android:visibility="gone" />
 
@@ -273,7 +242,7 @@
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/aileron_regular"
                     android:lineHeight="24sp"
-                    android:text="The event schedule for Alcheringa 2022 offline and online events can be found on the app under Schedule."
+                    android:text="The event schedule for Alcheringa 2023 events can be found on the app under the Schedule tab."
                     android:textSize="14sp"
                     android:visibility="gone" />
 
@@ -292,7 +261,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/aileron_bold"
-                    android:text="Can I attend Alcheringa offline if I reside in Guwahati?"
+                    android:text="Is there any registration fee for competitions?"
                     android:textSize="16sp"
                     android:lineHeight="20sp"   />
 
@@ -304,7 +273,7 @@
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/aileron_regular"
                     android:lineHeight="24sp"
-                    android:text="No, unfortunately offline events are exclusive to campus residents for Alcheringa’22. You can catch the action live on the Alcheringa livestream."
+                    android:text="There is no registration fee for competitions. All you have to do is register yourself at registration.alcheringa.in ."
                     android:textSize="14sp"
                     android:visibility="gone" />
 
@@ -335,7 +304,7 @@
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/aileron_regular"
                     android:lineHeight="24sp"
-                    android:text="Competitions are judged and results released soon after in the coming weeks after Alcheringa 2022."
+                    android:text="Competitions are judged and results released soon after in the coming weeks after Alcheringa 2023."
                     android:textSize="14sp"
                     android:visibility="gone" />
 
@@ -366,38 +335,7 @@
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/aileron_regular"
                     android:lineHeight="24sp"
-                    android:text="Be the first to get all the latest updates on competitions on our social media handles and on our app."
-                    android:textSize="14sp"
-                    android:visibility="gone" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/faq15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="20dp"
-                android:animateLayoutChanges="true"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/primaryText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/aileron_bold"
-                    android:text="Do I need to purchase tickets to attend Alcheringa online?"
-                    android:textSize="16sp"
-                    android:lineHeight="20sp"   />
-
-                <TextView
-                    android:id="@+id/details15"
-                    style="@style/subText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:fontFamily="@font/aileron_regular"
-                    android:lineHeight="24sp"
-                    android:text="Alcheringa does not sell general passes. Entry is free for all. Only flagship events like Creators Camp need passes which can be purchased on the app and website."
+                    android:text="Be the first to get all the latest updates on all the competitions and events on our social media and on our app. Make sure you have turned on notifications for our social media handles and App for regular notifications of all the fun-filled events and activities taking place around the campus."
                     android:textSize="14sp"
                     android:visibility="gone" />
 

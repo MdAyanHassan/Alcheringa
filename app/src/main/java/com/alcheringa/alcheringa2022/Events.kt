@@ -162,7 +162,7 @@ class Events : Fragment() {
         camppaignslist=homeViewModel.allEventsWithLive.filter {
                 data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Kartavya".replace("\\s".toRegex(), "").uppercase()}
         mun=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "MUN".replace("\\s".toRegex(), "").uppercase()}
+                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase()}
         otherlist=homeViewModel.allEventsWithLive.filter {
                 data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "OTHER EVENTS".replace("\\s".toRegex(), "").uppercase()}
 
@@ -254,7 +254,7 @@ Alcheringa2022Theme() {
                     if(creatorscampslist.isNotEmpty()){ Events_row(heading = "Creators' Camp", creatorscampslist) }
                     if(humorfestslist.isNotEmpty()){ Events_row(heading = "Humor Fest", humorfestslist) }
                     if(camppaignslist.isNotEmpty()){ Events_row(heading = "Kartavya", camppaignslist) }
-                    if(mun.isNotEmpty()){ Events_row(heading = "MUN", mun) }
+                    if(mun.isNotEmpty()){ Events_row(heading = "Model United Nations", mun) }
                     if(otherlist.isNotEmpty()){Events_row(heading = "Other Events", list = otherlist)}
                 }
 
@@ -706,7 +706,7 @@ if (searchlist.isNotEmpty()) {
     }
     fun filterlist(){
         searchlist.clear();
-        searchlist.addAll(homeViewModel.allEventsWithLive.filter { it.eventdetail.toString().contains(searchtext.value,true) && it.eventdetail.toString().contains(tg.value.drop(3),true) })
+        searchlist.addAll(homeViewModel.allEventsWithLive.filter { it.eventdetail.toString().contains(searchtext.value,true) && it.eventdetail.toString().contains(tg.value.drop(3).trim(),true) })
 
         //zooming map at the first event venue
 //        val firsteventvenue= venuelist.find { it.name==searchlist[0].eventdetail.venue }

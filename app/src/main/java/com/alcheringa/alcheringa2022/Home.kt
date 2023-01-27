@@ -822,7 +822,7 @@ class Home : Fragment() {
 
                                                 Row() {
                                                     Text(
-                                                        text = "${eventdetails[page].eventdetail.starttime.date} Mar, ${if (eventdetails[page].eventdetail.starttime.hours > 12) "${eventdetails[page].eventdetail.starttime.hours - 12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min != 0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours >= 12) "PM" else "AM"} |",
+                                                        text = "${eventdetails[page].eventdetail.starttime.date} Feb, ${if (eventdetails[page].eventdetail.starttime.hours > 12) "${eventdetails[page].eventdetail.starttime.hours - 12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min != 0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours >= 12) "PM" else "AM"} |",
                                                         style = TextStyle(
                                                             color = white,
                                                             fontFamily = aileron,
@@ -1522,8 +1522,7 @@ fun compbox(){
 
 
 
-                        if (homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }
-                                .isNotEmpty()) {
+                        if (homeViewModel.liveEvents.isNotEmpty()) {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
@@ -1569,7 +1568,7 @@ fun compbox(){
                                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                                 contentPadding = PaddingValues(horizontal = 20.dp)
                             ) {
-                                items(homeViewModel.allEventsWithLive.filter { data -> data.isLive.value }) { dataeach ->
+                                items(homeViewModel.liveEvents) { dataeach ->
                                     context?.let {
                                         Event_card_Scaffold(
                                             eventdetail = dataeach,
@@ -2287,7 +2286,6 @@ fun compbox(){
                     if(v != null) {
                         Button(
                             onClick = {
-                                //TODO: (Shantanu) Implement all venue locations
                                 val gmmIntentUri =
                                     Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
                                 val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
@@ -2322,7 +2320,7 @@ fun compbox(){
                                 startActivity(
                                     Intent(
                                         Intent.ACTION_VIEW,
-                                        Uri.parse("http://pass.alcheringa.in")
+                                        Uri.parse("http://card.alcheringa.in")
                                     )
                                 )
 
@@ -2338,8 +2336,7 @@ fun compbox(){
                             )
                         ) {
                             Text(
-                                text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
-                                else "Get Card",
+                                text = "Get Card",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 fontFamily = aileron,
@@ -2477,7 +2474,7 @@ fun compbox(){
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                        text = "${eventWithLive.eventdetail.starttime.date} Feb, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
                         style = TextStyle(
                             color = colors.onBackground,
                             fontFamily = aileron,
@@ -3406,7 +3403,7 @@ fun compbox(){
 
                                                     Row {
                                                         Text(
-                                                            text = "${eventdetails[page].eventdetail.starttime.date} Mar, ${if (eventdetails[page].eventdetail.starttime.hours > 12) "${eventdetails[page].eventdetail.starttime.hours - 12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min != 0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                                                            text = "${eventdetails[page].eventdetail.starttime.date} Feb, ${if (eventdetails[page].eventdetail.starttime.hours > 12) "${eventdetails[page].eventdetail.starttime.hours - 12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min != 0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
                                                             style = TextStyle(
                                                                 color = white,
                                                                 fontFamily = aileron,

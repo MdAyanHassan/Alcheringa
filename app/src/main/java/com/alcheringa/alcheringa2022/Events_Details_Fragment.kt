@@ -495,7 +495,7 @@ class Events_Details_Fragment : Fragment() {
                             startActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
-                                    Uri.parse("http://pass.alcheringa.in")
+                                    Uri.parse("http://card.alcheringa.in")
                                 )
                             )
 
@@ -511,8 +511,7 @@ class Events_Details_Fragment : Fragment() {
                         )
                     ) {
                         Text(
-                            text = if(eventWithLive.eventdetail.venue.uppercase() == "CREATORS' CAMP") "Buy Tickets"
-                            else "Get Card",
+                            text = "Get Card",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = aileron,
@@ -651,7 +650,7 @@ class Events_Details_Fragment : Fragment() {
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "${eventWithLive.eventdetail.starttime.date} Mar, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
+                        text = "${eventWithLive.eventdetail.starttime.date} Feb, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
                         style = TextStyle(
                             color = colors.onBackground,
                             fontFamily = aileron,
