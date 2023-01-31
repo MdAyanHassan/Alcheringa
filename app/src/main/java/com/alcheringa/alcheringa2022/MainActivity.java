@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     int version_info=Integer.parseInt(documentSnapshot.getString("version"));
                     //Toast.makeText(MainActivity.this, "equals"+versionCode, Toast.LENGTH_SHORT).show();
                     if(version_info>versionCode){
-                        ShowDialog();
+                        //ShowDialog();
                     }
                 }
                 else{

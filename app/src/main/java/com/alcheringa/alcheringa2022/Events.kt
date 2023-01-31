@@ -23,8 +23,10 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -55,11 +57,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
-import com.alcheringa.alcheringa2022.Model.eventWithLive
-import com.alcheringa.alcheringa2022.Model.tagwithicon
+import com.alcheringa.alcheringa2022.Model.*
 
-import com.alcheringa.alcheringa2022.Model.venue
-import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -70,6 +69,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.maps.android.compose.*
 import com.skydoves.landscapist.ShimmerParams
@@ -79,100 +79,151 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
-val venuelist= listOf<venue>(
-    venue("Auditorium", LatLng = LatLng(26.190638584006965, 91.69300641296921) ),
-    venue("Mini Auditorium", LatLng = LatLng(26.190638584006965, 91.69300641296921) ),
-    venue("Expo Stage", LatLng = LatLng(26.190636674443564, 91.69300170707142) ),
-    venue("Front of Graffiti Wall", LatLng = LatLng(26.19191890474476, 91.6959432542479) ),
-    venue("Behind Graffiti Wall", LatLng = LatLng(26.191951998262304, 91.69573068917616) ),
-    venue("Football Field", LatLng = LatLng(26.193022124942964, 91.69694866004637) ),
-    venue("Basketball Courts", LatLng = LatLng(26.19204463910141, 91.69785644684545) ),
-    venue("Volley Ball Court", LatLng = LatLng(26.19204023599347, 91.69737065823848) ),
-    venue("Library Shed", LatLng = LatLng(26.189551715246374, 91.69337795595325) ),
-    venue("Lecture Hall 1", LatLng = LatLng(26.189005409728654, 91.69174350293444) ),
-    venue("Lecture Hall 2", LatLng = LatLng(26.189005409728654, 91.69174350293444) ),
-    venue("Lecture Hall 3", LatLng = LatLng(26.189005409728654, 91.69174350293444) ),
-    venue("Lecture Hall 4", LatLng = LatLng(26.189005409728654, 91.69174350293444) ),
-    venue("Rocko Stage", LatLng = LatLng(26.189865803005024, 91.693858248184) ),
-    venue("Pronite Stage", LatLng = LatLng(26.1897968961693, 91.697434871485) ),
-    venue("Conference Hall 1", LatLng = LatLng(26.190873224608982, 91.69225523976387) ),
-    venue("Conference Hall 2", LatLng = LatLng(26.190873224608982, 91.69225523976387) ),
-    venue("Conference Hall 3", LatLng = LatLng(26.190873224608982, 91.69225523976387) ),
-    venue("Conference Hall 4", LatLng = LatLng(26.190873224608982, 91.69225523976387) ),
-    venue("Core 5", LatLng = LatLng(26.18611265371866, 91.68929712769904) ),
-    venue("Senate Hall", LatLng = LatLng(26.190302521884597, 91.69210573526523) ),
-    venue("Old Sac Wall", LatLng = LatLng(26.192563559521556, 91.69583138918674) ),
-    venue("Audi Park", LatLng = LatLng(26.190218676220958, 91.69300182135102) ),
-    venue("Athletics Field", LatLng = LatLng(26.19290020378757, 91.69813175683815) ),
-    venue("Entire Campus", LatLng = LatLng(26.190213221922317, 91.6929932588851) ),
-    venue("Library Basement", LatLng = LatLng(26.18950374874834, 91.6934319403298) ),
-    )
+
+val venuelist = listOf<venue>(
+    venue("Auditorium", LatLng = LatLng(26.190638584006965, 91.69300641296921)),
+    venue("Mini Auditorium", LatLng = LatLng(26.190638584006965, 91.69300641296921)),
+    venue("Expo Stage", LatLng = LatLng(26.190636674443564, 91.69300170707142)),
+    venue("Front of Graffiti Wall", LatLng = LatLng(26.19191890474476, 91.6959432542479)),
+    venue("Behind Graffiti Wall", LatLng = LatLng(26.191951998262304, 91.69573068917616)),
+    venue("Football Field", LatLng = LatLng(26.193022124942964, 91.69694866004637)),
+    venue("Basketball Courts", LatLng = LatLng(26.19204463910141, 91.69785644684545)),
+    venue("Volley Ball Court", LatLng = LatLng(26.19204023599347, 91.69737065823848)),
+    venue("Library Shed", LatLng = LatLng(26.189551715246374, 91.69337795595325)),
+    venue("Lecture Hall 1", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
+    venue("Lecture Hall 2", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
+    venue("Lecture Hall 3", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
+    venue("Lecture Hall 4", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
+    venue("Rocko Stage", LatLng = LatLng(26.189865803005024, 91.693858248184)),
+    venue("Pronite Stage", LatLng = LatLng(26.1897968961693, 91.697434871485)),
+    venue("Conference Hall 1", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
+    venue("Conference Hall 2", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
+    venue("Conference Hall 3", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
+    venue("Conference Hall 4", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
+    venue("Core 5", LatLng = LatLng(26.18611265371866, 91.68929712769904)),
+    venue("Senate Hall", LatLng = LatLng(26.190302521884597, 91.69210573526523)),
+    venue("Old Sac Wall", LatLng = LatLng(26.192563559521556, 91.69583138918674)),
+    venue("Audi Park", LatLng = LatLng(26.190218676220958, 91.69300182135102)),
+    venue("Athletics Field", LatLng = LatLng(26.19290020378757, 91.69813175683815)),
+    venue("Entire Campus", LatLng = LatLng(26.190213221922317, 91.6929932588851)),
+    venue("Library Basement", LatLng = LatLng(26.18950374874834, 91.6934319403298)),
+)
 
 class Events : Fragment() {
 
-    private lateinit var fgm:FragmentManager
+    private lateinit var fgm: FragmentManager
     private lateinit var binding: FragmentEventsBinding
     val homeViewModel: viewModelHome by activityViewModels()
 
     var firebaseFirestore: FirebaseFirestore? = null
     var sharedPreferences: SharedPreferences? = null
 
-    val taglist= listOf("💃  Dance","🎵  Music", "🎭  Stagecraft", "🕶  Vogue nation", "🙋‍  Class apart", "🎨  Art talkies", "📖  Literature","💻  Digital Dexterity", "🎥  Lights camera action","🌐  Informal")
+    val taglist = listOf(
+        "🚽  Utilities",
+        "💃  Dance",
+        "🎵  Music",
+        "🎭  Stagecraft",
+        "🕶  Vogue nation",
+        "🙋‍  Class apart",
+        "🎨  Art talkies",
+        "📖  Literature",
+        "💻  Digital Dexterity",
+        "🎥  Lights camera action",
+        "🌐  Informal"
+    )
+
+    var markerList = mutableStateListOf<venue>()
 
 
     val searchlist = mutableStateListOf<eventWithLive>()
-    var tg= mutableStateOf("")
-    var searchtext= mutableStateOf("")
-
+    var tg = mutableStateOf("")
+    var searchtext = mutableStateOf("")
 
 
     lateinit var criticaldamageslist: List<eventWithLive>
-    lateinit var proniteslist : List<eventWithLive>
-    lateinit var proshowslist : List<eventWithLive>
+    lateinit var proniteslist: List<eventWithLive>
+    lateinit var proshowslist: List<eventWithLive>
     lateinit var creatorscampslist: List<eventWithLive>
-    lateinit var humorfestslist : List<eventWithLive>
-    lateinit var camppaignslist : List<eventWithLive>
-    lateinit var mun : List<eventWithLive>
-    lateinit var otherlist : List<eventWithLive>
-
-
-
+    lateinit var humorfestslist: List<eventWithLive>
+    lateinit var camppaignslist: List<eventWithLive>
+    lateinit var mun: List<eventWithLive>
+    lateinit var otherlist: List<eventWithLive>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fgm=parentFragmentManager
+        fgm = parentFragmentManager
+
+        venuelist.forEach{d ->
+            markerList.add(d)
+        }
+
+        if(homeViewModel.utilityList.isEmpty()){
+            homeViewModel.getUtilities()
+        }
+        Log.d("Utility Test", homeViewModel.utilityList.size.toString())
 
 
-        criticaldamageslist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Critical Damage".replace("\\s".toRegex(), "").uppercase()}
+        criticaldamageslist = homeViewModel.allEventsWithLive.filter { data ->
+            data.eventdetail.type.replace(
+                "\\s".toRegex(),
+                ""
+            ).uppercase() == "Critical Damage".replace("\\s".toRegex(), "").uppercase()
+        }
 
-        proniteslist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Pronites".replace("\\s".toRegex(), "").uppercase()}
+        proniteslist = homeViewModel.allEventsWithLive.filter { data ->
+            data.eventdetail.type.replace(
+                "\\s".toRegex(),
+                ""
+            ).uppercase() == "Pronites".replace("\\s".toRegex(), "").uppercase()
+        }
 
-        proshowslist =homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Proshows".replace("\\s".toRegex(), "").uppercase()}
+        proshowslist = homeViewModel.allEventsWithLive.filter { data ->
+            data.eventdetail.type.replace(
+                "\\s".toRegex(),
+                ""
+            ).uppercase() == "Proshows".replace("\\s".toRegex(), "").uppercase()
+        }
 
-        creatorscampslist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Creators' Camp".replace("\\s".toRegex(), "").uppercase()}
+        creatorscampslist = homeViewModel.allEventsWithLive.filter { data ->
+            data.eventdetail.type.replace(
+                "\\s".toRegex(),
+                ""
+            ).uppercase() == "Creators' Camp".replace("\\s".toRegex(), "").uppercase()
+        }
 
-        humorfestslist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Humor Fest".replace("\\s".toRegex(), "").uppercase()}
+        humorfestslist = homeViewModel.allEventsWithLive.filter { data ->
+            data.eventdetail.type.replace(
+                "\\s".toRegex(),
+                ""
+            ).uppercase() == "Humor Fest".replace("\\s".toRegex(), "").uppercase()
+        }
 
-        camppaignslist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "Kartavya".replace("\\s".toRegex(), "").uppercase()}
-        mun=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase()}
-        otherlist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "OTHER EVENTS".replace("\\s".toRegex(), "").uppercase()}
+        camppaignslist = homeViewModel.allEventsWithLive.filter { data ->
+            data.eventdetail.type.replace(
+                "\\s".toRegex(),
+                ""
+            ).uppercase() == "Kartavya".replace("\\s".toRegex(), "").uppercase()
+        }
+        mun = homeViewModel.allEventsWithLive.filter { data ->
+            data.eventdetail.type.replace(
+                "\\s".toRegex(),
+                ""
+            ).uppercase() == "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase()
+        }
+        otherlist = homeViewModel.allEventsWithLive.filter { data ->
+            data.eventdetail.type.replace(
+                "\\s".toRegex(),
+                ""
+            ).uppercase() == "OTHER EVENTS".replace("\\s".toRegex(), "").uppercase()
+        }
 
     }
 
 
-
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         //return inflater.inflate(R.layout.fragment_events, container, false)
         binding = FragmentEventsBinding.inflate(layoutInflater)
@@ -181,8 +232,8 @@ class Events : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val scheduleDatabase=ScheduleDatabase(context)
-        val eventslist=scheduleDatabase.schedule;
+        val scheduleDatabase = ScheduleDatabase(context)
+        val eventslist = scheduleDatabase.schedule;
 
 //        var unseen_notif_count = 0
 //
@@ -221,44 +272,60 @@ class Events : Fragment() {
 
         binding.eventsCompose.setContent {
 
-Alcheringa2022Theme() {
-    MyContent()
-}
+            Alcheringa2022Theme() {
+                MyContent()
+            }
 
 
-
-
-            
         }
     }
 
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
-    @Preview
-    fun Full_view() {
+    fun Full_view(bottomSheetScaffoldState: BottomSheetScaffoldState, coroutineScope: CoroutineScope) {
         Alcheringa2022Theme {
             Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState())
-                    /*.background(Color.Black)*/
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                /*.background(Color.Black)*/
             ) {
-                if(searchtext.value!="" || tg.value!=""){
-                 searchresultrow(heading = "Search Results")
+                if(tg.value == taglist[0] && homeViewModel.utilityList.isNotEmpty()){
+                    Utility_row(heading = "Utilities", list = homeViewModel.utilityList, bottomSheetScaffoldState, coroutineScope)
+                }
+                else if (searchtext.value != "" || tg.value != "") {
+                    searchresultrow(heading = "Search Results")
                     Spacer(modifier = Modifier.height(435.dp))
+                } else {
+
+                    if (criticaldamageslist.isNotEmpty()) {
+                        Events_row(heading = "Critical Damage", criticaldamageslist)
+                    }
+                    if (proniteslist.isNotEmpty()) {
+                        Events_row(heading = "Pronites", proniteslist)
+                    }
+                    if (proshowslist.isNotEmpty()) {
+                        Events_row(heading = "Proshows", proshowslist)
+                    }
+                    if (creatorscampslist.isNotEmpty()) {
+                        Events_row(heading = "Creators' Camp", creatorscampslist)
+                    }
+                    if (humorfestslist.isNotEmpty()) {
+                        Events_row(heading = "Humor Fest", humorfestslist)
+                    }
+                    if (camppaignslist.isNotEmpty()) {
+                        Events_row(heading = "Kartavya", camppaignslist)
+                    }
+                    if (mun.isNotEmpty()) {
+                        Events_row(heading = "Model United Nations", mun)
+                    }
+                    if (otherlist.isNotEmpty()) {
+                        Events_row(heading = "Other Events", list = otherlist)
+                    }
+                    if (homeViewModel.utilityList.isNotEmpty()){
+                        Utility_row(heading = "Utilities", list = homeViewModel.utilityList, bottomSheetScaffoldState, coroutineScope)
+                    }
                 }
-                  else {
-
-                    if(criticaldamageslist.isNotEmpty()){ Events_row(heading = "Critical Damage", criticaldamageslist) }
-                    if(proniteslist.isNotEmpty()){ Events_row(heading = "Pronites", proniteslist) }
-                    if(proshowslist.isNotEmpty()){ Events_row(heading = "Proshows", proshowslist) }
-                    if(creatorscampslist.isNotEmpty()){ Events_row(heading = "Creators' Camp", creatorscampslist) }
-                    if(humorfestslist.isNotEmpty()){ Events_row(heading = "Humor Fest", humorfestslist) }
-                    if(camppaignslist.isNotEmpty()){ Events_row(heading = "Kartavya", camppaignslist) }
-                    if(mun.isNotEmpty()){ Events_row(heading = "Model United Nations", mun) }
-                    if(otherlist.isNotEmpty()){Events_row(heading = "Other Events", list = otherlist)}
-                }
-
-
 
 
 //                Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
@@ -301,7 +368,8 @@ Alcheringa2022Theme() {
     }
 
     @Composable
-    fun Events_row(heading: String,list:List<eventWithLive>) {val alphaval= 0.2f
+    fun Events_row(heading: String, list: List<eventWithLive>) {
+        val alphaval = 0.2f
         if (list.isNotEmpty()) {
             Box(
                 modifier = Modifier.padding(
@@ -319,10 +387,10 @@ Alcheringa2022Theme() {
                         shape = RoundedCornerShape(100.dp),
                         backgroundColor = textbg
 
-                    ){
+                    ) {
                         Text(
 
-                            text = ""+heading+"  ",
+                            text = "" + heading + "  ",
                             fontFamily = aileron,
                             fontWeight = FontWeight.Bold,
                             color = Color.Transparent,
@@ -352,10 +420,76 @@ Alcheringa2022Theme() {
                             eventdetail = dataEach,
                             homeViewModel,
                             it,
-                                this@Events,
+                            this@Events,
                             fgm,
-                                R.id.action_events_to_events_Details_Fragment2
+                            R.id.action_events_to_events_Details_Fragment2
                         )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    fun Utility_row(heading: String, list: List<utilityModel>, bottomSheetScaffoldState: BottomSheetScaffoldState, coroutineScope: CoroutineScope) {
+        val alphaval = 0.2f
+        if (list.isNotEmpty()) {
+            Box(
+                modifier = Modifier.padding(
+                    horizontal = 20.dp,
+                    vertical = 12.dp
+                )
+            ) {
+                Box(
+                ) {
+                    Card(
+                        Modifier
+                            .height(10.dp)
+                            .offset(x = -5.dp, y = 16.dp)
+                            .alpha(alphaval),
+                        shape = RoundedCornerShape(100.dp),
+                        backgroundColor = textbg
+
+                    ) {
+                        Text(
+
+                            text = "" + heading + "  ",
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Transparent,
+                            fontSize = 21.sp
+                        )
+                    }
+                    Text(
+
+                        text = heading,
+                        fontFamily = aileron,
+                        fontWeight = FontWeight.Bold,
+                        color = colors.onBackground,
+                        fontSize = 21.sp
+                    )
+                }
+            }
+
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(horizontal = 20.dp)
+            ) {
+                items(list)
+                { dataEach ->
+                    context?.let {
+                        UtilityCard(utlt = dataEach) {
+                            markerList.clear()
+                            dataEach.locations.forEachIndexed{ i, d ->
+                                val loc = venue(dataEach.name.dropLast(1) + " " + (i+1), LatLng(d.latitude, d.longitude))
+                                markerList.add(loc)
+                            }
+                            coroutineScope.launch { bottomSheetScaffoldState.bottomSheetState.collapse() }
+                        }
                     }
                 }
             }
@@ -383,10 +517,10 @@ Alcheringa2022Theme() {
                     shape = RoundedCornerShape(100.dp),
                     backgroundColor = textbg
 
-                ){
+                ) {
                     Text(
 
-                        text = ""+heading+"  ",
+                        text = "" + heading + "  ",
                         fontFamily = aileron,
                         fontWeight = FontWeight.Bold,
                         color = Color.Transparent,
@@ -403,31 +537,30 @@ Alcheringa2022Theme() {
                 )
             }
         }
-if (searchlist.isNotEmpty()) {
-    LazyRow(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(horizontal = 20.dp)
-    ) {
-        items(searchlist)
-        { dataEach ->
-            context?.let {
-                Event_card(
-                    eventdetail = dataEach,
-                    homeViewModel,
-                    it,
-                    this@Events,
-                    fgm,
-                    R.id.action_events_to_events_Details_Fragment2
-                )
+        if (searchlist.isNotEmpty()) {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(horizontal = 20.dp)
+            ) {
+                items(searchlist)
+                { dataEach ->
+                    context?.let {
+                        Event_card(
+                            eventdetail = dataEach,
+                            homeViewModel,
+                            it,
+                            this@Events,
+                            fgm,
+                            R.id.action_events_to_events_Details_Fragment2
+                        )
+                    }
+                }
             }
-        }
-    }
-}
-        else{
+        } else {
             Box(
-        modifier = Modifier.padding(
-        horizontal = 20.dp,
+                modifier = Modifier.padding(
+                    horizontal = 20.dp,
                 )
             ) {
                 Text(
@@ -438,8 +571,8 @@ if (searchlist.isNotEmpty()) {
                     fontFamily = aileron
                 )
             }
-}
-            Spacer(modifier = Modifier.height(24.dp))
+        }
+        Spacer(modifier = Modifier.height(24.dp))
 
     }
 
@@ -465,7 +598,7 @@ if (searchlist.isNotEmpty()) {
             GlideImage(
                 imageModel = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/competitionHeader.png?alt=media&token=7f350d9e-dbad-427a-822f-e3586bfa5e4c",
                 contentDescription = "imghead",
-                modifier= Modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(256.dp),
                 alignment = Alignment.Center,
@@ -476,14 +609,18 @@ if (searchlist.isNotEmpty()) {
                     durationMillis = 350,
                     dropOff = 0.65f,
                     tilt = 20f
-                ),failure = {
-                    Box(modifier= Modifier
-                        .fillMaxWidth()
-                        .height(256.dp), contentAlignment = Alignment.Center) {
+                ), failure = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(256.dp), contentAlignment = Alignment.Center
+                    ) {
                         Column(
                             Modifier
                                 .fillMaxWidth()
-                                .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                .wrapContentHeight(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
                             Image(
                                 modifier = Modifier
                                     .width(60.dp)
@@ -522,10 +659,18 @@ if (searchlist.isNotEmpty()) {
                         )
                     )
             )
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(17.dp), contentAlignment = Alignment.BottomStart){
-                Text(text = "SEE ALL COMPETITIONS", color = Color.White, fontFamily = clash, fontWeight = FontWeight.W700, fontSize = 18.sp)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(17.dp), contentAlignment = Alignment.BottomStart
+            ) {
+                Text(
+                    text = "SEE ALL COMPETITIONS",
+                    color = Color.White,
+                    fontFamily = clash,
+                    fontWeight = FontWeight.W700,
+                    fontSize = 18.sp
+                )
             }
 
 
@@ -533,16 +678,15 @@ if (searchlist.isNotEmpty()) {
     }
 
 
-
-
     @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
     @Composable
-    fun MyContent(){
+    fun MyContent() {
 
         // Declaring a Boolean value to
         // store bottom sheet collapsed state
-        val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(bottomSheetState =
-        BottomSheetState(BottomSheetValue.Collapsed)
+        val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+            bottomSheetState =
+            BottomSheetState(BottomSheetValue.Collapsed)
         )
 
         // Declaring Coroutine scope
@@ -550,147 +694,201 @@ if (searchlist.isNotEmpty()) {
 
         // Creating a Bottom Sheet
         BottomSheetScaffold(
-            scaffoldState = bottomSheetScaffoldState, backgroundColor = colors.background, sheetBackgroundColor = colors.background, drawerBackgroundColor = colors.background,
-            sheetContent =  {
-               Box(
-                   Modifier
-                       .wrapContentHeight()
-                       .fillMaxWidth()
-                       .padding(top = 8.dp, bottom = 4.dp), contentAlignment = Alignment.TopCenter)
-               {
-                   Icon(painterResource(id = R.drawable.rectangle_expand), "",
-                       Modifier
-                           .width(60.dp)
-                           .height(5.dp), tint = colors.onSurface)
-               }
-                Full_view()
+            scaffoldState = bottomSheetScaffoldState,
+            backgroundColor = colors.background,
+            sheetBackgroundColor = colors.background,
+            drawerBackgroundColor = colors.background,
+            sheetContent = {
+                Box(Modifier.fillMaxHeight(0.8f)) {
+                    Column {
+                        Box(
+                            Modifier
+                                .wrapContentHeight()
+                                .fillMaxWidth()
+                                .padding(top = 8.dp, bottom = 4.dp),
+                            contentAlignment = Alignment.TopCenter
+                        )
+                        {
+                            Icon(
+                                painterResource(id = R.drawable.rectangle_expand), "",
+                                Modifier
+                                    .width(60.dp)
+                                    .height(5.dp), tint = colors.onSurface
+                            )
+                        }
+
+
+                        Full_view(bottomSheetScaffoldState, coroutineScope)
+                    }
+                }
             },
-            sheetPeekHeight = if(tg.value!="" || searchtext.value!="")520.dp else 280.dp, sheetShape = RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp)
-        
-        ){
+            sheetPeekHeight = if(tg.value == taglist[0]) 200.dp else if (tg.value != "" || searchtext.value != "") 360.dp else 280.dp,
+            sheetShape = RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp)
+
+        ) {
             Box(
                 Modifier
                     .fillMaxSize()
-                    .padding(bottom = 184.dp), contentAlignment = Alignment.TopCenter) {
+                    .padding(bottom = 184.dp), contentAlignment = Alignment.TopCenter
+            ) {
 
-              mapview()
+                mapview()
 
 
-               Column( modifier = Modifier
-                   .fillMaxWidth()
-                   .wrapContentHeight()
-                   .padding(vertical = 20.dp) ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(vertical = 20.dp)
+                ) {
                     val keyboardController = LocalSoftwareKeyboardController.current
-                   Box(modifier = Modifier
-                       .fillMaxWidth()
-                       .wrapContentHeight()
-                       .padding(horizontal = 15.dp,)){
-                   TextField(
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
-                            .clip(RoundedCornerShape(100.dp))
-                            .border(
-                                1.dp,
-                                if (isSystemInDarkTheme()) highWhite else midWhite,
-                                RoundedCornerShape(100.dp)
-                            ),
+                            .padding(horizontal = 15.dp)
+                    ) {
+                        TextField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .clip(RoundedCornerShape(100.dp))
+                                .border(
+                                    1.dp,
+                                    if (isSystemInDarkTheme()) highWhite else midWhite,
+                                    RoundedCornerShape(100.dp)
+                                ),
 //                        shape = RoundedCornerShape(100.dp),
-                        placeholder = { Text("Search an event",) },
-                       leadingIcon = {Icon(Icons.Outlined.Search,"", tint =  if (isSystemInDarkTheme()) highWhite else midWhite)},
-                        value = searchtext.value,
-                        textStyle = TextStyle(
-                        fontFamily = aileron,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 16.sp,),
-                        onValueChange = { v: String -> searchtext.value = v;filterlist() },
-                       keyboardOptions = KeyboardOptions(autoCorrect = false, imeAction = ImeAction.Search),
-                       keyboardActions = KeyboardActions(onSearch = {keyboardController?.hide();filterlist()}),
-                       singleLine = true,
+                            placeholder = { Text("Search an event") },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Outlined.Search,
+                                    "",
+                                    tint = if (isSystemInDarkTheme()) highWhite else midWhite
+                                )
+                            },
+                            trailingIcon = {
+                                if(searchtext.value != ""){
+                                    Icon(
+                                        Icons.Outlined.Close,
+                                        "",
+                                        tint = if (isSystemInDarkTheme()) highWhite else midWhite,
+                                        modifier = Modifier.clickable {
+                                            searchtext.value = ""
+                                            markerList.clear()
+                                            for (venue in venuelist) {
+                                                markerList.add(venue)
+                                            }
+                                            coroutineScope.launch { bottomSheetScaffoldState.bottomSheetState.collapse() }
+                                        }
+                                    )
+                                }
+                            },
+                            value = searchtext.value,
+                            textStyle = TextStyle(
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 16.sp,
+                            ),
+                            onValueChange = { v: String -> searchtext.value = v;filterlist() },
+                            keyboardOptions = KeyboardOptions(
+                                autoCorrect = false,
+                                imeAction = ImeAction.Search
+                            ),
+                            keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide();filterlist() }),
+                            singleLine = true,
 
 
-                        colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = colors.background,
-                            textColor = colors.onBackground,
-                            placeholderColor = Color(0xffacacac),
-                            cursorColor = colors.onBackground,
-                            focusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            errorIndicatorColor = Color.Transparent
+                            colors = TextFieldDefaults.textFieldColors(
+                                backgroundColor = colors.background,
+                                textColor = colors.onBackground,
+                                placeholderColor = Color(0xffacacac),
+                                cursorColor = colors.onBackground,
+                                focusedIndicatorColor = Color.Transparent,
+                                disabledIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                errorIndicatorColor = Color.Transparent
+                            )
                         )
-                    )
-                   }
-                   Spacer(modifier = Modifier.height(8.dp))
-                   tags()
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    tags()
 
                 }
+
+            }
 
         }
 
-    }
-
 
     }
+
     @Composable
-    fun tags(){
+    fun tags() {
 
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .wrapContentHeight()
-            , horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            val colors= colors
-            val isdark= isSystemInDarkTheme()
-            val selectedbgcolor=if (isdark) Color(0xff79C3D2) else Color(0xffCDE9EE)
-            val selectdbordercolor=if (isdark) Color(0xff034653) else Color(0xff7DC5D3)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            val colors = colors
+            val isdark = isSystemInDarkTheme()
+            val selectedbgcolor = if (isdark) Color(0xff79C3D2) else Color(0xffCDE9EE)
+            val selectdbordercolor = if (isdark) Color(0xff034653) else Color(0xff7DC5D3)
 
             Spacer(modifier = Modifier.width(15.dp))
+
             taglist.forEach {
-                var bgcolor=remember{ mutableStateOf(colors.background) }
-                var bordercolor=remember{ mutableStateOf(Color(0xffacacac)) }
+                var bgcolor = remember { mutableStateOf(colors.background) }
+                var bordercolor = remember { mutableStateOf(Color(0xffacacac)) }
 
-                if(tg.value==it){
-                    bgcolor.value=selectedbgcolor
-                    bordercolor.value=selectdbordercolor
+                if (tg.value == it) {
+                    bgcolor.value = selectedbgcolor
+                    bordercolor.value = selectdbordercolor
 
-                }
-                else
-                {
-                    bgcolor.value=colors.background
-                    bordercolor.value=Color(0xffacacac)
+                } else {
+                    bgcolor.value = colors.background
+                    bordercolor.value = Color(0xffacacac)
                 }
 
 
-               Card(
-                   Modifier
-                       .clickable {
-                           if (tg.value == it) {
-                               tg.value = "";
-                               bgcolor.value = colors.background
-                               bordercolor.value = Color(0xffacacac)
-                           } else {
-                               tg.value = it;
-                               bgcolor.value = selectedbgcolor
-                               bordercolor.value = selectdbordercolor
-                           }
+                Card(
+                    Modifier
+                        .clickable {
 
-                           filterlist()
-                       }
-                       .wrapContentWidth()
-                       .wrapContentHeight(),
-                   border = BorderStroke(1.dp, bordercolor.value),
-                   shape = RoundedCornerShape(45.dp),
-                   backgroundColor = colors.background,
-               )
-                {
-                    Box(modifier = Modifier
-                        .wrapContentHeight()
+                            if (tg.value == it) {
+                                tg.value = "";
+                                bgcolor.value = colors.background
+                                bordercolor.value = Color(0xffacacac)
+                            } else {
+                                tg.value = it;
+                                bgcolor.value = selectedbgcolor
+                                bordercolor.value = selectdbordercolor
+                            }
+
+
+                            filterlist()
+                        }
                         .wrapContentWidth()
-                        .background(bgcolor.value), contentAlignment = Alignment.Center) {
+                        .wrapContentHeight(),
+                    border = BorderStroke(1.dp, bordercolor.value),
+                    shape = RoundedCornerShape(45.dp),
+                    backgroundColor = colors.background,
+                )
+                {
+                    Box(
+                        modifier = Modifier
+                            .wrapContentHeight()
+                            .wrapContentWidth()
+                            .background(bgcolor.value), contentAlignment = Alignment.Center
+                    ) {
 
-                        val textcolor=if (isdark) {if(tg.value==it)colors.background else colors.onBackground}else colors.onBackground
-                        Text(modifier=Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                        val textcolor = if (isdark) {
+                            if (tg.value == it) colors.background else colors.onBackground
+                        } else colors.onBackground
+                        Text(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                             text = it,
                             fontSize = 14.sp,
                             fontFamily = aileron,
@@ -702,11 +900,15 @@ if (searchlist.isNotEmpty()) {
             }
             Spacer(modifier = Modifier.width(15.dp))
         }
-        
+
     }
-    fun filterlist(){
+
+    fun filterlist() {
         searchlist.clear();
-        searchlist.addAll(homeViewModel.allEventsWithLive.filter { it.eventdetail.toString().contains(searchtext.value,true) && it.eventdetail.toString().contains(tg.value.drop(3).trim(),true) })
+        searchlist.addAll(homeViewModel.allEventsWithLive.filter {
+            it.eventdetail.toString().contains(searchtext.value, true) && it.eventdetail.toString()
+                .contains(tg.value.drop(3).trim(), true)
+        })
 
         //zooming map at the first event venue
 //        val firsteventvenue= venuelist.find { it.name==searchlist[0].eventdetail.venue }
@@ -721,7 +923,7 @@ if (searchlist.isNotEmpty()) {
             position = CameraPosition.fromLatLngZoom(venuelist[2].LatLng, 17f)
         )
 
-        val coroutinescope= rememberCoroutineScope()
+        val coroutinescope = rememberCoroutineScope()
 
 
         val mainaudi = LatLng(26.191117262340942, 91.69295134231831)
@@ -731,26 +933,34 @@ if (searchlist.isNotEmpty()) {
             cameraPositionState = cameraPositionState, properties = MapProperties(
                 mapStyleOptions = MapStyleOptions.loadRawResourceStyle(
                     requireContext(),
-                    if (isSystemInDarkTheme())R.raw.mapdark else R.raw.maplight
+                    if (isSystemInDarkTheme()) R.raw.mapdark else R.raw.maplight
                 )
             )
         ) {
-            venuelist.forEach {v->
-                Marker(
 
-                    icon = bitmapDescriptor(requireContext(),if(isSystemInDarkTheme())R.drawable.darkmapmarker else R.drawable.lightmapmarker),
-                    position = v.LatLng,
-                    title = v.name,
-                    snippet = v.des,
+
+                markerList.forEach { v ->
+                    Marker(
+
+                        icon = bitmapDescriptor(
+                            requireContext(),
+                            if (isSystemInDarkTheme()) R.drawable.darkmapmarker else R.drawable.lightmapmarker
+                        ),
+                        position = v.LatLng,
+                        title = v.name,
+                        snippet = v.des,
 //                    onClick = { searchtext.value=v.name;false}
-                onInfoWindowClick = {val gmmIntentUri =
-                    Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
-                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                    mapIntent.setPackage("com.google.android.apps.maps")
-                    startActivity(mapIntent)
-                },
-                )
-            }
+                        onInfoWindowClick = {
+                            val gmmIntentUri =
+                                Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                            mapIntent.setPackage("com.google.android.apps.maps")
+                            startActivity(mapIntent)
+                        },
+                    )
+                }
+
+
         }
     }
 
@@ -777,8 +987,9 @@ if (searchlist.isNotEmpty()) {
 
 
     override fun onResume() {
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.menu?.findItem(R.id.events)?.setChecked(true);
-        MainActivity.index=R.id.events;
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.menu?.findItem(R.id.events)
+            ?.setChecked(true);
+        MainActivity.index = R.id.events;
         super.onResume()
 
 //        var unseen_notif_count = 0

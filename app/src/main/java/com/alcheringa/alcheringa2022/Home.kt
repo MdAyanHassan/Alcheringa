@@ -754,7 +754,6 @@ class Home : Fragment() {
                                         ) {
                                             val heightparent=remember{ mutableStateOf(0f) }
                                             var heightoff= remember {mutableStateOf(0f)}
-                                            Log.d("pager2",calculateCurrentOffsetForPage(1).toString())
 
                                                 heightoff.value =
                                                     lerp(

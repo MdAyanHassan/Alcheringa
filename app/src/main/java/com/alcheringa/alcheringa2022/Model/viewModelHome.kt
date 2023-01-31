@@ -61,6 +61,7 @@ class viewModelHome : ViewModel() {
     var crnttime = mutableStateOf(OwnTime())
     val merchMerch = SnapshotStateList<merchModel>()
     val forYouEvents = mutableStateListOf<eventWithLive>()
+    val utilityList = mutableStateListOf<utilityModel>()
 
     fun getAllEvents() {
         viewModelScope.launch {
@@ -226,6 +227,19 @@ class viewModelHome : ViewModel() {
 
     }
 
+    fun getUtilities(){
+        fb.collection("Utilities").get().addOnSuccessListener {utlts ->
+
+            utilityList.clear()
+            for (utlt in utlts){
+                utilityList.add(utlt.toObject(utilityModel::class.java))
+            }
+
+        }
+            .addOnFailureListener {
+                Log.d("Utility", it.toString())
+            }
+    }
 
     fun converttomin(OwnTime: OwnTime): Int {
         return ((OwnTime.date * 24 * 60) + (OwnTime.hours * 60) + OwnTime.min)
