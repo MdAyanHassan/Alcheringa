@@ -1,6 +1,7 @@
 package com.alcheringa.alcheringa2022
 
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -45,76 +46,123 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun UtilityCard(utlt: utilityModel, onClick: () -> Unit) {
 
+    var M = Modifier.wrapContentWidth()
+    val isdark= isSystemInDarkTheme()
     val animationProgress = remember { Animatable(300f) }
-    LaunchedEffect(key1 = Unit, block = {
+
+    LaunchedEffect(key1=Unit,block = {
         animationProgress.animateTo(
             targetValue = 0f,
             animationSpec = tween(300, easing = FastOutSlowInEasing)
         )
     })
 
-
-    val M = Modifier
-        .clip(RoundedCornerShape(16.dp))
-        .background(colors.background)
+    M = Modifier.clip(RoundedCornerShape(16.dp)).background(MaterialTheme.colors.background)
         .wrapContentWidth()
         .border(
             1.5f.dp,
-            color = colors.onBackground, RoundedCornerShape(16.dp)
+            color = MaterialTheme.colors.onBackground, RoundedCornerShape(16.dp)
         )
 
-    val bm = if (isSystemInDarkTheme()) Modifier
-        .background(colors.background)
+
+
+    val bm= if(isSystemInDarkTheme()) Modifier.background(MaterialTheme.colors.background)
         .graphicsLayer(translationY = animationProgress.value)
         .width(220.dp)
-    else Modifier
-        .background(colors.background)
-        .graphicsLayer(translationY = animationProgress.value)
-        .coloredShadow(colors.onBackground, 0.01f, 16.dp, 1.dp, 20.dp, 0.dp)
-        .coloredShadow(colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
-        .coloredShadow(colors.onBackground, 0.24f, 16.dp, 1.dp, 4.dp, 0.dp)
+    else Modifier.background(MaterialTheme.colors.background).graphicsLayer(translationY = animationProgress.value)
+        .coloredShadow(MaterialTheme.colors.onBackground, 0.01f, 16.dp, 1.dp, 20.dp, 0.dp)
+        .coloredShadow(MaterialTheme.colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
+        .coloredShadow(MaterialTheme.colors.onBackground, 0.24f, 16.dp, 1.dp, 4.dp, 0.dp)
 
         .width(220.dp)
     Box(
-        modifier = bm
-    )
+        modifier=bm)
     {
-        Card(
-            modifier = M.padding(0.dp),
+
+        Card(modifier = M.padding(0.dp),
             shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
-            backgroundColor = colors.background,
+            backgroundColor = MaterialTheme.colors.background,
             elevation = 0.dp
 
 
-        ) {
+        ){
 
-            Box(
-                modifier = Modifier
-                    .clickable(
-                        enabled = true,
-                        onClick = onClick
-                    )
-            ) {
-                    Column {
-                        Box(
+            Box(modifier = Modifier
+                .clickable(
+                    enabled = true,
+                    onClick = onClick
+                )
+            ){
+                Column {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.Bottom
+                    ){
+
+                        Row(
                             modifier = Modifier
-                                .width(220.dp)
-                                .wrapContentHeight(),
+                                .fillMaxWidth()
+                                .padding(start = 0.dp, end = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        start = 16.dp,
-                                        end = 16.dp,
-                                        bottom = 16.dp,
-                                        top = 12.dp
+                            Box(modifier = Modifier
+                                .fillMaxWidth(0.27f)
+                                .aspectRatio(1f)
+                                .padding(0.dp)
+                                , contentAlignment = Alignment.Center
+                            ) {
+                                GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(
+                                    DiskCacheStrategy.AUTOMATIC)},modifier = Modifier,
+                                    imageModel = utlt.imgUrl,
+                                    contentDescription = "utility",
+                                    contentScale = ContentScale.Crop,
+
+                                    alignment = Alignment.Center,
+                                    shimmerParams = ShimmerParams(
+                                        baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                        highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                        durationMillis = 1500,
+                                        dropOff = 1f,
+                                        tilt = 20f
                                     ),
-                                verticalArrangement = Arrangement.Bottom
+                                    failure = {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .fillMaxHeight(), contentAlignment = Alignment.Center
+                                        ) {
+
+                                            val composition by rememberLottieComposition(
+                                                LottieCompositionSpec.RawRes(
+                                                    R.raw.failure
+                                                )
+                                            )
+                                            val progress by animateLottieCompositionAsState(
+                                                composition,
+                                                iterations = LottieConstants.IterateForever
+                                            )
+                                            LottieAnimation(
+                                                composition,
+                                                progress,
+                                                modifier = Modifier.fillMaxHeight()
+                                            )
+
+                                        }
+
+                                    }
+                                )
+
+
+                            }
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 16.dp, top = 12.dp)
                             ) {
                                 MarqueeText(
                                     text = utlt.name,
-                                    color = colors.onBackground,
+                                    color = MaterialTheme.colors.onBackground,
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.SemiBold,
                                     fontFamily = aileron,
@@ -122,7 +170,7 @@ fun UtilityCard(utlt: utilityModel, onClick: () -> Unit) {
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 MarqueeText(
-                                    text = "Click to see ${utlt.name}' locations",
+                                    text = "Click to view location on map",
                                     style = TextStyle(
                                         color = colors.onBackground,
                                         fontFamily = aileron,
@@ -131,12 +179,11 @@ fun UtilityCard(utlt: utilityModel, onClick: () -> Unit) {
                                     ),
                                     gradientEdgeColor = Color.Transparent
                                 )
-
-
                             }
+
                         }
                     }
-
+                }
             }
         }
     }

@@ -161,7 +161,10 @@ class Events : Fragment() {
         if(homeViewModel.utilityList.isEmpty()){
             homeViewModel.getUtilities()
         }
-        Log.d("Utility Test", homeViewModel.utilityList.size.toString())
+        if(homeViewModel.informalList.isEmpty()){
+            homeViewModel.getInformals()
+        }
+        Log.d("Informals Test", homeViewModel.informalList.size.toString())
 
 
         criticaldamageslist = homeViewModel.allEventsWithLive.filter { data ->
@@ -293,6 +296,9 @@ class Events : Fragment() {
                 if(tg.value == taglist[0] && homeViewModel.utilityList.isNotEmpty()){
                     Utility_row(heading = "Utilities", list = homeViewModel.utilityList, bottomSheetScaffoldState, coroutineScope)
                 }
+                else if(tg.value == taglist[10] && homeViewModel.informalList.isNotEmpty()){
+                    Informal_row(heading = "Informals", list = homeViewModel.informalList, bottomSheetScaffoldState, coroutineScope)
+                }
                 else if (searchtext.value != "" || tg.value != "") {
                     searchresultrow(heading = "Search Results")
                     Spacer(modifier = Modifier.height(435.dp))
@@ -321,6 +327,9 @@ class Events : Fragment() {
                     }
                     if (otherlist.isNotEmpty()) {
                         Events_row(heading = "Other Events", list = otherlist)
+                    }
+                    if(homeViewModel.informalList.isNotEmpty()){
+                        Informal_row(heading = "Informals", list = homeViewModel.informalList, bottomSheetScaffoldState, coroutineScope)
                     }
                     if (homeViewModel.utilityList.isNotEmpty()){
                         Utility_row(heading = "Utilities", list = homeViewModel.utilityList, bottomSheetScaffoldState, coroutineScope)
@@ -488,6 +497,71 @@ class Events : Fragment() {
                                 val loc = venue(dataEach.name.dropLast(1) + " " + (i+1), LatLng(d.latitude, d.longitude))
                                 markerList.add(loc)
                             }
+                            coroutineScope.launch { bottomSheetScaffoldState.bottomSheetState.collapse() }
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    fun Informal_row(heading: String, list: List<InformalModel>, bottomSheetScaffoldState: BottomSheetScaffoldState, coroutineScope: CoroutineScope) {
+        val alphaval = 0.2f
+        if (list.isNotEmpty()) {
+            Box(
+                modifier = Modifier.padding(
+                    horizontal = 20.dp,
+                    vertical = 12.dp
+                )
+            ) {
+                Box(
+                ) {
+                    Card(
+                        Modifier
+                            .height(10.dp)
+                            .offset(x = -5.dp, y = 16.dp)
+                            .alpha(alphaval),
+                        shape = RoundedCornerShape(100.dp),
+                        backgroundColor = textbg
+
+                    ) {
+                        Text(
+
+                            text = "" + heading + "  ",
+                            fontFamily = aileron,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Transparent,
+                            fontSize = 21.sp
+                        )
+                    }
+                    Text(
+
+                        text = heading,
+                        fontFamily = aileron,
+                        fontWeight = FontWeight.Bold,
+                        color = colors.onBackground,
+                        fontSize = 21.sp
+                    )
+                }
+            }
+
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(horizontal = 20.dp)
+            ) {
+                items(list)
+                { dataEach ->
+                    context?.let {
+                        InformalCard(dataEach, context = context!!) {
+                            markerList.clear()
+                            val loc = venue(dataEach.name, LatLng(dataEach.location.latitude, dataEach.location.longitude))
+                            markerList.add(loc)
+
                             coroutineScope.launch { bottomSheetScaffoldState.bottomSheetState.collapse() }
                         }
                     }
@@ -920,7 +994,7 @@ class Events : Fragment() {
     @Composable
     fun mapview() {
         var cameraPositionState = CameraPositionState(
-            position = CameraPosition.fromLatLngZoom(venuelist[2].LatLng, 17f)
+            position = CameraPosition.fromLatLngZoom(markerList[0].LatLng, 17f)
         )
 
         val coroutinescope = rememberCoroutineScope()

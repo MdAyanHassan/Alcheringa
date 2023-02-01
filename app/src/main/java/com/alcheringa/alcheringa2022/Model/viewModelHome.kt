@@ -62,6 +62,7 @@ class viewModelHome : ViewModel() {
     val merchMerch = SnapshotStateList<merchModel>()
     val forYouEvents = mutableStateListOf<eventWithLive>()
     val utilityList = mutableStateListOf<utilityModel>()
+    val informalList = mutableStateListOf<InformalModel>()
 
     fun getAllEvents() {
         viewModelScope.launch {
@@ -233,6 +234,19 @@ class viewModelHome : ViewModel() {
             utilityList.clear()
             for (utlt in utlts){
                 utilityList.add(utlt.toObject(utilityModel::class.java))
+            }
+
+        }
+            .addOnFailureListener {
+                Log.d("Utility", it.toString())
+            }
+    }
+    fun getInformals(){
+        fb.collection("Informals").get().addOnSuccessListener {informals ->
+
+            informalList.clear()
+            for (inf in informals){
+                informalList.add(inf.toObject(InformalModel::class.java))
             }
 
         }
