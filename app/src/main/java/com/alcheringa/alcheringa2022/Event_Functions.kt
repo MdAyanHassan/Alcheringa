@@ -86,12 +86,12 @@ fun Event_card_Scaffold(
             )
     } else {
         M = Modifier
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(7.dp)) // made changes 16.dp to 7.dp
             .background(colors.background)
             .wrapContentWidth()
             .border(
                 1.5f.dp,
-                color = MaterialTheme.colors.onBackground, RoundedCornerShape(16.dp)
+                color = MaterialTheme.colors.onBackground, RoundedCornerShape(7.dp)// made changes 16.dp to 7.dp
             )
     }
 
@@ -167,7 +167,7 @@ fun Event_card_Scaffold(
                     Box(
                         modifier = Modifier
                             .width(220.dp)
-                            .height(182.dp),
+                            .height(178.dp), // changed from 182 to 178
                     ) {
                         Card(shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)) {
                            GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
@@ -236,7 +236,7 @@ fun Event_card_Scaffold(
                         }
                         Row(modifier = Modifier.padding(12.dp)) {
 //
-                            if (eventdetail.isLive.value) {
+                         /*  if (eventdetail.isLive.value) {
                                 Card(
                                     modifier = Modifier
                                         .wrapContentWidth()
@@ -249,7 +249,8 @@ fun Event_card_Scaffold(
                                             liveGreen
                                         }
                                     ,
-                                ) {
+                                )
+                            {
                                     Box(
                                         modifier = Modifier
                                             .wrapContentSize()
@@ -258,7 +259,7 @@ fun Event_card_Scaffold(
                                             , contentAlignment = Alignment.Center
                                     ) {
                                         Text(
-                                            text = "● Live",
+                                            text = "Live",
                                             color = colors.background,
                                             fontSize = 16.sp,
                                             fontFamily = aileron,
@@ -266,8 +267,36 @@ fun Event_card_Scaffold(
                                         )
                                     }
                                 }
-                            }
+                            }*/
 
+                            // start
+                            if (true) {
+
+                                    Box(
+                                        modifier = Modifier
+                                            .wrapContentSize()
+                                            .padding(horizontal = 6.dp, vertical = 2.dp)
+
+//
+                                        , contentAlignment = Alignment.Center
+
+                                    ) {  Column(verticalArrangement = Arrangement.Bottom) {
+                                        Text(
+                                            text = "Live",
+                                            color = if (isSystemInDarkTheme()) {
+                                                liveGreenDark
+                                            } else {
+                                                liveGreen
+                                            },
+                                            fontSize = 16.sp,
+                                            fontFamily = aileron,
+                                            fontWeight = FontWeight.Normal
+                                        )
+                                    }
+                                    }
+                                }
+
+                            /// end
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -295,9 +324,9 @@ fun Event_card_Scaffold(
                                                     okstate.value = true
                                                 },
                                             painter = if (isSystemInDarkTheme()) {
-                                                painterResource(id = R.drawable.circle_plus_dark)
+                                                painterResource(id = R.drawable.blheart)
                                             } else {
-                                                painterResource(id = R.drawable.circle_plus)
+                                                painterResource(id = R.drawable.blheart)
                                             },
                                             contentDescription = "null"
                                         )
@@ -325,9 +354,9 @@ fun Event_card_Scaffold(
                                                     okstate.value = false
                                                 },
                                             painter = if (isSystemInDarkTheme()) {
-                                                painterResource(id = R.drawable.circle_check_dark)
+                                                painterResource(id = R.drawable.heart)
                                             } else {
-                                                painterResource(id = R.drawable.circle_check_light)
+                                                painterResource(id = R.drawable.heart)
                                             },
                                             contentDescription = "null",
                                             contentScale = ContentScale.FillBounds
@@ -357,9 +386,9 @@ fun Event_card_Scaffold(
                                                     okstate.value = true
                                                 },
                                             painter = if (isSystemInDarkTheme()) {
-                                                painterResource(id = R.drawable.circle_plus_dark)
+                                                painterResource(id = R.drawable.blheart)
                                             } else {
-                                                painterResource(id = R.drawable.circle_plus)
+                                                painterResource(id = R.drawable.blheart)
                                             },
                                             contentDescription = "null"
                                         )
@@ -387,9 +416,9 @@ fun Event_card_Scaffold(
                                                     okstate.value = false
                                                 },
                                             painter = if (isSystemInDarkTheme()) {
-                                                painterResource(id = R.drawable.circle_check_dark)
+                                                painterResource(id = R.drawable.heart)
                                             } else {
-                                                painterResource(id = R.drawable.circle_check_light)
+                                                painterResource(id = R.drawable.heart)
                                             },
                                             contentDescription = "null",
                                             contentScale = ContentScale.FillBounds
