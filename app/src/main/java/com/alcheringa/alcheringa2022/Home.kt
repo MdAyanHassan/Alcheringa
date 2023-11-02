@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -45,6 +46,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.util.lerp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -529,22 +532,386 @@ class Home : Fragment() {
 
     @OptIn(ExperimentalPagerApi::class)
     @Composable
+//    fun horizontalScroll(eventdetails:List<eventWithLive>){
+//        val count = eventdetails.size
+//        Box() {
+//                Column() {
+//
+//                    val pagerState = rememberPagerState()
+//                    //            LaunchedEffect(Unit) {
+//                    //                while(true) {
+//                    //                    yield()
+//                    //                    delay(3000)
+//                    //                    pagerState.animateScrollToPage(
+//                    //                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
+//                    //                        animationSpec = tween(1000)
+//                    //                    )
+//                    //                }
+//                    //            }
+////                    LaunchedEffect(key1 = pagerState.currentPage) {
+////                        launch {
+////
+////                            delay(3000)
+////                            with(pagerState) {
+////                                val target = if (currentPage < pageCount - 1) currentPage + 1 else 0
+////                                tween<Float>(
+////                                    durationMillis = 300,
+////                                    easing = FastOutSlowInEasing
+////                                )
+////                                animateScrollToPage(page = target)
+////
+////                            }
+////                        }
+////                    }
+////                    val hpm= if(isSystemInDarkTheme()) Modifier
+////                        .padding(start = 15.dp)
+////                        .fillMaxWidth()
+////
+////
+//////                        .coloredShadow(colors.onBackground, 0.25f, 16.dp, 20.dp, -5.dp, -5.dp)
+////                    else Modifier
+////                        .padding(start = 15.dp,bottom=20.dp)
+////                        .fillMaxWidth()
+//
+//
+//
+//                    HorizontalPager(
+//                        count = count,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(start = 15.dp)
+//                            .aspectRatio(0.8f),
+//                        state = pagerState,
+//                        contentPadding = PaddingValues(top = 0.dp, start = 5.dp, end = 50.dp, bottom = 0.dp),
+//                        itemSpacing = (5.dp),
+//
+//                        ) { page ->
+//                        val widthparent=remember { mutableStateOf(0f)}
+//                        val localdensity= LocalDensity.current
+//
+//
+//
+//                       Box(
+//                            modifier = Modifier
+//                                .onGloballyPositioned { coordinates ->
+//                                    widthparent.value =
+//                                        with(localdensity) { coordinates.size.width.dp.toPx() }
+//                                }
+//                                .fillMaxWidth()
+//                                .aspectRatio(0.781f)
+//
+//                             , contentAlignment = if(calculateCurrentOffsetForPage(page)<=0)Alignment.CenterStart else Alignment.CenterEnd
+//
+//                        ) { val bmh=if(isSystemInDarkTheme()) Modifier else Modifier
+//                           .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
+//                           .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
+//                           .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+//                            Box(
+//                                Modifier
+//                                    .coloredShadow(
+//                                        colors.onBackground,
+//                                        0.01f,
+//                                        18.dp,
+//                                        1.dp,
+//                                        20.dp,
+//                                        0.dp
+//                                    )
+//                                    .coloredShadow(
+//                                        colors.onBackground,
+//                                        0.06f,
+//                                        18.dp,
+//                                        1.dp,
+//                                        12.dp,
+//                                        0.dp
+//                                    )
+//                                    .coloredShadow(
+//                                        colors.onBackground,
+//                                        0.24f,
+//                                        18.dp,
+//                                        1.dp,
+//                                        4.dp,
+//                                        0.dp
+//                                    )
+//                            ) {
+//                                val pageOffset =
+//                                    calculateCurrentOffsetForPage(page).absoluteValue
+//                                var widthfr= remember {mutableStateOf(0.12f)}
+//                                if (pageOffset % 1f != 0f) {
+//                                    widthfr.value =
+//                                        lerp(
+//                                            start = 0.12f,
+//                                            stop = 1f,
+//                                            fraction = 1f - (pageOffset.coerceIn(
+//                                                0.0f,
+//                                                1f
+//                                            ))
+//                                        )
+//                                }
+//
+//                                Card(
+//                                    modifier = Modifier
+//                                        .fillMaxWidth(if (0.01f >= pageOffset) 1f else widthfr.value)
+//                                        .clip(RoundedCornerShape(16.dp))
+//                                        .border(
+//                                            1.5.dp,
+//                                            colors.onBackground,
+//                                            RoundedCornerShape(16.dp)
+//                                        )
+//                                       ,
+//                                    ) {
+//                                    Box(
+//                                        modifier = Modifier
+//                                            .fillMaxHeight()
+//                                            .fillMaxWidth()
+//                                    ) {
+//                                        GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
+//                                            imageModel = eventdetails[page].eventdetail.imgurl,
+//                                            contentDescription = "artist",
+//                                            modifier = Modifier
+//                                                .fillMaxWidth()
+//                                                .fillMaxHeight()
+//                                                .clickable {
+//                                                    val arguments =
+//                                                        bundleOf("Artist" to eventdetails[page].eventdetail.artist)
+//                                                    findNavController(this@Home).navigate(
+//                                                        R.id.action_home2_to_events_Details_Fragment,
+//                                                        arguments
+//                                                    )
+//                                                },
+//                                            alignment = Alignment.Center,
+//                                            contentScale = ContentScale.Crop,
+//                                          shimmerParams = ShimmerParams(
+//                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+//                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+//                                    durationMillis = 1500,
+//                                    dropOff = 1f,
+//                                    tilt = 20f
+//                                ), failure = {
+//                                                Box(
+//                                                    modifier = Modifier
+//                                                        .fillMaxWidth()
+//                                                        .fillMaxHeight(),
+//                                                    contentAlignment = Alignment.Center
+//                                                ) {
+//                                                    val composition by rememberLottieComposition(
+//                                                        LottieCompositionSpec.RawRes(if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight)
+//                                                    )
+//                                                    val progress by animateLottieCompositionAsState(
+//                                                        composition,
+//                                                        iterations = LottieConstants.IterateForever
+//                                                    )
+//                                                    LottieAnimation(
+//                                                        composition,
+//                                                        progress,
+//                                                        modifier = Modifier.fillMaxHeight()
+//                                                    )
+//                                                    //                            Column(
+//                                                    //                                Modifier
+//                                                    //                                    .fillMaxWidth()
+//                                                    //                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+//                                                    //                                Image(
+//                                                    //                                    modifier = Modifier
+//                                                    //                                        .width(60.dp)
+//                                                    //                                        .height(60.dp),
+//                                                    //                                    painter = painterResource(
+//                                                    //                                        id = R.drawable.ic_sad_svgrepo_com
+//                                                    //                                    ),
+//                                                    //                                    contentDescription = null
+//                                                    //                                )
+//                                                    //                                Spacer(modifier = Modifier.height(10.dp))
+//                                                    //                                Text(
+//                                                    //                                    text = "Image Request Failed",
+//                                                    //                                    style = TextStyle(
+//                                                    //                                        color = Color(0xFF747474),
+//                                                    //                                        fontFamily = hk_grotesk,
+//                                                    //                                        fontWeight = FontWeight.Normal,
+//                                                    //                                        fontSize = 12.sp
+//                                                    //                                    )
+//                                                    //                                )
+//                                                    //                            }
+//                                                }
+//
+//                                            }
+//
+//
+//                                        )
+//                                        Box(
+//                                            modifier = Modifier
+//                                                .fillMaxSize()
+//                                            //                                            .background(
+//                                            //                                                brush = Brush.verticalGradient(
+//                                            //                                                    colors = listOf(
+//                                            //                                                        Color.Transparent,
+//                                            //                                                        black,
+//                                            //                                                    ),
+//                                            //                                                    startY = with(LocalDensity.current) { 100.dp.toPx() }
+//                                            //                                                )
+//                                            //                                            )
+//                                        )
+//                                        Box(
+//                                            modifier = Modifier
+//                                                .fillMaxSize()
+//                                                .padding(4.dp)
+//                                                ,
+//                                            contentAlignment = Alignment.BottomStart
+//                                        ) {
+//                                            val heightparent=remember{ mutableStateOf(0f) }
+//                                            var heightoff= remember {mutableStateOf(0f)}
+//
+//                                                heightoff.value =
+//                                                    lerp(
+//                                                        start = 0f,
+//                                                        stop = 1f,
+//                                                        fraction = (pageOffset.coerceIn(
+//                                                            0.0f,
+//                                                            1f
+//                                                        ))
+//                                                    )
+//
+//                                            if(0.9999f>pageOffset ){
+//
+//                                            Column(
+//                                                modifier = Modifier
+//                                                    .fillMaxWidth()
+//                                                    .wrapContentHeight()
+//                                                    .onGloballyPositioned { coordinates ->
+//                                                        heightparent.value =
+//                                                            with(localdensity) { coordinates.size.height.dp.toPx() }
+//                                                    }
+//                                                    .graphicsLayer {
+//                                                        // Calculate the absolute offset for the current page from the
+//                                                        // scroll position. We use the absolute value which allows us to mirror
+//                                                        // any effects for both directions
+//
+//                                                        if (pageOffset % 1f != 0f) {
+//                                                            translationY =
+//                                                                (heightoff.value * heightoff.value * heightoff.value * heightparent.value)
+//                                                        }
+//                                                        //scaleY = scale
+//
+//
+//                                                    }
+//                                                    .clip(
+//                                                        RoundedCornerShape(
+//                                                            topStart = 16.dp,
+//                                                            topEnd = 0.dp,
+//                                                            bottomStart = 16.dp, bottomEnd = 16.dp
+//                                                        )
+//                                                    )
+//                                                    .background(Color(0xff0e0e0f))
+//                                                    .padding(
+//                                                        top = 12.dp,
+//                                                        bottom = 20.dp,
+//                                                        start = 20.dp
+//                                                    )
+//
+//
+//
+//
+//                                                ,
+//                                                horizontalAlignment = Alignment.Start
+//                                            ) {
+//                                                MarqueeText(
+//                                                    text = "${eventdetails[page].eventdetail.artist}",
+//                                                    color = Color.White,
+//                                                    fontWeight = FontWeight.SemiBold,
+//                                                    fontSize = 36.sp,
+//                                                    fontFamily = aileron,
+//                                                    textAlign = TextAlign.Start,
+//                                                    gradientEdgeColor = Color.Transparent,
+//                                                )
+//                                                Spacer(modifier = Modifier.height(0.dp))
+//
+//                                                Row() {
+//                                                    Text(
+//                                                        text = "${eventdetails[page].eventdetail.starttime.date} Feb, ${if (eventdetails[page].eventdetail.starttime.hours > 12) "${eventdetails[page].eventdetail.starttime.hours - 12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min != 0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours >= 12) "PM" else "AM"} |",
+//                                                        style = TextStyle(
+//                                                            color = white,
+//                                                            fontFamily = aileron,
+//                                                            fontWeight = FontWeight.Normal,
+//                                                            fontSize = 16.sp,
+//                                                        ),maxLines=1
+//
+//                                                    )
+//
+//                                                    MarqueeText(
+//                                                        text = " ${eventdetails[page].eventdetail.venue}",
+//                                                        style = TextStyle(
+//                                                            color = white,
+//                                                            fontFamily = aileron,
+//                                                            fontWeight = FontWeight.Normal,
+//                                                            fontSize = 16.sp
+//                                                        ),gradientEdgeColor = Color.Transparent
+//                                                    )
+//                                                }
+//                                            }
+//                                            }
+//
+//                                        }
+//
+//
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//
+////                    Box(
+////                        modifier = Modifier
+////                            .fillMaxHeight()
+////                            .align(Alignment.CenterHorizontally)
+////                            .padding(vertical = 8.dp)
+////                    ) {
+////                        Card(
+////                            modifier = Modifier
+////
+////                                .width(184.dp)
+////                                .height(20.dp),
+////                            shape = RoundedCornerShape(36.dp),
+////                            backgroundColor = midWhite
+////                        ) {
+////                            Box(
+////                                modifier = Modifier
+////                                    .fillMaxWidth()
+////                                    .fillMaxHeight()
+////                            ) {
+////                                HorizontalPagerIndicator(
+////
+////                                    pagerState = pagerState,
+////                                    activeColor = colors.onBackground,
+////                                    inactiveColor = midWhite,
+////                                    modifier = Modifier
+////                                        .fillMaxWidth()
+////                                        .fillMaxHeight()
+////                                        .padding(3.dp),
+////                                    indicatorShape = RoundedCornerShape(36.dp),
+////                                    indicatorWidth = (178 / 5).dp
+////
+////                                )
+////                            }
+////                        }
+////                    }
+//                }
+//            }
+//
+//
+//    }
     fun horizontalScroll(eventdetails:List<eventWithLive>){
-        val count = eventdetails.size
-        Box() {
-                Column() {
+    val count = eventdetails.size
+    Box() {
+        Column() {
 
-                    val pagerState = rememberPagerState()
-                    //            LaunchedEffect(Unit) {
-                    //                while(true) {
-                    //                    yield()
-                    //                    delay(3000)
-                    //                    pagerState.animateScrollToPage(
-                    //                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
-                    //                        animationSpec = tween(1000)
-                    //                    )
-                    //                }
-                    //            }
+            val pagerState = rememberPagerState()
+            //            LaunchedEffect(Unit) {
+            //                while(true) {
+            //                    yield()
+            //                    delay(3000)
+            //                    pagerState.animateScrollToPage(
+            //                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
+            //                        animationSpec = tween(1000)
+            //                    )
+            //                }
+            //            }
 //                    LaunchedEffect(key1 = pagerState.currentPage) {
 //                        launch {
 //
@@ -570,288 +937,329 @@ class Home : Fragment() {
 //                        .padding(start = 15.dp,bottom=20.dp)
 //                        .fillMaxWidth()
 
-
-
-                    HorizontalPager(
-                        count = count,
+            @Composable
+            fun singlecard(it: Int){
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth(if (0.01f >= (pagerState.currentPageOffset + pagerState.currentPage - it).toFloat()) 0.90f else 0.12f)
+                        .border(
+                            1.5.dp,
+                            colors.onBackground,
+                            RoundedCornerShape(3.dp)
+                        )
+                ) {
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 15.dp)
-                            .aspectRatio(0.8f),
-                        state = pagerState,
-                        contentPadding = PaddingValues(top = 0.dp, start = 5.dp, end = 50.dp, bottom = 0.dp),
-                        itemSpacing = (5.dp),
-
-                        ) { page ->
-                        val widthparent=remember { mutableStateOf(0f)}
-                        val localdensity= LocalDensity.current
-
-
-
-                       Box(
+                            .background(
+                                color = colors.background,
+                                shape = RoundedCornerShape(3.dp)
+                            )
+                            .height(370.dp)
+                            .width(300.dp)
+                            .border(
+                                1.dp,
+                                colors.background,
+                                shape = RoundedCornerShape(3.dp)
+                            )
+                    ) {
+                        Column(
                             modifier = Modifier
-                                .onGloballyPositioned { coordinates ->
-                                    widthparent.value =
-                                        with(localdensity) { coordinates.size.width.dp.toPx() }
-                                }
-                                .fillMaxWidth()
-                                .aspectRatio(0.781f)
-
-                             , contentAlignment = if(calculateCurrentOffsetForPage(page)<=0)Alignment.CenterStart else Alignment.CenterEnd
-
-                        ) { val bmh=if(isSystemInDarkTheme()) Modifier else Modifier
-                           .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
-                           .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
-                           .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
+                        ) {
                             Box(
-                                Modifier
-                                    .coloredShadow(
-                                        colors.onBackground,
-                                        0.01f,
-                                        18.dp,
-                                        1.dp,
-                                        20.dp,
-                                        0.dp
+                                modifier = Modifier
+                                    .fillMaxHeight(0.80f)
+                                    .fillMaxWidth()
+                                    .background(
+                                        color = Color.Black,
+                                        shape = RoundedCornerShape(3.dp)
                                     )
-                                    .coloredShadow(
-                                        colors.onBackground,
-                                        0.06f,
-                                        18.dp,
+                                    .border(
                                         1.dp,
-                                        12.dp,
-                                        0.dp
-                                    )
-                                    .coloredShadow(
-                                        colors.onBackground,
-                                        0.24f,
-                                        18.dp,
-                                        1.dp,
-                                        4.dp,
-                                        0.dp
+                                        Color.White,
+                                        shape = RoundedCornerShape(3.dp)
                                     )
                             ) {
-                                val pageOffset =
-                                    calculateCurrentOffsetForPage(page).absoluteValue
-                                var widthfr= remember {mutableStateOf(0.12f)}
-                                if (pageOffset % 1f != 0f) {
-                                    widthfr.value =
-                                        lerp(
-                                            start = 0.12f,
-                                            stop = 1f,
-                                            fraction = 1f - (pageOffset.coerceIn(
-                                                0.0f,
-                                                1f
-                                            ))
-                                        )
-                                }
 
-                                Card(
+                                Box(
                                     modifier = Modifier
-                                        .fillMaxWidth(if (0.01f >= pageOffset) 1f else widthfr.value)
-                                        .clip(RoundedCornerShape(16.dp))
+                                        .padding(7.dp)
+                                        .background(
+                                            Color.Black,
+                                            shape = RoundedCornerShape(3.dp)
+                                        )
+                                        .fillMaxSize()
                                         .border(
-                                            1.5.dp,
-                                            colors.onBackground,
-                                            RoundedCornerShape(16.dp)
+                                            1.dp,
+                                            Color.White,
+                                            shape = RoundedCornerShape(3.dp)
                                         )
-                                       ,
-                                    ) {
-                                    Box(
+                                ) {
+                                    GlideImage(
+                                        requestOptions = {RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
+                                        imageModel = eventdetails[it].eventdetail.imgurl,
+                                        contentDescription = "artist",
                                         modifier = Modifier
-                                            .fillMaxHeight()
-                                            .fillMaxWidth()
-                                    ) {
-                                        GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
-                                            imageModel = eventdetails[page].eventdetail.imgurl,
-                                            contentDescription = "artist",
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .fillMaxHeight()
-                                                .clickable {
-                                                    val arguments =
-                                                        bundleOf("Artist" to eventdetails[page].eventdetail.artist)
-                                                    findNavController(this@Home).navigate(
-                                                        R.id.action_home2_to_events_Details_Fragment,
-                                                        arguments
-                                                    )
-                                                },
-                                            alignment = Alignment.Center,
-                                            contentScale = ContentScale.Crop,
-                                          shimmerParams = ShimmerParams(
-                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
-                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
-                                    durationMillis = 1500,
-                                    dropOff = 1f,
-                                    tilt = 20f
-                                ), failure = {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .fillMaxHeight(),
-                                                    contentAlignment = Alignment.Center
-                                                ) {
-                                                    val composition by rememberLottieComposition(
-                                                        LottieCompositionSpec.RawRes(if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight)
-                                                    )
-                                                    val progress by animateLottieCompositionAsState(
-                                                        composition,
-                                                        iterations = LottieConstants.IterateForever
-                                                    )
-                                                    LottieAnimation(
-                                                        composition,
-                                                        progress,
-                                                        modifier = Modifier.fillMaxHeight()
-                                                    )
-                                                    //                            Column(
-                                                    //                                Modifier
-                                                    //                                    .fillMaxWidth()
-                                                    //                                    .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
-                                                    //                                Image(
-                                                    //                                    modifier = Modifier
-                                                    //                                        .width(60.dp)
-                                                    //                                        .height(60.dp),
-                                                    //                                    painter = painterResource(
-                                                    //                                        id = R.drawable.ic_sad_svgrepo_com
-                                                    //                                    ),
-                                                    //                                    contentDescription = null
-                                                    //                                )
-                                                    //                                Spacer(modifier = Modifier.height(10.dp))
-                                                    //                                Text(
-                                                    //                                    text = "Image Request Failed",
-                                                    //                                    style = TextStyle(
-                                                    //                                        color = Color(0xFF747474),
-                                                    //                                        fontFamily = hk_grotesk,
-                                                    //                                        fontWeight = FontWeight.Normal,
-                                                    //                                        fontSize = 12.sp
-                                                    //                                    )
-                                                    //                                )
-                                                    //                            }
-                                                }
-
-                                            }
-
-
-                                        )
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                            //                                            .background(
-                                            //                                                brush = Brush.verticalGradient(
-                                            //                                                    colors = listOf(
-                                            //                                                        Color.Transparent,
-                                            //                                                        black,
-                                            //                                                    ),
-                                            //                                                    startY = with(LocalDensity.current) { 100.dp.toPx() }
-                                            //                                                )
-                                            //                                            )
-                                        )
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .padding(4.dp)
-                                                ,
-                                            contentAlignment = Alignment.BottomStart
-                                        ) {
-                                            val heightparent=remember{ mutableStateOf(0f) }
-                                            var heightoff= remember {mutableStateOf(0f)}
-
-                                                heightoff.value =
-                                                    lerp(
-                                                        start = 0f,
-                                                        stop = 1f,
-                                                        fraction = (pageOffset.coerceIn(
-                                                            0.0f,
-                                                            1f
-                                                        ))
-                                                    )
-
-                                            if(0.9999f>pageOffset ){
-
-                                            Column(
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .wrapContentHeight()
-                                                    .onGloballyPositioned { coordinates ->
-                                                        heightparent.value =
-                                                            with(localdensity) { coordinates.size.height.dp.toPx() }
-                                                    }
-                                                    .graphicsLayer {
-                                                        // Calculate the absolute offset for the current page from the
-                                                        // scroll position. We use the absolute value which allows us to mirror
-                                                        // any effects for both directions
-
-                                                        if (pageOffset % 1f != 0f) {
-                                                            translationY =
-                                                                (heightoff.value * heightoff.value * heightoff.value * heightparent.value)
-                                                        }
-                                                        //scaleY = scale
-
-
-                                                    }
-                                                    .clip(
-                                                        RoundedCornerShape(
-                                                            topStart = 16.dp,
-                                                            topEnd = 0.dp,
-                                                            bottomStart = 16.dp, bottomEnd = 16.dp
-                                                        )
-                                                    )
-                                                    .background(Color(0xff0e0e0f))
-                                                    .padding(
-                                                        top = 12.dp,
-                                                        bottom = 20.dp,
-                                                        start = 20.dp
-                                                    )
-
-
-
-
-                                                ,
-                                                horizontalAlignment = Alignment.Start
-                                            ) {
-                                                MarqueeText(
-                                                    text = "${eventdetails[page].eventdetail.artist}",
-                                                    color = Color.White,
-                                                    fontWeight = FontWeight.SemiBold,
-                                                    fontSize = 36.sp,
-                                                    fontFamily = aileron,
-                                                    textAlign = TextAlign.Start,
-                                                    gradientEdgeColor = Color.Transparent,
+                                            .fillMaxSize()
+                                            .clickable {
+                                                val arguments =
+                                                    bundleOf("Artist" to eventdetails[it].eventdetail.artist)
+                                                findNavController(this@Home).navigate(
+                                                    R.id.action_home2_to_events_Details_Fragment,
+                                                    arguments
                                                 )
-                                                Spacer(modifier = Modifier.height(0.dp))
-
-                                                Row() {
-                                                    Text(
-                                                        text = "${eventdetails[page].eventdetail.starttime.date} Feb, ${if (eventdetails[page].eventdetail.starttime.hours > 12) "${eventdetails[page].eventdetail.starttime.hours - 12}" else eventdetails[page].eventdetail.starttime.hours}${if (eventdetails[page].eventdetail.starttime.min != 0) ":${eventdetails[page].eventdetail.starttime.min}" else ""} ${if (eventdetails[page].eventdetail.starttime.hours >= 12) "PM" else "AM"} |",
-                                                        style = TextStyle(
-                                                            color = white,
-                                                            fontFamily = aileron,
-                                                            fontWeight = FontWeight.Normal,
-                                                            fontSize = 16.sp,
-                                                        ),maxLines=1
-
-                                                    )
-
-                                                    MarqueeText(
-                                                        text = " ${eventdetails[page].eventdetail.venue}",
-                                                        style = TextStyle(
-                                                            color = white,
-                                                            fontFamily = aileron,
-                                                            fontWeight = FontWeight.Normal,
-                                                            fontSize = 16.sp
-                                                        ),gradientEdgeColor = Color.Transparent
-                                                    )
-                                                }
+                                            },
+                                        alignment = Alignment.Center,
+                                        contentScale = ContentScale.Crop,
+                                        shimmerParams = ShimmerParams(
+                                            baseColor = if (isSystemInDarkTheme()) black else highWhite,
+                                            highlightColor = if (isSystemInDarkTheme()) highBlack else white
+                                        ), failure = {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize(),
+                                                contentAlignment = Alignment.Center
+                                            ){
+                                                val composition by rememberLottieComposition(
+                                                    LottieCompositionSpec.RawRes(if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight)
+                                                )
+                                                val progress by animateLottieCompositionAsState(
+                                                    composition,
+                                                    iterations = LottieConstants.IterateForever
+                                                )
+                                                LottieAnimation(
+                                                    composition,
+                                                    progress,
+                                                    modifier = Modifier.fillMaxHeight()
+                                                )
                                             }
-                                            }
+
 
                                         }
+                                    )
 
+                                }
 
+                                val constraintsSet = ConstraintSet {
+                                    val boxid1 = createRefFor("Box1")
+                                    val boxid2 = createRefFor("Box2")
+                                    val boxid3 = createRefFor("Box3")
+                                    val boxid4 = createRefFor("Box4")
+
+                                    constrain(boxid1) {
+                                        top.linkTo(parent.top)
+                                        start.linkTo(parent.start)
+                                    }
+                                    constrain(boxid2) {
+                                        top.linkTo(parent.top)
+                                        end.linkTo(parent.end)
+                                    }
+                                    constrain(boxid3) {
+                                        bottom.linkTo(parent.bottom)
+                                        start.linkTo(parent.start)
+                                    }
+                                    constrain(boxid4) {
+                                        bottom.linkTo(parent.bottom)
+                                        end.linkTo(parent.end)
+                                    }
+
+                                }
+                                ConstraintLayout(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    constraintSet = constraintsSet
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .layoutId("Box1")
+                                            .height(16.dp)
+                                            .width(16.dp)
+                                            .background(
+                                                Color.Black,
+                                                shape = RoundedCornerShape(
+                                                    topStart = 3.dp,
+                                                    bottomEnd = 3.dp
+                                                )
+                                            )
+                                            .border(
+                                                1.dp,
+                                                Color.White,
+                                                shape = RoundedCornerShape(
+                                                    topStart = 3.dp,
+                                                    bottomEnd = 3.dp
+                                                )
+                                            ),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .height(8.dp)
+                                                .width(9.dp)
+                                                .border(
+                                                    1.dp,
+                                                    Color.White,
+                                                    shape = RoundedCornerShape(3.dp)
+                                                )
+                                        )
+                                    }
+
+                                    Box(
+                                        modifier = Modifier
+                                            .layoutId("Box2")
+                                            .height(16.dp)
+                                            .width(16.dp)
+                                            .background(
+                                                Color.Black,
+                                                shape = RoundedCornerShape(
+                                                    topStart = 3.dp,
+                                                    bottomEnd = 3.dp
+                                                )
+                                            )
+                                            .border(
+                                                1.dp,
+                                                Color.White,
+                                                shape = RoundedCornerShape(
+                                                    topEnd = 3.dp,
+                                                    bottomStart = 3.dp
+                                                )
+                                            ),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .height(8.dp)
+                                                .width(9.dp)
+                                                .border(
+                                                    1.dp,
+                                                    Color.White,
+                                                    shape = RoundedCornerShape(3.dp)
+                                                )
+                                        )
+                                    }
+
+                                    Box(
+                                        modifier = Modifier
+                                            .layoutId("Box3")
+                                            .height(16.dp)
+                                            .width(16.dp)
+                                            .background(
+                                                Color.Black,
+                                                shape = RoundedCornerShape(
+                                                    topEnd = 3.dp,
+                                                    bottomStart = 3.dp
+                                                )
+                                            )
+                                            .border(
+                                                1.dp,
+                                                Color.White,
+                                                shape = RoundedCornerShape(
+                                                    topEnd = 3.dp,
+                                                    bottomStart = 3.dp
+                                                )
+                                            ),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .height(8.dp)
+                                                .width(9.dp)
+                                                .border(
+                                                    1.dp,
+                                                    Color.White,
+                                                    shape = RoundedCornerShape(3.dp)
+                                                )
+                                        )
+                                    }
+
+                                    Box(
+                                        modifier = Modifier
+                                            .layoutId("Box4")
+                                            .height(16.dp)
+                                            .width(16.dp)
+                                            .background(
+                                                Color.Black,
+                                                shape = RoundedCornerShape(
+                                                    topStart = 3.dp,
+                                                    bottomEnd = 3.dp
+                                                )
+                                            )
+                                            .border(
+                                                1.dp,
+                                                Color.White,
+                                                shape = RoundedCornerShape(
+                                                    topStart = 3.dp,
+                                                    bottomEnd = 3.dp
+                                                )
+                                            ),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .height(8.dp)
+                                                .width(9.dp)
+                                                .border(
+                                                    1.dp,
+                                                    Color.White,
+                                                    shape = RoundedCornerShape(3.dp)
+                                                )
+                                        )
                                     }
                                 }
+
                             }
+
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                            ){
+                                MarqueeText(
+                                    modifier = Modifier
+                                        .padding(start = 7.dp, top = 2.dp),
+                                    text = "${eventdetails[it].eventdetail.artist}",
+                                    color = Color.White,
+                                    fontSize = 16.sp
+                                )
+
+                                MarqueeText(
+                                    text = " ${eventdetails[it].eventdetail.venue}",
+                                    modifier = Modifier
+                                        .padding(start = 7.dp, bottom = 1.dp),
+                                    color = Color.White,
+                                    fontSize = 12.sp
+                                )
+
+                            }
+
                         }
                     }
+                }
+            }
+
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CardStackModified(
+                    listOf(
+                        {
+                            singlecard(it)
+                        },
+                        {
+                            singlecard(it)
+                        },
+                        {
+                            singlecard(it)
+                        }
+                    ),
+                    cardElevation = 10.dp,
+                    initialRoataion = 2f
+                )
+            }
+
+
 
 //                    Box(
 //                        modifier = Modifier
@@ -888,11 +1296,11 @@ class Home : Fragment() {
 //                            }
 //                        }
 //                    }
-                }
-            }
-
-
+        }
     }
+
+
+}
 
 
 //   @Composable
@@ -3277,7 +3685,7 @@ fun compbox(){
 
     @Composable
     fun newhorizontalscroll(eventdetails:SnapshotStateList<eventWithLive>){
-                var count= mutableStateOf(eventdetails.size)
+                var count= remember{ mutableStateOf(eventdetails.size) }
 
                 Box(modifier = Modifier
                     .fillMaxWidth()
