@@ -21,6 +21,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,7 +79,7 @@ class Events_Details_Fragment : Fragment() {
         fgman=parentFragmentManager
         similarlist= mutableListOf<eventWithLive>()
         similarlist.addAll(
-        homeViewModel.allEventsWithLive.filter{ data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== eventfordes.eventdetail.type.replace("\\s".toRegex(), "").uppercase()})
+            homeViewModel.allEventsWithLive.filter{ data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== eventfordes.eventdetail.type.replace("\\s".toRegex(), "").uppercase()})
         similarlist.remove(eventfordes)
         scheduleDatabase= ScheduleDatabase(context)
 
@@ -116,12 +118,28 @@ class Events_Details_Fragment : Fragment() {
                     ) {
                         Defaultimg(eventWithLive = eventfordes)
                         Spacer(modifier = Modifier.height(8.dp))
-                        Bottomviewcomp(eventWithLive = eventfordes)
+                        EventName(eventWithLive = eventfordes)
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Divider(color = Color.Green , modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp))
+                        Column() {
+                            Bottomviewcomp(eventWithLive = eventfordes)
+
+                            Spacer(modifier = Modifier.height(20.dp))
+                            eventButtons(eventWithLive = eventfordes)
+                        }
+                        Spacer(modifier = Modifier.height(40.dp))
+
+                        Divider(color = colors.onSurface,modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp))
+
                         if(similarlist.isNotEmpty()){
                             similarEvents(heading = "SIMILAR EVENTS",similarlist)}
                         Spacer(modifier = Modifier.height(24.dp))
                     }
-                    eventButtons(eventWithLive = eventfordes)
+
                 }
             }
 
@@ -224,10 +242,89 @@ class Events_Details_Fragment : Fragment() {
 
 
 
-                    }
+            }
 
+        }
+    }
+
+    @Composable
+    fun EventName(eventWithLive: eventWithLive) {
+
+        var isadded=remember{ mutableStateOf(false)}
+        LaunchedEffect(key1=Unit,block = {
+            isadded.value=homeViewModel.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
+
+        })
+        Row(horizontalArrangement = Arrangement.SpaceBetween,modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp, top = 16.dp)) {
+
+            Column(horizontalAlignment = Alignment.Start,) {
+
+                Text(
+                    text = eventWithLive.eventdetail.artist,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = aileron,
+                    color = colors.onBackground,
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.wrapContentSize()
+                )
+
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(
+                    text = eventWithLive.eventdetail.type,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Thin,
+                    fontFamily = aileron,
+                    color = colors.onBackground,
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.wrapContentSize()
+
+
+                )
+            }
+
+            Row(horizontalArrangement = Arrangement.Start, verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(end = 16.dp)) {
+                if(!isadded.value) {
+                    Image(
+                        painter = painterResource(id = R.drawable.empty_heart),
+                        contentDescription = null,
+                        alignment = Alignment.CenterStart,
+                        modifier = Modifier
+                            .size(35.dp)
+                            .clickable {
+                                isadded.value = true; homeViewModel.OwnEventsWithLive.addNewItem(
+                                eventWithLive.eventdetail
+                            )
+                                scheduleDatabase.addEventsInSchedule(
+                                    eventWithLive.eventdetail,
+                                    context
+                                )
+                            }
+                    )
+                }
+
+                if(isadded.value) {
+                    Image(
+                        painter = painterResource(id = R.drawable.filled_heart),
+                        contentDescription = null,
+                        alignment = Alignment.CenterStart,
+                        modifier = Modifier.size(35.dp)
+                            .clickable {
+                                isadded.value = false
+                                homeViewModel.OwnEventsWithLive.removeAnItem(
+                                    eventWithLive.eventdetail
+                                )
+                                scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                            }
+                    )
                 }
             }
+
+        }
+
+    }
 
 
 
@@ -254,21 +351,24 @@ class Events_Details_Fragment : Fragment() {
         )
         {
             if (isFinished){
-                Button(
-                    onClick = {},
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp).border(1.dp, colors.onBackground),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        colors.background
-                    )
-                ) {
-                    Text(text="Event Finished!",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = colors.onSurface)
+                Row(horizontalArrangement = Arrangement.SpaceEvenly,modifier = Modifier.padding(start = 16.dp,end = 16.dp).fillMaxWidth()) {
+                    Button(
+                        onClick = {},
+                        Modifier.width(500.dp)
+                            .height(50.dp)
+                            .border(1.dp, colors.onBackground,shape = RoundedCornerShape(10.dp)),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            colors.background
+                        )
+                    ) {
+                        Text(text="Event Finished!",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = aileron,
+                            color = colors.onBackground,
+                            textAlign = TextAlign.Center
+                        )
 //                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
 //                        Text(
 //                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
@@ -288,13 +388,16 @@ class Events_Details_Fragment : Fragment() {
 //                        )
 //
 //                    }
+                    }
                 }
 
 
             }
             else{
-                Row {
+                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                     if(v != null) {
+
+                        Spacer(modifier = Modifier.width(50.dp))
                         Button(
                             onClick = {
                                 //TODO: (Shantanu) Implement all venue locations
@@ -305,49 +408,72 @@ class Events_Details_Fragment : Fragment() {
                                 startActivity(mapIntent)
                             },
                             Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .height(72.dp)
-                                .border(1.dp, colors.onBackground),
-                            shape = RoundedCornerShape(0.dp),
+                                .weight(0.5f)
+                                .height(50.dp)
+                                .border(1.dp, colors.onBackground,shape = RoundedCornerShape(10.dp)),
+                            shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(
                                 colors.background
                             )
                         ) {
                             Text(
-                                text = "Navigate▲",
-                                fontSize = 20.sp,
+                                text = "Direction",
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 fontFamily = aileron,
                                 color = colors.onBackground,
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Left
                             )
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Divider(color = colors.onSurface , modifier = Modifier
+                                .height(30.dp)
+                                .width(1.dp))
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Icon(painter = painterResource(id = R.drawable.baseline_north_east_24) , contentDescription = null)
 
                         }
                     }
+
+                    Spacer(modifier = Modifier.width(30.dp))
 
                     Button(
                         onClick = {
                             startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
                         },
                         Modifier
-                            .fillMaxWidth()
-                            .height(72.dp)
-                            .weight(1f),
-                        shape = RoundedCornerShape(0.dp),
+                            .weight(0.5f)
+                            .height(50.dp)
+                            .border(1.dp, colors.onBackground,shape = RoundedCornerShape(10.dp)),
+                        shape  = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
-                            blu
+                            colors.background
                         )
                     ) {
                         Text(
                             text = "Register",
-                            fontSize = 20.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = aileron,
-                            color = black
+                            color = colors.onBackground,
+                            textAlign = TextAlign.Left
                         )
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Divider(color = colors.onSurface , modifier = Modifier
+                            .height(30.dp)
+                            .width(1.dp))
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Icon(painter = painterResource(id = R.drawable.vector) , contentDescription = null , modifier = Modifier.size(20.dp) )
+
 
                     }
+                    Spacer(modifier = Modifier.width(50.dp))
 
 
                 }
@@ -435,94 +561,95 @@ class Events_Details_Fragment : Fragment() {
 //                    }
 //                }
 //            }
-            if (
-                isFinished
-            ){
-                Button(
-                    onClick = {},
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp).border(1.dp, colors.onBackground),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        colors.background
-                    )
-                ) {
-                    Text(text="Event Finished!",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = colors.onSurface)
-                }
-            }
-            else {
-                Row {
-                    if(v != null) {
-                        Button(
-                            onClick = {
-                                //TODO: (Shantanu) Implement all venue locations
-                                val gmmIntentUri =
-                                    Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
-                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                                mapIntent.setPackage("com.google.android.apps.maps")
-                                startActivity(mapIntent)
-                            },
-                            Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .height(72.dp)
-                                .border(1.dp, colors.onBackground),
-                            shape = RoundedCornerShape(0.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                colors.background
-                            )
-                        ) {
-                            Text(
-                                text = "Navigate▲",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
-                                color = colors.onBackground,
-                                textAlign = TextAlign.Center
-                            )
+            /* if (
+                 isFinished
+             ){
+                 Button(
+                     onClick = {},
+                     Modifier
+                         .fillMaxWidth()
+                         .height(72.dp)
+                         .border(1.dp, colors.onBackground),
+                     shape = RoundedCornerShape(0.dp),
+                     colors = ButtonDefaults.buttonColors(
+                         colors.background
+                     )
+                 ) {
+                     Text(text="Event Finished!",
+                         fontSize = 20.sp,
+                         fontWeight = FontWeight.SemiBold,
+                         fontFamily = aileron,
+                         color = colors.onSurface)
+                 }
+             }
+             else {
+                 Row {
+                     if(v != null) {
+                         Button(
+                             onClick = {
+                                 //TODO: (Shantanu) Implement all venue locations
+                                 val gmmIntentUri =
+                                     Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                 val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                 mapIntent.setPackage("com.google.android.apps.maps")
+                                 startActivity(mapIntent)
+                             },
+                             Modifier
+                                 .fillMaxWidth()
+                                 .weight(1f)
+                                 .height(72.dp)
+                                 .border(1.dp, colors.onBackground),
+                             shape = RoundedCornerShape(0.dp),
+                             colors = ButtonDefaults.buttonColors(
+                                 colors.background
+                             )
+                         ) {
+                             Text(
+                                 text = "Navigate▲",
+                                 fontSize = 20.sp,
+                                 fontWeight = FontWeight.SemiBold,
+                                 fontFamily = aileron,
+                                 color = colors.onBackground,
+                                 textAlign = TextAlign.Center
+                             )
 
-                        }
-                    }
+                         }
+                     }
 
-                    Button(
-                        onClick = {
-                            //TODO: Set Buy pass link
-                            startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse("http://card.alcheringa.in")
-                                )
-                            )
+                     /*Button(
+                         onClick = {
+                             //TODO: Set Buy pass link
+                             startActivity(
+                                 Intent(
+                                     Intent.ACTION_VIEW,
+                                     Uri.parse("http://card.alcheringa.in")
+                                 )
+                             )
 
-                        },
-                        Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .height(72.dp)
-                            .border(1.dp, colors.onBackground),
-                        shape = RoundedCornerShape(0.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            blu
-                        )
-                    ) {
-                        Text(
-                            text = "Get Card",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = aileron,
-                            color = colors.onBackground
-                        )
+                         },
+                         Modifier
+                             .fillMaxWidth()
+                             .weight(1f)
+                             .height(72.dp)
+                             .border(1.dp, colors.onBackground),
+                         shape = RoundedCornerShape(0.dp),
+                         colors = ButtonDefaults.buttonColors(
+                             blu
+                         )
+                     ) {
+                         Text(
+                             text = "Get Card",
+                             fontSize = 20.sp,
+                             fontWeight = FontWeight.SemiBold,
+                             fontFamily = aileron,
+                             color = colors.onBackground
+                         )
 
-                    }
+                     }*/
 
 
-                }
-            }
+                 }
+             }*/
         }
     }
 
@@ -604,36 +731,68 @@ class Events_Details_Fragment : Fragment() {
 //                }
 //            }
             if(eventWithLive.eventdetail.venue != ""){
-                Row(
-                    modifier = Modifier.fillMaxWidth(), Arrangement.Start, verticalAlignment = Alignment.CenterVertically)
-                {
-                    Image(
-                        painter = painterResource(id = R.drawable.location_pin),
-                        contentDescription = null,
+
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically)
+                    {
+                        Image(
+                            painter = painterResource(id = R.drawable.location_pin),
+                            contentDescription = null,
 
 
-                        alignment = Alignment.Center,
-                        contentScale = ContentScale.Crop,
-                        colorFilter = ColorFilter.tint(colors.onBackground))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = eventWithLive.eventdetail.venue,
-                        style = TextStyle(
-                            color = colors.onBackground,
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 18.sp
+                            alignment = Alignment.Center,
+                            contentScale = ContentScale.Crop,
+                            colorFilter = ColorFilter.tint(colors.onBackground))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = eventWithLive.eventdetail.venue,
+                            style = TextStyle(
+                                color = colors.onBackground,
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 18.sp
+                            )
                         )
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Row(
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically
                     )
+                    {
+                        Image(
+                            painter = painterResource(id = R.drawable.schedule),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(24.dp)
+                                .height(24.dp),
+                            alignment = Alignment.Center,
+                            contentScale = ContentScale.Crop,
+                            colorFilter = ColorFilter.tint(colors.onBackground)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = if(eventWithLive.isLive.value){"Live"} else {"${eventWithLive.eventdetail.starttime.date} Feb, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} "},
+                            style = TextStyle(
+                                color = if(eventWithLive.isLive.value) {Color.Green} else {colors.onBackground},
+                                fontFamily = aileron,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 18.sp
+                            )
+                        )
+                    }
                 }
             }
-            Spacer(modifier = Modifier.height(20.dp))
+            //Spacer(modifier = Modifier.height(20.dp))
 
-            Row(modifier = Modifier.fillMaxWidth(),
+            /*Row(modifier = Modifier.fillMaxWidth(),
                 Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
+                /*Row(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 )
@@ -658,10 +817,10 @@ class Events_Details_Fragment : Fragment() {
                             fontSize = 18.sp
                         )
                     )
-                }
+                }*/
                 Spacer(modifier = Modifier.width(24.dp))
 
-                Box(modifier = Modifier
+                /*Box(modifier = Modifier
                     .height(40.dp)
                     .border(1.dp, colors.secondary)
                     .animateContentSize()
@@ -676,7 +835,7 @@ class Events_Details_Fragment : Fragment() {
                         }
                     )
                 ){
-                    if( !isadded.value) {
+                    /*if( !isadded.value) {
                         Row(
                             Modifier
                                 .clickable {
@@ -714,8 +873,8 @@ class Events_Details_Fragment : Fragment() {
                             )
                         }
 
-                    }
-                    if(isadded.value)
+                    }*/
+                    /*if(isadded.value)
                     {
                         Row(
                             Modifier
@@ -750,11 +909,11 @@ class Events_Details_Fragment : Fragment() {
 
                             )
                         }
-                    }
-                }
+                    }*/
+                }*/
 
 
-            }
+            }*/
 
             Spacer(modifier = Modifier.height(28.dp))
             Text(text =eventfordes.eventdetail.descriptionEvent ,
@@ -763,7 +922,7 @@ class Events_Details_Fragment : Fragment() {
                 color = colors.onBackground,
                 fontSize = 16.sp
             )
-            Spacer(modifier = Modifier.height(36.dp))
+            //Spacer(modifier = Modifier.height(36.dp))
 //            if (!eventWithLive.isLive.value  && !isFinished){
 //                Button(
 //                    onClick = {},
