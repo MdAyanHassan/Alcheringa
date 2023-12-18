@@ -27,3 +27,31 @@ var pink = Color(0xffF96692)
 var green = Color(0xff87DD79)
 var liveGreen = Color(0xff25B00F)
 var liveGreenDark = Color(0xff31EB14)
+
+//2024 colors
+//container Border colors
+var darkTealGreen=Color(0xff39A27A)
+var containerPurple=Color(0xff5965C7)
+
+//heart Color
+var redHeart=Color(0xffE16071)
+var greyHeart=Color(0xffADADAF)
+
+//White and Dark Color used
+var darkBar=Color(0xff141414)//used for font as well
+var lightBar=Color(0xffEDECD9)//used for font as well
+
+//top card
+var behindPerson=Color(0xff6F77B8)//behind the person
+var darkerGreen=Color(0xff08633F)//part of the line gradient with green
+var snakeBlueStart=Color(0xff08A6CE)//murals coming out of the person like a web
+var snakeBlueEnd=Color(0xff1B4E5C)
+
+//Merch background Color Scheme
+var lighterPurple=Color(0xff7886F5)
+var darkerPurple=Color(0xff19216C)
+var lighterGreen=Color(0xff39A27A)
+
+
+
+
