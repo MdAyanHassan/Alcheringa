@@ -67,16 +67,15 @@
     </fragment>
     <fragment
         android:id="@+id/schedule"
-        android:name="com.alcheringa.alcheringa2022.Schedule"
-        android:label="schedule_fragment"
-        tools:layout="@layout/schedule_fragment" >
+        android:name="com.alcheringa.alcheringa2022.Schedule2024"
+        android:label="fragment_schedule2024">
         <action
             android:id="@+id/action_schedule_to_events_Details_Fragment"
             app:destination="@id/events_Details_Fragment"
             app:enterAnim="@anim/fadein"
             app:exitAnim="@anim/fadeout"
             app:popEnterAnim="@anim/fadein"
-            app:popExitAnim="@anim/fadeout"/>
+            app:popExitAnim="@anim/fadeout" />
     </fragment>
     <fragment
         android:id="@+id/events_Details_Fragment"
