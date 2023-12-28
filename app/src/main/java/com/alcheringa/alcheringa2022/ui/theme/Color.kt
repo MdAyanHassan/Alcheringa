@@ -48,7 +48,7 @@ var snakeBlueStart=Color(0xff08A6CE)//murals coming out of the person like a web
 var snakeBlueEnd=Color(0xff1B4E5C)
 
 //Merch background Color Scheme
-var lighterPurple=Color(0xff7886F5)
+var lighterPurple=Color(0xff5965C7)
 var darkerPurple=Color(0xff19216C)
 var lighterGreen=Color(0xff39A27A)
 
