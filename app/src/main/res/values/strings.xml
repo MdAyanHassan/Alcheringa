@@ -42,7 +42,7 @@
     <string name="navigation_drawer_open">drawer open</string>
     <string name="navigation_drawer_close">drawer closed</string>
     <string name="theme_button">Hold to turn to the dark side</string>
-
+    <string name="title_activity_schedule2024">Schedule2024</string>
 
 
 </resources>

@@ -40,7 +40,12 @@ val star_guard= FontFamily(
         Font(R.font.starguard, FontWeight.Normal),
 
 )
-
+val futura= FontFamily(
+        Font(R.font.futuraptbook),
+        Font(R.font.futuraptlight, FontWeight.Light),
+        Font(R.font.futuraptmedium, FontWeight.Medium),
+        Font(R.font.futuraptdemi, FontWeight.SemiBold)
+)
 
 
 // Set of Material typography styles to start with

@@ -8,37 +8,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color.Companion.White
 
 private val DarkColorPalette = darkColors(
-        primary = blu,
-        primaryVariant = darkBlu,
-        secondary = midBlack,
-        background = black,
-        onBackground = white,
-        onSurface = highBlack,
-        secondaryVariant = midWhite
+    primary = lighterPurple,
+    primaryVariant = darkerPurple,
+    secondary = green,
+    background = darkBar,
+    onBackground = lightBar,
+    onSurface = darkBar,
+    secondaryVariant = darkerGreen
 
 )
 
 private val LightColorPalette = lightColors(
-        primary = blu,
-        primaryVariant = darkBlu,
-        secondary = black,
-        background = white,
-        onBackground = black,
-        onSurface = midWhite,
-        secondaryVariant = midBlack
+    primary = lighterPurple,
+    primaryVariant = darkerPurple,
+    secondary = lighterGreen,
+    background = lightBar,
+    onBackground = darkBar,
+    onSurface = lightBar,
+    secondaryVariant = darkerGreen
 
 
 
 
 
-        /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    /* Other default colors to override
+background = Color.White,
+surface = Color.White,
+onPrimary = Color.White,
+onSecondary = Color.Black,
+onBackground = Color.Black,
+onSurface = Color.Black,
+*/
 )
 
 @Composable
@@ -50,9 +50,9 @@ fun Alcheringa2022Theme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Co
     }
 
     MaterialTheme(
-            colors = colors,
-            typography = Typography,
-            shapes = Shapes,
-            content = content
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
     )
 }
