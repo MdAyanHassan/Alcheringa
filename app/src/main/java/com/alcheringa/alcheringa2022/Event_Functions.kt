@@ -77,7 +77,7 @@ fun Event_card_Scaffold(
             .wrapContentWidth()
             .border(
                 2.dp,
-                color = selectionGreen,
+                color = lighterGreen,
                 RoundedCornerShape(4.dp)
             )
     } else {
@@ -461,7 +461,7 @@ fun Event_card_Scaffold(
                                 if(eventdetail.isLive.value){
                                     Text(
                                         text = "Live ",
-                                        color = selectionGreen,
+                                        color = lighterGreen,
                                         fontSize = 14.sp,
                                         fontFamily = futura
                                     )
