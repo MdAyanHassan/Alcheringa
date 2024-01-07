@@ -10,7 +10,7 @@ class SliderTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTr
     companion object {
 
         private const val DEFAULT_TRANSLATION_X = .0f
-        private const val DEFAULT_TRANSLATION_FACTOR = 1.2f
+        private const val DEFAULT_TRANSLATION_FACTOR = 1.1f
 
         private const val SCALE_FACTOR = .14f
         private const val DEFAULT_SCALE = 1f
@@ -32,20 +32,23 @@ class SliderTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTr
             when {
                 position <= 0f -> {
                     translationX = DEFAULT_TRANSLATION_X
-                    scaleX = DEFAULT_SCALE
-                    scaleY = DEFAULT_SCALE
+                    translationY = DEFAULT_TRANSLATION_X
+//                    scaleX = DEFAULT_SCALE
+//                    scaleY = DEFAULT_SCALE
                     alpha = if(position>=-0.98f) 1f else 0f
                 }
-                position <= offscreenPageLimit - 1 -> {
-                    scaleX = scaleFactor
-                    scaleY = scaleFactor
+                position <= offscreenPageLimit - 1 && position < 2f -> {
+//                    scaleX = scaleFactor
+//                    scaleY = scaleFactor
                     translationX = -(width / DEFAULT_TRANSLATION_FACTOR) * position
+                    translationY = -(50 * position)
                     alpha = alphaFactor
+                    println("Hello ${(width / DEFAULT_TRANSLATION_FACTOR) * position}")
                 }
                 position >.5f -> {
                     translationX = DEFAULT_TRANSLATION_X
-                    scaleX = DEFAULT_SCALE
-                    scaleY = DEFAULT_SCALE
+//                    scaleX = DEFAULT_SCALE
+//                    scaleY = DEFAULT_SCALE
                     alpha = 0f
 
                 }
@@ -53,7 +56,7 @@ class SliderTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTr
                     translationX = DEFAULT_TRANSLATION_X
                     scaleX = DEFAULT_SCALE
                     scaleY = DEFAULT_SCALE
-                    alpha = DEFAULT_ALPHA
+                    alpha = 0f
                 }
             }
         }
