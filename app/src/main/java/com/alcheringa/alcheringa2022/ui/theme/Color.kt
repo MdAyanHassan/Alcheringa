@@ -52,9 +52,9 @@ var lighterPurple=Color(0xff5965C7)
 var darkerPurple=Color(0xff19216C)
 var lighterGreen=Color(0xff39A27A)
 
-var selectionGreen = Color(0xff39A27A)
+//var selectionGreen = Color(0xff39A27A)
 var creamWhite = Color(0xffEDECD9)
-var addToCartColor = Color(0xff5965C7)
+//var addToCartColor = Color(0xff5965C7)
 
 
 

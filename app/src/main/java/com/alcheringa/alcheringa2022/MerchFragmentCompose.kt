@@ -589,7 +589,9 @@ class MerchFragmentCompose : Fragment() {
                                                 Image(
                                                     painter = painterResource(id = R.drawable.frame_15321),
                                                     contentDescription = null,
-                                                    modifier = Modifier.align(Alignment.TopCenter).fillMaxWidth().height(290.dp),
+                                                    modifier = Modifier
+                                                        .align(Alignment.TopCenter)
+                                                        .fillMaxWidth().height(290.dp),
 
                                                 )
                                                 Column(
@@ -695,7 +697,7 @@ class MerchFragmentCompose : Fragment() {
                                                                                 }
                                                                             txtCol =
                                                                                 if (merchSize==dataeach) {
-                                                                                    selectionGreen
+                                                                                    darkTealGreen
                                                                                 } else {
                                                                                     colors.onBackground
                                                                                 }
@@ -742,7 +744,7 @@ class MerchFragmentCompose : Fragment() {
 
                                                                                         )
 
-                                                                                    if(txtCol== selectionGreen) {
+                                                                                    if(txtCol== darkTealGreen) {
                                                                                         Image(
                                                                                             painter = painterResource(R.drawable.pencil_mark),
                                                                                             contentDescription = null,
@@ -945,12 +947,14 @@ class MerchFragmentCompose : Fragment() {
                                                     Spacer(modifier = Modifier.height(32.dp))
 
                                                     Box(
-                                                        modifier = Modifier.fillMaxWidth().padding(bottom = 15.dp)
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(bottom = 15.dp)
                                                     ) {
                                                         Row(horizontalArrangement = Arrangement.SpaceEvenly,modifier = Modifier
                                                             .padding(start = 16.dp, end = 16.dp)
                                                             .fillMaxWidth()) {
-                                                            Button(
+                                                            /*Button(
                                                                 onClick = {
                                                                     if (merchSize == "") {
                                                                         Toast.makeText(
@@ -986,35 +990,94 @@ class MerchFragmentCompose : Fragment() {
                                                                         colors.onBackground,
                                                                         shape = RoundedCornerShape(10.dp)
                                                                     ),
+                                                                    //.background(brush = Brush.verticalGradient(1f to darkTealGreen , 0.3f to darkTealGreen) , shape = RoundedCornerShape(10.dp)),
 
                                                                 shape = RoundedCornerShape(10.dp),
                                                                 colors = ButtonDefaults.buttonColors(
-                                                                    selectionGreen
+
                                                                 )
                                                             ) {
-                                                                Text(
-                                                                    text = "Buy Now",
-                                                                    fontSize = 20.sp,
-                                                                    fontWeight = FontWeight.SemiBold,
-                                                                    fontFamily = aileron,
-                                                                    color = creamWhite
-                                                                )
-                                                                Spacer(modifier = Modifier.width(5.dp))
+                                                            }*/
 
-                                                                Divider(color = creamWhite , modifier = Modifier
-                                                                    .height(30.dp)
-                                                                    .width(1.dp))
+                                                            Box(
+                                                                modifier = Modifier
+                                                                    .height(50.dp)
+                                                                    .border(
+                                                                        1.dp,
+                                                                        colors.onBackground,
+                                                                        shape = RoundedCornerShape(5.dp),
+                                                                    )
+                                                                    .background(
+                                                                        brush = Brush.linearGradient(
+                                                                            1f to darkTealGreen,
+                                                                            1f to Color.Black
+                                                                        ),
+                                                                        shape = RoundedCornerShape(5.dp)
+                                                                    )
+                                                                    .clickable {
+                                                                        if (merchSize == "") {
+                                                                            Toast
+                                                                                .makeText(
+                                                                                    requireContext(),
+                                                                                    "Please select a size first",
+                                                                                    Toast.LENGTH_SHORT
+                                                                                )
+                                                                                .show()
+                                                                        } else {
 
-                                                                Spacer(modifier = Modifier.width(5.dp))
+                                                                            dbHandler.addNewitemIncart(
+                                                                                currentMerch.name,
+                                                                                currentMerch.price,
+                                                                                merchSize,
+                                                                                "1",
+                                                                                currentMerch.image_url,
+                                                                                currentMerch.material,
+                                                                                requireContext()
+                                                                            )
+                                                                            startActivity(
+                                                                                Intent(
+                                                                                    requireContext(),
+                                                                                    CartActivity::class.java
+                                                                                )
+                                                                            )
+                                                                            setCartCountIcon()
+                                                                        }
+                                                                    }
 
-                                                                Image(
-                                                                    painter = painterResource(R.drawable.rupees),
-                                                                    contentDescription = null,
-                                                                    modifier = Modifier.size(20.dp)
-                                                                )
 
+                                                            ) {
+                                                                Row(
+                                                                    modifier = Modifier
+                                                                        .align(
+                                                                            Alignment.Center
+                                                                        )
+                                                                        .width(150.dp),
+                                                                    horizontalArrangement = Arrangement.Center
+                                                                ) {
+                                                                    Text(
+                                                                        text = "Buy Now",
+                                                                        fontSize = 20.sp,
+                                                                        fontWeight = FontWeight.SemiBold,
+                                                                        fontFamily = aileron,
+                                                                        color = creamWhite,
+                                                                    )
+
+                                                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                                                    Divider(color = creamWhite , modifier = Modifier
+                                                                        .height(25.dp)
+                                                                        .width(1.dp))
+
+                                                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                                                    Image(
+                                                                        painter = painterResource(R.drawable.rupees),
+                                                                        contentDescription = null,
+                                                                        modifier = Modifier.size(20.dp)
+                                                                    )
+                                                                }
                                                             }
-                                                            Button(
+                                                            /*Button(
                                                                 onClick = {
                                                                     if (isInStock && merchSize != "") {
                                                                         dbHandler.addNewitemIncart(
@@ -1053,20 +1116,22 @@ class MerchFragmentCompose : Fragment() {
                                                                         1.dp,
                                                                         colors.onBackground,
                                                                         shape = RoundedCornerShape(10.dp)
-                                                                    ),
+                                                                    )
+                                                                    .background(Brush.verticalGradient(colorStops = arrayOf(1f to containerPurple , 0.3f to containerPurple)) , shape = RoundedCornerShape(10.dp)),
 
                                                                 shape = RoundedCornerShape(10.dp),
                                                                 colors = ButtonDefaults.buttonColors(
-                                                                    addToCartColor
+                                                                    Color.Transparent
                                                                 )
                                                             ) {
-                                                                Text(
-                                                                    text = "Add to Cart",
-                                                                    fontSize = 20.sp,
-                                                                    fontWeight = FontWeight.SemiBold,
-                                                                    fontFamily = aileron,
-                                                                    color = creamWhite
-                                                                )
+                                                                    Text(
+                                                                        text = "Add to Cart",
+                                                                        fontSize = 20.sp,
+                                                                        fontWeight = FontWeight.SemiBold,
+                                                                        fontFamily = aileron,
+                                                                        color = creamWhite
+                                                                    )
+
                                                                 Spacer(modifier = Modifier.width(5.dp))
 
                                                                 Divider(color = creamWhite , modifier = Modifier
@@ -1081,6 +1146,93 @@ class MerchFragmentCompose : Fragment() {
                                                                     modifier = Modifier.size(20.dp)
                                                                 )
 
+                                                            }*/
+
+                                                            Box(
+                                                                modifier = Modifier
+                                                                    .height(50.dp)
+                                                                    .border(
+                                                                        1.dp,
+                                                                        colors.onBackground,
+                                                                        shape = RoundedCornerShape(5.dp),
+                                                                    )
+                                                                    .background(
+                                                                        brush = Brush.linearGradient(
+                                                                            1f to containerPurple,
+                                                                            1f to Color.Black
+                                                                        ),
+                                                                        shape = RoundedCornerShape(5.dp)
+                                                                    )
+                                                                    .clickable {
+                                                                        if (isInStock && merchSize != "") {
+                                                                            dbHandler.addNewitemIncart(
+                                                                                currentMerch.name,
+                                                                                currentMerch.price,
+                                                                                merchSize,
+                                                                                "1",
+                                                                                currentMerch.image_url,
+                                                                                currentMerch.material,
+                                                                                requireContext()
+                                                                            )
+                                                                            Toast
+                                                                                .makeText(
+                                                                                    requireContext(),
+                                                                                    currentMerch.name + " added to cart",
+                                                                                    Toast.LENGTH_SHORT
+                                                                                )
+                                                                                .show()
+                                                                            setCartCountIcon()
+                                                                        } else if (!isInStock) {
+                                                                            Toast
+                                                                                .makeText(
+                                                                                    requireContext(),
+                                                                                    "Out of Stock",
+                                                                                    Toast.LENGTH_SHORT
+                                                                                )
+                                                                                .show();
+                                                                        } else {
+                                                                            Toast
+                                                                                .makeText(
+                                                                                    requireContext(),
+                                                                                    "Please select a Size first",
+                                                                                    Toast.LENGTH_SHORT
+                                                                                )
+                                                                                .show()
+                                                                        }
+                                                                    }
+
+
+                                                            ) {
+                                                                Row(
+                                                                    modifier = Modifier
+                                                                        .align(
+                                                                            Alignment.Center
+                                                                        )
+                                                                        .width(170.dp),
+                                                                    horizontalArrangement = Arrangement.Center
+                                                                ) {
+                                                                    Text(
+                                                                        text = "Add to Cart",
+                                                                        fontSize = 20.sp,
+                                                                        fontWeight = FontWeight.SemiBold,
+                                                                        fontFamily = aileron,
+                                                                        color = creamWhite,
+                                                                    )
+
+                                                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                                                    Divider(color = creamWhite , modifier = Modifier
+                                                                        .height(25.dp)
+                                                                        .width(1.dp))
+
+                                                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                                                    Image(
+                                                                        painter = painterResource(R.drawable.add_to_cart),
+                                                                        contentDescription = null,
+                                                                        modifier = Modifier.size(20.dp)
+                                                                    )
+                                                                }
                                                             }
 
                                                         }
@@ -1428,5 +1580,13 @@ class MerchFragmentCompose : Fragment() {
         }
 
     }
+
+    @Preview
+    @Composable
+    fun MyContentPreview() {
+        MyContent(popUp = 0)
+
+    }
 }
+
 
