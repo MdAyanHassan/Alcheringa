@@ -40,6 +40,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -1345,7 +1346,7 @@ class Home : Fragment() {
 
 @Composable
 fun compbox(){
-    Column(
+    /*Column(
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)) {
@@ -1404,7 +1405,108 @@ fun compbox(){
                 }
 
              }
+        }*/
+    val externalFont = FontFamily(Font(R.font.futuraptbook))
+
+    LazyRow( modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(horizontal = 20.dp)
+    ){
+        // item 1 merch
+        item {
+            Card(
+                elevation = 6.dp,
+                modifier = Modifier
+                    .size(width = 100.dp, height = 100.dp)
+            ) {
+               Box(){
+                   Image(painter=painterResource(id = R.drawable.frame_15202_merch_background), contentDescription = "",modifier=Modifier
+                       .size(width = 100.dp, height = 100.dp))
+                   Text(
+                       text = "Merch",
+                       color = Color.White,
+                       fontFamily= externalFont,
+                       modifier = Modifier
+                           .padding(16.dp)
+                           .fillMaxWidth(),
+
+                       textAlign = TextAlign.Center,
+                   )
+
+               }
+            }
         }
+        // item 2 event
+        item {
+            Card(
+                elevation = 6.dp,
+                modifier = Modifier
+                    .size(width = 100.dp, height = 100.dp)
+            ) {
+                Box(){
+                    Image(painter=painterResource(id = R.drawable.frame_15207_events), contentDescription = "",modifier=Modifier
+                        .size(width = 100.dp, height = 100.dp))
+                    Text(
+                        text = "Events",
+                        color = Color.White,
+                        fontFamily= externalFont,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                    )
+
+                }
+            }
+        }
+        // item 3 competitions
+        item {
+            Card(
+                elevation = 6.dp,
+                modifier = Modifier
+                    .size(width = 100.dp, height = 100.dp)
+            ) {
+                Box(){
+                    Image(painter=painterResource(id = R.drawable.frame_15209_compback), contentDescription = "",modifier=Modifier
+                        .size(width = 100.dp, height = 100.dp))
+                    Text(
+                        text = "Competition",
+                        color = Color.White,
+                        fontFamily= externalFont,
+                        modifier = Modifier
+                            .padding(16.dp)
+                        .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                    )
+
+                }
+            }
+        }
+        // item 4 Stalls
+
+        item {
+            Card(
+                elevation = 6.dp,
+                modifier = Modifier
+                    .size(width = 100.dp, height = 100.dp)
+            ) {
+                Box(){
+                    Image(painter=painterResource(id = R.drawable.frame_15202_merch_background), contentDescription = "",modifier=Modifier
+                        .size(width = 100.dp, height = 100.dp))
+                    Text(
+                        text = "Stalls",
+                        color = Color.White,
+                        fontFamily= externalFont,
+                        modifier = Modifier
+                            .padding(16.dp)
+                        .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                    )
+
+                }
+            }
+        }
+    }
 }
 
     @Composable
