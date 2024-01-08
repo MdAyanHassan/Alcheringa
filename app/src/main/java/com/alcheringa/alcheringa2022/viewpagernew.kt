@@ -1,9 +1,13 @@
 
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.recyclerview.widget.RecyclerView
@@ -68,8 +72,9 @@ fun ViewPagernew(
 
     content: ViewPagerScope.() -> Unit = {}
 ) {
-   val paddingend= LocalDensity.current.run { 20.dp.toPx().toInt() }
+   val paddingend= LocalDensity.current.run { 35.dp.toPx().toInt() }
     val paddingstart= LocalDensity.current.run { 20.dp.toPx().toInt() }
+    val paddingtop= LocalDensity.current.run { 30.dp.toPx().toInt() }
     val viewPagerChildren = mutableListOf<ViewPagerScope.ViewPagerChild>()
     val viewPagerScope = ViewPagerScope(viewPagerChildren)
 
@@ -92,7 +97,7 @@ fun ViewPagernew(
             this.clipChildren=false
             this.clipToPadding=false
             this.offscreenPageLimit=3
-            this.layoutParams.apply { setPadding(paddingstart,0, paddingend,0) }
+            this.layoutParams.apply { setPadding(paddingstart,paddingtop, paddingend,0) }
             this.setPageTransformer(SliderTransformer(4))
         } }
     ) {

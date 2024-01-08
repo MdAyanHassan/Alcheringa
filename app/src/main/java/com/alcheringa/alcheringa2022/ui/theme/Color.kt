@@ -51,6 +51,8 @@ var snakeBlueEnd=Color(0xff1B4E5C)
 var lighterPurple=Color(0xff5965C7)
 var darkerPurple=Color(0xff19216C)
 var lighterGreen=Color(0xff39A27A)
+var borderdarkpurple=Color(0xff383E70)
+var borderdarkTealGreen=Color(0xff28614B)
 
 //var selectionGreen = Color(0xff39A27A)
 var creamWhite = Color(0xffEDECD9)

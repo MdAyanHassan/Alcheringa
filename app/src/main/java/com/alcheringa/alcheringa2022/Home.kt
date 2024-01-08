@@ -31,21 +31,22 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
-import androidx.compose.ui.util.lerp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.core.content.ContextCompat
@@ -74,8 +75,6 @@ import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.*
 import java.util.*
-import kotlin.math.absoluteValue
-import kotlin.math.sqrt
 
 
 /**
@@ -1385,7 +1384,7 @@ fun compbox(){
             modifier=cmpm
         )
             {
-            
+
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -1401,9 +1400,9 @@ fun compbox(){
                     Image(painter = painterResource(id = R.drawable.cup1), contentDescription ="" ,modifier=Modifier.height(72.dp) )
 
 
-                    
+
                 }
-                
+
              }
         }
 }
@@ -2081,30 +2080,30 @@ fun compbox(){
                         Box(
                             modifier = Modifier
                                 .padding(
+                                    top = 30.dp,
                                     start = 20.dp,
-                                    bottom = 24.dp,
-                                )
-                                .offset(y = 60.dp),
+                                    bottom = 10.dp,
+                                ),
 
                         ) {
-                            Card(
-                                Modifier
-                                    .height(10.dp)
-                                    .offset(x = -5.dp, y = 16.dp)
-                                    .alpha(alphaval),
-                                shape = RoundedCornerShape(100.dp),
-                                backgroundColor = textbg
-
-                            ){
-                                Text(
-
-                                    text = "Limited Time Merch  ",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Transparent,
-                                    fontSize = 21.sp
-                                )
-                            }
+//                            Card(
+//                                Modifier
+//                                    .height(10.dp)
+//                                    .offset(x = -5.dp, y = 16.dp)
+//                                    .alpha(alphaval),
+//                                shape = RoundedCornerShape(100.dp),
+//                                backgroundColor = textbg
+//
+//                            ){
+//                                Text(
+//
+//                                    text = "Limited Time Merch  ",
+//                                    fontFamily = aileron,
+//                                    fontWeight = FontWeight.Bold,
+//                                    color = Color.Transparent,
+//                                    fontSize = 21.sp
+//                                )
+//                            }
                             Text(
 
                                 text = "Limited Time Merch",
@@ -2114,6 +2113,7 @@ fun compbox(){
                                 fontSize = 21.sp
                             )
                         }
+                        Spacer(modifier = Modifier.height(10.dp))
                         Box(modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
@@ -2123,12 +2123,15 @@ fun compbox(){
 
                         ) {
                             val drbls = listOf(
-                                R.drawable.merch_bg_1,
-                                R.drawable.merch_bg_2,
-                                R.drawable.merch_bg_3,
-                                R.drawable.merch_bg_1,
-                                R.drawable.merch_bg_2,
-                                R.drawable.merch_bg_3
+                                R.drawable.behindmerch,
+                                R.drawable.behindmerch2,
+                                R.drawable.behindmerch,
+                                R.drawable.behindmerch2,
+                                R.drawable.behindmerch,
+                                R.drawable.behindmerch2,
+                                R.drawable.behindmerch,
+                                R.drawable.behindmerch2,
+
                             )
                             if(homeViewModel.merchMerch.isNotEmpty()){
                             merchBoxnew(merch = homeViewModel.merchMerch
@@ -3369,83 +3372,95 @@ fun compbox(){
     @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
     @Composable
     fun merchBoxnew(merch: List<merchModel>, drbls:List<Int>){
-        val textPaintStroke = Paint().asFrameworkPaint().apply {
-            isAntiAlias = true
-            style = android.graphics.Paint.Style.STROKE
-            textSize = 88f
-            color = android.graphics.Color.BLACK
-            strokeWidth = 18f
-            typeface = resources.getFont(R.font.starguard)
-            strokeMiter= 10f
-            strokeJoin = android.graphics.Paint.Join.ROUND
-        }
-
-        val textPaint = Paint().asFrameworkPaint().apply {
-            isAntiAlias = true
-            style = android.graphics.Paint.Style.FILL
-            textSize = 88F
-            typeface = resources.getFont(R.font.starguard)
-            color = android.graphics.Color.WHITE
-        }
-
-        val textPaintStroke1 = Paint().asFrameworkPaint().apply {
-            isAntiAlias = true
-            style = android.graphics.Paint.Style.STROKE
-            textSize = 44F
-            color = android.graphics.Color.BLACK
-            strokeWidth = 9f
-            typeface = resources.getFont(R.font.starguard)
-            strokeMiter= 10f
-            strokeJoin = android.graphics.Paint.Join.ROUND
-        }
-
-        val textPaint1 = Paint().asFrameworkPaint().apply {
-            isAntiAlias = true
-            style = android.graphics.Paint.Style.FILL
-            textSize = 44F
-            typeface = resources.getFont(R.font.starguard)
-            color = android.graphics.Color.WHITE
-        }
-
-        val textPaintStroke2 = Paint().asFrameworkPaint().apply {
-            isAntiAlias = true
-            style = android.graphics.Paint.Style.STROKE
-            textSize = 66F
-            color = android.graphics.Color.BLACK
-            strokeWidth = 16f
-            typeface = resources.getFont(R.font.starguard)
-            strokeMiter= 10f
-            strokeJoin = android.graphics.Paint.Join.ROUND
-        }
-
-        val textPaint2 = Paint().asFrameworkPaint().apply {
-            isAntiAlias = true
-            style = android.graphics.Paint.Style.FILL
-            textSize = 66F
-            typeface = resources.getFont(R.font.starguard)
-            color = ContextCompat.getColor(requireContext(), R.color.Green)
-        }
+//        val textPaintStroke = Paint().asFrameworkPaint().apply {
+//            isAntiAlias = true
+//            style = android.graphics.Paint.Style.STROKE
+//            textSize = 88f
+//            color = android.graphics.Color.BLACK
+//            strokeWidth = 18f
+//            typeface = resources.getFont(R.font.starguard)
+//            strokeMiter= 10f
+//            strokeJoin = android.graphics.Paint.Join.ROUND
+//        }
+//
+//        val textPaint = Paint().asFrameworkPaint().apply {
+//            isAntiAlias = true
+//            style = android.graphics.Paint.Style.FILL
+//            textSize = 88F
+//            typeface = resources.getFont(R.font.starguard)
+//            color = android.graphics.Color.WHITE
+//        }
+//
+//        val textPaintStroke1 = Paint().asFrameworkPaint().apply {
+//            isAntiAlias = true
+//            style = android.graphics.Paint.Style.STROKE
+//            textSize = 44F
+//            color = android.graphics.Color.BLACK
+//            strokeWidth = 9f
+//            typeface = resources.getFont(R.font.starguard)
+//            strokeMiter= 10f
+//            strokeJoin = android.graphics.Paint.Join.ROUND
+//        }
+//
+//        val textPaint1 = Paint().asFrameworkPaint().apply {
+//            isAntiAlias = true
+//            style = android.graphics.Paint.Style.FILL
+//            textSize = 44F
+//            typeface = resources.getFont(R.font.starguard)
+//            color = android.graphics.Color.WHITE
+//        }
+//
+//        val textPaintStroke2 = Paint().asFrameworkPaint().apply {
+//            isAntiAlias = true
+//            style = android.graphics.Paint.Style.STROKE
+//            textSize = 66F
+//            color = android.graphics.Color.BLACK
+//            strokeWidth = 16f
+//            typeface = resources.getFont(R.font.starguard)
+//            strokeMiter= 10f
+//            strokeJoin = android.graphics.Paint.Join.ROUND
+//        }
+//
+//        val textPaint2 = Paint().asFrameworkPaint().apply {
+//            isAntiAlias = true
+//            style = android.graphics.Paint.Style.FILL
+//            textSize = 66F
+//            typeface = resources.getFont(R.font.starguard)
+//            color = ContextCompat.getColor(requireContext(), R.color.Green)
+//        }
 
         ViewPagernew(modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(1.54f)
         )
         {repeat(merch.size){page ->ViewPagerChild{
             Box(
+
                 contentAlignment = Alignment.BottomCenter,
             ) {
                 Card(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(8.dp))
                         .background(colors.background)
-                        .coloredShadow(colors.secondaryVariant, 0.2f, 16.dp, 30.dp, 5.dp, 0.dp)
                         .fillMaxWidth()
                         .aspectRatio(1.94f)
                         .padding(horizontal = 0.dp),
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(8.dp),
                     backgroundColor = Color.Transparent,
                     elevation = 0.dp,
-                    border = BorderStroke(1.5.dp, colors.secondary)
+                    border = BorderStroke(
+                        2.dp,
+                        brush = if (page%2==0){
+                            Brush.verticalGradient(
+                            0f to colors.primary,
+                            1f to borderdarkpurple
+                        )}else{
+                            Brush.verticalGradient(
+                                0f to darkTealGreen,
+                                1f to borderdarkTealGreen
+                            )
+                        }
+
+                        )
                 ) {
                     Box(modifier = Modifier
                         .clickable {
@@ -3456,16 +3471,14 @@ fun compbox(){
                             //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
                             //                    .commit()
                         }
-
                         .fillMaxWidth()
-                        .aspectRatio(1.94f)
+                        .clip(RoundedCornerShape(8.dp))
 
                     ) {
                         Image(
                             painter = painterResource(id = drbls[page]),
                             contentDescription = null,
                             Modifier
-
                                 .fillMaxWidth()
                                 .aspectRatio(1.94f)
                                 .align(Alignment.BottomCenter),
@@ -3494,7 +3507,6 @@ fun compbox(){
                                     Modifier
                                         .fillMaxWidth(0.5F)
                                         .fillMaxHeight()
-                                    , verticalArrangement = Arrangement.SpaceEvenly
 
                                 ) {
                                     //                                Text(
@@ -3504,81 +3516,130 @@ fun compbox(){
                                     //                                    fontSize = 32.sp,
                                     //                                    fontFamily = star_guard,
                                     //                                )
-                                    Column(Modifier.padding(top=16.dp)) {
-                                        Canvas(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            onDraw = {
-                                                drawIntoCanvas {
-                                                    it.nativeCanvas.drawText(
-                                                        merch[page].name,
-                                                        0f,
-                                                        0.dp.toPx(),
-                                                        textPaintStroke
-                                                    )
-                                                    it.nativeCanvas.drawText(
-                                                        merch[page].name,
-                                                        0f,
-                                                        0.dp.toPx(),
-                                                        textPaint
-                                                    )
-                                                }
-                                            }
-                                        )
-                                        Spacer(modifier = Modifier.height(4.dp))
+                                    Column(Modifier.padding(top=15.dp)) {
                                         Text(
                                             text = merch[page].material,
-                                            color = black,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 12.sp,
-                                            fontFamily = star_guard,
+                                            fontSize = 20.sp,
+                                            fontFamily = FontFamily(Font(R.font.futuraptbook)),
+                                            color = black
                                         )
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                        Text(
+                                            text = merch[page].name,
+                                            fontSize = 18.sp,
+                                            fontFamily = FontFamily(Font(R.font.futuraptbook)),
+                                            color = black
+                                        )
+//                                        Canvas(
+//                                            modifier = Modifier.fillMaxWidth(),
+//                                            onDraw = {
+//                                                drawIntoCanvas {
+//                                                    it.nativeCanvas.drawText(
+//                                                        merch[page].name,
+//                                                        0f,
+//                                                        0.dp.toPx(),
+//                                                        textPaintStroke
+//                                                    )
+//                                                    it.nativeCanvas.drawText(
+//                                                        merch[page].name,
+//                                                        0f,
+//                                                        0.dp.toPx(),
+//                                                        textPaint
+//                                                    )
+//                                                }
+//                                            }
+//                                        )
+//                                        Spacer(modifier = Modifier.height(4.dp))
+//                                        Text(
+//                                            text = merch[page].material,
+//                                            color = black,
+//                                            fontWeight = FontWeight.Normal,
+//                                            fontSize = 12.sp,
+//                                            fontFamily = star_guard,
+//                                        )
 
                                     }
 
                                     Column {
-                                        Canvas(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            onDraw = {
-                                                drawIntoCanvas {
-                                                    it.nativeCanvas.drawText(
-                                                        "At just",
-                                                        0f,
-                                                        0.dp.toPx(),
-                                                        textPaintStroke1
-                                                    )
-                                                    it.nativeCanvas.drawText(
-                                                        "At just",
-                                                        0f,
-                                                        0.dp.toPx(),
-                                                        textPaint1
-                                                    )
-                                                }
-                                            }
+                                        Spacer(modifier = Modifier.height(80.dp))
+                                        Text(
+                                            text = "Rs. ${merch[page].price}/-",
+                                            color = black,
+                                            fontSize = 20.sp,
+                                            fontFamily = FontFamily(Font(R.font.futuraptbook))
                                         )
-                                        Spacer(modifier = Modifier.height(28.dp))
-
-                                        Canvas(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            onDraw = {
-                                                drawIntoCanvas {
-                                                    it.nativeCanvas.drawText(
-                                                        "Rs. " + merch[page].price,
-                                                        0f,
-                                                        0.dp.toPx(),
-                                                        textPaintStroke2
-                                                    )
-                                                    it.nativeCanvas.drawText(
-                                                        "Rs. " + merch[page].price,
-                                                        0f,
-                                                        0.dp.toPx(),
-                                                        textPaint2
-                                                    )
-                                                }
-                                            }
-                                        )
+//                                        Canvas(
+//                                            modifier = Modifier.fillMaxWidth(),
+//                                            onDraw = {
+//                                                drawIntoCanvas {
+//                                                    it.nativeCanvas.drawText(
+//                                                        "At just",
+//                                                        0f,
+//                                                        0.dp.toPx(),
+//                                                        textPaintStroke1
+//                                                    )
+//                                                    it.nativeCanvas.drawText(
+//                                                        "At just",
+//                                                        0f,
+//                                                        0.dp.toPx(),
+//                                                        textPaint1
+//                                                    )
+//                                                }
+//                                            }
+//                                        )
+//                                        Spacer(modifier = Modifier.height(28.dp))
+//
+//                                        Canvas(
+//                                            modifier = Modifier.fillMaxWidth(),
+//                                            onDraw = {
+//                                                drawIntoCanvas {
+//                                                    it.nativeCanvas.drawText(
+//                                                        "Rs. " + merch[page].price,
+//                                                        0f,
+//                                                        0.dp.toPx(),
+//                                                        textPaintStroke2
+//                                                    )
+//                                                    it.nativeCanvas.drawText(
+//                                                        "Rs. " + merch[page].price,
+//                                                        0f,
+//                                                        0.dp.toPx(),
+//                                                        textPaint2
+//                                                    )
+//                                                }
+//                                            }
+//                                        )
                                     }
 
                                 }
+
+                                GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
+                                    modifier = Modifier
+                                        .padding(end = 10.dp)
+                                        .rotate(10f),
+                                    imageModel = merch[page].image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
+                                    alignment = Alignment.Center,
+                                    shimmerParams = ShimmerParams(
+                                        baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                        highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                        durationMillis = 1500,
+                                        dropOff = 1f,
+                                        tilt = 20f
+                                    ),failure = {
+                                        Box(modifier= Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(), contentAlignment = Alignment.Center) {
+                                            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.failure))
+                                            val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+                                            LottieAnimation(
+                                                composition,
+                                                progress,
+                                                modifier = Modifier.fillMaxHeight()
+                                            )
+//
+                                        }
+
+                                    }
+                                )
 
                             }
 
@@ -3588,39 +3649,39 @@ fun compbox(){
 
                 }
             }
-            Box(
-                Modifier.fillMaxSize(),
-                Alignment.TopEnd
-            ){
-                GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .fillMaxWidth(0.5f),
-                    imageModel = merch[page].image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
-                    alignment = Alignment.Center,
-                  shimmerParams = ShimmerParams(
-                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
-                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
-                                    durationMillis = 1500,
-                                    dropOff = 1f,
-                                    tilt = 20f
-                                ),failure = {
-                        Box(modifier= Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(), contentAlignment = Alignment.Center) {
-                            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.failure))
-                            val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
-                            LottieAnimation(
-                                composition,
-                                progress,
-                                modifier = Modifier.fillMaxHeight()
-                            )
+//            Box(
+//                Modifier.fillMaxSize(),
+//                Alignment.TopEnd
+//            ){
+//                GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
+//                    modifier = Modifier
+//                        .padding(end = 16.dp)
+//                        .fillMaxWidth(0.5f),
+//                    imageModel = merch[page].image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
+//                    alignment = Alignment.Center,
+//                  shimmerParams = ShimmerParams(
+//                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+//                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+//                                    durationMillis = 1500,
+//                                    dropOff = 1f,
+//                                    tilt = 20f
+//                                ),failure = {
+//                        Box(modifier= Modifier
+//                            .fillMaxWidth()
+//                            .fillMaxHeight(), contentAlignment = Alignment.Center) {
+//                            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.failure))
+//                            val progress by animateLottieCompositionAsState(composition, iterations = LottieConstants.IterateForever)
+//                            LottieAnimation(
+//                                composition,
+//                                progress,
+//                                modifier = Modifier.fillMaxHeight()
+//                            )
+////
+//                        }
 //
-                        }
-
-                    }
-                )
-            }
+//                    }
+//                )
+//            }
         }}}
 
 
