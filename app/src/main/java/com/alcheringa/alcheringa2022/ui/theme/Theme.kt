@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 private val DarkColorPalette = darkColors(
     primary = lighterPurple,
     primaryVariant = darkerPurple,
-    secondary = lighterGreen,
+    secondary = green,
     background = darkBar,
     onBackground = lightBar,
     onSurface = darkBar,
