@@ -2241,7 +2241,9 @@ class CompetitionsFragment : Fragment() {
                     modifier = Modifier.fillMaxWidth(), Arrangement.Start, verticalAlignment = Alignment.CenterVertically)
                 {
                     Image(
-                        painter = painterResource(id = R.drawable.location_pin),
+                        painter = if(isSystemInDarkTheme()) {
+                            painterResource(id = R.drawable.locationpin_dark)} else {
+                            painterResource(id = R.drawable.locationpin_light)},
                         contentDescription = null,
 
 
