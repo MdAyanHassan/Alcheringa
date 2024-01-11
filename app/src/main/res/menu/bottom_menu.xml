@@ -3,11 +3,7 @@
     <item
         android:id="@+id/home_nav"
 
-        android:icon="@drawable/home"/>
-    <item
-        android:id="@+id/events"
-
-        android:icon="@drawable/explore"/>
+        android:icon="@drawable/home2024"/>
 
 <!--    <item-->
 <!--        android:id="@+id/pass"-->
@@ -16,9 +12,14 @@
     <item
         android:id="@+id/schedule"
 
-        android:icon="@drawable/schedule_navbar" />
+        android:icon="@drawable/schedule2024" />
+    <item
+        android:id="@+id/events"
+
+        android:icon="@drawable/locationpin2024" />
+
     <item
         android:id="@+id/merch"
 
-        android:icon="@drawable/shop"/>
+        android:icon="@drawable/merch2024"/>
 </menu>

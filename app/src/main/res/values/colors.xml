@@ -179,9 +179,15 @@
     <color name="navcolor">#099FBC</color>
     <color name="primaryCol">@color/Black</color>
     <color name="secondaryCol">@color/White</color>
+    <color name="bottomnav">#EDECD9</color>
+
     <color name="iconcolor">@color/HighBlack</color>
     <color name="bordercolor">@color/MidWhite</color>
     <color name="separatorcolor">@color/MidWhite</color>
     <color name="barbgcolor">@color/HighWhite</color>
     <color name="selectedtagcolor">@color/Blu</color>
+    <color name="darkTealGreen">#39A27A</color>
+    <color name="lighterPurple">#7886F5</color>
+    <color name="darkerPurple">#19216C</color>
+
 </resources>

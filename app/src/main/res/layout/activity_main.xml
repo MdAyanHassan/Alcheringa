@@ -9,9 +9,7 @@
     tools:openDrawer="end">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
@@ -19,9 +17,9 @@
         <fragment
             android:id="@+id/fragmentContainerView"
             android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_marginBottom="69dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="69dp"
             app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,26 +35,24 @@
             android:background="@drawable/bottomnavbg"
 
             android:theme="@style/bottomNavigationView"
-            app:itemBackground="@android:color/transparent"
+            app:indicatorHeaderColor="@android:color/transparent"
+            app:indicatorHeaderHeight="0dp"
+            app:indicatorShadowColor="@android:color/transparent"
+            app:indicatorShadowVisible="false"
             app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
-            app:itemRippleColor="@android:color/transparent"
             app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_menu"
-            app:indicatorHeaderHeight="8dp"
-            app:indicatorHeaderColor="@color/navcolor"
-            app:indicatorShadowColor="@color/navcolor"
-            app:indicatorShadowVisible="true"
-            >
+            app:menu="@menu/bottom_menu">
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:layout_marginTop="3dp"
-                app:layout_constraintTop_toTopOf="@id/bottomNavigationView"
-                android:background="@color/bordercolor">
-            </View>
+                android:background="@color/darkTealGreen"
+                app:layout_constraintTop_toTopOf="@id/bottomNavigationView"></View>
         </com.alcheringa.alcheringa2022.ShadowIndicatorBottomNavigationView>
 
 

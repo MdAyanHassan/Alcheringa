@@ -3,18 +3,16 @@ package com.alcheringa.alcheringa2022
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
-import androidx.compose.ui.graphics.ShaderBrush
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.doOnPreDraw
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.math.abs
 
@@ -62,8 +60,7 @@ class ShadowIndicatorBottomNavigationView : BottomNavigationView,
 
             ta.recycle()
         }
-
-    }
+         }
 
     init {
         super.setOnNavigationItemSelectedListener(this)
@@ -72,9 +69,9 @@ class ShadowIndicatorBottomNavigationView : BottomNavigationView,
 //    override fun getMaxItemCount(): Int {
 //        return 6
 //    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if (externalSelectedListener?.onNavigationItemSelected(item) != false) {
+
+    if (externalSelectedListener?.onNavigationItemSelected(item) != false) {
             onItemSelected(item.itemId)
             return true
         }
@@ -83,6 +80,7 @@ class ShadowIndicatorBottomNavigationView : BottomNavigationView,
 
     override fun setOnNavigationItemSelectedListener(listener: OnNavigationItemSelectedListener?) {
         externalSelectedListener = listener
+
     }
 
     override fun onAttachedToWindow() {
@@ -90,12 +88,14 @@ class ShadowIndicatorBottomNavigationView : BottomNavigationView,
         doOnPreDraw {
             // Move the indicator in place when the view is laid out
             onItemSelected(selectedItemId, false)
+
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         // Clean up the animator if the view is going away
+
         cancelAnimator(setEndValues = true)
     }
 
@@ -112,8 +112,39 @@ class ShadowIndicatorBottomNavigationView : BottomNavigationView,
         }
     }
 
+
     fun onItemSelected(itemId: Int, animate: Boolean = true) {
+
+        for (i in 0 until menu.size()) {
+
+            val menuItem = menu.getItem(i)
+            val itemView2 = findViewById<View>(menuItem.itemId)
+            val isSelected = menuItem.itemId == itemId
+
+            // Set the background for the selected item, keep the others unchanged
+            if (isSelected) {
+                // Change the background of the selected item
+
+                itemView2?.setBackgroundResource(R.drawable.bottom_nav_star)
+
+            } else {
+                // Change the background to transparent if unselected
+
+                var c=0
+                for(j in 0 until menu.size()){
+                    if( menu.getItem(j).itemId == itemId)
+                    {
+                        c++;
+                    }
+
+                }
+                if(c==1){
+                itemView2?.setBackgroundColor(Color.TRANSPARENT)}
+            }
+        }
+
         if (!isLaidOut) return
+
 
         // Interrupt any current animation, but don't set the end values,
         // if it's in the middle of a movement we want it to start from
@@ -121,6 +152,8 @@ class ShadowIndicatorBottomNavigationView : BottomNavigationView,
         cancelAnimator(setEndValues = false)
 
         val itemView = findViewById<View>(itemId) ?: return
+
+
         val fromCenterX = indicator.centerX()
         val fromScale = indicator.width() / defaultSize
 
