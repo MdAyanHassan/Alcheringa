@@ -400,7 +400,7 @@ class Events_Details_Fragment : Fragment() {
 
             }
             else{
-                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
                     if(v != null) {
 
                         Spacer(modifier = Modifier.width(50.dp))
@@ -472,7 +472,7 @@ class Events_Details_Fragment : Fragment() {
                                     .align(
                                         Alignment.Center
                                     )
-                                    .width(170.dp),
+                                    .width(150.dp),
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 Text(
@@ -604,7 +604,7 @@ class Events_Details_Fragment : Fragment() {
         }
         else
         {
-            Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+            Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
                 if(v != null) {
 
                     Spacer(modifier = Modifier.width(50.dp))
@@ -682,7 +682,7 @@ class Events_Details_Fragment : Fragment() {
                                 .align(
                                     Alignment.Center
                                 )
-                                .width(170.dp),
+                                .width(150.dp),
                             horizontalArrangement = Arrangement.Center
                         ) {
                             Text(

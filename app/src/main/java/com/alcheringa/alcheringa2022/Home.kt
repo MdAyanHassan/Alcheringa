@@ -2643,7 +2643,7 @@ fun compbox(){
 
             }
             else{
-                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                     if(v != null) {
 
                         Spacer(modifier = Modifier.width(50.dp))
@@ -2715,7 +2715,7 @@ fun compbox(){
                                     .align(
                                         Alignment.Center
                                     )
-                                    .width(170.dp),
+                                    .width(150.dp),
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 Text(
@@ -2847,7 +2847,7 @@ fun compbox(){
         }
         else
         {
-            Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+            Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
                 if(v != null) {
 
                     Spacer(modifier = Modifier.width(50.dp))
@@ -2925,7 +2925,7 @@ fun compbox(){
                                 .align(
                                     Alignment.Center
                                 )
-                                .width(170.dp),
+                                .width(150.dp),
                             horizontalArrangement = Arrangement.Center
                         ) {
                             Text(
