@@ -2646,7 +2646,7 @@ fun compbox(){
                 Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                     if(v != null) {
 
-                        Spacer(modifier = Modifier.width(50.dp))
+                        //Spacer(modifier = Modifier.width(50.dp))
                         /*Button(
                             onClick = {
                                 //TODO: (Shantanu) Implement all venue locations
@@ -2837,7 +2837,7 @@ fun compbox(){
                     }
 
 
-                    Spacer(modifier = Modifier.width(50.dp))
+                    //Spacer(modifier = Modifier.width(50.dp))
 
 
                 }
@@ -2850,7 +2850,7 @@ fun compbox(){
             Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
                 if(v != null) {
 
-                    Spacer(modifier = Modifier.width(50.dp))
+                    //Spacer(modifier = Modifier.width(50.dp))
                     /*Button(
                         onClick = {
                             //TODO: (Shantanu) Implement all venue locations
@@ -3047,7 +3047,7 @@ fun compbox(){
                 }
 
 
-                Spacer(modifier = Modifier.width(50.dp))
+                //Spacer(modifier = Modifier.width(50.dp))
 
 
             }

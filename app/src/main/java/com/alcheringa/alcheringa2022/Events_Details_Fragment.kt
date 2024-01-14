@@ -403,7 +403,7 @@ class Events_Details_Fragment : Fragment() {
                 Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
                     if(v != null) {
 
-                        Spacer(modifier = Modifier.width(50.dp))
+                        //Spacer(modifier = Modifier.width(50.dp))
                         /*Button(
                             onClick = {
                                 //TODO: (Shantanu) Implement all venue locations
@@ -594,7 +594,7 @@ class Events_Details_Fragment : Fragment() {
                     }
 
 
-                    Spacer(modifier = Modifier.width(50.dp))
+                    //Spacer(modifier = Modifier.width(50.dp))
 
 
                 }
@@ -607,7 +607,7 @@ class Events_Details_Fragment : Fragment() {
             Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
                 if(v != null) {
 
-                    Spacer(modifier = Modifier.width(50.dp))
+                    //Spacer(modifier = Modifier.width(50.dp))
                     /*Button(
                         onClick = {
                             //TODO: (Shantanu) Implement all venue locations
@@ -804,7 +804,7 @@ class Events_Details_Fragment : Fragment() {
                 }
 
 
-                Spacer(modifier = Modifier.width(50.dp))
+                //Spacer(modifier = Modifier.width(50.dp))
 
 
             }
