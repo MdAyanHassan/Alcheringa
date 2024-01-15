@@ -63,6 +63,7 @@ class viewModelHome : ViewModel() {
     val forYouEvents = mutableStateListOf<eventWithLive>()
     val utilityList = mutableStateListOf<utilityModel>()
     val informalList = mutableStateListOf<InformalModel>()
+    val stalllist = mutableStateListOf<stallModel>()
 
     fun getAllEvents() {
         viewModelScope.launch {
@@ -252,6 +253,20 @@ class viewModelHome : ViewModel() {
         }
             .addOnFailureListener {
                 Log.d("Utility", it.toString())
+            }
+    }
+
+    fun getStalls(){
+        fb.collection("Stalls").get().addOnSuccessListener { stalls ->
+
+            stalllist.clear()
+            for (stall in stalls){
+                stalllist.add(stall.toObject(stallModel::class.java))
+            }
+        }
+
+            .addOnFailureListener {
+                Log.d("Stalls", it.toString())
             }
     }
 

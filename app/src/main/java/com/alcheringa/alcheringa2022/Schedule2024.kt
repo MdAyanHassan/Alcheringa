@@ -357,13 +357,13 @@ class Schedule2024 : Fragment() {
                         )
                     }
 
-                    Row {
-                        Column (
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
+                    Row (
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Column {
                             OutlinedTextField(
                                 modifier = Modifier
                                     .width(220.dp)
