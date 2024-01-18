@@ -63,7 +63,11 @@
             app:popExitAnim="@anim/fadeout" />
         <action
             android:id="@+id/action_home_nav_to_competitionsFragment"
-            app:destination="@id/competitionsFragment" />
+            app:destination="@id/competitionsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/schedule"
@@ -100,7 +104,20 @@
             app:exitAnim="@anim/fadeout"
             app:popEnterAnim="@anim/fadein"
             app:popExitAnim="@anim/fadeout"/>
+        <action
+            android:id="@+id/action_competitionsFragment_to_stallDetails"
+            app:destination="@id/stallDetails"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+
     </fragment>
+    <fragment
+        android:id="@+id/stallDetails"
+        android:name="com.alcheringa.alcheringa2022.stallDetails"
+        android:label="fragment_stall_details"
+        tools:layout="@layout/fragment_stall_details" />
 
 
 </navigation>

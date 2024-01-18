@@ -109,7 +109,7 @@ fun Event_card_Scaffold(
     val bm = if (isSystemInDarkTheme()) Modifier
         .background(colors.background)
         .graphicsLayer(translationY = animationProgress.value)
-        .width(142.dp)
+        .width(231.dp)
 
          else Modifier
         .background(colors.background)
@@ -119,7 +119,7 @@ fun Event_card_Scaffold(
         .coloredShadow(colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
         .coloredShadow(colors.onBackground, 0.24f, 16.dp, 1.dp, 4.dp, 0.dp)
 
-        .width(142.dp)
+        .width(231.dp)
 
     Box(modifier = bm)
 
@@ -162,8 +162,8 @@ fun Event_card_Scaffold(
                 Column {
                     Box(
                         modifier = Modifier
-                            .width(142.dp)
-                            .height(119.dp), // changed from 182 to 178
+                            .width(231.dp)
+                            .height(194.dp), // changed from 182 to 178
                     ) {
                         Card(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)) {
                            GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},

@@ -172,6 +172,7 @@ class Home : Fragment() {
         if(homeViewModel.OwnEventsWithLiveState.isEmpty()){
         homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)}
 
+        if (homeViewModel.stalllist.isEmpty()) { homeViewModel.getStalls()}
 
 
         if(homeViewModel.featuredEventsWithLivestate.isEmpty()) { homeViewModel.getfeaturedEvents() }
@@ -1344,6 +1345,7 @@ class Home : Fragment() {
 //   }
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun compbox(){
     /*Column(
@@ -1417,7 +1419,11 @@ fun compbox(){
             Card(
                 elevation = 6.dp,
                 modifier = Modifier
-                    .size(width = 100.dp, height = 100.dp)
+                    .size(width = 100.dp, height = 100.dp),
+                onClick = {
+                    findNavController(this@Home)
+                        .navigate(R.id.action_home2_to_merchFragment)
+                }
             ) {
                Box(){
                    Image(painter=painterResource(id = R.drawable.frame_15202_merch_background), contentDescription = "",modifier=Modifier
@@ -1441,7 +1447,12 @@ fun compbox(){
             Card(
                 elevation = 6.dp,
                 modifier = Modifier
-                    .size(width = 100.dp, height = 100.dp)
+                    .size(width = 100.dp, height = 100.dp),
+                onClick = {
+                    val argument = bundleOf("Tab" to "0")
+                    findNavController(this@Home)
+                        .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
+                }
             ) {
                 Box(){
                     Image(painter=painterResource(id = R.drawable.frame_15207_events), contentDescription = "",modifier=Modifier
@@ -1465,6 +1476,12 @@ fun compbox(){
                 elevation = 6.dp,
                 modifier = Modifier
                     .size(width = 100.dp, height = 100.dp)
+                    .clickable {
+                        val arguments = bundleOf("Tab" to "1")
+                        NavHostFragment
+                            .findNavController(this@Home)
+                            .navigate(R.id.action_home_nav_to_competitionsFragment, arguments)
+                    }
             ) {
                 Box(){
                     Image(painter=painterResource(id = R.drawable.frame_15209_compback), contentDescription = "",modifier=Modifier
@@ -1488,7 +1505,12 @@ fun compbox(){
             Card(
                 elevation = 6.dp,
                 modifier = Modifier
-                    .size(width = 100.dp, height = 100.dp)
+                    .size(width = 100.dp, height = 100.dp),
+                onClick = {
+                    val argument = bundleOf("Tab" to "2")
+                    findNavController(this@Home)
+                        .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
+                }
             ) {
                 Box(){
                     Image(painter=painterResource(id = R.drawable.frame_15202_merch_background), contentDescription = "",modifier=Modifier
@@ -3877,7 +3899,6 @@ fun compbox(){
                                 Column(
                                     Modifier
                                         .fillMaxWidth(0.5F)
-                                        .fillMaxHeight()
 
                                 ) {
                                     //                                Text(
@@ -3931,8 +3952,12 @@ fun compbox(){
 
                                     }
 
-                                    Column {
-                                        Spacer(modifier = Modifier.height(80.dp))
+                                    Column (
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .padding(bottom=15.dp),
+                                        verticalArrangement = Arrangement.Bottom
+                                    ){
                                         Text(
                                             text = "Rs. ${merch[page].price}/-",
                                             color = black,
