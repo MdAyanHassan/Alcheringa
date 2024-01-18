@@ -3052,7 +3052,6 @@ fun compbox(){
 
             }
 
-
 //            if (eventWithLive.isLive.value) {
 //                Button(
 //                    onClick = {
