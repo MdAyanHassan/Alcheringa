@@ -2434,6 +2434,10 @@ fun compbox(){
     @Composable
     fun Defaultimg(eventWithLive: eventWithLive) {
         var isadded=remember{ mutableStateOf(false)}
+        LaunchedEffect(key1=Unit,block = {
+            isadded.value=homeViewModel.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
+
+        })
 
         Box(
             modifier = Modifier

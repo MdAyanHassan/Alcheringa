@@ -3,9 +3,11 @@ package com.alcheringa.alcheringa2022.Model
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -64,6 +66,7 @@ class viewModelHome : ViewModel() {
     val utilityList = mutableStateListOf<utilityModel>()
     val informalList = mutableStateListOf<InformalModel>()
     val stalllist = mutableStateListOf<stallModel>()
+
 
     fun getAllEvents() {
         viewModelScope.launch {

@@ -36,6 +36,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.alpha
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.addNewItem
@@ -55,7 +56,7 @@ fun Event_card_Scaffold(
     viewModelHm: viewModelHome,
     context: Context,
     artist: String,
-    onCardClick: () -> Unit
+    onCardClick: () -> Unit,
 ) {
     var ScheduleDatabase = ScheduleDatabase(context)
     var okstate = remember { mutableStateOf(false) }
@@ -68,6 +69,7 @@ fun Event_card_Scaffold(
             targetValue = 0f,
             animationSpec = tween(300, easing = FastOutSlowInEasing)
         )
+        okstate.value=viewModelHm.OwnEventsLiveState.any { data-> data.artist==eventdetail.eventdetail.artist}
     })
 
     if (eventdetail.isLive.value) {
