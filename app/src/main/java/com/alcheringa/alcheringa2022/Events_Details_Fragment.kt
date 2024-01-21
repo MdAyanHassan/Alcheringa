@@ -259,6 +259,16 @@ class Events_Details_Fragment : Fragment() {
 
             Column(horizontalAlignment = Alignment.Start,) {
 
+//                Text(
+//                    text = eventWithLive.eventdetail.artist,
+//                    fontSize = 25.sp,
+//                    fontWeight = FontWeight.Bold,
+//                    fontFamily = futura,
+//                    color = colors.onBackground,
+//                    textAlign = TextAlign.Left,
+//                    modifier = Modifier.wrapContentSize()
+//                )
+
                 Text(
                     text = eventWithLive.eventdetail.artist,
                     fontSize = 25.sp,
@@ -666,7 +676,11 @@ class Events_Details_Fragment : Fragment() {
                                 shape = RoundedCornerShape(5.dp)
                             )
                             .clickable {
-                                startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")))
+                                startActivity(
+                                    Intent(Intent.ACTION_VIEW).setData(
+                                        Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")
+                                    )
+                                )
                                 /*val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink))
                                 if(context?.let { intent.resolveActivity(it.packageManager) } != null) {
                                     startActivity(intent)

@@ -2,6 +2,7 @@ package com.alcheringa.alcheringa2022
 
 
 import ViewPagernew
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -74,6 +75,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
+import dev.shreyaspatil.easyupipayment.EasyUpiPayment.Companion.TAG
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -255,6 +257,7 @@ class Home : Fragment() {
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        //scheduleDatabase=ScheduleDatabase(context)
         super.onActivityCreated(savedInstanceState)
         kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
             homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
@@ -272,10 +275,16 @@ class Home : Fragment() {
             }
             homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
                 homeViewModel.OwnEventsWithLiveState.clear()
+                Log.d("OwnEventsWithLive Status1" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsWithLiveState.addAll(data.map{eventWithLive(it)})
+                Log.d("OwnEventsWithLive Status2" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsLiveState.clear()
+                Log.d("OwnEventsWithLive Status3" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsLiveState.addAll(data)
+                Log.d("OwnEventsWithLive Status4" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsWithLiveState.sortedBy{ data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }
+                Log.d("OwnEventsWithLive Status5" , "${homeViewModel.OwnEventsWithLive.value}")
+
 
 
 //                datestate1.clear();
