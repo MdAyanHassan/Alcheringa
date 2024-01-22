@@ -43,7 +43,6 @@ class SliderTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTr
                     translationX = -(width / DEFAULT_TRANSLATION_FACTOR) * position
                     translationY = -(50 * position)
                     alpha = alphaFactor
-                    println("Hello ${(width / DEFAULT_TRANSLATION_FACTOR) * position}")
                 }
                 position >.5f -> {
                     translationX = DEFAULT_TRANSLATION_X

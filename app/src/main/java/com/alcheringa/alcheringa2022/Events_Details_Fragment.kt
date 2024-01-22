@@ -1,5 +1,6 @@
 package com.alcheringa.alcheringa2022
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
@@ -120,9 +121,6 @@ class Events_Details_Fragment : Fragment() {
                         Spacer(modifier = Modifier.height(8.dp))
                         EventName(eventWithLive = eventfordes)
                         Spacer(modifier = Modifier.height(20.dp))
-                        Divider(color = Color.Green , modifier = Modifier
-                            .fillMaxWidth()
-                            .height(1.dp))
                         Column() {
                             Bottomviewcomp(eventWithLive = eventfordes)
 
@@ -261,11 +259,21 @@ class Events_Details_Fragment : Fragment() {
 
             Column(horizontalAlignment = Alignment.Start,) {
 
+//                Text(
+//                    text = eventWithLive.eventdetail.artist,
+//                    fontSize = 25.sp,
+//                    fontWeight = FontWeight.Bold,
+//                    fontFamily = futura,
+//                    color = colors.onBackground,
+//                    textAlign = TextAlign.Left,
+//                    modifier = Modifier.wrapContentSize()
+//                )
+
                 Text(
                     text = eventWithLive.eventdetail.artist,
-                    fontSize = 30.sp,
+                    fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = aileron,
+                    fontFamily = futura,
                     color = colors.onBackground,
                     textAlign = TextAlign.Left,
                     modifier = Modifier.wrapContentSize()
@@ -274,9 +282,9 @@ class Events_Details_Fragment : Fragment() {
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     text = eventWithLive.eventdetail.type,
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Thin,
-                    fontFamily = aileron,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = futura,
                     color = colors.onBackground,
                     textAlign = TextAlign.Left,
                     modifier = Modifier.wrapContentSize()
@@ -288,7 +296,9 @@ class Events_Details_Fragment : Fragment() {
             Row(horizontalArrangement = Arrangement.Start, verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(end = 16.dp)) {
                 if(!isadded.value) {
                     Image(
-                        painter = painterResource(id = R.drawable.empty_heart),
+                        painter = if(isSystemInDarkTheme()) {
+                            painterResource(id =R.drawable.emptyheart_dark )} else {
+                            painterResource(id = R.drawable.emptyheart_light)},
                         contentDescription = null,
                         alignment = Alignment.CenterStart,
                         modifier = Modifier
@@ -307,10 +317,13 @@ class Events_Details_Fragment : Fragment() {
 
                 if(isadded.value) {
                     Image(
-                        painter = painterResource(id = R.drawable.filled_heart),
+                        painter = if(isSystemInDarkTheme()) {
+                            painterResource(id =R.drawable.filledheart_dark)} else {
+                            painterResource(id = R.drawable.filledheart_light)},
                         contentDescription = null,
                         alignment = Alignment.CenterStart,
-                        modifier = Modifier.size(35.dp)
+                        modifier = Modifier
+                            .size(35.dp)
                             .clickable {
                                 isadded.value = false
                                 homeViewModel.OwnEventsWithLive.removeAnItem(
@@ -351,12 +364,15 @@ class Events_Details_Fragment : Fragment() {
         )
         {
             if (isFinished){
-                Row(horizontalArrangement = Arrangement.SpaceEvenly,modifier = Modifier.padding(start = 16.dp,end = 16.dp).fillMaxWidth()) {
+                Row(horizontalArrangement = Arrangement.SpaceEvenly,modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp)
+                    .fillMaxWidth()) {
                     Button(
                         onClick = {},
-                        Modifier.width(500.dp)
+                        Modifier
+                            .width(500.dp)
                             .height(50.dp)
-                            .border(1.dp, colors.onBackground,shape = RoundedCornerShape(10.dp)),
+                            .border(1.dp, colors.onBackground, shape = RoundedCornerShape(10.dp)),
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             colors.background
@@ -365,7 +381,7 @@ class Events_Details_Fragment : Fragment() {
                         Text(text="Event Finished!",
                             fontSize = 15.sp,
                             fontWeight = FontWeight.SemiBold,
-                            fontFamily = aileron,
+                            fontFamily = futura,
                             color = colors.onBackground,
                             textAlign = TextAlign.Center
                         )
@@ -394,11 +410,11 @@ class Events_Details_Fragment : Fragment() {
 
             }
             else{
-                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
                     if(v != null) {
 
-                        Spacer(modifier = Modifier.width(50.dp))
-                        Button(
+                        //Spacer(modifier = Modifier.width(50.dp))
+                        /*Button(
                             onClick = {
                                 //TODO: (Shantanu) Implement all venue locations
                                 val gmmIntentUri =
@@ -410,7 +426,11 @@ class Events_Details_Fragment : Fragment() {
                             Modifier
                                 .weight(0.5f)
                                 .height(50.dp)
-                                .border(1.dp, colors.onBackground,shape = RoundedCornerShape(10.dp)),
+                                .border(
+                                    1.dp,
+                                    colors.onBackground,
+                                    shape = RoundedCornerShape(10.dp)
+                                ),
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(
                                 colors.background
@@ -420,7 +440,7 @@ class Events_Details_Fragment : Fragment() {
                                 text = "Direction",
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
+                                fontFamily = futura,
                                 color = colors.onBackground,
                                 textAlign = TextAlign.Left
                             )
@@ -435,19 +455,72 @@ class Events_Details_Fragment : Fragment() {
 
                             Icon(painter = painterResource(id = R.drawable.baseline_north_east_24) , contentDescription = null)
 
+                        }*/
+                        Box(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .border(
+                                    1.dp,
+                                    colors.onBackground,
+                                    shape = RoundedCornerShape(5.dp),
+                                )
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        0f to darkTealGreen,
+                                        1f to darkerGreen
+                                    ),
+                                    shape = RoundedCornerShape(5.dp)
+                                )
+                                .clickable {
+                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.alcheringa.in")))
+                                }
+
+
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .align(
+                                        Alignment.Center
+                                    )
+                                    .width(150.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = "Register",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = aileron,
+                                    color = creamWhite,
+                                )
+
+                                Spacer(modifier = Modifier.width(5.dp))
+
+                                Divider(color = creamWhite , modifier = Modifier
+                                    .height(25.dp)
+                                    .width(1.dp))
+
+                                Spacer(modifier = Modifier.width(5.dp))
+
+                                Image(
+                                    painter = painterResource(R.drawable.register),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
                         }
+
                     }
 
                     Spacer(modifier = Modifier.width(30.dp))
 
-                    Button(
+                    /*Button(
                         onClick = {
                             startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
                         },
                         Modifier
                             .weight(0.5f)
                             .height(50.dp)
-                            .border(1.dp, colors.onBackground,shape = RoundedCornerShape(10.dp)),
+                            .border(1.dp, colors.onBackground, shape = RoundedCornerShape(10.dp)),
                         shape  = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             colors.background
@@ -457,7 +530,7 @@ class Events_Details_Fragment : Fragment() {
                             text = "Register",
                             fontSize = 15.sp,
                             fontWeight = FontWeight.SemiBold,
-                            fontFamily = aileron,
+                            fontFamily = futura,
                             color = colors.onBackground,
                             textAlign = TextAlign.Left
                         )
@@ -472,8 +545,66 @@ class Events_Details_Fragment : Fragment() {
                         Icon(painter = painterResource(id = R.drawable.vector) , contentDescription = null , modifier = Modifier.size(20.dp) )
 
 
+                    }*/
+                    Box(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .border(
+                                1.dp,
+                                colors.onBackground,
+                                shape = RoundedCornerShape(5.dp),
+                            )
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    0f to containerPurple,
+                                    1f to borderdarkpurple
+                                ),
+                                shape = RoundedCornerShape(5.dp)
+                            )
+                            .clickable {
+                                val gmmIntentUri =
+                                    Uri.parse("google.navigation:q=${v?.LatLng?.latitude},${v?.LatLng?.longitude}")
+                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                mapIntent.setPackage("com.google.android.apps.maps")
+                                startActivity(mapIntent)
+                            }
+
+
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .align(
+                                    Alignment.Center
+                                )
+                                .width(150.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = "Direction",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = creamWhite,
+                            )
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Divider(color = creamWhite , modifier = Modifier
+                                .height(25.dp)
+                                .width(1.dp))
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Image(
+                                painter = painterResource(R.drawable.direction),
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
-                    Spacer(modifier = Modifier.width(50.dp))
+
+
+                    //Spacer(modifier = Modifier.width(50.dp))
 
 
                 }
@@ -483,6 +614,216 @@ class Events_Details_Fragment : Fragment() {
         }
         else
         {
+            Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
+                if(v != null) {
+
+                    //Spacer(modifier = Modifier.width(50.dp))
+                    /*Button(
+                        onClick = {
+                            //TODO: (Shantanu) Implement all venue locations
+                            val gmmIntentUri =
+                                Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                            mapIntent.setPackage("com.google.android.apps.maps")
+                            startActivity(mapIntent)
+                        },
+                        Modifier
+                            .weight(0.5f)
+                            .height(50.dp)
+                            .border(
+                                1.dp,
+                                colors.onBackground,
+                                shape = RoundedCornerShape(10.dp)
+                            ),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            colors.background
+                        )
+                    ) {
+                        Text(
+                            text = "Direction",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = futura,
+                            color = colors.onBackground,
+                            textAlign = TextAlign.Left
+                        )
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Divider(color = colors.onSurface , modifier = Modifier
+                            .height(30.dp)
+                            .width(1.dp))
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Icon(painter = painterResource(id = R.drawable.baseline_north_east_24) , contentDescription = null)
+
+                    }*/
+                    Box(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .border(
+                                1.dp,
+                                colors.onBackground,
+                                shape = RoundedCornerShape(5.dp),
+                            )
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    0f to darkTealGreen,
+                                    1f to darkerGreen
+                                ),
+                                shape = RoundedCornerShape(5.dp)
+                            )
+                            .clickable {
+                                startActivity(
+                                    Intent(Intent.ACTION_VIEW).setData(
+                                        Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")
+                                    )
+                                )
+                                /*val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink))
+                                if(context?.let { intent.resolveActivity(it.packageManager) } != null) {
+                                    startActivity(intent)
+                                } else {
+                                    Log.d(TAG , "No app found to handle the intent")
+                                }*/
+                            }
+
+
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .align(
+                                    Alignment.Center
+                                )
+                                .width(150.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = "Buy Pass",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = futura,
+                                color = creamWhite,
+                            )
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Divider(color = creamWhite , modifier = Modifier
+                                .height(25.dp)
+                                .width(1.dp))
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Image(
+                                painter = painterResource(R.drawable.buy_pass),
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
+
+                }
+
+                Spacer(modifier = Modifier.width(30.dp))
+
+                /*Button(
+                    onClick = {
+                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
+                    },
+                    Modifier
+                        .weight(0.5f)
+                        .height(50.dp)
+                        .border(1.dp, colors.onBackground, shape = RoundedCornerShape(10.dp)),
+                    shape  = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        colors.background
+                    )
+                ) {
+                    Text(
+                        text = "Register",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = futura,
+                        color = colors.onBackground,
+                        textAlign = TextAlign.Left
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+
+                    Divider(color = colors.onSurface , modifier = Modifier
+                        .height(30.dp)
+                        .width(1.dp))
+
+                    Spacer(modifier = Modifier.width(5.dp))
+
+                    Icon(painter = painterResource(id = R.drawable.vector) , contentDescription = null , modifier = Modifier.size(20.dp) )
+
+
+                }*/
+                Box(
+                    modifier = Modifier
+                        .height(50.dp)
+                        .border(
+                            1.dp,
+                            colors.onBackground,
+                            shape = RoundedCornerShape(5.dp),
+                        )
+                        .background(
+                            brush = Brush.verticalGradient(
+                                0f to containerPurple,
+                                1f to borderdarkpurple
+                            ),
+                            shape = RoundedCornerShape(5.dp)
+                        )
+                        .clickable {
+                            val gmmIntentUri =
+                                Uri.parse("google.navigation:q=${v?.LatLng?.latitude},${v?.LatLng?.longitude}")
+                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                            mapIntent.setPackage("com.google.android.apps.maps")
+                            startActivity(mapIntent)
+                        }
+
+
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .align(
+                                Alignment.Center
+                            )
+                            .width(150.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Direction",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = futura,
+                            color = creamWhite,
+                        )
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Divider(color = creamWhite , modifier = Modifier
+                            .height(25.dp)
+                            .width(1.dp))
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Image(
+                            painter = painterResource(R.drawable.direction),
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+
+
+                //Spacer(modifier = Modifier.width(50.dp))
+
+
+            }
+
+
 //            if (eventWithLive.isLive.value) {
 //                Button(
 //                    onClick = {
@@ -504,7 +845,7 @@ class Events_Details_Fragment : Fragment() {
 //                        text = if(eventWithLive.eventdetail.joinlink=="")  "Running Offline" else "Join Event",
 //                        fontSize = 20.sp,
 //                        fontWeight = FontWeight.SemiBold,
-//                        fontFamily = aileron,
+//                        fontFamily = futura,
 //                        color = black
 //                    )
 //
@@ -737,21 +1078,24 @@ class Events_Details_Fragment : Fragment() {
                         verticalAlignment = Alignment.CenterVertically)
                     {
                         Image(
-                            painter = painterResource(id = R.drawable.location_pin),
+                            painter = if(isSystemInDarkTheme()) {
+                                painterResource(id = R.drawable.locationpin_dark)} else {
+                                painterResource(id = R.drawable.locationpin_light)},
                             contentDescription = null,
 
 
                             alignment = Alignment.Center,
                             contentScale = ContentScale.Crop,
-                            colorFilter = ColorFilter.tint(colors.onBackground))
+                            colorFilter = ColorFilter.tint(colors.onBackground),
+                        )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = eventWithLive.eventdetail.venue,
                             style = TextStyle(
                                 color = colors.onBackground,
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 18.sp
+                                fontFamily = futura,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 25.sp
                             )
                         )
                     }
@@ -764,21 +1108,24 @@ class Events_Details_Fragment : Fragment() {
                     )
                     {
                         Image(
-                            painter = painterResource(id = R.drawable.schedule),
+                            painter = if(eventWithLive.isLive.value) { painterResource(id = R.drawable.schedule_live)} else {if(isSystemInDarkTheme()) {
+                                painterResource(id = R.drawable.schedule_dark)} else {
+                                painterResource(id = R.drawable.schedule_light)}},
                             contentDescription = null,
                             modifier = Modifier
-                                .width(24.dp)
-                                .height(24.dp),
+                                .width(22.dp)
+                                .height(22.dp),
                             alignment = Alignment.Center,
                             contentScale = ContentScale.Crop,
-                            colorFilter = ColorFilter.tint(colors.onBackground)
+                            //colorFilter = ColorFilter.tint(colors.onBackground)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = if(eventWithLive.isLive.value){"Live"} else {"${eventWithLive.eventdetail.starttime.date} Feb, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} "},
                             style = TextStyle(
-                                color = if(eventWithLive.isLive.value) {Color.Green} else {colors.onBackground},
-                                fontFamily = aileron,
+                                color = if(eventWithLive.isLive.value) {
+                                    darkTealGreen} else {colors.onBackground},
+                                fontFamily = futura,
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 18.sp
                             )
@@ -917,7 +1264,7 @@ class Events_Details_Fragment : Fragment() {
 
             Spacer(modifier = Modifier.height(28.dp))
             Text(text =eventfordes.eventdetail.descriptionEvent ,
-                fontFamily = aileron,
+                fontFamily = futura,
                 fontWeight = FontWeight.Normal,
                 color = colors.onBackground,
                 fontSize = 16.sp
@@ -1028,7 +1375,7 @@ class Events_Details_Fragment : Fragment() {
                 text = heading,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                fontFamily = aileron,
+                fontFamily = futura,
                 color = colors.onBackground)}
         Spacer(modifier = Modifier.height(16.dp))
         LazyRow(

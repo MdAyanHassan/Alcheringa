@@ -36,6 +36,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.alpha
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.addNewItem
@@ -55,7 +56,7 @@ fun Event_card_Scaffold(
     viewModelHm: viewModelHome,
     context: Context,
     artist: String,
-    onCardClick: () -> Unit
+    onCardClick: () -> Unit,
 ) {
     var ScheduleDatabase = ScheduleDatabase(context)
     var okstate = remember { mutableStateOf(false) }
@@ -68,6 +69,7 @@ fun Event_card_Scaffold(
             targetValue = 0f,
             animationSpec = tween(300, easing = FastOutSlowInEasing)
         )
+        okstate.value=viewModelHm.OwnEventsLiveState.any { data-> data.artist==eventdetail.eventdetail.artist}
     })
 
     if (eventdetail.isLive.value) {
@@ -109,7 +111,7 @@ fun Event_card_Scaffold(
     val bm = if (isSystemInDarkTheme()) Modifier
         .background(colors.background)
         .graphicsLayer(translationY = animationProgress.value)
-        .width(142.dp)
+        .width(231.dp)
 
          else Modifier
         .background(colors.background)
@@ -119,7 +121,7 @@ fun Event_card_Scaffold(
         .coloredShadow(colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
         .coloredShadow(colors.onBackground, 0.24f, 16.dp, 1.dp, 4.dp, 0.dp)
 
-        .width(142.dp)
+        .width(231.dp)
 
     Box(modifier = bm)
 
@@ -162,8 +164,8 @@ fun Event_card_Scaffold(
                 Column {
                     Box(
                         modifier = Modifier
-                            .width(142.dp)
-                            .height(119.dp), // changed from 182 to 178
+                            .width(231.dp)
+                            .height(194.dp), // changed from 182 to 178
                     ) {
                         Card(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)) {
                            GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},

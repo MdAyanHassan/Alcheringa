@@ -3,9 +3,11 @@ package com.alcheringa.alcheringa2022.Model
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -63,6 +65,8 @@ class viewModelHome : ViewModel() {
     val forYouEvents = mutableStateListOf<eventWithLive>()
     val utilityList = mutableStateListOf<utilityModel>()
     val informalList = mutableStateListOf<InformalModel>()
+    val stalllist = mutableStateListOf<stallModel>()
+
 
     fun getAllEvents() {
         viewModelScope.launch {
@@ -252,6 +256,20 @@ class viewModelHome : ViewModel() {
         }
             .addOnFailureListener {
                 Log.d("Utility", it.toString())
+            }
+    }
+
+    fun getStalls(){
+        fb.collection("Stalls").get().addOnSuccessListener { stalls ->
+
+            stalllist.clear()
+            for (stall in stalls){
+                stalllist.add(stall.toObject(stallModel::class.java))
+            }
+        }
+
+            .addOnFailureListener {
+                Log.d("Stalls", it.toString())
             }
     }
 

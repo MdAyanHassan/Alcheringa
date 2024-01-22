@@ -1008,9 +1008,9 @@ class MerchFragmentCompose : Fragment() {
                                                                         shape = RoundedCornerShape(5.dp),
                                                                     )
                                                                     .background(
-                                                                        brush = Brush.linearGradient(
-                                                                            1f to darkTealGreen,
-                                                                            1f to Color.Black
+                                                                        brush = Brush.verticalGradient(
+                                                                            0f to darkTealGreen,
+                                                                            1f to darkerGreen
                                                                         ),
                                                                         shape = RoundedCornerShape(5.dp)
                                                                     )
@@ -1157,9 +1157,9 @@ class MerchFragmentCompose : Fragment() {
                                                                         shape = RoundedCornerShape(5.dp),
                                                                     )
                                                                     .background(
-                                                                        brush = Brush.linearGradient(
-                                                                            1f to containerPurple,
-                                                                            1f to Color.Black
+                                                                        brush = Brush.verticalGradient(
+                                                                            0f to containerPurple,
+                                                                            1f to borderdarkpurple
                                                                         ),
                                                                         shape = RoundedCornerShape(5.dp)
                                                                     )

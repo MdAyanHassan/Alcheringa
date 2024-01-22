@@ -3,48 +3,40 @@ package com.alcheringa.alcheringa2022
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.compose.BackHandler
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
@@ -53,8 +45,8 @@ import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.addNewItem
 import com.alcheringa.alcheringa2022.Model.eventWithLive
-import com.alcheringa.alcheringa2022.Model.eventdetail
 import com.alcheringa.alcheringa2022.Model.removeAnItem
+import com.alcheringa.alcheringa2022.Model.stallModel
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentCompetitionsBinding
 import com.alcheringa.alcheringa2022.ui.theme.*
@@ -62,7 +54,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
-import kotlinx.coroutines.launch
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -82,6 +73,7 @@ class CompetitionsFragment : Fragment() {
 
     private lateinit var binding: FragmentCompetitionsBinding
     val homeViewModel:viewModelHome by activityViewModels()
+    lateinit var args: Bundle
     lateinit var Fm:FragmentManager
     lateinit var mun: List<eventWithLive>
     lateinit var voguenationlist: List<eventWithLive>
@@ -97,7 +89,7 @@ class CompetitionsFragment : Fragment() {
     lateinit var upcomingcompetitions: List<eventWithLive>
     lateinit var otherlist: List<eventWithLive>
     lateinit var eventfordes: eventWithLive
-    lateinit var  scheduleDatabase:ScheduleDatabase
+    lateinit var scheduleDatabase:ScheduleDatabase
     lateinit var upcomingEvents: List<eventWithLive>
     lateinit var criticaldamageslist: List<eventWithLive>
     lateinit var proniteslist: List<eventWithLive>
@@ -106,12 +98,15 @@ class CompetitionsFragment : Fragment() {
     lateinit var humorfestslist: List<eventWithLive>
     lateinit var camppaignslist: List<eventWithLive>
     lateinit var otherEventlist: List<eventWithLive>
+    lateinit var stallList: List<stallModel>
+    var selecteedtile = 0
     val taglist= listOf("💃  Dance","🎵  Music", "🎭  Stagecraft", "🕶  Vogue nation", "🙋‍  Class apart", "🎨  Art talkies", "📖  Literature","💻  Digital Dexterity", "🎥  Lights camera action","🌐  Informal")
 
 
     val searchlist = mutableStateListOf<eventWithLive>()
     var tg= mutableStateOf("")
     var searchtext= mutableStateOf("")
+    val complist = listOf("All", "Sports", "Quiz", "Music", "MUN", "Any Body Can Dance", "Vogue Nation", "Lights Camera Action", "Class Apart", "Literary", "Digital Dexterity", "Art Talkies", "Others")
 
 
 
@@ -254,9 +249,12 @@ class CompetitionsFragment : Fragment() {
             ).uppercase() == "OTHER EVENTS".replace("\\s".toRegex(), "").uppercase()
         }
         upcomingEvents = homeViewModel.upcomingEventsLiveState.filter {
-                data -> data.eventdetail.type.replace("\\s".toRegex(),"").uppercase()!="COMPETITIONS".replace("\\s".toRegex(),"").uppercase()}
+                data -> data.eventdetail.type.replace("\\s".toRegex(),"").uppercase()!="COMPETITIONS".replace("\\s".toRegex(),"").uppercase()
+        }
+        stallList = homeViewModel.stalllist
 
-
+        args = requireArguments()
+        selecteedtile = args.getString("Tab")?.toInt() ?: 0
     }
 
     override fun onCreateView(
@@ -276,7 +274,7 @@ class CompetitionsFragment : Fragment() {
 //            startActivity(Intent(context,Account::class.java));
 //
 //        }
-        binding.constraintLayout.setOnClickListener{requireActivity().onBackPressed()}
+        binding.backbtn2.setOnClickListener{requireActivity().onBackPressed()}
 
         binding.competitionsCompose.setContent {
             MyContent()
@@ -349,42 +347,87 @@ class CompetitionsFragment : Fragment() {
             mutableStateOf(0)
         }
 
+        Log.i("EE", "Hello $selecteedtile)")
+        selectedView = selecteedtile
+
+
         Alcheringa2022Theme {
             Column(
                 Modifier.fillMaxSize()
+                    .background(colors.background)
             ) {
-                Row(
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(2.dp)
+                        .background(darkTealGreen)
+                )
+                Box (
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(64.dp)
-                        .padding(top = 16.dp, start = 16.dp, end = 16.dp),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.SpaceEvenly
                 ){
-                    Text(
-                        text = "Events",
-                        fontFamily = futura,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp,
-                        color = if(selectedView == 0) colors.onBackground else colors.onBackground.copy(alpha = 0.4f),
-                        modifier = Modifier.clickable(enabled = (selectedView != 0)) {
-                            selectedView = 0
-                        }
+                    Image(
+                        painter = painterResource(id = R.drawable.competitionfragmentbg),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        alignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxSize()
                     )
-                    Text(
-                        text = "Competitions",
-                        fontFamily = futura,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp,
-                        color = if(selectedView == 1) colors.onBackground else colors.onBackground.copy(alpha = 0.4f),
-                        modifier = Modifier.clickable(enabled = (selectedView != 1)) {
-                            selectedView = 1
-                        }
-                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(64.dp)
+                            .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Text(
+                            text = "Events",
+                            fontFamily = futura,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp,
+                            color = if (selectedView == 0) colors.onBackground else colors.onBackground.copy(
+                                alpha = 0.4f
+                            ),
+                            modifier = Modifier.clickable(enabled = (selectedView != 0)) {
+                                selectedView = 0
+                                selecteedtile = 0
+                            }
+                        )
+                        Text(
+                            text = "Competitions",
+                            fontFamily = futura,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp,
+                            color = if (selectedView == 1) colors.onBackground else colors.onBackground.copy(
+                                alpha = 0.4f
+                            ),
+                            modifier = Modifier.clickable(enabled = (selectedView != 1)) {
+                                selectedView = 1
+                                selecteedtile=1
+                            }
+                        )
+                        Text(
+                            text = "Stalls",
+                            fontFamily = futura,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp,
+                            color = if (selectedView == 2) colors.onBackground else colors.onBackground.copy(
+                                alpha = 0.4f
+                            ),
+                            modifier = Modifier.clickable(enabled = (selectedView != 2)) {
+                                selectedView = 2
+                                selecteedtile=2
+                            }
+                        )
+                    }
                 }
                 when(selectedView){
                     0 -> EventsView()
                     1 -> CompetitionsView()
+                    2 -> StallsView()
                 }
             }
         }
@@ -976,8 +1019,18 @@ class CompetitionsFragment : Fragment() {
         }*/
     }
 
+    @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
     @Composable
     fun CompetitionsView(){
+
+        var expanded by remember { mutableStateOf(false) }
+        val icon = if (expanded) {
+            Icons.Filled.KeyboardArrowUp
+        } else {
+            Icons.Filled.KeyboardArrowDown
+        }
+        val selectedNames = remember { mutableStateListOf<String>("All") }
+
         Column(modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
@@ -987,7 +1040,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Upcoming Events",
-                        fontSize = 30.sp,
+                        fontSize = 25.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground
                     )
@@ -1019,13 +1072,106 @@ class CompetitionsFragment : Fragment() {
             }
 
             Spacer (modifier = Modifier.height(20.dp))
-            if(sportslist.isNotEmpty()) {
+            Row (
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ){
+                Column {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .width(300.dp)
+                            .height(50.dp)
+                            .background(colors.onSurface)
+                            .border(
+                                1.dp,
+                                darkTealGreen,
+                                shape = RoundedCornerShape(4.dp)
+                            ),
+                        value = selectedNames.joinToString(", "),
+                        onValueChange = {selectedNames},
+                        readOnly = true, // Makes the TextField clickable
+                        trailingIcon = {
+                            Icon(
+                                icon,
+                                "",
+                                Modifier.clickable { expanded = !expanded },
+                                tint = colors.onBackground
+                            )
+                        },
+                        colors = TextFieldDefaults.textFieldColors(colors.onBackground),
+                    )
+
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier
+                            .width(300.dp)
+                            .background(colors.background)
+                            .height(300.dp)
+                    ) {
+                        complist.forEach { item ->
+                            val selected_already = selectedNames.contains(item)
+                            DropdownMenuItem(
+                                onClick = {
+                                    if (selected_already) {
+                                        selectedNames.remove(item)
+                                    } else if (item == "All") {
+                                        selectedNames.clear()
+                                        selectedNames.add("All")
+                                    } else {
+                                        selectedNames.add(item)
+                                        selectedNames.remove("All")
+                                    }
+
+                                    if (selectedNames.isEmpty()) {
+                                        selectedNames.add("All")
+                                    }
+                                }
+                            ) {
+                                val isChecked = when {
+                                    item == "All" -> selectedNames.contains("All")
+                                    else -> selectedNames.contains(item)
+                                }
+
+                                Checkbox(
+                                    checked = isChecked,
+                                    onCheckedChange = {
+                                        if (isChecked) {
+                                            selectedNames.remove(item)
+                                        } else if (item == "All") {
+                                            selectedNames.clear()
+                                            selectedNames.add("All")
+                                        } else {
+                                            selectedNames.add(item)
+                                            selectedNames.remove("All")
+                                        }
+
+                                        if (selectedNames.isEmpty()) {
+                                            selectedNames.add("All")
+                                        }
+                                    },
+                                    colors = CheckboxDefaults.colors(uncheckedColor = darkTealGreen),
+                                    modifier = Modifier
+                                        .offset(x=-5.dp, y=0.dp)
+                                )
+                                Text(text = item, color = colors.onBackground)
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(sportslist.isNotEmpty() && (selectedNames.contains("Sports") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Sports",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1054,15 +1200,15 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            if(quizlist.isNotEmpty()) {
+            if(quizlist.isNotEmpty() && (selectedNames.contains("Quiz") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Quiz",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1090,14 +1236,16 @@ class CompetitionsFragment : Fragment() {
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            if(musiclist.isNotEmpty()) {
+
+            if(musiclist.isNotEmpty() && (selectedNames.contains("Music") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Music",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1126,14 +1274,15 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-            if(mun.isNotEmpty()) {
+            if(mun.isNotEmpty() && (selectedNames.contains("MUN") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Model United Nations",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1162,15 +1311,15 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            if(anybodycandancelist.isNotEmpty()) {
+            if(anybodycandancelist.isNotEmpty() && (selectedNames.contains("Any Body Can Dance") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Any Body Can Dance",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1199,15 +1348,15 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            if(voguenationlist.isNotEmpty()) {
+            if(voguenationlist.isNotEmpty() && (selectedNames.contains("Vogue Nation") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Vogue Nation",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1236,15 +1385,15 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            if(lighcameraactionlist.isNotEmpty()) {
+            if(lighcameraactionlist.isNotEmpty() && (selectedNames.contains("Lights Camera Action") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Lights Camera Action",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1273,15 +1422,15 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            if(classapartlist.isNotEmpty()) {
+            if(classapartlist.isNotEmpty() && (selectedNames.contains("Class Apart") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Class Apart",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1310,15 +1459,15 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            if(literarylist.isNotEmpty()) {
+            if(literarylist.isNotEmpty() && (selectedNames.contains("Literary") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Literary",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1347,15 +1496,15 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            if(digitaldextiritylist.isNotEmpty()) {
+            if(digitaldextiritylist.isNotEmpty() && (selectedNames.contains("Digital Dexterity") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Digital Dexterity",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1384,15 +1533,15 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            if(arttalikieslist.isNotEmpty()) {
+            if(arttalikieslist.isNotEmpty() && (selectedNames.contains("Art Talkies") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Art Talkies",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1421,15 +1570,15 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            if(otherlist.isNotEmpty()) {
+            if(otherlist.isNotEmpty() && (selectedNames.contains("Others") || selectedNames.contains("All"))) {
+                Spacer(modifier = Modifier.height(20.dp))
                 Column(){
                     Text(
                         text = "Other Competitions",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1477,7 +1626,8 @@ class CompetitionsFragment : Fragment() {
                         text = "Upcoming Events",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1513,7 +1663,8 @@ class CompetitionsFragment : Fragment() {
                         text = "Pronites",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1550,7 +1701,8 @@ class CompetitionsFragment : Fragment() {
                         text = "Proshows",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1586,7 +1738,8 @@ class CompetitionsFragment : Fragment() {
                         text = "Creators' Camp",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1623,7 +1776,8 @@ class CompetitionsFragment : Fragment() {
                         text = "Humor Fest",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1660,7 +1814,8 @@ class CompetitionsFragment : Fragment() {
                         text = "Kartavya",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1697,7 +1852,8 @@ class CompetitionsFragment : Fragment() {
                         text = "Other Events",
                         fontSize = 30.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontFamily = futura
                     )
 
                     LazyRow(
@@ -1722,6 +1878,125 @@ class CompetitionsFragment : Fragment() {
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    fun stallCard(stallDetail: stallModel) {
+        Card(
+            modifier = Modifier
+                .width(155.dp)
+                .height(175.dp),
+            backgroundColor = colors.onBackground,
+            onClick = {
+                val arguments = bundleOf("stallName" to stallDetail.name)
+                NavHostFragment
+                    .findNavController(this@CompetitionsFragment)
+                    .navigate(R.id.action_competitionsFragment_to_stallDetails, arguments);
+            }
+        ){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.8f)
+                ){
+//                    Image(
+//                        painter = painterResource(id = imageResource),
+//                        contentDescription = null,
+//                        contentScale = ContentScale.FillBounds,
+//                        alignment = Alignment.Center
+//                    )
+                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
+                        modifier = Modifier,
+                        imageModel = stallDetail.imgurl,
+                        contentDescription = "stallName",
+                        contentScale = ContentScale.Crop,
+                        alignment = Alignment.Center,
+                        shimmerParams = ShimmerParams(
+                            baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                            highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                            durationMillis = 1500,
+                            dropOff = 1f,
+                            tilt = 20f
+                        ),
+                        failure = {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(), contentAlignment = Alignment.Center
+                            ) {
+
+                                val composition by rememberLottieComposition(
+                                    LottieCompositionSpec.RawRes(
+                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
+                                    )
+                                )
+                                val progress by animateLottieCompositionAsState(
+                                    composition,
+                                    iterations = LottieConstants.IterateForever
+                                )
+                                LottieAnimation(
+                                    composition,
+                                    progress,
+                                    modifier = Modifier.fillMaxHeight()
+                                )
+                            }
+
+                        }
+                    )
+                }
+
+                Row (
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Text(
+                        text = stallDetail.name,
+                        color = colors.background,
+                        fontSize = 18.sp,
+                        fontFamily = futura,
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                    )
+                }
+            }
+        }
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    @Composable
+    fun StallsView(){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Spacer(modifier = Modifier.height(15.dp))
+            Text(
+                text = "Stalls",
+                color = colors.onBackground,
+                fontFamily = futura,
+                fontSize = 30.sp,
+                modifier = Modifier.padding(start = 26.dp)
+            )
+
+            LazyVerticalGrid(
+                cells = GridCells.Fixed(2),
+                contentPadding = PaddingValues(25.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                items(stallList) {dataEach->
+                    context?.let { 
+                        stallCard(stallDetail = dataEach)
                     }
                 }
             }
@@ -2241,7 +2516,9 @@ class CompetitionsFragment : Fragment() {
                     modifier = Modifier.fillMaxWidth(), Arrangement.Start, verticalAlignment = Alignment.CenterVertically)
                 {
                     Image(
-                        painter = painterResource(id = R.drawable.location_pin),
+                        painter = if(isSystemInDarkTheme()) {
+                            painterResource(id = R.drawable.locationpin_dark)} else {
+                            painterResource(id = R.drawable.locationpin_light)},
                         contentDescription = null,
 
 

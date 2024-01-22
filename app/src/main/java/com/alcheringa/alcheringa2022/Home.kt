@@ -2,6 +2,7 @@ package com.alcheringa.alcheringa2022
 
 
 import ViewPagernew
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -74,6 +75,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
+import dev.shreyaspatil.easyupipayment.EasyUpiPayment.Companion.TAG
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -172,6 +174,7 @@ class Home : Fragment() {
         if(homeViewModel.OwnEventsWithLiveState.isEmpty()){
         homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)}
 
+        if (homeViewModel.stalllist.isEmpty()) { homeViewModel.getStalls()}
 
 
         if(homeViewModel.featuredEventsWithLivestate.isEmpty()) { homeViewModel.getfeaturedEvents() }
@@ -254,6 +257,7 @@ class Home : Fragment() {
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        //scheduleDatabase=ScheduleDatabase(context)
         super.onActivityCreated(savedInstanceState)
         kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
             homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
@@ -271,10 +275,16 @@ class Home : Fragment() {
             }
             homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
                 homeViewModel.OwnEventsWithLiveState.clear()
+                Log.d("OwnEventsWithLive Status1" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsWithLiveState.addAll(data.map{eventWithLive(it)})
+                Log.d("OwnEventsWithLive Status2" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsLiveState.clear()
+                Log.d("OwnEventsWithLive Status3" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsLiveState.addAll(data)
+                Log.d("OwnEventsWithLive Status4" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsWithLiveState.sortedBy{ data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }
+                Log.d("OwnEventsWithLive Status5" , "${homeViewModel.OwnEventsWithLive.value}")
+
 
 
 //                datestate1.clear();
@@ -1344,6 +1354,7 @@ class Home : Fragment() {
 //   }
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun compbox(){
     /*Column(
@@ -1417,7 +1428,11 @@ fun compbox(){
             Card(
                 elevation = 6.dp,
                 modifier = Modifier
-                    .size(width = 100.dp, height = 100.dp)
+                    .size(width = 100.dp, height = 100.dp),
+                onClick = {
+                    findNavController(this@Home)
+                        .navigate(R.id.action_home2_to_merchFragment)
+                }
             ) {
                Box(){
                    Image(painter=painterResource(id = R.drawable.frame_15202_merch_background), contentDescription = "",modifier=Modifier
@@ -1441,7 +1456,12 @@ fun compbox(){
             Card(
                 elevation = 6.dp,
                 modifier = Modifier
-                    .size(width = 100.dp, height = 100.dp)
+                    .size(width = 100.dp, height = 100.dp),
+                onClick = {
+                    val argument = bundleOf("Tab" to "0")
+                    findNavController(this@Home)
+                        .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
+                }
             ) {
                 Box(){
                     Image(painter=painterResource(id = R.drawable.frame_15207_events), contentDescription = "",modifier=Modifier
@@ -1465,6 +1485,12 @@ fun compbox(){
                 elevation = 6.dp,
                 modifier = Modifier
                     .size(width = 100.dp, height = 100.dp)
+                    .clickable {
+                        val arguments = bundleOf("Tab" to "1")
+                        NavHostFragment
+                            .findNavController(this@Home)
+                            .navigate(R.id.action_home_nav_to_competitionsFragment, arguments)
+                    }
             ) {
                 Box(){
                     Image(painter=painterResource(id = R.drawable.frame_15209_compback), contentDescription = "",modifier=Modifier
@@ -1488,7 +1514,12 @@ fun compbox(){
             Card(
                 elevation = 6.dp,
                 modifier = Modifier
-                    .size(width = 100.dp, height = 100.dp)
+                    .size(width = 100.dp, height = 100.dp),
+                onClick = {
+                    val argument = bundleOf("Tab" to "2")
+                    findNavController(this@Home)
+                        .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
+                }
             ) {
                 Box(){
                     Image(painter=painterResource(id = R.drawable.frame_15202_merch_background), contentDescription = "",modifier=Modifier
@@ -1904,22 +1935,8 @@ fun compbox(){
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(0.95f)
-                        .border(2.dp, colors.onBackground, RoundedCornerShape(40.dp, 40.dp))
+                        .border(2.dp, colors.onBackground, RoundedCornerShape(28.dp, 28.dp))
                 ) {
-                    Box(
-                        Modifier
-                            .wrapContentHeight()
-                            .fillMaxWidth()
-                            .padding(top = 8.dp, bottom = 8.dp),
-                        contentAlignment = Alignment.TopCenter
-                    ) {
-                        Icon(
-                            painterResource(id = R.drawable.rectangle_expand), "",
-                            Modifier
-                                .width(60.dp)
-                                .height(5.dp), tint = colors.onSurface
-                        )
-                    }
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -1941,12 +1958,14 @@ fun compbox(){
 //                            }
                             Bottomviewcomp(eventWithLive = eventfordes)
 
-                            Spacer(modifier = Modifier.height(0.dp))
+                            Spacer(modifier = Modifier.height(20.dp))
+                            if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                                eventButtons(eventWithLive = eventfordes)
+                            }
+                            Spacer(modifier = Modifier.height(40.dp))
                         }
                     }
-                    if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-                        eventButtons(eventWithLive = eventfordes)
-                    }
+
                 }
 
 
@@ -2392,7 +2411,7 @@ fun compbox(){
                                                 eventdetail = dataeach,
                                                 homeViewModel,
                                                 it,
-                                                artist
+                                                artist,
                                             ) {
                                                 artist = dataeach.eventdetail.artist
                                                 coroutineScope.launch {
@@ -2423,6 +2442,11 @@ fun compbox(){
 
     @Composable
     fun Defaultimg(eventWithLive: eventWithLive) {
+        var isadded=remember{ mutableStateOf(false)}
+        LaunchedEffect(key1=Unit,block = {
+            isadded.value=homeViewModel.OwnEventsLiveState.any { data-> data.artist==eventWithLive.eventdetail.artist }
+
+        })
 
         Box(
             modifier = Modifier
@@ -2434,7 +2458,7 @@ fun compbox(){
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(284.dp),
+                        .height(287.dp),
                     shape = RoundedCornerShape(28.dp, 28.dp),
 
                 ) {
@@ -2444,7 +2468,7 @@ fun compbox(){
                         contentDescription = "artist",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(297.dp),
+                            .height(284.dp),
                         //                circularReveal = CircularReveal(300),
 
                         alignment = Alignment.Center,
@@ -2506,58 +2530,76 @@ fun compbox(){
                     )
                 }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
+                Row(horizontalArrangement = Arrangement.SpaceBetween,modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, top = 16.dp)) {
 
-                        .border(1.dp, colors.secondary)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(horizontal = 20.dp, vertical = 8.dp)
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                    ) {
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                text = eventWithLive.eventdetail.artist,
-                                color = colors.onBackground,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 42.sp,
-                                fontFamily = aileron
-                            )
-//                            if (eventWithLive.isLive.value) {
-//                                Box(
-//                                    modifier = Modifier
-//                                        .width(68.dp)
-//                                        .height(21.dp)
-//                                        .clip(RoundedCornerShape(4.dp))
-//                                        .background(liveGreen),
-//                                    contentAlignment = Alignment.Center
-//                                ) {
-//                                    Text(
-//                                        text = "⬤ LIVE ",
-//                                        color = white,
-//                                        fontFamily = hk_grotesk, fontWeight = FontWeight.W500,
-//                                        fontSize = 12.sp
-//                                    )
-//                                }
-//                            }
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
+                    Column(horizontalAlignment = Alignment.Start,) {
+
                         Text(
-                            text = eventWithLive.eventdetail.category,
-                            style = TextStyle(
-                                color = colors.onBackground,
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp
-                            )
+                            text = eventWithLive.eventdetail.artist,
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = futura,
+                            color = colors.onBackground,
+                            textAlign = TextAlign.Left,
+                            modifier = Modifier.wrapContentSize()
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Text(
+                            text = eventWithLive.eventdetail.type,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Normal,
+                            fontFamily = futura,
+                            color = colors.onBackground,
+                            textAlign = TextAlign.Left,
+                            modifier = Modifier.wrapContentSize()
 
 
+                        )
+                    }
+
+                    Row(horizontalArrangement = Arrangement.Start, verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(end = 16.dp)) {
+                        if(!isadded.value) {
+                            Image(
+                                painter = if(isSystemInDarkTheme()) {
+                                    painterResource(id =R.drawable.emptyheart_dark )} else {
+                                    painterResource(id = R.drawable.emptyheart_light)},
+                                contentDescription = null,
+                                alignment = Alignment.CenterStart,
+                                modifier = Modifier
+                                    .size(35.dp)
+                                    .clickable {
+                                        isadded.value = true; homeViewModel.OwnEventsWithLive.addNewItem(
+                                        eventWithLive.eventdetail
+                                    )
+                                        scheduleDatabase.addEventsInSchedule(
+                                            eventWithLive.eventdetail,
+                                            context
+                                        )
+                                    }
+                            )
+                        }
+
+                        if(isadded.value) {
+                            Image(
+                                painter = if(isSystemInDarkTheme()) {
+                                    painterResource(id =R.drawable.filledheart_dark)} else {
+                                    painterResource(id = R.drawable.filledheart_light)},
+                                contentDescription = null,
+                                alignment = Alignment.CenterStart,
+                                modifier = Modifier
+                                    .size(35.dp)
+                                    .clickable {
+                                        isadded.value = false
+                                        homeViewModel.OwnEventsWithLive.removeAnItem(
+                                            eventWithLive.eventdetail
+                                        )
+                                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                    }
+                            )
+                        }
                     }
 
                 }
@@ -2590,22 +2632,27 @@ fun compbox(){
         )
         {
             if (isFinished){
-                Button(
-                    onClick = {},
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp)
-                        .border(1.dp, colors.onBackground),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        colors.background
-                    )
-                ) {
-                     Text(text="Event Finished!",
-                         fontSize = 20.sp,
-                         fontWeight = FontWeight.SemiBold,
-                         fontFamily = aileron,
-                         color = colors.onSurface)
+                Row(horizontalArrangement = Arrangement.SpaceEvenly,modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp)
+                    .fillMaxWidth()) {
+                    Button(
+                        onClick = {},
+                        Modifier
+                            .width(500.dp)
+                            .height(50.dp)
+                            .border(1.dp, colors.onBackground, shape = RoundedCornerShape(10.dp)),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            colors.background
+                        )
+                    ) {
+                        Text(text="Event Finished!",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = futura,
+                            color = colors.onBackground,
+                            textAlign = TextAlign.Center
+                        )
 //                    else if (c.get(Calendar.DATE)==eventWithLive.eventdetail.starttime.date){
 //                        Text(
 //                            text = "Event will be available on  ${if (eventWithLive.eventdetail.starttime.hours > 12)"${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"}",
@@ -2625,14 +2672,17 @@ fun compbox(){
 //                        )
 //
 //                    }
+                    }
                 }
 
 
             }
             else{
-                Row {
+                Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                     if(v != null) {
-                        Button(
+
+                        //Spacer(modifier = Modifier.width(50.dp))
+                        /*Button(
                             onClick = {
                                 //TODO: (Shantanu) Implement all venue locations
                                 val gmmIntentUri =
@@ -2642,49 +2692,187 @@ fun compbox(){
                                 startActivity(mapIntent)
                             },
                             Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .height(72.dp)
-                                .border(1.dp, colors.onBackground),
-                            shape = RoundedCornerShape(0.dp),
+                                .weight(0.5f)
+                                .height(50.dp)
+                                .border(
+                                    1.dp,
+                                    colors.onBackground,
+                                    shape = RoundedCornerShape(10.dp)
+                                ),
+                            shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(
                                 colors.background
                             )
                         ) {
                             Text(
-                                text = "Navigate▲",
-                                fontSize = 20.sp,
+                                text = "Direction",
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
+                                fontFamily = futura,
                                 color = colors.onBackground,
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Left
                             )
 
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Divider(color = colors.onSurface , modifier = Modifier
+                                .height(30.dp)
+                                .width(1.dp))
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Icon(painter = painterResource(id = R.drawable.baseline_north_east_24) , contentDescription = null)
+
+                        }*/
+                        Box(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .border(
+                                    1.dp,
+                                    colors.onBackground,
+                                    shape = RoundedCornerShape(5.dp),
+                                )
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        0f to darkTealGreen,
+                                        1f to darkerGreen
+                                    ),
+                                    shape = RoundedCornerShape(5.dp)
+                                )
+                                .clickable {
+                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.alcheringa.in")))
+                                }
+
+
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .align(
+                                        Alignment.Center
+                                    )
+                                    .width(150.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = "Register",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = aileron,
+                                    color = creamWhite,
+                                )
+
+                                Spacer(modifier = Modifier.width(5.dp))
+
+                                Divider(color = creamWhite , modifier = Modifier
+                                    .height(25.dp)
+                                    .width(1.dp))
+
+                                Spacer(modifier = Modifier.width(5.dp))
+
+                                Image(
+                                    painter = painterResource(R.drawable.register),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
                         }
+
                     }
 
-                    Button(
+                    Spacer(modifier = Modifier.width(30.dp))
+
+                    /*Button(
                         onClick = {
                             startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
                         },
                         Modifier
-                            .fillMaxWidth()
-                            .height(72.dp)
-                            .weight(1f),
-                        shape = RoundedCornerShape(0.dp),
+                            .weight(0.5f)
+                            .height(50.dp)
+                            .border(1.dp, colors.onBackground, shape = RoundedCornerShape(10.dp)),
+                        shape  = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
-                            blu
+                            colors.background
                         )
                     ) {
                         Text(
                             text = "Register",
-                            fontSize = 20.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.SemiBold,
-                            fontFamily = aileron,
-                            color = black
+                            fontFamily = futura,
+                            color = colors.onBackground,
+                            textAlign = TextAlign.Left
                         )
+                        Spacer(modifier = Modifier.width(5.dp))
 
+                        Divider(color = colors.onSurface , modifier = Modifier
+                            .height(30.dp)
+                            .width(1.dp))
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Icon(painter = painterResource(id = R.drawable.vector) , contentDescription = null , modifier = Modifier.size(20.dp) )
+
+
+                    }*/
+                    Box(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .border(
+                                1.dp,
+                                colors.onBackground,
+                                shape = RoundedCornerShape(5.dp),
+                            )
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    0f to containerPurple,
+                                    1f to borderdarkpurple
+                                ),
+                                shape = RoundedCornerShape(5.dp)
+                            )
+                            .clickable {
+                                val gmmIntentUri =
+                                    Uri.parse("google.navigation:q=${v?.LatLng?.latitude},${v?.LatLng?.longitude}")
+                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                mapIntent.setPackage("com.google.android.apps.maps")
+                                startActivity(mapIntent)
+                            }
+
+
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .align(
+                                    Alignment.Center
+                                )
+                                .width(150.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = "Direction",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = aileron,
+                                color = creamWhite,
+                            )
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Divider(color = creamWhite , modifier = Modifier
+                                .height(25.dp)
+                                .width(1.dp))
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Image(
+                                painter = painterResource(R.drawable.direction),
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
+
+
+                    //Spacer(modifier = Modifier.width(50.dp))
 
 
                 }
@@ -2694,6 +2882,211 @@ fun compbox(){
         }
         else
         {
+            Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
+                if(v != null) {
+
+                    //Spacer(modifier = Modifier.width(50.dp))
+                    /*Button(
+                        onClick = {
+                            //TODO: (Shantanu) Implement all venue locations
+                            val gmmIntentUri =
+                                Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                            mapIntent.setPackage("com.google.android.apps.maps")
+                            startActivity(mapIntent)
+                        },
+                        Modifier
+                            .weight(0.5f)
+                            .height(50.dp)
+                            .border(
+                                1.dp,
+                                colors.onBackground,
+                                shape = RoundedCornerShape(10.dp)
+                            ),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            colors.background
+                        )
+                    ) {
+                        Text(
+                            text = "Direction",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = futura,
+                            color = colors.onBackground,
+                            textAlign = TextAlign.Left
+                        )
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Divider(color = colors.onSurface , modifier = Modifier
+                            .height(30.dp)
+                            .width(1.dp))
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Icon(painter = painterResource(id = R.drawable.baseline_north_east_24) , contentDescription = null)
+
+                    }*/
+                    Box(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .border(
+                                1.dp,
+                                colors.onBackground,
+                                shape = RoundedCornerShape(5.dp),
+                            )
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    0f to darkTealGreen,
+                                    1f to darkerGreen
+                                ),
+                                shape = RoundedCornerShape(5.dp)
+                            )
+                            .clickable {
+                                startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")))
+                                /*val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink))
+                                if(context?.let { intent.resolveActivity(it.packageManager) } != null) {
+                                    startActivity(intent)
+                                } else {
+                                    Log.d(TAG , "No app found to handle the intent")
+                                }*/
+                            }
+
+
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .align(
+                                    Alignment.Center
+                                )
+                                .width(150.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = "Buy Pass",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = futura,
+                                color = creamWhite,
+                            )
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Divider(color = creamWhite , modifier = Modifier
+                                .height(25.dp)
+                                .width(1.dp))
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Image(
+                                painter = painterResource(R.drawable.buy_pass),
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
+
+                }
+
+                Spacer(modifier = Modifier.width(30.dp))
+
+                /*Button(
+                    onClick = {
+                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
+                    },
+                    Modifier
+                        .weight(0.5f)
+                        .height(50.dp)
+                        .border(1.dp, colors.onBackground, shape = RoundedCornerShape(10.dp)),
+                    shape  = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        colors.background
+                    )
+                ) {
+                    Text(
+                        text = "Register",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = futura,
+                        color = colors.onBackground,
+                        textAlign = TextAlign.Left
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+
+                    Divider(color = colors.onSurface , modifier = Modifier
+                        .height(30.dp)
+                        .width(1.dp))
+
+                    Spacer(modifier = Modifier.width(5.dp))
+
+                    Icon(painter = painterResource(id = R.drawable.vector) , contentDescription = null , modifier = Modifier.size(20.dp) )
+
+
+                }*/
+                Box(
+                    modifier = Modifier
+                        .height(50.dp)
+                        .border(
+                            1.dp,
+                            colors.onBackground,
+                            shape = RoundedCornerShape(5.dp),
+                        )
+                        .background(
+                            brush = Brush.verticalGradient(
+                                0f to containerPurple,
+                                1f to borderdarkpurple
+                            ),
+                            shape = RoundedCornerShape(5.dp)
+                        )
+                        .clickable {
+                            val gmmIntentUri =
+                                Uri.parse("google.navigation:q=${v?.LatLng?.latitude},${v?.LatLng?.longitude}")
+                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                            mapIntent.setPackage("com.google.android.apps.maps")
+                            startActivity(mapIntent)
+                        }
+
+
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .align(
+                                Alignment.Center
+                            )
+                            .width(150.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Direction",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = futura,
+                            color = creamWhite,
+                        )
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Divider(color = creamWhite , modifier = Modifier
+                            .height(25.dp)
+                            .width(1.dp))
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Image(
+                            painter = painterResource(R.drawable.direction),
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+
+
+                //Spacer(modifier = Modifier.width(50.dp))
+
+
+            }
+
 //            if (eventWithLive.isLive.value) {
 //                Button(
 //                    onClick = {
@@ -2715,7 +3108,7 @@ fun compbox(){
 //                        text = if(eventWithLive.eventdetail.joinlink=="")  "Running Offline" else "Join Event",
 //                        fontSize = 20.sp,
 //                        fontWeight = FontWeight.SemiBold,
-//                        fontFamily = aileron,
+//                        fontFamily = futura,
 //                        color = black
 //                    )
 //
@@ -2772,94 +3165,95 @@ fun compbox(){
 //                    }
 //                }
 //            }
-            if (
-                isFinished
-            ){
-                Button(
-                    onClick = {},
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp)
-                        .border(1.dp, colors.onBackground),
-                    shape = RoundedCornerShape(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        colors.background
-                    )
-                ) {
-                    Text(text="Event Finished!",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = aileron,
-                        color = colors.onSurface)
-                }
-            }
-            else {
-                Row {
-                    if(v != null) {
-                        Button(
-                            onClick = {
-                                val gmmIntentUri =
-                                    Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
-                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                                mapIntent.setPackage("com.google.android.apps.maps")
-                                startActivity(mapIntent)
-                            },
-                            Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .height(72.dp)
-                                .border(1.dp, colors.onBackground),
-                            shape = RoundedCornerShape(0.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                colors.background
-                            )
-                        ) {
-                            Text(
-                                text = "Navigate▲",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
-                                color = colors.onBackground,
-                                textAlign = TextAlign.Center
-                            )
+            /* if (
+                 isFinished
+             ){
+                 Button(
+                     onClick = {},
+                     Modifier
+                         .fillMaxWidth()
+                         .height(72.dp)
+                         .border(1.dp, colors.onBackground),
+                     shape = RoundedCornerShape(0.dp),
+                     colors = ButtonDefaults.buttonColors(
+                         colors.background
+                     )
+                 ) {
+                     Text(text="Event Finished!",
+                         fontSize = 20.sp,
+                         fontWeight = FontWeight.SemiBold,
+                         fontFamily = aileron,
+                         color = colors.onSurface)
+                 }
+             }
+             else {
+                 Row {
+                     if(v != null) {
+                         Button(
+                             onClick = {
+                                 //TODO: (Shantanu) Implement all venue locations
+                                 val gmmIntentUri =
+                                     Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+                                 val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                 mapIntent.setPackage("com.google.android.apps.maps")
+                                 startActivity(mapIntent)
+                             },
+                             Modifier
+                                 .fillMaxWidth()
+                                 .weight(1f)
+                                 .height(72.dp)
+                                 .border(1.dp, colors.onBackground),
+                             shape = RoundedCornerShape(0.dp),
+                             colors = ButtonDefaults.buttonColors(
+                                 colors.background
+                             )
+                         ) {
+                             Text(
+                                 text = "Navigate▲",
+                                 fontSize = 20.sp,
+                                 fontWeight = FontWeight.SemiBold,
+                                 fontFamily = aileron,
+                                 color = colors.onBackground,
+                                 textAlign = TextAlign.Center
+                             )
 
-                        }
-                    }
+                         }
+                     }
 
-                        Button(
-                            onClick = {
-                                //TODO: Set Buy pass link
-                                startActivity(
-                                    Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse("http://card.alcheringa.in")
-                                    )
-                                )
+                     /*Button(
+                         onClick = {
+                             //TODO: Set Buy pass link
+                             startActivity(
+                                 Intent(
+                                     Intent.ACTION_VIEW,
+                                     Uri.parse("http://card.alcheringa.in")
+                                 )
+                             )
 
-                            },
-                            Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .height(72.dp)
-                                .border(1.dp, colors.onBackground),
-                            shape = RoundedCornerShape(0.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                blu
-                            )
-                        ) {
-                            Text(
-                                text = "Get Card",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
-                                color = colors.onBackground
-                            )
+                         },
+                         Modifier
+                             .fillMaxWidth()
+                             .weight(1f)
+                             .height(72.dp)
+                             .border(1.dp, colors.onBackground),
+                         shape = RoundedCornerShape(0.dp),
+                         colors = ButtonDefaults.buttonColors(
+                             blu
+                         )
+                     ) {
+                         Text(
+                             text = "Get Card",
+                             fontSize = 20.sp,
+                             fontWeight = FontWeight.SemiBold,
+                             fontFamily = aileron,
+                             color = colors.onBackground
+                         )
 
-                        }
+                     }*/
 
 
-                }
-            }
+                 }
+             }*/
         }
     }
 
@@ -2889,7 +3283,7 @@ fun compbox(){
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)) {
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 //            Row(
 //                modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween)
 //            {
@@ -2939,167 +3333,77 @@ fun compbox(){
 //                    }
 //                }
 //            }
-                if(eventWithLive.eventdetail.venue != ""){
+            if(eventWithLive.eventdetail.venue != ""){
+
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(), Arrangement.Start, verticalAlignment = Alignment.CenterVertically)
+                        verticalAlignment = Alignment.CenterVertically)
                     {
                         Image(
-                            painter = painterResource(id = R.drawable.location_pin),
+                            painter = if(isSystemInDarkTheme()) {
+                                painterResource(id = R.drawable.locationpin_dark)} else {
+                                painterResource(id = R.drawable.locationpin_light)},
                             contentDescription = null,
 
 
                             alignment = Alignment.Center,
                             contentScale = ContentScale.Crop,
-                            colorFilter = ColorFilter.tint(colors.onBackground))
+                            colorFilter = ColorFilter.tint(colors.onBackground),
+                        )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = eventWithLive.eventdetail.venue,
                             style = TextStyle(
                                 color = colors.onBackground,
-                                fontFamily = aileron,
+                                fontFamily = futura,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 25.sp
+                            )
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Row(
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically
+                    )
+                    {
+                        Image(
+                            painter = if(eventWithLive.isLive.value) { painterResource(id = R.drawable.schedule_live)} else {if(isSystemInDarkTheme()) {
+                                painterResource(id = R.drawable.schedule_dark)} else {
+                                painterResource(id = R.drawable.schedule_light)}},
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(22.dp)
+                                .height(22.dp),
+                            alignment = Alignment.Center,
+                            contentScale = ContentScale.Crop,
+                            //colorFilter = ColorFilter.tint(colors.onBackground)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = if(eventWithLive.isLive.value){"Live"} else {"${eventWithLive.eventdetail.starttime.date} Feb, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} "},
+                            style = TextStyle(
+                                color = if(eventWithLive.isLive.value) {
+                                    darkTealGreen} else {colors.onBackground},
+                                fontFamily = futura,
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 18.sp
                             )
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(18.dp))
-
-            Row(modifier = Modifier.fillMaxWidth(),
-                Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
-                )
-                {
-                    Image(
-                        painter = painterResource(id = R.drawable.schedule),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(24.dp)
-                            .height(24.dp),
-                        alignment = Alignment.Center,
-                        contentScale = ContentScale.Crop,
-                        colorFilter = ColorFilter.tint(colors.onBackground)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "${eventWithLive.eventdetail.starttime.date} Feb, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} ",
-                        style = TextStyle(
-                            color = colors.onBackground,
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 18.sp
-                        )
-                    )
-                }
-                Spacer(modifier = Modifier.width(24.dp))
-
-                Box(modifier = Modifier
-                    .height(40.dp)
-                    .border(1.dp, colors.secondary)
-                    .animateContentSize()
-                    .wrapContentWidth()
-                    .background(
-                        if (isSystemInDarkTheme() && isadded.value) {
-                            Color(31, 89, 22, 255)
-                        } else if (isadded.value) {
-                            green
-                        } else {
-                            colors.background
-                        }
-                    )
-                ){
-                    if( !isadded.value) {
-                        Row(
-                            Modifier
-                                .clickable {
-                                    isadded.value = true
-                                    homeViewModel.OwnEventsWithLive.addNewItem(
-                                        eventWithLive.eventdetail
-                                    )
-                                    scheduleDatabase.addEventsInSchedule(
-                                        eventWithLive.eventdetail,
-                                        context
-                                    )
-
-
-                                }
-                                .padding(10.dp))
-                        {
-
-                            Image(
-                                modifier = Modifier
-                                    .width(18.dp)
-                                    .height(18.dp)
-                                    ,
-                                painter = painterResource(id = R.drawable.add_icon),
-                                contentDescription = "null",
-                                colorFilter = ColorFilter.tint(colors.onBackground)
-                            )
-                            Spacer(Modifier.width(10.dp))
-                            MarqueeText(
-                                text = "Add to Schedule",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.SemiBold,
-                                color = colors.onBackground,
-                                fontSize = 16.sp,
-                                gradientEdgeColor = Color.Transparent
-                            )
-                        }
-
-                    }
-                    if(isadded.value)
-                    {
-                        Row(
-                            Modifier
-                                .clickable {
-                                    isadded.value = false
-                                    homeViewModel.OwnEventsWithLive.removeAnItem(
-                                        eventWithLive.eventdetail
-                                    )
-                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
-                                }
-                                .padding(10.dp)
-
-                            ) {
-                            Image(
-                                modifier = Modifier
-                                    .width(20.dp)
-                                    .height(20.dp)
-                                    ,
-                                painter = painterResource(id = R.drawable.tickokay),
-                                contentDescription = "null",
-                                contentScale = ContentScale.FillBounds,
-                                colorFilter = ColorFilter.tint(colors.onBackground)
-                            )
-                            Spacer(Modifier.width(10.dp))
-                            MarqueeText(
-                                text = "Added to Schedule",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.SemiBold,
-                                color = colors.onBackground,
-                                fontSize = 16.sp,
-                                gradientEdgeColor = Color.Transparent
-
-                            )
-                        }
-                    }
-                }
-
-
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(28.dp))
             Text(text =eventfordes.eventdetail.descriptionEvent ,
-                fontFamily = aileron,
+                fontFamily = futura,
                 fontWeight = FontWeight.Normal,
                 color = colors.onBackground,
                 fontSize = 16.sp
             )
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 //            if (!eventWithLive.isLive.value  && !isFinished){
 //                Button(
 //                    onClick = {},
@@ -3608,7 +3912,6 @@ fun compbox(){
                                 Column(
                                     Modifier
                                         .fillMaxWidth(0.5F)
-                                        .fillMaxHeight()
 
                                 ) {
                                     //                                Text(
@@ -3662,8 +3965,12 @@ fun compbox(){
 
                                     }
 
-                                    Column {
-                                        Spacer(modifier = Modifier.height(80.dp))
+                                    Column (
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .padding(bottom=15.dp),
+                                        verticalArrangement = Arrangement.Bottom
+                                    ){
                                         Text(
                                             text = "Rs. ${merch[page].price}/-",
                                             color = black,
