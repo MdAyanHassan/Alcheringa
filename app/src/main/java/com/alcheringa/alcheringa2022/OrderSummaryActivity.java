@@ -194,8 +194,8 @@ public class OrderSummaryActivity extends AppCompatActivity implements PaymentRe
         long amt=0;
         int  cnt=0;
         for(int i=0;i<arrayList.size();i++){
-            amt=amt+Long.parseLong(arrayList.get(i).getPrice())*Long.parseLong(arrayList.get(i).getCount());
-            cnt=cnt+Integer.parseInt(arrayList.get(i).getCount());
+            amt=amt+Long.parseLong(arrayList.get(i).price)*Long.parseLong(arrayList.get(i).count);
+            cnt=cnt+Integer.parseInt(arrayList.get(i).count);
         }
 
         //final int shipping_cost = 45;

@@ -135,6 +135,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
     implementation "com.google.accompanist:accompanist-pager:0.19.0"
+    //coil for displaying image
+    implementation("com.google.accompanist:accompanist-coil:0.15.0")
 
     implementation "com.google.accompanist:accompanist-pager-indicators:0.19.0"
     implementation("androidx.constraintlayout:constraintlayout:2.1.2")
