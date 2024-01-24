@@ -61,6 +61,5 @@ var cart_button=Color(0xff979797)
 var grey = Color(0xff979797)
 var heartRed = Color(0xffC15160)
 
-
-
-
+//placeholder color
+var holdergrey = Color(0xff979797)

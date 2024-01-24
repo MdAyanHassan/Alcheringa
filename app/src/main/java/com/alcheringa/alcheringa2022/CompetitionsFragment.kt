@@ -347,7 +347,6 @@ class CompetitionsFragment : Fragment() {
             mutableStateOf(0)
         }
 
-        Log.i("EE", "Hello $selecteedtile)")
         selectedView = selecteedtile
 
 

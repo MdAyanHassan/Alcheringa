@@ -196,6 +196,9 @@
             android:name=".Accordion_Activity"
             android:exported="true"
             android:theme="@style/Theme.Alcheringa2022" />
+        <activity android:name=".CheckoutActivity2024"
+            android:exported="true"
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

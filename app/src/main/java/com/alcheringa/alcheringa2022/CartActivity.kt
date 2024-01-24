@@ -518,7 +518,7 @@ class CartActivity : AppCompatActivity() {
                                 .clickable {
                                     startActivity(
                                         Intent(
-                                            applicationContext, AddAddressActivity::class.java
+                                            applicationContext, CheckoutActivity2024::class.java
                                         )
                                     )
                                 }
