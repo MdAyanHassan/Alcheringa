@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
@@ -54,7 +55,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
@@ -152,25 +155,28 @@ class Schedule2024 : Fragment() {
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                Canvas(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                ){
-                    drawLine(
-                        color = darkTealGreen,
-                        start = Offset(0f, 0f),
-                        end = Offset(size.width,0f),
-                        strokeWidth = 1.dp.toPx()
-                    )
-                }
+//                Canvas(
+//                    modifier = Modifier
+//                        .height(1.dp)
+//                        .fillMaxWidth()
+//                ){
+//                    drawLine(
+//                        color = darkTealGreen,
+//                        start = Offset(0f, 0f),
+//                        end = Offset(size.width,0f),
+//                        strokeWidth = 1.dp.toPx()
+//                    )
+//                }
+                Divider(modifier = Modifier
+                    .height(2.dp)
+                    .background(darkTealGreen))
                 // Day select Row
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(64.dp)
                         .paint(
-                            painterResource(id = if (isSystemInDarkTheme()) R.drawable.day_number_bgdark else R.drawable.day_number_bg),
+                            painterResource(id = R.drawable.day_number_transparent),
                             contentScale = ContentScale.FillBounds
                         )
                         .padding(horizontal = 48.dp)

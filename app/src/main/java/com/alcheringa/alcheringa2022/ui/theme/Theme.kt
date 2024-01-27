@@ -14,7 +14,8 @@ private val DarkColorPalette = darkColors(
     background = darkBar,
     onBackground = lightBar,
     onSurface = darkBar,
-    secondaryVariant = darkerGreen
+    secondaryVariant = darkerGreen,
+    
 
 )
 

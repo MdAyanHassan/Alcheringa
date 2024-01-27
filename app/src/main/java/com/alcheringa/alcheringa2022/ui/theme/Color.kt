@@ -57,10 +57,10 @@ var borderdarkTealGreen=Color(0xff28614B)
 //var selectionGreen = Color(0xff39A27A)
 var creamWhite = Color(0xffEDECD9)
 //var addToCartColor = Color(0xff5965C7)
+var cart_button=Color(0xff979797)
 var grey = Color(0xff979797)
 var darkGrey = Color(0xff595959)
 var heartRed = Color(0xffC15160)
 
-
-
-
+//placeholder color
+var holdergrey = Color(0xff979797)

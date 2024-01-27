@@ -18,7 +18,7 @@ public class Utility{
 
         if(cartModelArrayList1.size() != 0){
             for(int i = 0; i< cartModelArrayList1.size(); i++){
-                count += Integer.parseInt(cartModelArrayList1.get(i).getCount());
+                count += Integer.parseInt(cartModelArrayList1.get(i).count);
             }
         }
         return count;

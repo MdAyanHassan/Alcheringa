@@ -138,8 +138,8 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
         long amt=0;
         int  cnt=0;
         for(int i=0;i<arrayList.size();i++){
-            amt=amt+Long.parseLong(arrayList.get(i).getPrice())*Long.parseLong(arrayList.get(i).getCount());
-            cnt=cnt+Integer.parseInt(arrayList.get(i).getCount());
+            amt=amt+Long.parseLong(arrayList.get(i).price)*Long.parseLong(arrayList.get(i).count);
+            cnt=cnt+Integer.parseInt(arrayList.get(i).count);
         }
 
         //final int shipping_cost = 45;
@@ -174,10 +174,10 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
 
         for(int i=0;i<order_list.size();i++){
             Map<String,Object> data=new HashMap<>();
-            data.put("entry.1217211808",order_list.get(i).getName());
-            data.put("entry.365380202",order_list.get(i).getPrice());
-            data.put("entry.1596700490",order_list.get(i).getSize());
-            data.put("entry.1406401370",order_list.get(i).getType());
+            data.put("entry.1217211808", order_list.get(i).name);
+            data.put("entry.365380202", order_list.get(i).price);
+            data.put("entry.1596700490", order_list.get(i).size);
+            data.put("entry.1406401370", order_list.get(i).type);
             data.put("entry.461981693",new Date()+"");
             data.put("entry.271845590",user_phone);
             data.put("entry.1853344447",user_house);
@@ -187,7 +187,7 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
             data.put("entry.1333764685",user_pin_code);
             data.put("entry.505659208",PaymentId);
             data.put("entry.1800146690",""+amount);
-            data.put("entry.1596610928",order_list.get(i).getCount());
+            data.put("entry.1596610928", order_list.get(i).count);
             data.put("entry.2032856044",user_name);
             data.put("entry.121322222",Email);
             Volley(data);
@@ -208,13 +208,13 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
         ArrayList<Map<String,Object>> list=new ArrayList<>();
         for(int i=0;i<order_list.size();i++){
             Map<String,Object> map=new HashMap<>();
-            map.put("Name",order_list.get(i).getName());
-            map.put("Count",order_list.get(i).getCount());
-            map.put("Price",order_list.get(i).getPrice());
-            map.put("Size",order_list.get(i).getSize());
-            map.put("Type",order_list.get(i).getType());
+            map.put("Name", order_list.get(i).name);
+            map.put("Count", order_list.get(i).count);
+            map.put("Price", order_list.get(i).price);
+            map.put("Size", order_list.get(i).size);
+            map.put("Type", order_list.get(i).type);
             map.put("isDelivered",false);
-            map.put("image",order_list.get(i).getImage());
+            map.put("image", order_list.get(i).image);
             map.put("Timestamp",new Date());
             list.add(map);
             //total_price += Integer.parseInt(order_list.get(i).getPrice());

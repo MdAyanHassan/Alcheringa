@@ -50,7 +50,7 @@ public class OrderSummaryAdapter extends ArrayAdapter<cartModel> {
         assert currentItem != null;
         //image.setImageResource(currentItem.getImage_url());
         try {
-            Glide.with(getContext()).load(currentItem.getImage()).into(image);
+            Glide.with(getContext()).load(currentItem.image).into(image);
             //Toast.makeText(getContext(), "Image set successfully",Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,20 +59,20 @@ public class OrderSummaryAdapter extends ArrayAdapter<cartModel> {
 
         // then according to the position of the view assign the desired TextView 1 for the same
         TextView name = currentItemView.findViewById(R.id.name);
-        name.setText(currentItem.getName());
+        name.setText(currentItem.name);
 
         TextView price = currentItemView.findViewById(R.id.price);
-        price.setText(String.format("Rs. %s.", currentItem.getPrice()));
+        price.setText(String.format("Rs. %s.", currentItem.price));
 
         TextView details = currentItemView.findViewById(R.id.details);
-        String size = currentItem.getSize();
+        String size = currentItem.size;
         /*switch (currentItem.getSize()){
             case "S": size = "Small"; break;
             case "M": size = "Medium"; break;
             case "L": size = "Large"; break;
             case "XL": size = "Extra Large"; break;
         }*/
-        details.setText(String.format("%s, Size %s, %s Qty", currentItem.getType(), size, currentItem.getCount()));
+        details.setText(String.format("%s, Size %s, %s Qty", currentItem.type, size, currentItem.count));
 
         /*TextView delivery = currentItemView.findViewById(R.id.delivery);
         SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM", Locale.getDefault());
