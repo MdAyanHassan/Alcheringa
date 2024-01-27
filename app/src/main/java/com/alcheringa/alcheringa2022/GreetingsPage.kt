@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -34,103 +35,204 @@ import com.alcheringa.alcheringa2022.ui.theme.darkerGreen
 
 @Composable
 fun GreetingPage(onLoginClick: () -> Unit, onSignupClick: () -> Unit ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.onBackground)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-
-        Box(
+    if(isSystemInDarkTheme()) {
+        Column(
             modifier = Modifier
-                .height(50.dp)
-                .border(
-                    1.dp,
-                    MaterialTheme.colors.onBackground,
-                    shape = RoundedCornerShape(5.dp),
-                )
-                .background(
-                    brush = Brush.verticalGradient(
-                        0f to containerPurple,
-                        1f to borderdarkpurple
-                    ),
-                    shape = RoundedCornerShape(5.dp)
-                )
-                .clickable {
-                    onLoginClick()
-                }
-                .fillMaxWidth()
-
-
+                .fillMaxSize()
+                .background(MaterialTheme.colors.onBackground)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Row(
+
+            Box(
                 modifier = Modifier
-                    .align(
-                        Alignment.Center
+                    .height(50.dp)
+                    .border(
+                        1.dp,
+                        MaterialTheme.colors.onBackground,
+                        shape = RoundedCornerShape(5.dp),
                     )
-                    .width(150.dp),
-                horizontalArrangement = Arrangement.Center
+                    .background(
+                        brush = Brush.verticalGradient(
+                            0f to containerPurple,
+                            1f to borderdarkpurple
+                        ),
+                        shape = RoundedCornerShape(5.dp)
+                    )
+                    .clickable {
+                        onLoginClick()
+                    }
+                    .fillMaxWidth()
+
+
             ) {
-                Text(
-                    text = "Login",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = aileron,
-                    color = creamWhite,
-                )
+                Row(
+                    modifier = Modifier
+                        .align(
+                            Alignment.Center
+                        )
+                        .width(150.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Login",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = creamWhite,
+                    )
+
+                }
+
 
             }
 
 
-        }
+            Spacer(modifier = Modifier.height(10.dp))
 
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Box(
-            modifier = Modifier
-                .height(50.dp)
-                .border(
-                    1.dp,
-                    MaterialTheme.colors.onBackground,
-                    shape = RoundedCornerShape(5.dp),
-                )
-                .background(
-                    brush = Brush.verticalGradient(
-                        0f to darkTealGreen,
-                        1f to darkerGreen
-                    ),
-                    shape = RoundedCornerShape(5.dp)
-                )
-                .clickable {
-                    onSignupClick()
-                }
-                .fillMaxWidth()
-
-
-
-        ) {
-            Row(
+            Box(
                 modifier = Modifier
-                    .align(
-                        Alignment.Center
+                    .height(50.dp)
+                    .border(
+                        1.dp,
+                        MaterialTheme.colors.onBackground,
+                        shape = RoundedCornerShape(5.dp),
                     )
-                    .width(150.dp),
-                horizontalArrangement = Arrangement.Center
+                    .background(
+                        brush = Brush.verticalGradient(
+                            0f to darkTealGreen,
+                            1f to darkerGreen
+                        ),
+                        shape = RoundedCornerShape(5.dp)
+                    )
+                    .clickable {
+                        onSignupClick()
+                    }
+                    .fillMaxWidth()
+
+
+
             ) {
-                Text(
-                    text = "Sign Up",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = aileron,
-                    color = creamWhite,
-                )
+                Row(
+                    modifier = Modifier
+                        .align(
+                            Alignment.Center
+                        )
+                        .width(150.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Sign Up",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = creamWhite,
+                    )
+
+                }
+            }
+
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(creamWhite)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .height(50.dp)
+                    .border(
+                        1.dp,
+                        MaterialTheme.colors.onBackground,
+                        shape = RoundedCornerShape(5.dp),
+                    )
+                    .background(
+                        brush = Brush.verticalGradient(
+                            0f to containerPurple,
+                            1f to borderdarkpurple
+                        ),
+                        shape = RoundedCornerShape(5.dp)
+                    )
+                    .clickable {
+                        onLoginClick()
+                    }
+                    .fillMaxWidth()
+
+
+            ) {
+                Row(
+                    modifier = Modifier
+                        .align(
+                            Alignment.Center
+                        )
+                        .width(150.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Login",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = creamWhite,
+                    )
+
+                }
+
 
             }
-        }
 
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Box(
+                modifier = Modifier
+                    .height(50.dp)
+                    .border(
+                        1.dp,
+                        MaterialTheme.colors.onBackground,
+                        shape = RoundedCornerShape(5.dp),
+                    )
+                    .background(
+                        brush = Brush.verticalGradient(
+                            0f to darkTealGreen,
+                            1f to darkerGreen
+                        ),
+                        shape = RoundedCornerShape(5.dp)
+                    )
+                    .clickable {
+                        onSignupClick()
+                    }
+                    .fillMaxWidth()
+
+
+
+            ) {
+                Row(
+                    modifier = Modifier
+                        .align(
+                            Alignment.Center
+                        )
+                        .width(150.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Sign Up",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = aileron,
+                        color = creamWhite,
+                    )
+
+                }
+            }
+
+        }
     }
 }
 

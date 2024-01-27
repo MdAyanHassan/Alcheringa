@@ -730,17 +730,20 @@ class MerchFragmentCompose : Fragment() {
                                                                                     .padding(
                                                                                         horizontal = 4.dp
                                                                                     ),
-                                                                                Alignment.Center
+                                                                                Alignment.TopCenter
                                                                             ) {
-                                                                                Column() {
+                                                                                Column(modifier = Modifier.height(30.dp).width(40.dp)) {
                                                                                     Text(
                                                                                         dataeach,
                                                                                         style = TextStyle(
                                                                                             fontFamily = aileron,
                                                                                             fontWeight = FontWeight.Medium,
                                                                                             fontSize = 20.sp,
-                                                                                            color = txtCol
+                                                                                            color = txtCol,
+                                                                                            textAlign = TextAlign.Center
                                                                                         ),
+                                                                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+
 
                                                                                         )
 
@@ -749,7 +752,7 @@ class MerchFragmentCompose : Fragment() {
                                                                                             painter = painterResource(R.drawable.pencil_mark),
                                                                                             contentDescription = null,
                                                                                             alignment = Alignment.BottomCenter,
-                                                                                            modifier = Modifier.size(30.dp)
+                                                                                            modifier = Modifier.size(30.dp).align(Alignment.CenterHorizontally)
                                                                                         )
                                                                                     }
                                                                                 }
