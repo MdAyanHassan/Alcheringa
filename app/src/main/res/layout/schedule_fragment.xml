@@ -32,6 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="SCHEDULE"
+            android:fontFamily="@font/clash_display_700"
+            android:textColor="@color/lighterPurple"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +44,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="20dp"
-            android:src="@drawable/account"
+            android:src="@drawable/account1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="24dp"
             android:layout_marginRight="30dp"
-            android:src="@drawable/bell"
+            android:src="@drawable/bell1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/account"
             app:layout_constraintTop_toTopOf="parent" />

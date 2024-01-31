@@ -37,6 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:text="FAQs"
+            android:fontFamily="@font/clash_display_700"
+            android:textColor="@color/lighterPurple"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn"

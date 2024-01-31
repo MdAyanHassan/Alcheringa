@@ -141,10 +141,8 @@ class CartActivity : AppCompatActivity() {
                             modifier = Modifier.padding(top = 20.dp, bottom = 20.dp, start = 8.dp),
                             color = lighterPurple,
                             fontFamily = futura,
-                            fontWeight = FontWeight(500),
+                            fontWeight = FontWeight.ExtraBold,
                             fontSize = 26.sp,
-
-
                             )
 
                     }
