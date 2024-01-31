@@ -516,6 +516,7 @@ class CartActivity : AppCompatActivity() {
                                     RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
                                 )
                                 .clickable {
+                                    finish()
                                     startActivity(
                                         Intent(
                                             applicationContext, CheckoutActivity2024::class.java

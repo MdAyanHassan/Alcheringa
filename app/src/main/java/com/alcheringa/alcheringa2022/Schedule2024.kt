@@ -63,6 +63,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -75,6 +76,7 @@ import com.alcheringa.alcheringa2022.databinding.ScheduleFragmentBinding
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.containerPurple
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
+import com.alcheringa.alcheringa2022.ui.theme.futura
 import com.alcheringa.alcheringa2022.ui.theme.lightBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -174,7 +176,7 @@ class Schedule2024 : Fragment() {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(64.dp)
+                        .height(70.dp)
                         .paint(
                             painterResource(id = R.drawable.day_number_transparent),
                             contentScale = ContentScale.FillBounds
@@ -198,15 +200,17 @@ class Schedule2024 : Fragment() {
                     ) {
                         Text(
                             text = "Day 0",
-                            fontSize = 16.sp,
-                            color = lightBar
+                            fontSize = 18.sp,
+                            fontFamily = futura,
+                            color = colors.onBackground,
+                            fontWeight = FontWeight.Medium
                         )
                         if (datestate.value == 0) {
                             Spacer(modifier = Modifier.height(7.dp))
                             Icon(
                                 ImageVector.vectorResource(R.drawable.squiggle),
                                 null,
-                                tint = lightBar
+                                tint = colors.onBackground
                             )
                         }
                     }
@@ -223,15 +227,17 @@ class Schedule2024 : Fragment() {
                     ) {
                         Text(
                             text = "Day 1",
-                            fontSize = 16.sp,
-                            color = lightBar
+                            fontSize = 18.sp,
+                            fontFamily = futura,
+                            color = colors.onBackground,
+                            fontWeight = FontWeight.Medium
                         )
                         if (datestate.value == 1) {
                             Spacer(modifier = Modifier.height(7.dp))
                             Icon(
                                 ImageVector.vectorResource(R.drawable.squiggle),
                                 null,
-                                tint = lightBar
+                                tint = colors.onBackground
                             )
                         }
                     }
@@ -248,15 +254,17 @@ class Schedule2024 : Fragment() {
                     ) {
                         Text(
                             text = "Day 2",
-                            fontSize = 16.sp,
-                            color = lightBar
+                            fontSize = 18.sp,
+                            fontFamily = futura,
+                            color = colors.onBackground,
+                            fontWeight = FontWeight.Medium
                         )
                         if (datestate.value == 2) {
                             Spacer(modifier = Modifier.height(7.dp))
                             Icon(
                                 ImageVector.vectorResource(R.drawable.squiggle),
                                 null,
-                                tint = lightBar
+                                tint = colors.onBackground
                             )
                         }
                     }
@@ -273,15 +281,17 @@ class Schedule2024 : Fragment() {
                     ) {
                         Text(
                             text = "Day 3",
-                            fontSize = 16.sp,
-                            color = lightBar
+                            fontSize = 18.sp,
+                            fontFamily = futura,
+                            color = colors.onBackground,
+                            fontWeight = FontWeight.Medium
                         )
                         if (datestate.value == 3) {
                             Spacer(modifier = Modifier.height(7.dp))
                             Icon(
                                 ImageVector.vectorResource(R.drawable.squiggle),
                                 null,
-                                tint = lightBar
+                                tint = colors.onBackground
                             )
                         }
                     }
@@ -290,7 +300,7 @@ class Schedule2024 : Fragment() {
                 // Filter menu row
                 Row(
                     modifier = Modifier
-                        .height(74.dp)
+                        .height(80.dp)
                         .fillMaxWidth()
 //                        .border(border = BorderStroke(1.dp, color = colors.onBackground))
                 ) {
@@ -317,30 +327,46 @@ class Schedule2024 : Fragment() {
                             if (datestate.value == 0) {
                                 Text(
                                     text = "01",
-                                    color = darkTealGreen
+                                    color = darkTealGreen,
+                                    fontSize = 22.sp,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.SemiBold
+
                                 )
                             }
                             else if (datestate.value == 1){
                                 Text(
                                     text = "02",
-                                    color = darkTealGreen
+                                    color = darkTealGreen,
+                                    fontSize = 22.sp,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.SemiBold
                                 )
                             }
                             else if(datestate.value == 2){
                                 Text(
                                     text = "03",
-                                    color = darkTealGreen
+                                    color = darkTealGreen,
+                                    fontSize = 22.sp,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.SemiBold
                                 )
                             }
                             else if (datestate.value == 3){
                                 Text(
                                     text = "04",
-                                    color = darkTealGreen
+                                    color = darkTealGreen,
+                                    fontSize = 22.sp,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.SemiBold
                                 )
                             }
                             Text(
                                 text = "Oct",
-                                color = darkTealGreen
+                                color = darkTealGreen,
+                                fontSize = 22.sp,
+                                fontFamily = futura,
+                                fontWeight = FontWeight.SemiBold
                             )
                             Icon(
                                 ImageVector.vectorResource(R.drawable.squiggle),
@@ -377,7 +403,7 @@ class Schedule2024 : Fragment() {
                                     .background(colors.onSurface)
                                     .border(
                                         1.dp,
-                                        darkTealGreen,
+                                        colors.onBackground,
                                         shape = RoundedCornerShape(4.dp)
                                     ),
                                 value = selectedItem.value,
@@ -400,13 +426,14 @@ class Schedule2024 : Fragment() {
                                 modifier = Modifier
                                     .width(220.dp)
                                     .background(colors.background)
+                                    .border(1.dp, colors.onBackground, RoundedCornerShape(4.dp)),
                             ) {
                                 filterList.forEach { label ->
                                     DropdownMenuItem(onClick = {
                                         selectedItem.value = label
                                         expanded = false
                                     }) {
-                                        Text(text = label, color = colors.onBackground)
+                                        Text(text = label, color = colors.onBackground, fontFamily = futura, fontWeight = FontWeight.Medium)
                                     }
                                 }
                             }
@@ -510,11 +537,12 @@ class Schedule2024 : Fragment() {
                     .width(72.dp)
                     .verticalScroll(scroll)
                     .wrapContentHeight()
-                    .padding(start = 10.dp)
+                    .padding(start = 10.dp, top = 2.dp)
             ) {
                 Text(
                     text = "",
                     fontSize = 16.sp,
+                    fontFamily = futura,
                     color = Color.Transparent
                 )
                 Row(
@@ -526,6 +554,7 @@ class Schedule2024 : Fragment() {
                     Text(
                         text = "",
                         fontSize = 16.sp,
+                        fontFamily = futura,
                         color = Color.Transparent
                     )
                 }
@@ -583,6 +612,7 @@ class Schedule2024 : Fragment() {
                                     Text(
                                         text = time.toString() + " am",
                                         fontSize = 16.sp,
+                                        fontFamily = futura,
                                         color = colors.onBackground
                                     )
                                 }
@@ -598,6 +628,7 @@ class Schedule2024 : Fragment() {
                                 Text(
                                     text = "12 pm",
                                     fontSize = 16.sp,
+                                    fontFamily = futura,
                                     color = colors.onBackground
                                 )
                             }
@@ -611,6 +642,7 @@ class Schedule2024 : Fragment() {
                                     Text(
                                         text = time.toString() + " pm",
                                         fontSize = 16.sp,
+                                        fontFamily = futura,
                                         color = colors.onBackground
                                     )
                                 }
@@ -640,8 +672,10 @@ class Schedule2024 : Fragment() {
             ) {
                 Text(
                     text = venue,
-                    fontSize = 16.sp,
-                    color = colors.onBackground
+                    fontSize = 18.sp,
+                    fontFamily = futura,
+                    color = colors.onBackground,
+                    fontWeight = FontWeight.Medium
                 )
 
                 Box(
@@ -716,7 +750,8 @@ class Schedule2024 : Fragment() {
                             ) {
                                 Text(
                                     text = event.eventdetail.artist,
-                                    fontSize = 16.sp,
+                                    fontSize = 18.sp,
+                                    fontFamily = futura,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     color = colors.onBackground
@@ -724,7 +759,8 @@ class Schedule2024 : Fragment() {
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
                                     text = event.eventdetail.type,
-                                    fontSize = 16.sp,
+                                    fontSize = 14.sp,
+                                    fontFamily = futura,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     color = colors.onBackground
