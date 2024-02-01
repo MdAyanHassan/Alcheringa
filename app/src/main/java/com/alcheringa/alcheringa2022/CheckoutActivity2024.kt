@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -19,6 +20,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -82,14 +84,15 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.alcheringa.alcheringa2022.Database.DBHandler
 import com.alcheringa.alcheringa2022.Model.cartModel
-import com.alcheringa.alcheringa2022.Order_Confirmed.RANDOM
 import com.alcheringa.alcheringa2022.services.Retrofit_Class
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.borderdarkpurple
+import com.alcheringa.alcheringa2022.ui.theme.containerPurple
 import com.alcheringa.alcheringa2022.ui.theme.darkBar
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
 import com.alcheringa.alcheringa2022.ui.theme.futura
-import com.alcheringa.alcheringa2022.ui.theme.holdergrey
+import com.alcheringa.alcheringa2022.ui.theme.darkGrey
+import com.alcheringa.alcheringa2022.ui.theme.grey
 import com.alcheringa.alcheringa2022.ui.theme.lightBar
 import com.alcheringa.alcheringa2022.ui.theme.lighterPurple
 import com.google.android.gms.tasks.Task
@@ -109,7 +112,7 @@ import java.util.Date
 import java.util.Objects
 import kotlin.random.Random
 
-class CheckoutActivity2024 : ComponentActivity() {
+class CheckoutActivity2024 : AppCompatActivity() {
 
     val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     var dbHandler: DBHandler? = null
@@ -155,144 +158,147 @@ class CheckoutActivity2024 : ComponentActivity() {
 
         setContent {
             // A surface container using the 'background' color from the theme
-            Alcheringa2022Theme() {
-                Surface(
+            Alcheringa2022Theme {
+                val sp = getSharedPreferences("USER", MODE_PRIVATE)
+                var spName = sp.getString("name", "")
+                if (spName == "") {
+                    spName = sharedPreferences.getString("name", "")
+                }
+
+                builder = Retrofit.Builder()
+                    .baseUrl("https://docs.google.com/forms/d/e/1FAIpQLSd2uK87A7zPdbag7B9BCPqf5O_MyOw8CDz7mr7D4B0Q_h7ynA/")
+                    .addConverterFactory(GsonConverterFactory.create())
+
+                retrofit = builder.build()
+
+                var key by remember {
+                    mutableStateOf(0)
+                }
+
+                dbHandler = DBHandler(applicationContext)
+
+                var cartModelItems by remember { mutableStateOf(dbHandler!!.readCourses()) }
+
+                LaunchedEffect(key)
+                {
+                    cartModelItems = dbHandler!!.readCourses()
+                    arrayList = dbHandler!!.readCourses()
+                }
+
+                var name by remember {
+                    mutableStateOf(spName)
+                }
+
+                var phone by remember {
+                    mutableStateOf(
+                        sharedPreferences.getString(
+                            "phone",
+                            ""
+                        )
+                    )
+                }
+                var pincode by remember {
+                    mutableStateOf(
+                        sharedPreferences.getString(
+                            "pincode",
+                            ""
+                        )
+                    )
+                }
+
+                var house by remember {
+                    mutableStateOf(
+                        sharedPreferences.getString(
+                            "house",
+                            ""
+                        )
+                    )
+                }
+                var road by remember { mutableStateOf(sharedPreferences.getString("road", "")) }
+                var city by remember { mutableStateOf(sharedPreferences.getString("city", "")) }
+                var email by remember { mutableStateOf(sharedPreferences.getString("email", "")) }
+                var state by remember {
+                    mutableStateOf(
+                        sharedPreferences.getString(
+                            "state",
+                            ""
+                        )
+                    )
+                }
+                var checkedState by remember {
+                    mutableStateOf(0)
+                }
+
+                val keyboardController = LocalSoftwareKeyboardController.current
+                val bringIntoViewRequester = remember { BringIntoViewRequester() }
+                val coroutineScope = rememberCoroutineScope()
+
+                var amount: Long by remember {
+                    mutableStateOf(0L)
+                }
+                var totalItems: Int by remember {
+                    mutableStateOf(0)
+                }
+
+                total_amount = calculate_totalAmount(amount, shipping_charges)
+
+                LaunchedEffect(cartModelItems, Unit) {
+                    Log.d("MainActivity", "launched")
+
+                    calculate_amount(cartModelItems) { it1, it2 ->
+                        amount = it1
+                        totalItems = it2
+                    }
+                }
+
+                user_name = name!!
+                user_phone = phone!!
+                user_house = house!!
+                user_road = road!!
+                user_state = state!!
+                user_city = city!!
+                user_pin_code = pincode!!
+                Email = email!!
+
+                var greyColor =  if (isSystemInDarkTheme()) grey else darkGrey
+
+                Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(color = colors.background)
+                        .background(colors.background)
                 ) {
-                    val sp = getSharedPreferences("USER", MODE_PRIVATE)
-                    var spName = sp.getString("name", "")
-                    if (spName == "") {
-                        spName = sharedPreferences.getString("name", "")
-                    }
-
-                    builder = Retrofit.Builder()
-                        .baseUrl("https://docs.google.com/forms/d/e/1FAIpQLSd2uK87A7zPdbag7B9BCPqf5O_MyOw8CDz7mr7D4B0Q_h7ynA/")
-                        .addConverterFactory(GsonConverterFactory.create())
-
-                    retrofit = builder.build()
-
-                    var key by remember {
-                        mutableStateOf(0)
-                    }
-
-                    dbHandler = DBHandler(applicationContext)
-
-                    var cartModelItems by remember { mutableStateOf(dbHandler!!.readCourses()) }
-
-                    LaunchedEffect(key)
-                    {
-                        cartModelItems = dbHandler!!.readCourses()
-                        arrayList = dbHandler!!.readCourses()
-                    }
-
-                    var name by remember {
-                        mutableStateOf(spName)
-                    }
-
-                    var phone by remember {
-                        mutableStateOf(
-                            sharedPreferences.getString(
-                                "phone",
-                                ""
-                            )
-                        )
-                    }
-                    var pincode by remember {
-                        mutableStateOf(
-                            sharedPreferences.getString(
-                                "pincode",
-                                ""
-                            )
-                        )
-                    }
-
-                    var house by remember {
-                        mutableStateOf(
-                            sharedPreferences.getString(
-                                "house",
-                                ""
-                            )
-                        )
-                    }
-                    var road by remember { mutableStateOf(sharedPreferences.getString("road", "")) }
-                    var city by remember { mutableStateOf(sharedPreferences.getString("city", "")) }
-                    var email by remember { mutableStateOf(sharedPreferences.getString("email", "")) }
-                    var state by remember {
-                        mutableStateOf(
-                            sharedPreferences.getString(
-                                "state",
-                                ""
-                            )
-                        )
-                    }
-                    var checkedState by remember {
-                        mutableStateOf(0)
-                    }
-
-                    val keyboardController = LocalSoftwareKeyboardController.current
-                    val bringIntoViewRequester = remember { BringIntoViewRequester() }
-                    val coroutineScope = rememberCoroutineScope()
-
-                    var amount: Long by remember {
-                        mutableStateOf(0L)
-                    }
-                    var totalItems: Int by remember {
-                        mutableStateOf(0)
-                    }
-
-                    total_amount = calculate_totalAmount(amount, shipping_charges)
-
-                    LaunchedEffect(cartModelItems, Unit) {
-                        Log.d("MainActivity", "launched")
-
-                        calculate_amount(cartModelItems) { it1, it2 ->
-                            amount = it1
-                            totalItems = it2
-                        }
-                    }
-
-                    user_name = name!!
-                    user_phone = phone!!
-                    user_house = house!!
-                    user_road = road!!
-                    user_state = state!!
-                    user_city = city!!
-                    user_pin_code = pincode!!
-                    Email = email!!
-
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(darkBar)
                     ) {
                         Row(
                             modifier = Modifier
-                                .height(72.dp)
+                                .height(65.dp)
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.backbtn2),
                                 contentDescription = null,
-                                tint = darkTealGreen,
+                                tint = containerPurple,
                                 modifier = Modifier
                                     .padding(start = 20.dp, end = 10.dp)
                                     .clickable {
-                                        if (checkedState == 0 || checkedState == 2){
+                                        if (checkedState == 0 || checkedState == 2) {
                                             finish()
-                                        }else{
+                                        } else {
                                             checkedState -= 1
                                         }
                                     }
                             )
                             Text(
                                 text = "Checkout",
-                                color = darkTealGreen,
                                 fontFamily = futura,
-                                fontSize = 20.sp
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 20.sp,
+                                color = containerPurple
                             )
+
                         }
                         Divider(
                             modifier = Modifier
@@ -346,7 +352,9 @@ class CheckoutActivity2024 : ComponentActivity() {
                                         .width(40.dp)
                                         .height(1.dp)
                                         .alpha(if (checkedState == 2) 0f else 1f)
-                                        .background(if (checkedState >= 1) darkTealGreen else lightBar)
+                                        .background(
+                                            if (checkedState >= 1) darkTealGreen else greyColor
+                                        )
                                 )
                                 Canvas(
                                     modifier = Modifier
@@ -355,7 +363,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                         .alpha(if (checkedState == 2) 0f else 1f)
                                 ) {
                                     drawCircle(
-                                        color = if (checkedState >= 1) darkTealGreen else lightBar,
+                                        color = if (checkedState >= 1) darkTealGreen else greyColor,
                                         radius = 35f,
                                         style = Stroke(width = 15f, cap = StrokeCap.Round)
                                     )
@@ -371,7 +379,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                     modifier = Modifier
                                         .padding(start = 20.dp, end = 10.dp)
                                         .alpha(if (checkedState == 2) 0f else 1f),
-                                    color = if (checkedState >= 1) darkTealGreen else lightBar,
+                                    color = if (checkedState >= 1) darkTealGreen else greyColor,
                                     fontFamily = futura,
                                     fontSize = 14.sp
                                 )
@@ -380,7 +388,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                         .width(40.dp)
                                         .height(1.dp)
                                         .alpha(if (checkedState == 2) 0f else 1f)
-                                        .background(if (checkedState >= 2) darkTealGreen else lightBar)
+                                        .background(if (checkedState >= 2) darkTealGreen else greyColor)
                                 )
                                 Canvas(
                                     modifier = Modifier
@@ -389,7 +397,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                         .alpha(if (checkedState == 2) 0f else 1f)
                                 ) {
                                     drawCircle(
-                                        color = if (checkedState >= 2) darkTealGreen else lightBar,
+                                        color = if (checkedState >= 2) darkTealGreen else greyColor,
                                         radius = 35f,
                                         style = Stroke(width = 15f, cap = StrokeCap.Round)
                                     )
@@ -401,11 +409,11 @@ class CheckoutActivity2024 : ComponentActivity() {
                                     }
                                 }
                                 Text(
-                                    text = "Payment",
+                                    text = "Order Confirmation",
                                     modifier = Modifier
                                         .padding(start = 20.dp, end = 10.dp)
                                         .alpha(if (checkedState == 2) 0f else 1f),
-                                    color = if (checkedState >= 2) darkTealGreen else lightBar,
+                                    color = if (checkedState >= 2) darkTealGreen else greyColor,
                                     fontFamily = futura,
                                     fontSize = 14.sp
                                 )
@@ -439,7 +447,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 text = "Personal Information",
                                                 fontSize = 14.sp,
                                                 fontFamily = futura,
-                                                color = lightBar,
+                                                color = colors.onBackground,
                                             )
 
                                             Spacer(modifier = Modifier.height(10.dp))
@@ -451,7 +459,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 ),
                                                 textStyle = (
                                                         TextStyle(
-                                                            color = lightBar,
+                                                            color = colors.onBackground,
                                                             fontFamily = futura,
                                                             fontSize = 14.sp
                                                         )
@@ -467,7 +475,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     }
                                                     .border(
                                                         1.dp,
-                                                        lightBar,
+                                                        colors.onBackground,
                                                         RoundedCornerShape(4.dp)
                                                     ),
                                                 maxLines = 1,
@@ -485,7 +493,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 placeholder = {
                                                     Text(
                                                         text = "Full Name",
-                                                        color = holdergrey,
+                                                        color = greyColor,
                                                         fontFamily = futura,
                                                         fontSize = 14.sp
                                                     )
@@ -504,7 +512,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 ),
                                                 textStyle = (
                                                         TextStyle(
-                                                            color = lightBar,
+                                                            color = colors.onBackground,
                                                             fontFamily = futura,
                                                             fontSize = 14.sp
                                                         )
@@ -520,7 +528,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     }
                                                     .border(
                                                         1.dp,
-                                                        lightBar,
+                                                        colors.onBackground,
                                                         RoundedCornerShape(4.dp)
                                                     ),
                                                 maxLines = 1,
@@ -540,7 +548,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 placeholder = {
                                                     Text(
                                                         text = "Phone Number",
-                                                        color = holdergrey,
+                                                        color = greyColor,
                                                         fontFamily = futura,
                                                         fontSize = 14.sp
                                                     )
@@ -553,7 +561,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 text = "Address Details",
                                                 fontSize = 14.sp,
                                                 fontFamily = futura,
-                                                color = lightBar
+                                                color = colors.onBackground
                                             )
 
                                             Spacer(modifier = Modifier.height(10.dp))
@@ -565,7 +573,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 ),
                                                 textStyle = (
                                                         TextStyle(
-                                                            color = lightBar,
+                                                            color = colors.onBackground,
                                                             fontFamily = futura,
                                                             fontSize = 14.sp
                                                         )
@@ -581,7 +589,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     }
                                                     .border(
                                                         1.dp,
-                                                        lightBar,
+                                                        colors.onBackground,
                                                         RoundedCornerShape(4.dp)
                                                     ),
                                                 maxLines = 1,
@@ -599,7 +607,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 placeholder = {
                                                     Text(
                                                         text = "Address Line 1",
-                                                        color = holdergrey,
+                                                        color = greyColor,
                                                         fontFamily = futura,
                                                         fontSize = 14.sp
                                                     )
@@ -615,7 +623,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 ),
                                                 textStyle = (
                                                         TextStyle(
-                                                            color = lightBar,
+                                                            color = colors.onBackground,
                                                             fontFamily = futura,
                                                             fontSize = 14.sp
                                                         )
@@ -631,7 +639,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     }
                                                     .border(
                                                         1.dp,
-                                                        lightBar,
+                                                        colors.onBackground,
                                                         RoundedCornerShape(4.dp)
                                                     ),
                                                 maxLines = 1,
@@ -649,7 +657,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 placeholder = {
                                                     Text(
                                                         text = "Address Line 2",
-                                                        color = holdergrey,
+                                                        color = greyColor,
                                                         fontFamily = futura,
                                                         fontSize = 14.sp
                                                     )
@@ -674,7 +682,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     ),
                                                     textStyle = (
                                                             TextStyle(
-                                                                color = lightBar,
+                                                                color = colors.onBackground,
                                                                 fontFamily = futura,
                                                                 fontSize = 14.sp
                                                             )
@@ -690,7 +698,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                         }
                                                         .border(
                                                             1.dp,
-                                                            lightBar,
+                                                            colors.onBackground,
                                                             RoundedCornerShape(4.dp)
                                                         ),
                                                     maxLines = 1,
@@ -708,7 +716,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     placeholder = {
                                                         Text(
                                                             text = "City",
-                                                            color = holdergrey,
+                                                            color = greyColor,
                                                             fontFamily = futura,
                                                             fontSize = 14.sp
                                                         )
@@ -728,7 +736,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     ),
                                                     textStyle = (
                                                             TextStyle(
-                                                                color = lightBar,
+                                                                color = colors.onBackground,
                                                                 fontFamily = futura,
                                                                 fontSize = 14.sp
                                                             )
@@ -744,7 +752,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                         }
                                                         .border(
                                                             1.dp,
-                                                            lightBar,
+                                                            colors.onBackground,
                                                             RoundedCornerShape(4.dp)
                                                         ),
                                                     maxLines = 1,
@@ -762,7 +770,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     placeholder = {
                                                         Text(
                                                             text = "State",
-                                                            color = holdergrey,
+                                                            color = greyColor,
                                                             fontFamily = futura,
                                                             fontSize = 14.sp
                                                         )
@@ -782,7 +790,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 ),
                                                 textStyle = (
                                                         TextStyle(
-                                                            color = lightBar,
+                                                            color = colors.onBackground,
                                                             fontFamily = futura,
                                                             fontSize = 14.sp
                                                         )
@@ -798,7 +806,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     }
                                                     .border(
                                                         1.dp,
-                                                        lightBar,
+                                                        colors.onBackground,
                                                         RoundedCornerShape(4.dp)
                                                     ),
                                                 maxLines = 1,
@@ -816,7 +824,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 placeholder = {
                                                     Text(
                                                         text = "Pincode",
-                                                        color = holdergrey,
+                                                        color = greyColor,
                                                         fontFamily = futura,
                                                         fontSize = 14.sp
                                                     )
@@ -835,14 +843,15 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     .wrapContentHeight()
                                                     .border(
                                                         1.dp,
-                                                        lightBar,
+                                                        colors.onBackground,
                                                         RoundedCornerShape(6.dp)
                                                     )
                                                     .background(
                                                         Brush.verticalGradient(
                                                             0f to lighterPurple,
                                                             1f to borderdarkpurple
-                                                        )
+                                                        ),
+                                                        shape = RoundedCornerShape(6.dp)
                                                     )
                                                     .padding(15.dp)
                                                     .clickable {
@@ -971,14 +980,14 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 text = "Deliver To:",
                                                 fontSize = 14.sp,
                                                 fontFamily = futura,
-                                                color = holdergrey
+                                                color = greyColor
                                             )
 
                                             Spacer(modifier = Modifier.height(10.dp))
 
                                             Text(
                                                 text = name!!,
-                                                color = lightBar,
+                                                color = colors.onBackground,
                                                 fontSize = 18.sp,
                                                 fontFamily = futura
                                             )
@@ -987,7 +996,7 @@ class CheckoutActivity2024 : ComponentActivity() {
 
                                             Text(
                                                 text = "$house, $road",
-                                                color = lightBar,
+                                                color = colors.onBackground,
                                                 fontSize = 14.sp,
                                                 fontFamily = futura
                                             )
@@ -996,7 +1005,7 @@ class CheckoutActivity2024 : ComponentActivity() {
 
                                             Text(
                                                 text = "$city, $state - $pincode",
-                                                color = lightBar,
+                                                color = colors.onBackground,
                                                 fontSize = 14.sp,
                                                 fontFamily = futura
                                             )
@@ -1005,7 +1014,7 @@ class CheckoutActivity2024 : ComponentActivity() {
 
                                             Text(
                                                 text = "Phone Number:",
-                                                color = holdergrey,
+                                                color = greyColor,
                                                 fontSize = 14.sp,
                                                 fontFamily = futura
                                             )
@@ -1014,7 +1023,7 @@ class CheckoutActivity2024 : ComponentActivity() {
 
                                             Text(
                                                 text = "$phone",
-                                                color = lightBar,
+                                                color = colors.onBackground,
                                                 fontSize = 18.sp,
                                                 fontFamily = futura
                                             )
@@ -1023,7 +1032,7 @@ class CheckoutActivity2024 : ComponentActivity() {
 
                                             Text(
                                                 text = "Your Orders:",
-                                                color = lightBar,
+                                                color = colors.onBackground,
                                                 fontSize = 18.sp,
                                                 fontFamily = futura
                                             )
@@ -1038,15 +1047,19 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                         modifier = Modifier
                                                             .padding(0.dp, 10.dp, 0.dp, 10.dp)
                                                             .height(210.dp)
+                                                            .background(
+                                                                colors.background,
+                                                                shape = RoundedCornerShape(8.dp)
+                                                            )
                                                             .border(
                                                                 1.dp,
-                                                                lightBar,
+                                                                colors.onBackground,
                                                                 RoundedCornerShape(8.dp)
                                                             ),
 
                                                         //set card elevation of the card
 
-                                                        backgroundColor = darkBar,
+                                                        backgroundColor = colors.background,
                                                     ) {
                                                         Column(modifier = Modifier) {
                                                             Row() {
@@ -1105,7 +1118,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                             modifier = Modifier.align(
                                                                                 Alignment.CenterHorizontally
                                                                             ),
-                                                                            color = lightBar,
+                                                                            color = colors.onBackground,
                                                                             fontFamily = futura,
                                                                             fontWeight = FontWeight(
                                                                                 400
@@ -1126,7 +1139,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                             lineHeight = 18.sp,
 
 
-                                                                            color = lightBar,
+                                                                            color = colors.onBackground,
                                                                             fontSize = 14.sp
 
 
@@ -1143,7 +1156,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                             modifier = Modifier.align(
                                                                                 Alignment.CenterHorizontally
                                                                             ),
-                                                                            color = lightBar,
+                                                                            color = colors.onBackground,
                                                                             fontWeight = FontWeight(
                                                                                 450
                                                                             ),
@@ -1169,7 +1182,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                             Text(
                                                                                 text = "Size: ",
                                                                                 modifier = Modifier,
-                                                                                color = lightBar,
+                                                                                color = colors.onBackground,
                                                                                 fontWeight = FontWeight(
                                                                                     300
                                                                                 ),
@@ -1185,7 +1198,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                             Text(
                                                                                 text = item.size!!,
                                                                                 modifier = Modifier,
-                                                                                color = lightBar,
+                                                                                color = colors.onBackground,
                                                                                 fontWeight = FontWeight(
                                                                                     400
                                                                                 ),
@@ -1222,9 +1235,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                                             key++
                                                                                         }
                                                                                         .background(
-                                                                                            color = Color(
-                                                                                                0xff979797
-                                                                                            ),
+                                                                                            greyColor,
                                                                                             shape = RoundedCornerShape(
                                                                                                 topStart = 22.dp,
                                                                                                 bottomStart = 22.dp,
@@ -1234,7 +1245,8 @@ class CheckoutActivity2024 : ComponentActivity() {
 
                                                                                         )
                                                                                         .width(40.dp)
-                                                                                        .height(35.dp)
+                                                                                        .height(35.dp),
+                                                                                    contentAlignment = Alignment.Center
                                                                                 ) {
                                                                                     Text(
                                                                                         "-",
@@ -1243,8 +1255,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                                         ),
                                                                                         fontSize = 28.sp,
                                                                                         fontFamily = futura,
-
-                                                                                        color = darkBar
+                                                                                        color = colors.background
                                                                                     )
                                                                                 }
                                                                                 Box(
@@ -1254,10 +1265,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                                         )
 
                                                                                         .background(
-                                                                                            color =
-                                                                                            Color(
-                                                                                                0xff979797
-                                                                                            ),
+                                                                                            greyColor,
                                                                                             shape = RoundedCornerShape(
                                                                                                 topStart = 0.dp,
                                                                                                 bottomStart = 0.dp,
@@ -1277,7 +1285,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                                         ),
                                                                                         fontSize = 28.sp,
                                                                                         fontFamily = futura,
-                                                                                        color = darkBar
+                                                                                        color = colors.background
                                                                                     )
                                                                                 }
                                                                                 Box(
@@ -1290,9 +1298,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                                             key++
                                                                                         }
                                                                                         .background(
-                                                                                            color = Color(
-                                                                                                0xff979797
-                                                                                            ),
+                                                                                            greyColor,
                                                                                             shape = RoundedCornerShape(
                                                                                                 topStart = 0.dp,
                                                                                                 bottomStart = 0.dp,
@@ -1312,7 +1318,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                                                         ),
                                                                                         fontSize = 28.sp,
                                                                                         fontFamily = futura,
-                                                                                        color = darkBar
+                                                                                        color = colors.background
                                                                                     )
                                                                                 }
                                                                             }
@@ -1343,12 +1349,12 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 Column(
                                                     modifier = Modifier
                                                         .background(
-                                                            darkBar,
+                                                            colors.background,
                                                             RoundedCornerShape(4.dp)
                                                         )
                                                         .border(
                                                             1.dp,
-                                                            lightBar,
+                                                            colors.onBackground,
                                                             RoundedCornerShape(4.dp)
                                                         )
                                                         .padding(10.dp)
@@ -1356,7 +1362,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     Row {
                                                         Text(
                                                             text = "Price:",
-                                                            color = holdergrey,
+                                                            color = greyColor,
                                                             fontFamily = futura,
                                                             fontSize = 14.sp
                                                         )
@@ -1367,7 +1373,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                         ) {
                                                             Text(
                                                                 text = "Rs. $amount",
-                                                                color = holdergrey,
+                                                                color = greyColor,
                                                                 fontSize = 14.sp,
                                                                 fontFamily = futura
                                                             )
@@ -1379,7 +1385,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                     Row {
                                                         Text(
                                                             text = "Shipping Charges:",
-                                                            color = holdergrey,
+                                                            color = greyColor,
                                                             fontFamily = futura,
                                                             fontSize = 14.sp
                                                         )
@@ -1390,25 +1396,25 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                         ) {
                                                             Text(
                                                                 text = "Rs. $shipping_charges",
-                                                                color = holdergrey,
+                                                                color = greyColor,
                                                                 fontSize = 14.sp,
                                                                 fontFamily = futura
                                                             )
                                                         }
                                                     }
 
-                                                    Spacer(modifier = Modifier.height(10.dp))
+                                                    Spacer(modifier = Modifier.height(5.dp))
 
                                                     Row {
                                                         Text(
                                                             text = "Total : ",
-                                                            color = holdergrey,
+                                                            color = greyColor,
                                                             fontFamily = futura,
                                                             fontSize = 18.sp
                                                         )
                                                         Text(
                                                             text = "$totalItems Item(s)",
-                                                            color = holdergrey,
+                                                            color = greyColor,
                                                             fontFamily = futura,
                                                             fontSize = 18.sp
                                                         )
@@ -1419,7 +1425,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                         ) {
                                                             Text(
                                                                 text = "Rs. $total_amount",
-                                                                color = lightBar,
+                                                                color = colors.onBackground,
                                                                 fontSize = 18.sp,
                                                                 fontFamily = futura
                                                             )
@@ -1436,11 +1442,12 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                             Brush.verticalGradient(
                                                                 0f to lighterPurple,
                                                                 1f to borderdarkpurple
-                                                            )
+                                                            ),
+                                                            shape = RoundedCornerShape(6.dp)
                                                         )
                                                         .border(
                                                             1.dp,
-                                                            lightBar,
+                                                            colors.onBackground,
                                                             RoundedCornerShape(6.dp)
                                                         )
                                                         .padding(vertical = 15.dp)
@@ -1503,7 +1510,7 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 text = "Order Confirmed",
                                                 fontSize = 18.sp,
                                                 fontFamily = futura,
-                                                color = lightBar
+                                                color = greyColor
                                             )
 
                                             Spacer(modifier = Modifier.height(15.dp))
@@ -1512,13 +1519,13 @@ class CheckoutActivity2024 : ComponentActivity() {
                                                 text = "Our team will contact you regarding",
                                                 fontSize = 18.sp,
                                                 fontFamily = futura,
-                                                color = holdergrey
+                                                color = greyColor
                                             )
                                             Text(
                                                 text = "further details of your order",
                                                 fontSize = 18.sp,
                                                 fontFamily = futura,
-                                                color = holdergrey
+                                                color = greyColor
                                             )
                                         }
                                     }
@@ -1709,7 +1716,7 @@ class CheckoutActivity2024 : ComponentActivity() {
 
     private fun startPayment(total_price: Int) {
         try {
-            val razorpay = RazorpayClient("rzp_live_0MqrfaJ3rgG7Bh", "MLVrcuKucdYi9qCSho3ACUB7")
+//            val razorpay = RazorpayClient("rzp_live_0MqrfaJ3rgG7Bh", "MLVrcuKucdYi9qCSho3ACUB7")
 //            val orderRequest = JSONObject()
 //            orderRequest.put(
 //                "amount",
