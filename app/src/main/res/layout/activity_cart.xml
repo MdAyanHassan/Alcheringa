@@ -36,10 +36,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            style="@style/headerText"
+            android:fontFamily="@font/clash_display_700"
             android:shadowRadius="20"
             android:text="Cart"
             android:textSize="36sp"
+            android:textColor="@color/lighterPurple"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn"
             app:layout_constraintTop_toTopOf="parent" />

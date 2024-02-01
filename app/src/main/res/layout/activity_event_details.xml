@@ -29,7 +29,7 @@
             android:layout_height="48dp"
             android:background="@android:color/transparent"
             android:paddingStart="27dp"
-            android:src="@drawable/back"
+            android:src="@drawable/backbtn2"
             app:layout_constraintBottom_toBottomOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -45,13 +45,13 @@
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
-
-            android:fontFamily="@font/starguard"
+            android:fontFamily="@font/clash_display_700"
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
 
             android:singleLine="true"
             android:text="Artist"
+            android:textColor="@color/lighterPurple"
             android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

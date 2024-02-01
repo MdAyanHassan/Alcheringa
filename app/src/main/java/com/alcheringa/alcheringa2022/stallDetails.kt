@@ -247,7 +247,7 @@ class stallDetails : Fragment() {
                                         color = colors.onBackground,
                                         fontFamily = futura,
                                         modifier = Modifier
-                                            .padding(top = 9.dp, bottom = 0.dp)
+                                            .padding(top = 9.dp, bottom = 5.dp)
                                     )
                                     Text(
                                         text = stallDetails.description,
@@ -261,7 +261,7 @@ class stallDetails : Fragment() {
                                         color = colors.onBackground,
                                         fontFamily = futura,
                                         modifier = Modifier
-                                            .padding(top = 9.dp, bottom = 0.dp)
+                                            .padding(top = 15.dp, bottom = 5.dp)
                                     )
                                     Text(
                                         text = stallDetails.description,

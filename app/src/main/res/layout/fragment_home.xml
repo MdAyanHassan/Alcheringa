@@ -31,20 +31,13 @@
         <com.alcheringa.alcheringa2022.TextViewOutline
             android:id="@+id/logoAlcher"
             android:padding="10dp"
-            android:textColor="@color/secondaryCol"
+            android:textColor="@color/lighterPurple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:fontFamily="@font/starguard"
+            android:fontFamily="@font/clash_display_700"
             android:text="@string/app_name"
             android:textSize="36sp"
-            android:shadowColor="@color/primaryCol"
-            android:shadowDx="8"
-            android:shadowDy="8"
-            android:shadowRadius="0.1"
-            app:outlineColor="@color/primaryCol"
-            app:outlineSize="1dp"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="24dp"
             android:layout_marginRight="20dp"
-            android:src="@drawable/account"
+            android:src="@drawable/account1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -74,7 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="24dp"
             android:layout_marginEnd="30dp"
-            android:src="@drawable/bell"
+            android:src="@drawable/bell1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/account"
             app:layout_constraintTop_toTopOf="parent" />
