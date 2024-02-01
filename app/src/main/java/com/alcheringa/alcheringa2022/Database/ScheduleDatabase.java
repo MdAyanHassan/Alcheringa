@@ -82,7 +82,7 @@ public class ScheduleDatabase  extends SQLiteOpenHelper {
         values.put(MIN_COL, eventdetail.getStarttime().component3());
         //String query="SELECT * FROM "+ TABLE_NAME +" WHERE name = '"+name+"' "+"AND "+"size = '"+size+"'";
         db.insert(TABLE_NAME,null,values);
-        Toast.makeText(context, "Event added to My Schedule" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Event added to Liked Events" , Toast.LENGTH_SHORT).show();
     }
     public ArrayList<eventdetail> getSchedule(){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -113,8 +113,9 @@ public class ScheduleDatabase  extends SQLiteOpenHelper {
 
     }
 
-    public void DeleteItem(String artist) {
+    public void DeleteItem(String artist, Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, "artist=?", new String[]{artist});
+        Toast.makeText(context, "Event removed from Liked Events" , Toast.LENGTH_SHORT).show();
     }
 }

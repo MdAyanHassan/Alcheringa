@@ -749,7 +749,7 @@ class MerchFragmentCompose : Fragment() {
 
                                                                                     if(txtCol== darkTealGreen) {
                                                                                         Image(
-                                                                                            painter = painterResource(R.drawable.pencil_mark),
+                                                                                            painter = painterResource(R.drawable.squiggle),
                                                                                             contentDescription = null,
                                                                                             alignment = Alignment.BottomCenter,
                                                                                             modifier = Modifier.size(30.dp).align(Alignment.CenterHorizontally)

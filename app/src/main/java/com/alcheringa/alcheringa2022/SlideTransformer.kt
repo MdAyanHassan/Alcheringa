@@ -24,7 +24,7 @@ class SliderTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTr
 
         page.apply {
 
-            ViewCompat.setElevation(page, -abs(position))
+            ViewCompat.setElevation(page, -position)
 
             val scaleFactor = -SCALE_FACTOR * position + DEFAULT_SCALE
             val alphaFactor = -ALPHA_FACTOR * position + DEFAULT_ALPHA
@@ -35,7 +35,8 @@ class SliderTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTr
                     translationY = DEFAULT_TRANSLATION_X
 //                    scaleX = DEFAULT_SCALE
 //                    scaleY = DEFAULT_SCALE
-                    alpha = if(position>=-0.98f) 1f else 0f
+                    alpha = if(position>=-0.99f) 1f else 0f
+//                    alpha = 1f
                 }
                 position <= offscreenPageLimit - 1 && position < 2f -> {
 //                    scaleX = scaleFactor
@@ -48,14 +49,14 @@ class SliderTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTr
                     translationX = DEFAULT_TRANSLATION_X
 //                    scaleX = DEFAULT_SCALE
 //                    scaleY = DEFAULT_SCALE
-                    alpha = 0f
+                    alpha = 1f
 
                 }
                 else -> {
                     translationX = DEFAULT_TRANSLATION_X
                     scaleX = DEFAULT_SCALE
                     scaleY = DEFAULT_SCALE
-                    alpha = 0f
+                    alpha = 1f
                 }
             }
         }

@@ -51,7 +51,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -96,6 +98,7 @@ class Home : Fragment() {
     lateinit var  scheduleDatabase:ScheduleDatabase
     val homeViewModel : viewModelHome by activityViewModels()
     val ranges= mutableSetOf<ClosedFloatingPointRange<Float>>()
+    lateinit var loaderView: LoaderView
 
     val datestate1 = mutableStateListOf<ownEventBoxUiModel>()
     val datestate2 = mutableStateListOf<ownEventBoxUiModel>()
@@ -249,6 +252,10 @@ class Home : Fragment() {
             startActivity(Intent(context,
                 NotificationActivity::class.java));
         }
+
+        loaderView = view.findViewById(R.id.dots_progress)
+        loaderView.visibility = View.GONE
+
         binding.compose1.setContent {
             MyContent();
         }
@@ -275,15 +282,11 @@ class Home : Fragment() {
             }
             homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
                 homeViewModel.OwnEventsWithLiveState.clear()
-                Log.d("OwnEventsWithLive Status1" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsWithLiveState.addAll(data.map{eventWithLive(it)})
-                Log.d("OwnEventsWithLive Status2" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsLiveState.clear()
-                Log.d("OwnEventsWithLive Status3" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsLiveState.addAll(data)
-                Log.d("OwnEventsWithLive Status4" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsWithLiveState.sortedBy{ data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }
-                Log.d("OwnEventsWithLive Status5" , "${homeViewModel.OwnEventsWithLive.value}")
+//                Log.d("liked_check" , "${data}")
 
 
 
@@ -1357,66 +1360,7 @@ class Home : Fragment() {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun compbox(){
-    /*Column(
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)) {
 
-        val cmpm=if(isSystemInDarkTheme()) Modifier
-            .coloredShadow(Color(0xffffc311), 0.7f, 16.dp, 30.dp, 0.dp, 0.dp)
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .clip(RoundedCornerShape(16.dp))
-            .background(colors.background)
-            .border(3.dp, Color(0xffffc311), RoundedCornerShape(16.dp))
-            .clickable {
-                NavHostFragment
-                    .findNavController(this@Home)
-                    .navigate(R.id.action_home_nav_to_competitionsFragment);
-            }
-            else
-            Modifier
-                .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
-                .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
-                .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .clip(RoundedCornerShape(16.dp))
-                .background(colors.background)
-                .border(1.5f.dp, colors.onBackground, RoundedCornerShape(16.dp))
-                .clickable {
-                    NavHostFragment
-                        .findNavController(this@Home)
-                        .navigate(R.id.action_home_nav_to_competitionsFragment);
-                }
-
-
-
-        Box(
-            modifier=cmpm
-        )
-            {
-
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    Column() {
-                        Text(fontFamily = aileron, fontWeight = FontWeight.W600, fontSize = 16.sp, color = colors.onBackground, text = "Explore our competitions")
-                        Spacer(Modifier.height(6.dp))
-                        Text(fontFamily = aileron, fontWeight = FontWeight.W400, fontSize = 12.sp, color = colors.onBackground, text = "Register. Compete. Win")
-                        Spacer(Modifier.height(12.dp))
-                        Text(fontFamily = aileron, fontWeight = FontWeight.W700, fontSize = 13.sp, color = darkBlu, text = "Explore more")
-
-                    }
-                    Image(painter = painterResource(id = R.drawable.cup1), contentDescription ="" ,modifier=Modifier.height(72.dp) )
-
-
-
-                }
-
-             }
-        }*/
     val externalFont = FontFamily(Font(R.font.futuraptbook))
 
     LazyRow( modifier = Modifier.fillMaxWidth(),
@@ -1458,9 +1402,11 @@ fun compbox(){
                 modifier = Modifier
                     .size(width = 100.dp, height = 100.dp),
                 onClick = {
+                    loaderView.visibility = View.VISIBLE
                     val argument = bundleOf("Tab" to "0")
                     findNavController(this@Home)
                         .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
+                    loaderView.visibility = View.GONE
                 }
             ) {
                 Box(){
@@ -1486,10 +1432,12 @@ fun compbox(){
                 modifier = Modifier
                     .size(width = 100.dp, height = 100.dp)
                     .clickable {
+                        loaderView.visibility = View.VISIBLE
                         val arguments = bundleOf("Tab" to "1")
                         NavHostFragment
                             .findNavController(this@Home)
                             .navigate(R.id.action_home_nav_to_competitionsFragment, arguments)
+                        loaderView.visibility = View.GONE
                     }
             ) {
                 Box(){
@@ -1501,7 +1449,7 @@ fun compbox(){
                         fontFamily= externalFont,
                         modifier = Modifier
                             .padding(16.dp)
-                        .fillMaxWidth(),
+                            .fillMaxWidth(),
                         textAlign = TextAlign.Center,
                     )
 
@@ -1516,9 +1464,11 @@ fun compbox(){
                 modifier = Modifier
                     .size(width = 100.dp, height = 100.dp),
                 onClick = {
+                    loaderView.visibility = View.VISIBLE
                     val argument = bundleOf("Tab" to "2")
                     findNavController(this@Home)
                         .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
+                    loaderView.visibility = View.GONE
                 }
             ) {
                 Box(){
@@ -1530,7 +1480,7 @@ fun compbox(){
                         fontFamily= externalFont,
                         modifier = Modifier
                             .padding(16.dp)
-                        .fillMaxWidth(),
+                            .fillMaxWidth(),
                         textAlign = TextAlign.Center,
                     )
 
@@ -1539,374 +1489,374 @@ fun compbox(){
         }
     }
 }
-
-    @Composable
-    fun scheduleBox() {
-        val horiscrollowneventstate = rememberScrollState()
-        var boxwidth=remember{ mutableStateOf(0.dp)}
-        Box(Modifier
-            .height(279.dp)) {
-            Box(
-                Modifier
-                    .width(1550.dp)
-                    .height(279.dp)
-                    .background(color = blackbg)
-                    .horizontalScroll(horiscrollowneventstate)
-            ) {
-                Row(
-                    Modifier
-                        .width(1550.dp)
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    for (time in 9..11) {
-                        Column(
-                            Modifier
-                                .width(50.dp)
-                                .wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "$time AM",
-                                style = TextStyle(
-                                    color = Color(0xffC7CCD1),
-                                    fontFamily = clash,
-                                    fontWeight = FontWeight.W600,
-                                    fontSize = 14.sp
-                                )
-                            )
-                            Canvas(
-                                modifier = Modifier
-                                    .width(5.dp)
-                                    .height(260.dp)
-                            ) {
-                                drawLine(
-                                    color = Color(0xff4C5862),
-                                    start = Offset(0f, 0f),
-                                    end = Offset(0f, size.height),
-                                    strokeWidth = 1.dp.toPx()
-                                )
-                            }
-
-                        }
-
-                    }
-
-                    Column(
-                        Modifier
-                            .width(50.dp)
-                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "12 PM",
-                            style = TextStyle(
-                                color = Color(0xffC7CCD1),
-                                fontFamily = clash,
-                                fontWeight = FontWeight.W600,
-                                fontSize = 14.sp
-                            )
-                        )
-                        Canvas(
-                            modifier = Modifier
-                                .width(5.dp)
-                                .height(260.dp)
-                        ) {
-                            drawLine(
-                                color = Color(0xff4C5862),
-                                start = Offset(0f, 0f),
-                                end = Offset(0f, size.height),
-                                strokeWidth = 1.dp.toPx()
-                            )
-                        }
-                    }
-                    for (time in 1..11) {
-                        Column(
-                            Modifier
-                                .width(50.dp)
-                                .wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "$time PM",
-                                style = TextStyle(
-                                    color = Color(0xffC7CCD1),
-                                    fontFamily = clash,
-                                    fontWeight = FontWeight.W600,
-                                    fontSize = 14.sp
-                                )
-                            )
-                            Canvas(
-                                modifier = Modifier
-                                    .width(5.dp)
-                                    .height(260.dp)
-                            ) {
-                                drawLine(
-                                    color = Color(0xff4C5862),
-                                    start = Offset(0f, 0f),
-                                    end = Offset(0f, size.height),
-                                    strokeWidth = 1.dp.toPx()
-                                )
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                if (datestate.value==1) {
-                    datestate1.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
-                }
-                if (datestate.value==2) {
-                    datestate2.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
-                }
-                if (datestate.value==3) {
-                    datestate3.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
-                }
-
-
-
-            }
-            if (isdragging.value) {
-
-                BoxWithConstraints(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(0.dp, 200.dp)
-                        .height(80.dp)
-                        .background(color = Color.Transparent),
-                    contentAlignment = Alignment.BottomCenter
-                )
-                {
-                    boxwidth.value = maxWidth
-                    if (!onActiveDel.value) {
-                        Lottieonactivedelete(R.raw.binanim)
-                    } else {
-                        Lottieonactivedelete(R.raw.crossanim)
-                    }
-
-
-                }
-            }
-
-
-
-
-        }
-    }
-
-
-    @Composable
-    fun userBox(
-        eventdetail: ownEventBoxUiModel,
-        horiscrollowneventstate: ScrollState,
-        boxwidth: MutableState<Dp>
-    ){
-        val coroutineScope = rememberCoroutineScope()
-         val color= remember{ mutableStateOf(listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random())}
-
-        var lengthdp=remember{ Animatable(eventdetail.eventWithLive.durationInMin.toFloat() * (5f/3f)) }
-        val xdis= remember{(((eventdetail.eventWithLive.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.starttime.min.toFloat() * (5f/3f)) + 75f)}
-            val ydis= (30+(eventdetail.ydis*70))
-        val xdisinpxcald=with(LocalDensity.current){(xdis-2).dp.toPx()}
-        val ydisinpxcald=with(LocalDensity.current){(ydis).dp.toPx()}
-        var offsetX = remember { Animatable(xdisinpxcald) }
-        var offsetY = remember { Animatable(ydisinpxcald) }
-
-        Box(
-            Modifier
-                .offset {
-//                    xdis.dp - 2.dp, ydis.dp
-                    IntOffset(
-                        offsetX.value
-                            .toInt(),
-                        offsetY.value
-                            .toInt()
-                    )
-                }
-                .height(58.dp)
-                .width(lengthdp.value.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(color.value)
-                .clickable {
-
-                    val frg = Events_Details_Fragment()
-                    val arguments = bundleOf("Artist" to eventdetail.eventWithLive.artist)
-//                            fm
-//                                    .beginTransaction()
-//                                    .replace(R.id.fragmentContainerView, frg)
-//                                    .addToBackStack(null)
-//                                    .commit()
-                    findNavController(this).navigate(
-                        R.id.action_home2_to_events_Details_Fragment,
-                        arguments
-                    );
-
-
-                }
-                .pointerInput(Unit) {
-                    detectDragGesturesAfterLongPress(
-                        onDragStart = { isdragging.value = true },
-                        onDrag = { _, dragAmount ->
-                            val original = Offset(offsetX.value, offsetY.value)
-                            val summed = original + dragAmount
-                            val newValue = Offset(
-                                x = summed.x,
-                                y = summed.y.coerceIn(30.dp.toPx(), 221.dp.toPx())
-                            )
-                            coroutineScope.launch {
-                                offsetY.snapTo(newValue.y)
-                                offsetX.snapTo(newValue.x)
-                            }
-
-
-
-                            onActiveDel.value = (182.dp..221.dp).contains(offsetY.value.toDp()) and
-                                    ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
-                                        .toPx()
-                                        .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
-                                        (offsetX.value)
-                                            .toInt()
-                                    ))
-
-
-                        },
-                        onDragCancel = {
-                            isdragging.value = false;
-                            coroutineScope.launch {
-                                offsetX.animateTo(
-                                    xdisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
-                                offsetY.animateTo(
-                                    ydisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
-                            }
-                        },
-                        onDragEnd = {
-                            isdragging.value = false
-                            if (onActiveDel.value) {
-                                coroutineScope.launch {
-                                    lengthdp.animateTo(
-                                        0f, animationSpec = tween(
-                                            durationMillis = 300,
-                                            delayMillis = 0, easing = FastOutSlowInEasing
-                                        )
-                                    )
-//                                                homeViewModel.OwnEventsLiveState.remove(eventdetail.eventWithLive)
-//                                                val list=homeViewModel.OwnEventsLiveState
-//                                                homeViewModel.OwnEventsLiveState.clear()
-//                                                homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
 //
-                                    scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
-                                    homeViewModel.OwnEventsWithLive.value?.clear()
-                                    datestate1.clear()
-                                    datestate2.clear()
-                                    datestate3.clear()
-//                                                delay(1000)
-                                    homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
-//                                                homeViewModel.allEventsWithLivedata.removeAndAddItemAtPos(
-//                                                    homeViewModel.allEventsWithLivedata.value?.find { data->data.eventdetail.artist==eventdetail.eventWithLive.artist }!!
-//                                                )
+//    @Composable
+//    fun scheduleBox() {
+//        val horiscrollowneventstate = rememberScrollState()
+//        var boxwidth=remember{ mutableStateOf(0.dp)}
+//        Box(Modifier
+//            .height(279.dp)) {
+//            Box(
+//                Modifier
+//                    .width(1550.dp)
+//                    .height(279.dp)
+//                    .background(color = blackbg)
+//                    .horizontalScroll(horiscrollowneventstate)
+//            ) {
+//                Row(
+//                    Modifier
+//                        .width(1550.dp)
+//                        .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
+//                ) {
+//                    for (time in 9..11) {
+//                        Column(
+//                            Modifier
+//                                .width(50.dp)
+//                                .wrapContentHeight(),
+//                            horizontalAlignment = Alignment.CenterHorizontally
+//                        ) {
+//                            Text(
+//                                text = "$time AM",
+//                                style = TextStyle(
+//                                    color = Color(0xffC7CCD1),
+//                                    fontFamily = clash,
+//                                    fontWeight = FontWeight.W600,
+//                                    fontSize = 14.sp
+//                                )
+//                            )
+//                            Canvas(
+//                                modifier = Modifier
+//                                    .width(5.dp)
+//                                    .height(260.dp)
+//                            ) {
+//                                drawLine(
+//                                    color = Color(0xff4C5862),
+//                                    start = Offset(0f, 0f),
+//                                    end = Offset(0f, size.height),
+//                                    strokeWidth = 1.dp.toPx()
+//                                )
+//                            }
+//
+//                        }
+//
+//                    }
+//
+//                    Column(
+//                        Modifier
+//                            .width(50.dp)
+//                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
+//                    ) {
+//                        Text(
+//                            text = "12 PM",
+//                            style = TextStyle(
+//                                color = Color(0xffC7CCD1),
+//                                fontFamily = clash,
+//                                fontWeight = FontWeight.W600,
+//                                fontSize = 14.sp
+//                            )
+//                        )
+//                        Canvas(
+//                            modifier = Modifier
+//                                .width(5.dp)
+//                                .height(260.dp)
+//                        ) {
+//                            drawLine(
+//                                color = Color(0xff4C5862),
+//                                start = Offset(0f, 0f),
+//                                end = Offset(0f, size.height),
+//                                strokeWidth = 1.dp.toPx()
+//                            )
+//                        }
+//                    }
+//                    for (time in 1..11) {
+//                        Column(
+//                            Modifier
+//                                .width(50.dp)
+//                                .wrapContentHeight(),
+//                            horizontalAlignment = Alignment.CenterHorizontally
+//                        ) {
+//                            Text(
+//                                text = "$time PM",
+//                                style = TextStyle(
+//                                    color = Color(0xffC7CCD1),
+//                                    fontFamily = clash,
+//                                    fontWeight = FontWeight.W600,
+//                                    fontSize = 14.sp
+//                                )
+//                            )
+//                            Canvas(
+//                                modifier = Modifier
+//                                    .width(5.dp)
+//                                    .height(260.dp)
+//                            ) {
+//                                drawLine(
+//                                    color = Color(0xff4C5862),
+//                                    start = Offset(0f, 0f),
+//                                    end = Offset(0f, size.height),
+//                                    strokeWidth = 1.dp.toPx()
+//                                )
+//                            }
+//
+//                        }
+//
+//                    }
+//
+//                }
+//
+//                if (datestate.value==1) {
+//                    datestate1.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
+//                }
+//                if (datestate.value==2) {
+//                    datestate2.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
+//                }
+//                if (datestate.value==3) {
+//                    datestate3.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
+//                }
+//
+//
+//
+//            }
+//            if (isdragging.value) {
+//
+//                BoxWithConstraints(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .offset(0.dp, 200.dp)
+//                        .height(80.dp)
+//                        .background(color = Color.Transparent),
+//                    contentAlignment = Alignment.BottomCenter
+//                )
+//                {
+//                    boxwidth.value = maxWidth
+//                    if (!onActiveDel.value) {
+//                        Lottieonactivedelete(R.raw.binanim)
+//                    } else {
+//                        Lottieonactivedelete(R.raw.crossanim)
+//                    }
+//
+//
+//                }
+//            }
+//
+//
+//
+//
+//        }
+//    }
 
-//                                    val dataevnetcurrent= homeViewModel.upcomingEventsLiveState.toList()
-//                                    homeViewModel.allEventsWithLivedata.postValue(mutableListOf(eventWithLive(
-//                                        eventdetail()
-//                                    )))
-//                                                delay(100)
-//                                    homeViewModel.allEventsWithLivedata.value?.clear()
-//                                                homeViewModel.upcomingEventsLiveState.clear()
-//                                                delay(100)
-//                                                homeViewModel.upcomingEventsLiveState.addAll(dataevnetcurrent)
-//                                                homeViewModel.upcomingEventsLiveState.add(
-//                                                    eventWithLive(eventdetail())
-//                                                )
-//                                                homeViewModel.allEventsWithLivedata.postValue(dataevnetcurrent)
 
-//                                  homeViewModel.allEventsWithLivedata.addNewItem(eventWithLive(eventdetail()))
-//                                    homeViewModel.allEventsWithLivedata.removeAnItem(eventWithLive(eventdetail()))
-                                }
-//                                datestate.forEach { data -> list.add(data) }
-//                                datestate.remove(eventdetail)
-//                                Log.d("boxevent", eventdetail.toString())
-
-
-//                                Log.d("boxevent", list.toString())
-
-
-//                             val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
-//                                Log.d("resdel",res1.toString())
-//                                Log.d("resdel",res2.toString())
-                                onActiveDel.value = false
-//                                if (res  ) {
-//                                    Toast
-//                                        .makeText(activity, "event removed", Toast.LENGTH_SHORT)
-//                                        .show()
+//    @Composable
+//    fun userBox(
+//        eventdetail: ownEventBoxUiModel,
+//        horiscrollowneventstate: ScrollState,
+//        boxwidth: MutableState<Dp>
+//    ){
+//        val coroutineScope = rememberCoroutineScope()
+//         val color= remember{ mutableStateOf(listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random())}
+//
+//        var lengthdp=remember{ Animatable(eventdetail.eventWithLive.durationInMin.toFloat() * (5f/3f)) }
+//        val xdis= remember{(((eventdetail.eventWithLive.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.starttime.min.toFloat() * (5f/3f)) + 75f)}
+//            val ydis= (30+(eventdetail.ydis*70))
+//        val xdisinpxcald=with(LocalDensity.current){(xdis-2).dp.toPx()}
+//        val ydisinpxcald=with(LocalDensity.current){(ydis).dp.toPx()}
+//        var offsetX = remember { Animatable(xdisinpxcald) }
+//        var offsetY = remember { Animatable(ydisinpxcald) }
+//
+//        Box(
+//            Modifier
+//                .offset {
+////                    xdis.dp - 2.dp, ydis.dp
+//                    IntOffset(
+//                        offsetX.value
+//                            .toInt(),
+//                        offsetY.value
+//                            .toInt()
+//                    )
+//                }
+//                .height(58.dp)
+//                .width(lengthdp.value.dp)
+//                .clip(RoundedCornerShape(8.dp))
+//                .background(color.value)
+//                .clickable {
+//
+//                    val frg = Events_Details_Fragment()
+//                    val arguments = bundleOf("Artist" to eventdetail.eventWithLive.artist)
+////                            fm
+////                                    .beginTransaction()
+////                                    .replace(R.id.fragmentContainerView, frg)
+////                                    .addToBackStack(null)
+////                                    .commit()
+//                    findNavController(this).navigate(
+//                        R.id.action_home2_to_events_Details_Fragment,
+//                        arguments
+//                    );
+//
+//
+//                }
+//                .pointerInput(Unit) {
+//                    detectDragGesturesAfterLongPress(
+//                        onDragStart = { isdragging.value = true },
+//                        onDrag = { _, dragAmount ->
+//                            val original = Offset(offsetX.value, offsetY.value)
+//                            val summed = original + dragAmount
+//                            val newValue = Offset(
+//                                x = summed.x,
+//                                y = summed.y.coerceIn(30.dp.toPx(), 221.dp.toPx())
+//                            )
+//                            coroutineScope.launch {
+//                                offsetY.snapTo(newValue.y)
+//                                offsetX.snapTo(newValue.x)
+//                            }
+//
+//
+//
+//                            onActiveDel.value = (182.dp..221.dp).contains(offsetY.value.toDp()) and
+//                                    ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
+//                                        .toPx()
+//                                        .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
+//                                        (offsetX.value)
+//                                            .toInt()
+//                                    ))
+//
+//
+//                        },
+//                        onDragCancel = {
+//                            isdragging.value = false;
+//                            coroutineScope.launch {
+//                                offsetX.animateTo(
+//                                    xdisinpxcald, animationSpec = tween(
+//                                        durationMillis = 400,
+//                                        delayMillis = 0, easing = FastOutSlowInEasing
+//                                    )
+//                                );
+//                                offsetY.animateTo(
+//                                    ydisinpxcald, animationSpec = tween(
+//                                        durationMillis = 400,
+//                                        delayMillis = 0, easing = FastOutSlowInEasing
+//                                    )
+//                                );
+//                            }
+//                        },
+//                        onDragEnd = {
+//                            isdragging.value = false
+//                            if (onActiveDel.value) {
+//                                coroutineScope.launch {
+//                                    lengthdp.animateTo(
+//                                        0f, animationSpec = tween(
+//                                            durationMillis = 300,
+//                                            delayMillis = 0, easing = FastOutSlowInEasing
+//                                        )
+//                                    )
+////                                                homeViewModel.OwnEventsLiveState.remove(eventdetail.eventWithLive)
+////                                                val list=homeViewModel.OwnEventsLiveState
+////                                                homeViewModel.OwnEventsLiveState.clear()
+////                                                homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
+////
+//                                    scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
+//                                    homeViewModel.OwnEventsWithLive.value?.clear()
+//                                    datestate1.clear()
+//                                    datestate2.clear()
+//                                    datestate3.clear()
+////                                                delay(1000)
+//                                    homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
+////                                                homeViewModel.allEventsWithLivedata.removeAndAddItemAtPos(
+////                                                    homeViewModel.allEventsWithLivedata.value?.find { data->data.eventdetail.artist==eventdetail.eventWithLive.artist }!!
+////                                                )
+//
+////                                    val dataevnetcurrent= homeViewModel.upcomingEventsLiveState.toList()
+////                                    homeViewModel.allEventsWithLivedata.postValue(mutableListOf(eventWithLive(
+////                                        eventdetail()
+////                                    )))
+////                                                delay(100)
+////                                    homeViewModel.allEventsWithLivedata.value?.clear()
+////                                                homeViewModel.upcomingEventsLiveState.clear()
+////                                                delay(100)
+////                                                homeViewModel.upcomingEventsLiveState.addAll(dataevnetcurrent)
+////                                                homeViewModel.upcomingEventsLiveState.add(
+////                                                    eventWithLive(eventdetail())
+////                                                )
+////                                                homeViewModel.allEventsWithLivedata.postValue(dataevnetcurrent)
+//
+////                                  homeViewModel.allEventsWithLivedata.addNewItem(eventWithLive(eventdetail()))
+////                                    homeViewModel.allEventsWithLivedata.removeAnItem(eventWithLive(eventdetail()))
 //                                }
-
-
-                            } else {
-                                coroutineScope.launch {
-                                    offsetX.animateTo(
-                                        xdisinpxcald, animationSpec = tween(
-                                            durationMillis = 400,
-                                            delayMillis = 0, easing = FastOutSlowInEasing
-                                        )
-                                    );
-                                    offsetY.animateTo(
-                                        ydisinpxcald, animationSpec = tween(
-                                            durationMillis = 400,
-                                            delayMillis = 0, easing = FastOutSlowInEasing
-                                        )
-                                    );
-                                }
-
-
-                            }
-
-
-                        }
-
-                    )
-
-
-                }
-
-
-        ) {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
-                Text(
-                    text = eventdetail.eventWithLive.artist,
-                    color = Color.White,
-                    fontWeight = FontWeight.W700,
-                    fontFamily = clash,
-                    fontSize = 14.sp,
-                    maxLines = 1
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = eventdetail.eventWithLive.category,
-                    style = TextStyle(
-                        color = colorResource(id = R.color.textGray),
-                        fontFamily = clash,
-                        fontWeight = FontWeight.W600,
-                        fontSize = 12.sp
-                    )
-                )
-            }
-        }
-
-
-
-
-    }
+////                                datestate.forEach { data -> list.add(data) }
+////                                datestate.remove(eventdetail)
+////                                Log.d("boxevent", eventdetail.toString())
+//
+//
+////                                Log.d("boxevent", list.toString())
+//
+//
+////                             val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
+////                                Log.d("resdel",res1.toString())
+////                                Log.d("resdel",res2.toString())
+//                                onActiveDel.value = false
+////                                if (res  ) {
+////                                    Toast
+////                                        .makeText(activity, "event removed", Toast.LENGTH_SHORT)
+////                                        .show()
+////                                }
+//
+//
+//                            } else {
+//                                coroutineScope.launch {
+//                                    offsetX.animateTo(
+//                                        xdisinpxcald, animationSpec = tween(
+//                                            durationMillis = 400,
+//                                            delayMillis = 0, easing = FastOutSlowInEasing
+//                                        )
+//                                    );
+//                                    offsetY.animateTo(
+//                                        ydisinpxcald, animationSpec = tween(
+//                                            durationMillis = 400,
+//                                            delayMillis = 0, easing = FastOutSlowInEasing
+//                                        )
+//                                    );
+//                                }
+//
+//
+//                            }
+//
+//
+//                        }
+//
+//                    )
+//
+//
+//                }
+//
+//
+//        ) {
+//            Column(
+//                Modifier
+//                    .fillMaxSize()
+//                    .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
+//                Text(
+//                    text = eventdetail.eventWithLive.artist,
+//                    color = Color.White,
+//                    fontWeight = FontWeight.W700,
+//                    fontFamily = clash,
+//                    fontSize = 14.sp,
+//                    maxLines = 1
+//                )
+//                Spacer(modifier = Modifier.height(2.dp))
+//                Text(
+//                    text = eventdetail.eventWithLive.category,
+//                    style = TextStyle(
+//                        color = colorResource(id = R.color.textGray),
+//                        fontFamily = clash,
+//                        fontWeight = FontWeight.W600,
+//                        fontSize = 12.sp
+//                    )
+//                )
+//            }
+//        }
+//
+//
+//
+//
+//    }
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
     @Composable
@@ -2016,33 +1966,16 @@ fun compbox(){
 
                             ),
                         ) {
-                            Card(
-                                Modifier
-                                    .height(10.dp)
-                                    .offset(x = -5.dp, y = 16.dp)
-                                    .alpha(alphaval),
-                                shape = RoundedCornerShape(100.dp),
-                                backgroundColor = textbg
-
-                            ){
-                                Text(
-
-                                    text = "Competitions  ",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Transparent,
-                                    fontSize = 21.sp
-                                )
-                            }
                             Text(
 
-                                text = "Competitions",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
+                                text = "Explore",
+                                fontFamily = futura,
+                                fontWeight = FontWeight.Normal,
                                 color = colors.onBackground,
-                                fontSize = 21.sp
+                                fontSize = 22.sp
                             )
                         }
+
                         compbox()
 
 
@@ -2057,31 +1990,14 @@ fun compbox(){
                                     top = 36.dp
                                 ),
                             ) {
-                                Card(
-                                    Modifier
-                                        .height(10.dp)
-                                        .offset(x = -5.dp, y = 16.dp)
-                                        .alpha(alphaval),
-                                    shape = RoundedCornerShape(100.dp),
-                                    backgroundColor = textbg
 
-                                ){
-                                    Text(
-
-                                        text = "Ongoing Events  ",
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Transparent,
-                                        fontSize = 21.sp
-                                    )
-                                }
                                 Text(
 
                                     text = "Ongoing Events",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Normal,
                                     color = colors.onBackground,
-                                    fontSize = 21.sp
+                                    fontSize = 22.sp
                                 )
                             }
                         }
@@ -2130,33 +2046,16 @@ fun compbox(){
                                     top = 36.dp
                                 ),
                             ) {
-                                Card(
-                                    Modifier
-                                        .height(10.dp)
-                                        .offset(x = -5.dp, y = 16.dp)
-                                        .alpha(alphaval),
-                                    shape = RoundedCornerShape(100.dp),
-                                    backgroundColor = textbg
-
-                                ){
-                                    Text(
-
-                                        text = "Upcoming Events  ",
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Transparent,
-                                        fontSize = 21.sp
-                                    )
-                                }
                                 Text(
 
                                     text = "Upcoming Events",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Normal,
                                     color = colors.onBackground,
-                                    fontSize = 21.sp
+                                    fontSize = 22.sp
                                 )
                             }
+
                         }
                         Box(
                             modifier = Modifier
@@ -2207,31 +2106,13 @@ fun compbox(){
                                 ),
 
                         ) {
-//                            Card(
-//                                Modifier
-//                                    .height(10.dp)
-//                                    .offset(x = -5.dp, y = 16.dp)
-//                                    .alpha(alphaval),
-//                                shape = RoundedCornerShape(100.dp),
-//                                backgroundColor = textbg
-//
-//                            ){
-//                                Text(
-//
-//                                    text = "Limited Time Merch  ",
-//                                    fontFamily = aileron,
-//                                    fontWeight = FontWeight.Bold,
-//                                    color = Color.Transparent,
-//                                    fontSize = 21.sp
-//                                )
-//                            }
                             Text(
 
                                 text = "Limited Time Merch",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
+                                fontFamily = futura,
+                                fontWeight = FontWeight.Normal,
                                 color = colors.onBackground,
-                                fontSize = 21.sp
+                                fontSize = 22.sp
                             )
                         }
                         Spacer(modifier = Modifier.height(10.dp))
@@ -2259,34 +2140,8 @@ fun compbox(){
                                 .filter { it.is_available }, drbls
                             )}
                         }
-                        //                    Row(
-                        //                        Modifier
-                        //                            .fillMaxWidth()
-                        //                            .wrapContentHeight()
-                        //                            .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                        //                        Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
-                        //                        Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
-                        //                            ,modifier = Modifier.clickable {
-                        //
-                        ////                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
-                        ////                                    R.id.schedule;
-                        //                            findNavController(this@Home).navigate(R.id.action_home2_to_schedule2);
-                        //
-                        ////                            fm.beginTransaction()
-                        ////                                .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
-                        ////                                .commit()
-                        ////                            })
-                        //                            })
-                        //                    }
-                        //                    Spacer(modifier = Modifier.height(20.dp))
-                        //                    mySchedule()
-                        //                    Spacer(modifier = Modifier.height(20.dp))
-                        //                    Text(modifier = Modifier
-                        //                        .fillMaxWidth()
-                        //                        .padding(horizontal = 10.dp), text = "Hold and Drag to remove events", fontFamily = hk_grotesk, fontWeight = FontWeight.Bold, color = Color(0xffffffff), fontSize = 16.sp, textAlign = TextAlign.Center)
 
-
-                        if(homeViewModel.OwnEventsWithLiveState.isNotEmpty()) {
+                        if(homeViewModel.OwnEventsLiveState.isNotEmpty()) {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
@@ -2294,37 +2149,19 @@ fun compbox(){
                                     top = 36.dp
                                 ),
                             ) {
-                                Card(
-                                    Modifier
-                                        .height(10.dp)
-                                        .offset(x = -5.dp, y = 16.dp)
-                                        .alpha(alphaval),
-                                    shape = RoundedCornerShape(100.dp),
-                                    backgroundColor = textbg
-
-                                ){
-                                    Text(
-
-                                        text = "In Your Schedule  ",
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Transparent,
-                                        fontSize = 21.sp
-                                    )
-                                }
                                 Text(
 
-                                    text = "In Your Schedule",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
+                                    text = "Your Liked Events",
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Normal,
                                     color = colors.onBackground,
-                                    fontSize = 21.sp
+                                    fontSize = 22.sp
                                 )
                             }
                         }
 
 
-                        if(homeViewModel.allEventsWithLive.isNotEmpty()) {
+                        if(homeViewModel.OwnEventsWithLiveState.isNotEmpty()) {
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -2337,14 +2174,23 @@ fun compbox(){
                                 ) {
                                     items(homeViewModel.OwnEventsWithLiveState) { dataeach ->
                                         context?.let {
-                                            Schedule_card(
+                                            Event_card_Scaffold(
                                                 eventdetail = dataeach,
-                                                homeViewModel,
-                                                it,
-                                                this@Home,
-                                                fm,
-                                                R.id.action_home2_to_events_Details_Fragment
-                                            )
+                                                viewModelHm = homeViewModel ,
+                                                context = context!!,
+                                                artist = dataeach.eventdetail.artist
+                                            ) {
+                                                coroutineScope.launch {
+                                                    artist = dataeach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -2362,31 +2208,13 @@ fun compbox(){
                                     top = 36.dp
                                 ),
                             ) {
-                                Card(
-                                    Modifier
-                                        .height(10.dp)
-                                        .offset(x = -5.dp, y = 16.dp)
-                                        .alpha(alphaval),
-                                    shape = RoundedCornerShape(100.dp),
-                                    backgroundColor = textbg
-
-                                ) {
-                                    Text(
-
-                                        text = "For You  ",
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Transparent,
-                                        fontSize = 21.sp
-                                    )
-                                }
                                 Text(
 
                                     text = "For You",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Normal,
                                     color = colors.onBackground,
-                                    fontSize = 21.sp
+                                    fontSize = 22.sp
                                 )
                             }
 
@@ -2571,7 +2399,8 @@ fun compbox(){
                                 modifier = Modifier
                                     .size(35.dp)
                                     .clickable {
-                                        isadded.value = true; homeViewModel.OwnEventsWithLive.addNewItem(
+                                        isadded.value =
+                                            true; homeViewModel.OwnEventsWithLive.addNewItem(
                                         eventWithLive.eventdetail
                                     )
                                         scheduleDatabase.addEventsInSchedule(
@@ -2596,7 +2425,7 @@ fun compbox(){
                                         homeViewModel.OwnEventsWithLive.removeAnItem(
                                             eventWithLive.eventdetail
                                         )
-                                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist, context)
                                     }
                             )
                         }
@@ -2944,7 +2773,11 @@ fun compbox(){
                                 shape = RoundedCornerShape(5.dp)
                             )
                             .clickable {
-                                startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")))
+                                startActivity(
+                                    Intent(Intent.ACTION_VIEW).setData(
+                                        Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")
+                                    )
+                                )
                                 /*val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink))
                                 if(context?.let { intent.resolveActivity(it.packageManager) } != null) {
                                     startActivity(intent)
@@ -3968,7 +3801,7 @@ fun compbox(){
                                     Column (
                                         modifier = Modifier
                                             .fillMaxHeight()
-                                            .padding(bottom=15.dp),
+                                            .padding(bottom = 15.dp),
                                         verticalArrangement = Arrangement.Bottom
                                     ){
                                         Text(

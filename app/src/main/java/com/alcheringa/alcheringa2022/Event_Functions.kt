@@ -69,8 +69,9 @@ fun Event_card_Scaffold(
             targetValue = 0f,
             animationSpec = tween(300, easing = FastOutSlowInEasing)
         )
-        okstate.value=viewModelHm.OwnEventsLiveState.any { data-> data.artist==eventdetail.eventdetail.artist}
+
     })
+    okstate.value=viewModelHm.OwnEventsLiveState.any { data-> data.artist==eventdetail.eventdetail.artist}
 
     if (eventdetail.isLive.value) {
         M = Modifier
@@ -308,8 +309,8 @@ fun Event_card_Scaffold(
 
                                         Image(
                                             modifier = Modifier
-                                                .width(18.dp)
-                                                .height(16.dp)
+                                                .width(28.dp)
+                                                .height(24.dp)
                                                 .clickable {
                                                     okstate.value = true
                                                     viewModelHm.OwnEventsWithLive.addNewItem(
@@ -322,9 +323,9 @@ fun Event_card_Scaffold(
                                                     okstate.value = true
                                                 },
                                             painter = if (isSystemInDarkTheme()) {
-                                                painterResource(id = R.drawable.light_heart)
+                                                painterResource(id = R.drawable.emptyheart_dark)
                                             } else {
-                                                painterResource(id = R.drawable.blheart)
+                                                painterResource(id = R.drawable.emptyheart_light)
                                             },
                                             contentDescription = "null"
                                         )
@@ -332,8 +333,8 @@ fun Event_card_Scaffold(
                                     if (okstate.value) {
                                         Image(
                                             modifier = Modifier
-                                                .width(18.dp)
-                                                .height(16.dp)
+                                                .width(28.dp)
+                                                .height(24.dp)
                                                 .clickable {
                                                     Log.d("boxevent", eventdetail.toString())
 // about the tick and plus symbol
@@ -341,20 +342,14 @@ fun Event_card_Scaffold(
                                                         eventdetail.eventdetail
                                                     )
 
-                                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
-                                                    Toast
-                                                        .makeText(
-                                                            context,
-                                                            "event removed from schedule",
-                                                            Toast.LENGTH_SHORT
-                                                        )
-                                                        .show()
+                                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist, context)
+
                                                     okstate.value = false
                                                 },
                                             painter = if (isSystemInDarkTheme()) {
-                                                painterResource(id = R.drawable.heart)
+                                                painterResource(id = R.drawable.filledheart_dark)
                                             } else {
-                                                painterResource(id = R.drawable.heart)
+                                                painterResource(id = R.drawable.filledheart_light)
                                             },
                                             contentDescription = "null",
                                             contentScale = ContentScale.FillBounds
@@ -370,8 +365,8 @@ fun Event_card_Scaffold(
 
                                         Image(
                                             modifier = Modifier
-                                                .width(18.dp)
-                                                .height(16.dp)
+                                                .width(28.dp)
+                                                .height(24.dp)
                                                 .clickable {
                                                     okstate.value = true
                                                     viewModelHm.OwnEventsWithLive.addNewItem(
@@ -384,9 +379,9 @@ fun Event_card_Scaffold(
                                                     okstate.value = true
                                                 },
                                             painter = if (isSystemInDarkTheme()) {
-                                                painterResource(id = R.drawable.light_heart)
+                                                painterResource(id = R.drawable.emptyheart_dark)
                                             } else {
-                                                painterResource(id = R.drawable.blheart)
+                                                painterResource(id = R.drawable.emptyheart_light)
                                             },
                                             contentDescription = "null"
                                         )
@@ -394,8 +389,8 @@ fun Event_card_Scaffold(
                                     if (okstate.value) {
                                         Image(
                                             modifier = Modifier
-                                                .width(18.dp)
-                                                .height(16.dp)
+                                                .width(28.dp)
+                                                .height(24.dp)
                                                 .clickable {
                                                     Log.d("boxevent", eventdetail.toString())
 
@@ -403,20 +398,14 @@ fun Event_card_Scaffold(
                                                         eventdetail.eventdetail
                                                     )
 
-                                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
-                                                    Toast
-                                                        .makeText(
-                                                            context,
-                                                            "event removed from schedule",
-                                                            Toast.LENGTH_SHORT
-                                                        )
-                                                        .show()
+                                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist, context)
+
                                                     okstate.value = false
                                                 },
                                             painter = if (isSystemInDarkTheme()) {
-                                                painterResource(id = R.drawable.heart)
+                                                painterResource(id = R.drawable.filledheart_dark)
                                             } else {
-                                                painterResource(id = R.drawable.heart)
+                                                painterResource(id = R.drawable.filledheart_light)
                                             },
                                             contentDescription = "null",
                                             contentScale = ContentScale.FillBounds

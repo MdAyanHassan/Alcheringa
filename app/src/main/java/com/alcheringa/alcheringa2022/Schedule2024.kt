@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.LocalOverScrollConfiguration
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -46,6 +48,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -67,8 +70,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
 import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.ScheduleFragmentBinding
@@ -126,6 +131,7 @@ class Schedule2024 : Fragment() {
         return binding.root
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -141,7 +147,12 @@ class Schedule2024 : Fragment() {
         }
         binding.scheduleCompose.setContent {
             Alcheringa2022Theme(){
-                mySchedule()}
+                CompositionLocalProvider(
+                    LocalOverScrollConfiguration provides null
+                ){
+                    mySchedule()
+                }
+            }
         }
     }
 
@@ -379,7 +390,8 @@ class Schedule2024 : Fragment() {
                                         1.dp,
                                         darkTealGreen,
                                         shape = RoundedCornerShape(4.dp)
-                                    ),
+                                    )
+                                    .clickable { expanded = !expanded },
                                 value = selectedItem.value,
                                 onValueChange = { selectedItem.value = it },
                                 trailingIcon = {
@@ -391,7 +403,8 @@ class Schedule2024 : Fragment() {
                                     )
                                 },
                                 readOnly = true,
-                                colors = TextFieldDefaults.textFieldColors(colors.onBackground)
+                                enabled = false,
+                                colors = TextFieldDefaults.textFieldColors(textColor = colors.onBackground, disabledTextColor = colors.onBackground)
                             )
 
                             DropdownMenu(
@@ -710,7 +723,14 @@ class Schedule2024 : Fragment() {
                                             width = 1.dp
                                         )
                                     )
-                                    .background(color = colors.background),
+                                    .background(color = colors.background)
+                                    .clickable {
+                                        val arguments = bundleOf("Artist" to event.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@Schedule2024)
+                                            .navigate(R.id.action_schedule_to_events_Details_Fragment, arguments);
+                                    },
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {

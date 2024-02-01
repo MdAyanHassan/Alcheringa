@@ -358,7 +358,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                                         eventdetail.eventdetail
                                                     )
 
-                                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
+                                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist, context)
                                                     Toast
                                                         .makeText(
                                                             context,
@@ -414,7 +414,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                                         eventdetail.eventdetail
                                                     )
 
-                                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist)
+                                                    ScheduleDatabase.DeleteItem(eventdetail.eventdetail.artist, context)
                                                     Toast
                                                         .makeText(
                                                             context,
