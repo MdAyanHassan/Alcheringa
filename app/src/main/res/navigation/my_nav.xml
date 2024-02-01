@@ -68,6 +68,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_home_nav_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/schedule"
@@ -118,6 +121,20 @@
         android:name="com.alcheringa.alcheringa2022.stallDetails"
         android:label="fragment_stall_details"
         tools:layout="@layout/fragment_stall_details" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.alcheringa.alcheringa2022.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_home_nav"
+            app:destination="@id/home_nav" />
+        <action
+            android:id="@+id/action_searchFragment_to_events_Details_Fragment"
+            app:destination="@id/events_Details_Fragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_stallDetails"
+            app:destination="@id/stallDetails" />
+    </fragment>
 
 
 </navigation>

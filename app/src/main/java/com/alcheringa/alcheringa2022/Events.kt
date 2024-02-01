@@ -977,7 +977,7 @@ class Events : Fragment() {
 
     }
 
-    fun filterlist() {
+    private fun filterlist() {
         searchlist.clear();
         searchlist.addAll(homeViewModel.allEventsWithLive.filter {
             it.eventdetail.toString().contains(searchtext.value, true) && it.eventdetail.toString()

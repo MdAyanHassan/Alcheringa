@@ -1015,6 +1015,7 @@ class Home : Fragment() {
                                                     bundleOf("Artist" to eventdetails[it].eventdetail.artist)
                                                 findNavController(this@Home).navigate(
                                                     R.id.action_home2_to_events_Details_Fragment,
+                                                    //R.id.action_home_nav_to_searchFragment,
                                                     arguments
                                                 )
                                             },
