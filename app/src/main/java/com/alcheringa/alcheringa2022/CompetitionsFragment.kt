@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
@@ -54,6 +55,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.coroutines.launch
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -107,6 +109,8 @@ class CompetitionsFragment : Fragment() {
     var tg= mutableStateOf("")
     var searchtext= mutableStateOf("")
     val complist = listOf("All", "Sports", "Quiz", "Music", "MUN", "Any Body Can Dance", "Vogue Nation", "Lights Camera Action", "Class Apart", "Literary", "Digital Dexterity", "Art Talkies", "Others")
+    var selectedView by mutableStateOf(0)
+
 
 
 
@@ -160,98 +164,151 @@ class CompetitionsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fm= parentFragmentManager
-        mun=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase()}
+        lifecycleScope.launch{
+            mun = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        voguenationlist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "VOGUE NATION".replace("\\s".toRegex(), "").uppercase()}
+            voguenationlist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "VOGUE NATION".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        classapartlist =homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "CLASS APART".replace("\\s".toRegex(), "").uppercase()}
+            classapartlist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "CLASS APART".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        anybodycandancelist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "ANY BODY CAN DANCE".replace("\\s".toRegex(), "").uppercase()}
+            anybodycandancelist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "ANY BODY CAN DANCE".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        musiclist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "MUSIC".replace("\\s".toRegex(), "").uppercase()}
+            musiclist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "MUSIC".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        literarylist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "LITERARY".replace("\\s".toRegex(), "").uppercase()}
+            literarylist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "LITERARY".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        arttalikieslist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "ART TALKIES".replace("\\s".toRegex(), "").uppercase()}
+            arttalikieslist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "ART TALKIES".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        digitaldextiritylist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "DIGITAL DEXTERITY".replace("\\s".toRegex(), "").uppercase()}
+            digitaldextiritylist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "DIGITAL DEXTERITY".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        lighcameraactionlist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "LIGHTS CAMERA ACTION".replace("\\s".toRegex(), "").uppercase()}
+            lighcameraactionlist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "LIGHTS CAMERA ACTION".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        sportslist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "SPORTS".replace("\\s".toRegex(), "").uppercase()}
-        otherlist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "OTHER COMPETITIONS".replace("\\s".toRegex(), "").uppercase()}
-        quizlist=homeViewModel.allEventsWithLive.filter {
-                data-> data.eventdetail.type.replace("\\s".toRegex(), "").uppercase()== "QUIZ".replace("\\s".toRegex(), "").uppercase()}
+            sportslist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "SPORTS".replace("\\s".toRegex(), "").uppercase()
+            }
+            otherlist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "OTHER COMPETITIONS".replace("\\s".toRegex(), "").uppercase()
+            }
+            quizlist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "QUIZ".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        upcomingcompetitions = homeViewModel.upcomingEventsLiveState.filter {
-                data -> data.eventdetail.type.replace("\\s".toRegex(),"").uppercase()=="COMPETITIONS".replace("\\s".toRegex(),"").uppercase()}
+            upcomingcompetitions = homeViewModel.upcomingEventsLiveState.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "COMPETITIONS".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        //upcomingEvents = voguenationlistupcoming + classapartlistupcoming + musiclistupcoming + literarylistupcoming + arttalkieslistupcoming + digitaldextiritylistupcoming + lightscameraacrionlistupcoming + sportslistupcoming + quizlistupcoming
 
+            criticaldamageslist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "Critical Damage".replace("\\s".toRegex(), "").uppercase()
+            }
 
-        criticaldamageslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Critical Damage".replace("\\s".toRegex(), "").uppercase()
+            proniteslist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "Pronites".replace("\\s".toRegex(), "").uppercase()
+            }
+
+            proshowslist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "Proshows".replace("\\s".toRegex(), "").uppercase()
+            }
+
+            creatorscampslist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "Creators' Camp".replace("\\s".toRegex(), "").uppercase()
+            }
+
+            humorfestslist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "Humor Fest".replace("\\s".toRegex(), "").uppercase()
+            }
+
+            camppaignslist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "Kartavya".replace("\\s".toRegex(), "").uppercase()
+            }
+
+            otherEventlist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "OTHER EVENTS".replace("\\s".toRegex(), "").uppercase()
+            }
+            upcomingEvents = homeViewModel.upcomingEventsLiveState.filter { data ->
+                data.eventdetail.type.replace("\\s".toRegex(), "")
+                    .uppercase() != "COMPETITIONS".replace("\\s".toRegex(), "").uppercase()
+            }
+            stallList = homeViewModel.stalllist
         }
-
-        proniteslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Pronites".replace("\\s".toRegex(), "").uppercase()
-        }
-
-        proshowslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Proshows".replace("\\s".toRegex(), "").uppercase()
-        }
-
-        creatorscampslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Creators' Camp".replace("\\s".toRegex(), "").uppercase()
-        }
-
-        humorfestslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Humor Fest".replace("\\s".toRegex(), "").uppercase()
-        }
-
-        camppaignslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Kartavya".replace("\\s".toRegex(), "").uppercase()
-        }
-
-        otherEventlist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "OTHER EVENTS".replace("\\s".toRegex(), "").uppercase()
-        }
-        upcomingEvents = homeViewModel.upcomingEventsLiveState.filter {
-                data -> data.eventdetail.type.replace("\\s".toRegex(),"").uppercase()!="COMPETITIONS".replace("\\s".toRegex(),"").uppercase()
-        }
-        stallList = homeViewModel.stalllist
 
         args = requireArguments()
         selecteedtile = args.getString("Tab")?.toInt() ?: 0
@@ -343,16 +400,15 @@ class CompetitionsFragment : Fragment() {
         // Declaring Coroutine scope
         val coroutineScope = rememberCoroutineScope()
         val viewModelHome: viewModelHome = viewModelHome()
-        var selectedView by remember {
-            mutableStateOf(0)
-        }
+
 
         selectedView = selecteedtile
 
 
         Alcheringa2022Theme {
             Column(
-                Modifier.fillMaxSize()
+                Modifier
+                    .fillMaxSize()
                     .background(colors.background)
             ) {
                 Spacer(
@@ -431,591 +487,6 @@ class CompetitionsFragment : Fragment() {
             }
         }
 
-        // Creating a Bottom Sheet
-        /*Alcheringa2022Theme {
-            BottomSheetScaffold(
-
-                scaffoldState = bottomSheetScaffoldState,
-                sheetContent = {
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.95f)
-                            .border(2.dp, colors.secondary, RoundedCornerShape(40.dp, 40.dp))
-                    ) {
-                        Box(
-                            Modifier
-                                .wrapContentHeight()
-                                .fillMaxWidth()
-                                .padding(top = 8.dp, bottom = 8.dp),
-                            contentAlignment = Alignment.TopCenter
-                        ) {
-                            Icon(
-                                painterResource(id = R.drawable.rectangle_expand), "",
-                                Modifier
-                                    .width(60.dp)
-                                    .height(5.dp), tint = colors.onSurface
-                            )
-                        }
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .verticalScroll(rememberScrollState())
-                        ) {
-                            if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-                                eventfordes =
-                                    homeViewModel.allEventsWithLive.filter { data -> data.eventdetail.artist == artist }[0]
-                                scheduleDatabase = ScheduleDatabase(context)
-
-                                Defaultimg(eventWithLive = eventfordes)
-//                            if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
-//                                    .uppercase() == "Competitions".uppercase()
-//                            ) {
-//                                Bottomviewcomp(eventWithLive = eventfordes)
-//                            } else {
-//                                Bottomviewnewevent(eventWithLive = eventfordes)
-//                            }
-                                Bottomviewcomp(eventWithLive = eventfordes)
-
-                                Spacer(modifier = Modifier.height(0.dp))
-                            }
-                        }
-                        if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-                            eventButtons(eventWithLive = eventfordes)
-                        }
-                    }
-
-
-                },
-                sheetPeekHeight = 0.dp, sheetShape = RoundedCornerShape(40.dp, 40.dp),
-                sheetBackgroundColor = colors.background,
-
-
-                ) {
-                    Alcheringa2022Theme {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-
-                            /*.background(Color.Black)*/
-                        ) {
-
-                            Column( modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .padding(top = 5.dp) ) {
-                                val keyboardController = LocalSoftwareKeyboardController.current
-                                Box(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .wrapContentHeight()
-                                    .padding(horizontal = 15.dp,)){
-                                    TextField(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .wrapContentHeight()
-                                            .clip(RoundedCornerShape(100.dp))
-                                            .border(
-                                                1.dp,
-                                                if (isSystemInDarkTheme()) highWhite else midWhite,
-                                                RoundedCornerShape(100.dp)
-                                            ),
-//                        shape = RoundedCornerShape(100.dp),
-                                        placeholder = { Text("Search a competition",) },
-                                        leadingIcon = {Icon(Icons.Outlined.Search,"", tint =  if (isSystemInDarkTheme()) highWhite else midWhite)},
-                                        value = searchtext.value,
-                                        textStyle = TextStyle(
-                                            fontFamily = aileron,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 16.sp,),
-                                        onValueChange = { v: String -> searchtext.value = v;filterlist() },
-                                        keyboardOptions = KeyboardOptions(autoCorrect = false, imeAction = ImeAction.Search),
-                                        keyboardActions = KeyboardActions(onSearch = {keyboardController?.hide();filterlist()}),
-                                        singleLine = true,
-
-
-                                        colors = TextFieldDefaults.textFieldColors(
-                                            backgroundColor = colors.background,
-                                            textColor = colors.onBackground,
-                                            placeholderColor = Color(0xffacacac),
-                                            cursorColor = colors.onBackground,
-                                            focusedIndicatorColor = Color.Transparent,
-                                            disabledIndicatorColor = Color.Transparent,
-                                            unfocusedIndicatorColor = Color.Transparent,
-                                            errorIndicatorColor = Color.Transparent
-                                        )
-                                    )
-                                }
-                                Spacer(modifier = Modifier.height(15.dp))
-                                tags()
-                                Spacer(modifier = Modifier.height(15.dp))
-                             Divider(color= colorResource(id = R.color.bordercolor), thickness = 1.dp)
-
-                            }
-                            Column(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .verticalScroll(rememberScrollState()).offset(y=-6.dp)) {
-
-                                if (searchtext.value != "" || tg.value != "") {
-
-                                    Events_row(heading = "Search Results", events_list = searchlist)
-                                    if (searchlist.isNotEmpty()) {
-
-                                        LazyRow(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                            contentPadding = PaddingValues(horizontal = 20.dp)
-                                        ) {
-                                            items(searchlist) { dataEach ->
-                                                context?.let {
-                                                    Event_card_Scaffold(
-                                                        eventdetail = dataEach,
-                                                        homeViewModel,
-                                                        it,
-                                                        "artist"
-                                                    ) {
-                                                        artist = dataEach.eventdetail.artist
-                                                        coroutineScope.launch {
-                                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                                bottomSheetScaffoldState.bottomSheetState.expand()
-                                                            } else {
-                                                                bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        Box(
-                                            modifier = Modifier.padding(
-                                                horizontal = 20.dp,
-                                            )
-                                        ) {
-                                            Text(
-                                                text = "No results found for \"${searchtext.value} ${
-                                                    tg.value.drop(
-                                                        3
-                                                    )
-                                                }\"",
-                                                color = colors.onBackground,
-                                                fontSize = 16.sp,
-                                                fontWeight = FontWeight.Normal,
-                                                fontFamily = aileron
-                                            )
-                                        }
-                                    }
-                                }
-                                else{
-
-                                    if (voguenationlist.isNotEmpty()) {
-                                        Events_row(heading = "Vogue Nation", voguenationlist)
-                                        LazyRow(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                            contentPadding = PaddingValues(horizontal = 20.dp)
-                                        ) {
-                                            items(voguenationlist) { dataEach ->
-                                                context?.let {
-                                                    Event_card_Scaffold(
-                                                        eventdetail = dataEach,
-                                                        homeViewModel,
-                                                        it,
-                                                        "artist"
-                                                    ) {
-                                                        artist = dataEach.eventdetail.artist
-                                                        coroutineScope.launch {
-                                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                                bottomSheetScaffoldState.bottomSheetState.expand()
-
-                                                            } else {
-                                                                bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                if (classapartlist.isNotEmpty()) {
-                                    Events_row(heading = "Class apart", classapartlist)
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(classapartlist) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if (anybodycandancelist.isNotEmpty()) {
-                                    Events_row(heading = "Any Body Can Dance", anybodycandancelist)
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(anybodycandancelist) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if (musiclist.isNotEmpty()) {
-                                    Events_row(heading = "Music", musiclist)
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(musiclist) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-
-                                if (literarylist.isNotEmpty()) {
-                                    Events_row(heading = "Literary", literarylist)
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(literarylist) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-
-                                if (arttalikieslist.isNotEmpty()) {
-                                    Events_row(heading = "Art Talkies", arttalikieslist)
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(arttalikieslist) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if (digitaldextiritylist.isNotEmpty()) {
-                                    Events_row(heading = "Digital Dexterity", digitaldextiritylist)
-
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(digitaldextiritylist) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-
-                                if (lighcameraactionlist.isNotEmpty()) {
-                                    Events_row(
-                                        heading = "Lights Camera Actions",
-                                        lighcameraactionlist
-                                    )
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(lighcameraactionlist) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                if (stagecraftlist.isNotEmpty()) {
-                                    Events_row(
-                                        heading = "Stagecraft",
-                                        stagecraftlist
-                                    )
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(stagecraftlist) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                    if (quizlist.isNotEmpty()) {
-                                        Events_row(
-                                            heading = "Stagecraft",
-                                            quizlist
-                                        )
-                                        LazyRow(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                            contentPadding = PaddingValues(horizontal = 20.dp)
-                                        ) {
-                                            items(quizlist) { dataEach ->
-                                                context?.let {
-                                                    Event_card_Scaffold(
-                                                        eventdetail = dataEach,
-                                                        homeViewModel,
-                                                        it,
-                                                        "artist"
-                                                    ) {
-                                                        artist = dataEach.eventdetail.artist
-                                                        coroutineScope.launch {
-                                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                                bottomSheetScaffoldState.bottomSheetState.expand()
-                                                            } else {
-                                                                bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                if (sportslist.isNotEmpty()) {
-                                    Events_row(
-                                        heading = "Sports",
-                                        sportslist
-                                    )
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(sportslist) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                    if (otherlist.isNotEmpty()) {
-                                        Events_row(
-                                            heading = "Others",
-                                            otherlist
-                                        )
-                                        LazyRow(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                            contentPadding = PaddingValues(horizontal = 20.dp)
-                                        ) {
-                                            items(otherlist) { dataEach ->
-                                                context?.let {
-                                                    Event_card_Scaffold(
-                                                        eventdetail = dataEach,
-                                                        homeViewModel,
-                                                        it,
-                                                        "artist"
-                                                    ) {
-                                                        artist = dataEach.eventdetail.artist
-                                                        coroutineScope.launch {
-                                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                                bottomSheetScaffoldState.bottomSheetState.expand()
-                                                            } else {
-                                                                bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-
-
-                                    if (mun.isNotEmpty()) {
-                                    Events_row(heading = "Model United Nations", mun)
-                                    LazyRow(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        contentPadding = PaddingValues(horizontal = 20.dp)
-                                    ) {
-                                        items(mun) { dataEach ->
-                                            context?.let {
-                                                Event_card_Scaffold(
-                                                    eventdetail = dataEach,
-                                                    homeViewModel,
-                                                    it,
-                                                    "artist"
-                                                ) {
-                                                    artist = dataEach.eventdetail.artist
-                                                    coroutineScope.launch {
-                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                            bottomSheetScaffoldState.bottomSheetState.expand()
-                                                        } else {
-                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            }
-                        }
-                    }
-                BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-                    coroutineScope.launch {
-                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                    }
-                }
-
-            }
-        }*/
     }
 
     @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
@@ -1039,9 +510,12 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Upcoming Events",
-                        fontSize = 25.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground
+                        color = colors.onBackground,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = futura
+
                     )
 
                     LazyRow(
@@ -1167,7 +641,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Sports",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1204,7 +678,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Quiz",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1241,7 +715,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Music",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1278,7 +752,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Model United Nations",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1315,7 +789,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Any Body Can Dance",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1352,7 +826,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Vogue Nation",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1389,7 +863,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Lights Camera Action",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1426,7 +900,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Class Apart",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1463,7 +937,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Literary",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1500,7 +974,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Digital Dexterity",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1537,7 +1011,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Art Talkies",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1574,7 +1048,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Other Competitions",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1623,7 +1097,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Upcoming Events",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1660,7 +1134,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Pronites",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1698,7 +1172,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Proshows",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1735,7 +1209,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Creators' Camp",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1773,7 +1247,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Humor Fest",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1811,7 +1285,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Kartavya",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1849,7 +1323,7 @@ class CompetitionsFragment : Fragment() {
                 Column(){
                     Text(
                         text = "Other Events",
-                        fontSize = 30.sp,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
                         color = colors.onBackground,
                         fontFamily = futura
@@ -1983,7 +1457,7 @@ class CompetitionsFragment : Fragment() {
                 text = "Stalls",
                 color = colors.onBackground,
                 fontFamily = futura,
-                fontSize = 30.sp,
+                fontSize = 22.sp,
                 modifier = Modifier.padding(start = 26.dp)
             )
 
@@ -2633,7 +2107,7 @@ class CompetitionsFragment : Fragment() {
                                     homeViewModel.OwnEventsWithLive.removeAnItem(
                                         eventWithLive.eventdetail
                                     )
-                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist, context)
                                 }
                                 .padding(10.dp)
 

@@ -34,6 +34,16 @@ fun <T> MutableLiveData<MutableList<T>>.removeAnItem(item: T) {
     val oldValue = this.value ?: mutableListOf()
     oldValue.remove(item)
     this.value = oldValue
+//    Log.d("liked_check", )
+}
+
+fun MutableLiveData<MutableList<eventdetail>>.removeAnItem(item: eventdetail) {
+    val oldValue = this.value ?: mutableListOf()
+    oldValue.removeIf{
+        it.artist == item.artist
+    }
+    this.value = oldValue
+//    Log.d("liked_check", )
 }
 
 suspend fun <T> MutableLiveData<MutableList<T>>.removeAndAddItemAtPos(item: T) {
@@ -66,6 +76,8 @@ class viewModelHome : ViewModel() {
     val utilityList = mutableStateListOf<utilityModel>()
     val informalList = mutableStateListOf<InformalModel>()
     val stalllist = mutableStateListOf<stallModel>()
+
+
 
 
     fun getAllEvents() {
@@ -176,31 +188,33 @@ class viewModelHome : ViewModel() {
     fun getMerchMerch(){
 
 
-        fb.collection("Merch").get().addOnCompleteListener { task: Task<QuerySnapshot> ->
-            merchMerch.clear()
-            for (documentSnapshot in task.result) {
-                val obj = documentSnapshot["Images"] as ArrayList<String>?
+        viewModelScope.launch{
+            fb.collection("Merch").get().addOnCompleteListener { task: Task<QuerySnapshot> ->
+                merchMerch.clear()
+                for (documentSnapshot in task.result) {
+                    val obj = documentSnapshot["Images"] as ArrayList<String>?
 
-                merchMerch.add(
-                    merchModel(
-                        documentSnapshot.getString("Name"),
-                        documentSnapshot.getString("Type"),
-                        documentSnapshot.getString("Price"),
-                        documentSnapshot.getString("Description"),
-                        documentSnapshot.getString("Image"),
-                        documentSnapshot.getBoolean("Available"),
-                        documentSnapshot.getBoolean("Small"),
-                        documentSnapshot.getBoolean("Medium"),
-                        documentSnapshot.getBoolean("Large"),
-                        documentSnapshot.getBoolean("ExtraLarge"),
-                        documentSnapshot.getBoolean("XXLarge"),
-                        obj,
-                        documentSnapshot.getString("Video"),
-                        documentSnapshot.getString("Small_Description"),
-                        documentSnapshot.getString("background"),
-                        documentSnapshot.getString("Merch_Default")
+                    merchMerch.add(
+                        merchModel(
+                            documentSnapshot.getString("Name"),
+                            documentSnapshot.getString("Type"),
+                            documentSnapshot.getString("Price"),
+                            documentSnapshot.getString("Description"),
+                            documentSnapshot.getString("Image"),
+                            documentSnapshot.getBoolean("Available"),
+                            documentSnapshot.getBoolean("Small"),
+                            documentSnapshot.getBoolean("Medium"),
+                            documentSnapshot.getBoolean("Large"),
+                            documentSnapshot.getBoolean("ExtraLarge"),
+                            documentSnapshot.getBoolean("XXLarge"),
+                            obj,
+                            documentSnapshot.getString("Video"),
+                            documentSnapshot.getString("Small_Description"),
+                            documentSnapshot.getString("background"),
+                            documentSnapshot.getString("Merch_Default")
+                        )
                     )
-                )
+                }
             }
         }
 
@@ -233,44 +247,50 @@ class viewModelHome : ViewModel() {
     }
 
     fun getUtilities(){
-        fb.collection("Utilities").get().addOnSuccessListener {utlts ->
+        viewModelScope.launch{
+            fb.collection("Utilities").get().addOnSuccessListener { utlts ->
 
-            utilityList.clear()
-            for (utlt in utlts){
-                utilityList.add(utlt.toObject(utilityModel::class.java))
+                utilityList.clear()
+                for (utlt in utlts) {
+                    utilityList.add(utlt.toObject(utilityModel::class.java))
+                }
+
             }
-
+                .addOnFailureListener {
+                    Log.d("Utility", it.toString())
+                }
         }
-            .addOnFailureListener {
-                Log.d("Utility", it.toString())
-            }
     }
     fun getInformals(){
-        fb.collection("Informals").get().addOnSuccessListener {informals ->
+        viewModelScope.launch(){
+            fb.collection("Informals").get().addOnSuccessListener { informals ->
 
-            informalList.clear()
-            for (inf in informals){
-                informalList.add(inf.toObject(InformalModel::class.java))
+                informalList.clear()
+                for (inf in informals) {
+                    informalList.add(inf.toObject(InformalModel::class.java))
+                }
+
             }
-
+                .addOnFailureListener {
+                    Log.d("Utility", it.toString())
+                }
         }
-            .addOnFailureListener {
-                Log.d("Utility", it.toString())
-            }
     }
 
     fun getStalls(){
-        fb.collection("Stalls").get().addOnSuccessListener { stalls ->
+        viewModelScope.launch{
+            fb.collection("Stalls").get().addOnSuccessListener { stalls ->
 
-            stalllist.clear()
-            for (stall in stalls){
-                stalllist.add(stall.toObject(stallModel::class.java))
+                stalllist.clear()
+                for (stall in stalls) {
+                    stalllist.add(stall.toObject(stallModel::class.java))
+                }
             }
+
+                .addOnFailureListener {
+                    Log.d("Stalls", it.toString())
+                }
         }
-
-            .addOnFailureListener {
-                Log.d("Stalls", it.toString())
-            }
     }
 
     fun converttomin(OwnTime: OwnTime): Int {

@@ -44,9 +44,11 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
@@ -329,7 +331,7 @@ class Events_Details_Fragment : Fragment() {
                                 homeViewModel.OwnEventsWithLive.removeAnItem(
                                     eventWithLive.eventdetail
                                 )
-                                scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist, context)
                             }
                     )
                 }
@@ -1382,7 +1384,18 @@ class Events_Details_Fragment : Fragment() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
         ) { items(similarlist)
-        {dataEach -> context?.let { Event_card(eventdetail = dataEach, homeViewModel, it, this@Events_Details_Fragment,fgman,R.id.action_events_Details_Fragment_self2) } } }
+        {dataEach -> context?.let {
+            Event_card_Scaffold(eventdetail = dataEach, viewModelHm = homeViewModel, context = context!!, artist = dataEach.eventdetail.artist) {
+                val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                NavHostFragment
+                    .findNavController(this@Events_Details_Fragment)
+                    .navigate(R.id.action_events_Details_Fragment_self2, arguments);
+
+            }
+        }
+
+        } }
 
         Spacer(modifier = Modifier.height(5.dp))
     }

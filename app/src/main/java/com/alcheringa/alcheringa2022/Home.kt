@@ -1809,7 +1809,7 @@ fun compbox(){
 //                                                homeViewModel.OwnEventsLiveState.clear()
 //                                                homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
 //
-                                    scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist)
+                                    scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist , context)
                                     homeViewModel.OwnEventsWithLive.value?.clear()
                                     datestate1.clear()
                                     datestate2.clear()
@@ -2603,7 +2603,7 @@ fun compbox(){
                                         homeViewModel.OwnEventsWithLive.removeAnItem(
                                             eventWithLive.eventdetail
                                         )
-                                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist)
+                                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist , context)
                                     }
                             )
                         }
