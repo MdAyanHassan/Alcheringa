@@ -51,7 +51,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
+import androidx.core.content.ContentProviderCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -92,20 +95,21 @@ class Home : Fragment() {
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
-    lateinit var fm:FragmentManager
+    lateinit var fm: FragmentManager
     lateinit var binding: FragmentHomeBinding
-    lateinit var navController :NavController
-    lateinit var  scheduleDatabase:ScheduleDatabase
-    val homeViewModel : viewModelHome by activityViewModels()
-    val ranges= mutableSetOf<ClosedFloatingPointRange<Float>>()
+    lateinit var navController: NavController
+    lateinit var scheduleDatabase: ScheduleDatabase
+    val homeViewModel: viewModelHome by activityViewModels()
+    val ranges = mutableSetOf<ClosedFloatingPointRange<Float>>()
+    lateinit var loaderView: LoaderView
 
     val datestate1 = mutableStateListOf<ownEventBoxUiModel>()
     val datestate2 = mutableStateListOf<ownEventBoxUiModel>()
     val datestate3 = mutableStateListOf<ownEventBoxUiModel>()
-    lateinit var datestate:MutableState<Int>
-    var onActiveDel= mutableStateOf(false)
-    var isdragging=mutableStateOf(false)
-    var home=false;
+    lateinit var datestate: MutableState<Int>
+    var onActiveDel = mutableStateOf(false)
+    var isdragging = mutableStateOf(false)
+    var home = false;
     public val artistLive = MutableLiveData<String>()
 
 
@@ -113,54 +117,7 @@ class Home : Fragment() {
     var sharedPreferences: SharedPreferences? = null
 
     lateinit var eventfordes: eventWithLive
-    lateinit var similarlist:MutableList<eventWithLive>
-
-//    val events=mutableListOf(
-
-//            eventdetail(
-//                    "JUBIN NAUTIYAL2",
-//                    "Pro Nights",
-//                    OwnTime(11,9,0),
-//                    "ONLINE", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fjubin.jpg?alt=media&token=90983a9f-bd0d-483d-b2a8-542c1f1c0acb"
-//            ),
-//
-//            eventdetail(
-//                    "DJ SNAKE4",
-//                    "Pro Nights",
-//                OwnTime(11,12,0),
-//                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-//            ),
-//            eventdetail(
-//                    "TAYLOR SWIFT6",
-//                    "Pro Nights",
-//                OwnTime(11,14,0),
-//                    "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-//            )
-//        ,
-//
-//        eventdetail(
-//            "DJ SNAKE7",
-//            "Pro Nights",
-//            OwnTime(13,10,0),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Fdjsnake.jpg?alt=media&token=8c7aa9c9-d27a-4393-870a-ddf1cd58f175"
-//        ),
-//        eventdetail(
-//            "TAYLOR SWIFT8",
-//            "Pro Nights",
-//            OwnTime(13,15,0),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f", durationInMin = 120
-//        )
-//        ,
-//        eventdetail(
-//            "TAYLOR SWIFT9",
-//            "Pro Nights",
-//            OwnTime(13,14,30),
-//            "ON GROUND", "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/eventsImage%2Ftaylor.webp?alt=media&token=cb2a2ffb-009c-4361-b918-0fec2223228f"
-//        )
-//
-//
-
-//    )
+    lateinit var similarlist: MutableList<eventWithLive>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -169,34 +126,38 @@ class Home : Fragment() {
             mParam1 = requireArguments().getString(ARG_PARAM1)
             mParam2 = requireArguments().getString(ARG_PARAM2)
         }
-        fm=parentFragmentManager
+        fm = parentFragmentManager
 
-        scheduleDatabase=ScheduleDatabase(context)
+        scheduleDatabase = ScheduleDatabase(context)
 
-        if(homeViewModel.OwnEventsWithLiveState.isEmpty()){
-        homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)}
+        if (homeViewModel.OwnEventsWithLiveState.isEmpty()) {
+            homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
+        }
 
-        if (homeViewModel.stalllist.isEmpty()) { homeViewModel.getStalls()}
+        if (homeViewModel.stalllist.isEmpty()) {
+            homeViewModel.getStalls()
+        }
 
 
-        if(homeViewModel.featuredEventsWithLivestate.isEmpty()) { homeViewModel.getfeaturedEvents() }
-        if(homeViewModel.allEventsWithLive.isEmpty()){ homeViewModel.getAllEvents() }
+        if (homeViewModel.featuredEventsWithLivestate.isEmpty()) {
+            homeViewModel.getfeaturedEvents()
+        }
+        if (homeViewModel.allEventsWithLive.isEmpty()) {
+            homeViewModel.getAllEvents()
+        }
 //        homeViewModel.getMerchHome()
-        if(homeViewModel.merchMerch.isEmpty()){ homeViewModel.getMerchMerch() }
+        if (homeViewModel.merchMerch.isEmpty()) {
+            homeViewModel.getMerchMerch()
+        }
 //        Log.d("vipin",eventslist.toString());
 //        homeViewModel.pushEvents(homeViewModel.AllEvents)
-
-
-
-
-
 
 
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
 
@@ -219,27 +180,28 @@ class Home : Fragment() {
         firebaseFirestore = FirebaseFirestore.getInstance()
         sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
 
-        firebaseFirestore!!.collection("Notification").get().addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
-            if (task.isSuccessful) {
-                val notifs = task.result.size()
-                Log.d("Notification Count", "No of notifications: " + notifs)
-                val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
-                Log.d("seen notification", seen_notifs.toString());
-                unseen_notif_count = notifs - seen_notifs!!
+        firebaseFirestore!!.collection("Notification").get()
+            .addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
+                if (task.isSuccessful) {
+                    val notifs = task.result.size()
+                    Log.d("Notification Count", "No of notifications: " + notifs)
+                    val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
+                    Log.d("seen notification", seen_notifs.toString());
+                    unseen_notif_count = notifs - seen_notifs!!
 
-                if (unseen_notif_count <= 0) {
-                    binding.notificationCount.visibility = View.INVISIBLE
-                } else if (unseen_notif_count <= 9) {
-                    binding.notificationCount.visibility = View.VISIBLE
-                    binding.notificationCount.text = unseen_notif_count.toString()
+                    if (unseen_notif_count <= 0) {
+                        binding.notificationCount.visibility = View.INVISIBLE
+                    } else if (unseen_notif_count <= 9) {
+                        binding.notificationCount.visibility = View.VISIBLE
+                        binding.notificationCount.text = unseen_notif_count.toString()
+                    } else {
+                        binding.notificationCount.visibility = View.VISIBLE
+                        binding.notificationCount.text = "9+"
+                    }
                 } else {
-                    binding.notificationCount.visibility = View.VISIBLE
-                    binding.notificationCount.text = "9+"
+                    Log.d("Error", "Error loading notification count", task.exception)
                 }
-            } else {
-                Log.d("Error", "Error loading notification count", task.exception)
-            }
-        })
+            })
 
 
         binding.account.setOnClickListener {
@@ -247,13 +209,22 @@ class Home : Fragment() {
             (activity as MainActivity).drawer.openDrawer(Gravity.RIGHT)
         }
 
-        binding.pass.setOnClickListener{
-            startActivity(Intent(context,
-                NotificationActivity::class.java));
+        binding.pass.setOnClickListener {
+            startActivity(
+                Intent(
+                    context,
+                    NotificationActivity::class.java
+                )
+            );
         }
+
         binding.search.setOnClickListener {
             findNavController(this).navigate(R.id.action_home_nav_to_searchFragment)
         }
+
+        loaderView = view.findViewById(R.id.dots_progress)
+        loaderView.visibility = View.GONE
+
 
         binding.compose1.setContent {
             MyContent();
@@ -266,31 +237,28 @@ class Home : Fragment() {
         //scheduleDatabase=ScheduleDatabase(context)
         super.onActivityCreated(savedInstanceState)
         kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
-            homeViewModel.allEventsWithLivedata.observe(requireActivity()){   data->
+            homeViewModel.allEventsWithLivedata.observe(requireActivity()) { data ->
                 homeViewModel.allEventsWithLive.clear()
                 homeViewModel.allEventsWithLive.addAll(data)
                 homeViewModel.upcomingEventsLiveState.clear()
                 homeViewModel.upcomingEventsLiveState.addAll(data)
                 homeViewModel.forYouEvents.clear()
-                homeViewModel.forYouEvents.addAll(homeViewModel.allEventsWithLive.shuffled().take(7))
+                homeViewModel.forYouEvents.addAll(
+                    homeViewModel.allEventsWithLive.shuffled().take(7)
+                )
             }
-            homeViewModel.featuredEventsWithLivedata.observe(requireActivity()){   data->
+            homeViewModel.featuredEventsWithLivedata.observe(requireActivity()) { data ->
                 homeViewModel.featuredEventsWithLivestate.clear()
                 homeViewModel.featuredEventsWithLivestate.addAll(data)
 
             }
             homeViewModel.OwnEventsWithLive.observe(requireActivity()) { data ->
                 homeViewModel.OwnEventsWithLiveState.clear()
-                Log.d("OwnEventsWithLive Status1" , "${homeViewModel.OwnEventsWithLive.value}")
-                homeViewModel.OwnEventsWithLiveState.addAll(data.map{eventWithLive(it)})
-                Log.d("OwnEventsWithLive Status2" , "${homeViewModel.OwnEventsWithLive.value}")
+                homeViewModel.OwnEventsWithLiveState.addAll(data.map { eventWithLive(it) })
                 homeViewModel.OwnEventsLiveState.clear()
-                Log.d("OwnEventsWithLive Status3" , "${homeViewModel.OwnEventsWithLive.value}")
                 homeViewModel.OwnEventsLiveState.addAll(data)
-                Log.d("OwnEventsWithLive Status4" , "${homeViewModel.OwnEventsWithLive.value}")
-                homeViewModel.OwnEventsWithLiveState.sortedBy{ data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }
-                Log.d("OwnEventsWithLive Status5" , "${homeViewModel.OwnEventsWithLive.value}")
-
+                homeViewModel.OwnEventsWithLiveState.sortedBy { data -> (data.eventdetail.starttime.date * 24 * 60 + ((data.eventdetail.starttime.hours * 60)).toFloat() + (data.eventdetail.starttime.min.toFloat())) }
+//                Log.d("liked_check" , "${data}")
 
 
 //                datestate1.clear();
@@ -306,30 +274,37 @@ class Home : Fragment() {
     }
 
 
-
-
-
-    fun liveToWithY(list:List<eventdetail>): List<ownEventBoxUiModel> {
-        val ranges= mutableListOf<ClosedFloatingPointRange<Float>>()
+    fun liveToWithY(list: List<eventdetail>): List<ownEventBoxUiModel> {
+        val ranges = mutableListOf<ClosedFloatingPointRange<Float>>()
         ranges.clear()
-        val withylist= mutableListOf<ownEventBoxUiModel>()
-        list.sortedBy { (((it.starttime.hours-9)*100).toFloat() + (it.starttime.min.toFloat() * (5f/3f)) + 75f)}
-        list.forEach{ data->
+        val withylist = mutableListOf<ownEventBoxUiModel>()
+        list.sortedBy { (((it.starttime.hours - 9) * 100).toFloat() + (it.starttime.min.toFloat() * (5f / 3f)) + 75f) }
+        list.forEach { data ->
             var l = 0;
-            val lengthdp= (data.durationInMin.toFloat() * (5f/3f))
-            val xdis= (((data.starttime.hours-9)*100).toFloat() + (data.starttime.min.toFloat() * (5f/3f)) + 75f)
+            val lengthdp = (data.durationInMin.toFloat() * (5f / 3f))
+            val xdis =
+                (((data.starttime.hours - 9) * 100).toFloat() + (data.starttime.min.toFloat() * (5f / 3f)) + 75f)
 
             for (range in ranges) {
-                if (range.contains(xdis) or range.contains(xdis + lengthdp) or ((xdis..xdis + lengthdp).contains(range.start) and (xdis..xdis + lengthdp).contains(range.endInclusive))) {
+                if (range.contains(xdis) or range.contains(xdis + lengthdp) or ((xdis..xdis + lengthdp).contains(
+                        range.start
+                    ) and (xdis..xdis + lengthdp).contains(range.endInclusive))
+                ) {
                     l += 1
                 }
-               if( range.start==xdis+lengthdp){l-=1}
-                if( range.endInclusive==xdis){l-=1}
-                if( (range.start==xdis+lengthdp) and (range.endInclusive==xdis)){l+=1}
+                if (range.start == xdis + lengthdp) {
+                    l -= 1
+                }
+                if (range.endInclusive == xdis) {
+                    l -= 1
+                }
+                if ((range.start == xdis + lengthdp) and (range.endInclusive == xdis)) {
+                    l += 1
+                }
 
             }
-            ranges.add((xdis..xdis+lengthdp))
-            withylist.add(ownEventBoxUiModel(data,l))
+            ranges.add((xdis..xdis + lengthdp))
+            withylist.add(ownEventBoxUiModel(data, l))
 
         }
         return withylist
@@ -465,10 +440,6 @@ class Home : Fragment() {
 //    }
 
 
-
-
-
-
 //    @Composable
 //    fun ongoingEvents(eventdetail: eventdetail) {
 //
@@ -542,8 +513,6 @@ class Home : Fragment() {
 //
 //
 //    }
-
-
 
 
     @OptIn(ExperimentalPagerApi::class)
@@ -912,22 +881,22 @@ class Home : Fragment() {
 //
 //
 //    }
-    fun horizontalScroll(eventdetails:List<eventWithLive>){
-    val count = eventdetails.size
-    Box() {
-        Column() {
+    fun horizontalScroll(eventdetails: List<eventWithLive>) {
+        val count = eventdetails.size
+        Box() {
+            Column() {
 
-            val pagerState = rememberPagerState()
-            //            LaunchedEffect(Unit) {
-            //                while(true) {
-            //                    yield()
-            //                    delay(3000)
-            //                    pagerState.animateScrollToPage(
-            //                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
-            //                        animationSpec = tween(1000)
-            //                    )
-            //                }
-            //            }
+                val pagerState = rememberPagerState()
+                //            LaunchedEffect(Unit) {
+                //                while(true) {
+                //                    yield()
+                //                    delay(3000)
+                //                    pagerState.animateScrollToPage(
+                //                        page = (pagerState.currentPage + 1) % (pagerState.pageCount),
+                //                        animationSpec = tween(1000)
+                //                    )
+                //                }
+                //            }
 //                    LaunchedEffect(key1 = pagerState.currentPage) {
 //                        launch {
 //
@@ -953,329 +922,332 @@ class Home : Fragment() {
 //                        .padding(start = 15.dp,bottom=20.dp)
 //                        .fillMaxWidth()
 
-            @Composable
-            fun singlecard(it: Int){
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth(if (0.01f >= (pagerState.currentPageOffset + pagerState.currentPage - it).toFloat()) 0.90f else 0.12f)
-                        .border(
-                            1.5.dp,
-                            colors.onBackground,
-                            RoundedCornerShape(3.dp)
-                        )
-                ) {
-                    Box(
+                @Composable
+                fun singlecard(it: Int) {
+                    Card(
                         modifier = Modifier
-                            .background(
-                                color = colors.background,
-                                shape = RoundedCornerShape(3.dp)
-                            )
-                            .height(370.dp)
-                            .width(300.dp)
+                            .fillMaxWidth(if (0.01f >= (pagerState.currentPageOffset + pagerState.currentPage - it).toFloat()) 0.90f else 0.12f)
                             .border(
-                                1.dp,
-                                colors.background,
-                                shape = RoundedCornerShape(3.dp)
+                                1.5.dp,
+                                colors.onBackground,
+                                RoundedCornerShape(3.dp)
                             )
                     ) {
-                        Column(
+                        Box(
                             modifier = Modifier
+                                .background(
+                                    color = colors.background,
+                                    shape = RoundedCornerShape(3.dp)
+                                )
+                                .height(370.dp)
+                                .width(300.dp)
+                                .border(
+                                    1.dp,
+                                    colors.background,
+                                    shape = RoundedCornerShape(3.dp)
+                                )
                         ) {
-                            Box(
+                            Column(
                                 modifier = Modifier
-                                    .fillMaxHeight(0.80f)
-                                    .fillMaxWidth()
-                                    .background(
-                                        color = Color.Black,
-                                        shape = RoundedCornerShape(3.dp)
-                                    )
-                                    .border(
-                                        1.dp,
-                                        Color.White,
-                                        shape = RoundedCornerShape(3.dp)
-                                    )
                             ) {
-
                                 Box(
                                     modifier = Modifier
-                                        .padding(7.dp)
+                                        .fillMaxHeight(0.80f)
+                                        .fillMaxWidth()
                                         .background(
-                                            Color.Black,
+                                            color = Color.Black,
                                             shape = RoundedCornerShape(3.dp)
                                         )
-                                        .fillMaxSize()
                                         .border(
                                             1.dp,
                                             Color.White,
                                             shape = RoundedCornerShape(3.dp)
                                         )
                                 ) {
-                                    GlideImage(
-                                        requestOptions = {RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
-                                        imageModel = eventdetails[it].eventdetail.imgurl,
-                                        contentDescription = "artist",
+
+                                    Box(
                                         modifier = Modifier
+                                            .padding(7.dp)
+                                            .background(
+                                                Color.Black,
+                                                shape = RoundedCornerShape(3.dp)
+                                            )
                                             .fillMaxSize()
-                                            .clickable {
-                                                val arguments =
-                                                    bundleOf("Artist" to eventdetails[it].eventdetail.artist)
-                                                findNavController(this@Home).navigate(
-                                                    R.id.action_home2_to_events_Details_Fragment,
-                                                    //R.id.action_home_nav_to_searchFragment,
-                                                    arguments
+                                            .border(
+                                                1.dp,
+                                                Color.White,
+                                                shape = RoundedCornerShape(3.dp)
+                                            )
+                                    ) {
+                                        GlideImage(
+                                            requestOptions = {
+                                                RequestOptions.diskCacheStrategyOf(
+                                                    DiskCacheStrategy.AUTOMATIC
                                                 )
                                             },
-                                        alignment = Alignment.Center,
-                                        contentScale = ContentScale.Crop,
-                                        shimmerParams = ShimmerParams(
-                                            baseColor = if (isSystemInDarkTheme()) black else highWhite,
-                                            highlightColor = if (isSystemInDarkTheme()) highBlack else white
-                                        ), failure = {
+                                            imageModel = eventdetails[it].eventdetail.imgurl,
+                                            contentDescription = "artist",
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .clickable {
+                                                    val arguments =
+                                                        bundleOf("Artist" to eventdetails[it].eventdetail.artist)
+                                                    findNavController(this@Home).navigate(
+                                                        R.id.action_home2_to_events_Details_Fragment,
+                                                        //R.id.action_home_nav_to_searchFragment,
+                                                        arguments
+                                                    )
+                                                },
+                                            alignment = Alignment.Center,
+                                            contentScale = ContentScale.Crop,
+                                            shimmerParams = ShimmerParams(
+                                                baseColor = if (isSystemInDarkTheme()) black else highWhite,
+                                                highlightColor = if (isSystemInDarkTheme()) highBlack else white
+                                            ), failure = {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .fillMaxSize(),
+                                                    contentAlignment = Alignment.Center
+                                                ) {
+                                                    val composition by rememberLottieComposition(
+                                                        LottieCompositionSpec.RawRes(if (isSystemInDarkTheme()) R.raw.comingsoondark else R.raw.comingsoonlight)
+                                                    )
+                                                    val progress by animateLottieCompositionAsState(
+                                                        composition,
+                                                        iterations = LottieConstants.IterateForever
+                                                    )
+                                                    LottieAnimation(
+                                                        composition,
+                                                        progress,
+                                                        modifier = Modifier.fillMaxHeight()
+                                                    )
+                                                }
+
+
+                                            }
+                                        )
+
+                                    }
+
+                                    val constraintsSet = ConstraintSet {
+                                        val boxid1 = createRefFor("Box1")
+                                        val boxid2 = createRefFor("Box2")
+                                        val boxid3 = createRefFor("Box3")
+                                        val boxid4 = createRefFor("Box4")
+
+                                        constrain(boxid1) {
+                                            top.linkTo(parent.top)
+                                            start.linkTo(parent.start)
+                                        }
+                                        constrain(boxid2) {
+                                            top.linkTo(parent.top)
+                                            end.linkTo(parent.end)
+                                        }
+                                        constrain(boxid3) {
+                                            bottom.linkTo(parent.bottom)
+                                            start.linkTo(parent.start)
+                                        }
+                                        constrain(boxid4) {
+                                            bottom.linkTo(parent.bottom)
+                                            end.linkTo(parent.end)
+                                        }
+
+                                    }
+                                    ConstraintLayout(
+                                        modifier = Modifier
+                                            .fillMaxSize(),
+                                        constraintSet = constraintsSet
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .layoutId("Box1")
+                                                .height(16.dp)
+                                                .width(16.dp)
+                                                .background(
+                                                    Color.Black,
+                                                    shape = RoundedCornerShape(
+                                                        topStart = 3.dp,
+                                                        bottomEnd = 3.dp
+                                                    )
+                                                )
+                                                .border(
+                                                    1.dp,
+                                                    Color.White,
+                                                    shape = RoundedCornerShape(
+                                                        topStart = 3.dp,
+                                                        bottomEnd = 3.dp
+                                                    )
+                                                ),
+                                            contentAlignment = Alignment.Center
+                                        ) {
                                             Box(
                                                 modifier = Modifier
-                                                    .fillMaxSize(),
-                                                contentAlignment = Alignment.Center
-                                            ){
-                                                val composition by rememberLottieComposition(
-                                                    LottieCompositionSpec.RawRes(if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight)
-                                                )
-                                                val progress by animateLottieCompositionAsState(
-                                                    composition,
-                                                    iterations = LottieConstants.IterateForever
-                                                )
-                                                LottieAnimation(
-                                                    composition,
-                                                    progress,
-                                                    modifier = Modifier.fillMaxHeight()
-                                                )
-                                            }
-
-
+                                                    .height(8.dp)
+                                                    .width(9.dp)
+                                                    .border(
+                                                        1.dp,
+                                                        Color.White,
+                                                        shape = RoundedCornerShape(3.dp)
+                                                    )
+                                            )
                                         }
+
+                                        Box(
+                                            modifier = Modifier
+                                                .layoutId("Box2")
+                                                .height(16.dp)
+                                                .width(16.dp)
+                                                .background(
+                                                    Color.Black,
+                                                    shape = RoundedCornerShape(
+                                                        topStart = 3.dp,
+                                                        bottomEnd = 3.dp
+                                                    )
+                                                )
+                                                .border(
+                                                    1.dp,
+                                                    Color.White,
+                                                    shape = RoundedCornerShape(
+                                                        topEnd = 3.dp,
+                                                        bottomStart = 3.dp
+                                                    )
+                                                ),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .height(8.dp)
+                                                    .width(9.dp)
+                                                    .border(
+                                                        1.dp,
+                                                        Color.White,
+                                                        shape = RoundedCornerShape(3.dp)
+                                                    )
+                                            )
+                                        }
+
+                                        Box(
+                                            modifier = Modifier
+                                                .layoutId("Box3")
+                                                .height(16.dp)
+                                                .width(16.dp)
+                                                .background(
+                                                    Color.Black,
+                                                    shape = RoundedCornerShape(
+                                                        topEnd = 3.dp,
+                                                        bottomStart = 3.dp
+                                                    )
+                                                )
+                                                .border(
+                                                    1.dp,
+                                                    Color.White,
+                                                    shape = RoundedCornerShape(
+                                                        topEnd = 3.dp,
+                                                        bottomStart = 3.dp
+                                                    )
+                                                ),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .height(8.dp)
+                                                    .width(9.dp)
+                                                    .border(
+                                                        1.dp,
+                                                        Color.White,
+                                                        shape = RoundedCornerShape(3.dp)
+                                                    )
+                                            )
+                                        }
+
+                                        Box(
+                                            modifier = Modifier
+                                                .layoutId("Box4")
+                                                .height(16.dp)
+                                                .width(16.dp)
+                                                .background(
+                                                    Color.Black,
+                                                    shape = RoundedCornerShape(
+                                                        topStart = 3.dp,
+                                                        bottomEnd = 3.dp
+                                                    )
+                                                )
+                                                .border(
+                                                    1.dp,
+                                                    Color.White,
+                                                    shape = RoundedCornerShape(
+                                                        topStart = 3.dp,
+                                                        bottomEnd = 3.dp
+                                                    )
+                                                ),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .height(8.dp)
+                                                    .width(9.dp)
+                                                    .border(
+                                                        1.dp,
+                                                        Color.White,
+                                                        shape = RoundedCornerShape(3.dp)
+                                                    )
+                                            )
+                                        }
+                                    }
+
+                                }
+
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                ) {
+                                    MarqueeText(
+                                        modifier = Modifier
+                                            .padding(start = 7.dp, top = 2.dp),
+                                        text = "${eventdetails[it].eventdetail.artist}",
+                                        color = Color.White,
+                                        fontSize = 16.sp
+                                    )
+
+                                    MarqueeText(
+                                        text = " ${eventdetails[it].eventdetail.venue}",
+                                        modifier = Modifier
+                                            .padding(start = 7.dp, bottom = 1.dp),
+                                        color = Color.White,
+                                        fontSize = 12.sp
                                     )
 
                                 }
 
-                                val constraintsSet = ConstraintSet {
-                                    val boxid1 = createRefFor("Box1")
-                                    val boxid2 = createRefFor("Box2")
-                                    val boxid3 = createRefFor("Box3")
-                                    val boxid4 = createRefFor("Box4")
-
-                                    constrain(boxid1) {
-                                        top.linkTo(parent.top)
-                                        start.linkTo(parent.start)
-                                    }
-                                    constrain(boxid2) {
-                                        top.linkTo(parent.top)
-                                        end.linkTo(parent.end)
-                                    }
-                                    constrain(boxid3) {
-                                        bottom.linkTo(parent.bottom)
-                                        start.linkTo(parent.start)
-                                    }
-                                    constrain(boxid4) {
-                                        bottom.linkTo(parent.bottom)
-                                        end.linkTo(parent.end)
-                                    }
-
-                                }
-                                ConstraintLayout(
-                                    modifier = Modifier
-                                        .fillMaxSize(),
-                                    constraintSet = constraintsSet
-                                ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .layoutId("Box1")
-                                            .height(16.dp)
-                                            .width(16.dp)
-                                            .background(
-                                                Color.Black,
-                                                shape = RoundedCornerShape(
-                                                    topStart = 3.dp,
-                                                    bottomEnd = 3.dp
-                                                )
-                                            )
-                                            .border(
-                                                1.dp,
-                                                Color.White,
-                                                shape = RoundedCornerShape(
-                                                    topStart = 3.dp,
-                                                    bottomEnd = 3.dp
-                                                )
-                                            ),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Box(
-                                            modifier = Modifier
-                                                .height(8.dp)
-                                                .width(9.dp)
-                                                .border(
-                                                    1.dp,
-                                                    Color.White,
-                                                    shape = RoundedCornerShape(3.dp)
-                                                )
-                                        )
-                                    }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .layoutId("Box2")
-                                            .height(16.dp)
-                                            .width(16.dp)
-                                            .background(
-                                                Color.Black,
-                                                shape = RoundedCornerShape(
-                                                    topStart = 3.dp,
-                                                    bottomEnd = 3.dp
-                                                )
-                                            )
-                                            .border(
-                                                1.dp,
-                                                Color.White,
-                                                shape = RoundedCornerShape(
-                                                    topEnd = 3.dp,
-                                                    bottomStart = 3.dp
-                                                )
-                                            ),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Box(
-                                            modifier = Modifier
-                                                .height(8.dp)
-                                                .width(9.dp)
-                                                .border(
-                                                    1.dp,
-                                                    Color.White,
-                                                    shape = RoundedCornerShape(3.dp)
-                                                )
-                                        )
-                                    }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .layoutId("Box3")
-                                            .height(16.dp)
-                                            .width(16.dp)
-                                            .background(
-                                                Color.Black,
-                                                shape = RoundedCornerShape(
-                                                    topEnd = 3.dp,
-                                                    bottomStart = 3.dp
-                                                )
-                                            )
-                                            .border(
-                                                1.dp,
-                                                Color.White,
-                                                shape = RoundedCornerShape(
-                                                    topEnd = 3.dp,
-                                                    bottomStart = 3.dp
-                                                )
-                                            ),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Box(
-                                            modifier = Modifier
-                                                .height(8.dp)
-                                                .width(9.dp)
-                                                .border(
-                                                    1.dp,
-                                                    Color.White,
-                                                    shape = RoundedCornerShape(3.dp)
-                                                )
-                                        )
-                                    }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .layoutId("Box4")
-                                            .height(16.dp)
-                                            .width(16.dp)
-                                            .background(
-                                                Color.Black,
-                                                shape = RoundedCornerShape(
-                                                    topStart = 3.dp,
-                                                    bottomEnd = 3.dp
-                                                )
-                                            )
-                                            .border(
-                                                1.dp,
-                                                Color.White,
-                                                shape = RoundedCornerShape(
-                                                    topStart = 3.dp,
-                                                    bottomEnd = 3.dp
-                                                )
-                                            ),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Box(
-                                            modifier = Modifier
-                                                .height(8.dp)
-                                                .width(9.dp)
-                                                .border(
-                                                    1.dp,
-                                                    Color.White,
-                                                    shape = RoundedCornerShape(3.dp)
-                                                )
-                                        )
-                                    }
-                                }
-
                             }
-
-                            Column (
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                            ){
-                                MarqueeText(
-                                    modifier = Modifier
-                                        .padding(start = 7.dp, top = 2.dp),
-                                    text = "${eventdetails[it].eventdetail.artist}",
-                                    color = Color.White,
-                                    fontSize = 16.sp
-                                )
-
-                                MarqueeText(
-                                    text = " ${eventdetails[it].eventdetail.venue}",
-                                    modifier = Modifier
-                                        .padding(start = 7.dp, bottom = 1.dp),
-                                    color = Color.White,
-                                    fontSize = 12.sp
-                                )
-
-                            }
-
                         }
                     }
                 }
-            }
 
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                CardStackModified(
-                    listOf(
-                        {
-                            singlecard(it)
-                        },
-                        {
-                            singlecard(it)
-                        },
-                        {
-                            singlecard(it)
-                        }
-                    ),
-                    cardElevation = 10.dp,
-                    initialRoataion = 2f
-                )
-            }
-
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CardStackModified(
+                        listOf(
+                            {
+                                singlecard(it)
+                            },
+                            {
+                                singlecard(it)
+                            },
+                            {
+                                singlecard(it)
+                            }
+                        ),
+                        cardElevation = 10.dp,
+                        initialRoataion = 2f
+                    )
+                }
 
 
 //                    Box(
@@ -1313,11 +1285,11 @@ class Home : Fragment() {
 //                            }
 //                        }
 //                    }
+            }
         }
+
+
     }
-
-
-}
 
 
 //   @Composable
@@ -1361,559 +1333,142 @@ class Home : Fragment() {
 //   }
 
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun compbox(){
-    /*Column(
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)) {
-
-        val cmpm=if(isSystemInDarkTheme()) Modifier
-            .coloredShadow(Color(0xffffc311), 0.7f, 16.dp, 30.dp, 0.dp, 0.dp)
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .clip(RoundedCornerShape(16.dp))
-            .background(colors.background)
-            .border(3.dp, Color(0xffffc311), RoundedCornerShape(16.dp))
-            .clickable {
-                NavHostFragment
-                    .findNavController(this@Home)
-                    .navigate(R.id.action_home_nav_to_competitionsFragment);
-            }
-            else
-            Modifier
-                .coloredShadow(colors.onBackground, 0.01f, 18.dp, 1.dp, 20.dp, 0.dp)
-                .coloredShadow(colors.onBackground, 0.06f, 18.dp, 1.dp, 12.dp, 0.dp)
-                .coloredShadow(colors.onBackground, 0.24f, 18.dp, 1.dp, 4.dp, 0.dp)
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .clip(RoundedCornerShape(16.dp))
-                .background(colors.background)
-                .border(1.5f.dp, colors.onBackground, RoundedCornerShape(16.dp))
-                .clickable {
-                    NavHostFragment
-                        .findNavController(this@Home)
-                        .navigate(R.id.action_home_nav_to_competitionsFragment);
-                }
-
-
-
-        Box(
-            modifier=cmpm
-        )
-            {
-
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    Column() {
-                        Text(fontFamily = aileron, fontWeight = FontWeight.W600, fontSize = 16.sp, color = colors.onBackground, text = "Explore our competitions")
-                        Spacer(Modifier.height(6.dp))
-                        Text(fontFamily = aileron, fontWeight = FontWeight.W400, fontSize = 12.sp, color = colors.onBackground, text = "Register. Compete. Win")
-                        Spacer(Modifier.height(12.dp))
-                        Text(fontFamily = aileron, fontWeight = FontWeight.W700, fontSize = 13.sp, color = darkBlu, text = "Explore more")
-
-                    }
-                    Image(painter = painterResource(id = R.drawable.cup1), contentDescription ="" ,modifier=Modifier.height(72.dp) )
-
-
-
-                }
-
-             }
-        }*/
-    val externalFont = FontFamily(Font(R.font.futuraptbook))
-
-    LazyRow( modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 20.dp)
-    ){
-        // item 1 merch
-        item {
-            Card(
-                elevation = 6.dp,
-                modifier = Modifier
-                    .size(width = 100.dp, height = 100.dp),
-                onClick = {
-                    findNavController(this@Home)
-                        .navigate(R.id.action_home2_to_merchFragment)
-                }
-            ) {
-               Box(){
-                   Image(painter=painterResource(id = R.drawable.frame_15202_merch_background), contentDescription = "",modifier=Modifier
-                       .size(width = 100.dp, height = 100.dp))
-                   Text(
-                       text = "Merch",
-                       color = Color.White,
-                       fontFamily= externalFont,
-                       modifier = Modifier
-                           .padding(16.dp)
-                           .fillMaxWidth(),
-
-                       textAlign = TextAlign.Center,
-                   )
-
-               }
-            }
-        }
-        // item 2 event
-        item {
-            Card(
-                elevation = 6.dp,
-                modifier = Modifier
-                    .size(width = 100.dp, height = 100.dp),
-                onClick = {
-                    val argument = bundleOf("Tab" to "0")
-                    findNavController(this@Home)
-                        .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
-                }
-            ) {
-                Box(){
-                    Image(painter=painterResource(id = R.drawable.frame_15207_events), contentDescription = "",modifier=Modifier
-                        .size(width = 100.dp, height = 100.dp))
-                    Text(
-                        text = "Events",
-                        color = Color.White,
-                        fontFamily= externalFont,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                    )
-
-                }
-            }
-        }
-        // item 3 competitions
-        item {
-            Card(
-                elevation = 6.dp,
-                modifier = Modifier
-                    .size(width = 100.dp, height = 100.dp)
-                    .clickable {
-                        val arguments = bundleOf("Tab" to "1")
-                        NavHostFragment
-                            .findNavController(this@Home)
-                            .navigate(R.id.action_home_nav_to_competitionsFragment, arguments)
-                    }
-            ) {
-                Box(){
-                    Image(painter=painterResource(id = R.drawable.frame_15209_compback), contentDescription = "",modifier=Modifier
-                        .size(width = 100.dp, height = 100.dp))
-                    Text(
-                        text = "Competition",
-                        color = Color.White,
-                        fontFamily= externalFont,
-                        modifier = Modifier
-                            .padding(16.dp)
-                        .fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                    )
-
-                }
-            }
-        }
-        // item 4 Stalls
-
-        item {
-            Card(
-                elevation = 6.dp,
-                modifier = Modifier
-                    .size(width = 100.dp, height = 100.dp),
-                onClick = {
-                    val argument = bundleOf("Tab" to "2")
-                    findNavController(this@Home)
-                        .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
-                }
-            ) {
-                Box(){
-                    Image(painter=painterResource(id = R.drawable.frame_15202_merch_background), contentDescription = "",modifier=Modifier
-                        .size(width = 100.dp, height = 100.dp))
-                    Text(
-                        text = "Stalls",
-                        color = Color.White,
-                        fontFamily= externalFont,
-                        modifier = Modifier
-                            .padding(16.dp)
-                        .fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                    )
-
-                }
-            }
-        }
-    }
-}
-
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
-    fun scheduleBox() {
-        val horiscrollowneventstate = rememberScrollState()
-        var boxwidth=remember{ mutableStateOf(0.dp)}
-        Box(Modifier
-            .height(279.dp)) {
-            Box(
-                Modifier
-                    .width(1550.dp)
-                    .height(279.dp)
-                    .background(color = blackbg)
-                    .horizontalScroll(horiscrollowneventstate)
-            ) {
-                Row(
-                    Modifier
-                        .width(1550.dp)
-                        .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    for (time in 9..11) {
-                        Column(
-                            Modifier
-                                .width(50.dp)
-                                .wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "$time AM",
-                                style = TextStyle(
-                                    color = Color(0xffC7CCD1),
-                                    fontFamily = clash,
-                                    fontWeight = FontWeight.W600,
-                                    fontSize = 14.sp
-                                )
-                            )
-                            Canvas(
-                                modifier = Modifier
-                                    .width(5.dp)
-                                    .height(260.dp)
-                            ) {
-                                drawLine(
-                                    color = Color(0xff4C5862),
-                                    start = Offset(0f, 0f),
-                                    end = Offset(0f, size.height),
-                                    strokeWidth = 1.dp.toPx()
-                                )
-                            }
+    fun compbox(){
 
-                        }
+        val externalFont = FontFamily(Font(R.font.futuraptbook))
 
-                    }
-
-                    Column(
-                        Modifier
-                            .width(50.dp)
-                            .wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "12 PM",
-                            style = TextStyle(
-                                color = Color(0xffC7CCD1),
-                                fontFamily = clash,
-                                fontWeight = FontWeight.W600,
-                                fontSize = 14.sp
-                            )
-                        )
-                        Canvas(
-                            modifier = Modifier
-                                .width(5.dp)
-                                .height(260.dp)
-                        ) {
-                            drawLine(
-                                color = Color(0xff4C5862),
-                                start = Offset(0f, 0f),
-                                end = Offset(0f, size.height),
-                                strokeWidth = 1.dp.toPx()
-                            )
-                        }
-                    }
-                    for (time in 1..11) {
-                        Column(
-                            Modifier
-                                .width(50.dp)
-                                .wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "$time PM",
-                                style = TextStyle(
-                                    color = Color(0xffC7CCD1),
-                                    fontFamily = clash,
-                                    fontWeight = FontWeight.W600,
-                                    fontSize = 14.sp
-                                )
-                            )
-                            Canvas(
-                                modifier = Modifier
-                                    .width(5.dp)
-                                    .height(260.dp)
-                            ) {
-                                drawLine(
-                                    color = Color(0xff4C5862),
-                                    start = Offset(0f, 0f),
-                                    end = Offset(0f, size.height),
-                                    strokeWidth = 1.dp.toPx()
-                                )
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                if (datestate.value==1) {
-                    datestate1.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
-                }
-                if (datestate.value==2) {
-                    datestate2.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
-                }
-                if (datestate.value==3) {
-                    datestate3.forEach { data -> userBox(eventdetail = data, horiscrollowneventstate, boxwidth) }
-                }
-
-
-
-            }
-            if (isdragging.value) {
-
-                BoxWithConstraints(
+        LazyRow( modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 20.dp)
+        ){
+            // item 1 merch
+            item {
+                Card(
+                    elevation = 6.dp,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(0.dp, 200.dp)
-                        .height(80.dp)
-                        .background(color = Color.Transparent),
-                    contentAlignment = Alignment.BottomCenter
-                )
-                {
-                    boxwidth.value = maxWidth
-                    if (!onActiveDel.value) {
-                        Lottieonactivedelete(R.raw.binanim)
-                    } else {
-                        Lottieonactivedelete(R.raw.crossanim)
+                        .size(width = 100.dp, height = 100.dp),
+                    onClick = {
+                        findNavController(this@Home)
+                            .navigate(R.id.action_home2_to_merchFragment)
                     }
+                ) {
+                    Box(){
+                        Image(painter=painterResource(id = R.drawable.frame_15202_merch_background), contentDescription = "",modifier=Modifier
+                            .size(width = 100.dp, height = 100.dp))
+                        Text(
+                            text = "Merch",
+                            color = Color.White,
+                            fontFamily= externalFont,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth(),
 
+                            textAlign = TextAlign.Center,
+                        )
 
+                    }
                 }
             }
+            // item 2 event
+            item {
+                Card(
+                    elevation = 6.dp,
+                    modifier = Modifier
+                        .size(width = 100.dp, height = 100.dp),
+                    onClick = {
+                        loaderView.visibility = View.VISIBLE
+                        val argument = bundleOf("Tab" to "0")
+                        findNavController(this@Home)
+                            .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
+                        loaderView.visibility = View.GONE
+                    }
+                ) {
+                    Box(){
+                        Image(painter=painterResource(id = R.drawable.frame_15207_events), contentDescription = "",modifier=Modifier
+                            .size(width = 100.dp, height = 100.dp))
+                        Text(
+                            text = "Events",
+                            color = Color.White,
+                            fontFamily= externalFont,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                        )
 
-
-
-
-        }
-    }
-
-
-    @Composable
-    fun userBox(
-        eventdetail: ownEventBoxUiModel,
-        horiscrollowneventstate: ScrollState,
-        boxwidth: MutableState<Dp>
-    ){
-        val coroutineScope = rememberCoroutineScope()
-         val color= remember{ mutableStateOf(listOf(Color(0xffC80915), Color(0xff1E248D), Color(0xffEE6337)).random())}
-
-        var lengthdp=remember{ Animatable(eventdetail.eventWithLive.durationInMin.toFloat() * (5f/3f)) }
-        val xdis= remember{(((eventdetail.eventWithLive.starttime.hours-9)*100).toFloat() + (eventdetail.eventWithLive.starttime.min.toFloat() * (5f/3f)) + 75f)}
-            val ydis= (30+(eventdetail.ydis*70))
-        val xdisinpxcald=with(LocalDensity.current){(xdis-2).dp.toPx()}
-        val ydisinpxcald=with(LocalDensity.current){(ydis).dp.toPx()}
-        var offsetX = remember { Animatable(xdisinpxcald) }
-        var offsetY = remember { Animatable(ydisinpxcald) }
-
-        Box(
-            Modifier
-                .offset {
-//                    xdis.dp - 2.dp, ydis.dp
-                    IntOffset(
-                        offsetX.value
-                            .toInt(),
-                        offsetY.value
-                            .toInt()
-                    )
+                    }
                 }
-                .height(58.dp)
-                .width(lengthdp.value.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(color.value)
-                .clickable {
-
-                    val frg = Events_Details_Fragment()
-                    val arguments = bundleOf("Artist" to eventdetail.eventWithLive.artist)
-//                            fm
-//                                    .beginTransaction()
-//                                    .replace(R.id.fragmentContainerView, frg)
-//                                    .addToBackStack(null)
-//                                    .commit()
-                    findNavController(this).navigate(
-                        R.id.action_home2_to_events_Details_Fragment,
-                        arguments
-                    );
-
-
-                }
-                .pointerInput(Unit) {
-                    detectDragGesturesAfterLongPress(
-                        onDragStart = { isdragging.value = true },
-                        onDrag = { _, dragAmount ->
-                            val original = Offset(offsetX.value, offsetY.value)
-                            val summed = original + dragAmount
-                            val newValue = Offset(
-                                x = summed.x,
-                                y = summed.y.coerceIn(30.dp.toPx(), 221.dp.toPx())
-                            )
-                            coroutineScope.launch {
-                                offsetY.snapTo(newValue.y)
-                                offsetX.snapTo(newValue.x)
-                            }
-
-
-
-                            onActiveDel.value = (182.dp..221.dp).contains(offsetY.value.toDp()) and
-                                    ((horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt() - lengthdp.value.dp
-                                        .toPx()
-                                        .toInt()..horiscrollowneventstate.value + (boxwidth.value.toPx() / 2).toInt()).contains(
-                                        (offsetX.value)
-                                            .toInt()
-                                    ))
-
-
-                        },
-                        onDragCancel = {
-                            isdragging.value = false;
-                            coroutineScope.launch {
-                                offsetX.animateTo(
-                                    xdisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
-                                offsetY.animateTo(
-                                    ydisinpxcald, animationSpec = tween(
-                                        durationMillis = 400,
-                                        delayMillis = 0, easing = FastOutSlowInEasing
-                                    )
-                                );
-                            }
-                        },
-                        onDragEnd = {
-                            isdragging.value = false
-                            if (onActiveDel.value) {
-                                coroutineScope.launch {
-                                    lengthdp.animateTo(
-                                        0f, animationSpec = tween(
-                                            durationMillis = 300,
-                                            delayMillis = 0, easing = FastOutSlowInEasing
-                                        )
-                                    )
-//                                                homeViewModel.OwnEventsLiveState.remove(eventdetail.eventWithLive)
-//                                                val list=homeViewModel.OwnEventsLiveState
-//                                                homeViewModel.OwnEventsLiveState.clear()
-//                                                homeViewModel.OwnEventsWithLive.removeAnItem(eventdetail.eventWithLive)
-//
-                                    scheduleDatabase.DeleteItem(eventdetail.eventWithLive.artist , context)
-                                    homeViewModel.OwnEventsWithLive.value?.clear()
-                                    datestate1.clear()
-                                    datestate2.clear()
-                                    datestate3.clear()
-//                                                delay(1000)
-                                    homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
-//                                                homeViewModel.allEventsWithLivedata.removeAndAddItemAtPos(
-//                                                    homeViewModel.allEventsWithLivedata.value?.find { data->data.eventdetail.artist==eventdetail.eventWithLive.artist }!!
-//                                                )
-
-//                                    val dataevnetcurrent= homeViewModel.upcomingEventsLiveState.toList()
-//                                    homeViewModel.allEventsWithLivedata.postValue(mutableListOf(eventWithLive(
-//                                        eventdetail()
-//                                    )))
-//                                                delay(100)
-//                                    homeViewModel.allEventsWithLivedata.value?.clear()
-//                                                homeViewModel.upcomingEventsLiveState.clear()
-//                                                delay(100)
-//                                                homeViewModel.upcomingEventsLiveState.addAll(dataevnetcurrent)
-//                                                homeViewModel.upcomingEventsLiveState.add(
-//                                                    eventWithLive(eventdetail())
-//                                                )
-//                                                homeViewModel.allEventsWithLivedata.postValue(dataevnetcurrent)
-
-//                                  homeViewModel.allEventsWithLivedata.addNewItem(eventWithLive(eventdetail()))
-//                                    homeViewModel.allEventsWithLivedata.removeAnItem(eventWithLive(eventdetail()))
-                                }
-//                                datestate.forEach { data -> list.add(data) }
-//                                datestate.remove(eventdetail)
-//                                Log.d("boxevent", eventdetail.toString())
-
-
-//                                Log.d("boxevent", list.toString())
-
-
-//                             val res2=homeViewModel.OwnEventsWithLive.value!!.remove(eventWithLive(eventdetail.eventWithLive.eventdetail, mutableStateOf(false)))
-//                                Log.d("resdel",res1.toString())
-//                                Log.d("resdel",res2.toString())
-                                onActiveDel.value = false
-//                                if (res  ) {
-//                                    Toast
-//                                        .makeText(activity, "event removed", Toast.LENGTH_SHORT)
-//                                        .show()
-//                                }
-
-
-                            } else {
-                                coroutineScope.launch {
-                                    offsetX.animateTo(
-                                        xdisinpxcald, animationSpec = tween(
-                                            durationMillis = 400,
-                                            delayMillis = 0, easing = FastOutSlowInEasing
-                                        )
-                                    );
-                                    offsetY.animateTo(
-                                        ydisinpxcald, animationSpec = tween(
-                                            durationMillis = 400,
-                                            delayMillis = 0, easing = FastOutSlowInEasing
-                                        )
-                                    );
-                                }
-
-
-                            }
-
-
+            }
+            // item 3 competitions
+            item {
+                Card(
+                    elevation = 6.dp,
+                    modifier = Modifier
+                        .size(width = 100.dp, height = 100.dp)
+                        .clickable {
+                            loaderView.visibility = View.VISIBLE
+                            val arguments = bundleOf("Tab" to "1")
+                            NavHostFragment
+                                .findNavController(this@Home)
+                                .navigate(R.id.action_home_nav_to_competitionsFragment, arguments)
+                            loaderView.visibility = View.GONE
                         }
+                ) {
+                    Box(){
+                        Image(painter=painterResource(id = R.drawable.frame_15209_compback), contentDescription = "",modifier=Modifier
+                            .size(width = 100.dp, height = 100.dp))
+                        Text(
+                            text = "Competition",
+                            color = Color.White,
+                            fontFamily= externalFont,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                        )
 
-                    )
-
-
+                    }
                 }
+            }
+            // item 4 Stalls
 
+            item {
+                Card(
+                    elevation = 6.dp,
+                    modifier = Modifier
+                        .size(width = 100.dp, height = 100.dp),
+                    onClick = {
+                        loaderView.visibility = View.VISIBLE
+                        val argument = bundleOf("Tab" to "2")
+                        findNavController(this@Home)
+                            .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
+                        loaderView.visibility = View.GONE
+                    }
+                ) {
+                    Box(){
+                        Image(painter=painterResource(id = R.drawable.frame_15202_merch_background), contentDescription = "",modifier=Modifier
+                            .size(width = 100.dp, height = 100.dp))
+                        Text(
+                            text = "Stalls",
+                            color = Color.White,
+                            fontFamily= externalFont,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                        )
 
-        ) {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .padding(12.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
-                Text(
-                    text = eventdetail.eventWithLive.artist,
-                    color = Color.White,
-                    fontWeight = FontWeight.W700,
-                    fontFamily = clash,
-                    fontSize = 14.sp,
-                    maxLines = 1
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = eventdetail.eventWithLive.category,
-                    style = TextStyle(
-                        color = colorResource(id = R.color.textGray),
-                        fontFamily = clash,
-                        fontWeight = FontWeight.W600,
-                        fontSize = 12.sp
-                    )
-                )
+                    }
+                }
             }
         }
-
-
-
-
     }
+//
+
+
+
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
     @Composable
@@ -1938,24 +1493,24 @@ fun compbox(){
                 scaffoldState = bottomSheetScaffoldState,
                 sheetContent = {
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.95f)
-                        .border(2.dp, colors.onBackground, RoundedCornerShape(28.dp, 28.dp))
-                ) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f)
-                            .verticalScroll(rememberScrollState())
+                            .fillMaxHeight(0.95f)
+                            .border(2.dp, colors.onBackground, RoundedCornerShape(28.dp, 28.dp))
                     ) {
-                        if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-                            eventfordes =
-                                homeViewModel.allEventsWithLive.filter { data -> data.eventdetail.artist == artist }[0]
-                            scheduleDatabase = ScheduleDatabase(context)
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                                eventfordes =
+                                    homeViewModel.allEventsWithLive.filter { data -> data.eventdetail.artist == artist }[0]
+                                scheduleDatabase = ScheduleDatabase(context)
 
-                            Defaultimg(eventWithLive = eventfordes)
+                                Defaultimg(eventWithLive = eventfordes)
 //                            if (eventfordes.eventdetail.category.replace("\\s".toRegex(), "")
 //                                    .uppercase() == "Competitions".uppercase()
 //                            ) {
@@ -1963,17 +1518,17 @@ fun compbox(){
 //                            } else {
 //                                Bottomviewnewevent(eventWithLive = eventfordes)
 //                            }
-                            Bottomviewcomp(eventWithLive = eventfordes)
+                                Bottomviewcomp(eventWithLive = eventfordes)
 
-                            Spacer(modifier = Modifier.height(20.dp))
-                            if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
-                                eventButtons(eventWithLive = eventfordes)
+                                Spacer(modifier = Modifier.height(20.dp))
+                                if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                                    eventButtons(eventWithLive = eventfordes)
+                                }
+                                Spacer(modifier = Modifier.height(40.dp))
                             }
-                            Spacer(modifier = Modifier.height(40.dp))
                         }
-                    }
 
-                }
+                    }
 
 
                 },
@@ -1981,7 +1536,7 @@ fun compbox(){
                 sheetBackgroundColor = colors.background,
 
 
-            ) {
+                ) {
                 Alcheringa2022Theme() {
                     val scrollState = rememberScrollState()
 
@@ -2021,35 +1576,18 @@ fun compbox(){
                                 start = 20.dp,
                                 bottom = 24.dp,
 
-                            ),
+                                ),
                         ) {
-                            Card(
-                                Modifier
-                                    .height(10.dp)
-                                    .offset(x = -5.dp, y = 16.dp)
-                                    .alpha(alphaval),
-                                shape = RoundedCornerShape(100.dp),
-                                backgroundColor = textbg
-
-                            ){
-                                Text(
-
-                                    text = "Competitions  ",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Transparent,
-                                    fontSize = 21.sp
-                                )
-                            }
                             Text(
 
-                                text = "Competitions",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
+                                text = "Explore",
+                                fontFamily = futura,
+                                fontWeight = FontWeight.Normal,
                                 color = colors.onBackground,
-                                fontSize = 21.sp
+                                fontSize = 22.sp
                             )
                         }
+
                         compbox()
 
 
@@ -2064,31 +1602,14 @@ fun compbox(){
                                     top = 36.dp
                                 ),
                             ) {
-                                Card(
-                                    Modifier
-                                        .height(10.dp)
-                                        .offset(x = -5.dp, y = 16.dp)
-                                        .alpha(alphaval),
-                                    shape = RoundedCornerShape(100.dp),
-                                    backgroundColor = textbg
 
-                                ){
-                                    Text(
-
-                                        text = "Ongoing Events  ",
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Transparent,
-                                        fontSize = 21.sp
-                                    )
-                                }
                                 Text(
 
                                     text = "Ongoing Events",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Normal,
                                     color = colors.onBackground,
-                                    fontSize = 21.sp
+                                    fontSize = 22.sp
                                 )
                             }
                         }
@@ -2137,33 +1658,16 @@ fun compbox(){
                                     top = 36.dp
                                 ),
                             ) {
-                                Card(
-                                    Modifier
-                                        .height(10.dp)
-                                        .offset(x = -5.dp, y = 16.dp)
-                                        .alpha(alphaval),
-                                    shape = RoundedCornerShape(100.dp),
-                                    backgroundColor = textbg
-
-                                ){
-                                    Text(
-
-                                        text = "Upcoming Events  ",
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Transparent,
-                                        fontSize = 21.sp
-                                    )
-                                }
                                 Text(
 
                                     text = "Upcoming Events",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Normal,
                                     color = colors.onBackground,
-                                    fontSize = 21.sp
+                                    fontSize = 22.sp
                                 )
                             }
+
                         }
                         Box(
                             modifier = Modifier
@@ -2213,32 +1717,14 @@ fun compbox(){
                                     bottom = 10.dp,
                                 ),
 
-                        ) {
-//                            Card(
-//                                Modifier
-//                                    .height(10.dp)
-//                                    .offset(x = -5.dp, y = 16.dp)
-//                                    .alpha(alphaval),
-//                                shape = RoundedCornerShape(100.dp),
-//                                backgroundColor = textbg
-//
-//                            ){
-//                                Text(
-//
-//                                    text = "Limited Time Merch  ",
-//                                    fontFamily = aileron,
-//                                    fontWeight = FontWeight.Bold,
-//                                    color = Color.Transparent,
-//                                    fontSize = 21.sp
-//                                )
-//                            }
+                            ) {
                             Text(
 
                                 text = "Limited Time Merch",
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Bold,
+                                fontFamily = futura,
+                                fontWeight = FontWeight.Normal,
                                 color = colors.onBackground,
-                                fontSize = 21.sp
+                                fontSize = 22.sp
                             )
                         }
                         Spacer(modifier = Modifier.height(10.dp))
@@ -2260,40 +1746,14 @@ fun compbox(){
                                 R.drawable.behindmerch,
                                 R.drawable.behindmerch2,
 
-                            )
+                                )
                             if(homeViewModel.merchMerch.isNotEmpty()){
-                            merchBoxnew(merch = homeViewModel.merchMerch
-                                .filter { it.is_available }, drbls
-                            )}
+                                merchBoxnew(merch = homeViewModel.merchMerch
+                                    .filter { it.is_available }, drbls
+                                )}
                         }
-                        //                    Row(
-                        //                        Modifier
-                        //                            .fillMaxWidth()
-                        //                            .wrapContentHeight()
-                        //                            .padding(start = 20.dp, end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                        //                        Text( text = "MY SCHEDULE", fontFamily = clash, fontWeight = FontWeight.W500, color = Color.White, fontSize = 18.sp)
-                        //                        Text(text = "See Full Schedule>", fontFamily = hk_grotesk, fontSize = 15.sp, fontWeight = FontWeight.W500, color =Color(0xffEE6337)
-                        //                            ,modifier = Modifier.clickable {
-                        //
-                        ////                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
-                        ////                                    R.id.schedule;
-                        //                            findNavController(this@Home).navigate(R.id.action_home2_to_schedule2);
-                        //
-                        ////                            fm.beginTransaction()
-                        ////                                .replace(R.id.fragmentContainerView,Schedule()).addToBackStack(null)
-                        ////                                .commit()
-                        ////                            })
-                        //                            })
-                        //                    }
-                        //                    Spacer(modifier = Modifier.height(20.dp))
-                        //                    mySchedule()
-                        //                    Spacer(modifier = Modifier.height(20.dp))
-                        //                    Text(modifier = Modifier
-                        //                        .fillMaxWidth()
-                        //                        .padding(horizontal = 10.dp), text = "Hold and Drag to remove events", fontFamily = hk_grotesk, fontWeight = FontWeight.Bold, color = Color(0xffffffff), fontSize = 16.sp, textAlign = TextAlign.Center)
 
-
-                        if(homeViewModel.OwnEventsWithLiveState.isNotEmpty()) {
+                        if(homeViewModel.OwnEventsLiveState.isNotEmpty()) {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
@@ -2301,37 +1761,19 @@ fun compbox(){
                                     top = 36.dp
                                 ),
                             ) {
-                                Card(
-                                    Modifier
-                                        .height(10.dp)
-                                        .offset(x = -5.dp, y = 16.dp)
-                                        .alpha(alphaval),
-                                    shape = RoundedCornerShape(100.dp),
-                                    backgroundColor = textbg
-
-                                ){
-                                    Text(
-
-                                        text = "In Your Schedule  ",
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Transparent,
-                                        fontSize = 21.sp
-                                    )
-                                }
                                 Text(
 
-                                    text = "In Your Schedule",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
+                                    text = "Your Liked Events",
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Normal,
                                     color = colors.onBackground,
-                                    fontSize = 21.sp
+                                    fontSize = 22.sp
                                 )
                             }
                         }
 
 
-                        if(homeViewModel.allEventsWithLive.isNotEmpty()) {
+                        if(homeViewModel.OwnEventsWithLiveState.isNotEmpty()) {
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -2344,14 +1786,23 @@ fun compbox(){
                                 ) {
                                     items(homeViewModel.OwnEventsWithLiveState) { dataeach ->
                                         context?.let {
-                                            Schedule_card(
+                                            Event_card_Scaffold(
                                                 eventdetail = dataeach,
-                                                homeViewModel,
-                                                it,
-                                                this@Home,
-                                                fm,
-                                                R.id.action_home2_to_events_Details_Fragment
-                                            )
+                                                viewModelHm = homeViewModel ,
+                                                context = context!!,
+                                                artist = dataeach.eventdetail.artist
+                                            ) {
+                                                coroutineScope.launch {
+                                                    artist = dataeach.eventdetail.artist
+                                                    coroutineScope.launch {
+                                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                            bottomSheetScaffoldState.bottomSheetState.expand()
+                                                        } else {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -2369,31 +1820,13 @@ fun compbox(){
                                     top = 36.dp
                                 ),
                             ) {
-                                Card(
-                                    Modifier
-                                        .height(10.dp)
-                                        .offset(x = -5.dp, y = 16.dp)
-                                        .alpha(alphaval),
-                                    shape = RoundedCornerShape(100.dp),
-                                    backgroundColor = textbg
-
-                                ) {
-                                    Text(
-
-                                        text = "For You  ",
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Transparent,
-                                        fontSize = 21.sp
-                                    )
-                                }
                                 Text(
 
                                     text = "For You",
-                                    fontFamily = aileron,
-                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Normal,
                                     color = colors.onBackground,
-                                    fontSize = 21.sp
+                                    fontSize = 22.sp
                                 )
                             }
 
@@ -2468,7 +1901,7 @@ fun compbox(){
                         .height(287.dp),
                     shape = RoundedCornerShape(28.dp, 28.dp),
 
-                ) {
+                    ) {
                     GlideImage(
                         requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC) },
                         imageModel = eventWithLive.eventdetail.imgurl,
@@ -2578,7 +2011,8 @@ fun compbox(){
                                 modifier = Modifier
                                     .size(35.dp)
                                     .clickable {
-                                        isadded.value = true; homeViewModel.OwnEventsWithLive.addNewItem(
+                                        isadded.value =
+                                            true; homeViewModel.OwnEventsWithLive.addNewItem(
                                         eventWithLive.eventdetail
                                     )
                                         scheduleDatabase.addEventsInSchedule(
@@ -2604,6 +2038,8 @@ fun compbox(){
                                             eventWithLive.eventdetail
                                         )
                                         scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist , context)
+                                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist, context)
+
                                     }
                             )
                         }
@@ -2747,7 +2183,12 @@ fun compbox(){
                                     shape = RoundedCornerShape(5.dp)
                                 )
                                 .clickable {
-                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.alcheringa.in")))
+                                    startActivity(
+                                        Intent(Intent.ACTION_VIEW).setData(
+                                            Uri.parse("https://www.alcheringa.in")
+                                        )
+                                    )
+
                                 }
 
 
@@ -2951,7 +2392,11 @@ fun compbox(){
                                 shape = RoundedCornerShape(5.dp)
                             )
                             .clickable {
-                                startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")))
+                                startActivity(
+                                    Intent(Intent.ACTION_VIEW).setData(
+                                        Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")
+                                    )
+                                )
                                 /*val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink))
                                 if(context?.let { intent.resolveActivity(it.packageManager) } != null) {
                                     startActivity(intent)
@@ -3567,6 +3012,7 @@ fun compbox(){
             textSize = 66F
             typeface = resources.getFont(R.font.starguard)
             color = ContextCompat.getColor(requireContext(), R.color.Green)
+
         }
 
         LaunchedEffect(key1 = pagerState.currentPage) {
@@ -3726,7 +3172,7 @@ fun compbox(){
                                 .padding(vertical = 10.dp),
                                 imageModel = merch[page].image_url, contentDescription = "merch", contentScale = ContentScale.Fit,
                                 alignment = Alignment.Center,
-                               shimmerParams = ShimmerParams(
+                                shimmerParams = ShimmerParams(
                                     baseColor = if(isSystemInDarkTheme()) black else highWhite,
                                     highlightColor = if(isSystemInDarkTheme()) highBlack else white,
                                     durationMillis = 1500,
@@ -3864,16 +3310,16 @@ fun compbox(){
                         2.dp,
                         brush = if (page%2==0){
                             Brush.verticalGradient(
-                            0f to colors.primary,
-                            1f to borderdarkpurple
-                        )}else{
+                                0f to colors.primary,
+                                1f to borderdarkpurple
+                            )}else{
                             Brush.verticalGradient(
                                 0f to darkTealGreen,
                                 1f to borderdarkTealGreen
                             )
                         }
 
-                        )
+                    )
                 ) {
                     Box(modifier = Modifier
                         .clickable {
@@ -3975,7 +3421,7 @@ fun compbox(){
                                     Column (
                                         modifier = Modifier
                                             .fillMaxHeight()
-                                            .padding(bottom=15.dp),
+                                            .padding(bottom = 15.dp),
                                         verticalArrangement = Arrangement.Bottom
                                     ){
                                         Text(
@@ -4162,21 +3608,21 @@ fun compbox(){
 
     @Composable
     fun newhorizontalscroll(eventdetails:SnapshotStateList<eventWithLive>){
-                var count= remember{ mutableStateOf(eventdetails.size) }
+        var count= remember{ mutableStateOf(eventdetails.size) }
 
-                Box(modifier = Modifier
-                    .fillMaxWidth()
+        Box(modifier = Modifier
+            .fillMaxWidth()
 //                    .padding(start=20.dp)
-                    .wrapContentHeight()) {
-                    Column() {
-                        ViewPagernew(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight(),
-                            ) {
-                            repeat(count.value){
-                                    page ->
-                                ViewPagerChild {
+            .wrapContentHeight()) {
+            Column() {
+                ViewPagernew(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                ) {
+                    repeat(count.value){
+                            page ->
+                        ViewPagerChild {
 
                             Card(
                                 border = BorderStroke(1.dp, colors.secondary),
@@ -4211,13 +3657,13 @@ fun compbox(){
                                                     },
                                                 alignment = Alignment.Center,
                                                 contentScale = ContentScale.Crop,
-                                               shimmerParams = ShimmerParams(
-                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
-                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
-                                    durationMillis = 1500,
-                                    dropOff = 1f,
-                                    tilt = 20f
-                                ), failure = {
+                                                shimmerParams = ShimmerParams(
+                                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                                    durationMillis = 1500,
+                                                    dropOff = 1f,
+                                                    tilt = 20f
+                                                ), failure = {
                                                     Box(
                                                         modifier = Modifier
                                                             .fillMaxWidth()
@@ -4317,12 +3763,12 @@ fun compbox(){
                                 }
                             }
                         }
-                        }
-                        }
-
                     }
                 }
+
             }
+        }
+    }
 
 
 
@@ -4363,7 +3809,7 @@ fun compbox(){
         })
     }
 
-
-
 }
+
+
 
