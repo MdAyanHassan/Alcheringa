@@ -80,6 +80,8 @@ import kotlinx.coroutines.*
 import java.util.*
 
 
+
+
 /**
  * A simple [Fragment] subclass.
  * Use the [Home.newInstance] factory method to
@@ -249,6 +251,10 @@ class Home : Fragment() {
             startActivity(Intent(context,
                 NotificationActivity::class.java));
         }
+        binding.search.setOnClickListener {
+            findNavController(this).navigate(R.id.action_home_nav_to_searchFragment)
+        }
+
         binding.compose1.setContent {
             MyContent();
         }

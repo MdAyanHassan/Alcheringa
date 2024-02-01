@@ -53,20 +53,31 @@
 <!--             />-->
 
         <ImageView
+            android:id="@+id/search"
+            android:layout_width="26dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="28dp"
+            android:src="@drawable/vector__6_"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/pass"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
             android:id="@+id/account"
             android:layout_width="0dp"
             android:layout_height="24dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/account1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.479" />
 
         <ImageView
             android:id="@+id/pass"
             android:layout_width="0dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/bell1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/account"
