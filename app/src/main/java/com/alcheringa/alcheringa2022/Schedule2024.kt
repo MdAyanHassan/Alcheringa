@@ -550,12 +550,13 @@ class Schedule2024 : Fragment() {
                     .width(72.dp)
                     .verticalScroll(scroll)
                     .wrapContentHeight()
-                    .padding(start = 10.dp, top = 2.dp)
+                    .padding(start = 10.dp)
             ) {
                 Text(
                     text = "",
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontFamily = futura,
+                    fontWeight = FontWeight.Medium,
                     color = Color.Transparent
                 )
                 Row(
@@ -733,12 +734,12 @@ class Schedule2024 : Fragment() {
                     eventList.forEach { event ->
 
                         val xdis =
-                            (((event.eventdetail.starttime.hours - 8) * 44).toFloat() + (event.eventdetail.starttime.min.toFloat() * (44f / 60f)) + 22f)
+                            (((event.eventdetail.starttime.hours - 8) * 44.2).toFloat() + (event.eventdetail.starttime.min.toFloat() * (44.2f / 60f)) + 23f)
                         val xdisinpxcald = with(LocalDensity.current) { (xdis + 41).dp.toPx() }
 
 
                         val yOffset = ((event.eventdetail.starttime.hours - 8) * 44) + 21
-                        val height = (event.eventdetail.durationInMin / 60) * 44
+                        val height = (event.eventdetail.durationInMin / 60) * 44.2
                         Box(
                             Modifier
                                 .fillMaxWidth()
@@ -757,7 +758,7 @@ class Schedule2024 : Fragment() {
                                             width = 1.dp
                                         )
                                     )
-                                    .background(color = colors.background)
+                                    .background(color = colors.background, shape = RoundedCornerShape(4.dp))
                                     .clickable {
                                         val arguments = bundleOf("Artist" to event.eventdetail.artist)
 

@@ -1357,94 +1357,6 @@ class CompetitionsFragment : Fragment() {
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
-    @Composable
-    fun stallCard(stallDetail: stallModel) {
-        Card(
-            modifier = Modifier
-                .width(155.dp)
-                .height(175.dp),
-            backgroundColor = colors.onBackground,
-            onClick = {
-                val arguments = bundleOf("stallName" to stallDetail.name)
-                NavHostFragment
-                    .findNavController(this@CompetitionsFragment)
-                    .navigate(R.id.action_competitionsFragment_to_stallDetails, arguments);
-            }
-        ){
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.8f)
-                ){
-//                    Image(
-//                        painter = painterResource(id = imageResource),
-//                        contentDescription = null,
-//                        contentScale = ContentScale.FillBounds,
-//                        alignment = Alignment.Center
-//                    )
-                    GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC)},
-                        modifier = Modifier,
-                        imageModel = stallDetail.imgurl,
-                        contentDescription = "stallName",
-                        contentScale = ContentScale.Crop,
-                        alignment = Alignment.Center,
-                        shimmerParams = ShimmerParams(
-                            baseColor = if(isSystemInDarkTheme()) black else highWhite,
-                            highlightColor = if(isSystemInDarkTheme()) highBlack else white,
-                            durationMillis = 1500,
-                            dropOff = 1f,
-                            tilt = 20f
-                        ),
-                        failure = {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(), contentAlignment = Alignment.Center
-                            ) {
-
-                                val composition by rememberLottieComposition(
-                                    LottieCompositionSpec.RawRes(
-                                        if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
-                                    )
-                                )
-                                val progress by animateLottieCompositionAsState(
-                                    composition,
-                                    iterations = LottieConstants.IterateForever
-                                )
-                                LottieAnimation(
-                                    composition,
-                                    progress,
-                                    modifier = Modifier.fillMaxHeight()
-                                )
-                            }
-
-                        }
-                    )
-                }
-
-                Row (
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    Text(
-                        text = stallDetail.name,
-                        color = colors.background,
-                        fontSize = 18.sp,
-                        fontFamily = futura,
-                        modifier = Modifier
-                            .padding(start = 10.dp)
-                    )
-                }
-            }
-        }
-    }
-
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun StallsView(){
@@ -1469,7 +1381,12 @@ class CompetitionsFragment : Fragment() {
             ) {
                 items(stallList) {dataEach->
                     context?.let { 
-                        stallCard(stallDetail = dataEach)
+                        StallCard(stallDetail = dataEach){
+                            val arguments = bundleOf("stallName" to dataEach.name)
+                            NavHostFragment
+                                .findNavController(this@CompetitionsFragment)
+                                .navigate(R.id.action_competitionsFragment_to_stallDetails, arguments);
+                        }
                     }
                 }
             }
