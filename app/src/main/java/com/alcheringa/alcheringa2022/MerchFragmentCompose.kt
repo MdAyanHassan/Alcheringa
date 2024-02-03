@@ -584,7 +584,7 @@ class MerchFragmentCompose : Fragment() {
                                         ) {
 
 
-                                            if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+
 
                                                 Image(
                                                     painter = painterResource(id = R.drawable.frame_15321),
@@ -592,6 +592,7 @@ class MerchFragmentCompose : Fragment() {
                                                     modifier = Modifier
                                                         .align(Alignment.TopCenter)
                                                         .fillMaxWidth().height(290.dp),
+                                                    contentScale = ContentScale.Crop
 
                                                 )
                                                 Column(
@@ -1242,7 +1243,7 @@ class MerchFragmentCompose : Fragment() {
                                                     }
 
                                                 }
-                                            }
+
                                         }
                                         }
                                 }

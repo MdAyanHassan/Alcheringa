@@ -1566,8 +1566,10 @@ class Home : Fragment() {
 
                         if(homeViewModel.featuredEventsWithLivestate.isNotEmpty()) {
 
-                            horizontalScroll(eventdetails = List(10) {homeViewModel.featuredEventsWithLivestate}.flatten())
+//                            horizontalScroll(eventdetails = List(10) {homeViewModel.featuredEventsWithLivestate}.flatten())
+                            HeroSection(featuredEvents = homeViewModel.featuredEventsWithLivestate)
                         }
+                        
 
                         val alphaval= 0.2f
 
@@ -2037,8 +2039,14 @@ class Home : Fragment() {
                                         homeViewModel.OwnEventsWithLive.removeAnItem(
                                             eventWithLive.eventdetail
                                         )
-                                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist , context)
-                                        scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist, context)
+                                        scheduleDatabase.DeleteItem(
+                                            eventWithLive.eventdetail.artist,
+                                            context
+                                        )
+                                        scheduleDatabase.DeleteItem(
+                                            eventWithLive.eventdetail.artist,
+                                            context
+                                        )
 
                                     }
                             )
