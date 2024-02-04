@@ -671,6 +671,7 @@ class Events : Fragment() {
                         ),
                         title = v.name,
                         snippet = v.des,
+
                         onClick = {
                             selectedVenue.value = v.name
 
@@ -683,6 +684,7 @@ class Events : Fragment() {
                                 cameraPositionState.animate(CameraUpdateFactory.newLatLng(it.position), durationMs = 500)
                             }
                             false
+
                         },
 //                        onInfoWindowClick = {
 //                            val gmmIntentUri =
