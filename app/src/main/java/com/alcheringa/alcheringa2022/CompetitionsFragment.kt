@@ -12,9 +12,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -1374,15 +1374,15 @@ class CompetitionsFragment : Fragment() {
             )
 
             LazyVerticalGrid(
-                cells = GridCells.Fixed(2),
+                columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(25.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                items(stallList) {dataEach->
+                items(stallList.size) {index->
                     context?.let { 
-                        StallCard(stallDetail = dataEach){
-                            val arguments = bundleOf("stallName" to dataEach.name)
+                        StallCard(stallDetail = stallList[index]){
+                            val arguments = bundleOf("stallName" to stallList[index].name)
                             NavHostFragment
                                 .findNavController(this@CompetitionsFragment)
                                 .navigate(R.id.action_competitionsFragment_to_stallDetails, arguments);

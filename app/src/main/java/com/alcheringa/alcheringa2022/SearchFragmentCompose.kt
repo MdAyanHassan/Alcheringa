@@ -63,6 +63,7 @@ import com.alcheringa.alcheringa2022.Model.stallModel
 import com.alcheringa.alcheringa2022.Model.venue
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
+import com.alcheringa.alcheringa2022.databinding.FragmentSearchBinding
 import com.alcheringa.alcheringa2022.ui.theme.black
 import com.alcheringa.alcheringa2022.ui.theme.creamWhite
 import com.alcheringa.alcheringa2022.ui.theme.darkBar
@@ -81,7 +82,7 @@ import kotlinx.coroutines.CoroutineScope
 
 
 class SearchFragment : Fragment() {
-    private lateinit var binding: FragmentEventsBinding
+    private lateinit var binding: FragmentSearchBinding
     val taglist = listOf(
         "Dance",
         "Music",
@@ -95,14 +96,6 @@ class SearchFragment : Fragment() {
         "Informals",
         "Stalls"
     )
-    lateinit var criticaldamageslist: List<eventWithLive>
-    lateinit var proniteslist: List<eventWithLive>
-    lateinit var proshowslist: List<eventWithLive>
-    lateinit var creatorscampslist: List<eventWithLive>
-    lateinit var humorfestslist: List<eventWithLive>
-    lateinit var camppaignslist: List<eventWithLive>
-    lateinit var mun: List<eventWithLive>
-    lateinit var otherlist: List<eventWithLive>
     val searchlist = mutableStateListOf<eventWithLive>()
     var markerList = mutableStateListOf<venue>()
     var tg = mutableStateOf("")
@@ -163,7 +156,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         //return inflater.inflate(R.layout.fragment_events, container, false)
-        binding = FragmentEventsBinding.inflate(layoutInflater)
+        binding = FragmentSearchBinding.inflate(layoutInflater)
         return (binding.root)
     }
 

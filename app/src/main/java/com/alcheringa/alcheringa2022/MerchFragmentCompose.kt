@@ -66,6 +66,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
+import java.lang.IllegalStateException
 import kotlin.math.absoluteValue
 
 // TODO: Rename parameter arguments, choose names that match
@@ -143,9 +144,13 @@ class MerchFragmentCompose : Fragment() {
         //populate_merch()
         setCartCountIcon()
         var popUp = -1
-        if (arguments != null){
-            popUp = MerchFragmentComposeArgs.fromBundle(arguments!!).merchPopup
+        try {
+            popUp = requireArguments().getInt("merchId")
+        } catch (e: IllegalStateException){
+            Log.d("MerchFragmentCompose", "No Argument")
         }
+
+
 
 
         compose = view.findViewById(R.id.compose1)
@@ -591,7 +596,8 @@ class MerchFragmentCompose : Fragment() {
                                                     contentDescription = null,
                                                     modifier = Modifier
                                                         .align(Alignment.TopCenter)
-                                                        .fillMaxWidth().height(290.dp),
+                                                        .fillMaxWidth()
+                                                        .height(290.dp),
                                                     contentScale = ContentScale.Crop
 
                                                 )
@@ -733,7 +739,9 @@ class MerchFragmentCompose : Fragment() {
                                                                                     ),
                                                                                 Alignment.TopCenter
                                                                             ) {
-                                                                                Column(modifier = Modifier.height(30.dp).width(40.dp)) {
+                                                                                Column(modifier = Modifier
+                                                                                    .height(30.dp)
+                                                                                    .width(40.dp)) {
                                                                                     Text(
                                                                                         dataeach,
                                                                                         style = TextStyle(
@@ -753,7 +761,13 @@ class MerchFragmentCompose : Fragment() {
                                                                                             painter = painterResource(R.drawable.squiggle),
                                                                                             contentDescription = null,
                                                                                             alignment = Alignment.BottomCenter,
-                                                                                            modifier = Modifier.size(30.dp).align(Alignment.CenterHorizontally)
+                                                                                            modifier = Modifier
+                                                                                                .size(
+                                                                                                    30.dp
+                                                                                                )
+                                                                                                .align(
+                                                                                                    Alignment.CenterHorizontally
+                                                                                                )
                                                                                         )
                                                                                     }
                                                                                 }

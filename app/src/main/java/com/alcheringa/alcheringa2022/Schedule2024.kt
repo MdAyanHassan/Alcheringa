@@ -11,11 +11,11 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.LocalOverScrollConfiguration
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -150,7 +150,7 @@ class Schedule2024 : Fragment() {
         binding.scheduleCompose.setContent {
             Alcheringa2022Theme(){
                 CompositionLocalProvider(
-                    LocalOverScrollConfiguration provides null
+                    LocalOverscrollConfiguration provides null
                 ){
                     mySchedule()
                 }

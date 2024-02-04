@@ -19,6 +19,9 @@ import android.view.View
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme.colors
@@ -73,7 +76,7 @@ class Sponsors : AppCompatActivity() {
             Alcheringa2022Theme(){
 
             LazyVerticalGrid(
-                cells = GridCells.Fixed(2),
+                columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .wrapContentWidth()
                     .wrapContentHeight()

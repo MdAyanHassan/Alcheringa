@@ -7,12 +7,14 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Space
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -39,19 +41,22 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
@@ -134,20 +139,10 @@ class Events : Fragment() {
 
     var markerList = mutableStateListOf<venue>()
 
+    val selectedVenue = mutableStateOf("")
+    var selectedVenueEvents = mutableStateListOf<eventWithLive>()
+    val selectedVenueInformals = mutableListOf<InformalModel>()
 
-    val searchlist = mutableStateListOf<eventWithLive>()
-    var tg = mutableStateOf("")
-    var searchtext = mutableStateOf("")
-
-
-    lateinit var criticaldamageslist: List<eventWithLive>
-    lateinit var proniteslist: List<eventWithLive>
-    lateinit var proshowslist: List<eventWithLive>
-    lateinit var creatorscampslist: List<eventWithLive>
-    lateinit var humorfestslist: List<eventWithLive>
-    lateinit var camppaignslist: List<eventWithLive>
-    lateinit var mun: List<eventWithLive>
-    lateinit var otherlist: List<eventWithLive>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -167,59 +162,6 @@ class Events : Fragment() {
         Log.d("Informals Test", homeViewModel.informalList.size.toString())
 
 
-        criticaldamageslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Critical Damage".replace("\\s".toRegex(), "").uppercase()
-        }
-
-        proniteslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Pronites".replace("\\s".toRegex(), "").uppercase()
-        }
-
-        proshowslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Proshows".replace("\\s".toRegex(), "").uppercase()
-        }
-
-        creatorscampslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Creators' Camp".replace("\\s".toRegex(), "").uppercase()
-        }
-
-        humorfestslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Humor Fest".replace("\\s".toRegex(), "").uppercase()
-        }
-
-        camppaignslist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "Kartavya".replace("\\s".toRegex(), "").uppercase()
-        }
-        mun = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase()
-        }
-        otherlist = homeViewModel.allEventsWithLive.filter { data ->
-            data.eventdetail.type.replace(
-                "\\s".toRegex(),
-                ""
-            ).uppercase() == "OTHER EVENTS".replace("\\s".toRegex(), "").uppercase()
-        }
 
     }
 
@@ -265,10 +207,10 @@ class Events : Fragment() {
 //            }
 //        })
 //
-//        binding.account.setOnClickListener {
-//            startActivity(Intent(context,Account::class.java));
+        binding.account.setOnClickListener {
+            (activity as MainActivity).drawer.openDrawer(Gravity.RIGHT)
 //
-//        }
+        }
 //        binding.pass.setOnClickListener{
 //            startActivity(Intent(context, NotificationActivity::class.java));
 //        }
@@ -291,86 +233,129 @@ class Events : Fragment() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
-                /*.background(Color.Black)*/
             ) {
-                if(tg.value == taglist[0] && homeViewModel.utilityList.isNotEmpty()){
-                    Utility_row(heading = "Utilities", list = homeViewModel.utilityList, bottomSheetScaffoldState, coroutineScope)
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = selectedVenue.value,
+                    fontFamily = futura,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 26.sp,
+                    color = colors.onBackground,
+                    modifier = Modifier
+
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp),
+                    contentAlignment = Alignment.Center
+                ){
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(2.5f),
+                        painter = painterResource(id = R.drawable.card_background_transparent),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop
+                    )
                 }
-                else if(tg.value == taglist[10] && homeViewModel.informalList.isNotEmpty()){
-                    Informal_row(heading = "Informals", list = homeViewModel.informalList, bottomSheetScaffoldState, coroutineScope)
+                Spacer(modifier = Modifier.height(28.dp))
+                if(selectedVenueEvents.isNotEmpty()){
+                    Events_row(heading = "Events in this area", list = selectedVenueEvents)
                 }
-                else if (searchtext.value != "" || tg.value != "") {
-                    searchresultrow(heading = "Search Results")
-                    Spacer(modifier = Modifier.height(435.dp))
-                } else {
-
-                    if (criticaldamageslist.isNotEmpty()) {
-                        Events_row(heading = "Critical Damage", criticaldamageslist)
-                    }
-                    if (proniteslist.isNotEmpty()) {
-                        Events_row(heading = "Pronites", proniteslist)
-                    }
-                    if (proshowslist.isNotEmpty()) {
-                        Events_row(heading = "Proshows", proshowslist)
-                    }
-                    if (creatorscampslist.isNotEmpty()) {
-                        Events_row(heading = "Creators' Camp", creatorscampslist)
-                    }
-                    if (humorfestslist.isNotEmpty()) {
-                        Events_row(heading = "Humor Fest", humorfestslist)
-                    }
-                    if (camppaignslist.isNotEmpty()) {
-                        Events_row(heading = "Kartavya", camppaignslist)
-                    }
-                    if (mun.isNotEmpty()) {
-                        Events_row(heading = "Model United Nations", mun)
-                    }
-                    if (otherlist.isNotEmpty()) {
-                        Events_row(heading = "Other Events", list = otherlist)
-                    }
-                    if(homeViewModel.informalList.isNotEmpty()){
-                        Informal_row(heading = "Informals", list = homeViewModel.informalList, bottomSheetScaffoldState, coroutineScope)
-                    }
-                    if (homeViewModel.utilityList.isNotEmpty()){
-                        Utility_row(heading = "Utilities", list = homeViewModel.utilityList, bottomSheetScaffoldState, coroutineScope)
+                else{
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Text(
+                            text = "No Upcoming events at current location",
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 18.sp,
+                            fontFamily = futura,
+                            color = colors.onBackground.copy(alpha = 0.8f)
+                        )
                     }
                 }
 
+                Spacer(modifier = Modifier.height(40.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                0f to containerPurple,
+                                1f to borderdarkpurple
+                            ),
+                            shape = RoundedCornerShape(6.dp)
+                        )
+                        .border(
+                            width = 1.dp,
+                            shape = RoundedCornerShape(6.dp),
+                            color = colors.onBackground
+                        )
+                    ,
+                    contentAlignment = Alignment.Center
+                ){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(5.71f)
+                            .padding(horizontal = 28.dp, vertical = 18.dp)
+                            .clickable {
+                                val venue = venuelist.filter {
+                                    it.name == selectedVenue.value
+                                }[0]
+                                val gmmIntentUri =
+                                    Uri.parse("google.navigation:q=${venue.LatLng.latitude},${venue.LatLng.longitude}")
+                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                mapIntent.setPackage("com.google.android.apps.maps")
+                                startActivity(mapIntent)
+                            }
 
-//                Column(modifier =Modifier.padding(horizontal = 20.dp, vertical = 12.dp) ){
-//                    Box() {val alphaval= 0.2f
-//                        Card(
-//                            Modifier
-//                                .height(10.dp)
-//                                .offset(x = -5.dp, y = 16.dp)
-//                                .alpha(alphaval),
-//                            shape = RoundedCornerShape(100.dp),
-//                            backgroundColor = textbg
-//
-//                        ){
-//                            Text(
-//
-//                                text = "Competitions  ",
-//                                fontFamily = aileron,
-//                                fontWeight = FontWeight.Bold,
-//                                color = Color.Transparent,
-//                                fontSize = 21.sp
-//                            )
-//                        }
-//                        Text(
-//
-//                            text = "Competitions",
-//                            fontFamily = aileron,
-//                            fontWeight = FontWeight.Bold,
-//                            color = colors.onBackground,
-//                            fontSize = 21.sp
-//                        )
-//                    }
-//                    Spacer(modifier = Modifier.height(14.dp))
-//                    imgcomp()
-//
-//                }
+                        ,
 
+
+                    ) {
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Directions on Map",
+                                overflow = TextOverflow.Ellipsis,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Normal,
+                                fontFamily = futura,
+                                color = Color.White
+                            )
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .width(1.dp),
+                                color = Color.White
+                            )
+                            Icon(
+                                painter = painterResource(id = R.drawable.direction),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .aspectRatio(1f),
+                                tint = Color.White
+
+                            )
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(44.dp))
 
             }
         }
@@ -382,39 +367,17 @@ class Events : Fragment() {
         if (list.isNotEmpty()) {
             Box(
                 modifier = Modifier.padding(
-                    horizontal = 20.dp,
-                    vertical = 12.dp
+                    horizontal = 24.dp  
                 )
             ) {
-                Box(
-                ) {
-                    Card(
-                        Modifier
-                            .height(10.dp)
-                            .offset(x = -5.dp, y = 16.dp)
-                            .alpha(alphaval),
-                        shape = RoundedCornerShape(100.dp),
-                        backgroundColor = textbg
+                Text(
 
-                    ) {
-                        Text(
-
-                            text = "" + heading + "  ",
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Transparent,
-                            fontSize = 21.sp
-                        )
-                    }
-                    Text(
-
-                        text = heading,
-                        fontFamily = aileron,
-                        fontWeight = FontWeight.Bold,
-                        color = colors.onBackground,
-                        fontSize = 21.sp
-                    )
-                }
+                    text = heading,
+                    fontFamily = futura,
+                    fontWeight = FontWeight.Normal,
+                    color = colors.onBackground,
+                    fontSize = 22.sp
+                )
             }
 
             LazyRow(
@@ -425,19 +388,24 @@ class Events : Fragment() {
                 items(list)
                 { dataEach ->
                     context?.let {
-                        Event_card(
+                        Event_card_Scaffold(
                             eventdetail = dataEach,
-                            homeViewModel,
-                            it,
-                            this@Events,
-                            fgm,
-                            R.id.action_events_to_events_Details_Fragment2
-                        )
+                            viewModelHm = homeViewModel,
+                            context = requireContext(),
+                            artist = ""
+                        ) {
+                            val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                            NavHostFragment
+                                .findNavController(this@Events)
+                                .navigate(R.id.action_events_to_events_Details_Fragment2, arguments);
+
+                        }
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+//            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 
@@ -572,184 +540,6 @@ class Events : Fragment() {
         }
     }
 
-    @Composable
-    fun searchresultrow(heading: String) {
-
-        Box(
-            modifier = Modifier.padding(
-                horizontal = 20.dp,
-                vertical = 12.dp
-            )
-        ) {
-            Box(
-            ) {
-                Card(
-                    Modifier
-                        .height(10.dp)
-                        .offset(x = -5.dp, y = 16.dp)
-                        .alpha(0.2f),
-                    shape = RoundedCornerShape(100.dp),
-                    backgroundColor = textbg
-
-                ) {
-                    Text(
-
-                        text = "" + heading + "  ",
-                        fontFamily = aileron,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Transparent,
-                        fontSize = 21.sp
-                    )
-                }
-                Text(
-
-                    text = heading,
-                    fontFamily = aileron,
-                    fontWeight = FontWeight.Bold,
-                    color = colors.onBackground,
-                    fontSize = 21.sp
-                )
-            }
-        }
-        if (searchlist.isNotEmpty()) {
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(horizontal = 20.dp)
-            ) {
-                items(searchlist)
-                { dataEach ->
-                    context?.let {
-                        Event_card(
-                            eventdetail = dataEach,
-                            homeViewModel,
-                            it,
-                            this@Events,
-                            fgm,
-                            R.id.action_events_to_events_Details_Fragment2
-                        )
-                    }
-                }
-            }
-        } else {
-            Box(
-                modifier = Modifier.padding(
-                    horizontal = 20.dp,
-                )
-            ) {
-                Text(
-                    text = "No results found for \"${searchtext.value} ${tg.value.drop(3)}\"",
-                    color = colors.onBackground,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    fontFamily = aileron
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-
-    }
-
-    @Composable
-    fun imgcomp() {
-
-        Box(
-            modifier = Modifier
-                .height(256.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .clickable {
-//                    fgm
-//                        .beginTransaction()
-//                        .replace(R.id.fragmentContainerView,CompetitionsFragment() ).addToBackStack(null)
-//                        .commit()
-                    NavHostFragment
-                        .findNavController(this)
-                        .navigate(R.id.action_eventFragment_to_competitionsFragment);
-
-                }
-        ) {
-            GlideImage(
-                imageModel = "https://firebasestorage.googleapis.com/v0/b/alcheringa2022.appspot.com/o/competitionHeader.png?alt=media&token=7f350d9e-dbad-427a-822f-e3586bfa5e4c",
-                contentDescription = "imghead",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(256.dp),
-                alignment = Alignment.Center,
-                contentScale = ContentScale.Crop,
-                shimmerParams = ShimmerParams(
-                    baseColor = Color.Black,
-                    highlightColor = Color.LightGray,
-                    durationMillis = 350,
-                    dropOff = 0.65f,
-                    tilt = 20f
-                ), failure = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(256.dp), contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .width(60.dp)
-                                    .height(60.dp),
-                                painter = painterResource(
-                                    id = R.drawable.ic_sad_svgrepo_com
-                                ),
-                                contentDescription = null
-                            )
-                            Spacer(modifier = Modifier.height(10.dp))
-                            Text(
-                                text = "Image Request Failed",
-                                style = TextStyle(
-                                    color = Color(0xFF747474),
-                                    fontFamily = hk_grotesk,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 12.sp
-                                )
-                            )
-                        }
-                    }
-
-                }
-
-
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Black
-                            ), startY = 100f
-                        )
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(17.dp), contentAlignment = Alignment.BottomStart
-            ) {
-                Text(
-                    text = "SEE ALL COMPETITIONS",
-                    color = Color.White,
-                    fontFamily = clash,
-                    fontWeight = FontWeight.W700,
-                    fontSize = 18.sp
-                )
-            }
-
-
-        }
-    }
 
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
@@ -759,8 +549,8 @@ class Events : Fragment() {
         // Declaring a Boolean value to
         // store bottom sheet collapsed state
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-            bottomSheetState =
-            BottomSheetState(BottomSheetValue.Collapsed)
+            bottomSheetState = if (selectedVenue.value != "") BottomSheetState(BottomSheetValue.Expanded)
+            else BottomSheetState(BottomSheetValue.Collapsed)
         )
 
         // Declaring Coroutine scope
@@ -773,7 +563,7 @@ class Events : Fragment() {
             sheetBackgroundColor = colors.background,
             drawerBackgroundColor = colors.background,
             sheetContent = {
-                Box(Modifier.fillMaxHeight(0.8f)) {
+                Box(Modifier.fillMaxHeight(0.6f)) {
                     Column {
                         Box(
                             Modifier
@@ -787,108 +577,36 @@ class Events : Fragment() {
                                 painterResource(id = R.drawable.rectangle_expand), "",
                                 Modifier
                                     .width(60.dp)
-                                    .height(5.dp), tint = colors.onSurface
+                                    .height(5.dp), tint = colors.onBackground
                             )
                         }
-
 
                         Full_view(bottomSheetScaffoldState, coroutineScope)
                     }
                 }
             },
-            sheetPeekHeight = if(tg.value == taglist[0]) 200.dp else if (tg.value != "" || searchtext.value != "") 360.dp else 280.dp,
-            sheetShape = RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp)
+            sheetPeekHeight = 0.dp,
+            sheetShape = RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp)
 
         ) {
             Box(
                 Modifier
                     .fillMaxSize()
-                    .padding(bottom = 184.dp), contentAlignment = Alignment.TopCenter
+                    , contentAlignment = Alignment.Center
             ) {
 
-                mapview()
+                mapview(bottomSheetScaffoldState, coroutineScope)
 
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(vertical = 20.dp)
-                ) {
-                    val keyboardController = LocalSoftwareKeyboardController.current
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                            .padding(horizontal = 15.dp)
-                    ) {
-                        TextField(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .clip(RoundedCornerShape(100.dp))
-                                .border(
-                                    1.dp,
-                                    if (isSystemInDarkTheme()) highWhite else midWhite,
-                                    RoundedCornerShape(100.dp)
-                                ),
-//                        shape = RoundedCornerShape(100.dp),
-                            placeholder = { Text("Search an event") },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Outlined.Search,
-                                    "",
-                                    tint = if (isSystemInDarkTheme()) highWhite else midWhite
-                                )
-                            },
-                            trailingIcon = {
-                                if(searchtext.value != ""){
-                                    Icon(
-                                        Icons.Outlined.Close,
-                                        "",
-                                        tint = if (isSystemInDarkTheme()) highWhite else midWhite,
-                                        modifier = Modifier.clickable {
-                                            searchtext.value = ""
-                                            markerList.clear()
-                                            for (venue in venuelist) {
-                                                markerList.add(venue)
-                                            }
-                                            coroutineScope.launch { bottomSheetScaffoldState.bottomSheetState.collapse() }
-                                        }
-                                    )
-                                }
-                            },
-                            value = searchtext.value,
-                            textStyle = TextStyle(
-                                fontFamily = aileron,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 16.sp,
-                            ),
-                            onValueChange = { v: String -> searchtext.value = v;filterlist() },
-                            keyboardOptions = KeyboardOptions(
-                                autoCorrect = false,
-                                imeAction = ImeAction.Search
-                            ),
-                            keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide();filterlist() }),
-                            singleLine = true,
-
-
-                            colors = TextFieldDefaults.textFieldColors(
-                                backgroundColor = colors.background,
-                                textColor = colors.onBackground,
-                                placeholderColor = Color(0xffacacac),
-                                cursorColor = colors.onBackground,
-                                focusedIndicatorColor = Color.Transparent,
-                                disabledIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                errorIndicatorColor = Color.Transparent
-                            )
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    tags()
-
-                }
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .wrapContentHeight()
+//                        .padding(vertical = 20.dp)
+//                ) {
+//
+//
+//                }
 
             }
 
@@ -897,144 +615,107 @@ class Events : Fragment() {
 
     }
 
+
+
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
-    fun tags() {
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-                .wrapContentHeight(), horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            val colors = colors
-            val isdark = isSystemInDarkTheme()
-            val selectedbgcolor = if (isdark) Color(0xff79C3D2) else Color(0xffCDE9EE)
-            val selectdbordercolor = if (isdark) Color(0xff034653) else Color(0xff7DC5D3)
-
-            Spacer(modifier = Modifier.width(15.dp))
-
-            taglist.forEach {
-                var bgcolor = remember { mutableStateOf(colors.background) }
-                var bordercolor = remember { mutableStateOf(Color(0xffacacac)) }
-
-                if (tg.value == it) {
-                    bgcolor.value = selectedbgcolor
-                    bordercolor.value = selectdbordercolor
-
-                } else {
-                    bgcolor.value = colors.background
-                    bordercolor.value = Color(0xffacacac)
-                }
-
-
-                Card(
-                    Modifier
-                        .clickable {
-
-                            if (tg.value == it) {
-                                tg.value = "";
-                                bgcolor.value = colors.background
-                                bordercolor.value = Color(0xffacacac)
-                            } else {
-                                tg.value = it;
-                                bgcolor.value = selectedbgcolor
-                                bordercolor.value = selectdbordercolor
-                            }
-
-
-                            filterlist()
-                        }
-                        .wrapContentWidth()
-                        .wrapContentHeight(),
-                    border = BorderStroke(1.dp, bordercolor.value),
-                    shape = RoundedCornerShape(45.dp),
-                    backgroundColor = colors.background,
-                )
-                {
-                    Box(
-                        modifier = Modifier
-                            .wrapContentHeight()
-                            .wrapContentWidth()
-                            .background(bgcolor.value), contentAlignment = Alignment.Center
-                    ) {
-
-                        val textcolor = if (isdark) {
-                            if (tg.value == it) colors.background else colors.onBackground
-                        } else colors.onBackground
-                        Text(
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                            text = it,
-                            fontSize = 14.sp,
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.Normal,
-                            color = textcolor
-                        )
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.width(15.dp))
-        }
-
-    }
-
-    private fun filterlist() {
-        searchlist.clear();
-        searchlist.addAll(homeViewModel.allEventsWithLive.filter {
-            it.eventdetail.toString().contains(searchtext.value, true) && it.eventdetail.toString()
-                .contains(tg.value.drop(3).trim(), true)
-        })
-
-        //zooming map at the first event venue
-//        val firsteventvenue= venuelist.find { it.name==searchlist[0].eventdetail.venue }
-//        if(searchlist.isNotEmpty() && firsteventvenue!=null ){
-//            cameraPositionState.move(CameraUpdateFactory.newCameraPosition(CameraPosition(venuelist.random().LatLng, 16f,0f,0f)))
-//    }
-    }
-
-    @Composable
-    fun mapview() {
-        var cameraPositionState = CameraPositionState(
+    fun mapview(bottomSheetScaffoldState: BottomSheetScaffoldState, coroutineScope: CoroutineScope) {
+        val cameraPositionState = CameraPositionState(
             position = CameraPosition.fromLatLngZoom(markerList[0].LatLng, 17f)
         )
 
-        val coroutinescope = rememberCoroutineScope()
+//        LaunchedEffect(key1 = true) {
+//            cameraPositionState.animate(
+//                update = CameraUpdateFactory.newCameraPosition(
+//                    CameraPosition(markerList[0].LatLng, 17f, 0f, 0f)
+//                ),
+//                durationMs = 1000
+//            )
+//        }
 
-
-        val mainaudi = LatLng(26.191117262340942, 91.69295134231831)
 
         GoogleMap(
-            modifier = Modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState, properties = MapProperties(
+            modifier = Modifier
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = {
+                        coroutineScope.launch {
+                            if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                                bottomSheetScaffoldState.bottomSheetState.collapse()
+                            }
+                        }
+                    })
+                },
+            cameraPositionState = cameraPositionState,
+            properties = MapProperties(
                 mapStyleOptions = MapStyleOptions.loadRawResourceStyle(
                     requireContext(),
                     if (isSystemInDarkTheme()) R.raw.mapdark else R.raw.maplight
-                )
+                ),
+                maxZoomPreference = 18f,
+                minZoomPreference = 16f,
+
+
             )
         ) {
 
 
                 markerList.forEach { v ->
                     Marker(
-
+                        state = MarkerState(
+                            position = v.LatLng
+                        ),
                         icon = bitmapDescriptor(
                             requireContext(),
                             if (isSystemInDarkTheme()) R.drawable.darkmapmarker else R.drawable.lightmapmarker
                         ),
-                        position = v.LatLng,
                         title = v.name,
                         snippet = v.des,
-//                    onClick = { searchtext.value=v.name;false}
-                        onInfoWindowClick = {
-                            val gmmIntentUri =
-                                Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
-                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                            mapIntent.setPackage("com.google.android.apps.maps")
-                            startActivity(mapIntent)
+                        onClick = {
+                            selectedVenue.value = v.name
+
+                            filterWithLocation()
+
+                            coroutineScope.launch{
+                                if(bottomSheetScaffoldState.bottomSheetState.isCollapsed){
+                                    bottomSheetScaffoldState.bottomSheetState.expand()
+                                }
+                                cameraPositionState.animate(CameraUpdateFactory.newLatLng(it.position), durationMs = 500)
+                            }
+                            false
                         },
+//                        onInfoWindowClick = {
+//                            val gmmIntentUri =
+//                                Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
+//                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+//                            mapIntent.setPackage("com.google.android.apps.maps")
+//                            startActivity(mapIntent)
+//                        },
                     )
                 }
 
 
+        }
+    }
+
+    fun filterWithLocation(){
+        if(selectedVenue.value != ""){
+            selectedVenueEvents.clear()
+            selectedVenueEvents.addAll(homeViewModel.liveEvents.filter {
+                it.eventdetail.venue == selectedVenue.value
+            })
+            selectedVenueEvents.addAll(
+                homeViewModel.upcomingEventsLiveState.filter {
+                    it.eventdetail.venue == selectedVenue.value
+                }
+            )
+            if (BuildConfig.DEBUG){
+                selectedVenueEvents.addAll(
+                    homeViewModel.allEventsWithLive.filter {
+                        it.eventdetail.venue == selectedVenue.value
+                    }
+                )
+            }
         }
     }
 

@@ -1567,7 +1567,7 @@ class Home : Fragment() {
                         if(homeViewModel.featuredEventsWithLivestate.isNotEmpty()) {
 
 //                            horizontalScroll(eventdetails = List(10) {homeViewModel.featuredEventsWithLivestate}.flatten())
-                            HeroSection(featuredEvents = homeViewModel.featuredEventsWithLivestate)
+                            HeroSection(homeViewModel.featuredEventsWithLivestate)
                         }
                         
 
@@ -3331,8 +3331,8 @@ class Home : Fragment() {
                 ) {
                     Box(modifier = Modifier
                         .clickable {
-                            val action = HomeDirections.actionHome2ToMerchFragment(page)
-                            findNavController(this@Home).navigate(action)
+                            val arguments = bundleOf("merchId" to page)
+                            NavHostFragment.findNavController(this@Home).navigate(R.id.action_home2_to_merchFragment, arguments)
 
                             //                fm.beginTransaction()
                             //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)

@@ -207,9 +207,9 @@ class Login : ComponentActivity() {
                 }
             }
             .addOnFailureListener { e: Exception ->
-                Log.d(TAG, "onFailure" + e.message)
+                Log.d(TAG, "onFailure" + e)
                 Toast.makeText(this, "Login with Microsoft failed", Toast.LENGTH_LONG).show()
-                loaderView!!.visibility = View.GONE
+//                loaderView!!.visibility = View.GONE
             }
     }
 
@@ -281,8 +281,8 @@ class Login : ComponentActivity() {
                         if (firebaseUser.isEmailVerified) {
                             toast("Login Successful")
                             firebaseFirestore!!.collection("USERS").document(email)
-                                .collection("interests").document("interests")?.get()
-                                .addOnCompleteListener { task1->
+                                .collection("interests").document("interests").get()
+                                ?.addOnCompleteListener { task1->
                                     loaderView?.visibility = View.GONE
 
                                 }
