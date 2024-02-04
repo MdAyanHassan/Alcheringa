@@ -46,6 +46,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -93,8 +94,10 @@ class CartActivity : AppCompatActivity() {
   //  var startShopping: Button? = null
     var loaderView: LoaderView? = null
 
-    @OptIn(ExperimentalCoilApi::class)
-    override fun onCreate(savedInstanceState: Bundle?) {
+    @OptIn(
+        ExperimentalComposeUiApi::class,
+        androidx.compose.foundation.ExperimentalFoundationApi::class
+    )    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             dbHandler = DBHandler(applicationContext)
@@ -115,20 +118,46 @@ class CartActivity : AppCompatActivity() {
                 mutableStateOf(0)
             }
             val gradientColorsPurple = listOf(lighterPurple, darkerPurple)
-
+            val context= LocalContext.current
+var fontCol:Color by remember{ mutableStateOf( if(context.getResources().getConfiguration().uiMode==33)
+{
+   lightBar
+}
+else
+{
+    darkBar
+}) }
+            var tempBgCol:Color by remember{ mutableStateOf( if(context.getResources().getConfiguration().uiMode==33)
+            {
+               Color.Black
+            }
+            else
+            {
+              Color.White
+            }) }
+            var surfaceCol:Color by remember{ mutableStateOf( if(context.getResources().getConfiguration().uiMode==33)
+            {
+                darkBar
+            }
+            else
+            {
+              lightBar
+            }) }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Black)
+                    .background(tempBgCol)
+
+                // .background()
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(0.08f)
-                        .background(darkBar)
+                        .background(surfaceCol)
+
                 )
                 {
-
                     Row() {
                         Image(painterResource(id = R.drawable.cart_arrow),
                             contentDescription = "cart_arrow",
@@ -178,7 +207,7 @@ class CartActivity : AppCompatActivity() {
                         ) {
                             Text(
                                 "No Item in Cart", modifier = Modifier.padding(20.dp),
-                                color = lightBar,
+                                color =fontCol,
                                 fontFamily = futura,
                                 fontWeight = FontWeight(300),
                                 fontSize = 25.sp,
@@ -206,13 +235,13 @@ class CartActivity : AppCompatActivity() {
                                     .height(210.dp)
                                     .border(
                                         1.dp,
-                                        lightBar,
+                                       fontCol,
                                         RoundedCornerShape(8.dp, 8.dp, 8.dp, 8.dp)
                                     ),
 
                                 //set card elevation of the card
 
-                                backgroundColor = darkBar,
+                                backgroundColor = surfaceCol,
                             ) {
                                 Column(modifier = Modifier) {
                                     Row() {
@@ -267,7 +296,7 @@ class CartActivity : AppCompatActivity() {
                                                 Text(
                                                     text = item.type!!,
                                                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                                                    color = lightBar, fontFamily = futura,
+                                                    color = fontCol, fontFamily = futura,
                                                     fontWeight = FontWeight(400),
                                                     fontSize = 18.sp,
                                                     lineHeight = 24.sp
@@ -281,7 +310,7 @@ class CartActivity : AppCompatActivity() {
                                                     lineHeight = 18.sp,
 
 
-                                                    color = lightBar,
+                                                    color =fontCol,
                                                     fontSize = 14.sp
 
 
@@ -292,7 +321,7 @@ class CartActivity : AppCompatActivity() {
                                                 Text(
                                                     text = "Rs. " + item.price!! + ".00/-",
                                                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                                                    color = lightBar,
+                                                    color = fontCol,
                                                     fontWeight = FontWeight(450),
                                                     fontSize = 18.sp,
                                                     fontFamily = futura,
@@ -310,7 +339,7 @@ class CartActivity : AppCompatActivity() {
                                                     Text(
                                                         text = "Size: ",
                                                         modifier = Modifier,
-                                                        color = lightBar,
+                                                        color =  fontCol,
                                                         fontWeight = FontWeight(300),
                                                         fontSize = 14.sp,
                                                         fontFamily = futura,
@@ -324,7 +353,7 @@ class CartActivity : AppCompatActivity() {
                                                     Text(
                                                         text = item.size!!,
                                                         modifier = Modifier,
-                                                        color = lightBar,
+                                                        color = fontCol,
                                                         fontWeight = FontWeight(400),
                                                         fontFamily = futura,
                                                         lineHeight = 18.sp
@@ -374,7 +403,7 @@ class CartActivity : AppCompatActivity() {
                                                                 fontSize = 28.sp,
                                                                 fontFamily = futura,
 
-                                                                color = darkBar
+                                                                color = surfaceCol
                                                             )
                                                         }
                                                         Box(
@@ -401,7 +430,7 @@ class CartActivity : AppCompatActivity() {
                                                                 modifier = Modifier.align(Alignment.Center),
                                                                 fontSize = 28.sp,
                                                                 fontFamily = futura,
-                                                                color = darkBar
+                                                                color = surfaceCol
                                                             )
                                                         }
                                                         Box(
@@ -432,7 +461,7 @@ class CartActivity : AppCompatActivity() {
                                                                 modifier = Modifier.align(Alignment.Center),
                                                                 fontSize = 28.sp,
                                                                 fontFamily = futura,
-                                                                color = darkBar
+                                                                color = surfaceCol
                                                             )
                                                         }
                                                     }
@@ -461,12 +490,12 @@ class CartActivity : AppCompatActivity() {
                                     .fillMaxHeight()
                                     .border(
                                         1.dp,
-                                        lightBar,
+                                       fontCol,
                                         RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp)
                                     )
                                     .background(
                                         color =
-                                        darkBar
+                                      surfaceCol
                                         ,
                                         shape = RoundedCornerShape(
                                             topStart = 8.dp,
@@ -479,7 +508,7 @@ class CartActivity : AppCompatActivity() {
                                 Column(modifier = Modifier.padding(start = 20.dp, top = 12.dp)) {
                                     Text(
                                         text = "Rs. " + totalAmount.toString() + ".00",
-                                        color = lightBar,
+                                        color =  fontCol,
                                         fontSize = 20.sp,
                                         fontWeight = FontWeight(450),
                                         fontFamily = futura
@@ -504,17 +533,27 @@ class CartActivity : AppCompatActivity() {
                                         )
                                     }
                                 }
+
+                            }
+                            var brush:Brush by remember{ mutableStateOf(    Brush.verticalGradient(listOf(Color.Gray, Color.Gray)) // Use Gray brush when there are no items
+                            ) }
+                            if(totalItems==0)
+                            {
+                                brush=   Brush.verticalGradient(listOf(Color.Gray, Color.Gray))
+                            }else
+                            {
+                                brush=  Brush.verticalGradient(gradientColorsPurple)
                             }
                             Box(modifier = Modifier
                                 .fillMaxWidth()
                                 .fillMaxHeight()
                                 .border(
                                     1.dp,
-                                    lightBar,
+                                   fontCol,
                                     RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
                                 )
-                                .clickable {
-                                    finish()
+                                .clickable (enabled = totalItems>0){
+                                   finish()
                                     startActivity(
                                         Intent(
                                             applicationContext, CheckoutActivity2024::class.java
@@ -522,11 +561,12 @@ class CartActivity : AppCompatActivity() {
                                     )
                                 }
                                 .background(
-                                    brush = Brush.verticalGradient(gradientColorsPurple),
+                                    brush =brush,
                                     shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp)
 
 
                                 )) {
+
                                 Text(
                                     text = "Place Order",
                                     color = lightBar,

@@ -1023,7 +1023,8 @@ class Events : Fragment() {
                         position = v.LatLng,
                         title = v.name,
                         snippet = v.des,
-//                    onClick = { searchtext.value=v.name;false}
+                  onClick = { searchtext.value=v.name;false},
+
                         onInfoWindowClick = {
                             val gmmIntentUri =
                                 Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
