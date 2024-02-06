@@ -31,7 +31,7 @@
     </style>
 
     <style name="primaryText">
-        <item name="android:textColor">@color/Black</item>
+        <item name="android:textColor">@color/darkbar</item>
     </style>
 
     <style name="secondaryText">
@@ -52,10 +52,10 @@
     </style>
 
     <style name="drawerMenu">
-        <item name="android:textColor">@color/HighBlack</item>
-        <item name="android:fontFamily">@font/aileron_bold</item>
-        <item name="android:textSize">16sp</item>
-        <item name="itemIconTint">@color/HighBlack</item>
+        <item name="android:textColor">@color/darkbar</item>
+        <item name="android:fontFamily">@font/futuraptbook</item>
+        <item name="android:textSize">18sp</item>
+        <item name="itemIconTint">@color/darkbar</item>
     </style>
 
     <style name="themeButton">
@@ -69,8 +69,8 @@
     </style>-->
 
     <style name="Background">
-        <item name="android:background">@color/White</item>
-        <item name="android:textColor">@color/Black</item>
+        <item name="android:background">@color/whitebar</item>
+        <item name="android:textColor">@color/darkbar</item>
         <item name="android:tint">@color/Black</item>
     </style>
 </resources>

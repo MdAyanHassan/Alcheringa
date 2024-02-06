@@ -8,28 +8,32 @@
 
         <item
             android:id="@+id/miProfile"
-            android:icon="@drawable/ic_person"
+            android:icon="@drawable/emptyheart_light"
             android:title="Profile" />
         <item
             android:id="@+id/miOrders"
-            android:icon="@drawable/cart"
+            android:icon="@drawable/cart_solid"
             android:title="Orders" />
         <item
             android:id="@+id/miContactUs"
-            android:icon="@drawable/ic_contact"
+            android:icon="@drawable/baseline_perm_contact_calendar_24"
             android:title="Contact Us" />
         <item
             android:id="@+id/miFAQs"
-            android:icon="@drawable/faq"
+            android:icon="@drawable/baseline_forum_24"
             android:title="FAQs" />
         <item
             android:id="@+id/miTeam"
-            android:icon="@drawable/team_logo"
+            android:icon="@drawable/baseline_group_24"
             android:title="Team" />
         <item
             android:id="@+id/miSponsors"
-            android:icon="@drawable/ic_sponsor"
+            android:icon="@drawable/baseline_attach_money_24"
             android:title="Sponsors" />
+        <item
+            android:id="@+id/miSignOut"
+            android:icon="@drawable/signoutlogo"
+            android:title="SignOut" />
 
 
 

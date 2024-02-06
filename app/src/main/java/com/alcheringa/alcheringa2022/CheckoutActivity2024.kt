@@ -278,9 +278,8 @@ class CheckoutActivity2024 : AppCompatActivity() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.backbtn2),
+                                painter = painterResource(id = R.drawable.cart_arrow),
                                 contentDescription = null,
-                                tint = containerPurple,
                                 modifier = Modifier
                                     .padding(start = 20.dp, end = 10.dp)
                                     .clickable {
@@ -295,7 +294,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                 text = "Checkout",
                                 fontFamily = futura,
                                 fontWeight = FontWeight.SemiBold,
-                                fontSize = 20.sp,
+                                fontSize = 22.sp,
                                 color = containerPurple
                             )
 
@@ -853,7 +852,6 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                                         ),
                                                         shape = RoundedCornerShape(6.dp)
                                                     )
-                                                    .padding(15.dp)
                                                     .clickable {
                                                         val patternPhone = Regex("^[1-9][0-9]{9}$")
                                                         var isPhoneValid =
@@ -951,7 +949,8 @@ class CheckoutActivity2024 : AppCompatActivity() {
 
 
                                                         }
-                                                    },
+                                                    }
+                                                    .padding(15.dp),
                                                 contentAlignment = Alignment.Center,
                                             ) {
                                                 Text(
@@ -1041,11 +1040,14 @@ class CheckoutActivity2024 : AppCompatActivity() {
 
                                             LazyColumn(
                                             ) {
+                                                item {
+                                                    Spacer(modifier = Modifier.height(10.dp))
+                                                }
                                                 itemsIndexed(cartModelItems) { index, item ->
                                                     Card(
 
                                                         modifier = Modifier
-                                                            .padding(0.dp, 10.dp, 0.dp, 10.dp)
+                                                            .padding(0.dp, 0.dp, 0.dp, 10.dp)
                                                             .height(210.dp)
                                                             .background(
                                                                 colors.background,
@@ -1450,11 +1452,11 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                                             colors.onBackground,
                                                             RoundedCornerShape(6.dp)
                                                         )
-                                                        .padding(vertical = 15.dp)
                                                         .clickable {
                                                             checkedState = 2
                                                             startPayment(total_amount.toInt())
-                                                        },
+                                                        }
+                                                        .padding(vertical = 15.dp),
                                                     contentAlignment = Alignment.Center
                                                 ) {
                                                     Text(

@@ -294,12 +294,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
       switch (id){
-          case R.id.miOrders: startActivity(new Intent(getApplicationContext(),YourOrders.class));break;
-          case R.id.miContactUs: startActivity(new Intent(getApplicationContext(),ContactUs.class));break;
-          case R.id.miFAQs: startActivity(new Intent(getApplicationContext(),FaqPage.class));break;
-          case R.id.miProfile: startActivity(new Intent(getApplicationContext(),ProfilePage.class));break;
-          case R.id.miSponsors: startActivity(new Intent(getApplicationContext(),Sponsors.class));break;
-          case R.id.miTeam: startActivity(new Intent(getApplicationContext(),team.class));break;
+          case R.id.miOrders: startActivity(new Intent(getApplicationContext(),YourOrdersActivity.class));break;
+          case R.id.miContactUs: startActivity(new Intent(getApplicationContext(),ContactUsActivity.class));break;
+          case R.id.miFAQs: startActivity(new Intent(getApplicationContext(),FaqActivity.class));break;
+          case R.id.miProfile: startActivity(new Intent(getApplicationContext(),ProfileActivity.class));break;
+          case R.id.miSponsors: startActivity(new Intent(getApplicationContext(),SponsorsActivity.class));break;
+          case R.id.miTeam: startActivity(new Intent(getApplicationContext(),TeamActivity.class));break;
 
         }
 
