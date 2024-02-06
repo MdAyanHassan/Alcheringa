@@ -44,6 +44,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.alcheringa.alcheringa2022.Model.OrdersModel
 import com.alcheringa.alcheringa2022.Model.YourOrders_model
@@ -58,19 +59,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 
 class YourOrdersActivity: AppCompatActivity() {
-    var yourOrders_modelList: ArrayList<OrdersModel> = ArrayList()
+    var yourOrders_modelList = mutableStateListOf<OrdersModel>()
     var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        populate_your_orders()
         setContent {
             Alcheringa2022Theme {
-                populate_your_orders()
-                val orderList by remember {
-                    mutableStateOf(yourOrders_modelList)
-                }
 
                 Column(
                     modifier = Modifier
@@ -117,8 +115,8 @@ class YourOrdersActivity: AppCompatActivity() {
                             .padding(horizontal = 20.dp)
                     ) {
                         LazyColumn(){
-                            items(orderList.size){
-                                OrdersCard(orderDetail = orderList[it])
+                            items(yourOrders_modelList.size){
+                                OrdersCard(orderDetail = yourOrders_modelList[it])
                             }
                         }
                     }
@@ -127,6 +125,7 @@ class YourOrdersActivity: AppCompatActivity() {
         }
     }
 
+    @OptIn(ExperimentalCoilApi::class)
     @Composable
     fun OrdersCard(orderDetail: OrdersModel){
         Column {
