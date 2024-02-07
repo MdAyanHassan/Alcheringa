@@ -65,7 +65,7 @@ fun PagerState.offsetForPage(page: Int): Float{
 
 @OptIn( ExperimentalFoundationApi::class)
 @Composable
-fun HeroSection(eventsList: List<eventWithLive>){
+fun HeroSection(eventsList: List<eventWithLive>, onCardClick: (artist: String) -> Unit){
     val configuration = LocalConfiguration.current
     val featuredEvents = eventsList.reversed()
     val screenHeight = configuration.screenHeightDp.dp
@@ -90,6 +90,9 @@ fun HeroSection(eventsList: List<eventWithLive>){
 //                        shadowElevation = pagerState.pageCount - abs(pagerState.offsetForPage(page_index))
                         alpha = 1f
 
+                    }
+                    .clickable{
+                        onCardClick(featuredEvents[page_index].eventdetail.artist)
                     }
             )
 

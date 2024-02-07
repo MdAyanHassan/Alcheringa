@@ -62,13 +62,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="260dp"
+        android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
 
-        app:itemIconSize="23dp"
+        app:itemIconSize="27dp"
         app:menu="@menu/nav_drawer_menu"
         app:itemTextAppearance="@style/drawerMenu"
         style="@style/Background"
@@ -80,19 +80,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:clickable="true"
+            android:gravity="center"
             android:orientation="vertical"
             android:theme="@style/tertiaryText"
             android:focusable="true">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/darkTealGreen"/>
 
             <TextView
                 android:id="@+id/version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="center"
                 android:layout_marginBottom="6dp"
-                android:fontFamily="@font/aileron_regular"
+                android:fontFamily="@font/futuraptbook"
                 android:text="V 1.1.1"
-                android:textSize="14sp"
+                android:textSize="11sp"
                 app:layout_constraintBottom_toTopOf="@id/tnc_buttons"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -111,10 +118,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:fontFamily="@font/aileron_regular"
+                    android:fontFamily="@font/futuraptbook"
                     android:text="About"
-                    android:textFontWeight="500"
-                    android:textSize="14sp"
+                    android:textSize="11sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -125,10 +131,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginStart="30dp"
-                    android:fontFamily="@font/aileron_regular"
+                    android:fontFamily="@font/futuraptbook"
                     android:text="T&amp;C"
-                    android:textFontWeight="500"
-                    android:textSize="14sp"
+                    android:textSize="11sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/about"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -139,10 +144,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginStart="30dp"
-                    android:fontFamily="@font/aileron_regular"
+                    android:fontFamily="@font/futuraptbook"
                     android:text="Privacy Policy"
                     android:textFontWeight="500"
-                    android:textSize="14sp"
+                    android:textSize="11sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tnc"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -153,12 +158,12 @@
                 android:id="@+id/website_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="center"
                 android:layout_marginBottom="13dp"
-                android:fontFamily="@font/aileron_regular"
+                android:fontFamily="@font/futuraptbook"
                 android:text="www.alcheringa.in"
                 android:textFontWeight="500"
-                android:textSize="14sp"
+                android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

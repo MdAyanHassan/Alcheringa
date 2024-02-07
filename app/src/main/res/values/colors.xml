@@ -181,7 +181,7 @@
     <color name="secondaryCol">@color/White</color>
     <color name="bottomnav">#EDECD9</color>
 
-    <color name="iconcolor">@color/HighBlack</color>
+    <color name="iconcolor">@color/darkbar</color>
     <color name="bordercolor">@color/MidWhite</color>
     <color name="separatorcolor">@color/MidWhite</color>
     <color name="barbgcolor">@color/HighWhite</color>
@@ -189,5 +189,7 @@
     <color name="darkTealGreen">#39A27A</color>
     <color name="lighterPurple">#7886F5</color>
     <color name="darkerPurple">#19216C</color>
+    <color name="darkbar">#141414</color>
+    <color name="whitebar">#EDECD9</color>
 
 </resources>

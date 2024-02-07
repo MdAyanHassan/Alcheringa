@@ -23,5 +23,7 @@
     <color name="barbgcolor">@color/HighBlack</color>
     <color name="selectedtagcolor">@color/DarkBlu</color>
     <color name="bottomnav">#141414</color>
+    <color name="darkbar">#141414</color>
+    <color name="whitebar">#EDECD9</color>
 
 </resources>

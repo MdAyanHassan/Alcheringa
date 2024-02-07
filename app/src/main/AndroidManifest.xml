@@ -36,6 +36,24 @@
             android:exported="false"
             android:label="@string/title_activity_schedule2024"
             android:theme="@style/Theme.Alcheringa2022" />
+        <activity android:name=".ProfileActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Alcheringa2022"/>
+        <activity android:name=".FaqActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Alcheringa2022" />
+        <activity android:name=".ContactUsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Alcheringa2022" />
+        <activity android:name=".TeamActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Alcheringa2022" />
+        <activity android:name=".SponsorsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Alcheringa2022" />
+        <activity android:name=".YourOrdersActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Alcheringa2022" />
         <activity
             android:name=".PickASide"
             android:exported="true" /> <!-- <activity -->

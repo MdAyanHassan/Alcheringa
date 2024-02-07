@@ -24,12 +24,19 @@
             app:exitAnim="@anim/fadeout"
             app:popEnterAnim="@anim/fadein"
             app:popExitAnim="@anim/fadeout"/>
+        <action
+            android:id="@+id/action_events_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/merch"
         android:name="com.alcheringa.alcheringa2022.MerchFragmentCompose"
         android:label="fragment_merch"
-        tools:layout="@layout/fragment_merch_compose" />
+        tools:layout="@layout/fragment_merch_compose" >
+        <action
+            android:id="@+id/action_merch_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/home_nav"
         android:name="com.alcheringa.alcheringa2022.Home"
@@ -82,6 +89,9 @@
             app:exitAnim="@anim/fadeout"
             app:popEnterAnim="@anim/fadein"
             app:popExitAnim="@anim/fadeout" />
+        <action
+            android:id="@+id/action_schedule_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/events_Details_Fragment"

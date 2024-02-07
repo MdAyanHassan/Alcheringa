@@ -36,12 +36,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -185,6 +188,7 @@ class SearchFragment : Fragment() {
             bottomSheetState =
             BottomSheetState(BottomSheetValue.Collapsed)
         )
+        val focusRequester = remember { FocusRequester() }
 
         Alcheringa2022Theme {
             Column(
@@ -192,8 +196,16 @@ class SearchFragment : Fragment() {
                     .fillMaxSize()
                     .background(color = colors.background),
             ) {
+
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                    // Optional: Show the keyboard explicitly (may not be necessary in all cases)
+                    keyboardController?.show()
+                }
                 // Search Bar at the top
-                Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)) {
                     val id = if(isSystemInDarkTheme()) {R.drawable.vector_26} else { R.drawable.vector_26__2_}
 
                     Image(
@@ -266,18 +278,19 @@ class SearchFragment : Fragment() {
                             .height(50.dp)
                             .weight(3f)
                             .wrapContentSize()
-                            .border(1.dp, colors.onBackground, RoundedCornerShape(2.dp)),
+                            .border(1.dp, colors.onBackground, RoundedCornerShape(2.dp))
+                            .focusRequester(focusRequester),
                         colors = TextFieldDefaults.textFieldColors(textColor = colors.onBackground,cursorColor = colors.onBackground,focusedIndicatorColor = Color.Transparent),
                         keyboardOptions = KeyboardOptions(
                             autoCorrect = false,
                             imeAction = ImeAction.Search
                         ),
-                        keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide();filterlist()}),
+                        keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide();filterlist()} , onDone = {keyboardController?.hide()}),
                         singleLine = true,
                     )
                 }
 
-                Box(modifier = Modifier.height(60.dp)) {
+                Box(modifier = Modifier.height(100.dp)) {
                     Image(
                         painter = painterResource(id = R.drawable.background),
                         contentDescription = null,
@@ -311,7 +324,8 @@ class SearchFragment : Fragment() {
 
 
     @Composable
-    fun tags() {
+    fun
+            tags() {
 
         Row(
             modifier = Modifier
@@ -360,7 +374,7 @@ class SearchFragment : Fragment() {
                         .wrapContentHeight(),
                     border = BorderStroke(1.dp, bordercolor.value),
                     shape = RoundedCornerShape(8.dp),
-                    backgroundColor = Color.Transparent,
+                    backgroundColor = if(isSystemInDarkTheme()) darkBar else creamWhite,
                 )
                 {
                     Box(

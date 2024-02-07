@@ -77,7 +77,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.viewModelHome
-import com.alcheringa.alcheringa2022.databinding.ScheduleFragmentBinding
+import com.alcheringa.alcheringa2022.databinding.FragmentSchedule2024Binding
+//import com.alcheringa.alcheringa2022.databinding.ScheduleFragmentBinding
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.containerPurple
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
@@ -89,7 +90,7 @@ import kotlinx.coroutines.launch
 
 
 class Schedule2024 : Fragment() {
-    private lateinit var binding: ScheduleFragmentBinding
+    private lateinit var binding: FragmentSchedule2024Binding
     private lateinit var fm: FragmentManager
     private val homeviewmodel: viewModelHome by activityViewModels()
     private val datestate0 = mutableStateListOf<eventWithLive>()
@@ -129,7 +130,7 @@ class Schedule2024 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = ScheduleFragmentBinding.inflate(layoutInflater)
+        binding = FragmentSchedule2024Binding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -144,8 +145,12 @@ class Schedule2024 : Fragment() {
 //            startActivity(Intent(context, ProfilePage::class.java));
             (activity as MainActivity).drawer.openDrawer(Gravity.RIGHT)
         }
-        binding.pass.setOnClickListener{
-            startActivity(Intent(context, NotificationActivity::class.java));
+//        binding.pass.setOnClickListener{
+//            startActivity(Intent(context, NotificationActivity::class.java));
+//        }
+
+        binding.search.setOnClickListener {
+            NavHostFragment.findNavController(this).navigate(R.id.action_schedule_to_searchFragment)
         }
         binding.scheduleCompose.setContent {
             Alcheringa2022Theme(){

@@ -98,6 +98,8 @@ fun SignUpScreen(
                     // Add other text styles
                 )
 
+                Spacer(modifier = Modifier.height(20.dp))
+
                 // Other Input Fields (Name, Email)
                 Box(modifier = Modifier.padding(bottom = 16.dp).height(75.dp)) {
                     TextField(
@@ -211,11 +213,11 @@ fun SignUpScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(start = 16.dp , end = 16.dp , bottom = 5.dp)
                         .height(50.dp)
                         .border(
                             1.dp,
-                            MaterialTheme.colors.onBackground,
+                            creamWhite,
                             shape = RoundedCornerShape(5.dp),
                         )
                         .background(
@@ -335,6 +337,8 @@ fun SignUpScreen(
                     // Add other text styles
                 )
 
+                Spacer(modifier = Modifier.height(20.dp))
+
                 // Other Input Fields (Name, Email)
                 Box(modifier = Modifier.padding(bottom = 16.dp).height(75.dp)) {
                     TextField(
@@ -355,7 +359,7 @@ fun SignUpScreen(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next
                         ),
-                        textStyle = TextStyle(color = creamWhite),
+                        textStyle = TextStyle(color = darkBar),
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = creamWhite
                         )
@@ -385,7 +389,7 @@ fun SignUpScreen(
                             keyboardType = KeyboardType.Email,
                             imeAction = ImeAction.Next
                         ),
-                        textStyle = TextStyle(color = creamWhite),
+                        textStyle = TextStyle(color = darkBar),
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = creamWhite
                         )
@@ -417,7 +421,7 @@ fun SignUpScreen(
                             imeAction = ImeAction.Next
                         ),
                         visualTransformation = passwordVisualTransformation,
-                        textStyle = TextStyle(color = creamWhite),
+                        textStyle = TextStyle(color = darkBar),
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = creamWhite
                         )
@@ -457,7 +461,7 @@ fun SignUpScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(start = 16.dp , end = 16.dp , bottom = 5.dp)
                         .height(50.dp)
                         .border(
                             1.dp,
