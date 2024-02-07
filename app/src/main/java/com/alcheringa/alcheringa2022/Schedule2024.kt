@@ -337,7 +337,7 @@ class Schedule2024 : Fragment() {
                         ){
                             if (datestate.value == 0) {
                                 Text(
-                                    text = "01",
+                                    text = "07",
                                     color = darkTealGreen,
                                     fontSize = 22.sp,
                                     fontFamily = futura,
@@ -347,7 +347,7 @@ class Schedule2024 : Fragment() {
                             }
                             else if (datestate.value == 1){
                                 Text(
-                                    text = "02",
+                                    text = "08",
                                     color = darkTealGreen,
                                     fontSize = 22.sp,
                                     fontFamily = futura,
@@ -356,7 +356,7 @@ class Schedule2024 : Fragment() {
                             }
                             else if(datestate.value == 2){
                                 Text(
-                                    text = "03",
+                                    text = "09",
                                     color = darkTealGreen,
                                     fontSize = 22.sp,
                                     fontFamily = futura,
@@ -365,7 +365,7 @@ class Schedule2024 : Fragment() {
                             }
                             else if (datestate.value == 3){
                                 Text(
-                                    text = "04",
+                                    text = "10",
                                     color = darkTealGreen,
                                     fontSize = 22.sp,
                                     fontFamily = futura,
@@ -373,7 +373,7 @@ class Schedule2024 : Fragment() {
                                 )
                             }
                             Text(
-                                text = "Oct",
+                                text = "Mar",
                                 color = darkTealGreen,
                                 fontSize = 22.sp,
                                 fontFamily = futura,
@@ -461,7 +461,7 @@ class Schedule2024 : Fragment() {
                         .uppercase() == "AUDITORIUM".replace("\\s".toRegex(), "").uppercase()
                 }
 
-                val selectedVenueList = itemListMap.get(selectedItem.value)!!
+                var selectedVenueList by remember { mutableStateOf(itemListMap[selectedItem.value]!!) }
 
                 Canvas(
                     modifier = Modifier
@@ -518,7 +518,8 @@ class Schedule2024 : Fragment() {
                             Text(
                                 text = "There is no event \nat the current location",
                                 color = colors.onBackground,
-                                fontSize = 20.sp
+                                fontSize = 20.sp,
+                                fontFamily = futura
                             )
                         }
                     }

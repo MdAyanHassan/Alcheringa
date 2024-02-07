@@ -52,12 +52,14 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -133,7 +135,7 @@ else
             }
             else
             {
-              Color.White
+              lightBar
             }) }
             var surfaceCol:Color by remember{ mutableStateOf( if(context.getResources().getConfiguration().uiMode==33)
             {
@@ -159,6 +161,11 @@ else
                 )
                 {
                     Row() {
+                        val gradientBrush = Brush.verticalGradient(
+                            colors = listOf( lighterPurple,darkerPurple),
+                            startY = 0f, // Starting from the top
+                            endY = 100f // Ending at the bottom
+                        )
                         Image(painterResource(id = R.drawable.cart_arrow),
                             contentDescription = "cart_arrow",
                             modifier = Modifier
@@ -172,6 +179,8 @@ else
                             fontFamily = futura,
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 26.sp,
+                            style=TextStyle( brush = gradientBrush)
+
                             )
 
                     }
@@ -217,7 +226,8 @@ else
                             Image(
                                 painter = painterResource(id = R.drawable.shopping_cart),
                                 contentDescription = "Empty Cart",
-                                modifier = Modifier.size(100.dp)
+                                modifier = Modifier.size(100.dp),
+                                colorFilter = ColorFilter.tint(fontCol)
                             )
                         }
                     }
@@ -307,7 +317,6 @@ else
                                                     modifier = Modifier.align(Alignment.CenterHorizontally),
                                                     fontWeight = FontWeight(300),
                                                     fontFamily = futura,
-                                                    lineHeight = 18.sp,
 
 
                                                     color =fontCol,
