@@ -175,33 +175,33 @@ class Home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        var unseen_notif_count = 0
-
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
-
-        firebaseFirestore!!.collection("Notification").get()
-            .addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
-                if (task.isSuccessful) {
-                    val notifs = task.result.size()
-                    Log.d("Notification Count", "No of notifications: " + notifs)
-                    val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
-                    Log.d("seen notification", seen_notifs.toString());
-                    unseen_notif_count = notifs - seen_notifs!!
-
-                    if (unseen_notif_count <= 0) {
-                        binding.notificationCount.visibility = View.INVISIBLE
-                    } else if (unseen_notif_count <= 9) {
-                        binding.notificationCount.visibility = View.VISIBLE
-                        binding.notificationCount.text = unseen_notif_count.toString()
-                    } else {
-                        binding.notificationCount.visibility = View.VISIBLE
-                        binding.notificationCount.text = "9+"
-                    }
-                } else {
-                    Log.d("Error", "Error loading notification count", task.exception)
-                }
-            })
+//        var unseen_notif_count = 0
+//
+//        firebaseFirestore = FirebaseFirestore.getInstance()
+//        sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
+//
+//        firebaseFirestore!!.collection("Notification").get()
+//            .addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
+//                if (task.isSuccessful) {
+//                    val notifs = task.result.size()
+//                    Log.d("Notification Count", "No of notifications: " + notifs)
+//                    val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
+//                    Log.d("seen notification", seen_notifs.toString());
+//                    unseen_notif_count = notifs - seen_notifs!!
+//
+//                    if (unseen_notif_count <= 0) {
+//                        binding.notificationCount.visibility = View.INVISIBLE
+//                    } else if (unseen_notif_count <= 9) {
+//                        binding.notificationCount.visibility = View.VISIBLE
+//                        binding.notificationCount.text = unseen_notif_count.toString()
+//                    } else {
+//                        binding.notificationCount.visibility = View.VISIBLE
+//                        binding.notificationCount.text = "9+"
+//                    }
+//                } else {
+//                    Log.d("Error", "Error loading notification count", task.exception)
+//                }
+//            })
 
 
         binding.account.setOnClickListener {
@@ -209,13 +209,17 @@ class Home : Fragment() {
             (activity as MainActivity).drawer.openDrawer(Gravity.RIGHT)
         }
 
-        binding.pass.setOnClickListener {
-            startActivity(
-                Intent(
-                    context,
-                    NotificationActivity::class.java
-                )
-            );
+//        binding.pass.setOnClickListener {
+//            startActivity(
+//                Intent(
+//                    context,
+//                    NotificationActivity::class.java
+//                )
+//            );
+//        }
+
+        binding.search.setOnClickListener {
+            findNavController(this).navigate(R.id.action_home_nav_to_searchFragment)
         }
 
         binding.search.setOnClickListener {
@@ -1484,6 +1488,9 @@ class Home : Fragment() {
                         Spacer(modifier = Modifier.height(24.dp))
 
                     }
+                    Divider(modifier = Modifier
+                        .height(2.dp)
+                        .background(darkTealGreen))
                 }
                 BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
                     coroutineScope.launch {
@@ -3138,33 +3145,33 @@ class Home : Fragment() {
 //       MainActivity.index=R.id.home_nav;
         super.onResume()
 
-        var unseen_notif_count = 0
-
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
-
-        firebaseFirestore!!.collection("Notification").get()
-            .addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
-                if (task.isSuccessful) {
-                    val notifs = task.result.size()
-                    Log.d("Notification Count", "No of notifications: " + notifs)
-                    val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
-                    Log.d("seen notification", seen_notifs.toString());
-                    unseen_notif_count = notifs - seen_notifs!!
-
-                    if (unseen_notif_count <= 0) {
-                        binding.notificationCount.visibility = View.INVISIBLE
-                    } else if (unseen_notif_count <= 9) {
-                        binding.notificationCount.visibility = View.VISIBLE
-                        binding.notificationCount.text = unseen_notif_count.toString()
-                    } else {
-                        binding.notificationCount.visibility = View.VISIBLE
-                        binding.notificationCount.text = "9+"
-                    }
-                } else {
-                    Log.d("Error", "Error loading notification count", task.exception)
-                }
-            })
+//        var unseen_notif_count = 0
+//
+//        firebaseFirestore = FirebaseFirestore.getInstance()
+//        sharedPreferences = activity?.getSharedPreferences("USER", Context.MODE_PRIVATE)
+//
+//        firebaseFirestore!!.collection("Notification").get()
+//            .addOnCompleteListener(OnCompleteListener { task: Task<QuerySnapshot> ->
+//                if (task.isSuccessful) {
+//                    val notifs = task.result.size()
+//                    Log.d("Notification Count", "No of notifications: " + notifs)
+//                    val seen_notifs = sharedPreferences?.getInt("seen_notifs_count", 0)
+//                    Log.d("seen notification", seen_notifs.toString());
+//                    unseen_notif_count = notifs - seen_notifs!!
+//
+//                    if (unseen_notif_count <= 0) {
+//                        binding.notificationCount.visibility = View.INVISIBLE
+//                    } else if (unseen_notif_count <= 9) {
+//                        binding.notificationCount.visibility = View.VISIBLE
+//                        binding.notificationCount.text = unseen_notif_count.toString()
+//                    } else {
+//                        binding.notificationCount.visibility = View.VISIBLE
+//                        binding.notificationCount.text = "9+"
+//                    }
+//                } else {
+//                    Log.d("Error", "Error loading notification count", task.exception)
+//                }
+//            })
     }
 
 }

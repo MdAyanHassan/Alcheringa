@@ -73,6 +73,8 @@ fun LoginScreen(forgetPassword: ()->Unit , signUpHere:() -> Unit ,  microsoftLog
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 16.dp)
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
 //        Text(
 //            text = "If you already have an account",
 //            color = Color.Black,
@@ -158,11 +160,11 @@ fun LoginScreen(forgetPassword: ()->Unit , signUpHere:() -> Unit ,  microsoftLog
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(start = 16.dp , end = 16.dp , bottom = 5.dp)
                     .height(50.dp)
                     .border(
                         1.dp,
-                        MaterialTheme.colors.onBackground,
+                        creamWhite,
                         shape = RoundedCornerShape(5.dp),
                     )
                     .background(
@@ -293,6 +295,8 @@ fun LoginScreen(forgetPassword: ()->Unit , signUpHere:() -> Unit ,  microsoftLog
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 16.dp)
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
 //        Text(
 //            text = "If you already have an account",
 //            color = Color.Black,
@@ -385,7 +389,7 @@ fun LoginScreen(forgetPassword: ()->Unit , signUpHere:() -> Unit ,  microsoftLog
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(start = 16.dp , end = 16.dp , bottom = 5.dp)
                     .height(50.dp)
                     .border(
                         1.dp,

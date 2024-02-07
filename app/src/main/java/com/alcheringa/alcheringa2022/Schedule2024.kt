@@ -145,8 +145,12 @@ class Schedule2024 : Fragment() {
 //            startActivity(Intent(context, ProfilePage::class.java));
             (activity as MainActivity).drawer.openDrawer(Gravity.RIGHT)
         }
-        binding.pass.setOnClickListener{
-            startActivity(Intent(context, NotificationActivity::class.java));
+//        binding.pass.setOnClickListener{
+//            startActivity(Intent(context, NotificationActivity::class.java));
+//        }
+
+        binding.search.setOnClickListener {
+            NavHostFragment.findNavController(this).navigate(R.id.action_schedule_to_searchFragment)
         }
         binding.scheduleCompose.setContent {
             Alcheringa2022Theme(){

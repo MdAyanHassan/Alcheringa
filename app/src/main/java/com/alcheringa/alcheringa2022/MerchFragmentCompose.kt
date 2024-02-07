@@ -140,6 +140,11 @@ class MerchFragmentCompose : Fragment() {
         account.setOnClickListener(View.OnClickListener { v: View? ->
             (activity as MainActivity).drawer.openDrawer(Gravity.RIGHT)
         })
+
+        val search = view.findViewById<ImageView>(R.id.search)
+        search.setOnClickListener { v: View? ->
+            (activity as MainActivity).NavController.navigate(R.id.action_merch_to_searchFragment)
+        }
         merchModelList = SnapshotStateList()
         //populate_merch()
         setCartCountIcon()

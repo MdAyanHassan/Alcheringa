@@ -63,8 +63,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
-
 import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
+
+import com.alcheringa.alcheringa2022.databinding.FragmentSchedule2024Binding
 import com.alcheringa.alcheringa2022.ui.theme.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMapOptions
@@ -73,6 +74,7 @@ import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.BuildConfig
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.QuerySnapshot
@@ -214,6 +216,10 @@ class Events : Fragment() {
 //        binding.pass.setOnClickListener{
 //            startActivity(Intent(context, NotificationActivity::class.java));
 //        }
+
+        binding.search.setOnClickListener {
+            NavHostFragment.findNavController(this).navigate(R.id.action_events_to_searchFragment)
+        }
 
         binding.eventsCompose.setContent {
 
@@ -594,8 +600,12 @@ class Events : Fragment() {
                     .fillMaxSize()
                     , contentAlignment = Alignment.Center
             ) {
-
                 mapview(bottomSheetScaffoldState, coroutineScope)
+
+                Divider(modifier = Modifier.align(Alignment.TopCenter)
+                    .height(2.dp)
+                    .background(darkTealGreen))
+
 
 
 //                Column(
