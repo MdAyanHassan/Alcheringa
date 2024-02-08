@@ -40,6 +40,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
 import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
@@ -211,7 +213,7 @@ class Events : Fragment() {
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
+    @OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
     @Composable
     fun Full_view(bottomSheetScaffoldState: BottomSheetScaffoldState, coroutineScope: CoroutineScope) {
         Alcheringa2022Theme {
@@ -241,10 +243,10 @@ class Events : Fragment() {
                     contentAlignment = Alignment.Center
                 ){
                     Image(
+                        rememberImagePainter(data = selectedVenue1[0].imgurl),
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(2.5f),
-                        painter = painterResource(id = R.drawable.card_background_transparent),
                         contentDescription = "",
                         contentScale = ContentScale.Crop
                     )
@@ -582,7 +584,8 @@ class Events : Fragment() {
             ) {
                 mapview(bottomSheetScaffoldState, coroutineScope)
 
-                Divider(modifier = Modifier.align(Alignment.TopCenter)
+                Divider(modifier = Modifier
+                    .align(Alignment.TopCenter)
                     .height(2.dp)
                     .background(darkTealGreen))
 

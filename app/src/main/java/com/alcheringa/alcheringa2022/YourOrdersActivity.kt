@@ -165,8 +165,7 @@ class YourOrdersActivity: AppCompatActivity() {
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(horizontal = 20.dp)
-                                    .background(Color.Blue),
+                                    .padding(horizontal = 20.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 LazyColumn() {

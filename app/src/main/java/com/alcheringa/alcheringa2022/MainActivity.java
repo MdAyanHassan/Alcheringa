@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -284,6 +285,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void signOut(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("name");
+        editor.remove("email");
+        editor.remove("photourl");
+        editor.remove("interests");
+        editor.apply();
+        Intent intent = new Intent(getApplicationContext(), Login.class);
+        firebaseAuth.signOut();
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -300,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
           case R.id.miProfile: startActivity(new Intent(getApplicationContext(),ProfileActivity.class));break;
           case R.id.miSponsors: startActivity(new Intent(getApplicationContext(),SponsorsActivity.class));break;
           case R.id.miTeam: startActivity(new Intent(getApplicationContext(),TeamActivity.class));break;
-
+          case R.id.miSignOut: signOut();
         }
 
         drawer.closeDrawer(Gravity.RIGHT);
