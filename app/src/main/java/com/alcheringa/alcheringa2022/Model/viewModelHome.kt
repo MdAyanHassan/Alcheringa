@@ -16,7 +16,6 @@ import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.LoaderView
 import com.alcheringa.alcheringa2022.Model.eventdetail
 import com.alcheringa.alcheringa2022.Model.eventWithLive
-import com.alcheringa.alcheringa2022.venueslist
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
@@ -107,7 +106,7 @@ class viewModelHome : ViewModel() {
                 Log.d("livecheck", "started")
                 val c = Calendar.getInstance()
                 var dt = 0
-                if (c.get(Calendar.MONTH) == Calendar.FEBRUARY) {
+                if (c.get(Calendar.MONTH) == Calendar.MARCH) {
                     dt = c.get(Calendar.DATE) - 31
                 } else {
                     dt = c.get(Calendar.DATE)
@@ -119,8 +118,8 @@ class viewModelHome : ViewModel() {
 
                 for (data in allEventsWithLive) {
 
-                    data.isLive.value = (c.get(Calendar.YEAR) == 2023) and
-                            (c.get(Calendar.MONTH) == Calendar.FEBRUARY) and
+                    data.isLive.value = (c.get(Calendar.YEAR) == 2024) and
+                            (c.get(Calendar.MONTH) == Calendar.MARCH) and
                             (c.get(Calendar.DATE) == data.eventdetail.starttime.date) and
                             (((data.eventdetail.starttime.hours * 60)..(data.eventdetail.starttime.hours * 60 + data.eventdetail.durationInMin))
                                 .contains((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE)))
@@ -129,8 +128,8 @@ class viewModelHome : ViewModel() {
 
                 for (data in OwnEventsWithLiveState) {
 
-                    data.isLive.value = (c.get(Calendar.YEAR) == 2023) and
-                            (c.get(Calendar.MONTH) == Calendar.FEBRUARY) and
+                    data.isLive.value = (c.get(Calendar.YEAR) == 2024) and
+                            (c.get(Calendar.MONTH) == Calendar.MARCH) and
                             (c.get(Calendar.DATE) == data.eventdetail.starttime.date) and
                             (((data.eventdetail.starttime.hours * 60)..(data.eventdetail.starttime.hours * 60 + data.eventdetail.durationInMin))
                                 .contains((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE)))
@@ -139,14 +138,14 @@ class viewModelHome : ViewModel() {
 
                 for (data in allEventsWithLive) {
 
-                    if ((c.get(Calendar.YEAR) > 2023) or
-                        ((c.get(Calendar.YEAR) == 2023) and
-                                (c.get(Calendar.MONTH) > Calendar.FEBRUARY)) or
-                        ((c.get(Calendar.YEAR) == 2023) and
-                                (c.get(Calendar.MONTH) == Calendar.FEBRUARY) and
+                    if ((c.get(Calendar.YEAR) > 2024) or
+                        ((c.get(Calendar.YEAR) == 2024) and
+                                (c.get(Calendar.MONTH) > Calendar.MARCH)) or
+                        ((c.get(Calendar.YEAR) == 2024) and
+                                (c.get(Calendar.MONTH) == Calendar.MARCH) and
                                 (c.get(Calendar.DATE) > data.eventdetail.starttime.date)) or
-                        ((c.get(Calendar.YEAR) == 2023) and
-                                (c.get(Calendar.MONTH) == Calendar.FEBRUARY) and
+                        ((c.get(Calendar.YEAR) == 2024) and
+                                (c.get(Calendar.MONTH) == Calendar.MARCH) and
                                 (c.get(Calendar.DATE) == data.eventdetail.starttime.date) and
                                 (((data.eventdetail.starttime.hours * 60))
                                         < ((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE))))

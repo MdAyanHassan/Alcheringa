@@ -51,9 +51,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -76,6 +78,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.alcheringa.alcheringa2022.Model.eventWithLive
+import com.alcheringa.alcheringa2022.Model.venue
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentSchedule2024Binding
 //import com.alcheringa.alcheringa2022.databinding.ScheduleFragmentBinding
@@ -322,7 +325,7 @@ class Schedule2024 : Fragment() {
                 ) {
 
                     var expanded by remember { mutableStateOf(false) }
-                    val filterList = listOf("All", "Admin Area", "Lecture Halls", "Grounds")
+                    val filterList = itemListMap.keys
 
                     val icon = if (expanded) {
                         Icons.Filled.KeyboardArrowUp
@@ -466,7 +469,13 @@ class Schedule2024 : Fragment() {
                         .uppercase() == "AUDITORIUM".replace("\\s".toRegex(), "").uppercase()
                 }
 
-                var selectedVenueList by remember { mutableStateOf(itemListMap[selectedItem.value]!!) }
+                val selectedVenueList = itemListMap[selectedItem.value]!!
+//                val selectedVenueList by remember { mutableStateOf(itemListMap[selectedItem.value]!!) }
+                val filteredList = mutableStateMapOf<String, List<eventWithLive>>()
+
+                selectedVenueList.forEach{
+                    filteredList[it] = FilterVenueEvents(it, selectedDayEvents)
+                }
 
                 Canvas(
                     modifier = Modifier
@@ -486,7 +495,7 @@ class Schedule2024 : Fragment() {
 
                     TimeColumn(scroll = verticalScroll)
 
-                    if (selectedVenueList.isNotEmpty()) {
+                    if (CheckEmptyMap(filteredList)) {
 
                         Box(
                             modifier = Modifier
@@ -497,12 +506,12 @@ class Schedule2024 : Fragment() {
                             Row(Modifier.wrapContentSize()) {
                                 selectedVenueList.forEach { venue ->
 
-                                    val eventList = FilterVenueEvents(venue, selectedDayEvents)
-                                    if (eventList.isNotEmpty()) {
+
+                                    if (filteredList[venue]!!.isNotEmpty()) {
                                         VenueSchedule(
                                             venue = venue,
                                             scroll = verticalScroll,
-                                            eventList
+                                            filteredList[venue]!!
                                         )
                                     }
 
@@ -532,6 +541,15 @@ class Schedule2024 : Fragment() {
 
             }
         }
+    }
+
+    private fun CheckEmptyMap(filteredList: SnapshotStateMap<String, List<eventWithLive>>): Boolean {
+        for (key in filteredList.keys) {
+            if(filteredList[key]!!.isNotEmpty()){
+                return true
+            }
+        }
+        return false
     }
 
     @Composable
@@ -764,13 +782,20 @@ class Schedule2024 : Fragment() {
                                             width = 1.dp
                                         )
                                     )
-                                    .background(color = colors.background, shape = RoundedCornerShape(4.dp))
+                                    .background(
+                                        color = colors.background,
+                                        shape = RoundedCornerShape(4.dp)
+                                    )
                                     .clickable {
-                                        val arguments = bundleOf("Artist" to event.eventdetail.artist)
+                                        val arguments =
+                                            bundleOf("Artist" to event.eventdetail.artist)
 
                                         NavHostFragment
                                             .findNavController(this@Schedule2024)
-                                            .navigate(R.id.action_schedule_to_events_Details_Fragment, arguments);
+                                            .navigate(
+                                                R.id.action_schedule_to_events_Details_Fragment,
+                                                arguments
+                                            );
                                     },
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center

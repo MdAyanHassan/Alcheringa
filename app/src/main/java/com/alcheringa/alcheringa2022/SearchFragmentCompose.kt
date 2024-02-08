@@ -231,13 +231,6 @@ class SearchFragment : Fragment() {
                                         "",
                                         tint = colors.onBackground,
                                         modifier = Modifier
-                                            .clickable {
-                                                searchtext.value = ""
-                                                markerList.clear()
-                                                for (venue in venueslist) {
-                                                    markerList.add(venue)
-                                                }
-                                            }
                                             .align(Alignment.CenterEnd)
                                             .padding(end = 16.dp),
                                     )

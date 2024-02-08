@@ -15,11 +15,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -52,14 +54,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat.startActivity
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.alcheringa.alcheringa2022.Model.eventdetail
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
+import com.alcheringa.alcheringa2022.ui.theme.black
 import com.alcheringa.alcheringa2022.ui.theme.containerPurple
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
 import com.alcheringa.alcheringa2022.ui.theme.futura
 import com.alcheringa.alcheringa2022.ui.theme.heartRed
+import com.alcheringa.alcheringa2022.ui.theme.highBlack
+import com.alcheringa.alcheringa2022.ui.theme.highWhite
 import com.alcheringa.alcheringa2022.ui.theme.lighterPurple
+import com.alcheringa.alcheringa2022.ui.theme.white
+import com.android.volley.toolbox.ImageRequest
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -71,6 +88,8 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.skydoves.landscapist.ShimmerParams
+import com.skydoves.landscapist.glide.GlideImage
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.IOException
@@ -82,7 +101,7 @@ class ProfileActivity: AppCompatActivity() {
 
 
     var nameshared: String = ""
-    var user_dp: String = ""
+    var user_dp = mutableStateOf("")
     var shared_photoUrl: String = ""
     var firebaseAuth = FirebaseAuth.getInstance()
     var firestore = FirebaseFirestore.getInstance()
@@ -98,26 +117,21 @@ class ProfileActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        interests =
+            sharedPreferences.getString("interests", "")!!.replace("[","").replace("]", "").split(',').toMutableList()
+
+        interests.remove("null")
+        for (i in 0..interests.size-1){
+            interests[i] = interests[i].replace("  ", "")
+        }
+        sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE)
+
+        user_dp.value = sharedPreferences.getString("photourl", "")!!
+        fill_user_details()
+
         setContent {
             Alcheringa2022Theme {
 
-                sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE)
-
-                fill_user_details()
-
-                interests =
-                    sharedPreferences.getString("interests", "")!!.replace("[","").replace("]", "").split(',').toMutableList()
-
-                interests.remove("null")
-                for (i in 0..interests.size-1){
-                    interests[i] = interests[i].replace("  ", "")
-                }
-
-                user_dp = sharedPreferences.getString("photourl", "")!!
-
-                var profile_url by remember {
-                    mutableStateOf(user_dp)
-                }
 
                 var name by remember {
                     mutableStateOf(nameshared)
@@ -178,17 +192,51 @@ class ProfileActivity: AppCompatActivity() {
                                 .width(160.dp)
                                 .height(160.dp)
                         ) {
-                            Image(
-                                painter = rememberImagePainter(data = if (profile_url != "")profile_url else R.drawable.usernew),
-                                contentDescription = null,
+
+                            GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(
+                                DiskCacheStrategy.AUTOMATIC)},
                                 modifier = Modifier
                                     .width(160.dp)
                                     .height(160.dp)
-                                    .border(2.dp, colors.onBackground, RoundedCornerShape(5.dp)),
+                                    .border(
+                                        2.dp,
+                                        colors.onBackground,
+                                        RoundedCornerShape(5.dp)
+                                    ),
+                                imageModel = if (user_dp.value != "")user_dp.value else R.drawable.usernew,
+                                contentDescription = "artist",
                                 contentScale = ContentScale.Crop,
 
                                 alignment = Alignment.Center,
+                                shimmerParams = ShimmerParams(
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
+                                    tilt = 20f
+                                ),
+                                failure = {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.usernew),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .width(160.dp)
+                                            .height(160.dp)
+                                            .border(
+                                                2.dp,
+                                                colors.onBackground,
+                                                RoundedCornerShape(5.dp)
+                                            ),
+                                        contentScale = ContentScale.Crop,
+
+                                        alignment = Alignment.Center,
+                                    )
+
+
+                                }
                             )
+
+
                             
                             Box(
                                 modifier = Modifier
@@ -443,7 +491,7 @@ class ProfileActivity: AppCompatActivity() {
         intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true)
         intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1) // 16x9, 1x1, 3:4, 3:2
         intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1)
-        startActivityForResult(intent, ProfilePage.REQUEST_IMAGE)
+        startActivityForResult(intent, REQUEST_IMAGE)
     }
 
     private fun uploadImage() {
@@ -520,7 +568,7 @@ class ProfileActivity: AppCompatActivity() {
 
         if (shared_photoUrl != "") {
             //Toast.makeText(this, ""+shared_photoUrl, Toast.LENGTH_SHORT).show();
-            user_dp = shared_photoUrl
+            user_dp.value = shared_photoUrl
 
         } else {
             //Toast.makeText(this, ""+shared_photoUrl, Toast.LENGTH_SHORT).show();
@@ -532,7 +580,7 @@ class ProfileActivity: AppCompatActivity() {
                         val editor = sharedPreferences.edit()
                         val db_photourl = task.result.getString("PhotoURL")
                         if (db_photourl != null) {
-                            user_dp = db_photourl
+                            user_dp.value = db_photourl
                             editor.putString("photourl", db_photourl)
                         }
                         editor.apply()
@@ -545,7 +593,7 @@ class ProfileActivity: AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ProfilePage.REQUEST_IMAGE) {
+        if (requestCode == REQUEST_IMAGE) {
             if (resultCode == RESULT_OK) {
                 val uri = data!!.getParcelableExtra<Uri>("path")
                 try {
@@ -563,7 +611,7 @@ class ProfileActivity: AppCompatActivity() {
 
     private fun loadProfile(url: String) {
         Log.d("ProfilePage.TAG", "Image cache path: $url")
-        user_dp = url
+        user_dp.value = url
         uploadImage()
     }
 

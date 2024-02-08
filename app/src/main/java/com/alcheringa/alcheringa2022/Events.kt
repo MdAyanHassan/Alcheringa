@@ -87,7 +87,7 @@ import kotlinx.coroutines.launch
 //    venue("Library Basement", LatLng = LatLng(26.18950374874834, 91.6934319403298)),
 //)
 
-var venueslist = mutableStateListOf<venue>()
+
 
 
 class Events : Fragment() {
@@ -120,7 +120,7 @@ class Events : Fragment() {
     val selectedVenueInformals = mutableListOf<InformalModel>()
     var selectedVenue1 = mutableStateListOf<venue>(venue("", LatLng(26.191117262340942, 91.69295134231831), "", ""))
 
-
+    var venueslist = mutableStateListOf<venue>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

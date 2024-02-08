@@ -66,15 +66,10 @@ fun UtilityCard(utlt: utilityModel, onClick: () -> Unit) {
 
 
 
-    val bm= if(isSystemInDarkTheme()) Modifier.background(MaterialTheme.colors.background)
+    val bm= Modifier.background(MaterialTheme.colors.background)
         .graphicsLayer(translationY = animationProgress.value)
         .width(220.dp)
-    else Modifier.background(MaterialTheme.colors.background).graphicsLayer(translationY = animationProgress.value)
-        .coloredShadow(MaterialTheme.colors.onBackground, 0.01f, 16.dp, 1.dp, 20.dp, 0.dp)
-        .coloredShadow(MaterialTheme.colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
-        .coloredShadow(MaterialTheme.colors.onBackground, 0.24f, 16.dp, 1.dp, 4.dp, 0.dp)
 
-        .width(220.dp)
     Box(
         modifier=bm)
     {

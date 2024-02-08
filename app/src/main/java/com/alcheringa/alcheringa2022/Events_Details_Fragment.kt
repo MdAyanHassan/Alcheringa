@@ -346,18 +346,18 @@ class Events_Details_Fragment : Fragment() {
     @Composable
     fun eventButtons(eventWithLive: eventWithLive){
         val c=Calendar.getInstance()
-        val isFinished = (c.get(Calendar.YEAR)>2023) or
-                ((c.get(Calendar.YEAR)==2023) and
-                        (c.get(Calendar.MONTH)> Calendar.FEBRUARY)) or
-                ((c.get(Calendar.YEAR)==2023) and
-                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
+        val isFinished = (c.get(Calendar.YEAR)>2024) or
+                ((c.get(Calendar.YEAR)==2024) and
+                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
+                ((c.get(Calendar.YEAR)==2024) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
                         (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                ((c.get(Calendar.YEAR)==2023) and
-                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
+                ((c.get(Calendar.YEAR)==2024) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
                         (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
-        var v = venueslist.find { it.name.replace("\\s".toRegex(), "").uppercase() == eventWithLive.eventdetail.venue.replace("\\s".toRegex(), "").uppercase() }
+        var v = homeViewModel.venuesList.find { it.name.replace("\\s".toRegex(), "").uppercase() == eventWithLive.eventdetail.venue.replace("\\s".toRegex(), "").uppercase() }
 
         if ( // TODO: replace with below check, commented out temporarily for demonstrations
 
@@ -1001,14 +1001,14 @@ class Events_Details_Fragment : Fragment() {
     @Composable
     fun Bottomviewcomp(eventWithLive:eventWithLive){
         val c=Calendar.getInstance()
-        val isFinished = (c.get(Calendar.YEAR)>2023) or
-                ((c.get(Calendar.YEAR)==2023) and
-                        (c.get(Calendar.MONTH)> Calendar.FEBRUARY)) or
-                ((c.get(Calendar.YEAR)==2023) and
-                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
+        val isFinished = (c.get(Calendar.YEAR)>2024) or
+                ((c.get(Calendar.YEAR)==2024) and
+                        (c.get(Calendar.MONTH)> Calendar.MARCH)) or
+                ((c.get(Calendar.YEAR)==2024) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
                         (c.get(Calendar.DATE)> eventWithLive.eventdetail.starttime.date)) or
-                ((c.get(Calendar.YEAR)==2023) and
-                        (c.get(Calendar.MONTH)== Calendar.FEBRUARY) and
+                ((c.get(Calendar.YEAR)==2024) and
+                        (c.get(Calendar.MONTH)== Calendar.MARCH) and
                         (c.get(Calendar.DATE)== eventWithLive.eventdetail.starttime.date)and
                         ( ((eventWithLive.eventdetail.starttime.hours*60 + eventWithLive.eventdetail.durationInMin))
                                 <((c.get(Calendar.HOUR_OF_DAY)*60) + c.get(Calendar.MINUTE)) ))
