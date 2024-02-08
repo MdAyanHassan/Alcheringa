@@ -185,7 +185,7 @@ class SponsorsActivity: AppCompatActivity() {
                         .height(124.dp),
                     imageModel = sponsersnew.imageurl,
                     contentDescription = "Sponsor",
-                    contentScale = ContentScale.FillHeight,
+                    contentScale = ContentScale.Inside,
                     alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
                         baseColor = Color.Transparent,
@@ -227,7 +227,7 @@ class SponsorsActivity: AppCompatActivity() {
                         .height(80.dp),
                     imageModel = sponsersnew.imageurl,
                     contentDescription = "Sponsor",
-                    contentScale = ContentScale.FillHeight,
+                    contentScale = ContentScale.Inside,
                     alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
                         baseColor = Color.Transparent,

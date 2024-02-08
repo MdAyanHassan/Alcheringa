@@ -268,6 +268,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             Glide.with(this).load(newshared_photoUrl).into(user_photo);
         }
+        shared_name = sharedPreferences.getString("name", "");
+        user_name.setText(shared_name);
     }
 
     @Override
