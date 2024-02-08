@@ -16,6 +16,8 @@ import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.LoaderView
 import com.alcheringa.alcheringa2022.Model.eventdetail
 import com.alcheringa.alcheringa2022.Model.eventWithLive
+import com.alcheringa.alcheringa2022.venueslist
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -76,6 +78,7 @@ class viewModelHome : ViewModel() {
     val utilityList = mutableStateListOf<utilityModel>()
     val informalList = mutableStateListOf<InformalModel>()
     val stalllist = mutableStateListOf<stallModel>()
+    val venuesList = mutableStateListOf<venue>()
 
 
 
@@ -291,6 +294,32 @@ class viewModelHome : ViewModel() {
                     Log.d("Stalls", it.toString())
                 }
         }
+    }
+
+    fun getVenues(){
+        fb.collection("Venues").get().addOnSuccessListener { allvenues->
+
+            venuesList.clear()
+            for (venues in allvenues){
+                val name = venues.get("name")
+                val geoPoint = venues.getGeoPoint("LatLng")
+                val imgurl = venues.get("imgurl")
+                val Lat = geoPoint!!.latitude
+                val Lng = geoPoint.longitude
+                venuesList.add(
+                    venue(
+                    name = name.toString(),
+                    LatLng = LatLng(Lat, Lng),
+                        des = "",
+                    imgurl = imgurl.toString()
+                )
+                )
+            }
+        }
+
+            .addOnFailureListener {
+                Log.i("Venues", it.toString())
+            }
     }
 
     fun converttomin(OwnTime: OwnTime): Int {

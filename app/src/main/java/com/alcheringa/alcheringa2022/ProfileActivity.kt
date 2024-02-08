@@ -140,7 +140,7 @@ class ProfileActivity: AppCompatActivity() {
                             Icon(
                                 painter = painterResource(id = R.drawable.cart_arrow),
                                 contentDescription = null,
-                                tint = darkTealGreen,
+                                tint = lighterPurple,
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 10.dp)
                                     .clickable {

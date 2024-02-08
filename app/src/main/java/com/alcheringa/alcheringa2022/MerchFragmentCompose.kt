@@ -16,6 +16,9 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
@@ -46,6 +49,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
+import coil.compose.rememberImagePainter
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.DBHandler
 import com.alcheringa.alcheringa2022.Model.merchModel
@@ -68,6 +72,7 @@ import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
 import kotlin.math.absoluteValue
+import kotlin.random.Random
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -1299,18 +1304,20 @@ class MerchFragmentCompose : Fragment() {
 
 
             ) {
-                Column(Modifier.verticalScroll(rememberScrollState())) {
-                    Row() {
-                        Column(
-                            Modifier
-                                .weight(1f)
-                                .padding(start = 20.dp, end = 10.dp),
-                        ) {
-                            homeViewModel.merchMerch.subList(
-                                0,
-                                (homeViewModel.merchMerch.size + 1) / 2
-                            ).forEachIndexed { i, dataeach ->
-                                MerchGridItem(merch = dataeach) {
+                Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ){
+                        item(span = {GridItemSpan(2)}) {
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+                        items(homeViewModel.merchMerch.size){i ->
+                            newMerchGridItem(
+                                merch = homeViewModel.merchMerch[i],
+                                Index = i,
+                                onClick = {
                                     index = i
                                     coroutineScope.launch {
                                         if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
@@ -1321,35 +1328,63 @@ class MerchFragmentCompose : Fragment() {
                                         }
                                     }
                                 }
-                            }
+                            )
                         }
-
-                        Column(
-                            Modifier
-                                .weight(1f)
-                                .padding(start = 10.dp, end = 20.dp),
-                        ) {
-                            homeViewModel.merchMerch.subList(
-                                (homeViewModel.merchMerch.size + 1) / 2,
-                                homeViewModel.merchMerch.size
-                            ).forEachIndexed { i, dataeach ->
-                                MerchGridItem(merch = dataeach) {
-                                    index = i + (homeViewModel.merchMerch.size + 1) / 2
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-
                     }
                 }
+
+//                Column(Modifier.verticalScroll(rememberScrollState())) {
+//                    Row() {
+//                        Column(
+//                            Modifier
+//                                .weight(1f)
+//                                .padding(start = 20.dp, end = 10.dp),
+//                        ) {
+//                            homeViewModel.merchMerch.subList(
+//                                0,
+//                                (homeViewModel.merchMerch.size + 1) / 2
+//                            ).forEachIndexed { i, dataeach ->
+//                                MerchGridItem(merch = dataeach) {
+//                                    index = i
+//                                    coroutineScope.launch {
+//                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+//                                            bottomSheetScaffoldState.bottomSheetState.expand()
+//
+//                                        } else {
+//                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//
+//                        Column(
+//                            Modifier
+//                                .weight(1f)
+//                                .padding(start = 10.dp, end = 20.dp),
+//                        ) {
+//                            homeViewModel.merchMerch.subList(
+//                                (homeViewModel.merchMerch.size + 1) / 2,
+//                                homeViewModel.merchMerch.size
+//                            ).forEachIndexed { i, dataeach ->
+//                                MerchGridItem(merch = dataeach) {
+//                                    index = i + (homeViewModel.merchMerch.size + 1) / 2
+//                                    coroutineScope.launch {
+//                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+//                                            bottomSheetScaffoldState.bottomSheetState.expand()
+//
+//                                        } else {
+//                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//
+//
+//                    }
+//
+//                }
                 BackHandler(enabled = bottomSheetScaffoldState.bottomSheetState.isExpanded) {
                     coroutineScope.launch {
                         bottomSheetScaffoldState.bottomSheetState.collapse()
@@ -1508,6 +1543,86 @@ class MerchFragmentCompose : Fragment() {
     }
 
     @Composable
+    fun newMerchGridItem(merch: merchModel, onClick: () -> Unit, Index: Int){
+        val itembg = if (Index%4 == 1 || Index%4 == 2) R.drawable.merchbg_purple else R.drawable.merchbg_green
+        Card (
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(vertical = 10.dp)
+                .clickable(
+                    onClick = onClick,
+                    enabled = true
+                ),
+            border = BorderStroke(1.dp, colors.onBackground),
+            shape = RoundedCornerShape(4.dp),
+            backgroundColor = colors.background
+        ){
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .background(colors.background, RoundedCornerShape(4.dp))
+                    .border(1.dp, colors.onBackground, RoundedCornerShape(4.dp)),
+            ) {
+                Column(
+                    modifier = Modifier,
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxHeight(0.7f)
+                            .fillMaxWidth()
+                    ) {
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            Image(
+                                painter = painterResource(id = itembg),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .aspectRatio(1f),
+                                contentScale = ContentScale.Crop,
+                                alignment = Alignment.Center
+                            )
+                            Image(
+                                rememberImagePainter(data = merch.image_url),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .padding(15.dp)
+                                    .aspectRatio(1f)
+                                    .align(Alignment.Center)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = merch.material,
+                        fontFamily = futura,
+                        fontSize = 18.sp,
+                        color = colors.onBackground
+                    )
+                    Text(
+                        text = merch.name,
+                        fontFamily = futura,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light,
+                        color = colors.onBackground
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "Rs. ${merch.price}/-",
+                        fontFamily = futura,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = colors.onBackground
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+            }
+        }
+    }
+
+    @Composable
     fun MerchGridItem(merch: merchModel, onClick: () -> Unit){
         Card(
             Modifier
@@ -1608,7 +1723,6 @@ class MerchFragmentCompose : Fragment() {
     @Composable
     fun MyContentPreview() {
         MyContent(popUp = 0)
-
     }
 }
 

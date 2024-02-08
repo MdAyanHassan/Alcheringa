@@ -71,6 +71,7 @@ class SponsorsActivity: AppCompatActivity() {
             Alcheringa2022Theme {
                 Column(
                     modifier = Modifier
+                        .background(colors.background)
                         .fillMaxSize()
                 ) {
                     Row(
@@ -169,6 +170,8 @@ class SponsorsActivity: AppCompatActivity() {
                 modifier = Modifier
                     .align(Alignment.Start)
             )
+            
+            Spacer(modifier = Modifier.height(10.dp))
 
             Box(
                 modifier = Modifier

@@ -103,13 +103,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             user_name.setText(shared_name);
         }
-        user_name.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ProfilePage.class)));
+        user_name.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ProfileActivity.class)));
 
         if(!shared_photoUrl.equals(""))
         {
             Glide.with(this).load(shared_photoUrl).into(user_photo);
         }
-        user_photo.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ProfilePage.class)));
+        user_photo.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ProfileActivity.class)));
 
         website = findViewById(R.id.website_link);
         website.setOnClickListener(v->

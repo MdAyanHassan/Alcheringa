@@ -39,6 +39,7 @@ import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.containerPurple
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
 import com.alcheringa.alcheringa2022.ui.theme.futura
+import com.alcheringa.alcheringa2022.ui.theme.lighterPurple
 
 class FaqActivity: AppCompatActivity() {
 
@@ -50,6 +51,7 @@ class FaqActivity: AppCompatActivity() {
                 val a1 = "IITG cult fest that has a lot of people working and stuff. There will be one more line of text hereeeeeeeeeeeeee. It can also have something"
                 Column(
                     modifier = Modifier
+                        .background(colors.background)
                         .fillMaxSize()
                 ) {
                     Row(
@@ -62,7 +64,7 @@ class FaqActivity: AppCompatActivity() {
                             Icon(
                                 painter = painterResource(id = R.drawable.cart_arrow),
                                 contentDescription = null,
-                                tint = darkTealGreen,
+                                tint = lighterPurple,
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 10.dp)
                                     .clickable {
@@ -124,6 +126,9 @@ class FaqActivity: AppCompatActivity() {
         Box(
             Modifier
                 .fillMaxWidth()
+                .clickable {
+                    isExpanded = !isExpanded
+                }
         ){
             Text(
                 text = q1,
@@ -138,11 +143,6 @@ class FaqActivity: AppCompatActivity() {
                 tint = colors.onBackground,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
-                    .clickable {
-                        isExpanded = !isExpanded
-
-                    }
-
             )
         }
 

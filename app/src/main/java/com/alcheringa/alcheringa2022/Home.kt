@@ -122,6 +122,10 @@ class Home : Fragment() {
             homeViewModel.getStalls()
         }
 
+        if (homeViewModel.venuesList.isEmpty()){
+            homeViewModel.getVenues()
+        }
+
 
         if (homeViewModel.featuredEventsWithLivestate.isEmpty()) {
             homeViewModel.getfeaturedEvents()
@@ -1735,7 +1739,7 @@ class Home : Fragment() {
                         (c.get(Calendar.DATE) == eventWithLive.eventdetail.starttime.date) and
                         (((eventWithLive.eventdetail.starttime.hours * 60 + eventWithLive.eventdetail.durationInMin))
                                 < ((c.get(Calendar.HOUR_OF_DAY) * 60) + c.get(Calendar.MINUTE))))
-        var v = venuelist.find {
+        var v = venueslist.find {
             it.name.replace("\\s".toRegex(), "")
                 .uppercase() == eventWithLive.eventdetail.venue.replace("\\s".toRegex(), "")
                 .uppercase()

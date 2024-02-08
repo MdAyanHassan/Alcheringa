@@ -280,8 +280,9 @@ class CheckoutActivity2024 : AppCompatActivity() {
                             Icon(
                                 painter = painterResource(id = R.drawable.cart_arrow),
                                 contentDescription = null,
+                                tint = lighterPurple,
                                 modifier = Modifier
-                                    .padding(start = 20.dp, end = 10.dp)
+                                    .padding(start = 10.dp, end = 10.dp)
                                     .clickable {
                                         if (checkedState == 0 || checkedState == 2) {
                                             finish()
@@ -289,6 +290,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                             checkedState -= 1
                                         }
                                     }
+                                    .padding(10.dp)
                             )
                             Text(
                                 text = "Checkout",

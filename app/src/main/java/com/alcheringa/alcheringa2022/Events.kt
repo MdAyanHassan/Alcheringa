@@ -56,34 +56,37 @@ import com.google.maps.android.compose.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-val venuelist = listOf<venue>(
-    venue("Auditorium", LatLng = LatLng(26.190638584006965, 91.69300641296921)),
-    venue("Mini Auditorium", LatLng = LatLng(26.190638584006965, 91.69300641296921)),
-    venue("Expo Stage", LatLng = LatLng(26.190636674443564, 91.69300170707142)),
-    venue("Front of Graffiti Wall", LatLng = LatLng(26.19191890474476, 91.6959432542479)),
-    venue("Behind Graffiti Wall", LatLng = LatLng(26.191951998262304, 91.69573068917616)),
-    venue("Football Field", LatLng = LatLng(26.193022124942964, 91.69694866004637)),
-    venue("Basketball Courts", LatLng = LatLng(26.19204463910141, 91.69785644684545)),
-    venue("Volley Ball Court", LatLng = LatLng(26.19204023599347, 91.69737065823848)),
-    venue("Library Shed", LatLng = LatLng(26.189551715246374, 91.69337795595325)),
-    venue("Lecture Hall 1", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
-    venue("Lecture Hall 2", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
-    venue("Lecture Hall 3", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
-    venue("Lecture Hall 4", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
-    venue("Rocko Stage", LatLng = LatLng(26.189865803005024, 91.693858248184)),
-    venue("Pronite Stage", LatLng = LatLng(26.1897968961693, 91.697434871485)),
-    venue("Conference Hall 1", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
-    venue("Conference Hall 2", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
-    venue("Conference Hall 3", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
-    venue("Conference Hall 4", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
-    venue("Core 5", LatLng = LatLng(26.18611265371866, 91.68929712769904)),
-    venue("Senate Hall", LatLng = LatLng(26.190302521884597, 91.69210573526523)),
-    venue("Old Sac Wall", LatLng = LatLng(26.192563559521556, 91.69583138918674)),
-    venue("Audi Park", LatLng = LatLng(26.190218676220958, 91.69300182135102)),
-    venue("Athletics Field", LatLng = LatLng(26.19290020378757, 91.69813175683815)),
-    venue("Entire Campus", LatLng = LatLng(26.190213221922317, 91.6929932588851)),
-    venue("Library Basement", LatLng = LatLng(26.18950374874834, 91.6934319403298)),
-)
+//val venuelist = listOf<venue>(
+//    venue("Auditorium", LatLng = LatLng(26.190638584006965, 91.69300641296921)),
+//    venue("Mini Auditorium", LatLng = LatLng(26.190638584006965, 91.69300641296921)),
+//    venue("Expo Stage", LatLng = LatLng(26.190636674443564, 91.69300170707142)),
+//    venue("Front of Graffiti Wall", LatLng = LatLng(26.19191890474476, 91.6959432542479)),
+//    venue("Behind Graffiti Wall", LatLng = LatLng(26.191951998262304, 91.69573068917616)),
+//    venue("Football Field", LatLng = LatLng(26.193022124942964, 91.69694866004637)),
+//    venue("Basketball Courts", LatLng = LatLng(26.19204463910141, 91.69785644684545)),
+//    venue("Volley Ball Court", LatLng = LatLng(26.19204023599347, 91.69737065823848)),
+//    venue("Library Shed", LatLng = LatLng(26.189551715246374, 91.69337795595325)),
+//    venue("Lecture Hall 1", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
+//    venue("Lecture Hall 2", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
+//    venue("Lecture Hall 3", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
+//    venue("Lecture Hall 4", LatLng = LatLng(26.189005409728654, 91.69174350293444)),
+//    venue("Rocko Stage", LatLng = LatLng(26.189865803005024, 91.693858248184)),
+//    venue("Pronite Stage", LatLng = LatLng(26.1897968961693, 91.697434871485)),
+//    venue("Conference Hall 1", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
+//    venue("Conference Hall 2", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
+//    venue("Conference Hall 3", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
+//    venue("Conference Hall 4", LatLng = LatLng(26.190873224608982, 91.69225523976387)),
+//    venue("Core 5", LatLng = LatLng(26.18611265371866, 91.68929712769904)),
+//    venue("Senate Hall", LatLng = LatLng(26.190302521884597, 91.69210573526523)),
+//    venue("Old Sac Wall", LatLng = LatLng(26.192563559521556, 91.69583138918674)),
+//    venue("Audi Park", LatLng = LatLng(26.190218676220958, 91.69300182135102)),
+//    venue("Athletics Field", LatLng = LatLng(26.19290020378757, 91.69813175683815)),
+//    venue("Entire Campus", LatLng = LatLng(26.190213221922317, 91.6929932588851)),
+//    venue("Library Basement", LatLng = LatLng(26.18950374874834, 91.6934319403298)),
+//)
+
+var venueslist = mutableStateListOf<venue>()
+
 
 class Events : Fragment() {
 
@@ -113,6 +116,7 @@ class Events : Fragment() {
     val selectedVenue = mutableStateOf("")
     var selectedVenueEvents = mutableStateListOf<eventWithLive>()
     val selectedVenueInformals = mutableListOf<InformalModel>()
+    var selectedVenue1 = mutableStateListOf<venue>(venue("", LatLng(26.191117262340942, 91.69295134231831), "", ""))
 
 
 
@@ -120,7 +124,8 @@ class Events : Fragment() {
         super.onCreate(savedInstanceState)
         fgm = parentFragmentManager
 
-        venuelist.forEach{d ->
+        venueslist = homeViewModel.venuesList
+        venueslist.forEach{d ->
             markerList.add(d)
         }
 
@@ -133,7 +138,7 @@ class Events : Fragment() {
         Log.d("Informals Test", homeViewModel.informalList.size.toString())
 
         try{
-            selectedVenue.value = requireArguments().getString("venue", "")
+            selectedVenue1[0].name = requireArguments().getString("venue", "")
             filterWithLocation()
         } catch (e: IllegalStateException){
             Log.d("Events", "No argument")
@@ -218,7 +223,7 @@ class Events : Fragment() {
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Text(
-                    text = selectedVenue.value,
+                    text = selectedVenue1[0].name,
                     fontFamily = futura,
                     fontWeight = FontWeight.Medium,
                     fontSize = 26.sp,
@@ -291,8 +296,8 @@ class Events : Fragment() {
                             .aspectRatio(5.71f)
                             .padding(horizontal = 28.dp, vertical = 18.dp)
                             .clickable {
-                                val venue = venuelist.filter {
-                                    it.name == selectedVenue.value
+                                val venue = venueslist.filter {
+                                    it.name == selectedVenue1[0].name
                                 }[0]
                                 val gmmIntentUri =
                                     Uri.parse("google.navigation:q=${venue.LatLng.latitude},${venue.LatLng.longitude}")
@@ -530,7 +535,7 @@ class Events : Fragment() {
         // Declaring a Boolean value to
         // store bottom sheet collapsed state
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-            bottomSheetState = if (selectedVenue.value != "") BottomSheetState(BottomSheetValue.Expanded)
+            bottomSheetState = if (selectedVenue1[0].name != "") BottomSheetState(BottomSheetValue.Expanded)
             else BottomSheetState(BottomSheetValue.Collapsed)
         )
 
@@ -658,7 +663,7 @@ class Events : Fragment() {
                         snippet = v.des,
 
                         onClick = {
-                            selectedVenue.value = v.name
+                            selectedVenue1[0] = v
 
                             filterWithLocation()
 
@@ -686,20 +691,20 @@ class Events : Fragment() {
     }
 
     fun filterWithLocation(){
-        if(selectedVenue.value != ""){
+        if(selectedVenue1[0].name != ""){
             selectedVenueEvents.clear()
             selectedVenueEvents.addAll(homeViewModel.liveEvents.filter {
-                it.eventdetail.venue == selectedVenue.value
+                it.eventdetail.venue == selectedVenue1[0].name
             })
             selectedVenueEvents.addAll(
                 homeViewModel.upcomingEventsLiveState.filter {
-                    it.eventdetail.venue == selectedVenue.value
+                    it.eventdetail.venue == selectedVenue1[0].name
                 }
             )
             if (BuildConfig.DEBUG){
                 selectedVenueEvents.addAll(
                     homeViewModel.allEventsWithLive.filter {
-                        it.eventdetail.venue == selectedVenue.value
+                        it.eventdetail.venue == selectedVenue1[0].name
                     }
                 )
             }

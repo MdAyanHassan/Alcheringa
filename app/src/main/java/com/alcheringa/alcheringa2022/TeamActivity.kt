@@ -121,6 +121,7 @@ class TeamActivity: AppCompatActivity() {
                 )
                 Column(
                     modifier = Modifier
+                        .background(colors.background)
                         .fillMaxSize()
                 ) {
                     Row(
@@ -133,7 +134,7 @@ class TeamActivity: AppCompatActivity() {
                             Icon(
                                 painter = painterResource(id = R.drawable.cart_arrow),
                                 contentDescription = null,
-                                tint = darkTealGreen,
+                                tint = lighterPurple,
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 10.dp)
                                     .clickable {

@@ -234,7 +234,7 @@ class SearchFragment : Fragment() {
                                             .clickable {
                                                 searchtext.value = ""
                                                 markerList.clear()
-                                                for (venue in venuelist) {
+                                                for (venue in venueslist) {
                                                     markerList.add(venue)
                                                 }
                                             }

@@ -525,7 +525,7 @@ fun Event_card(eventdetail: eventWithLive, viewModelHm: viewModelHome, context: 
                                 //                        }
                             }
 
-                            var v = venuelist.find {
+                            var v = venueslist.find {
                                 it.name.replace("\\s".toRegex(), "")
                                     .uppercase() == eventdetail.eventdetail.venue.replace(
                                     "\\s".toRegex(),

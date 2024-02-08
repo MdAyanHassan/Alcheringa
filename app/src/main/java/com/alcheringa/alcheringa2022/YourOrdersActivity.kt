@@ -12,12 +12,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -39,6 +41,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,9 +53,13 @@ import coil.compose.rememberImagePainter
 import com.alcheringa.alcheringa2022.Model.OrdersModel
 import com.alcheringa.alcheringa2022.Model.YourOrders_model
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
+import com.alcheringa.alcheringa2022.ui.theme.borderdarkpurple
 import com.alcheringa.alcheringa2022.ui.theme.containerPurple
+import com.alcheringa.alcheringa2022.ui.theme.darkGrey
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
 import com.alcheringa.alcheringa2022.ui.theme.futura
+import com.alcheringa.alcheringa2022.ui.theme.grey
+import com.alcheringa.alcheringa2022.ui.theme.lightBar
 import com.alcheringa.alcheringa2022.ui.theme.lighterPurple
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -72,6 +80,7 @@ class YourOrdersActivity: AppCompatActivity() {
 
                 Column(
                     modifier = Modifier
+                        .background(colors.background)
                         .fillMaxSize()
                 ) {
                     Row(
@@ -109,17 +118,66 @@ class YourOrdersActivity: AppCompatActivity() {
                             .background(darkTealGreen)
                     )
 
+
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(horizontal = 20.dp)
+                            .padding(horizontal = 20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        LazyColumn(){
-                            items(yourOrders_modelList.size){
-                                OrdersCard(orderDetail = yourOrders_modelList[it])
+                        if (yourOrders_modelList.isEmpty()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        Brush.verticalGradient(
+                                            0f to lighterPurple,
+                                            1f to borderdarkpurple
+                                        ),
+                                        shape = RoundedCornerShape(6.dp)
+                                    )
+                                    .border(
+                                        1.dp,
+                                        colors.onBackground,
+                                        RoundedCornerShape(6.dp)
+                                    )
+                                    .clickable {
+                                        startActivity(
+                                            Intent(
+                                                this@YourOrdersActivity,
+                                                MainActivity::class.java
+                                            )
+                                        )
+                                    }
+                                    .padding(vertical = 15.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "Start shopping",
+                                    color = lightBar,
+                                    fontSize = 22.sp,
+                                    fontFamily = futura
+                                )
+                            }
+                        }
+                        else{
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 20.dp)
+                                    .background(Color.Blue),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                LazyColumn() {
+                                    items(yourOrders_modelList.size) {
+                                        OrdersCard(orderDetail = yourOrders_modelList[it])
+                                    }
+                                }
                             }
                         }
                     }
+
                 }
             }
         }
@@ -147,6 +205,7 @@ class YourOrdersActivity: AppCompatActivity() {
                         contentScale = ContentScale.Crop,
                         alignment = Alignment.Center,
                         modifier = Modifier
+                            .padding(15.dp)
                             .aspectRatio(1f)
                             .clip(RoundedCornerShape(4.dp))
                     )
@@ -167,6 +226,7 @@ class YourOrdersActivity: AppCompatActivity() {
                             modifier = Modifier
                                 .align(Alignment.Start)
                         )
+
                         Text(
                             text = "${orderDetail.merch_size}, ${orderDetail.merch_quantity} Qty",
                             color = MaterialTheme.colors.onBackground,
@@ -175,18 +235,21 @@ class YourOrdersActivity: AppCompatActivity() {
                             modifier = Modifier
                                 .align(Alignment.Start)
                         )
-                        Spacer(modifier = Modifier.height(40.dp))
+                        Spacer(modifier = Modifier.height(0.dp))
                         Row (
+                            Modifier
+                                .fillMaxWidth(),
                             horizontalArrangement = Arrangement.End
                         ){
                             Text(
-                                text = orderDetail.status,
+                                text = "Order Placed",
                                 color =  colors.onBackground,
                                 fontSize = 14.sp,
                                 fontFamily = futura,
                                 fontWeight = FontWeight.Medium
                             )
                         }
+
                     }
                 }
             }

@@ -48,6 +48,7 @@ class ContactUsActivity: AppCompatActivity() {
             Alcheringa2022Theme {
                 Column(
                     modifier = Modifier
+                        .background(MaterialTheme.colors.background)
                         .fillMaxSize()
                 ) {
                     Row(
@@ -60,7 +61,7 @@ class ContactUsActivity: AppCompatActivity() {
                             Icon(
                                 painter = painterResource(id = R.drawable.cart_arrow),
                                 contentDescription = null,
-                                tint = darkTealGreen,
+                                tint = lighterPurple,
                                 modifier = Modifier
                                     .padding(start = 10.dp, end = 10.dp)
                                     .clickable {

@@ -46,6 +46,7 @@ import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.eventdetail
 import com.alcheringa.alcheringa2022.R
 import com.alcheringa.alcheringa2022.ui.theme.black
+import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
 import com.alcheringa.alcheringa2022.ui.theme.futura
 import com.alcheringa.alcheringa2022.ui.theme.highBlack
 import com.alcheringa.alcheringa2022.ui.theme.highWhite
@@ -110,7 +111,7 @@ fun FeaturedEventCard(event: eventWithLive, modifier: Modifier){
             modifier = modifier
                 .fillMaxWidth(0.72f),
             shape = RoundedCornerShape(4.dp),
-            border = BorderStroke(1.dp, colors.secondary),
+            border = BorderStroke(1.dp, darkTealGreen),
             backgroundColor = colors.background
         ) {
             Column(
