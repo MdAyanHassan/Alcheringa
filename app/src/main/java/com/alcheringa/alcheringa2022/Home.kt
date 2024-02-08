@@ -1,7 +1,6 @@
 package com.alcheringa.alcheringa2022
 
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -13,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.*
@@ -27,23 +25,15 @@ import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -51,12 +41,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.ConstraintSet
-import androidx.core.content.ContentProviderCompat
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -1428,6 +1412,53 @@ class Home : Fragment() {
                             }
                         }
 
+                        if (homeViewModel.informalList.isNotEmpty()) {
+                            Box(
+                                modifier = Modifier.padding(
+                                    start = 20.dp,
+                                    bottom = 24.dp,
+                                    top = 36.dp
+                                ),
+                            ) {
+                                Text(
+
+                                    text = "Informals",
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Normal,
+                                    color = colors.onBackground,
+                                    fontSize = 22.sp
+                                )
+                            }
+                        }
+
+
+                        if (homeViewModel.informalList.isNotEmpty()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+
+                            ) {
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
+                                ) {
+                                    items(homeViewModel.informalList) { dataeach ->
+                                        context?.let {
+                                            InformalCard(informal = dataeach) {
+                                                val gmmIntentUri =
+                                                    Uri.parse("google.navigation:q=${dataeach.location.latitude},${dataeach.location.longitude}")
+                                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                                mapIntent.setPackage("com.google.android.apps.maps")
+                                                context!!.startActivity(mapIntent)
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+
 
 
                         if (homeViewModel.forYouEvents.isNotEmpty()) {
@@ -2644,10 +2675,16 @@ class Home : Fragment() {
         )
         { page ->
             Box(
-                modifier = Modifier.graphicsLayer {
-                    translationX = if( pagerState.offsetForPage(page) > 0) (pagerState.offsetForPage(page)) * -(screenWidth.toPx()/2 - 50) else (pagerState.offsetForPage(page)) * (screenWidth.toPx()/2)
-                    translationY = if( pagerState.offsetForPage(page) > 0) abs(pagerState.offsetForPage(page)) * -50 else 0f
-                }
+                modifier = Modifier
+                    .graphicsLayer {
+                        translationX =
+                            if (pagerState.offsetForPage(page) > 0) (pagerState.offsetForPage(page)) * -(screenWidth.toPx() / 2 - 50) else (pagerState.offsetForPage(
+                                page
+                            )) * (screenWidth.toPx() / 2)
+                        translationY = if (pagerState.offsetForPage(page) > 0) abs(
+                            pagerState.offsetForPage(page)
+                        ) * -50 else 0f
+                    }
                     .padding(start = 20.dp, end = 34.dp),
 
                 contentAlignment = Alignment.BottomCenter,
@@ -2681,7 +2718,8 @@ class Home : Fragment() {
                     Box(modifier = Modifier
                         .clickable {
                             val arguments = bundleOf("merchId" to merch.size - page - 1)
-                            NavHostFragment.findNavController(this@Home)
+                            NavHostFragment
+                                .findNavController(this@Home)
                                 .navigate(R.id.action_home2_to_merchFragment, arguments)
 
                             //                fm.beginTransaction()

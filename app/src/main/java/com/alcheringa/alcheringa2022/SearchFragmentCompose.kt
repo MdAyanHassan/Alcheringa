@@ -1,6 +1,8 @@
 package com.alcheringa.alcheringa2022
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -53,34 +55,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.InformalModel
 import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.stallModel
 import com.alcheringa.alcheringa2022.Model.venue
 import com.alcheringa.alcheringa2022.Model.viewModelHome
-import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
 import com.alcheringa.alcheringa2022.databinding.FragmentSearchBinding
-import com.alcheringa.alcheringa2022.ui.theme.black
 import com.alcheringa.alcheringa2022.ui.theme.creamWhite
 import com.alcheringa.alcheringa2022.ui.theme.darkBar
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
 import com.alcheringa.alcheringa2022.ui.theme.futura
 import com.alcheringa.alcheringa2022.ui.theme.grey
-import com.alcheringa.alcheringa2022.ui.theme.highBlack
-import com.alcheringa.alcheringa2022.ui.theme.highWhite
-import com.alcheringa.alcheringa2022.ui.theme.white
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.google.android.gms.maps.model.LatLng
-import com.skydoves.landscapist.ShimmerParams
-import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.CoroutineScope
 
 
@@ -622,10 +608,12 @@ class SearchFragment : Fragment() {
                 items(list)
                 { dataEach ->
                     context?.let {
-                        InformalCard(dataEach, context = context!!) {
-                            markerList.clear()
-                            val loc = venue(dataEach.name, LatLng(dataEach.location.latitude, dataEach.location.longitude))
-                            markerList.add(loc)
+                        InformalCard(dataEach) {
+                            val gmmIntentUri =
+                                Uri.parse("google.navigation:q=${dataEach.location.latitude},${dataEach.location.longitude}")
+                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                            mapIntent.setPackage("com.google.android.apps.maps")
+                            context!!.startActivity(mapIntent)
 
                            // coroutineScope.launch { bottomSheetScaffoldState.bottomSheetState.collapse() }
                         }

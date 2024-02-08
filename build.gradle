@@ -21,6 +21,35 @@ buildscript {
     }
 }
 
+
+//plugins {
+//    id 'com.autonomousapps.dependency-analysis' version "1.29.0"
+//}
+//dependencyAnalysis {
+//    issues {
+//        all {
+//            onUnusedDependencies {
+//                severity('fail')
+//            }
+//            onUsedTransitiveDependencies {
+//                severity('warn')
+//            }
+//            onIncorrectConfiguration {
+//                severity('fail')
+//            }
+//            onUnusedAnnotationProcessors {
+//                severity('fail')
+//            }
+//            onRedundantPlugins {
+//                severity('fail')
+//            }
+//            // Ignore ktx dependencies if a transitive dependency is used
+//            ignoreKtx(true)
+//        }
+//    }
+//}
+
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

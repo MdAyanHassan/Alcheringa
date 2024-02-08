@@ -1,10 +1,5 @@
 package com.alcheringa.alcheringa2022
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -13,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,19 +15,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.os.bundleOf
-import androidx.navigation.fragment.NavHostFragment
 import com.airbnb.lottie.compose.*
-import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.InformalModel
-import com.alcheringa.alcheringa2022.Model.addNewItem
-import com.alcheringa.alcheringa2022.Model.eventdetail
-import com.alcheringa.alcheringa2022.Model.removeAnItem
 import com.alcheringa.alcheringa2022.ui.theme.*
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -41,7 +28,7 @@ import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun InformalCard(informal : InformalModel, context: Context, onCLick: () -> Unit) {
+fun InformalCard(informal: InformalModel, onCLick: () -> Unit) {
 
     var M = Modifier.wrapContentWidth()
     val isdark= isSystemInDarkTheme()
@@ -54,49 +41,45 @@ fun InformalCard(informal : InformalModel, context: Context, onCLick: () -> Unit
         )
     })
 
-    M = Modifier.clip(RoundedCornerShape(16.dp)).background(MaterialTheme.colors.background)
+    M = Modifier
+        .clip(RoundedCornerShape(4.dp)) // made changes 16.dp to 7.dp
         .wrapContentWidth()
         .border(
-            1.5f.dp,
-            color = MaterialTheme.colors.onBackground, RoundedCornerShape(16.dp)
+            1.dp,
+            color = MaterialTheme.colors.primary, RoundedCornerShape(4.dp)// made changes 16.dp to 7.dp
         )
 
 
 
-    val bm= if(isSystemInDarkTheme()) Modifier.background(MaterialTheme.colors.background)
+    val bm= Modifier
         .graphicsLayer(translationY = animationProgress.value)
-        .width(220.dp)
-    else Modifier.background(MaterialTheme.colors.background).graphicsLayer(translationY = animationProgress.value)
-        .coloredShadow(MaterialTheme.colors.onBackground, 0.01f, 16.dp, 1.dp, 20.dp, 0.dp)
-        .coloredShadow(MaterialTheme.colors.onBackground, 0.06f, 16.dp, 1.dp, 12.dp, 0.dp)
-        .coloredShadow(MaterialTheme.colors.onBackground, 0.24f, 16.dp, 1.dp, 4.dp, 0.dp)
+        .width(231.dp)
+        .clickable(
+            enabled = true,
+            onClick = onCLick
+        )
 
-        .width(220.dp)
     Box(
         modifier=bm)
     {
 
         Card(modifier = M.padding(0.dp),
-            shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
-            backgroundColor = MaterialTheme.colors.background,
+            shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp),
+            backgroundColor = MaterialTheme.colors.onBackground,
             elevation = 0.dp
 
 
         ){
 
-            Box(modifier = Modifier
-                .clickable(
-                    enabled = true,
-                    onClick = onCLick
-                )
+            Box(
             ){
                 Column {
                     Box(
                         modifier = Modifier
-                            .width(220.dp)
-                            .height(182.dp),
+                            .width(231.dp)
+                            .height(194.dp),
                     ) {
-                        Card(shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)) {
+                        Card(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)) {
                             GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(
                                 DiskCacheStrategy.AUTOMATIC)},modifier = Modifier,
                                 imageModel = informal.imgUrl,
@@ -143,88 +126,32 @@ fun InformalCard(informal : InformalModel, context: Context, onCLick: () -> Unit
 
 //                Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
                     Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.Bottom
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp),
+                        verticalArrangement = Arrangement.Top
                     ){
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .padding(start = 16.dp, end = 5.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column(
-                                Modifier
-                                    .fillMaxWidth(0.73f)
-                                    .padding(bottom = 16.dp, top = 12.dp)
-                            ) {
+
+
                                 MarqueeText(
                                     text = informal.name,
-                                    color = MaterialTheme.colors.onBackground,
+                                    color = MaterialTheme.colors.background,
                                     fontSize = 18.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontFamily = aileron,
+                                    fontWeight = FontWeight.Normal,
+                                    fontFamily = futura,
                                     gradientEdgeColor = Color.Transparent
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 MarqueeText(
-                                    text = "Click to view location on map",
+                                    text = "Click to Navigate to location",
                                     style = TextStyle(
-                                        color = MaterialTheme.colors.onBackground,
-                                        fontFamily = aileron,
+                                        color = MaterialTheme.colors.background,
+                                        fontFamily = futura,
                                         fontWeight = FontWeight.Normal,
-                                        fontSize = 12.sp
+                                        fontSize = 14.sp
                                     ),
                                     gradientEdgeColor = Color.Transparent
                                 )
-                            }
-                            Box(modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    val gmmIntentUri =
-                                        Uri.parse("google.navigation:q=${informal.location.latitude},${informal.location.longitude}")
-                                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                                    mapIntent.setPackage("com.google.android.apps.maps")
-                                    context.startActivity(mapIntent)
 
-                                }, contentAlignment = Alignment.Center) {
 
-                                val compositionbg by rememberLottieComposition(
-                                    LottieCompositionSpec.RawRes(
-                                        R.raw.navigatebganimm
-                                    )
-                                )
-
-                                val progressbg by animateLottieCompositionAsState(
-                                    compositionbg, iterations = 3
-                                )
-                                LottieAnimation(
-                                    composition = compositionbg,
-                                    progress = progressbg,
-
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(50.dp)
-                                )
-
-                                val compositionfg by rememberLottieComposition(
-                                    LottieCompositionSpec.RawRes(
-                                        R.raw.navigatefganimm
-                                    )
-                                )
-
-                                val progressfg by animateLottieCompositionAsState(
-                                    compositionfg, iterations = 3
-                                )
-                                LottieAnimation(
-                                    compositionfg,
-                                    progressfg,
-                                    modifier = Modifier.height(18.dp)
-                                )
-
-                            }
-                        }
                     }
                 }
             }
