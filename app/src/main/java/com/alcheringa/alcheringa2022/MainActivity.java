@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        events_fragment = new Events();
+//        events_fragment = new Events();
         bottomNavigationView=findViewById(R.id.bottomNavigationView);
 
 
@@ -76,8 +76,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
         String email=firebaseAuth.getCurrentUser().getEmail();
-         NavController =
-                (NavController) Navigation.findNavController(this,R.id.fragmentContainerView);
+        NavHostFragment navHostFragment =
+                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        NavController = navHostFragment.getNavController();
+         NavController.setGraph(R.navigation.my_nav);
         NavigationUI.setupWithNavController(bottomNavigationView,NavController);
          NavController.addOnDestinationChangedListener((controller, destination, arguments) -> bottomNavigationView.onItemSelected(destination.getId(),true));
 

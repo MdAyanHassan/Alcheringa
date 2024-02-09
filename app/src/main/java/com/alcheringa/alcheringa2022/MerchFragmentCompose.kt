@@ -177,7 +177,7 @@ class MerchFragmentCompose : Fragment() {
 
     override fun onResume() {
         setCartCountIcon()
-        (activity!!.findViewById<View>(R.id.bottomNavigationView) as BottomNavigationView).menu.findItem(
+        (requireActivity().findViewById<View>(R.id.bottomNavigationView) as BottomNavigationView).menu.findItem(
             R.id.merch
         ).isChecked =
             true

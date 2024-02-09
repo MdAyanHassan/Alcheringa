@@ -20,6 +20,28 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class org.bouncycastle.** { *; }
+-dontwarn org.bouncycastle.**
+-keep class org.osgi.framework.** { *; }
+-dontwarn org.osgi.framework.**
+-keep class com.google.crypto.tink.** { *; }
+-dontwarn com.google.crypto.tink.**
+
+-keep class edu.umd.cs.findbugs.annotations.SuppressFBWarnings { *; }
+-dontwarn edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+-keep class javax.activation.DataSource { *; }
+-dontwarn javax.activation.DataSource
+-keep class javax.mail.internet.MimeMultipart { *; }
+-dontwarn javax.mail.internet.MimeMultipart
+
+-keepnames class androidx.navigation.fragment.NavHostFragment
+-keep class * extends androidx.fragment.app.Fragment{}
+#-keepnames class com.alcheringa.alcheringa2022.Home
+
+-keep public class com.google.firebase.** { *; }
+-keep class com.google.android.gms.internal.** { *; }
+-keepclasseswithmembers class com.google.firebase.FirebaseException
+
 -keepclassmembers class * {
     @android.webkit.JavascriptInterface <methods>;
     }

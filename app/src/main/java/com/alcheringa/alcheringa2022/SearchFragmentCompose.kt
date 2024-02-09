@@ -605,7 +605,7 @@ class SearchFragment : Fragment() {
                                 Uri.parse("google.navigation:q=${dataEach.location.latitude},${dataEach.location.longitude}")
                             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                             mapIntent.setPackage("com.google.android.apps.maps")
-                            context!!.startActivity(mapIntent)
+                            requireContext().startActivity(mapIntent)
 
                            // coroutineScope.launch { bottomSheetScaffoldState.bottomSheetState.collapse() }
                         }

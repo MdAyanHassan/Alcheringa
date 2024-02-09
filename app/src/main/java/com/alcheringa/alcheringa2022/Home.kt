@@ -48,7 +48,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.airbnb.lottie.compose.*
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.Model.*
@@ -1406,7 +1406,7 @@ class Home : Fragment() {
                                             Event_card_Scaffold(
                                                 eventdetail = dataeach,
                                                 viewModelHm = homeViewModel,
-                                                context = context!!,
+                                                context = requireContext(),
                                                 artist = dataeach.eventdetail.artist
                                             ) {
                                                 coroutineScope.launch {
@@ -1465,7 +1465,7 @@ class Home : Fragment() {
                                                     Uri.parse("google.navigation:q=${dataeach.location.latitude},${dataeach.location.longitude}")
                                                 val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                                                 mapIntent.setPackage("com.google.android.apps.maps")
-                                                context!!.startActivity(mapIntent)
+                                                requireContext().startActivity(mapIntent)
                                             }
                                         }
                                     }
@@ -2621,7 +2621,7 @@ class Home : Fragment() {
                         .clickable {
                             val arguments = bundleOf("merchId" to merch.size - page - 1)
                             NavHostFragment
-                                .findNavController(this@Home)
+                                    .findNavController(this@Home)
                                 .navigate(R.id.action_home2_to_merchFragment, arguments)
 
                             //                fm.beginTransaction()
