@@ -585,7 +585,7 @@ class Schedule2024 : Fragment() {
                 )
                 Row(
                     Modifier
-                        .height(44.dp)
+                        .height(45.dp)
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
