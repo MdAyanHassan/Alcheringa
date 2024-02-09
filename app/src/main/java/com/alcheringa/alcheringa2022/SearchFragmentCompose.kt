@@ -210,7 +210,6 @@ class SearchFragment : Fragment() {
                         onValueChange = { v: String -> searchtext.value = v ; filterlist()},
                         placeholder = { Text("Search for events, competitions, etc " , modifier = Modifier
                             .fillMaxHeight()
-                            .wrapContentWidth()
                             .weight(3f) , fontSize = 14.sp , color = colors.onBackground)},
                         trailingIcon = {
 
@@ -256,7 +255,7 @@ class SearchFragment : Fragment() {
                             .padding(16.dp)
                             .height(50.dp)
                             .weight(3f)
-                            .wrapContentSize()
+
                             .border(1.dp, colors.onBackground, RoundedCornerShape(2.dp))
                             .focusRequester(focusRequester),
                         colors = TextFieldDefaults.textFieldColors(textColor = colors.onBackground,cursorColor = colors.onBackground,focusedIndicatorColor = Color.Transparent),
