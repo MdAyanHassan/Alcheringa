@@ -1907,44 +1907,144 @@ class Home : Fragment() {
                                 )
                             }
                         }
+                        Spacer(modifier = Modifier.width(30.dp))
+
+                        Box(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .border(
+                                    1.dp,
+                                    colors.onBackground,
+                                    shape = RoundedCornerShape(5.dp),
+                                )
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        0f to containerPurple,
+                                        1f to borderdarkpurple
+                                    ),
+                                    shape = RoundedCornerShape(5.dp)
+                                )
+                                .clickable {
+                                    val gmmIntentUri =
+                                        Uri.parse("google.navigation:q=${v?.LatLng?.latitude},${v?.LatLng?.longitude}")
+                                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                    mapIntent.setPackage("com.google.android.apps.maps")
+                                    startActivity(mapIntent)
+                                }
+
+
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .align(
+                                        Alignment.Center
+                                    )
+                                    .width(150.dp),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = "Direction",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = aileron,
+                                    color = creamWhite,
+                                )
+
+                                Spacer(modifier = Modifier.width(5.dp))
+
+                                Divider(
+                                    color = creamWhite, modifier = Modifier
+                                        .height(25.dp)
+                                        .width(1.dp)
+                                )
+
+                                Spacer(modifier = Modifier.width(5.dp))
+
+                                Image(
+                                    painter = painterResource(R.drawable.direction),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                        }
 
                     }
 
-                    Spacer(modifier = Modifier.width(30.dp))
 
-                    /*Button(
-                        onClick = {
-                            startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
-                        },
-                        Modifier
-                            .weight(0.5f)
-                            .height(50.dp)
-                            .border(1.dp, colors.onBackground, shape = RoundedCornerShape(10.dp)),
-                        shape  = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            colors.background
+
+
+
+
+                }
+
+
+            }
+        } else {
+            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                Box(
+                    modifier = Modifier
+                        .height(50.dp)
+                        .border(
+                            1.dp,
+                            colors.onBackground,
+                            shape = RoundedCornerShape(5.dp),
                         )
+                        .background(
+                            brush = Brush.verticalGradient(
+                                0f to darkTealGreen,
+                                1f to darkerGreen
+                            ),
+                            shape = RoundedCornerShape(5.dp)
+                        )
+                        .clickable {
+                            startActivity(
+                                Intent(Intent.ACTION_VIEW).setData(
+                                    Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")
+                                )
+                            )
+
+                        }
+
+
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .align(
+                                Alignment.Center
+                            )
+                            .width(150.dp),
+                        horizontalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "Register",
-                            fontSize = 15.sp,
+                            text = "Buy Pass",
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = futura,
-                            color = colors.onBackground,
-                            textAlign = TextAlign.Left
+                            color = creamWhite,
                         )
-                        Spacer(modifier = Modifier.width(5.dp))
-
-                        Divider(color = colors.onSurface , modifier = Modifier
-                            .height(30.dp)
-                            .width(1.dp))
 
                         Spacer(modifier = Modifier.width(5.dp))
 
-                        Icon(painter = painterResource(id = R.drawable.vector) , contentDescription = null , modifier = Modifier.size(20.dp) )
+                        Divider(
+                            color = creamWhite, modifier = Modifier
+                                .height(25.dp)
+                                .width(1.dp)
+                        )
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Image(
+                            painter = painterResource(R.drawable.buy_pass),
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
 
 
-                    }*/
+
+                if( v != null) {
+                    Spacer(modifier = Modifier.width(30.dp))
                     Box(
                         modifier = Modifier
                             .height(50.dp)
@@ -1982,7 +2082,7 @@ class Home : Fragment() {
                                 text = "Direction",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                fontFamily = aileron,
+                                fontFamily = futura,
                                 color = creamWhite,
                             )
 
@@ -2003,222 +2103,9 @@ class Home : Fragment() {
                             )
                         }
                     }
-
-
-                    //Spacer(modifier = Modifier.width(50.dp))
-
-
                 }
 
 
-            }
-        } else {
-            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                if (v != null) {
-
-                    //Spacer(modifier = Modifier.width(50.dp))
-                    /*Button(
-                        onClick = {
-                            //TODO: (Shantanu) Implement all venue locations
-                            val gmmIntentUri =
-                                Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
-                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                            mapIntent.setPackage("com.google.android.apps.maps")
-                            startActivity(mapIntent)
-                        },
-                        Modifier
-                            .weight(0.5f)
-                            .height(50.dp)
-                            .border(
-                                1.dp,
-                                colors.onBackground,
-                                shape = RoundedCornerShape(10.dp)
-                            ),
-                        shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            colors.background
-                        )
-                    ) {
-                        Text(
-                            text = "Direction",
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = futura,
-                            color = colors.onBackground,
-                            textAlign = TextAlign.Left
-                        )
-
-                        Spacer(modifier = Modifier.width(5.dp))
-
-                        Divider(color = colors.onSurface , modifier = Modifier
-                            .height(30.dp)
-                            .width(1.dp))
-
-                        Spacer(modifier = Modifier.width(5.dp))
-
-                        Icon(painter = painterResource(id = R.drawable.baseline_north_east_24) , contentDescription = null)
-
-                    }*/
-                    Box(
-                        modifier = Modifier
-                            .height(50.dp)
-                            .border(
-                                1.dp,
-                                colors.onBackground,
-                                shape = RoundedCornerShape(5.dp),
-                            )
-                            .background(
-                                brush = Brush.verticalGradient(
-                                    0f to darkTealGreen,
-                                    1f to darkerGreen
-                                ),
-                                shape = RoundedCornerShape(5.dp)
-                            )
-                            .clickable {
-                                startActivity(
-                                    Intent(Intent.ACTION_VIEW).setData(
-                                        Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")
-                                    )
-                                )
-                                /*val intent = Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink))
-                                if(context?.let { intent.resolveActivity(it.packageManager) } != null) {
-                                    startActivity(intent)
-                                } else {
-                                    Log.d(TAG , "No app found to handle the intent")
-                                }*/
-                            }
-
-
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .align(
-                                    Alignment.Center
-                                )
-                                .width(150.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = "Buy Pass",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = futura,
-                                color = creamWhite,
-                            )
-
-                            Spacer(modifier = Modifier.width(5.dp))
-
-                            Divider(
-                                color = creamWhite, modifier = Modifier
-                                    .height(25.dp)
-                                    .width(1.dp)
-                            )
-
-                            Spacer(modifier = Modifier.width(5.dp))
-
-                            Image(
-                                painter = painterResource(R.drawable.buy_pass),
-                                contentDescription = null,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    }
-
-                }
-
-                Spacer(modifier = Modifier.width(30.dp))
-
-                /*Button(
-                    onClick = {
-                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(eventWithLive.eventdetail.reglink)))
-                    },
-                    Modifier
-                        .weight(0.5f)
-                        .height(50.dp)
-                        .border(1.dp, colors.onBackground, shape = RoundedCornerShape(10.dp)),
-                    shape  = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        colors.background
-                    )
-                ) {
-                    Text(
-                        text = "Register",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = futura,
-                        color = colors.onBackground,
-                        textAlign = TextAlign.Left
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-
-                    Divider(color = colors.onSurface , modifier = Modifier
-                        .height(30.dp)
-                        .width(1.dp))
-
-                    Spacer(modifier = Modifier.width(5.dp))
-
-                    Icon(painter = painterResource(id = R.drawable.vector) , contentDescription = null , modifier = Modifier.size(20.dp) )
-
-
-                }*/
-                Box(
-                    modifier = Modifier
-                        .height(50.dp)
-                        .border(
-                            1.dp,
-                            colors.onBackground,
-                            shape = RoundedCornerShape(5.dp),
-                        )
-                        .background(
-                            brush = Brush.verticalGradient(
-                                0f to containerPurple,
-                                1f to borderdarkpurple
-                            ),
-                            shape = RoundedCornerShape(5.dp)
-                        )
-                        .clickable {
-                            val gmmIntentUri =
-                                Uri.parse("google.navigation:q=${v?.LatLng?.latitude},${v?.LatLng?.longitude}")
-                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                            mapIntent.setPackage("com.google.android.apps.maps")
-                            startActivity(mapIntent)
-                        }
-
-
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .align(
-                                Alignment.Center
-                            )
-                            .width(150.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = "Direction",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = futura,
-                            color = creamWhite,
-                        )
-
-                        Spacer(modifier = Modifier.width(5.dp))
-
-                        Divider(
-                            color = creamWhite, modifier = Modifier
-                                .height(25.dp)
-                                .width(1.dp)
-                        )
-
-                        Spacer(modifier = Modifier.width(5.dp))
-
-                        Image(
-                            painter = painterResource(R.drawable.direction),
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
 
 
                 //Spacer(modifier = Modifier.width(50.dp))

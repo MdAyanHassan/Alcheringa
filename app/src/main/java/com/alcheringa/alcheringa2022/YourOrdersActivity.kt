@@ -55,6 +55,8 @@ import com.alcheringa.alcheringa2022.Model.YourOrders_model
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.borderdarkpurple
 import com.alcheringa.alcheringa2022.ui.theme.containerPurple
+import com.alcheringa.alcheringa2022.ui.theme.creamWhite
+import com.alcheringa.alcheringa2022.ui.theme.darkBar
 import com.alcheringa.alcheringa2022.ui.theme.darkGrey
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
 import com.alcheringa.alcheringa2022.ui.theme.futura
@@ -119,14 +121,19 @@ class YourOrdersActivity: AppCompatActivity() {
                     )
 
 
-                    Column(
+                    Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 20.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
                     ) {
                         if (yourOrders_modelList.isEmpty()) {
+
+                            Text(
+                                text = "Opps! You haven't ordered yet!!",
+                                color = if(isSystemInDarkTheme()) creamWhite else darkBar,
+                                modifier = Modifier.align(Alignment.Center),
+                                fontSize = 20.sp
+                            )
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -150,8 +157,8 @@ class YourOrdersActivity: AppCompatActivity() {
                                             )
                                         )
                                     }
-                                    .padding(vertical = 15.dp),
-                                contentAlignment = Alignment.Center
+                                    .padding(vertical = 15.dp).align(Alignment.BottomCenter),
+                                contentAlignment = Alignment.Center,
                             ) {
                                 Text(
                                     text = "Start shopping",
@@ -160,6 +167,8 @@ class YourOrdersActivity: AppCompatActivity() {
                                     fontFamily = futura
                                 )
                             }
+
+                            Spacer(modifier = Modifier.height(20.dp))
                         }
                         else{
                             Column(
