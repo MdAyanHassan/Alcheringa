@@ -508,6 +508,7 @@ class CompetitionsFragment : Fragment() {
 
             if(upcomingcompetitions.isNotEmpty()) {
                 Column(){
+                    Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = "Upcoming Events",
                         fontSize = 22.sp,
@@ -1095,6 +1096,7 @@ class CompetitionsFragment : Fragment() {
 
             if(upcomingEvents.isNotEmpty()) {
                 Column(){
+                    Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = "Upcoming Events",
                         fontSize = 22.sp,
@@ -1129,9 +1131,9 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer (modifier = Modifier.height(20.dp))
             if(proniteslist.isNotEmpty()) {
                 Column(){
+                    Spacer (modifier = Modifier.height(20.dp))
                     Text(
                         text = "Pronites",
                         fontSize = 22.sp,
@@ -1166,10 +1168,9 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
             if(proshowslist.isNotEmpty()) {
                 Column(){
+                    Spacer(modifier = Modifier.height(20.dp))
                     Text(
                         text = "Proshows",
                         fontSize = 22.sp,
@@ -1204,9 +1205,9 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
             if(creatorscampslist.isNotEmpty()) {
                 Column(){
+                    Spacer(modifier = Modifier.height(20.dp))
                     Text(
                         text = "Creators' Camp",
                         fontSize = 22.sp,
@@ -1241,10 +1242,9 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
             if(humorfestslist.isNotEmpty()) {
                 Column(){
+                    Spacer(modifier = Modifier.height(20.dp))
                     Text(
                         text = "Humor Fest",
                         fontSize = 22.sp,
@@ -1279,10 +1279,9 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
             if(camppaignslist.isNotEmpty()) {
                 Column(){
+                    Spacer(modifier = Modifier.height(20.dp))
                     Text(
                         text = "Kartavya",
                         fontSize = 22.sp,
@@ -1317,10 +1316,9 @@ class CompetitionsFragment : Fragment() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
             if(otherEventlist.isNotEmpty()) {
                 Column(){
+                    Spacer(modifier = Modifier.height(20.dp))
                     Text(
                         text = "Other Events",
                         fontSize = 22.sp,
@@ -1364,30 +1362,49 @@ class CompetitionsFragment : Fragment() {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.height(15.dp))
-            Text(
-                text = "Stalls",
-                color = colors.onBackground,
-                fontFamily = futura,
-                fontSize = 22.sp,
-                modifier = Modifier.padding(start = 26.dp)
-            )
+            if (stallList.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "Stalls",
+                    color = colors.onBackground,
+                    fontFamily = futura,
+                    fontSize = 22.sp,
+                    modifier = Modifier.padding(start = 26.dp)
+                )
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(25.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                items(stallList.size) {index->
-                    context?.let { 
-                        StallCard(stallDetail = stallList[index]){
-                            val arguments = bundleOf("stallName" to stallList[index].name)
-                            NavHostFragment
-                                .findNavController(this@CompetitionsFragment)
-                                .navigate(R.id.action_competitionsFragment_to_stallDetails, arguments);
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    items(stallList.size) { index ->
+                        context?.let {
+                            StallCard(stallDetail = stallList[index]) {
+                                val arguments = bundleOf("stallName" to stallList[index].name)
+                                NavHostFragment
+                                    .findNavController(this@CompetitionsFragment)
+                                    .navigate(
+                                        R.id.action_competitionsFragment_to_stallDetails,
+                                        arguments
+                                    );
+                            }
                         }
                     }
+                }
+            }
+            else{
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ){
+                    Text(
+                        text = "No stalls available",
+                        fontSize = 20.sp,
+                        fontFamily = futura,
+                        color = colors.onBackground
+                    )
                 }
             }
         }
@@ -2024,7 +2041,10 @@ class CompetitionsFragment : Fragment() {
                                     homeViewModel.OwnEventsWithLive.removeAnItem(
                                         eventWithLive.eventdetail
                                     )
-                                    scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist, context)
+                                    scheduleDatabase.DeleteItem(
+                                        eventWithLive.eventdetail.artist,
+                                        context
+                                    )
                                 }
                                 .padding(10.dp)
 

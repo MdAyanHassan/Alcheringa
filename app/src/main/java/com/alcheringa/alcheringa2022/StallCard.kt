@@ -1,5 +1,6 @@
 package com.alcheringa.alcheringa2022
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.NavHostFragment
+import coil.compose.rememberImagePainter
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -58,50 +60,11 @@ fun StallCard(stallDetail: stallModel, onCardClick : () -> Unit) {
                     .fillMaxWidth()
                     .fillMaxHeight(0.8f)
             ){
-//                    Image(
-//                        painter = painterResource(id = imageResource),
-//                        contentDescription = null,
-//                        contentScale = ContentScale.FillBounds,
-//                        alignment = Alignment.Center
-//                    )
-                GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(
-                    DiskCacheStrategy.AUTOMATIC)},
-                    modifier = Modifier,
-                    imageModel = stallDetail.imgurl,
-                    contentDescription = "stallName",
+                Image(
+                    rememberImagePainter(data = stallDetail.imgurl),
+                    contentDescription = null,
                     contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center,
-                    shimmerParams = ShimmerParams(
-                        baseColor = if(isSystemInDarkTheme()) black else highWhite,
-                        highlightColor = if(isSystemInDarkTheme()) highBlack else white,
-                        durationMillis = 1500,
-                        dropOff = 1f,
-                        tilt = 20f
-                    ),
-                    failure = {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(), contentAlignment = Alignment.Center
-                        ) {
-
-                            val composition by rememberLottieComposition(
-                                LottieCompositionSpec.RawRes(
-                                    if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
-                                )
-                            )
-                            val progress by animateLottieCompositionAsState(
-                                composition,
-                                iterations = LottieConstants.IterateForever
-                            )
-                            LottieAnimation(
-                                composition,
-                                progress,
-                                modifier = Modifier.fillMaxHeight()
-                            )
-                        }
-
-                    }
+                    alignment = Alignment.Center
                 )
             }
 
