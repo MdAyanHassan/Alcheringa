@@ -58,6 +58,7 @@ public class LoaderView extends View {
             paint.setDither(true);
 
         }
+        startAnimation();
     }
 
     @Override

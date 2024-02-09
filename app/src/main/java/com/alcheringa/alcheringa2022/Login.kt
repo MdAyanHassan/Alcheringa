@@ -17,6 +17,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -45,7 +56,7 @@ class Login : ComponentActivity() {
     //TextInputLayout Password;
     var loginButton: Button? = null
     var signInButtonO: LinearLayout? = null
-    var loaderView: LoaderView? = null
+    var loaderView = mutableStateOf(false)
     var sharedPreferences: SharedPreferences? = null
 
     //VideoView videoView;
@@ -85,6 +96,17 @@ class Login : ComponentActivity() {
                 }
 
             )
+            if(loaderView.value){
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = colors.background.copy(alpha = 0.6f)),
+                    contentAlignment = Alignment.Center,
+
+                ) {
+                    LoadingAnimation3()
+                }
+            }
         }
 //        loaderView = findViewById(R.id.dots_progress)
 //        //loaderView.setVisibility(View.GONE)
@@ -146,6 +168,7 @@ class Login : ComponentActivity() {
     }
 
     private fun MicrosoftLogin() {
+        loaderView.value = true
         Log.d(TAG, "MicrosoftLogin")
         val provider = OAuthProvider.newBuilder("microsoft.com")
         provider.addCustomParameter("tenant", "850aa78d-94e1-4bc6-9cf3-8c11b530701c")
@@ -183,7 +206,7 @@ class Login : ComponentActivity() {
                                 toast("Welcome back $finalName")
                                 saveDetails(finalName, email, task2.result.getString("PhotoURL"))
                                 setInterests(email)
-                                loaderView!!.visibility = View.GONE
+                                loaderView.value = false
                                 if (task2.result.getString("mode") == "white" || task2.result.getString(
                                         "mode"
                                     ) == "black"
@@ -195,14 +218,14 @@ class Login : ComponentActivity() {
                                 //firebaseAuth.signOut();
                                 RegisterUserInDatabase()
                                 saveDetails(finalName, email, "")
-                                loaderView!!.visibility = View.GONE
+                                loaderView.value = false
                                 toast("Welcome $finalName")
                                 startInterestActivity()
                             }
                         }
                 } catch (e: Exception) {
                     firebaseAuth!!.signOut()
-                    loaderView!!.visibility = View.GONE
+                    loaderView.value = false
                     toast("Could not get your email from Outlook")
                 }
             }
@@ -219,9 +242,9 @@ class Login : ComponentActivity() {
             if (task.isSuccessful) {
                 try {
                     val interests = task.result["interests"] as ArrayList<String>?
-                    val set: Set<String> = HashSet(interests)
+//                    val set: Set<String> = HashSet(interests)
                     val editor = sharedPreferences!!.edit()
-                    editor.putStringSet("interests", set)
+                    editor.putString("interests", interests.toString())
                     editor.apply()
                 } catch (ignored: Exception) {
                 }
@@ -256,7 +279,7 @@ class Login : ComponentActivity() {
             .matcher(email)
             .matches()
         if (isEmailValid && password.length > 7) {
-            loaderView!!.visibility = View.VISIBLE
+
             custom_Login_start(email, password)
         } //else if (email.isEmpty()) {
 //            Email!!.error = "Please fill your email"
@@ -274,6 +297,7 @@ class Login : ComponentActivity() {
     }
 
     private fun custom_Login_start(email: String, password: String) {
+        loaderView.value = true
         firebaseAuth?.signInWithEmailAndPassword(email, password)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -283,7 +307,7 @@ class Login : ComponentActivity() {
                             firebaseFirestore!!.collection("USERS").document(email)
                                 .collection("interests").document("interests").get()
                                 ?.addOnCompleteListener { task1->
-                                    loaderView?.visibility = View.GONE
+                                    loaderView.value = false
 
                                 }
 
@@ -297,13 +321,13 @@ class Login : ComponentActivity() {
                                             email,
                                             task1.result.getString("PhotoURL")
                                         )
-                                        loaderView?.visibility = View.GONE
+                                        loaderView.value = false
                                         if (task1.result.getString("mode") == "white" || task1.result.getString(
                                                 "mode"
                                             ) == "black"
                                         ) startMainActivity() else startInterestActivity()
                                     } else {
-                                        loaderView?.visibility = View.GONE
+                                        loaderView.value = false
                                         Toast.makeText(
                                             this,
                                             "Could not get username",
@@ -312,18 +336,18 @@ class Login : ComponentActivity() {
                                     }
                                 }
                         }else {
-                            loaderView?.visibility = View.GONE
+                            loaderView.value = false
                             firebaseAuth?.signOut()
                             toast("Please verify your email first")
                         }
 
                     }?: run {
-                        loaderView?.visibility = View.GONE
+                        loaderView.value = false
                         toast("User not found")
                     }
 
                 } else {
-                    loaderView?.visibility = View.GONE
+                    loaderView.value = false
                     toast("Login Failed | Wrong Email or Password")
                 }
             }
@@ -334,6 +358,7 @@ class Login : ComponentActivity() {
     }
 
     private fun google_login_callback() {
+        loaderView.value = true
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
             .requestEmail()
@@ -362,10 +387,10 @@ class Login : ComponentActivity() {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
                 Toast.makeText(applicationContext, "" + e.message, Toast.LENGTH_SHORT).show()
-                loaderView!!.visibility = View.GONE
+                loaderView.value = false
             }
         } else {
-            loaderView!!.visibility = View.GONE
+            loaderView.value = false
         }
     }
 
@@ -390,7 +415,7 @@ class Login : ComponentActivity() {
                                 editor.putString("photourl", task2.result.getString("PhotoURL"))
                                 editor.apply()
                                 setInterests(user.email)
-                                loaderView!!.visibility = View.GONE
+                                loaderView.value = false
                                 Log.d(TAG, "Login with Google Successful")
                                 toast("Welcome back " + user.displayName)
                                 if (task2.result.getString("mode") == "white" || task2.result.getString(
@@ -404,13 +429,13 @@ class Login : ComponentActivity() {
                                 //firebaseAuth.signOut();
                                 RegisterUserInDatabase()
                                 saveDetails(user.displayName, user.email, "")
-                                loaderView!!.visibility = View.GONE
+                                loaderView.value = false
                                 toast("Welcome " + user.displayName)
                                 startInterestActivity()
                             }
                         }
                 } else {
-                    loaderView!!.visibility = View.GONE
+                    loaderView.value = false
                     // If sign in fails, display a message to the user.
                     Log.d(TAG, "signInWithCredential:failure", task.exception)
                     Toast.makeText(applicationContext, "" + task.exception, Toast.LENGTH_SHORT)
@@ -420,7 +445,7 @@ class Login : ComponentActivity() {
     }
 
     private fun startInterestActivity() {
-        val intent = Intent(this, PickASide::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()

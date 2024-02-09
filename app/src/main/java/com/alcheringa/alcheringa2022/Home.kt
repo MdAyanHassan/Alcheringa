@@ -85,7 +85,7 @@ class Home : Fragment() {
     lateinit var scheduleDatabase: ScheduleDatabase
     val homeViewModel: viewModelHome by activityViewModels()
     val ranges = mutableSetOf<ClosedFloatingPointRange<Float>>()
-    lateinit var loaderView: LoaderView
+    lateinit var loaderView: MutableState<Boolean>
 
     val datestate1 = mutableStateListOf<ownEventBoxUiModel>()
     val datestate2 = mutableStateListOf<ownEventBoxUiModel>()
@@ -214,12 +214,23 @@ class Home : Fragment() {
             findNavController(this).navigate(R.id.action_home_nav_to_searchFragment)
         }
 
-        loaderView = view.findViewById(R.id.dots_progress)
-        loaderView.visibility = View.GONE
-
 
         binding.compose1.setContent {
             MyContent();
+
+            loaderView = mutableStateOf(homeViewModel.allEventsWithLive.isEmpty())
+
+            if(loaderView.value){
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = colors.background.copy(alpha = 0.6f)),
+                    contentAlignment = Alignment.Center,
+
+                    ) {
+                    LoadingAnimation3()
+                }
+            }
         }
 
     }
@@ -960,11 +971,11 @@ class Home : Fragment() {
                     modifier = Modifier
                         .size(width = 100.dp, height = 100.dp),
                     onClick = {
-                        loaderView.visibility = View.VISIBLE
+                        loaderView.value = true
                         val argument = bundleOf("Tab" to "0")
                         findNavController(this@Home)
                             .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
-                        loaderView.visibility = View.GONE
+                        loaderView.value = false
                     }
                 ) {
                     Box() {
@@ -994,12 +1005,12 @@ class Home : Fragment() {
                     modifier = Modifier
                         .size(width = 100.dp, height = 100.dp)
                         .clickable {
-                            loaderView.visibility = View.VISIBLE
+                            loaderView.value = true
                             val arguments = bundleOf("Tab" to "1")
                             NavHostFragment
                                 .findNavController(this@Home)
                                 .navigate(R.id.action_home_nav_to_competitionsFragment, arguments)
-                            loaderView.visibility = View.GONE
+                            loaderView.value = false
                         }
                 ) {
                     Box() {
@@ -1030,11 +1041,11 @@ class Home : Fragment() {
                     modifier = Modifier
                         .size(width = 100.dp, height = 100.dp),
                     onClick = {
-                        loaderView.visibility = View.VISIBLE
+                        loaderView.value = true
                         val argument = bundleOf("Tab" to "2")
                         findNavController(this@Home)
                             .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
-                        loaderView.visibility = View.GONE
+                        loaderView.value = false
                     }
                 ) {
                     Box() {

@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -89,7 +90,7 @@ class ProfileActivity: AppCompatActivity() {
 
 
     var nameshared: String = ""
-    var user_dp: String = ""
+    var user_dp = mutableStateOf("")
     var shared_photoUrl: String = ""
     var firebaseAuth = FirebaseAuth.getInstance()
     var firestore = FirebaseFirestore.getInstance()
@@ -113,20 +114,19 @@ class ProfileActivity: AppCompatActivity() {
             Alcheringa2022Theme {
 
                 interests =
-                    sharedPreferences.getString("interests", "")!!.replace("[","").replace("]", "").split(',').toMutableList()
+                    sharedPreferences.getString("interests", "")!!.replace("[","").replace("]", "").replace(" ", "").split(',').toMutableList()
 
                 interests.remove("null")
-                for (i in 0..interests.size-1){
-                    while (interests[i].get(0) == ' ') {
-                        interests[i] = interests[i].replace(" ", "")
-                    }
-                }
+//                for (i in 0..interests.size-1){
+//                    while (interests[i][0] == ' ') {
+//                        interests[i] = interests[i].replace(" ", "")
+//                    }
+//                }
 
-                user_dp = sharedPreferences.getString("photourl", "")!!
 
-                var profile_url by remember {
-                    mutableStateOf(user_dp)
-                }
+                user_dp.value = sharedPreferences.getString("photourl", "")!!
+                Log.d("Profile", user_dp.toString())
+
 
                 var name by remember {
                     mutableStateOf(nameshared)
@@ -188,7 +188,7 @@ class ProfileActivity: AppCompatActivity() {
                                 .height(160.dp)
                         ) {
                             Image(
-                                painter = rememberImagePainter(data = if (profile_url != "")profile_url else R.drawable.usernew),
+                                painter = rememberImagePainter(data = if (user_dp.value != "")user_dp.value else R.drawable.usernew),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .width(160.dp)
@@ -287,7 +287,10 @@ class ProfileActivity: AppCompatActivity() {
                                                 modifier = Modifier
                                                     .border(1.dp, darkGrey)
                                                     .fillMaxWidth()
-                                                    .padding(5.dp)
+                                                    .padding(5.dp),
+                                                textStyle = TextStyle(
+                                                    color = colors.onBackground
+                                                )
                                             )
                                             Spacer(modifier = Modifier.height(15.dp))
 
@@ -530,12 +533,14 @@ class ProfileActivity: AppCompatActivity() {
                     progressDialog.dismiss()
                     Toast.makeText(this@ProfileActivity, "Profile Image Updated", Toast.LENGTH_SHORT)
                         .show()
+
                 }
                 .addOnFailureListener { e: Exception? ->
                     progressDialog.dismiss()
                     Toast.makeText(this@ProfileActivity, "Profile Update Failed", Toast.LENGTH_SHORT)
                         .show()
                     Log.d("Image", "Failed!!")
+                    e?.printStackTrace()
                 }
                 .addOnProgressListener { taskSnapshot: UploadTask.TaskSnapshot ->
                     val progress =
@@ -549,6 +554,7 @@ class ProfileActivity: AppCompatActivity() {
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 editor.putString("photourl", uri.toString())
                 editor.apply()
+                user_dp.value = uri.toString()
             }
         }
     }
@@ -561,7 +567,9 @@ class ProfileActivity: AppCompatActivity() {
     private fun fill_user_details() {
         val shared_name = sharedPreferences.getString("name", "")
         shared_photoUrl = sharedPreferences.getString("photourl", "").toString()
-        var shared_interest = sharedPreferences.getString("interests", "")!!.replace("[", "").replace("]", "").split(',')
+        val shared_interest = sharedPreferences.getString("interests", "")!!.replace("[", "").replace("]", "").split(',')
+
+
         if (shared_name != "") {
             nameshared = shared_name!!.substring(0, 1).uppercase(Locale.getDefault()) + shared_name.substring(1)
         } else {
@@ -590,7 +598,7 @@ class ProfileActivity: AppCompatActivity() {
 
         if (shared_photoUrl != "") {
             //Toast.makeText(this, ""+shared_photoUrl, Toast.LENGTH_SHORT).show();
-            user_dp = shared_photoUrl
+            user_dp.value = shared_photoUrl
 
         } else {
             //Toast.makeText(this, ""+shared_photoUrl, Toast.LENGTH_SHORT).show();
@@ -602,10 +610,11 @@ class ProfileActivity: AppCompatActivity() {
                         val editor = sharedPreferences.edit()
                         val db_photourl = task.result.getString("PhotoURL")
                         if (db_photourl != null) {
-                            user_dp = db_photourl
+                            user_dp.value = db_photourl
                             editor.putString("photourl", db_photourl)
                         }
                         editor.apply()
+                        Log.d("Profile", "Got profile url ${db_photourl}")
                     } else {
                         Log.d("TAG", "Error getting profile photo: ", task.exception)
                     }
@@ -633,7 +642,7 @@ class ProfileActivity: AppCompatActivity() {
 
     private fun loadProfile(url: String) {
         Log.d("ProfilePage.TAG", "Image cache path: $url")
-        user_dp = url
+        user_dp.value = url
         uploadImage()
     }
 

@@ -19,6 +19,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat.startActivity
 import com.alcheringa.alcheringa2022.Login
@@ -47,7 +54,7 @@ class SignUp : ComponentActivity() {
     var signupButton: Button? = null
     var loginTextView: TextView? = null
     var backButton: ImageView? = null
-    var loaderView: LoaderView? = null
+    var loaderView = mutableStateOf(false)
     private var Name: String? = null
     private var Email: String? = null
     private var Password: String? = null
@@ -85,6 +92,18 @@ class SignUp : ComponentActivity() {
                 signUp = {name , email , password ->
                     StartCustomSignup( name,email,password )}
             )
+
+            if(loaderView.value){
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colors.background.copy(alpha = 0.6f)),
+                    contentAlignment = Alignment.Center,
+
+                    ) {
+                    LoadingAnimation3()
+                }
+            }
         }
 //        setContentView(R.layout.activity_sign_up)
 //        loaderView = findViewById(R.id.dots_progress)
@@ -136,6 +155,7 @@ class SignUp : ComponentActivity() {
 //    }
 
     private fun MicrosoftLogin() {
+        loaderView.value = true
         Log.d(TAG, "MicrosoftLogin")
         val provider = OAuthProvider.newBuilder("microsoft.com")
         provider.addCustomParameter("tenant", "850aa78d-94e1-4bc6-9cf3-8c11b530701c")
@@ -169,7 +189,7 @@ class SignUp : ComponentActivity() {
                     saveDetails(finalName, email)
                     firebaseFirestore!!.collection("USERS").document(email).get()
                         .addOnCompleteListener { task2: Task<DocumentSnapshot> ->
-                            loaderView!!.visibility = View.GONE
+                            loaderView.value = false
                             if (task2.isSuccessful && !task2.result.exists()) {
                                 RegisterUserInDatabase()
                                 toast("Welcome $finalName")
@@ -188,14 +208,14 @@ class SignUp : ComponentActivity() {
                         }
                 } catch (e: Exception) {
                     firebaseAuth!!.signOut()
-                    loaderView!!.visibility = View.GONE
+                    loaderView.value = false
                     toast("Could not get your email from Outlook")
                 }
             }
             .addOnFailureListener { e: Exception ->
                 Log.d(TAG, "onFailure" + e.message)
                 Toast.makeText(this, "Signup with Microsoft failed", Toast.LENGTH_LONG).show()
-                loaderView!!.visibility = View.GONE
+                loaderView.value = false
             }
     }
 
@@ -234,6 +254,7 @@ class SignUp : ComponentActivity() {
 //    }
 
     private fun StartCustomSignup(name: String, email: String, password: String) {
+        loaderView.value = true
         firebaseAuth?.createUserWithEmailAndPassword(email, password)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -245,7 +266,7 @@ class SignUp : ComponentActivity() {
                     emailVerification()
                     RegisterUserInDatabaseCustom(name, email)
                 } else {
-                    loaderView?.visibility = View.GONE
+                    loaderView.value = false
                     task.exception?.let {
                         Log.w(TAG, "createUserWithEmail:failure", it)
                         Toast.makeText(
@@ -267,7 +288,7 @@ class SignUp : ComponentActivity() {
         firebaseUser.sendEmailVerification()
             .addOnCompleteListener { task: Task<Void?>? ->
                 FirebaseAuth.getInstance().signOut()
-                loaderView!!.visibility = View.GONE
+                loaderView.value = false
                 startActivity(Intent(applicationContext, Login::class.java))
             }
     }
@@ -323,6 +344,7 @@ class SignUp : ComponentActivity() {
     }
 
     private fun GoogleSignIn() {
+        loaderView.value = true
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
             .requestEmail()
@@ -345,12 +367,12 @@ class SignUp : ComponentActivity() {
                 firebaseAuthWithGoogle(account.idToken)
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
-                loaderView!!.visibility = View.GONE
+                loaderView.value = false
                 Log.w(TAG, "Google sign in failed", e)
                 Toast.makeText(applicationContext, "" + e.message, Toast.LENGTH_SHORT).show()
             }
         } else {
-            loaderView!!.visibility = View.GONE
+            loaderView.value = false
         }
     }
 
@@ -365,7 +387,7 @@ class SignUp : ComponentActivity() {
                     Log.d(TAG, "Signup with Google Successful")
                     firebaseFirestore!!.collection("USERS").document(user.email!!).get()
                         .addOnCompleteListener { task2: Task<DocumentSnapshot> ->
-                            loaderView!!.visibility = View.GONE
+                            loaderView.value = false
                             if (task2.isSuccessful && !task2.result.exists()) {
                                 RegisterUserInDatabase()
                                 toast("Welcome " + user.displayName)
@@ -383,7 +405,7 @@ class SignUp : ComponentActivity() {
                             }
                         }
                 } else {
-                    loaderView!!.visibility = View.GONE
+                    loaderView.value = false
                     Log.d(TAG, "signInWithCredential:failure", task.exception)
                     Toast.makeText(applicationContext, "" + task.exception, Toast.LENGTH_SHORT)
                         .show()
@@ -393,7 +415,7 @@ class SignUp : ComponentActivity() {
 
     /* ################################ Custom Signup Functions ############################### */
     private fun startInterestActivity() {
-        val intent = Intent(this, PickASide::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()
@@ -401,7 +423,7 @@ class SignUp : ComponentActivity() {
 
     private fun startMainActivity() {
         //Intent intent = new Intent(this, MainActivity.class);
-        val intent = Intent(this, PickASide::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()
