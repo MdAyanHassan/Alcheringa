@@ -331,7 +331,10 @@ class Events_Details_Fragment : Fragment() {
                                 homeViewModel.OwnEventsWithLive.removeAnItem(
                                     eventWithLive.eventdetail
                                 )
-                                scheduleDatabase.DeleteItem(eventWithLive.eventdetail.artist, context)
+                                scheduleDatabase.DeleteItem(
+                                    eventWithLive.eventdetail.artist,
+                                    context
+                                )
                             }
                     )
                 }
@@ -412,6 +415,70 @@ class Events_Details_Fragment : Fragment() {
 
             }
             else{
+
+                if( eventWithLive.eventdetail.type.replace(
+                        "\\s".toRegex(),
+                        ""
+                    ).uppercase() == "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase() ){
+                    val day1_link = "https://bit.ly/3OFUO3E"
+                    val day2_link = "https://bit.ly/3wdV4k0"
+                    val day3_link = "https://bit.ly/48b0QQw"
+
+                    val linkToDisplay = if(eventWithLive.eventdetail.artist.contains("Day 1", ignoreCase = true)) day1_link
+                        else if (eventWithLive.eventdetail.artist.contains("Day 2", ignoreCase = true)) day2_link
+                        else if (eventWithLive.eventdetail.artist.contains("Day 3", ignoreCase = true)) day3_link
+                        else ""
+                    if(linkToDisplay != ""){
+                        Box(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .padding(horizontal = 20.dp)
+                                .border(
+                                    1.dp,
+                                    colors.onBackground,
+                                    shape = RoundedCornerShape(5.dp),
+                                )
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        0f to darkTealGreen,
+                                        1f to darkerGreen
+                                    ),
+                                    shape = RoundedCornerShape(5.dp)
+                                )
+                                .clickable {
+                                    startActivity(
+                                        Intent(Intent.ACTION_VIEW).setData(
+                                            Uri.parse(
+                                                linkToDisplay
+                                            )
+                                        )
+                                    )
+                                }
+
+
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .align(
+                                        Alignment.Center
+                                    )
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = "Quidnunc - The Newsletter",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = aileron,
+                                    color = creamWhite,
+                                )
+
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                }
+
                 Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
                     if(v != null) {
 
@@ -1232,7 +1299,7 @@ class Events_Details_Fragment : Fragment() {
             horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(horizontal = 20.dp)
         ) { items(similarlist)
         {dataEach -> context?.let {
-            Event_card_Scaffold(eventdetail = dataEach, viewModelHm = homeViewModel, context = context!!, artist = dataEach.eventdetail.artist) {
+            Event_card_Scaffold(eventdetail = dataEach, viewModelHm = homeViewModel, context = requireContext(), artist = dataEach.eventdetail.artist) {
                 val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
 
                 NavHostFragment

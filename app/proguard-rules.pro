@@ -34,8 +34,8 @@
 -keep class javax.mail.internet.MimeMultipart { *; }
 -dontwarn javax.mail.internet.MimeMultipart
 
--keepnames class androidx.navigation.fragment.NavHostFragment
--keep class * extends androidx.fragment.app.Fragment{}
+#-keepnames class androidx.navigation.fragment.NavHostFragment
+#-keep class * extends androidx.fragment.app.Fragment{}
 #-keepnames class com.alcheringa.alcheringa2022.Home
 
 -keep public class com.google.firebase.** { *; }
