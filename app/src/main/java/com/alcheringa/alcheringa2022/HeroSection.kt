@@ -78,7 +78,7 @@ fun HeroSection(eventsList: List<eventWithLive>, onCardClick: (artist: String) -
             .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        HorizontalPager(state = pagerState, beyondBoundsPageCount = 4, pageSpacing = -(screenWidth/2), reverseLayout = true,
+        HorizontalPager(state = pagerState, beyondBoundsPageCount = 4, pageSpacing = -(screenWidth/2), reverseLayout = true
             ) { page_index ->
             FeaturedEventCard(
                 event = featuredEvents[page_index],
@@ -87,7 +87,7 @@ fun HeroSection(eventsList: List<eventWithLive>, onCardClick: (artist: String) -
                     .graphicsLayer {
                         rotationZ = if( pagerState.offsetForPage(page_index) > 0) pagerState.offsetForPage(page_index) * 2 else 0f
                         translationX = if( pagerState.offsetForPage(page_index) > 0) (pagerState.offsetForPage(page_index)) * -(screenWidth.toPx()/2 - 50) else (pagerState.offsetForPage(page_index)) * (screenWidth.toPx()/2)
-                        translationY = if( pagerState.offsetForPage(page_index) > 0) abs(pagerState.offsetForPage(page_index)) * 30 else 0f
+                        translationY = if( pagerState.offsetForPage(page_index) > 0) abs(pagerState.offsetForPage(page_index)) * 20 else 0f
 //                        shadowElevation = pagerState.pageCount - abs(pagerState.offsetForPage(page_index))
                         alpha = 1f
 
@@ -115,7 +115,7 @@ fun FeaturedEventCard(event: eventWithLive, modifier: Modifier){
             backgroundColor = colors.background
         ) {
             Column(
-                Modifier.fillMaxSize()
+                Modifier.fillMaxWidth().wrapContentHeight()
             ) {
                 GlideImage(
                     requestOptions = {

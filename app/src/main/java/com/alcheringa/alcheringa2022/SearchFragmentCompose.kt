@@ -45,6 +45,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -180,7 +181,10 @@ class SearchFragment : Fragment() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = colors.background),
+                    .paint(
+                        painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                        contentScale = ContentScale.Crop
+                    ),
             ) {
 
                 LaunchedEffect(Unit) {
@@ -191,6 +195,7 @@ class SearchFragment : Fragment() {
                 // Search Bar at the top
                 Row(modifier = Modifier
                     .fillMaxWidth()
+                    .background(colors.background)
                     .padding(horizontal = 24.dp)) {
                     val id = if(isSystemInDarkTheme()) {R.drawable.vector_26} else { R.drawable.vector_26__2_}
 

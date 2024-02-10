@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -410,6 +411,10 @@ class CompetitionsFragment : Fragment() {
                 Modifier
                     .fillMaxSize()
                     .background(colors.background)
+                    .paint(
+                        painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                        contentScale = ContentScale.Crop
+                    )
             ) {
                 Spacer(
                     modifier = Modifier

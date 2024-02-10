@@ -11,10 +11,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -56,8 +59,12 @@ fun LoginScreen(forgetPassword: ()->Unit , signUpHere:() -> Unit ,  microsoftLog
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.onBackground)
-                .padding(16.dp),
+//                .background(MaterialTheme.colors.onBackground)
+                .padding(16.dp)
+                .paint(
+                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                    contentScale = ContentScale.Crop
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {

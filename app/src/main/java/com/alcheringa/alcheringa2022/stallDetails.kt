@@ -37,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -161,7 +162,10 @@ class stallDetails : Fragment() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(colors.background),
+                        .paint(
+                            painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                            contentScale = ContentScale.Crop
+                        ),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
@@ -170,7 +174,6 @@ class stallDetails : Fragment() {
                             .wrapContentHeight()
                             .padding(top = 20.dp)
                             .border(1.dp, containerPurple, shape = RoundedCornerShape(5.dp))
-                            .background(colors.background)
                     ) {
                         Column(
                             modifier = Modifier

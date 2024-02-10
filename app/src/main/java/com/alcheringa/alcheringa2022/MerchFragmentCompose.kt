@@ -28,6 +28,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
@@ -577,25 +578,37 @@ class MerchFragmentCompose : Fragment() {
                             Modifier
                                 .fillMaxWidth()
                                 .fillMaxHeight()
+
                                 .verticalScroll(scrollState),
                         ) {
                             Box() {
                                 Box(
                                     Modifier
                                         .fillMaxWidth()
-                                        .fillMaxHeight()
+//                                        .fillMaxSize()
+//                                        .fillMaxHeight(0.8f)
+
+
                                         .padding(top = 200.dp)
+//                                        .paint(
+//                                            painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+//                                            contentScale = ContentScale.Crop
+//                                        )
+
 
                                 ) {
 
                                     Card(
-                                        shape = RoundedCornerShape(40.dp, 40.dp),
+                                        modifier = Modifier.paint(
+                                            painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                                            contentScale = ContentScale.Fit
+                                        ),
+                                        shape = RoundedCornerShape(16.dp, 16.dp),
                                         border = BorderStroke(2.dp, colors.onBackground),
-                                        backgroundColor = colors.background,
+                                        backgroundColor = Color.Transparent,
                                     ) {
 
                                         Box(
-                                            modifier = Modifier.fillMaxSize()
                                         ) {
 
 
@@ -614,7 +627,6 @@ class MerchFragmentCompose : Fragment() {
                                                 Column(
                                                     Modifier
                                                         .fillMaxWidth()
-                                                        .fillMaxHeight(0.5f)
                                                         .padding(
                                                             bottom = 40.dp,
                                                             top = 200.dp
@@ -695,6 +707,8 @@ class MerchFragmentCompose : Fragment() {
                                                             .wrapContentHeight()
                                                             .animateContentSize(),
                                                         shape = RoundedCornerShape(9.dp),
+                                                        backgroundColor = Color.Transparent,
+                                                        elevation = 0.dp
                                                         /*border = BorderStroke(1.dp, colors.secondary)*/
                                                     ) {
                                                         Box() {
@@ -710,7 +724,7 @@ class MerchFragmentCompose : Fragment() {
                                                                                 } /*else if (merchSize == dataeach) {
                                                                                 blu
                                                                             }*/ else {
-                                                                                    colors.background
+                                                                                    Color.Transparent
                                                                                 }
                                                                             txtCol =
                                                                                 if (merchSize==dataeach) {
@@ -1269,7 +1283,7 @@ class MerchFragmentCompose : Fragment() {
                                                 }
 
                                         }
-                                        }
+                                    }
                                 }
 
 
@@ -1304,7 +1318,10 @@ class MerchFragmentCompose : Fragment() {
 
 
             ) {
-                Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                Column(modifier = Modifier.padding(horizontal = 20.dp).paint(
+                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                    contentScale = ContentScale.Crop
+                )) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         verticalArrangement = Arrangement.spacedBy(10.dp),

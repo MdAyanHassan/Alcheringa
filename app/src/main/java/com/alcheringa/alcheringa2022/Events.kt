@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -551,7 +552,10 @@ class Events : Fragment() {
             sheetBackgroundColor = colors.background,
             drawerBackgroundColor = colors.background,
             sheetContent = {
-                Box(Modifier.fillMaxHeight(0.6f)) {
+                Box(Modifier.fillMaxHeight(0.6f).paint(
+                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                    contentScale = ContentScale.Crop
+                )) {
                     Column {
                         Box(
                             Modifier

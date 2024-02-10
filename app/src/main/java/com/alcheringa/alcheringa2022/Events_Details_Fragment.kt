@@ -28,6 +28,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -111,7 +112,10 @@ class Events_Details_Fragment : Fragment() {
         binding.cvevdetail.setContent{
             Alcheringa2022Theme {
                 Column(
-                    Modifier.fillMaxWidth()
+                    Modifier.fillMaxWidth().paint(
+                        painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                        contentScale = ContentScale.Crop
+                    )
                 ) {
                     Column(
                         Modifier

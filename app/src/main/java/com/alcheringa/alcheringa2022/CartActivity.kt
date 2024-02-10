@@ -15,6 +15,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,6 +51,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -121,14 +123,14 @@ class CartActivity : AppCompatActivity() {
             }
             val gradientColorsPurple = listOf(lighterPurple, darkerPurple)
             val context= LocalContext.current
-var fontCol:Color by remember{ mutableStateOf( if(context.getResources().getConfiguration().uiMode==33)
-{
-   lightBar
-}
-else
-{
-    darkBar
-}) }
+            var fontCol:Color by remember{ mutableStateOf( if(context.getResources().getConfiguration().uiMode==33)
+            {
+               lightBar
+            }
+            else
+            {
+                darkBar
+            }) }
             var tempBgCol:Color by remember{ mutableStateOf( if(context.getResources().getConfiguration().uiMode==33)
             {
                Color.Black
@@ -148,7 +150,10 @@ else
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(tempBgCol)
+                    .paint(
+                        painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                        contentScale = ContentScale.Crop
+                    )
 
                 // .background()
             ) {

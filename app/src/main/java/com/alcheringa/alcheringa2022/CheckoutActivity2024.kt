@@ -65,6 +65,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Brush
@@ -311,6 +312,10 @@ class CheckoutActivity2024 : AppCompatActivity() {
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(horizontal = 20.dp)
+                                .paint(
+                                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                                    contentScale = ContentScale.Crop
+                                )
                         ) {
                             val focusManager = LocalFocusManager.current
                             Spacer(modifier = Modifier.height(30.dp))

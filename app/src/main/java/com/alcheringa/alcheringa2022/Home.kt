@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.input.pointer.pointerInput
@@ -216,7 +217,7 @@ class Home : Fragment() {
 
 
         binding.compose1.setContent {
-            MyContent();
+            MyContent()
 
             loaderView = mutableStateOf(homeViewModel.allEventsWithLive.isEmpty())
 
@@ -1100,7 +1101,11 @@ class Home : Fragment() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight(0.95f)
-                            .border(2.dp, colors.onBackground, RoundedCornerShape(28.dp, 28.dp))
+                            .paint(
+                                painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                                contentScale = ContentScale.Crop
+                            )
+                            .border(1.dp, colors.onBackground, RoundedCornerShape(16.dp, 16.dp))
                     ) {
                         Column(
                             modifier = Modifier
@@ -1135,7 +1140,7 @@ class Home : Fragment() {
 
 
                 },
-                sheetPeekHeight = 0.dp, sheetShape = RoundedCornerShape(40.dp, 40.dp),
+                sheetPeekHeight = 0.dp, sheetShape = RoundedCornerShape(16.dp, 16.dp),
                 sheetBackgroundColor = colors.background,
 
 
@@ -1147,6 +1152,10 @@ class Home : Fragment() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
+                            .paint(
+                                painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                                contentScale = ContentScale.Crop
+                            )
                             .verticalScroll(scrollState)
                             .pointerInput(Unit) {
                                 detectTapGestures(onTap = {
@@ -1567,7 +1576,7 @@ class Home : Fragment() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(287.dp),
-                    shape = RoundedCornerShape(28.dp, 28.dp),
+                    shape = RoundedCornerShape(16.dp, 16.dp),
 
                     ) {
                     GlideImage(
@@ -2685,7 +2694,7 @@ class Home : Fragment() {
                         .clickable {
                             val arguments = bundleOf("merchId" to merch.size - page - 1)
                             NavHostFragment
-                                    .findNavController(this@Home)
+                                .findNavController(this@Home)
                                 .navigate(R.id.action_home2_to_merchFragment, arguments)
 
                             //                fm.beginTransaction()

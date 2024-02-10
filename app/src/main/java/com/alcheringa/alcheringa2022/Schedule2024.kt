@@ -171,7 +171,10 @@ class Schedule2024 : Fragment() {
         val onbackgroundcolor = colors.onBackground
         Box(
             modifier = Modifier
-                .background(colors.background)
+                .paint(
+                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                    contentScale = ContentScale.Crop
+                )
         ){
             Column(
                 modifier = Modifier.fillMaxSize()
