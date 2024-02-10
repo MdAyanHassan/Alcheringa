@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -81,6 +82,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.Locale
 
@@ -124,8 +126,8 @@ class ProfileActivity: AppCompatActivity() {
 //                }
 
 
-                user_dp.value = sharedPreferences.getString("photourl", "")!!
-                Log.d("Profile", user_dp.toString())
+//                user_dp.value = sharedPreferences.getString("photourl", "")!!
+//                Log.d("Profile", user_dp.toString())
 
 
                 var name by remember {
@@ -629,10 +631,19 @@ class ProfileActivity: AppCompatActivity() {
                 val uri = data!!.getParcelableExtra<Uri>("path")
                 try {
                     // You can update this bitmap to your server
-                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-                    filePath = uri
+                    var bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+                    val baos = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos)
+
+                    if(baos.toByteArray().size  > 250 ){
+                        bitmap = Bitmap.createScaledBitmap(bitmap, 250, 250, false)
+
+                    }
+
+                    val newURI = MediaStore.Images.Media.insertImage(this@ProfileActivity.contentResolver, bitmap, nameshared, null)
+                    filePath = Uri.parse(newURI)
                     // loading profile image from local cache
-                    loadProfile(uri.toString())
+                    loadProfile(filePath.toString())
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
@@ -642,7 +653,7 @@ class ProfileActivity: AppCompatActivity() {
 
     private fun loadProfile(url: String) {
         Log.d("ProfilePage.TAG", "Image cache path: $url")
-        user_dp.value = url
+//        user_dp.value = url
         uploadImage()
     }
 
