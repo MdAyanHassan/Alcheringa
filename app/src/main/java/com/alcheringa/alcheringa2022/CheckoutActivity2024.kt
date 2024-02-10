@@ -240,7 +240,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                     mutableStateOf(0)
                 }
 
-                total_amount = calculate_totalAmount(amount, shipping_charges)
+                total_amount = calculate_totalAmount(amount, shipping_charges, totalItems)
 
                 LaunchedEffect(cartModelItems, Unit) {
                     Log.d("MainActivity", "launched")
@@ -1438,15 +1438,24 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                                 }
 
                                                 Spacer(modifier = Modifier.height(15.dp))
+                                                var brush:Brush by remember{ mutableStateOf(    Brush.verticalGradient(listOf(Color.Gray, Color.Gray)) // Use Gray brush when there are no items
+                                                ) }
+                                                if(totalItems==0)
+                                                {
+                                                    brush=   Brush.verticalGradient(listOf(Color.Gray, Color.Gray))
+                                                }else
+                                                {
+                                                    brush=  Brush.verticalGradient(
+                                                        0f to lighterPurple,
+                                                        1f to borderdarkpurple
+                                                    )
+                                                }
 
                                                 Box(
                                                     modifier = Modifier
                                                         .fillMaxWidth()
                                                         .background(
-                                                            Brush.verticalGradient(
-                                                                0f to lighterPurple,
-                                                                1f to borderdarkpurple
-                                                            ),
+                                                            brush,
                                                             shape = RoundedCornerShape(6.dp)
                                                         )
                                                         .border(
@@ -1454,7 +1463,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                                             colors.onBackground,
                                                             RoundedCornerShape(6.dp)
                                                         )
-                                                        .clickable {
+                                                        .clickable (enabled = totalItems>0){
                                                             checkedState = 2
                                                             startPayment(total_amount.toInt())
                                                         }
@@ -1462,7 +1471,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                                     contentAlignment = Alignment.Center
                                                 ) {
                                                     Text(
-                                                        text = "Proceed To Pay",
+                                                        text = "Place Pre-Order",
                                                         color = lightBar,
                                                         fontSize = 22.sp,
                                                         fontFamily = futura
@@ -1511,7 +1520,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                             Spacer(modifier = Modifier.height(15.dp))
 
                                             Text(
-                                                text = "Order Confirmed",
+                                                text = "Order Placed",
                                                 fontSize = 18.sp,
                                                 fontFamily = futura,
                                                 color = greyColor
@@ -1602,12 +1611,15 @@ class CheckoutActivity2024 : AppCompatActivity() {
 
     private fun calculate_totalAmount(
         amt: Long,
-        shippingCharges: Long
+        shippingCharges: Long,
+        items: Int
     ): Long {
         if (user_pin_code == "781039") {
             return amt;
-        } else {
+        } else if (items !=0){
             return amt + shippingCharges
+        } else {
+            return amt
         }
     }
 
