@@ -1198,7 +1198,7 @@ class Home : Fragment() {
                         Box(
                             modifier = Modifier.padding(
                                 start = 20.dp,
-                                bottom = 24.dp,
+                                bottom = 12.dp,
 
                                 ),
                         ) {
@@ -1222,7 +1222,7 @@ class Home : Fragment() {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
-                                    bottom = 24.dp,
+                                    bottom = 12.dp,
                                     top = 36.dp
                                 ),
                             ) {
@@ -1278,7 +1278,7 @@ class Home : Fragment() {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
-                                    bottom = 24.dp,
+                                    bottom = 12.dp,
                                     top = 36.dp
                                 ),
                             ) {
@@ -1383,7 +1383,7 @@ class Home : Fragment() {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
-                                    bottom = 24.dp,
+                                    bottom = 12.dp,
                                     top = 36.dp
                                 ),
                             ) {
@@ -1440,7 +1440,7 @@ class Home : Fragment() {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
-                                    bottom = 24.dp,
+                                    bottom = 12.dp,
                                     top = 36.dp
                                 ),
                             ) {
@@ -1489,7 +1489,7 @@ class Home : Fragment() {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
-                                    bottom = 24.dp,
+                                    bottom = 12.dp,
                                     top = 36.dp
                                 ),
                             ) {
@@ -1653,7 +1653,7 @@ class Home : Fragment() {
                         .padding(start = 20.dp, top = 16.dp)
                 ) {
 
-                    Column(horizontalAlignment = Alignment.Start,) {
+                    Column(horizontalAlignment = Alignment.Start) {
 
                         Text(
                             text = eventWithLive.eventdetail.artist,
@@ -2625,7 +2625,7 @@ class Home : Fragment() {
     }
 
 
-    @OptIn(ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
     @Composable
     fun merchBoxnew(merch1: List<merchModel>, drbls: List<Int>) {
 

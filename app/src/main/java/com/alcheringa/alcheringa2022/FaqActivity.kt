@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme.colors
@@ -50,8 +52,17 @@ class FaqActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Alcheringa2022Theme {
-                val q1 = "What is Alcheringa?"
-                val a1 = "IITG cult fest that has a lot of people working and stuff. There will be one more line of text hereeeeeeeeeeeeee. It can also have something"
+                val quesAns = mapOf<String, String>(
+                    "How can I buy merch?" to "You can buy the exclusive Alcheringa merch by using the Alcheringa mobile app. Just go to the 'shop' page, where you will find all the available merchandise. Select the merch of your choice and order!",
+                    "Will the merch be delivered home ?" to "Yes! Your ordered merch will be shipped to the shipping address that you register while ordering them.",
+                    "How can I buy Alcher cards?" to "Head over to the events section of the App and click on get card to purchase your Alcher cards for yourself and your friends.",
+                    "How can I register for competitions?" to "Head over to the Competitions tab, choose the competition of your choice, get yourself registered and bring your game to Alcheringa 24’s exciting range of competitions.",
+                    "How can I attend offline Alcheringa events?" to "You purchase Alcher cards through which you can avail a legion of benefits like Free access to pronites, discounts on merchandise and many more benefits awaiting in campus.",
+                    "Where can I find the event schedule and lineup?" to "The event schedule for Alcheringa 2024 events can be found on the app under the Schedule tab.",
+                    "Is there any registration fee for competitions?" to "There is no registration fee for competitions. All you have to do is register yourself at registration.alcheringa.in .",
+                    "When will competition results be announced?" to "Competitions are judged and results released soon after in the coming weeks after Alcheringa 2024.",
+                    "Where can I get updates on competitions?" to "Be the first to get all the latest updates on all the competitions and events on our social media and on our app. Make sure you have turned on notifications for our social media handles and App for regular notifications of all the fun-filled events and activities taking place around the campus.",
+                )
                 Column(
                     modifier = Modifier
                         .background(colors.background)
@@ -96,6 +107,7 @@ class FaqActivity: AppCompatActivity() {
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 30.dp)
+                            .verticalScroll(rememberScrollState())
                             .paint(
                                 painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
                                 contentScale = ContentScale.Crop
@@ -103,10 +115,9 @@ class FaqActivity: AppCompatActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Spacer(modifier = Modifier.height(20.dp))
-                        qq(q1, a1)
-                        qq(q1,a1)
-                        qq(q1,a1)
-                        qq(q1,a1)
+                        quesAns.forEach { (question, answer) ->
+                            questionAnwerItem(question = question, answer = answer)
+                        }
                     }
                 }
             }
@@ -114,7 +125,7 @@ class FaqActivity: AppCompatActivity() {
     }
 
     @Composable
-    fun qq(q1: String, a1: String){
+    fun questionAnwerItem(question: String, answer: String){
         Spacer(modifier = Modifier.height(10.dp))
         var isExpanded by remember {
             mutableStateOf(false)
@@ -130,7 +141,7 @@ class FaqActivity: AppCompatActivity() {
             animationSpec = tween(durationMillis = 300)
         )
 
-        Box(
+        Row(
             Modifier
                 .fillMaxWidth()
                 .clickable {
@@ -138,10 +149,12 @@ class FaqActivity: AppCompatActivity() {
                 }
         ){
             Text(
-                text = q1,
+                text = question,
                 fontSize = 18.sp,
                 color = colors.onBackground,
-                fontFamily = futura
+                fontFamily = futura,
+                modifier = Modifier
+                    .weight(1f)
             )
 
             Icon(
@@ -149,7 +162,7 @@ class FaqActivity: AppCompatActivity() {
                 contentDescription = null,
                 tint = colors.onBackground,
                 modifier = Modifier
-                    .align(Alignment.CenterEnd)
+                    .align(Alignment.CenterVertically)
             )
         }
 
@@ -162,7 +175,7 @@ class FaqActivity: AppCompatActivity() {
                 .heightIn(max = expandableHeight)
         ){
             Text(
-                text = a1,
+                text = answer,
                 color = colors.onBackground,
                 fontSize = 14.sp,
                 fontFamily = futura
