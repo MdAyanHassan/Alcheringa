@@ -227,8 +227,7 @@ class CartActivity : AppCompatActivity() {
                             Image(
                                 painter = painterResource(id = R.drawable.shopping_cart),
                                 contentDescription = "Empty Cart",
-                                modifier = Modifier.size(100.dp),
-                                colorFilter = ColorFilter.tint(fontCol)
+                                modifier = Modifier.size(100.dp)
                             )
                         }
                     }

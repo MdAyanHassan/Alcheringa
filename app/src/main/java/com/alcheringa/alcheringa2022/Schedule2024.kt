@@ -443,7 +443,7 @@ class Schedule2024 : Fragment() {
                             OutlinedTextField(
                                 modifier = Modifier
                                     .width(220.dp)
-                                    .height(45.dp)
+
                                     .background(colors.onSurface)
                                     .border(
                                         1.dp,
@@ -651,7 +651,7 @@ class Schedule2024 : Fragment() {
                             horizontalAlignment = Alignment.End,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(end = 12.dp)
+                                .padding(end = 7.dp)
                         ) {
                             for (time in 8..11) {
                                 Row(
@@ -662,9 +662,11 @@ class Schedule2024 : Fragment() {
                                 ) {
                                     Text(
                                         text = time.toString() + " am",
+
                                         fontSize = 16.sp,
                                         fontFamily = futura,
-                                        color = colors.onBackground
+                                        color = colors.onBackground,
+
                                     )
                                 }
 
