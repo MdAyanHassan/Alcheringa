@@ -3,6 +3,7 @@ package com.alcheringa.alcheringa2022
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,7 +17,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -54,17 +57,24 @@ fun LoginScreen(forgetPassword: ()->Unit , signUpHere:() -> Unit ,  microsoftLog
 
     val emailFocusRequester = remember { FocusRequester() }
     val passwordFocusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     if(isSystemInDarkTheme()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
 //                .background(MaterialTheme.colors.onBackground)
-                .padding(16.dp)
+                //.padding(16.dp)
                 .paint(
                     painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
                     contentScale = ContentScale.Crop
-                ),
+                ).
+                    pointerInput(Unit) {
+                                       detectTapGestures (
+                                           onPress = {keyboardController?.hide()}
+                                       )
+                    }
+            ,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -89,7 +99,7 @@ fun LoginScreen(forgetPassword: ()->Unit , signUpHere:() -> Unit ,  microsoftLog
 //            modifier = Modifier.padding(top = 8.dp)
 //        )
             Box(modifier = Modifier
-                .padding(bottom = 16.dp)
+                .padding(bottom = 12.dp)
                 .height(75.dp)) {
                 TextField(
                     value = emailState.value,
@@ -286,7 +296,18 @@ fun LoginScreen(forgetPassword: ()->Unit , signUpHere:() -> Unit ,  microsoftLog
             modifier = Modifier
                 .fillMaxSize()
                 .background(creamWhite)
-                .padding(16.dp),
+                .paint(
+                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                    contentScale = ContentScale.Crop
+                )
+                .padding(16.dp)
+                .pointerInput(Unit) {
+                detectTapGestures (
+                    onPress = {keyboardController?.hide()}
+                )
+            }
+
+            ,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {

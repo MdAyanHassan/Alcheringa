@@ -4,6 +4,7 @@ import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,7 +38,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -82,6 +85,7 @@ fun SignUpScreen(
     val emailFocusRequester = remember { FocusRequester() }
     val passwordFocusRequester = remember { FocusRequester() }
     val nameFocusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
 
         if(isSystemInDarkTheme()) {
@@ -95,6 +99,11 @@ fun SignUpScreen(
                         painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
                         contentScale = ContentScale.Crop
                     )
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onPress = {keyboardController?.hide()}
+                        )
+                    }
             ) {
                 Text(
                     text = "Sign Up",
@@ -333,7 +342,16 @@ fun SignUpScreen(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = creamWhite),
+                    .background(color = creamWhite)
+                    .paint(
+                        painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                        contentScale = ContentScale.Crop
+                    )
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onPress = {keyboardController?.hide()}
+                        )
+                    },
             ) {
                 Text(
                     text = "Sign Up",

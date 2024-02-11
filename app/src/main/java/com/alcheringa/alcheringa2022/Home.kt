@@ -940,7 +940,7 @@ class Home : Fragment() {
                     modifier = Modifier
                         .size(width = 100.dp, height = 100.dp),
                     onClick = {
-                        findNavController(this@Home)
+                        NavHostFragment.findNavController(this@Home)
                             .navigate(R.id.action_home2_to_merchFragment)
                     }
                 ) {
@@ -974,7 +974,7 @@ class Home : Fragment() {
                     onClick = {
                         loaderView.value = true
                         val argument = bundleOf("Tab" to "0")
-                        findNavController(this@Home)
+                        NavHostFragment.findNavController(this@Home)
                             .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
                         loaderView.value = false
                     }
@@ -1044,7 +1044,7 @@ class Home : Fragment() {
                     onClick = {
                         loaderView.value = true
                         val argument = bundleOf("Tab" to "2")
-                        findNavController(this@Home)
+                        NavHostFragment.findNavController(this@Home)
                             .navigate(R.id.action_home_nav_to_competitionsFragment, argument)
                         loaderView.value = false
                     }
@@ -1950,7 +1950,7 @@ class Home : Fragment() {
                                 .clickable {
                                     startActivity(
                                         Intent(Intent.ACTION_VIEW).setData(
-                                            Uri.parse("https://www.alcheringa.in")
+                                            Uri.parse("https://registration.alcheringa.in")
                                         )
                                     )
 
@@ -2083,7 +2083,7 @@ class Home : Fragment() {
                         .clickable {
                             startActivity(
                                 Intent(Intent.ACTION_VIEW).setData(
-                                    Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")
+                                    Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://card.alcheringa.in")
                                 )
                             )
 
@@ -2100,7 +2100,7 @@ class Home : Fragment() {
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "Buy Pass",
+                            text = "Get Card",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = futura,
