@@ -2,6 +2,7 @@ package com.alcheringa.alcheringa2022
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -49,6 +50,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -89,7 +91,12 @@ import com.alcheringa.alcheringa2022.ui.theme.futura
 import com.alcheringa.alcheringa2022.ui.theme.lightBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.Duration
+import java.util.Calendar
+import java.util.TimeZone
+import kotlin.properties.Delegates
 
 
 class Schedule2024 : Fragment() {
@@ -108,6 +115,10 @@ class Schedule2024 : Fragment() {
         "Grounds" to listOf("Football Field", "Basketball Courts", "Volley Ball Court")
     )
     var selectedItem = mutableStateOf("All")
+
+//    val currentHour = mutableStateOf(13)
+//    val currentMinute = mutableStateOf(30)
+    private var yOffset = mutableStateOf(0f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -169,6 +180,17 @@ class Schedule2024 : Fragment() {
     @Composable
     fun mySchedule() {
         val onbackgroundcolor = colors.onBackground
+        val lcd = LocalDensity.current
+        LaunchedEffect(true) {
+            while (true){
+                val cal = Calendar.getInstance()
+                val currentHour = cal.get(Calendar.HOUR_OF_DAY)
+                val currentMin = cal.get(Calendar.MINUTE)
+                yOffset.value = with(lcd) { ((currentHour - 8f) * 44.dp.toPx()) + (currentMin * (44.dp.toPx()/60f)) + 21.dp.toPx()}
+                Log.d("Schedule", "$currentHour : $currentMin")
+                delay(60000)
+            }
+        }
         Box(
             modifier = Modifier
                 .paint(
@@ -203,7 +225,7 @@ class Schedule2024 : Fragment() {
                             painterResource(id = R.drawable.day_number_transparent),
                             contentScale = ContentScale.FillBounds
                         )
-                        .padding(horizontal = 48.dp)
+                        .padding(horizontal = 16.dp)
                     ,
 
                     verticalAlignment = Alignment.CenterVertically,
@@ -494,52 +516,71 @@ class Schedule2024 : Fragment() {
                 }
 
 
-                Row(Modifier.fillMaxSize()) {
+                Box(
+                    Modifier.fillMaxSize()
+                ) {
+                    Row(Modifier.fillMaxSize()) {
 
-                    TimeColumn(scroll = verticalScroll)
+                        TimeColumn(scroll = verticalScroll)
 
-                    if (CheckEmptyMap(filteredList)) {
+                        if (CheckEmptyMap(filteredList)) {
 
-                        Box(
-                            modifier = Modifier
-                                .wrapContentSize()
-                                .horizontalScroll(horizontalScroll)
-                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .wrapContentSize()
+                                    .horizontalScroll(horizontalScroll)
+                            ) {
 
-                            Row(Modifier.wrapContentSize()) {
-                                selectedVenueList.forEach { venue ->
+                                Row(Modifier.wrapContentSize()) {
+                                    selectedVenueList.forEach { venue ->
 
 
-                                    if (filteredList[venue]!!.isNotEmpty()) {
-                                        VenueSchedule(
-                                            venue = venue,
-                                            scroll = verticalScroll,
-                                            filteredList[venue]!!
-                                        )
+                                        if (filteredList[venue]!!.isNotEmpty()) {
+                                            VenueSchedule(
+                                                venue = venue,
+                                                scroll = verticalScroll,
+                                                filteredList[venue]!!
+                                            )
+                                        }
+
                                     }
+
 
                                 }
 
 
                             }
-
-
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "There is no event \nat the current location",
+                                    color = colors.onBackground,
+                                    fontSize = 20.sp,
+                                    fontFamily = futura
+                                )
+                            }
                         }
                     }
-                    else{
-                        Box (
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ){
-                            Text(
-                                text = "There is no event \nat the current location",
-                                color = colors.onBackground,
-                                fontSize = 20.sp,
-                                fontFamily = futura
-                            )
-                        }
-                    }
+
+//                    Box(modifier = Modifier.fillMaxSize()) {
+//                        Canvas(
+//                            modifier = Modifier
+//                                .height(5.dp)
+////                                .verticalScroll(verticalScroll)
+//
+//
+//                        ) {
+//                            drawCircle(
+//                                color = darkTealGreen,
+//                                radius = 12f,
+//
+//                                )
+//                        }
+//                    }
                 }
 
             }
@@ -559,7 +600,11 @@ class Schedule2024 : Fragment() {
     fun TimeColumn(scroll: ScrollState){
         Box {
             val onbackgroundcolor = colors.onBackground
-            val horizontal_dash_color = if (isSystemInDarkTheme()) containerPurple else darkTealGreen
+            val horizontal_dash_color = containerPurple
+
+//            val yOffset = with(LocalDensity.current) { ((currentHour.value - 8f) * 44.dp.toPx()) + (currentMinute.value * (44.dp.toPx()/60f)) + 21.dp.toPx()}
+//            + (currentMinute.value * (44f/60f))
+
             Canvas(
                 modifier = Modifier
                     .width(72.dp)
@@ -572,6 +617,8 @@ class Schedule2024 : Fragment() {
                     strokeWidth = 1.dp.toPx()
                 )
             }
+
+
             Column(
                 modifier = Modifier
                     .width(72.dp)
@@ -579,6 +626,10 @@ class Schedule2024 : Fragment() {
                     .wrapContentHeight()
                     .padding(start = 10.dp)
             ) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Divider(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.5.dp), color = Color.Transparent)
                 Text(
                     text = "",
                     fontSize = 18.sp,
@@ -586,54 +637,13 @@ class Schedule2024 : Fragment() {
                     fontWeight = FontWeight.Medium,
                     color = Color.Transparent
                 )
-                Row(
-                    Modifier
-                        .height(45.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "",
-                        fontSize = 16.sp,
-                        fontFamily = futura,
-                        color = Color.Transparent
-                    )
-                }
+                Spacer(modifier = Modifier.height(10.dp))
+
 
                 Box(
                     Modifier
                         .fillMaxSize()
                 ) {
-                    Box {
-                        Column(
-                            Modifier.fillMaxSize()
-                        ) {
-                            for (time in 7..20) {
-                                Row(
-                                    Modifier
-                                        .height(44.dp)
-                                        .fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-
-                                    Canvas(
-                                        modifier = Modifier
-                                            .height(5.dp)
-                                            .fillMaxWidth()
-
-                                    ) {
-                                        drawLine(
-                                            color = horizontal_dash_color,
-                                            start = Offset(size.width - 24f, 0f),
-                                            end = Offset(size.width, 0f),
-                                            strokeWidth = 1.dp.toPx()
-                                        )
-                                    }
-
-                                }
-                            }
-                        }
-                    }
                     Box(
                         Modifier.fillMaxSize()
                     ) {
@@ -690,6 +700,25 @@ class Schedule2024 : Fragment() {
                             }
                         }
                     }
+
+                    if(Calendar.HOUR_OF_DAY >= 8 && Calendar.HOUR_OF_DAY <= 21){
+                        Canvas(
+                            modifier = Modifier
+                                .fillMaxSize()
+
+
+                        ) {
+                            drawCircle(
+                                color = darkTealGreen,
+                                radius = 18f,
+                                center = Offset(size.width, yOffset.value)
+                            )
+                        }
+                    }
+
+
+
+
                 }
 
 
@@ -698,7 +727,20 @@ class Schedule2024 : Fragment() {
     }
     @Composable
     fun VenueSchedule(venue: String, scroll: ScrollState, eventList: List<eventWithLive>){
-        val horizontal_dash_color = if (isSystemInDarkTheme()) containerPurple else darkTealGreen
+        val horizontal_dash_color = containerPurple
+//        val yOffset = with(LocalDensity.current) { ((currentHour.value - 8f) * 44.dp.toPx()) + (currentMinute.value * (44.dp.toPx()/60f)) + 21.dp.toPx()}
+//
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+        ){
+            drawLine(
+                color = horizontal_dash_color,
+                start = Offset(size.width, 0f),
+                end = Offset(size.width, size.height),
+                strokeWidth = 1.5.dp.toPx()
+            )
+        }
 
         Box (
             modifier = Modifier
@@ -711,6 +753,7 @@ class Schedule2024 : Fragment() {
                     .width(208.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = venue,
                     fontSize = 18.sp,
@@ -718,6 +761,10 @@ class Schedule2024 : Fragment() {
                     color = colors.onBackground,
                     fontWeight = FontWeight.Medium
                 )
+                Spacer(modifier = Modifier.height(8.dp))
+                Divider(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.5.dp), color = horizontal_dash_color)
 
                 Box(
                     Modifier
@@ -731,7 +778,7 @@ class Schedule2024 : Fragment() {
                         Column(
                             Modifier.fillMaxSize()
                         ) {
-                            for (time in 6..20) {
+                            for (time in 7..20) {
                                 Row(
                                     Modifier
                                         .height(44.dp)
@@ -765,7 +812,7 @@ class Schedule2024 : Fragment() {
                         val xdisinpxcald = with(LocalDensity.current) { (xdis + 41).dp.toPx() }
 
 
-                        val yOffset = ((event.eventdetail.starttime.hours - 8) * 44) + 21
+//                        val yOffset = ((event.eventdetail.starttime.hours - 8) * 44) + 21
                         val height = (event.eventdetail.durationInMin / 60) * 44.2
                         Box(
                             Modifier
@@ -831,20 +878,32 @@ class Schedule2024 : Fragment() {
                             )
                         }
                     }
+
+                    if(Calendar.HOUR_OF_DAY >= 8 && Calendar.HOUR_OF_DAY <= 21){
+                        Canvas(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .fillMaxWidth()
+
+                        ) {
+
+                            drawLine(
+                                color = darkTealGreen,
+                                start = Offset(0f, yOffset.value),
+                                end = Offset(size.width, yOffset.value),
+                                strokeWidth = 2.5.dp.toPx()
+                            )
+//                            drawCircle(
+//                                color = darkTealGreen,
+//                                radius = 18f,
+//                                center = Offset(0f, yOffset.value)
+//                            )
+                        }
+                    }
                 }
             }
         }
-        Canvas(
-            modifier = Modifier
-                .fillMaxSize()
-        ){
-            drawLine(
-                color = horizontal_dash_color,
-                start = Offset(size.width, 0f),
-                end = Offset(size.width, size.height),
-                strokeWidth = 1.dp.toPx()
-            )
-        }
+
     }
 
     fun FilterVenueEvents(venue: String, selectedDayEvents: List<eventWithLive>) : List<eventWithLive>{

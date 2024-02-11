@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavHostFragment navHostFragment =
                  (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         NavController = navHostFragment.getNavController();
+
          NavController.setGraph(R.navigation.my_nav);
         NavigationUI.setupWithNavController(bottomNavigationView,NavController);
          NavController.addOnDestinationChangedListener((controller, destination, arguments) -> bottomNavigationView.onItemSelected(destination.getId(),true));

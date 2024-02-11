@@ -940,8 +940,13 @@ class Home : Fragment() {
                     modifier = Modifier
                         .size(width = 100.dp, height = 100.dp),
                     onClick = {
-                        NavHostFragment.findNavController(this@Home)
-                            .navigate(R.id.action_home2_to_merchFragment)
+//                        findNavController(this@Home)
+//                            .navigate(R.id.action_home2_to_merchFragment)
+                        val navView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView) as ShadowIndicatorBottomNavigationView
+//                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?
+                        navView.onItemSelected(R.id.merch)
+                        navView.selectedItemId = R.id.merch
+
                     }
                 ) {
                     Box() {
@@ -2692,10 +2697,15 @@ class Home : Fragment() {
                 ) {
                     Box(modifier = Modifier
                         .clickable {
-                            val arguments = bundleOf("merchId" to merch.size - page - 1)
-                            NavHostFragment
-                                .findNavController(this@Home)
-                                .navigate(R.id.action_home2_to_merchFragment, arguments)
+                            val navView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView) as ShadowIndicatorBottomNavigationView
+//                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?
+                            navView.onItemSelected(R.id.merch)
+                            navView.selectedItemId = R.id.merch
+
+//                            val arguments = bundleOf("merchId" to merch.size - page - 1)
+//                            NavHostFragment
+//                                .findNavController(this@Home)
+//                                .navigate(R.id.action_home2_to_merchFragment, arguments)
 
                             //                fm.beginTransaction()
                             //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)
