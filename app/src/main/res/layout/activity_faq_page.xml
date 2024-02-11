@@ -36,10 +36,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
+            android:fontFamily="@font/futuraptdemi"
             android:text="FAQs"
-            android:fontFamily="@font/clash_display_700"
             android:textColor="@color/lighterPurple"
-            android:textSize="36sp"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn"
             app:layout_constraintTop_toTopOf="parent" />

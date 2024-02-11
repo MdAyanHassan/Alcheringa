@@ -17,19 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.alcheringa.alcheringa2022.TextViewOutline
-            android:id="@+id/logoAlcher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/clash_display_700"
-            android:padding="10dp"
-            android:text="A"
-            android:textColor="@color/lighterPurple"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
         <!--        <ImageView-->
         <!--            android:id="@+id/logoAlcher"-->
         <!--            android:src="@drawable/alcheringa"-->
@@ -40,6 +27,20 @@
         <!--            app:layout_constraintTop_toTopOf="parent"-->
         <!--            app:layout_constraintStart_toStartOf="parent"-->
         <!--             />-->
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/futuraptdemi"
+            android:padding="10dp"
+            android:text="Map"
+            android:textColor="@color/lighterPurple"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/search"

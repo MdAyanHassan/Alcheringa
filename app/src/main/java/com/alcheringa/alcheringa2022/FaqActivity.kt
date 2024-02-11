@@ -77,11 +77,11 @@ class FaqActivity: AppCompatActivity() {
                             )
                         }
                         Text(
-                            text = "Profile",
+                            text = "FAQs",
                             fontFamily = futura,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 22.sp,
-                            color = containerPurple
+                            color = lighterPurple
                         )
                     }
 
@@ -95,7 +95,7 @@ class FaqActivity: AppCompatActivity() {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(horizontal = 30.dp)
+                            .padding(horizontal = 20.dp)
                             .paint(
                                 painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
                                 contentScale = ContentScale.Crop

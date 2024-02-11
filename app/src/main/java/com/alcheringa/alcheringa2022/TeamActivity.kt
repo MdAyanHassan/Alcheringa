@@ -185,6 +185,7 @@ class TeamActivity: AppCompatActivity() {
                             }
                             items(devteam.size) {
                                 TeamCard(
+
                                     imgInt = devteam[it].imgdrw,
                                     name = devteam[it].name,
                                     position = devteam[it].pos,
