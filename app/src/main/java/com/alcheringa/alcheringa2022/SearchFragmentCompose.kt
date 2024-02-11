@@ -13,6 +13,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -48,6 +49,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -177,6 +179,7 @@ class SearchFragment : Fragment() {
         )
         val focusRequester = remember { FocusRequester() }
 
+
         Alcheringa2022Theme {
             Column(
                 modifier = Modifier
@@ -184,7 +187,15 @@ class SearchFragment : Fragment() {
                     .paint(
                         painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
                         contentScale = ContentScale.Crop
-                    ),
+                    )
+                    .pointerInput(Unit) {
+                                        detectTapGestures(
+                                            onPress = {
+                                                keyboardController?.hide()
+                                            }
+                                        )
+                    }
+                ,
             ) {
 
                 LaunchedEffect(Unit) {
@@ -197,7 +208,7 @@ class SearchFragment : Fragment() {
                     .fillMaxWidth()
                     .background(colors.background)
                     .padding(horizontal = 24.dp)) {
-                    val id = if(isSystemInDarkTheme()) {R.drawable.vector_26} else { R.drawable.vector_26__2_}
+                    val id = if(isSystemInDarkTheme()) {R.drawable.vector_26__3_} else { R.drawable.vector_26__4_}
 
                     Image(
                         painter = painterResource(id = id),

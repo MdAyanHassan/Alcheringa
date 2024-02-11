@@ -157,35 +157,34 @@ class CartActivity : AppCompatActivity() {
 
                 // .background()
             ) {
-                Box(
+                Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.08f)
-                        .background(surfaceCol)
-
-                )
-                {
-                    Row() {
-                        val gradientBrush = Brush.verticalGradient(
-                            colors = listOf( lighterPurple,darkerPurple),
-                            startY = 0f, // Starting from the top
-                            endY = 100f // Ending at the bottom
-                        )
-                        Image(painterResource(id = R.drawable.cart_arrow),
-                            contentDescription = "cart_arrow",
+                        .background(colors.background)
+                        .height(65.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(modifier = Modifier) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.cart_arrow),
+                            contentDescription = null,
+                            tint = lighterPurple,
                             modifier = Modifier
-                                .clickable { finish() }
-                                .padding(start = 25.dp, top = 24.dp, bottom = 20.dp, end = 7.dp)
-                                .size(22.dp))
-                        Text(
-                            "Cart",
-                            modifier = Modifier.padding(top = 20.dp, bottom = 20.dp, start = 8.dp),
-                            color = lighterPurple,
-                            fontFamily = futura,
-                            fontSize = 22.sp,
-                            )
 
+                                .padding(start = 10.dp, end = 10.dp)
+                                .clickable {
+                                    finish()
+                                }
+                                .padding(10.dp)
+                        )
                     }
+                    Text(
+                        text = "Cart",
+                        fontFamily = futura,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 22.sp,
+                        color = containerPurple
+                    )
                 }
                 LaunchedEffect(cartModelItems, Unit) {
                     Log.d("MainActivity", "launched")

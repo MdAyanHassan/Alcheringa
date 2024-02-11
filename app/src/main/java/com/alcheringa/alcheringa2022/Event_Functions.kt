@@ -421,7 +421,7 @@ fun Event_card_Scaffold(
                         Column(
                             Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 8.dp, vertical = 8.dp)
+                                .padding(horizontal = 16.dp, vertical = 12.dp)
                         ) {
                             MarqueeText(
                                 text = eventdetail.eventdetail.artist,
@@ -430,7 +430,7 @@ fun Event_card_Scaffold(
                                 fontFamily = futura,
                                 gradientEdgeColor = Color.Transparent
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(4.dp))
                             //                        Text(text = eventdetail.eventdetail.category, style = TextStyle(color = Color.Black,fontFamily = clash,fontWeight = FontWeight.W600,fontSize = 14.sp))
                             //                            Text(text = "Time  |   Loc", style = TextStyle(color = Color.Black,fontFamily = aileron,fontWeight = FontWeight.Normal,fontSize = 12.sp))
 

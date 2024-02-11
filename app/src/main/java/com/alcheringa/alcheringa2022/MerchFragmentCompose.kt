@@ -589,7 +589,7 @@ class MerchFragmentCompose : Fragment() {
 //                                        .fillMaxHeight(0.8f)
 
 
-                                        .padding(top = 200.dp)
+                                        .padding(top = 120.dp)
 //                                        .paint(
 //                                            painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
 //                                            contentScale = ContentScale.Crop
@@ -620,16 +620,18 @@ class MerchFragmentCompose : Fragment() {
                                                     modifier = Modifier
                                                         .align(Alignment.TopCenter)
                                                         .fillMaxWidth()
-                                                        .height(290.dp),
+                                                        .height(220.dp),
                                                     contentScale = ContentScale.Crop
 
                                                 )
+
+                                            Spacer(modifier = Modifier.height(8.dp))
                                                 Column(
                                                     Modifier
                                                         .fillMaxWidth()
                                                         .padding(
                                                             bottom = 40.dp,
-                                                            top = 200.dp
+                                                            top = 230.dp
                                                         ),
                                                 )
                                                 {
@@ -1292,7 +1294,7 @@ class MerchFragmentCompose : Fragment() {
                                     Modifier
                                         .fillMaxWidth()
                                         .fillMaxHeight()
-                                        .padding(vertical = 32.dp),
+                                        .padding(vertical = 20.dp),
                                     Alignment.TopCenter
                                 ) {
                                     horizontalpager(
@@ -1324,11 +1326,11 @@ class MerchFragmentCompose : Fragment() {
                 )) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
-                        verticalArrangement = Arrangement.spacedBy(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        //verticalArrangement = Arrangement.spacedBy(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
                         item(span = {GridItemSpan(2)}) {
-                            Spacer(modifier = Modifier.height(5.dp))
+
                         }
                         items(homeViewModel.merchMerch.size){i ->
                             newMerchGridItem(
@@ -1431,7 +1433,7 @@ class MerchFragmentCompose : Fragment() {
                 count = images.size + isVideo,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(320.dp),
+                    .height(300.dp),
                 state = pagerState,
                 contentPadding = PaddingValues(horizontal = 28.dp)
             ){ page ->

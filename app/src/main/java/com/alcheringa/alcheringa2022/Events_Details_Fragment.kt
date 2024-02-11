@@ -503,7 +503,7 @@ class Events_Details_Fragment : Fragment() {
                                     shape = RoundedCornerShape(5.dp)
                                 )
                                 .clickable {
-                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.alcheringa.in")))
+                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://registration.alcheringa.in")))
                                 }
 
 
@@ -633,7 +633,7 @@ class Events_Details_Fragment : Fragment() {
                             .clickable {
                                 startActivity(
                                     Intent(Intent.ACTION_VIEW).setData(
-                                        Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://www.alcheringa.in")
+                                        Uri.parse(/*eventWithLive.eventdetail.reglink*/"https://card.alcheringa.in")
                                     )
                                 )
 
@@ -650,7 +650,7 @@ class Events_Details_Fragment : Fragment() {
                             horizontalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                text = "Buy Pass",
+                                text = "Get Card",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 fontFamily = futura,
