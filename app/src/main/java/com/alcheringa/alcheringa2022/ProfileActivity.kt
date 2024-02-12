@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.animation.core.animateFloatAsState
@@ -499,62 +500,65 @@ class ProfileActivity: AppCompatActivity() {
         val anchors = mapOf(0f to 0, sizePx to 1) // Maps anchor points (in px) to states
 
 
-        Box (
-            modifier = Modifier
-                .background(colors.onBackground, RoundedCornerShape(20.dp))
-                .width(width)
-                .height(height)
-                .border(1.dp, colors.onBackground, RoundedCornerShape(20.dp))
-                .clip(RoundedCornerShape(20.dp))
-                .clickable {
-                    switchON.value = !switchON.value
-                    changetheme(context)
-                }
-        ){
+
+        AnimatedContent(targetState = switchON, label = "Theme switch") { switch ->
             Box(
                 modifier = Modifier
-                    .align(
-                        if (switchON.value){
-                            Alignment.CenterStart
-                        }else{
-                            Alignment.CenterEnd
-                        }
-                    )
-                    .background(colors.background, RoundedCornerShape(20.dp))
-                    .width(75.dp)
+                    .background(colors.onBackground, RoundedCornerShape(20.dp))
+                    .width(width)
                     .height(height)
                     .border(1.dp, colors.onBackground, RoundedCornerShape(20.dp))
                     .clip(RoundedCornerShape(20.dp))
                     .clickable {
-                        switchON.value = !switchON.value
+                        switch.value = !switch.value
                         changetheme(context)
                     }
-            )
+            ) {
+                Box(
+                    modifier = Modifier
+                        .align(
+                            if (switch.value) {
+                                Alignment.CenterStart
+                            } else {
+                                Alignment.CenterEnd
+                            }
+                        )
+                        .background(colors.background, RoundedCornerShape(20.dp))
+                        .width(75.dp)
+                        .height(height)
+                        .border(1.dp, colors.onBackground, RoundedCornerShape(20.dp))
+                        .clip(RoundedCornerShape(20.dp))
+                        .clickable {
+                            switch.value = !switch.value
+                            changetheme(context)
+                        }
+                )
 
-            Text(
-                text = "Dark",
-                fontSize = 18.sp,
-                fontFamily = futura,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Medium,
-                color = lightBar,
-                modifier = Modifier
-                    .padding(start = 20.dp)
-                    .align(Alignment.CenterStart)
-            )
-            Text(
-                text = "Light",
-                fontSize = 18.sp,
-                fontFamily = futura,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Medium,
-                color = darkBar,
-                modifier = Modifier
-                    .padding(end = 20.dp)
-                    .align(Alignment.CenterEnd)
-            )
+                Text(
+                    text = "Dark",
+                    fontSize = 18.sp,
+                    fontFamily = futura,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontWeight = FontWeight.Medium,
+                    color = lightBar,
+                    modifier = Modifier
+                        .padding(start = 20.dp)
+                        .align(Alignment.CenterStart)
+                )
+                Text(
+                    text = "Light",
+                    fontSize = 18.sp,
+                    fontFamily = futura,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontWeight = FontWeight.Medium,
+                    color = darkBar,
+                    modifier = Modifier
+                        .padding(end = 20.dp)
+                        .align(Alignment.CenterEnd)
+                )
+            }
         }
 
 //        Canvas(

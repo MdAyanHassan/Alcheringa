@@ -669,7 +669,7 @@ class Events : Fragment() {
                         ),
                         icon = bitmapDescriptor(
                             requireContext(),
-                            if (isSystemInDarkTheme()) R.drawable.darkmapmarker else R.drawable.lightmapmarker
+                            R.drawable.mapmarker
                         ),
                         title = v.name,
                         snippet = v.des,

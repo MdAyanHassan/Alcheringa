@@ -128,7 +128,7 @@ fun FeaturedEventCard(event: eventWithLive, modifier: Modifier){
                     contentDescription = "artist",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(1.14f),
+                        .aspectRatio(1.02f),
                     alignment = Alignment.Center,
                     contentScale = ContentScale.Crop,
                     shimmerParams = ShimmerParams(

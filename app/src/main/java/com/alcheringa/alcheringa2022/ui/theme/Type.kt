@@ -46,6 +46,9 @@ val futura= FontFamily(
         Font(R.font.futuraptmedium, FontWeight.Medium),
         Font(R.font.futuraptdemi, FontWeight.SemiBold)
 )
+val vacation= FontFamily(
+        Font(R.font.vacationheavy),
+)
 
 
 // Set of Material typography styles to start with

@@ -1893,7 +1893,7 @@ class Home : Fragment() {
 
                 Row(
                     horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
                 ) {
                     if (v != null) {
 
@@ -1942,7 +1942,7 @@ class Home : Fragment() {
                         }*/
                         Box(
                             modifier = Modifier
-                                .height(50.dp)
+                                .height(50.dp).weight(1f)
                                 .border(
                                     1.dp,
                                     colors.onBackground,
@@ -2003,7 +2003,7 @@ class Home : Fragment() {
 
                         Box(
                             modifier = Modifier
-                                .height(50.dp)
+                                .height(50.dp).weight(1f)
                                 .border(
                                     1.dp,
                                     colors.onBackground,
@@ -2072,10 +2072,10 @@ class Home : Fragment() {
 
             }
         } else {
-            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth().padding(16.dp)) {
                 Box(
                     modifier = Modifier
-                        .height(50.dp)
+                        .height(50.dp).weight(1f)
                         .border(
                             1.dp,
                             colors.onBackground,
@@ -2139,7 +2139,7 @@ class Home : Fragment() {
                     Spacer(modifier = Modifier.width(30.dp))
                     Box(
                         modifier = Modifier
-                            .height(50.dp)
+                            .height(50.dp).weight(1f)
                             .border(
                                 1.dp,
                                 colors.onBackground,
@@ -2457,10 +2457,12 @@ class Home : Fragment() {
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
                     )
                     {
                         Image(
@@ -2473,18 +2475,30 @@ class Home : Fragment() {
 
 
                             alignment = Alignment.Center,
-                            contentScale = ContentScale.Crop,
+                            contentScale = ContentScale.Fit,
                             colorFilter = ColorFilter.tint(colors.onBackground),
+                            modifier = Modifier.size(22.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(
+//                        Text(
+//                            text = eventWithLive.eventdetail.venue,
+//                            style = TextStyle(
+//                                color = colors.onBackground,
+//                                fontFamily = futura,
+//                                fontWeight = FontWeight.Medium,
+//                                fontSize = 25.sp
+//                            )
+//                        )
+
+                        MarqueeText(
                             text = eventWithLive.eventdetail.venue,
                             style = TextStyle(
                                 color = colors.onBackground,
                                 fontFamily = futura,
                                 fontWeight = FontWeight.Medium,
                                 fontSize = 25.sp
-                            )
+                            ),
+                            gradientEdgeColor = Color.Transparent
                         )
                     }
 
@@ -2492,7 +2506,8 @@ class Home : Fragment() {
 
                     Row(
                         horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(0.8f)
                     )
                     {
                         Image(
@@ -2514,7 +2529,7 @@ class Home : Fragment() {
                             //colorFilter = ColorFilter.tint(colors.onBackground)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(
+                        MarqueeText(
                             text = if (eventWithLive.isLive.value) {
                                 "Live"
                             } else {
@@ -2529,7 +2544,8 @@ class Home : Fragment() {
                                 fontFamily = futura,
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 18.sp
-                            )
+                            ),
+                            gradientEdgeColor = Color.Transparent
                         )
                     }
                 }

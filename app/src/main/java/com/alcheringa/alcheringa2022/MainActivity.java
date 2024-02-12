@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     int version_info=Integer.parseInt(documentSnapshot.getString("version"));
                     //Toast.makeText(MainActivity.this, "equals"+versionCode, Toast.LENGTH_SHORT).show();
                     if(version_info>versionCode){
-                        //ShowDialog();
+                        ShowDialog();
                     }
                 }
                 else{
@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 // A null listener allows the button to dismiss the dialog and take no further action.
                 //.setIcon(android.R.drawable.ic_dialog_alert)
+
                 .show();
     }
 

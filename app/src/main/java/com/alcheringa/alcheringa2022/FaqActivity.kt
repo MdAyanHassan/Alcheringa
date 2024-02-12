@@ -55,7 +55,7 @@ class FaqActivity: AppCompatActivity() {
                 val quesAns = mapOf<String, String>(
                     "How can I buy merch?" to "You can buy the exclusive Alcheringa merch by using the Alcheringa mobile app. Just go to the 'shop' page, where you will find all the available merchandise. Select the merch of your choice and order!",
                     "Will the merch be delivered home ?" to "Yes! Your ordered merch will be shipped to the shipping address that you register while ordering them.",
-                    "How can I buy Alcher cards?" to "Head over to the events section of the App and click on get card to purchase your Alcher cards for yourself and your friends.",
+                    "How can I get Alcher cards?" to "Head over to the events section of the App and click on get card to get your Alcher cards for yourself and your friends.",
                     "How can I register for competitions?" to "Head over to the Competitions tab, choose the competition of your choice, get yourself registered and bring your game to Alcheringa 24’s exciting range of competitions.",
                     "How can I attend offline Alcheringa events?" to "You purchase Alcher cards through which you can avail a legion of benefits like Free access to pronites, discounts on merchandise and many more benefits awaiting in campus.",
                     "Where can I find the event schedule and lineup?" to "The event schedule for Alcheringa 2024 events can be found on the app under the Schedule tab.",
