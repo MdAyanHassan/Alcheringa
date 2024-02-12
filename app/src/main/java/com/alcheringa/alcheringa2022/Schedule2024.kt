@@ -110,9 +110,16 @@ class Schedule2024 : Fragment() {
     private var selectedDayEvents = datestate0
     private var datestate = mutableStateOf<Int>(0)
     private var itemListMap = mapOf(
-        "All" to listOf(),
-        "Lecture Halls" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4"),
-        "Grounds" to listOf("Football Field", "Basketball Courts", "Volley Ball Court")
+        "Lecture Halls" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5"),
+        "Grounds" to listOf("Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field"),
+        "Library Area" to listOf("Library","Library Shed","Library Basement"),
+        "Admin Area" to listOf("Senate Hall","Rocko Stage","Expo Stage"),
+        "Auditorium" to listOf("Mini Auditorium","Auditorium","Audi Park"),
+        "Conference Hall" to listOf("Conference Hall 1","Conference Hall 2","Conference Hall 3","Conference Hall 4"),
+        "Old Sac" to listOf("Front of Graffiti Wall","Behind Graffiti Wall","Old Sac Wall"),
+        "All" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5",
+            "Front of Graffiti Wall","Behind Graffiti Wall","Old Sac Wall","Conference Hall 1","Conference Hall 2","Conference Hall 3","Conference Hall 4","Mini Auditorium","Auditorium","Audi Park","Senate Hall"
+            ,"Library","Library Shed","Library Basement","Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field")
     )
     var selectedItem = mutableStateOf("All")
 
@@ -731,7 +738,7 @@ class Schedule2024 : Fragment() {
     fun VenueSchedule(venue: String, scroll: ScrollState, eventList: List<eventWithLive>){
         val horizontal_dash_color = containerPurple
 //        val yOffset = with(LocalDensity.current) { ((currentHour.value - 8f) * 44.dp.toPx()) + (currentMinute.value * (44.dp.toPx()/60f)) + 21.dp.toPx()}
-//
+        val cal = Calendar.getInstance()
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
@@ -881,7 +888,7 @@ class Schedule2024 : Fragment() {
                         }
                     }
 
-                    if(Calendar.HOUR_OF_DAY >= 8 && Calendar.HOUR_OF_DAY <= 21){
+                    if(cal.get(Calendar.HOUR_OF_DAY) in 8..21){
                         Canvas(
                             modifier = Modifier
                                 .fillMaxHeight()
@@ -904,6 +911,17 @@ class Schedule2024 : Fragment() {
                     }
                 }
             }
+        }
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+        ){
+            drawLine(
+                color = horizontal_dash_color,
+                start = Offset(size.width, 0f),
+                end = Offset(size.width, size.height),
+                strokeWidth = 1.5.dp.toPx()
+            )
         }
 
     }

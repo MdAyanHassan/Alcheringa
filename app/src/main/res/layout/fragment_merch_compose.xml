@@ -32,12 +32,13 @@
         app:layout_constraintVertical_bias="0">
 
         <TextView
-
+            android:id="@+id/comp"
+            style="@style/headerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+
+            android:layout_marginStart="20dp"
             android:fontFamily="@font/futuraptdemi"
-            android:padding="10dp"
             android:text="Merch"
             android:textColor="@color/lighterPurple"
             android:textSize="30sp"
@@ -90,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/cart2"
             app:layout_constraintStart_toStartOf="@+id/cart2"
             tools:text="9"

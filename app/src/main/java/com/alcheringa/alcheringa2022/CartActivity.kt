@@ -159,12 +159,12 @@ class CartActivity : AppCompatActivity() {
             ) {
                 Row(
                     modifier = Modifier
-                        .background(colors.background)
+                        .background(if(isSystemInDarkTheme()) darkBar else lightBar)
                         .height(65.dp)
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Box(modifier = Modifier) {
+                    Box() {
                         Icon(
                             painter = painterResource(id = R.drawable.cart_arrow),
                             contentDescription = null,
@@ -245,7 +245,7 @@ class CartActivity : AppCompatActivity() {
                                     .height(210.dp)
                                     .border(
                                         1.dp,
-                                       fontCol,
+                                        fontCol,
                                         RoundedCornerShape(8.dp, 8.dp, 8.dp, 8.dp)
                                     ),
 
@@ -499,13 +499,12 @@ class CartActivity : AppCompatActivity() {
                                     .fillMaxHeight()
                                     .border(
                                         1.dp,
-                                       fontCol,
+                                        fontCol,
                                         RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp)
                                     )
                                     .background(
                                         color =
-                                      surfaceCol
-                                        ,
+                                        surfaceCol,
                                         shape = RoundedCornerShape(
                                             topStart = 8.dp,
                                             bottomStart = 8.dp

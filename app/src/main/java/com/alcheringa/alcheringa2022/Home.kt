@@ -138,6 +138,9 @@ class Home : Fragment() {
         if (homeViewModel.merchMerch.isEmpty()) {
             homeViewModel.getMerchMerch()
         }
+        if (homeViewModel.informalList.isEmpty()) {
+            homeViewModel.getInformals()
+        }
 //        Log.d("vipin",eventslist.toString());
 //        homeViewModel.pushEvents(homeViewModel.AllEvents)
 
