@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontVariation.weight
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -296,7 +297,7 @@ class Events : Fragment() {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .aspectRatio(5.71f)
+                            .height(IntrinsicSize.Min)
                             .padding(horizontal = 28.dp, vertical = 18.dp)
                             .clickable {
                                 val venue = venueslist.filter {
@@ -324,7 +325,8 @@ class Events : Fragment() {
                                 fontSize = 22.sp,
                                 fontWeight = FontWeight.Normal,
                                 fontFamily = futura,
-                                color = Color.White
+                                color = Color.White,
+                                modifier=Modifier
                             )
                             Divider(
                                 modifier = Modifier

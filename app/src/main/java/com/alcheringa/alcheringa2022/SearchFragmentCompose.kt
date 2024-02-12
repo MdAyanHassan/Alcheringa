@@ -224,9 +224,18 @@ class SearchFragment : Fragment() {
                     TextField(
                         value = searchtext.value,
                         onValueChange = { v: String -> searchtext.value = v ; filterlist()},
-                        placeholder = { Text("Search for events, competitions, etc " , modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(3f) , fontSize = 14.sp , color = colors.onBackground)},
+                        placeholder = {
+//
+                            MarqueeText(
+                                text ="Search for events, competitions, etc ",
+                                color = MaterialTheme.colors.onBackground,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Normal,
+                                fontFamily = futura,
+                                gradientEdgeColor = Color.Transparent
+                            )
+
+                                      },
                         trailingIcon = {
 
                             Box(modifier = Modifier
@@ -269,7 +278,7 @@ class SearchFragment : Fragment() {
                                 shape = RoundedCornerShape(2.dp)
                             )
                             .padding(16.dp)
-                            .height(50.dp)
+                            .wrapContentHeight()
                             .weight(3f)
 
                             .border(1.dp, colors.onBackground, RoundedCornerShape(2.dp))
