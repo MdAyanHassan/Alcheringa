@@ -483,13 +483,13 @@ class Events_Details_Fragment : Fragment() {
                     }
                 }
 
-                Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
+                Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
                     if(v != null) {
 
 
                         Box(
                             modifier = Modifier
-                                .height(50.dp)
+                                .height(50.dp).weight(1f)
                                 .border(
                                     1.dp,
                                     colors.onBackground,
@@ -544,7 +544,7 @@ class Events_Details_Fragment : Fragment() {
 
                         Box(
                             modifier = Modifier
-                                .height(50.dp)
+                                .height(50.dp).weight(1f)
                                 .border(
                                     1.dp,
                                     colors.onBackground,
@@ -613,11 +613,11 @@ class Events_Details_Fragment : Fragment() {
         }
         else
         {
-            Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth()) {
+            Row(horizontalArrangement = Arrangement.Center , modifier = Modifier.fillMaxWidth().padding(16.dp)) {
 
                     Box(
                         modifier = Modifier
-                            .height(50.dp)
+                            .height(50.dp).weight(1f)
                             .border(
                                 1.dp,
                                 colors.onBackground,
@@ -681,7 +681,7 @@ class Events_Details_Fragment : Fragment() {
                     Spacer(modifier = Modifier.width(30.dp))
                     Box(
                         modifier = Modifier
-                            .height(50.dp)
+                            .height(50.dp).weight(1f)
                             .border(
                                 1.dp,
                                 colors.onBackground,
@@ -993,9 +993,11 @@ class Events_Details_Fragment : Fragment() {
 //            }
             if(eventWithLive.eventdetail.venue != ""){
 
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween , verticalAlignment = Alignment.CenterVertically) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically)
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
+                    )
                     {
                         Image(
                             painter = if(isSystemInDarkTheme()) {
@@ -1005,18 +1007,21 @@ class Events_Details_Fragment : Fragment() {
 
 
                             alignment = Alignment.Center,
-                            contentScale = ContentScale.Crop,
+                            contentScale = ContentScale.Fit,
                             colorFilter = ColorFilter.tint(colors.onBackground),
+                            modifier = Modifier.size(22.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(
+                        MarqueeText(
                             text = eventWithLive.eventdetail.venue,
                             style = TextStyle(
                                 color = colors.onBackground,
                                 fontFamily = futura,
                                 fontWeight = FontWeight.Medium,
                                 fontSize = 25.sp
-                            )
+                            ),
+                            gradientEdgeColor = Color.Transparent,
+                            softWrap = false
                         )
                     }
 
@@ -1024,7 +1029,8 @@ class Events_Details_Fragment : Fragment() {
 
                     Row(
                         horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(0.8f)
                     )
                     {
                         Image(
@@ -1040,7 +1046,7 @@ class Events_Details_Fragment : Fragment() {
                             //colorFilter = ColorFilter.tint(colors.onBackground)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(
+                        MarqueeText(
                             text = if(eventWithLive.isLive.value){"Live"} else {"${eventWithLive.eventdetail.starttime.date} Feb, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} "},
                             style = TextStyle(
                                 color = if(eventWithLive.isLive.value) {
@@ -1048,7 +1054,8 @@ class Events_Details_Fragment : Fragment() {
                                 fontFamily = futura,
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 18.sp
-                            )
+                            ),
+                            gradientEdgeColor = Color.Transparent
                         )
                     }
                 }
