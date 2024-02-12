@@ -2,19 +2,19 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    app:cardCornerRadius="37dp"
-    android:layout_marginBottom="10dp"
     android:id="@+id/merch_cart"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="37dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bg_card"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="140dp"
         android:background="@drawable/card_item_border"
         android:paddingHorizontal="20dp"
-        android:paddingVertical="24dp" >
+        android:paddingVertical="24dp">
 
         <ImageView
             android:id="@+id/merch_image"
@@ -35,12 +35,12 @@
 
             <TextView
                 android:id="@+id/name"
+                style="@style/primaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/aileron_semibold"
-                android:text="Lightning"
-                style="@style/primaryText"
                 android:singleLine="true"
+                android:text="Lightning"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -63,25 +63,25 @@
 
         <TextView
             android:id="@+id/price"
+            style="@style/primaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="₹ 799."
             android:fontFamily="@font/aileron_bold"
-            style="@style/primaryText"
+            android:text="₹ 799."
             android:textFontWeight="500"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1"
             app:layout_constraintLeft_toRightOf="@id/merch_dets"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@id/decimal_price" />
 
         <TextView
             android:id="@+id/decimal_price"
+            style="@style/primaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00"
             android:fontFamily="@font/aileron_bold"
-            style="@style/primaryText"
+            android:text="00"
             android:textFontWeight="500"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"

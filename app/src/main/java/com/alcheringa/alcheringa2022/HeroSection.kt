@@ -1,5 +1,6 @@
 package com.alcheringa.alcheringa2022
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -86,7 +87,7 @@ fun HeroSection(eventsList: List<eventWithLive>, onCardClick: (artist: String) -
 
                     .graphicsLayer {
                         rotationZ = if( pagerState.offsetForPage(page_index) > 0) pagerState.offsetForPage(page_index) * 2 else 0f
-                        translationX = if( pagerState.offsetForPage(page_index) > 0) (pagerState.offsetForPage(page_index)) * -(screenWidth.toPx()/2 - 50) else (pagerState.offsetForPage(page_index)) * (screenWidth.toPx()/2)
+                        translationX = if( pagerState.offsetForPage(page_index) > 0) (pagerState.offsetForPage(page_index)) * -(screenWidth.toPx()/2 - 50) - (screenWidth.toPx()/20) else (pagerState.offsetForPage(page_index)) * (screenWidth.toPx()/2) - (screenWidth.toPx()/20)
                         translationY = if( pagerState.offsetForPage(page_index) > 0) abs(pagerState.offsetForPage(page_index)) * 20 else 0f
 //                        shadowElevation = pagerState.pageCount - abs(pagerState.offsetForPage(page_index))
                         alpha = 1f

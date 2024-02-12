@@ -157,38 +157,34 @@ class CartActivity : AppCompatActivity() {
 
                 // .background()
             ) {
-                Box(
+                Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.08f)
-                        .background(surfaceCol)
-
-                )
-                {
-                    Row() {
-                        val gradientBrush = Brush.verticalGradient(
-                            colors = listOf( lighterPurple,darkerPurple),
-                            startY = 0f, // Starting from the top
-                            endY = 100f // Ending at the bottom
-                        )
-                        Image(painterResource(id = R.drawable.cart_arrow),
-                            contentDescription = "cart_arrow",
+                        .background(if(isSystemInDarkTheme()) darkBar else lightBar)
+                        .height(65.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box() {
+                        Icon(
+                            painter = painterResource(id = R.drawable.cart_arrow),
+                            contentDescription = null,
+                            tint = lighterPurple,
                             modifier = Modifier
-                                .clickable { finish() }
-                                .padding(start = 25.dp, top = 24.dp, bottom = 20.dp, end = 7.dp)
-                                .size(22.dp))
-                        Text(
-                            "Cart",
-                            modifier = Modifier.padding(top = 20.dp, bottom = 20.dp, start = 8.dp),
-                            color = lighterPurple,
-                            fontFamily = futura,
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 26.sp,
-                            style=TextStyle( brush = gradientBrush)
 
-                            )
-
+                                .padding(start = 10.dp, end = 10.dp)
+                                .clickable {
+                                    finish()
+                                }
+                                .padding(10.dp)
+                        )
                     }
+                    Text(
+                        text = "Cart",
+                        fontFamily = futura,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 22.sp,
+                        color = containerPurple
+                    )
                 }
                 LaunchedEffect(cartModelItems, Unit) {
                     Log.d("MainActivity", "launched")
@@ -231,8 +227,7 @@ class CartActivity : AppCompatActivity() {
                             Image(
                                 painter = painterResource(id = R.drawable.shopping_cart),
                                 contentDescription = "Empty Cart",
-                                modifier = Modifier.size(100.dp),
-                                colorFilter = ColorFilter.tint(fontCol)
+                                modifier = Modifier.size(100.dp)
                             )
                         }
                     }
@@ -250,7 +245,7 @@ class CartActivity : AppCompatActivity() {
                                     .height(210.dp)
                                     .border(
                                         1.dp,
-                                       fontCol,
+                                        fontCol,
                                         RoundedCornerShape(8.dp, 8.dp, 8.dp, 8.dp)
                                     ),
 
@@ -504,13 +499,12 @@ class CartActivity : AppCompatActivity() {
                                     .fillMaxHeight()
                                     .border(
                                         1.dp,
-                                       fontCol,
+                                        fontCol,
                                         RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp)
                                     )
                                     .background(
                                         color =
-                                      surfaceCol
-                                        ,
+                                        surfaceCol,
                                         shape = RoundedCornerShape(
                                             topStart = 8.dp,
                                             bottomStart = 8.dp

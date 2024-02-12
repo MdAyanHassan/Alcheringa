@@ -138,6 +138,9 @@ class Home : Fragment() {
         if (homeViewModel.merchMerch.isEmpty()) {
             homeViewModel.getMerchMerch()
         }
+        if (homeViewModel.informalList.isEmpty()) {
+            homeViewModel.getInformals()
+        }
 //        Log.d("vipin",eventslist.toString());
 //        homeViewModel.pushEvents(homeViewModel.AllEvents)
 
@@ -940,8 +943,13 @@ class Home : Fragment() {
                     modifier = Modifier
                         .size(width = 100.dp, height = 100.dp),
                     onClick = {
-                        NavHostFragment.findNavController(this@Home)
-                            .navigate(R.id.action_home2_to_merchFragment)
+//                        findNavController(this@Home)
+//                            .navigate(R.id.action_home2_to_merchFragment)
+                        val navView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView) as ShadowIndicatorBottomNavigationView
+//                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?
+                        navView.onItemSelected(R.id.merch)
+                        navView.selectedItemId = R.id.merch
+
                     }
                 ) {
                     Box() {
@@ -1198,7 +1206,7 @@ class Home : Fragment() {
                         Box(
                             modifier = Modifier.padding(
                                 start = 20.dp,
-                                bottom = 24.dp,
+                                bottom = 12.dp,
 
                                 ),
                         ) {
@@ -1222,7 +1230,7 @@ class Home : Fragment() {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
-                                    bottom = 24.dp,
+                                    bottom = 12.dp,
                                     top = 36.dp
                                 ),
                             ) {
@@ -1278,7 +1286,7 @@ class Home : Fragment() {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
-                                    bottom = 24.dp,
+                                    bottom = 12.dp,
                                     top = 36.dp
                                 ),
                             ) {
@@ -1383,7 +1391,7 @@ class Home : Fragment() {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
-                                    bottom = 24.dp,
+                                    bottom = 12.dp,
                                     top = 36.dp
                                 ),
                             ) {
@@ -1440,7 +1448,7 @@ class Home : Fragment() {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
-                                    bottom = 24.dp,
+                                    bottom = 12.dp,
                                     top = 36.dp
                                 ),
                             ) {
@@ -1489,7 +1497,7 @@ class Home : Fragment() {
                             Box(
                                 modifier = Modifier.padding(
                                     start = 20.dp,
-                                    bottom = 24.dp,
+                                    bottom = 12.dp,
                                     top = 36.dp
                                 ),
                             ) {
@@ -1653,7 +1661,7 @@ class Home : Fragment() {
                         .padding(start = 20.dp, top = 16.dp)
                 ) {
 
-                    Column(horizontalAlignment = Alignment.Start,) {
+                    Column(horizontalAlignment = Alignment.Start) {
 
                         Text(
                             text = eventWithLive.eventdetail.artist,
@@ -2641,7 +2649,7 @@ class Home : Fragment() {
     }
 
 
-    @OptIn(ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
     @Composable
     fun merchBoxnew(merch1: List<merchModel>, drbls: List<Int>) {
 
@@ -2708,10 +2716,15 @@ class Home : Fragment() {
                 ) {
                     Box(modifier = Modifier
                         .clickable {
-                            val arguments = bundleOf("merchId" to merch.size - page - 1)
-                            NavHostFragment
-                                .findNavController(this@Home)
-                                .navigate(R.id.action_home2_to_merchFragment, arguments)
+                            val navView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView) as ShadowIndicatorBottomNavigationView
+//                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?
+                            navView.onItemSelected(R.id.merch)
+                            navView.selectedItemId = R.id.merch
+
+//                            val arguments = bundleOf("merchId" to merch.size - page - 1)
+//                            NavHostFragment
+//                                .findNavController(this@Home)
+//                                .navigate(R.id.action_home2_to_merchFragment, arguments)
 
                             //                fm.beginTransaction()
                             //                    .replace(R.id.fragmentContainerView,MerchFragment()).addToBackStack(null)

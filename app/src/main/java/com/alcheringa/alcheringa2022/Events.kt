@@ -368,7 +368,7 @@ class Events : Fragment() {
                     fontSize = 22.sp
                 )
             }
-
+            Spacer(modifier = Modifier.height(12.dp))
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -552,10 +552,13 @@ class Events : Fragment() {
             sheetBackgroundColor = colors.background,
             drawerBackgroundColor = colors.background,
             sheetContent = {
-                Box(Modifier.fillMaxHeight(0.6f).paint(
-                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
-                    contentScale = ContentScale.Crop
-                )) {
+                Box(
+                    Modifier
+                        .fillMaxHeight(0.6f)
+                        .paint(
+                            painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                            contentScale = ContentScale.Crop
+                        )) {
                     Column {
                         Box(
                             Modifier

@@ -2,6 +2,7 @@ package com.alcheringa.alcheringa2022
 
 import android.Manifest
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -9,14 +10,22 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.TwoWayConverter
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateValueAsState
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,38 +35,54 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldColors
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.rememberSwipeableState
+import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -65,11 +90,12 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.containerPurple
+import com.alcheringa.alcheringa2022.ui.theme.darkBar
 import com.alcheringa.alcheringa2022.ui.theme.darkGrey
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
 import com.alcheringa.alcheringa2022.ui.theme.futura
-import com.alcheringa.alcheringa2022.ui.theme.grey
 import com.alcheringa.alcheringa2022.ui.theme.heartRed
+import com.alcheringa.alcheringa2022.ui.theme.lightBar
 import com.alcheringa.alcheringa2022.ui.theme.lighterPurple
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -116,6 +142,8 @@ class ProfileActivity: AppCompatActivity() {
 
         setContent {
             Alcheringa2022Theme {
+
+                val context = LocalContext.current
 
                 interests =
                     sharedPreferences.getString("interests", "")!!.replace("[","").replace("]", "").replace(" ", "").split(',').toMutableList()
@@ -185,7 +213,8 @@ class ProfileActivity: AppCompatActivity() {
                             .paint(
                                 painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
                                 contentScale = ContentScale.Crop
-                            ),
+                            )
+                            .verticalScroll(rememberScrollState()),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Spacer(modifier = Modifier.height(50.dp))
@@ -233,6 +262,9 @@ class ProfileActivity: AppCompatActivity() {
                         Row{
                             val keyboardController = LocalSoftwareKeyboardController.current
                             var showDialog by remember { mutableStateOf(false) }
+                            val context= LocalContext.current
+
+
 
 //                            BasicTextField(
 //                                value = name,
@@ -401,7 +433,22 @@ class ProfileActivity: AppCompatActivity() {
                             InterestButton(name = "Serene", selected = interests.contains("Serene"))
                         }
 
-                        Spacer(modifier = Modifier.height(80.dp))
+                        Spacer(modifier = Modifier.height(40.dp))
+
+//                        Switch(
+//                            checked = isSystemInDarkTheme(),
+//                            onCheckedChange = {
+//                                if(context.getResources().getConfiguration().uiMode==33){
+//                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//                                }
+//                                else{
+//                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//                                }
+//                            }
+//                        )
+
+                        Switch2(context = context)
+                        Spacer(modifier = Modifier.height(40.dp))
 
                         Row (
                             modifier = Modifier
@@ -425,9 +472,155 @@ class ProfileActivity: AppCompatActivity() {
                                 tint = heartRed
                             )
                         }
+
+                        Spacer(modifier = Modifier.height(40.dp))
+
                     }
                 }
             }
+        }
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    fun Switch2(
+        scale: Float = 1.5f,
+        width: Dp = 140.dp,
+        height: Dp = 40.dp,
+        context: Context
+    ) {
+        var isSystemindark = isSystemInDarkTheme()
+        var switchON = remember {
+            mutableStateOf(isSystemindark) // Initially the switch is ON
+        }
+
+        val swipeableState = rememberSwipeableState(0)
+        val sizePx = with(LocalDensity.current) { (width - height).toPx() }
+        val anchors = mapOf(0f to 0, sizePx to 1) // Maps anchor points (in px) to states
+
+
+        Box (
+            modifier = Modifier
+                .background(colors.onBackground, RoundedCornerShape(20.dp))
+                .width(width)
+                .height(height)
+                .border(1.dp, colors.onBackground, RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(20.dp))
+                .clickable {
+                    switchON.value = !switchON.value
+                    changetheme(context)
+                }
+        ){
+            Box(
+                modifier = Modifier
+                    .align(
+                        if (switchON.value){
+                            Alignment.CenterStart
+                        }else{
+                            Alignment.CenterEnd
+                        }
+                    )
+                    .background(colors.background, RoundedCornerShape(20.dp))
+                    .width(75.dp)
+                    .height(height)
+                    .border(1.dp, colors.onBackground, RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(20.dp))
+                    .clickable {
+                        switchON.value = !switchON.value
+                        changetheme(context)
+                    }
+            )
+
+            Text(
+                text = "Dark",
+                fontSize = 18.sp,
+                fontFamily = futura,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Medium,
+                color = lightBar,
+                modifier = Modifier
+                    .padding(start = 20.dp)
+                    .align(Alignment.CenterStart)
+            )
+            Text(
+                text = "Light",
+                fontSize = 18.sp,
+                fontFamily = futura,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Medium,
+                color = darkBar,
+                modifier = Modifier
+                    .padding(end = 20.dp)
+                    .align(Alignment.CenterEnd)
+            )
+        }
+
+//        Canvas(
+//            modifier = Modifier
+//                .size(width = width, height = height)
+//                .scale(scale = scale)
+//                .pointerInput(Unit) {
+//                    detectTapGestures(
+//                        onTap = {
+//                            // This is called when the user taps on the canvas
+//                            if(context.getResources().getConfiguration().uiMode == 33){
+//                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//                            }
+//                            else{
+//                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//                            }
+//                            switchON.value != switchON.value
+//                        }
+//                    )
+//                }
+//        ) {
+//            // Track
+//            drawRoundRect(
+//                color = bgcolor,
+//                cornerRadius = CornerRadius(x = 8.dp.toPx(), y = 8.dp.toPx()),
+//                style = Stroke(width = strokeWidth.toPx()),
+//                size = size
+//            )
+//
+//            // Thumb
+//            drawCircle(
+//                color = if (switchON.value) checkedTrackColor else uncheckedTrackColor,
+//                radius = thumbRadius.toPx(),
+//                center = Offset(
+//                    x = animatePosition.value,
+//                    y = size.height / 2
+//                )
+//            )
+//
+//            drawText(
+//                textMeasurer = textMeasurer,
+//                text = "Dark",
+//                style = TextStyle(
+//                    fontSize = 15.sp,
+//                    fontFamily = futura,
+//                    fontWeight = FontWeight.Medium,
+//                    color = textcolor
+//                ),
+//                topLeft = Offset(
+//                    x = -center.x/2,
+//                    y = center.y/2
+//                )
+//            )
+//        }
+//
+//        Spacer(modifier = Modifier.height(18.dp))
+//
+//        Text(text = if (switchON.value) "ON" else "OFF")
+    }
+
+    fun changetheme(context: Context){
+        if(context.getResources().getConfiguration().uiMode==33){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+        else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
     }
 
@@ -451,6 +644,7 @@ class ProfileActivity: AppCompatActivity() {
         finish()
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun InterestButton(name: String, selected: Boolean){
         var _selected by remember {
@@ -465,6 +659,7 @@ class ProfileActivity: AppCompatActivity() {
 
         Box(
             modifier = Modifier
+                .padding(horizontal = 2.dp)
                 .background(
                     bb,
                     RoundedCornerShape(8.dp)
@@ -482,16 +677,22 @@ class ProfileActivity: AppCompatActivity() {
                     editor.putString("interests", interests.toString())
                     editor.apply()
                 }
-                .padding(horizontal = 15.dp, vertical = 5.dp)
+                .padding(vertical = 5.dp)
 
 
         ){
             Text(
-                text = name,
+                text = "   $name   ",
                 fontSize = 18.sp,
                 fontFamily = futura,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.Medium,
-                color = colors.onBackground
+                color = colors.onBackground,
+                modifier = Modifier
+                    .basicMarquee(
+                        iterations = 100
+                    )
             )
         }
     }
