@@ -28,6 +28,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -598,17 +599,25 @@ class MerchFragmentCompose : Fragment() {
 
                                 ) {
 
-                                    Card(
-                                        modifier = Modifier.paint(
-                                            painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
-                                            contentScale = ContentScale.Fit
-                                        ),
-                                        shape = RoundedCornerShape(16.dp, 16.dp),
-                                        border = BorderStroke(2.dp, colors.onBackground),
-                                        backgroundColor = Color.Transparent,
+                                    Box(
+//                                        modifier = Modifier.paint(
+//                                            painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+//                                            contentScale = ContentScale.FillBounds
+//                                        ),
+
+//                                        border = BorderStroke(2.dp, ),
+//                                        backgroundColor = colors.background,
+                                        modifier = Modifier.border(width = 2.dp, shape = RoundedCornerShape(16.dp, 16.dp), color = colors.onBackground)
+                                            .paint(
+                                                painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                                                contentScale = ContentScale.Crop
+                                            ).fillMaxHeight(),
+//                                        contentAlignment = Alignment.TopCenter
                                     ) {
 
                                         Box(
+                                            modifier = Modifier.wrapContentHeight(),
+                                            contentAlignment = Alignment.TopCenter
                                         ) {
 
 
@@ -620,7 +629,8 @@ class MerchFragmentCompose : Fragment() {
                                                     modifier = Modifier
                                                         .align(Alignment.TopCenter)
                                                         .fillMaxWidth()
-                                                        .height(220.dp),
+                                                        .height(220.dp)
+                                                        .clip(RoundedCornerShape(16.dp, 16.dp)),
                                                     contentScale = ContentScale.Crop
 
                                                 )

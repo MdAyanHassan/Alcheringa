@@ -87,6 +87,7 @@ import com.alcheringa.alcheringa2022.databinding.FragmentSchedule2024Binding
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.containerPurple
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
+import com.alcheringa.alcheringa2022.ui.theme.darkerPurple
 import com.alcheringa.alcheringa2022.ui.theme.futura
 import com.alcheringa.alcheringa2022.ui.theme.lightBar
 import kotlinx.coroutines.CoroutineScope
@@ -538,7 +539,9 @@ class Schedule2024 : Fragment() {
                                     .horizontalScroll(horizontalScroll)
                             ) {
 
+
                                 Row(Modifier.wrapContentSize()) {
+                                    var count = 0
                                     selectedVenueList.forEach { venue ->
 
 
@@ -548,8 +551,12 @@ class Schedule2024 : Fragment() {
                                                 scroll = verticalScroll,
                                                 filteredList[venue]!!
                                             )
+                                            count++
                                         }
 
+                                    }
+                                    if(count==1){
+                                        VenueSchedule(venue = " ", scroll = verticalScroll, eventList = listOf() )
                                     }
 
 

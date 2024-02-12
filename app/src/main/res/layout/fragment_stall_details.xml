@@ -21,26 +21,26 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
+        style="@style/Background"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="56dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
 
-        style="@style/Background">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/backbtn2"
 
             android:layout_width="27dp"
-            android:layout_height="27dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginRight="30dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
             android:backgroundTint="#00FFFFFF"
             android:padding="50dp"
             android:src="@drawable/backbtn2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/comp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,11 +49,11 @@
             style="@style/headerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="24dp"
+            android:fontFamily="@font/futuraptdemi"
             android:text="Stalls"
-            android:fontFamily="@font/clash_display_700"
             android:textColor="@color/lighterPurple"
-            android:textSize="36sp"
+            android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/backbtn2"
             app:layout_constraintTop_toTopOf="parent" />

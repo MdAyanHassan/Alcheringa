@@ -52,7 +52,22 @@ public class Splash_Screen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         videoView=findViewById(R.id.videoview);
         videoView.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.splash_screen));
-        videoView.start();
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                float videoRatio = mp.getVideoWidth() / (float) mp.getVideoHeight();
+                float screenRatio = videoView.getWidth() / (float)
+                        videoView.getHeight();
+                float scaleX = videoRatio / screenRatio;
+                if (scaleX >= 1f) {
+                    videoView.setScaleX(scaleX);
+                } else {
+                    videoView.setScaleY(1f / scaleX);
+                }
+                videoView.start();
+            }
+        });
+//        videoView.start();
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -68,7 +83,7 @@ public class Splash_Screen extends AppCompatActivity {
                     finish();
                 }
             }
-        },2000);
+        },3000);
 
 
 
