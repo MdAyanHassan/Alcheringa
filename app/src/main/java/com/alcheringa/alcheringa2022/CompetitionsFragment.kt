@@ -89,6 +89,7 @@ class CompetitionsFragment : Fragment() {
     lateinit var lighcameraactionlist: List<eventWithLive>
     lateinit var sportslist: List<eventWithLive>
     lateinit var quizlist: List<eventWithLive>
+    lateinit var stagecraftlist: List<eventWithLive>
     lateinit var upcomingcompetitions: List<eventWithLive>
     lateinit var otherlist: List<eventWithLive>
     lateinit var eventfordes: eventWithLive
@@ -109,7 +110,7 @@ class CompetitionsFragment : Fragment() {
     val searchlist = mutableStateListOf<eventWithLive>()
     var tg= mutableStateOf("")
     var searchtext= mutableStateOf("")
-    val complist = listOf("All", "Sports", "Quiz", "Music", "MUN", "Any Body Can Dance", "Vogue Nation", "Lights Camera Action", "Class Apart", "Literary", "Digital Dexterity", "Art Talkies", "Others")
+    val complist = listOf("All", "Sports", "Quiz", "Music", "MUN", "Any Body Can Dance", "Vogue Nation", "Lights Camera Action", "Class Apart", "Literary", "Digital Dexterity", "Art Talkies", "Stagecraft" ,"Others")
     var selectedView by mutableStateOf(0)
 
 
@@ -246,6 +247,12 @@ class CompetitionsFragment : Fragment() {
                     "\\s".toRegex(),
                     ""
                 ).uppercase() == "QUIZ".replace("\\s".toRegex(), "").uppercase()
+            }
+            stagecraftlist = homeViewModel.allEventsWithLive.filter { data ->
+                data.eventdetail.type.replace(
+                    "\\s".toRegex(),
+                    ""
+                ).uppercase() == "STAGECRAFT".replace("\\s".toRegex(), "").uppercase()
             }
 
             upcomingcompetitions = homeViewModel.upcomingEventsLiveState.filter { data ->
@@ -506,7 +513,7 @@ class CompetitionsFragment : Fragment() {
         }
         val selectedNames = remember { mutableStateListOf<String>("All") }
 
-        if (upcomingcompetitions.isNotEmpty() || sportslist.isNotEmpty() || quizlist.isNotEmpty() || musiclist.isNotEmpty() || mun.isNotEmpty() || anybodycandancelist.isNotEmpty() || voguenationlist.isNotEmpty() || lighcameraactionlist.isNotEmpty() || classapartlist.isNotEmpty() || literarylist.isNotEmpty() || digitaldextiritylist.isNotEmpty() || arttalikieslist.isNotEmpty() || otherlist.isNotEmpty()) {
+        if (upcomingcompetitions.isNotEmpty() || stagecraftlist.isNotEmpty() || sportslist.isNotEmpty() || quizlist.isNotEmpty() || musiclist.isNotEmpty() || mun.isNotEmpty() || anybodycandancelist.isNotEmpty() || voguenationlist.isNotEmpty() || lighcameraactionlist.isNotEmpty() || classapartlist.isNotEmpty() || literarylist.isNotEmpty() || digitaldextiritylist.isNotEmpty() || arttalikieslist.isNotEmpty() || otherlist.isNotEmpty()) {
 
             Column(
                 modifier = Modifier
@@ -975,6 +982,50 @@ class CompetitionsFragment : Fragment() {
                             contentPadding = PaddingValues(horizontal = 20.dp)
                         ) {
                             items(classapartlist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (stagecraftlist.isNotEmpty() && (selectedNames.contains("Stagecraft") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Stagecraft",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(stagecraftlist) { dataEach ->
                                 context?.let {
                                     Event_card_Scaffold(
                                         eventdetail = dataEach,

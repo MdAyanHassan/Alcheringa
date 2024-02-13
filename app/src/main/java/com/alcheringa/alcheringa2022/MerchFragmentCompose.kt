@@ -40,8 +40,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -688,26 +690,29 @@ class MerchFragmentCompose : Fragment() {
                                                     )
                                                     Spacer(modifier = Modifier.height(24.dp))
                                                     Row(
-                                                        Modifier.fillMaxWidth(),
+                                                        Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(horizontal = 30.dp),
                                                         horizontalArrangement = Arrangement.SpaceBetween
                                                     ) {
                                                         Text(
                                                             "Pick Your Size",
                                                             style = TextStyle(
-                                                                fontFamily = aileron,
+                                                                fontFamily = futura,
                                                                 fontWeight = FontWeight.Bold,
                                                                 fontSize = 14.sp,
                                                                 color = colors.onBackground
                                                             ),
-                                                            modifier = Modifier.padding(start = 30.dp,end= 30.dp)
+//                                                            modifier = Modifier.padding(start = 30.dp,end= 30.dp)
                                                         )
-                                                        /*Text(
+                                                        Text(
                                                             "Size chart",
                                                             style = TextStyle(
-                                                                fontFamily = aileron,
+                                                                fontFamily = futura,
                                                                 fontWeight = FontWeight.Bold,
                                                                 fontSize = 14.sp,
-                                                                color = blu
+                                                                color = if(isSystemInDarkTheme()) lighterGreen else darkerPurple,
+                                                                textDecoration = TextDecoration.Underline
                                                             ),
                                                             modifier = Modifier.clickable {
                                                                 //                                            val intent1 = Intent(requireContext(), SizeChartActivity::class.java)
@@ -716,7 +721,7 @@ class MerchFragmentCompose : Fragment() {
                                                                 isSizeChartExpanded =
                                                                     !isSizeChartExpanded
                                                             }
-                                                        )*/
+                                                        )
 
 
                                                     }
@@ -733,7 +738,8 @@ class MerchFragmentCompose : Fragment() {
                                                         Box() {
                                                             Column() {
                                                                 LazyRow(
-                                                                    modifier = Modifier.height(42.dp)
+                                                                    modifier = Modifier.height(42.dp),
+                                                                    verticalAlignment = Alignment.CenterVertically
                                                                 ) {
                                                                     itemsIndexed(sizes) { i, dataeach ->
                                                                         context?.let {
@@ -820,38 +826,44 @@ class MerchFragmentCompose : Fragment() {
 
                                                                 }
                                                                 if (isSizeChartExpanded) {
-                                                                    val lengths = if (currentMerch.material == "hoodie") arrayListOf<String>("26", "27", "28", "29", "30") else arrayListOf("25", "26", "27", "28", "29.5")
-                                                                    val widths = arrayListOf<String>("38", "40", "42", "44", "46")
+                                                                    val lengths = if(currentMerch.material.contains("oversized", ignoreCase = true))arrayListOf<String>("28", "30", "30.5", "31", "--")
+                                                                    else arrayListOf<String>("26", "27", "28", "29", "30")
+
+
+                                                                    val widths = if(currentMerch.material.contains("sweatshirt", ignoreCase = true)) arrayListOf<String>("40", "42", "44", "46", "48")
+                                                                    else if(currentMerch.material.contains("oversized", ignoreCase = true)) arrayListOf<String>("42", "44", "46", "48", "--")
+                                                                    else arrayListOf<String>("38", "40", "42", "44", "46")
                                                                     //val shoulders = arrayListOf<String>("17.5", "18.5", "19.5", "20.5", "21.5")
                                                                     Text(
                                                                         "Length (+/- 0.5in)",
                                                                         style = TextStyle(
-                                                                            fontFamily = aileron,
+                                                                            fontFamily = futura,
                                                                             fontWeight = FontWeight.SemiBold,
-                                                                            fontSize = 12.sp,
+                                                                            fontSize = 14.sp,
                                                                             color = colors.onBackground
                                                                         ),
                                                                         modifier = Modifier
                                                                             .fillMaxWidth()
-                                                                            .padding(5.dp),
+                                                                            .padding(8.dp),
                                                                         textAlign = TextAlign.Center
                                                                     )
                                                                     LazyRow(
-                                                                        modifier = Modifier.height(42.dp)
+                                                                        modifier = Modifier.height(42.dp),
+                                                                        verticalAlignment = Alignment.CenterVertically
                                                                     ) {
                                                                         itemsIndexed(lengths) { i, dataeach ->
                                                                             context?.let {
                                                                                 boxColor =
                                                                                     if (!isAvailable[i]) {
                                                                                         midWhite
-                                                                                    } else if (merchSize == sizes[i]) {
-                                                                                        blu
+//                                                                                    } else if (merchSize == sizes[i]) {
+//                                                                                        blu
                                                                                     } else {
-                                                                                        colors.background
+                                                                                        Color.Transparent
                                                                                     }
                                                                                 txtCol =
-                                                                                    if (boxColor == blu) {
-                                                                                        black
+                                                                                    if (merchSize==sizes[i]) {
+                                                                                        darkTealGreen
                                                                                     } else {
                                                                                         colors.onBackground
                                                                                     }
@@ -886,16 +898,38 @@ class MerchFragmentCompose : Fragment() {
                                                                                         ),
                                                                                     Alignment.Center
                                                                                 ) {
-                                                                                    Text(
-                                                                                        dataeach,
-                                                                                        style = TextStyle(
-                                                                                            fontFamily = aileron,
-                                                                                            fontWeight = FontWeight.SemiBold,
-                                                                                            fontSize = 16.sp,
-                                                                                            color = txtCol
-                                                                                        ),
+                                                                                    Column(modifier = Modifier
+                                                                                        .height(30.dp)
+                                                                                        .width(40.dp)) {
+                                                                                        Text(
+                                                                                            dataeach,
+                                                                                            style = TextStyle(
+                                                                                                fontFamily = aileron,
+                                                                                                fontWeight = FontWeight.Medium,
+                                                                                                fontSize = 20.sp,
+                                                                                                color = txtCol,
+                                                                                                textAlign = TextAlign.Center
+                                                                                            ),
+                                                                                            modifier = Modifier.align(Alignment.CenterHorizontally)
+
 
                                                                                         )
+
+                                                                                        if(txtCol== darkTealGreen) {
+                                                                                            Image(
+                                                                                                painter = painterResource(R.drawable.squiggle),
+                                                                                                contentDescription = null,
+                                                                                                alignment = Alignment.BottomCenter,
+                                                                                                modifier = Modifier
+                                                                                                    .size(
+                                                                                                        30.dp
+                                                                                                    )
+                                                                                                    .align(
+                                                                                                        Alignment.CenterHorizontally
+                                                                                                    )
+                                                                                            )
+                                                                                        }
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         }
@@ -903,32 +937,33 @@ class MerchFragmentCompose : Fragment() {
                                                                     Text(
                                                                         "Chest (+/- 0.5in)",
                                                                         style = TextStyle(
-                                                                            fontFamily = aileron,
+                                                                            fontFamily = futura,
                                                                             fontWeight = FontWeight.SemiBold,
-                                                                            fontSize = 12.sp,
+                                                                            fontSize = 14.sp,
                                                                             color = colors.onBackground
                                                                         ),
                                                                         modifier = Modifier
                                                                             .fillMaxWidth()
-                                                                            .padding(5.dp),
+                                                                            .padding(8.dp),
                                                                         textAlign = TextAlign.Center
                                                                     )
                                                                     LazyRow(
-                                                                        modifier = Modifier.height(42.dp)
+                                                                        modifier = Modifier.height(42.dp),
+                                                                        verticalAlignment = Alignment.CenterVertically
                                                                     ) {
                                                                         itemsIndexed(widths) { i, dataeach ->
                                                                             context?.let {
                                                                                 boxColor =
                                                                                     if (!isAvailable[i]) {
                                                                                         midWhite
-                                                                                    } else if (merchSize == sizes[i]) {
-                                                                                        blu
+//                                                                                    } else if (merchSize == sizes[i]) {
+//                                                                                        blu
                                                                                     } else {
-                                                                                        colors.background
+                                                                                        Color.Transparent
                                                                                     }
                                                                                 txtCol =
-                                                                                    if (boxColor == blu) {
-                                                                                        black
+                                                                                    if (merchSize==sizes[i]) {
+                                                                                        darkTealGreen
                                                                                     } else {
                                                                                         colors.onBackground
                                                                                     }
@@ -963,16 +998,38 @@ class MerchFragmentCompose : Fragment() {
                                                                                         ),
                                                                                     Alignment.Center
                                                                                 ) {
-                                                                                    Text(
-                                                                                        dataeach,
-                                                                                        style = TextStyle(
-                                                                                            fontFamily = aileron,
-                                                                                            fontWeight = FontWeight.SemiBold,
-                                                                                            fontSize = 16.sp,
-                                                                                            color = txtCol
-                                                                                        ),
+                                                                                    Column(modifier = Modifier
+                                                                                        .height(30.dp)
+                                                                                        .width(40.dp)) {
+                                                                                        Text(
+                                                                                            dataeach,
+                                                                                            style = TextStyle(
+                                                                                                fontFamily = aileron,
+                                                                                                fontWeight = FontWeight.Medium,
+                                                                                                fontSize = 20.sp,
+                                                                                                color = txtCol,
+                                                                                                textAlign = TextAlign.Center
+                                                                                            ),
+                                                                                            modifier = Modifier.align(Alignment.CenterHorizontally)
+
 
                                                                                         )
+
+                                                                                        if(txtCol== darkTealGreen) {
+                                                                                            Image(
+                                                                                                painter = painterResource(R.drawable.squiggle),
+                                                                                                contentDescription = null,
+                                                                                                alignment = Alignment.BottomCenter,
+                                                                                                modifier = Modifier
+                                                                                                    .size(
+                                                                                                        30.dp
+                                                                                                    )
+                                                                                                    .align(
+                                                                                                        Alignment.CenterHorizontally
+                                                                                                    )
+                                                                                            )
+                                                                                        }
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         }

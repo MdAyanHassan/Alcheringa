@@ -96,6 +96,8 @@ class Home : Fragment() {
     var isdragging = mutableStateOf(false)
     var home = false;
     public val artistLive = MutableLiveData<String>()
+    private val mun_reg_link = "https://docs.google.com/forms/d/e/1FAIpQLSeUMeC2RhKMXHpgDtd-RgozYZeb_HwR298-3XPe9D4RVU_LGQ/viewform"
+
 
 
     var firebaseFirestore: FirebaseFirestore? = null
@@ -1956,11 +1958,15 @@ class Home : Fragment() {
                                     shape = RoundedCornerShape(5.dp)
                                 )
                                 .clickable {
-                                    startActivity(
-                                        Intent(Intent.ACTION_VIEW).setData(
-                                            Uri.parse("https://registration.alcheringa.in")
-                                        )
-                                    )
+                                    if( eventWithLive.eventdetail.type.replace(
+                                            "\\s".toRegex(),
+                                            ""
+                                        ).uppercase() == "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase() ){
+                                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(mun_reg_link)))
+                                    }
+                                    else{
+                                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://registration.alcheringa.in")))
+                                    }
 
                                 }
 

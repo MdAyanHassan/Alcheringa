@@ -71,6 +71,7 @@ class Events_Details_Fragment : Fragment() {
     lateinit var eventfordes: eventWithLive
     lateinit var similarlist:MutableList<eventWithLive>
     private lateinit var  scheduleDatabase: ScheduleDatabase
+    private val mun_reg_link = "https://docs.google.com/forms/d/e/1FAIpQLSeUMeC2RhKMXHpgDtd-RgozYZeb_HwR298-3XPe9D4RVU_LGQ/viewform"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -503,7 +504,17 @@ class Events_Details_Fragment : Fragment() {
                                     shape = RoundedCornerShape(5.dp)
                                 )
                                 .clickable {
-                                    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://registration.alcheringa.in")))
+                                    if( eventWithLive.eventdetail.type.replace(
+                                            "\\s".toRegex(),
+                                            ""
+                                        ).uppercase() == "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase() ){
+                                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(mun_reg_link)))
+                                    }
+                                    else{
+                                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://registration.alcheringa.in")))
+                                    }
+
+
                                 }
 
 

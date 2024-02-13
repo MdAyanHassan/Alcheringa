@@ -111,16 +111,17 @@ class Schedule2024 : Fragment() {
     private var selectedDayEvents = datestate0
     private var datestate = mutableStateOf<Int>(0)
     private var itemListMap = mapOf(
+        "All" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5",
+            "Front of Graffiti Wall","Behind Graffiti Wall","Old Sac Wall","Conference Hall 1","Conference Hall 2","Conference Hall 3","Conference Hall 4","Mini Auditorium","Auditorium","Audi Park","Senate Hall"
+            ,"Library","Library Shed","Library Basement","Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field", "New SAC"),
         "Lecture Halls" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5"),
         "Grounds" to listOf("Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field"),
         "Library Area" to listOf("Library","Library Shed","Library Basement"),
         "Admin Area" to listOf("Senate Hall","Rocko Stage","Expo Stage"),
         "Auditorium" to listOf("Mini Auditorium","Auditorium","Audi Park"),
         "Conference Hall" to listOf("Conference Hall 1","Conference Hall 2","Conference Hall 3","Conference Hall 4"),
-        "Old Sac" to listOf("Front of Graffiti Wall","Behind Graffiti Wall","Old Sac Wall"),
-        "All" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5",
-            "Front of Graffiti Wall","Behind Graffiti Wall","Old Sac Wall","Conference Hall 1","Conference Hall 2","Conference Hall 3","Conference Hall 4","Mini Auditorium","Auditorium","Audi Park","Senate Hall"
-            ,"Library","Library Shed","Library Basement","Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field")
+        "SAC Area" to listOf("Front of Graffiti Wall","Behind Graffiti Wall","Old Sac Wall", "Old Sac Stage", "New SAC")
+
     )
     var selectedItem = mutableStateOf("All")
 
