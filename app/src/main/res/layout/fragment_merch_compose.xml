@@ -78,7 +78,7 @@
             android:layout_marginTop="14dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="14dp"
-            android:src="@drawable/account1"
+            android:src="@drawable/profile"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

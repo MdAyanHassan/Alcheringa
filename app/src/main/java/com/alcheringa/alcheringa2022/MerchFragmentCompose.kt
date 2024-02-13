@@ -607,11 +607,17 @@ class MerchFragmentCompose : Fragment() {
 
 //                                        border = BorderStroke(2.dp, ),
 //                                        backgroundColor = colors.background,
-                                        modifier = Modifier.border(width = 2.dp, shape = RoundedCornerShape(16.dp, 16.dp), color = colors.onBackground)
+                                        modifier = Modifier
+                                            .border(
+                                                width = 2.dp,
+                                                shape = RoundedCornerShape(16.dp, 16.dp),
+                                                color = colors.onBackground
+                                            )
                                             .paint(
                                                 painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
                                                 contentScale = ContentScale.Crop
-                                            ).fillMaxHeight(),
+                                            )
+                                            .fillMaxHeight(),
 //                                        contentAlignment = Alignment.TopCenter
 
                                     ) {
@@ -1000,7 +1006,8 @@ class MerchFragmentCompose : Fragment() {
 
                                                             Box(
                                                                 modifier = Modifier
-                                                                    .height(50.dp).weight(0.8f)
+                                                                    .height(50.dp)
+                                                                    .weight(0.8f)
                                                                     .border(
                                                                         1.dp,
                                                                         colors.onBackground,
@@ -1080,7 +1087,8 @@ class MerchFragmentCompose : Fragment() {
 
                                                             Box(
                                                                 modifier = Modifier
-                                                                    .height(50.dp).weight(1f)
+                                                                    .height(50.dp)
+                                                                    .weight(1f)
                                                                     .border(
                                                                         1.dp,
                                                                         colors.onBackground,
@@ -1206,35 +1214,52 @@ class MerchFragmentCompose : Fragment() {
 
 
             ) {
-                Column(modifier = Modifier.padding(horizontal = 20.dp).paint(
-                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
-                    contentScale = ContentScale.Crop
-                )) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        //verticalArrangement = Arrangement.spacedBy(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ){
-                        item(span = {GridItemSpan(2)}) {
+                if(homeViewModel.merchMerch.isNotEmpty()) {
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp)
+                            .paint(
+                                painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                                contentScale = ContentScale.Crop
+                            )
+                    ) {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            //verticalArrangement = Arrangement.spacedBy(10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(20.dp)
+                        ) {
+                            items(homeViewModel.merchMerch.size) { i ->
+                                newMerchGridItem(
+                                    merch = homeViewModel.merchMerch[i],
+                                    Index = i,
+                                    onClick = {
+                                        index = i
+                                        coroutineScope.launch {
+                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                                bottomSheetScaffoldState.bottomSheetState.expand()
 
-                        }
-                        items(homeViewModel.merchMerch.size){i ->
-                            newMerchGridItem(
-                                merch = homeViewModel.merchMerch[i],
-                                Index = i,
-                                onClick = {
-                                    index = i
-                                    coroutineScope.launch {
-                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                            bottomSheetScaffoldState.bottomSheetState.expand()
-
-                                        } else {
-                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                            } else {
+                                                bottomSheetScaffoldState.bottomSheetState.collapse()
+                                            }
                                         }
                                     }
-                                }
-                            )
+                                )
+                            }
                         }
+                    }
+                }
+                else{
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Text(
+                            text = "Merch coming soon",
+                            fontSize = 20.sp,
+                            fontFamily = futura,
+                            color = colors.onBackground
+                        )
                     }
                 }
 
@@ -1295,6 +1320,7 @@ class MerchFragmentCompose : Fragment() {
                         bottomSheetScaffoldState.bottomSheetState.collapse()
                     }
                 }
+
             }
         }
     }

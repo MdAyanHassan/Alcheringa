@@ -506,118 +506,103 @@ class CompetitionsFragment : Fragment() {
         }
         val selectedNames = remember { mutableStateListOf<String>("All") }
 
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .offset(y = -6.dp)) {
+        if (upcomingcompetitions.isNotEmpty() || sportslist.isNotEmpty() || quizlist.isNotEmpty() || musiclist.isNotEmpty() || mun.isNotEmpty() || anybodycandancelist.isNotEmpty() || voguenationlist.isNotEmpty() || lighcameraactionlist.isNotEmpty() || classapartlist.isNotEmpty() || literarylist.isNotEmpty() || digitaldextiritylist.isNotEmpty() || arttalikieslist.isNotEmpty() || otherlist.isNotEmpty()) {
 
-            if(upcomingcompetitions.isNotEmpty()) {
-                Column(){
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = "Upcoming Events",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontWeight = FontWeight.Normal,
-                        fontFamily = futura
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .offset(y = -6.dp)
+            ) {
 
-                    )
+                if (upcomingcompetitions.isNotEmpty()) {
+                    Column() {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = "Upcoming Events",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontWeight = FontWeight.Normal,
+                            fontFamily = futura
 
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(upcomingcompetitions) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
+                        )
 
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(upcomingcompetitions) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
 
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            Spacer (modifier = Modifier.height(20.dp))
-            Row (
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ){
-                Column {
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .width(300.dp)
-                            .height(50.dp)
-                            .background(colors.onSurface)
-                            .border(
-                                1.dp,
-                                darkTealGreen,
-                                shape = RoundedCornerShape(4.dp)
-                            ),
-                        value = selectedNames.joinToString(", "),
-                        onValueChange = {selectedNames},
-                        readOnly = true, // Makes the TextField clickable
-                        trailingIcon = {
-                            Icon(
-                                icon,
-                                "",
-                                Modifier.clickable { expanded = !expanded },
-                                tint = colors.onBackground
-                            )
-                        },
-                        colors = TextFieldDefaults.textFieldColors(colors.onBackground),
-                    )
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Column {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .width(300.dp)
+                                .height(50.dp)
+                                .background(colors.onSurface)
+                                .border(
+                                    1.dp,
+                                    darkTealGreen,
+                                    shape = RoundedCornerShape(4.dp)
+                                ),
+                            value = selectedNames.joinToString(", "),
+                            onValueChange = { selectedNames },
+                            readOnly = true, // Makes the TextField clickable
+                            trailingIcon = {
+                                Icon(
+                                    icon,
+                                    "",
+                                    Modifier.clickable { expanded = !expanded },
+                                    tint = colors.onBackground
+                                )
+                            },
+                            colors = TextFieldDefaults.textFieldColors(colors.onBackground),
+                        )
 
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                        modifier = Modifier
-                            .width(300.dp)
-                            .background(colors.background)
-                            .height(300.dp)
-                    ) {
-                        complist.forEach { item ->
-                            val selected_already = selectedNames.contains(item)
-                            DropdownMenuItem(
-                                onClick = {
-                                    if (selected_already) {
-                                        selectedNames.remove(item)
-                                    } else if (item == "All") {
-                                        selectedNames.clear()
-                                        selectedNames.add("All")
-                                    } else {
-                                        selectedNames.add(item)
-                                        selectedNames.remove("All")
-                                    }
-
-                                    if (selectedNames.isEmpty()) {
-                                        selectedNames.add("All")
-                                    }
-                                }
-                            ) {
-                                val isChecked = when {
-                                    item == "All" -> selectedNames.contains("All")
-                                    else -> selectedNames.contains(item)
-                                }
-
-                                Checkbox(
-                                    checked = isChecked,
-                                    onCheckedChange = {
-                                        if (isChecked) {
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier
+                                .width(300.dp)
+                                .background(colors.background)
+                                .height(300.dp)
+                        ) {
+                            complist.forEach { item ->
+                                val selected_already = selectedNames.contains(item)
+                                DropdownMenuItem(
+                                    onClick = {
+                                        if (selected_already) {
                                             selectedNames.remove(item)
                                         } else if (item == "All") {
                                             selectedNames.clear()
@@ -630,732 +615,891 @@ class CompetitionsFragment : Fragment() {
                                         if (selectedNames.isEmpty()) {
                                             selectedNames.add("All")
                                         }
-                                    },
-                                    colors = CheckboxDefaults.colors(uncheckedColor = darkTealGreen),
-                                    modifier = Modifier
-                                        .offset(x=-5.dp, y=0.dp)
-                                )
-                                Text(text = item, color = colors.onBackground)
+                                    }
+                                ) {
+                                    val isChecked = when {
+                                        item == "All" -> selectedNames.contains("All")
+                                        else -> selectedNames.contains(item)
+                                    }
+
+                                    Checkbox(
+                                        checked = isChecked,
+                                        onCheckedChange = {
+                                            if (isChecked) {
+                                                selectedNames.remove(item)
+                                            } else if (item == "All") {
+                                                selectedNames.clear()
+                                                selectedNames.add("All")
+                                            } else {
+                                                selectedNames.add(item)
+                                                selectedNames.remove("All")
+                                            }
+
+                                            if (selectedNames.isEmpty()) {
+                                                selectedNames.add("All")
+                                            }
+                                        },
+                                        colors = CheckboxDefaults.colors(uncheckedColor = darkTealGreen),
+                                        modifier = Modifier
+                                            .offset(x = -5.dp, y = 0.dp)
+                                    )
+                                    Text(text = item, color = colors.onBackground)
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            if(sportslist.isNotEmpty() && (selectedNames.contains("Sports") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Sports",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
+                if (sportslist.isNotEmpty() && (selectedNames.contains("Sports") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Sports",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
 
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(sportslist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(sportslist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
 
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
 
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (quizlist.isNotEmpty() && (selectedNames.contains("Quiz") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Quiz",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(quizlist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (musiclist.isNotEmpty() && (selectedNames.contains("Music") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Music",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(musiclist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (mun.isNotEmpty() && (selectedNames.contains("MUN") || selectedNames.contains("All"))) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Model United Nations",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(mun) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (anybodycandancelist.isNotEmpty() && (selectedNames.contains("Any Body Can Dance") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Any Body Can Dance",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(anybodycandancelist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (voguenationlist.isNotEmpty() && (selectedNames.contains("Vogue Nation") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Vogue Nation",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(voguenationlist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (lighcameraactionlist.isNotEmpty() && (selectedNames.contains("Lights Camera Action") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Lights Camera Action",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(lighcameraactionlist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (classapartlist.isNotEmpty() && (selectedNames.contains("Class Apart") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Class Apart",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(classapartlist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (literarylist.isNotEmpty() && (selectedNames.contains("Literary") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Literary",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(literarylist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (digitaldextiritylist.isNotEmpty() && (selectedNames.contains("Digital Dexterity") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Digital Dexterity",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(digitaldextiritylist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (arttalikieslist.isNotEmpty() && (selectedNames.contains("Art Talkies") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Art Talkies",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(arttalikieslist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (otherlist.isNotEmpty() && (selectedNames.contains("Others") || selectedNames.contains(
+                        "All"
+                    ))
+                ) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column() {
+                        Text(
+                            text = "Other Competitions",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(otherlist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-
-            if(quizlist.isNotEmpty() && (selectedNames.contains("Quiz") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Quiz",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(quizlist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
+        }
+        else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Competitions coming soon",
+                    fontSize = 20.sp,
+                    fontFamily = futura,
+                    color = colors.onBackground
+                )
             }
-
-            if(musiclist.isNotEmpty() && (selectedNames.contains("Music") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Music",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(musiclist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(mun.isNotEmpty() && (selectedNames.contains("MUN") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Model United Nations",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(mun) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(anybodycandancelist.isNotEmpty() && (selectedNames.contains("Any Body Can Dance") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Any Body Can Dance",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(anybodycandancelist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(voguenationlist.isNotEmpty() && (selectedNames.contains("Vogue Nation") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Vogue Nation",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(voguenationlist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(lighcameraactionlist.isNotEmpty() && (selectedNames.contains("Lights Camera Action") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Lights Camera Action",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(lighcameraactionlist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(classapartlist.isNotEmpty() && (selectedNames.contains("Class Apart") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Class Apart",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(classapartlist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(literarylist.isNotEmpty() && (selectedNames.contains("Literary") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Literary",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(literarylist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(digitaldextiritylist.isNotEmpty() && (selectedNames.contains("Digital Dexterity") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Digital Dexterity",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(digitaldextiritylist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(arttalikieslist.isNotEmpty() && (selectedNames.contains("Art Talkies") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Art Talkies",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(arttalikieslist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(otherlist.isNotEmpty() && (selectedNames.contains("Others") || selectedNames.contains("All"))) {
-                Spacer(modifier = Modifier.height(20.dp))
-                Column(){
-                    Text(
-                        text = "Other Competitions",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(otherlist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-
-
-
         }
     }
 
     @Composable
     fun EventsView(){
-        Column(modifier = Modifier
+        if (upcomingEvents.isNotEmpty() || proniteslist.isNotEmpty() || proshowslist.isNotEmpty() || creatorscampslist.isNotEmpty() || humorfestslist.isNotEmpty() || camppaignslist.isNotEmpty() || otherEventlist.isNotEmpty()) {
+            Column(modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .offset(y = -6.dp)) {
 
-            if(upcomingEvents.isNotEmpty()) {
-                Column(){
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = "Upcoming Events",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
+                if (upcomingEvents.isNotEmpty()) {
+                    Column() {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = "Upcoming Events",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
 
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(upcomingEvents) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(upcomingEvents) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
 
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
 
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (proniteslist.isNotEmpty()) {
+                    Column() {
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = "Pronites",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(proniteslist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (proshowslist.isNotEmpty()) {
+                    Column() {
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = "Proshows",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(proshowslist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (creatorscampslist.isNotEmpty()) {
+                    Column() {
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = "Creators' Camp",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(creatorscampslist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (humorfestslist.isNotEmpty()) {
+                    Column() {
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = "Humor Fest",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(humorfestslist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (camppaignslist.isNotEmpty()) {
+                    Column() {
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = "Kartavya",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(camppaignslist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (otherEventlist.isNotEmpty()) {
+                    Column() {
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = "Other Events",
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(start = 26.dp, bottom = 10.dp),
+                            color = colors.onBackground,
+                            fontFamily = futura
+                        )
+
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            contentPadding = PaddingValues(horizontal = 20.dp)
+                        ) {
+                            items(otherEventlist) { dataEach ->
+                                context?.let {
+                                    Event_card_Scaffold(
+                                        eventdetail = dataEach,
+                                        viewModelHm = homeViewModel,
+                                        context = it,
+                                        artist = "artist"
+                                    ) {
+                                        val arguments =
+                                            bundleOf("Artist" to dataEach.eventdetail.artist)
+
+                                        NavHostFragment
+                                            .findNavController(this@CompetitionsFragment)
+                                            .navigate(
+                                                R.id.action_competitionsFragment_to_events_Details_Fragment,
+                                                arguments
+                                            );
+
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-
-            if(proniteslist.isNotEmpty()) {
-                Column(){
-                    Spacer (modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Pronites",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(proniteslist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(proshowslist.isNotEmpty()) {
-                Column(){
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Proshows",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(proshowslist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(creatorscampslist.isNotEmpty()) {
-                Column(){
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Creators' Camp",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(creatorscampslist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(humorfestslist.isNotEmpty()) {
-                Column(){
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Humor Fest",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(humorfestslist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(camppaignslist.isNotEmpty()) {
-                Column(){
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Kartavya",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(camppaignslist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(otherEventlist.isNotEmpty()) {
-                Column(){
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Other Events",
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(start = 26.dp,bottom = 10.dp),
-                        color = colors.onBackground,
-                        fontFamily = futura
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(horizontal = 20.dp)
-                    ) {
-                        items(otherEventlist) { dataEach ->
-                            context?.let {
-                                Event_card_Scaffold(
-                                    eventdetail = dataEach,
-                                    viewModelHm = homeViewModel,
-                                    context = it,
-                                    artist = "artist"
-                                ) {
-                                    val arguments = bundleOf("Artist" to dataEach.eventdetail.artist)
-
-                                    NavHostFragment
-                                        .findNavController(this@CompetitionsFragment)
-                                        .navigate(R.id.action_competitionsFragment_to_events_Details_Fragment, arguments);
-
-                                }
-                            }
-                        }
-                    }
-                }
+        }
+        else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Events coming soon",
+                    fontSize = 20.sp,
+                    fontFamily = futura,
+                    color = colors.onBackground
+                )
             }
         }
     }
@@ -1405,7 +1549,7 @@ class CompetitionsFragment : Fragment() {
                     contentAlignment = Alignment.Center
                 ){
                     Text(
-                        text = "No stalls available",
+                        text = "Stalls coming soon",
                         fontSize = 20.sp,
                         fontFamily = futura,
                         color = colors.onBackground
