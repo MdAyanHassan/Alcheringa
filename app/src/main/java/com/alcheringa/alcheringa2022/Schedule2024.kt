@@ -872,17 +872,21 @@ class Schedule2024 : Fragment() {
                                     fontFamily = futura,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
-                                    color = colors.onBackground
+                                    color = colors.onBackground,
+                                    modifier = Modifier
+                                        .padding(horizontal = 10.dp)
                                 )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Text(
-                                    text = event.eventdetail.type,
-                                    fontSize = 14.sp,
-                                    fontFamily = futura,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    color = colors.onBackground
-                                )
+                                Spacer(modifier = Modifier.height(3.dp))
+                                if (event.eventdetail.durationInMin/60 > 1) {
+                                    Text(
+                                        text = event.eventdetail.type,
+                                        fontSize = 14.sp,
+                                        fontFamily = futura,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        color = colors.onBackground
+                                    )
+                                }
                             }
                             Image(
                                 painter = painterResource(id = R.drawable.card_background_transparent),
