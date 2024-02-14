@@ -829,7 +829,7 @@ class Schedule2024 : Fragment() {
 
 
 //                        val yOffset = ((event.eventdetail.starttime.hours - 8) * 44) + 21
-                        val height = (event.eventdetail.durationInMin / 60) * 44.2
+                        val height = (event.eventdetail.durationInMin / 60f) * 44.2
                         Box(
                             Modifier
                                 .fillMaxWidth()

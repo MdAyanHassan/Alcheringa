@@ -224,6 +224,7 @@ class SearchFragment : Fragment() {
                     TextField(
                         value = searchtext.value,
                         onValueChange = { v: String -> searchtext.value = v ; filterlist()},
+
                         placeholder = {
 //
                             MarqueeText(
@@ -236,6 +237,7 @@ class SearchFragment : Fragment() {
                             )
 
                                       },
+
                         trailingIcon = {
 
                             Box(modifier = Modifier
@@ -280,7 +282,7 @@ class SearchFragment : Fragment() {
                             .padding(16.dp)
                             .wrapContentHeight()
                             .weight(3f)
-
+                            .wrapContentHeight()
                             .border(1.dp, colors.onBackground, RoundedCornerShape(2.dp))
                             .focusRequester(focusRequester),
                         colors = TextFieldDefaults.textFieldColors(textColor = colors.onBackground,cursorColor = colors.onBackground,focusedIndicatorColor = Color.Transparent),
