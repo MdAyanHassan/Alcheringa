@@ -5,5 +5,5 @@ data class member(
     val name:String,
     val pos:String,
     val instaurl:String="",
-    val fburl:String="",
+    val mail:String="",
     val lnkdurl:String="" )

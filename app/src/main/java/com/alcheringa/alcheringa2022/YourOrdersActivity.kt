@@ -162,7 +162,8 @@ class YourOrdersActivity: AppCompatActivity() {
                                             )
                                         )
                                     }
-                                    .padding(vertical = 15.dp).align(Alignment.BottomCenter),
+                                    .padding(vertical = 15.dp)
+                                    .align(Alignment.BottomCenter),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 Text(
@@ -185,6 +186,9 @@ class YourOrdersActivity: AppCompatActivity() {
                                 LazyColumn() {
                                     items(yourOrders_modelList.size) {
                                         OrdersCard(orderDetail = yourOrders_modelList[it])
+                                    }
+                                    item { 
+                                        Spacer(modifier = Modifier.height(20.dp))
                                     }
                                 }
                             }

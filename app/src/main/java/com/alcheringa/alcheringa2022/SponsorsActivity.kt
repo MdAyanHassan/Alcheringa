@@ -46,10 +46,16 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.alcheringa.alcheringa2022.Model.sponsersnew
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
+import com.alcheringa.alcheringa2022.ui.theme.black
 import com.alcheringa.alcheringa2022.ui.theme.containerPurple
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
 import com.alcheringa.alcheringa2022.ui.theme.futura
+import com.alcheringa.alcheringa2022.ui.theme.highBlack
+import com.alcheringa.alcheringa2022.ui.theme.highWhite
 import com.alcheringa.alcheringa2022.ui.theme.lighterPurple
+import com.alcheringa.alcheringa2022.ui.theme.white
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
@@ -111,39 +117,59 @@ class SponsorsActivity: AppCompatActivity() {
                             .background(darkTealGreen)
                     )
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 20.dp)
-                            .paint(
-                                painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
-                                contentScale = ContentScale.Crop
-                            ),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(2),
+
+                    if (headersponsers.isNotEmpty() || generalsponsers.isNotEmpty()) {
+                        Column(
                             modifier = Modifier
-                                .wrapContentWidth()
-                                .wrapContentHeight(),
-                            verticalArrangement = Arrangement.spacedBy(10.dp),
-                            horizontalArrangement = Arrangement.spacedBy(10.dp)
-                        ){
-                            item(span = { GridItemSpan(2) }){
-                                Spacer(modifier = Modifier.height(10.dp))
-                            }
-                            items(span = { GridItemSpan(2) }, count = headersponsers.size) { index ->
-                                topSponsor(sponsersnew = headersponsers[index])
-                            }
-                            items(span = { GridItemSpan(2) }, count = 1) {
-                                Spacer(modifier = Modifier.height(20.dp))
+                                .fillMaxSize()
+                                .padding(horizontal = 20.dp)
+                                .paint(
+                                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                                    contentScale = ContentScale.Crop
+                                ),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            LazyVerticalGrid(
+                                columns = GridCells.Fixed(2),
+                                modifier = Modifier
+                                    .wrapContentWidth()
+                                    .wrapContentHeight(),
+                                verticalArrangement = Arrangement.spacedBy(10.dp),
+                                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                item(span = { GridItemSpan(2) }) {
+                                    Spacer(modifier = Modifier.height(10.dp))
+                                }
+                                items(
+                                    span = { GridItemSpan(2) },
+                                    count = headersponsers.size
+                                ) { index ->
+                                    topSponsor(sponsersnew = headersponsers[index])
+                                }
+                                items(span = { GridItemSpan(2) }, count = 1) {
+                                    Spacer(modifier = Modifier.height(20.dp))
+                                }
+
+                                items(count = generalsponsers.size) { index ->
+                                    subtopSponser(sponsersnew = generalsponsers[index])
+                                }
                             }
 
-                            items(count = generalsponsers.size) { index ->
-                                subtopSponser(sponsersnew = generalsponsers[index])
-                            }
                         }
-
+                    }
+                    else{
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Sponsors coming soon",
+                                fontSize = 20.sp,
+                                fontFamily = futura,
+                                color = colors.onBackground
+                            )
+                        }
                     }
                 }
             }
@@ -187,6 +213,8 @@ class SponsorsActivity: AppCompatActivity() {
                     .background(colors.background, RoundedCornerShape(4.dp))
             ) {
                 GlideImage(
+                    requestOptions = { RequestOptions.diskCacheStrategyOf(
+                        DiskCacheStrategy.AUTOMATIC)},
                     modifier = Modifier
                         .height(124.dp),
                     imageModel = sponsersnew.imageurl,
@@ -194,10 +222,10 @@ class SponsorsActivity: AppCompatActivity() {
                     contentScale = ContentScale.Inside,
                     alignment = Alignment.Center,
                     shimmerParams = ShimmerParams(
-                        baseColor = Color.Transparent,
-                        highlightColor = Color.LightGray,
-                        durationMillis = 350,
-                        dropOff = 0.65f,
+                        baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                        highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                        durationMillis = 1500,
+                        dropOff = 1f,
                         tilt = 20f
                     )
                 )

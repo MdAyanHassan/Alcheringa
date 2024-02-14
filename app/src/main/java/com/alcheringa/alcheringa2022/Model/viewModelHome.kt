@@ -84,7 +84,7 @@ class viewModelHome : ViewModel() {
 
     fun getAllEvents() {
         viewModelScope.launch {
-            fb.collection("AllEvents").get().addOnSuccessListener { evnts ->
+            fb.collection("AllEvents2024").get().addOnSuccessListener { evnts ->
                 val list = mutableListOf<eventWithLive>()
                 list.clear()
                 for (evnt in evnts) {

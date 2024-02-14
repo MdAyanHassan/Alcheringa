@@ -56,69 +56,72 @@ class TeamActivity: AppCompatActivity() {
 
                 val devteam= listOf(
                     member(
-                        R.drawable.nitish,
-                        "Nitish Singh Chauhan",
-                        "Head")
-                    , member(
-                        R.drawable.atharva,
-                        "Atharva Tagalpallewar",
-                        "Head",
-                        "https://www.instagram.com/atagalpallewar/",
-                        "https://www.linkedin.com/in/atharva-tagalpallewar/"),
-                    member(
                         R.drawable.shanta,
                         "Shantanu Chaudhari",
-                        "Executive",
+                        "Head",
                         "https://www.instagram.com/krab_shanta/",
+                        "shantanuc1111@gmail.com",
                         lnkdurl = "https://www.linkedin.com/in/shanta11")
                     , member(
-                        R.drawable.krishi,
-                        "Vedhant Krishi S",
+                        R.drawable.jivesh,
+                        "Jivesh Firke",
                         "Executive",
-                        "https://www.instagram.com/vedhant.krishi._/",
-                        lnkdurl = "https://www.linkedin.com/in/vedhant-krishi-74224b21a/")
+                        "https://www.instagram.com/jiveshfirke/",
+                        "jiveshfirke4749@gmail.com" ,
+                        lnkdurl = "https://www.linkedin.com/in/jiveshfirke")
                     , member(
-                        R.drawable.shri,
-                        "Shrivathsa",
+                        R.drawable.simon,
+                        "Simon Shangpliang",
                         "Executive",
-                        "https://www.instagram.com/5hri_07/",
-                        lnkdurl = "https://www.linkedin.com/in/shrivathsa729/"),
+                        "https://www.instagram.com/extremely_cool_cuber/",
+                        "simonrema123@gmail.com",
+                        lnkdurl = "https://in.linkedin.com/in/simon-lalremsiama-shangpliang-65130b287"),
                     member(
-                        R.drawable.divyesh,
-                        "Divyesh Agrawal",
+                        R.drawable.mayank,
+                        "Mayank Choudhary",
                         "Executive",
-                        "https://www.instagram.com/agarwal_divyesh/",
-                        lnkdurl = "https://www.linkedin.com/in/divyesh-agarwal-48a750231"),
+                        "https://www.instagram.com/mayank_chowdhry?igsh=NzJxZWZwYmZ2YnI3",
+                        "choudhary.mayank1310@gmail.com",
+                        lnkdurl = "https://www.linkedin.com/in/mayank-choudhary-333a8a260"),
                     member(
-                        R.drawable.rashmi,
-                        "Rashmi Bajaj",
+                        R.drawable.rupayan,
+                        "Rupayan Daripa",
                         "Executive",
-                        "https://www.instagram.com/r_bajaj047/",
-                        lnkdurl = "https://www.linkedin.com/in/rashmi-bajaj-70b386230")
+                        "https://www.instagram.com/rupayandaripa?igsh=cmJhaDlsajdoOGd1",
+                        "rupayandaripa@gmail.com",
+                        lnkdurl = "https://www.linkedin.com/in/rupayan-daripa-0ba98a261?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"),
+                    member(
+                        R.drawable.aradhya,
+                        "Aradhya",
+                        "Executive",
+                        "https://www.instagram.com/the_aradhs?igsh=a2gwbzdkMjJkM2Ix",
+                        "a.aradhya@iitg.ac.in",
+                        lnkdurl = "https://www.linkedin.com/in/aradhya-singh-843b71261?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app")
                 )
                 val desteam = listOf(
                     member(
                         R.drawable.ayush,
-                        "Ayush Singh",
+                        "Swapnil Banerjee",
                         "Head",
-                        "https://www.instagram.com/sigh.yush/",
-                        "https://www.facebook.com/profile.php?id=100002442294419",
-                        "https://www.linkedin.com/in/ayush-singh-5065881a1/"
+                        "https://www.instagram.com/mosaicoswap",
+                        "banerjeeswapnil2003@gmail.com",
+                        "https://www.linkedin.com/in/swapnil-banerjee-2650ab1a1/"
                     ),
                     member(
-                        R.drawable.xork,
-                        "Kavinash S",
+                        R.drawable.sai,
+                        "Sai Ejagar",
                         "Executive",
-                        "https://www.instagram.com/xorkavi/",
-                        "https://www.facebook.com/kavinash8/",
-                        "https://www.linkedin.com/in/kavinas-sundaramurthy-a2abb5226/"
+                        "https://www.instagram.com/sai.e_e?igsh=MXU0Ym1kNHVmb3E4eg%3D%3D&utm_source=q",
+                        "e.sai@iitg.ac.in",
+                        "https://www.linkedin.com/in/sai-ejagar-823824253?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
                     ),
                     member(
-                        R.drawable.shivam,
-                        "Shivam Kumar Roy",
+                        R.drawable.anushka,
+                        "Anushka Mittal",
                         "Executive",
-                        "https://www.instagram.com/_shivam.roy/",
-                        lnkdurl = "https://www.linkedin.com/in/shivam-roy1/"
+                        "https://www.instagram.com/anushka_mittal_?igsh=ZXNsdmhmdW05dmx5",
+                        "anushkamittal0515@gmail.com",
+                        lnkdurl = "https://www.linkedin.com/in/anushka-mittal-b6b049216?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
                     )
                 )
                 Column(
@@ -190,7 +193,8 @@ class TeamActivity: AppCompatActivity() {
                                     name = devteam[it].name,
                                     position = devteam[it].pos,
                                     instaurl = devteam[it].instaurl,
-                                    lnkurl = devteam[it].lnkdurl
+                                    lnkurl = devteam[it].lnkdurl,
+                                    mail = devteam[it].mail
                                 )
                             }
                             item {
@@ -212,7 +216,8 @@ class TeamActivity: AppCompatActivity() {
                                     name = desteam[it].name,
                                     position = desteam[it].pos,
                                     instaurl = desteam[it].instaurl,
-                                    lnkurl = desteam[it].lnkdurl
+                                    lnkurl = desteam[it].lnkdurl,
+                                    mail = desteam[it].mail
                                 )
                             }
                         }
@@ -223,7 +228,7 @@ class TeamActivity: AppCompatActivity() {
     }
 
     @Composable
-    fun TeamCard(imgInt: Int, name: String, position: String, instaurl: String, lnkurl: String){
+    fun TeamCard(imgInt: Int, name: String, position: String, instaurl: String, lnkurl: String, mail: String){
         Column {
             Box(
                 modifier = Modifier
@@ -295,6 +300,19 @@ class TeamActivity: AppCompatActivity() {
                                         .clickable { lnkopen(lnkurl) }
                                 )
                             }
+
+                            Spacer(modifier = Modifier.width(20.dp))
+
+                            if (mail != "") {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_email_icon),
+                                    contentDescription = null,
+                                    tint = lighterPurple,
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .clickable { mailing(mail) }
+                                )
+                            }
                         }
                     }
                 }
@@ -318,5 +336,13 @@ class TeamActivity: AppCompatActivity() {
                 Uri.parse(url)
             )
         )
+    }
+
+    fun mailing(mailTo: String){
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("mailto:$mailTo")
+        )
+        startActivity(intent)
     }
 }

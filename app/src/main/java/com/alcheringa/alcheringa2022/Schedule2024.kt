@@ -128,7 +128,6 @@ class Schedule2024 : Fragment() {
 //    val currentHour = mutableStateOf(13)
 //    val currentMinute = mutableStateOf(30)
     private var yOffset = mutableStateOf(0f)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fm = parentFragmentManager
@@ -136,13 +135,13 @@ class Schedule2024 : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             homeviewmodel.allEventsWithLivedata.observe(requireActivity()){data->
                 datestate0.clear();
-                datestate0.addAll((data.filter { data -> data.eventdetail.starttime.date == 2 }))
+                datestate0.addAll((data.filter { data -> data.eventdetail.starttime.date == 7 }))
                 datestate1.clear();
-                datestate1.addAll((data.filter { data -> data.eventdetail.starttime.date == 3 }))
+                datestate1.addAll((data.filter { data -> data.eventdetail.starttime.date == 8 }))
                 datestate2.clear();
-                datestate2.addAll((data.filter { data -> data.eventdetail.starttime.date == 4 }))
+                datestate2.addAll((data.filter { data -> data.eventdetail.starttime.date == 9 }))
                 datestate3.clear();
-                datestate3.addAll((data.filter { data -> data.eventdetail.starttime.date == 5 }))
+                datestate3.addAll((data.filter { data -> data.eventdetail.starttime.date == 10 }))
             }
         }
 
