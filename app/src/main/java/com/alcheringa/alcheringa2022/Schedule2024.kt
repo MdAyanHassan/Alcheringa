@@ -622,7 +622,7 @@ class Schedule2024 : Fragment() {
             Canvas(
                 modifier = Modifier
                     .width(72.dp)
-                    .height(616.dp)
+                    .height(616.dp + 44.dp)
             ){
                 drawLine(
                     color = onbackgroundcolor,
@@ -699,7 +699,7 @@ class Schedule2024 : Fragment() {
                                     color = colors.onBackground
                                 )
                             }
-                            for (time in 1..9) {
+                            for (time in 1..10) {
                                 Row(
                                     Modifier
                                         .height(44.dp)
@@ -717,7 +717,7 @@ class Schedule2024 : Fragment() {
                         }
                     }
 
-                    if(Calendar.HOUR_OF_DAY >= 8 && Calendar.HOUR_OF_DAY <= 21){
+                    if(Calendar.HOUR_OF_DAY >= 8 && Calendar.HOUR_OF_DAY <= 22){
                         Canvas(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -794,7 +794,7 @@ class Schedule2024 : Fragment() {
                         Column(
                             Modifier.fillMaxSize()
                         ) {
-                            for (time in 7..20) {
+                            for (time in 7..21) {
                                 Row(
                                     Modifier
                                         .height(44.dp)
@@ -824,8 +824,8 @@ class Schedule2024 : Fragment() {
                     eventList.forEach { event ->
 
                         val xdis =
-                            (((event.eventdetail.starttime.hours - 8) * 44.2).toFloat() + (event.eventdetail.starttime.min.toFloat() * (44.2f / 60f)) + 23f)
-                        val xdisinpxcald = with(LocalDensity.current) { (xdis + 41).dp.toPx() }
+                            (((event.eventdetail.starttime.hours - 8) * 44.2).toFloat() + (event.eventdetail.starttime.min.toFloat() * (44.2f / 60f)) + 20f)
+                        val xdisinpxcald = with(LocalDensity.current) { (xdis).dp.toPx() }
 
 
 //                        val yOffset = ((event.eventdetail.starttime.hours - 8) * 44) + 21
@@ -895,7 +895,7 @@ class Schedule2024 : Fragment() {
                         }
                     }
 
-                    if(cal.get(Calendar.HOUR_OF_DAY) in 8..21){
+                    if(cal.get(Calendar.HOUR_OF_DAY) in 8..22){
                         Canvas(
                             modifier = Modifier
                                 .fillMaxHeight()
