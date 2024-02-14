@@ -1058,7 +1058,7 @@ class Events_Details_Fragment : Fragment() {
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         MarqueeText(
-                            text = if(eventWithLive.isLive.value){"Live"} else {"${eventWithLive.eventdetail.starttime.date} Feb, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} "},
+                            text = if(eventWithLive.isLive.value){"Live"} else {"${eventWithLive.eventdetail.starttime.date} Mar, ${if (eventWithLive.eventdetail.starttime.hours > 12) "${eventWithLive.eventdetail.starttime.hours - 12}" else eventWithLive.eventdetail.starttime.hours}${if (eventWithLive.eventdetail.starttime.min != 0) ":${eventWithLive.eventdetail.starttime.min}" else ""} ${if (eventWithLive.eventdetail.starttime.hours >= 12) "PM" else "AM"} "},
                             style = TextStyle(
                                 color = if(eventWithLive.isLive.value) {
                                     darkTealGreen} else {colors.onBackground},

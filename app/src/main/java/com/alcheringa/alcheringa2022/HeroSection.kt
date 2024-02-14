@@ -176,7 +176,7 @@ fun FeaturedEventCard(event: eventWithLive, modifier: Modifier){
                         Spacer(modifier = Modifier.height(8.dp))
 
                         val displayTime =
-                            "${event.eventdetail.starttime.date} Feb, ${if (event.eventdetail.starttime.hours > 12) "${event.eventdetail.starttime.hours - 12}" else event.eventdetail.starttime.hours}${if (event.eventdetail.starttime.min != 0) ":${event.eventdetail.starttime.min}" else ""} ${if (event.eventdetail.starttime.hours >= 12) "PM" else "AM"} "
+                            "${event.eventdetail.starttime.date} Mar, ${if (event.eventdetail.starttime.hours > 12) "${event.eventdetail.starttime.hours - 12}" else event.eventdetail.starttime.hours}${if (event.eventdetail.starttime.min != 0) ":${event.eventdetail.starttime.min}" else ""} ${if (event.eventdetail.starttime.hours >= 12) "PM" else "AM"} "
 
                         MarqueeText(
                             text = displayTime + " | " + event.eventdetail.venue,
