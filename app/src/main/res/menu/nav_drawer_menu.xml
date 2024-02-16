@@ -33,8 +33,20 @@
         <item
             android:id="@+id/miSignOut"
             android:icon="@drawable/signoutlogo"
+            android:iconTint="#F22C5B"
             android:title="SignOut" />
-
+        <item
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title=" " />
+        <item
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title=" " />
+        <item
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title=" " />
 
 
     </group>

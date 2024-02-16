@@ -100,7 +100,7 @@ class TeamActivity: AppCompatActivity() {
                 )
                 val desteam = listOf(
                     member(
-                        R.drawable.ayush,
+                        R.drawable.swapnil,
                         "Swapnil Banerjee",
                         "Head",
                         "https://www.instagram.com/mosaicoswap",

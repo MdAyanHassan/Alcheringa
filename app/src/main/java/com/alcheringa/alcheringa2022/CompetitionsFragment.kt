@@ -586,6 +586,7 @@ class CompetitionsFragment : Fragment() {
                             value = selectedNames.joinToString(", "),
                             onValueChange = { selectedNames },
                             readOnly = true, // Makes the TextField clickable
+                            enabled = false,
                             trailingIcon = {
                                 Icon(
                                     icon,
@@ -594,7 +595,7 @@ class CompetitionsFragment : Fragment() {
                                     tint = colors.onBackground
                                 )
                             },
-                            colors = TextFieldDefaults.textFieldColors(colors.onBackground),
+                            colors = TextFieldDefaults.textFieldColors(colors.onBackground, disabledTextColor = colors.onBackground),
                         )
 
                         DropdownMenu(

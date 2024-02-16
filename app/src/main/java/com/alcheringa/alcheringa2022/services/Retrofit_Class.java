@@ -15,7 +15,7 @@ public interface Retrofit_Class {
 
     @FormUrlEncoded
     @POST("formResponse")
-    Call<ResponseBody> DataToExcel(
+    Call<Void> DataToExcel(
             @FieldMap Map<String,Object> map
     );
 

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import com.alcheringa.alcheringa2022.Model.OwnTime
 import com.alcheringa.alcheringa2022.Model.eventdetail
+import com.alcheringa.alcheringa2022.Model.merchModel
 import com.alcheringa.alcheringa2022.Model.sponsersnew
 import com.alcheringa.alcheringa2022.Model.venue
 import com.google.firebase.firestore.FirebaseFirestore

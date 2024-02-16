@@ -265,19 +265,19 @@ public class Order_Confirmed extends AppCompatActivity implements PaymentResultW
     }
     private void Volley(Map<String, Object> map) {
         Retrofit_Class retrofit_class=retrofit.create(Retrofit_Class.class);
-        Call<ResponseBody> call=retrofit_class.DataToExcel(map);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                Toast.makeText(getApplicationContext(), ""+response.toString(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
-               // Toast.makeText(getApplicationContext(), "error occured code x16389", Toast.LENGTH_SHORT).show();
-                Log.d("post",call.toString());
-            }
-        });
+//        Call<ResponseBody> call=retrofit_class.DataToExcel(map);
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+//                Toast.makeText(getApplicationContext(), ""+response.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+//               // Toast.makeText(getApplicationContext(), "error occured code x16389", Toast.LENGTH_SHORT).show();
+//                Log.d("post",call.toString());
+//            }
+//        });
 
 
     }

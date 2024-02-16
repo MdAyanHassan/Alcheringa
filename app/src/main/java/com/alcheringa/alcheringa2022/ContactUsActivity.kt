@@ -99,9 +99,9 @@ class ContactUsActivity: AppCompatActivity() {
                     ) {
                         Spacer(modifier = Modifier.height(15.dp))
 
-                        ContactCard(imgInt = R.drawable.siddhant, name = "Anurag", position = "Pr & Branding", phoneno = "9864558336", mail = "anurag@alcheringa.in")
-                        ContactCard(imgInt = R.drawable.siddhant, name = "Ankit Kumar", position = "Pr & Branding", phoneno = "8092267185", mail = "ankit.k@alcheringa.in")
-                        ContactCard(imgInt = R.drawable.siddhant, name = "Lakshya Kohli", position = "Pr & Branding", phoneno = "7082763383", mail = "lakshya@alcheringa.in")
+                        ContactCard(imgInt = R.drawable.anurag, name = "Anurag", position = "Pr & Branding", phoneno = "9864558336", mail = "anurag@alcheringa.in")
+                        ContactCard(imgInt = R.drawable.ankit, name = "Ankit Kumar", position = "Pr & Branding", phoneno = "8092267185", mail = "ankit.k@alcheringa.in")
+                        ContactCard(imgInt = R.drawable.lakshya, name = "Lakshya Kohli", position = "Pr & Branding", phoneno = "7082763383", mail = "lakshya@alcheringa.in")
                     }
                 }
             }

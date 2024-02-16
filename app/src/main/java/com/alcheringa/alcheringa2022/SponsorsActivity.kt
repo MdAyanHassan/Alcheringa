@@ -32,6 +32,7 @@ import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -48,6 +49,7 @@ import com.alcheringa.alcheringa2022.Model.sponsersnew
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.black
 import com.alcheringa.alcheringa2022.ui.theme.containerPurple
+import com.alcheringa.alcheringa2022.ui.theme.darkBar
 import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
 import com.alcheringa.alcheringa2022.ui.theme.futura
 import com.alcheringa.alcheringa2022.ui.theme.highBlack
@@ -66,6 +68,7 @@ class SponsorsActivity: AppCompatActivity() {
     var sponserlist= mutableListOf<sponsersnew>()
     val headersponsers= mutableStateListOf<sponsersnew>()
     val generalsponsers= mutableStateListOf<sponsersnew>()
+    val loaderView = mutableStateOf(true)
 
     @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -172,6 +175,19 @@ class SponsorsActivity: AppCompatActivity() {
                         }
                     }
                 }
+
+
+                if(loaderView.value){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = darkBar.copy(alpha = 0.6f)),
+                        contentAlignment = Alignment.Center,
+
+                        ) {
+                        LoadingAnimation3()
+                    }
+                }
             }
         }
     }
@@ -185,10 +201,11 @@ class SponsorsActivity: AppCompatActivity() {
                 sponserlist.add(
                     documentSnapshot.toObject(sponsersnew::class.java)
                 )
+                loaderView.value = false
             }
             headersponsers.addAll(sponserlist.filter { sponsersnew -> sponsersnew.heading })
             generalsponsers.addAll(sponserlist.filter { sponsersnew -> !sponsersnew.heading })
-        }.addOnFailureListener{ Log.d("sponsor", "failed")}
+        }.addOnFailureListener{ Log.d("sponsor", "failed"); loaderView.value = false}
     }
 
     @Composable

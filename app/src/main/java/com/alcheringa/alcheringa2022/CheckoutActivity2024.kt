@@ -54,6 +54,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -114,6 +115,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Date
 import java.util.Objects
 import kotlin.random.Random
+import com.google.gson.GsonBuilder
+
+import com.google.gson.Gson
+
+
+
 
 class CheckoutActivity2024 : AppCompatActivity() {
 
@@ -134,6 +141,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
     var shipping_charges = 0L
     lateinit var arrayList: ArrayList<cartModel>
     val DATA = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    val orderStatus = mutableStateOf(0)
 
     fun randomString(len: Int): String {
         val sb = StringBuilder(len)
@@ -158,6 +166,17 @@ class CheckoutActivity2024 : AppCompatActivity() {
                     shipping_charges = task.get("shipping").toString().toLong()
                 }
             }
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+
+        builder = Retrofit.Builder()
+            .baseUrl("https://docs.google.com/forms/d/e/1FAIpQLSf71ob3UMuWymlglEleeEGEWtRVE01kzl-dJuRbciDVvszDEw/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+
+        retrofit = builder.build()
+        val firebaseAuth = FirebaseAuth.getInstance()
+
 
         setContent {
             // A surface container using the 'background' color from the theme
@@ -168,11 +187,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                     spName = sharedPreferences.getString("name", "")
                 }
 
-                builder = Retrofit.Builder()
-                    .baseUrl("https://docs.google.com/forms/d/e/1FAIpQLSd2uK87A7zPdbag7B9BCPqf5O_MyOw8CDz7mr7D4B0Q_h7ynA/")
-                    .addConverterFactory(GsonConverterFactory.create())
 
-                retrofit = builder.build()
 
                 var key by remember {
                     mutableStateOf(0)
@@ -219,7 +234,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                 }
                 var road by remember { mutableStateOf(sharedPreferences.getString("road", "")) }
                 var city by remember { mutableStateOf(sharedPreferences.getString("city", "")) }
-                var email by remember { mutableStateOf(sharedPreferences.getString("email", "")) }
+//                var email by remember { mutableStateOf(sharedPreferences.getString("email", "")) }
                 var state by remember {
                     mutableStateOf(
                         sharedPreferences.getString(
@@ -261,7 +276,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                 user_state = state!!
                 user_city = city!!
                 user_pin_code = pincode!!
-                Email = email!!
+                Email = firebaseAuth.currentUser?.email.toString()
 
                 var greyColor =  if (isSystemInDarkTheme()) grey else darkGrey
 
@@ -333,7 +348,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                     .wrapContentHeight()
                                     .padding(start = 10.dp),
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
+                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Canvas(
                                     modifier = Modifier
@@ -363,7 +378,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                 )
                                 Divider(
                                     modifier = Modifier
-                                        .width(40.dp)
+                                        .weight(1.0f)
                                         .height(1.dp)
                                         .alpha(if (checkedState == 2) 0f else 1f)
                                         .background(
@@ -399,7 +414,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                 )
                                 Divider(
                                     modifier = Modifier
-                                        .width(40.dp)
+                                        .weight(1.0f)
                                         .height(1.dp)
                                         .alpha(if (checkedState == 2) 0f else 1f)
                                         .background(if (checkedState >= 2) darkTealGreen else greyColor)
@@ -422,14 +437,15 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                         )
                                     }
                                 }
-                                Text(
+                                MarqueeText(
                                     text = "Order Confirmation",
                                     modifier = Modifier
                                         .padding(start = 20.dp, end = 10.dp)
                                         .alpha(if (checkedState == 2) 0f else 1f),
                                     color = if (checkedState >= 2) darkTealGreen else greyColor,
                                     fontFamily = futura,
-                                    fontSize = 14.sp
+                                    fontSize = 14.sp,
+                                    gradientEdgeColor = Color.Transparent
                                 )
                             }
                             Spacer(modifier = Modifier.height(40.dp))
@@ -449,13 +465,15 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                         targetValue = if (checkedState == 0) 1f else 0f,
                                         animationSpec = spring(),
                                     )
-                                    Column(
+                                    Box(
                                         modifier = Modifier
+                                            .fillMaxSize()
                                             .alpha(alpha)
+
                                     ) {
                                         Column(
-                                            modifier = Modifier
-                                                .verticalScroll(rememberScrollState())
+                                            modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = 100.dp)
+
                                         ) {
                                             Text(
                                                 text = "Personal Information",
@@ -845,11 +863,11 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                                 }
                                             )
                                         }
-                                        Column(
+                                        Box(
                                             modifier = Modifier
                                                 .fillMaxSize()
                                                 .padding(bottom = 20.dp),
-                                            verticalArrangement = Arrangement.Bottom
+                                            contentAlignment = Alignment.BottomCenter
                                         ) {
                                             Box(
                                                 modifier = Modifier
@@ -1500,61 +1518,138 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                         targetValue = if (checkedState == 2) 1f else 0f,
                                         animationSpec = spring()
                                     )
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .offset(x = offsetRight2)
-                                            .alpha(alpha),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Column(
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.Center
-                                        ) {
+
+                                    when(orderStatus.value){
+                                        0 -> {
                                             Box(
                                                 modifier = Modifier
-                                                    .size(100.dp)
-                                                    .border(
-                                                        2.dp,
-                                                        darkTealGreen,
-                                                        RoundedCornerShape(100)
-                                                    ),
+                                                    .fillMaxSize()
+                                                    .background(color = darkBar.copy(alpha = 0.6f)),
+                                                contentAlignment = Alignment.Center,
+
+                                                ) {
+                                                LoadingAnimation3()
+                                            }
+                                        }
+
+                                        1 -> {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .offset(x = offsetRight2)
+                                                    .alpha(alpha),
                                                 contentAlignment = Alignment.Center
                                             ) {
-                                                Icon(
-                                                    imageVector = Icons.Default.Done,
-                                                    contentDescription = null,
-                                                    tint = darkTealGreen,
-                                                    modifier = Modifier
-                                                        .size(70.dp)
-                                                )
+                                                Column(
+                                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                                    verticalArrangement = Arrangement.Center
+                                                ) {
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .size(100.dp)
+                                                            .border(
+                                                                2.dp,
+                                                                darkTealGreen,
+                                                                RoundedCornerShape(100)
+                                                            ),
+                                                        contentAlignment = Alignment.Center
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Default.Done,
+                                                            contentDescription = null,
+                                                            tint = darkTealGreen,
+                                                            modifier = Modifier
+                                                                .size(70.dp)
+                                                        )
+                                                    }
+
+                                                    Spacer(modifier = Modifier.height(15.dp))
+
+                                                    Text(
+                                                        text = "Order Placed",
+                                                        fontSize = 18.sp,
+                                                        fontFamily = futura,
+                                                        color = greyColor
+                                                    )
+
+                                                    Spacer(modifier = Modifier.height(15.dp))
+
+                                                    Text(
+                                                        text = "Our team will contact you regarding",
+                                                        fontSize = 18.sp,
+                                                        fontFamily = futura,
+                                                        color = greyColor
+                                                    )
+                                                    Text(
+                                                        text = "further details of your order",
+                                                        fontSize = 18.sp,
+                                                        fontFamily = futura,
+                                                        color = greyColor
+                                                    )
+                                                }
                                             }
+                                        }
 
-                                            Spacer(modifier = Modifier.height(15.dp))
+                                        2 -> {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .offset(x = offsetRight2)
+                                                    .alpha(alpha),
+                                                contentAlignment = Alignment.Center
+                                            ) {
+                                                Column(
+                                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                                    verticalArrangement = Arrangement.Center
+                                                ) {
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .size(100.dp)
+                                                            .border(
+                                                                2.dp,
+                                                                Color.Red,
+                                                                RoundedCornerShape(100)
+                                                            ),
+                                                        contentAlignment = Alignment.Center
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Default.Close,
+                                                            contentDescription = null,
+                                                            tint = Color.Red,
+                                                            modifier = Modifier
+                                                                .size(70.dp)
+                                                        )
+                                                    }
 
-                                            Text(
-                                                text = "Order Placed",
-                                                fontSize = 18.sp,
-                                                fontFamily = futura,
-                                                color = greyColor
-                                            )
+                                                    Spacer(modifier = Modifier.height(15.dp))
 
-                                            Spacer(modifier = Modifier.height(15.dp))
+                                                    Text(
+                                                        text = "Error Placing Order",
+                                                        fontSize = 18.sp,
+                                                        fontFamily = futura,
+                                                        color = greyColor
+                                                    )
 
-                                            Text(
-                                                text = "Our team will contact you regarding",
-                                                fontSize = 18.sp,
-                                                fontFamily = futura,
-                                                color = greyColor
-                                            )
-                                            Text(
-                                                text = "further details of your order",
-                                                fontSize = 18.sp,
-                                                fontFamily = futura,
-                                                color = greyColor
-                                            )
+                                                    Spacer(modifier = Modifier.height(15.dp))
+
+                                                    Text(
+                                                        text = "Contact us if the issue persists",
+                                                        fontSize = 18.sp,
+                                                        fontFamily = futura,
+                                                        color = greyColor
+                                                    )
+//                                                    Text(
+//                                                        text = "further details of your order",
+//                                                        fontSize = 18.sp,
+//                                                        fontFamily = futura,
+//                                                        color = greyColor
+//                                                    )
+                                                }
+                                            }
                                         }
                                     }
+
+
                                 }
                             }
                         }
@@ -1644,40 +1739,131 @@ class CheckoutActivity2024 : AppCompatActivity() {
     private fun Volley(map: MutableMap<String, Any?>) {
         val retrofit_class = retrofit.create(Retrofit_Class::class.java)
         val call = retrofit_class.DataToExcel(map)
-        call.enqueue(object : Callback<ResponseBody?> {
-            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
-                Toast.makeText(applicationContext, "" + response.toString(), Toast.LENGTH_SHORT)
-                    .show()
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                Log.d("post", response.toString())
+
+                if(response.isSuccessful){
+                    orderStatus.value = 1
+                    Toast.makeText(
+                        applicationContext,
+                        "Your order is placed",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+                else{
+                    orderStatus.value = 2
+                }
+
             }
 
-            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+            override fun onFailure(call: Call<Void>, t: Throwable) {
                 // Toast.makeText(getApplicationContext(), "error occured code x16389", Toast.LENGTH_SHORT).show();
-                Log.d("post", call.toString())
+                orderStatus.value = 2
+                Log.d("post", t.toString())
             }
         })
     }
 
     private fun AddToExcel(order_list: ArrayList<cartModel>, PaymentId: String) {
-        for (i in order_list.indices) {
+//        for (i in order_list.indices) {
+//            val data: MutableMap<String, Any?> = hashMapOf(
+//                "entry.370760790" to order_list[i].size
+//            )
+//
+////            data["entry.1217211808"] = order_list[i].name
+////            data["entry.365380202"] = order_list[i].price
+////            data["entry.1596700490"] = order_list[i].size
+////            data["entry.1406401370"] = order_list[i].type
+////            data["entry.461981693"] = Date().toString() + ""
+////            data["entry.271845590"] = user_phone
+////            data["entry.1853344447"] = user_house
+////            data["entry.1389883145"] = user_road
+////            data["entry.1369895676"] = user_state
+////            data["entry.701619952"] = user_city
+////            data["entry.1333764685"] = user_pin_code
+////            data["entry.505659208"] = PaymentId
+////            data["entry.1800146690"] = "" + total_amount
+////            data["entry.1596610928"] = order_list[i].count
+////            data["entry.2032856044"] = user_name
+////            data["entry.370760790"] = Email
+//            Volley(data)
+//        }
+
+        val name = user_name
+        val address = user_house + ", " +  user_road+ ", " +  user_state + ", " +  user_city + " " +  user_pin_code
+        val phone = user_phone
+
+        for (order in order_list) {
             val data: MutableMap<String, Any?> = HashMap()
-            data["entry.1217211808"] = order_list[i].name
-            data["entry.365380202"] = order_list[i].price
-            data["entry.1596700490"] = order_list[i].size
-            data["entry.1406401370"] = order_list[i].type
-            data["entry.461981693"] = Date().toString() + ""
-            data["entry.271845590"] = user_phone
-            data["entry.1853344447"] = user_house
-            data["entry.1389883145"] = user_road
-            data["entry.1369895676"] = user_state
-            data["entry.701619952"] = user_city
-            data["entry.1333764685"] = user_pin_code
-            data["entry.505659208"] = PaymentId
-            data["entry.1800146690"] = "" + total_amount
-            data["entry.1596610928"] = order_list[i].count
-            data["entry.2032856044"] = user_name
-            data["entry.121322222"] = Email
+
+            data["entry.209006984"] = name
+            data["entry.669861633"] = address
+            data["entry.946404472"] = phone
+
+            if(order.type!!.contains("t-shirt", ignoreCase = true)){
+                data["entry.1783824976"] = "Regular Fit T-shirt"
+                if(order.size == "S"){
+                    data["entry.2102505125"]=order.count
+                }
+                else if(order.size == "M"){
+                    data["entry.2122892541"]=order.count
+                }
+                else if(order.size == "L"){
+                    data["entry.675675266"]=order.count
+                }
+                else if(order.size == "XL"){
+                    data["entry.569976089"]=order.count
+                }
+                else if(order.size == "XXL"){
+                    data["entry.522997590"]=order.count
+                }
+            }
+            else if(order.type!!.contains("oversized", ignoreCase = true)){
+                data["entry.1783824976"] = "Oversized T-shirt"
+                if(order.size == "S"){
+                    data["entry.1269969584"]=order.count
+                }
+                else if(order.size == "M"){
+                    data["entry.1904638183"]=order.count
+                }
+                else if(order.size == "L"){
+                    data["entry.1260631301"]=order.count
+                }
+                else if(order.size == "XL"){
+                    data["entry.1446741844"]=order.count
+                }
+            }
+            else if(order.type!!.contains("sweatshirt", ignoreCase = true)){
+                data["entry.1783824976"] = "Sweatshirt"
+                if(order.size == "S"){
+                    data["entry.1505860099"]=order.count
+                }
+                else if(order.size == "M"){
+                    data["entry.1339123637"]=order.count
+                }
+                else if(order.size == "L"){
+                    data["entry.1180361216"]=order.count
+                }
+                else if(order.size == "XL"){
+                    data["entry.1748703153"]=order.count
+                }
+                else if(order.size == "XXL"){
+                    data["entry.768636551"]=order.count
+                }
+            }
+
             Volley(data)
+
+
         }
+
+
+
+
+
+
         clear_cart()
     }
 
@@ -1717,18 +1903,14 @@ class CheckoutActivity2024 : AppCompatActivity() {
                         .addOnCompleteListener { task1 ->
                             if (task1.isSuccessful) {
                                 AddToExcel(arrayList, PaymentId)
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Your order is placed",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
+
                             } else {
                                 Toast.makeText(
                                     applicationContext,
                                     "Some error occurred while placing your orders, try again ! ",
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                orderStatus.value = 2
                                 finish()
                             }
                         }
@@ -1738,6 +1920,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                         "Some error occurred while placing your orders, try again !",
                         Toast.LENGTH_SHORT
                     ).show()
+                    orderStatus.value = 2
                     finish()
                 }
             }
@@ -1757,6 +1940,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
             //Log.d("TAG", order.get("id"));
             //  checkoutOrder(order.get("id"), total_price);
             AddOrderToFirebase(arrayList, randomString(20))
+
         } catch (e: RazorpayException) {
             Toast.makeText(
                 applicationContext,

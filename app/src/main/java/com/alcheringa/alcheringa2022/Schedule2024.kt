@@ -111,10 +111,16 @@ class Schedule2024 : Fragment() {
     private var selectedDayEvents = datestate0
     private var datestate = mutableStateOf<Int>(0)
     private var itemListMap = mapOf(
-        "All" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5",
-            "Front of Graffiti Wall","Behind Graffiti Wall","Old Sac Wall","Conference Hall 1","Conference Hall 2","Conference Hall 3","Conference Hall 4","Mini Auditorium","Auditorium","Audi Park","Senate Hall"
-            ,"Library","Library Shed","Library Basement","Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field", "New SAC"),
-        "Lecture Halls" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5"),
+        "All" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5", "Core 1",
+            "Front of Graffiti Wall","Behind Graffiti Wall","Old Sac Wall", "New SAC", "Old Sac Stage",
+            "Conference Hall 1","Conference Hall 2","Conference Hall 3","Conference Hall 4",
+            "Mini Auditorium","Auditorium","Audi Park",
+            "Senate Hall", "Rocko Stage","Expo Stage"
+            ,"Library","Library Shed","Library Basement",
+            "Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field"),
+
+
+        "Lecture Halls" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5", "Core 1"),
         "Grounds" to listOf("Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field"),
         "Library Area" to listOf("Library","Library Shed","Library Basement"),
         "Admin Area" to listOf("Senate Hall","Rocko Stage","Expo Stage"),
@@ -447,32 +453,74 @@ class Schedule2024 : Fragment() {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ){
-                        Column {
-                            OutlinedTextField(
+                        Column(
+                            modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp)
+                        ) {
+//                            OutlinedTextField(
+//                                modifier = Modifier
+//                                    .width(220.dp)
+//
+//                                    .background(colors.onSurface)
+//                                    .border(
+//                                        1.dp,
+//                                        colors.onBackground,
+//                                        shape = RoundedCornerShape(4.dp)
+//                                    )
+//                                    .clickable { expanded = !expanded },
+//                                value = selectedItem.value,
+//                                onValueChange = { selectedItem.value = it },
+//                                trailingIcon = {
+//                                    Icon(
+//                                        icon,
+//                                        "",
+//                                        Modifier.clickable { expanded = !expanded },
+//                                        tint = colors.onBackground
+//                                    )
+//                                },
+//                                readOnly = true,
+//                                enabled = false,
+//                                colors = TextFieldDefaults.textFieldColors(textColor = colors.onBackground, disabledTextColor = colors.onBackground)
+//                            )
+                            Row(
                                 modifier = Modifier
-                                    .width(220.dp)
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        expanded = !expanded
+                                    }
+                                    .border(1.dp, colors.onBackground, RoundedCornerShape(4.dp))
+                                    .padding(horizontal = 24.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = selectedItem.value,
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 18.sp,
+                                    color = colors.onBackground
 
-                                    .background(colors.onSurface)
-                                    .border(
-                                        1.dp,
-                                        colors.onBackground,
-                                        shape = RoundedCornerShape(4.dp)
+                                )
+
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Divider(
+                                        Modifier
+                                            .fillMaxHeight()
+                                            .width(1.dp), color = colors.onBackground
                                     )
-                                    .clickable { expanded = !expanded },
-                                value = selectedItem.value,
-                                onValueChange = { selectedItem.value = it },
-                                trailingIcon = {
+                                    Spacer(modifier = Modifier.width(24.dp))
+
                                     Icon(
                                         icon,
                                         "",
                                         Modifier.clickable { expanded = !expanded },
                                         tint = colors.onBackground
                                     )
-                                },
-                                readOnly = true,
-                                enabled = false,
-                                colors = TextFieldDefaults.textFieldColors(textColor = colors.onBackground, disabledTextColor = colors.onBackground)
-                            )
+                                }
+
+                            }
 
                             DropdownMenu(
                                 expanded = expanded,
@@ -743,20 +791,25 @@ class Schedule2024 : Fragment() {
     }
     @Composable
     fun VenueSchedule(venue: String, scroll: ScrollState, eventList: List<eventWithLive>){
-        val horizontal_dash_color = containerPurple
+        val horizontal_dash_color = if(isSystemInDarkTheme()){
+            containerPurple.copy(0.6f)
+        }
+        else{
+            containerPurple
+        }
 //        val yOffset = with(LocalDensity.current) { ((currentHour.value - 8f) * 44.dp.toPx()) + (currentMinute.value * (44.dp.toPx()/60f)) + 21.dp.toPx()}
         val cal = Calendar.getInstance()
-        Canvas(
-            modifier = Modifier
-                .fillMaxSize()
-        ){
-            drawLine(
-                color = horizontal_dash_color,
-                start = Offset(size.width, 0f),
-                end = Offset(size.width, size.height),
-                strokeWidth = 1.5.dp.toPx()
-            )
-        }
+//        Canvas(
+//            modifier = Modifier
+//                .fillMaxSize()
+//        ){
+//            drawLine(
+//                color = horizontal_dash_color,
+//                start = Offset(size.width, 0f),
+//                end = Offset(size.width, size.height),
+//                strokeWidth = 1.5.dp.toPx()
+//            )
+//        }
 
         Box (
             modifier = Modifier
@@ -931,7 +984,7 @@ class Schedule2024 : Fragment() {
                 color = horizontal_dash_color,
                 start = Offset(size.width, 0f),
                 end = Offset(size.width, size.height),
-                strokeWidth = 1.5.dp.toPx()
+                strokeWidth = 1.dp.toPx()
             )
         }
 
