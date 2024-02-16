@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -25,7 +26,9 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme.colors
@@ -208,16 +211,18 @@ class SponsorsActivity: AppCompatActivity() {
         }.addOnFailureListener{ Log.d("sponsor", "failed"); loaderView.value = false}
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun topSponsor(sponsersnew: sponsersnew){
         Column {
-            MarqueeText(
+            Text(
                 text = sponsersnew.title,
                 fontSize = 18.sp,
                 fontFamily = futura,
                 color = colors.onBackground,
                 modifier = Modifier
                     .align(Alignment.Start)
+                    .basicMarquee()
             )
             
             Spacer(modifier = Modifier.height(10.dp))
@@ -238,13 +243,13 @@ class SponsorsActivity: AppCompatActivity() {
                     contentDescription = "Sponsor",
                     contentScale = ContentScale.Inside,
                     alignment = Alignment.Center,
-                    shimmerParams = ShimmerParams(
-                        baseColor = if(isSystemInDarkTheme()) black else highWhite,
-                        highlightColor = if(isSystemInDarkTheme()) highBlack else white,
-                        durationMillis = 1500,
-                        dropOff = 1f,
-                        tilt = 20f
-                    )
+//                    shimmerParams = ShimmerParams(
+//                        baseColor = if(isSystemInDarkTheme()) black else highWhite,
+//                        highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+//                        durationMillis = 1500,
+//                        dropOff = 1f,
+//                        tilt = 20f
+//                    )
                 )
             }
 
@@ -252,16 +257,18 @@ class SponsorsActivity: AppCompatActivity() {
         }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun subtopSponser(sponsersnew: sponsersnew) {
         Column {
-            MarqueeText(
+            Text(
                 text = sponsersnew.title,
                 fontSize = 18.sp,
                 fontFamily = futura,
                 color = colors.onBackground,
                 modifier = Modifier
-                    .align(Alignment.Start),
+                    .align(Alignment.Start)
+                    .basicMarquee(),
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -274,19 +281,21 @@ class SponsorsActivity: AppCompatActivity() {
                     .background(colors.background, RoundedCornerShape(4.dp))
             ) {
                 GlideImage(
+                    requestOptions = { RequestOptions.diskCacheStrategyOf(
+                        DiskCacheStrategy.AUTOMATIC)},
                     modifier = Modifier
                         .height(80.dp),
                     imageModel = sponsersnew.imageurl,
                     contentDescription = "Sponsor",
                     contentScale = ContentScale.Inside,
                     alignment = Alignment.Center,
-                    shimmerParams = ShimmerParams(
-                        baseColor = Color.Transparent,
-                        highlightColor = Color.LightGray,
-                        durationMillis = 350,
-                        dropOff = 0.65f,
-                        tilt = 20f
-                    )
+//                    shimmerParams = ShimmerParams(
+//                        baseColor = Color.Transparent,
+//                        highlightColor = Color.LightGray,
+//                        durationMillis = 350,
+//                        dropOff = 0.65f,
+//                        tilt = 20f
+//                    )
                 )
             }
         }
