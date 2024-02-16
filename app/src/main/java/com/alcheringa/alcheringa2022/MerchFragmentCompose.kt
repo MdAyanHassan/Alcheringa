@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -1280,27 +1281,32 @@ class MerchFragmentCompose : Fragment() {
                                 contentScale = ContentScale.Crop
                             )
                     ) {
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(2),
+
+
+
+                        LazyColumn(
                             //verticalArrangement = Arrangement.spacedBy(10.dp),
-                            horizontalArrangement = Arrangement.spacedBy(20.dp)
                         ) {
                             items(homeViewModel.merchMerch.size) { i ->
-                                newMerchGridItem(
-                                    merch = homeViewModel.merchMerch[i],
-                                    Index = i,
-                                    onClick = {
-                                        index = i
-                                        coroutineScope.launch {
-                                            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                                                bottomSheetScaffoldState.bottomSheetState.expand()
 
-                                            } else {
-                                                bottomSheetScaffoldState.bottomSheetState.collapse()
-                                            }
+                                merchGridItem2024(item = homeViewModel.merchMerch[i], onClick = {
+                                    index = i
+                                    coroutineScope.launch {
+                                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                            bottomSheetScaffoldState.bottomSheetState.expand()
+
+                                        } else {
+                                            bottomSheetScaffoldState.bottomSheetState.collapse()
                                         }
-                                    }
-                                )
+                                    }/*TODO*/ }, index = i,homeViewModel.merchMerch.size)
+
+//                                newMerchGridItem(
+//                                    merch = homeViewModel.merchMerch[i],
+//                                    Index = i,
+//                                    onClick = {
+//
+//                                    }
+//                                )
                             }
                         }
                     }
@@ -1527,6 +1533,172 @@ class MerchFragmentCompose : Fragment() {
                     .padding(16.dp)
             )
         }
+
+    }
+
+    @Composable
+    fun merchGridItem2024(item: merchModel, onClick: () -> Unit, index: Int,totalSize:Int){
+        val context= LocalContext.current
+        var fontCol:Color by remember{ mutableStateOf( if(context.getResources().getConfiguration().uiMode==33)
+        {
+            lightBar
+        }
+        else
+        {
+            darkBar
+        }) }
+        var tempBgCol:Color by remember{ mutableStateOf( if(context.getResources().getConfiguration().uiMode==33)
+        {
+            Color.Black
+        }
+        else
+        {
+            lightBar
+        }) }
+        var surfaceCol:Color by remember{ mutableStateOf( if(context.getResources().getConfiguration().uiMode==33)
+        {
+            darkBar
+        }
+        else
+        {
+            lightBar
+        }) }
+        val itembg = if (index%4 == 1 || index%4 == 2) R.drawable.merchbg_purple else R.drawable.merchbg_green
+        val ribbonbg = if (index%4 == 1 || index%4 == 2) R.drawable.ribbon else R.drawable.ribbon2
+
+                var bottomDp = 10.dp
+                if (index == totalSize - 1) {
+                    bottomDp = 90.dp
+                }
+                Card(
+
+                    modifier = Modifier
+                        .padding(0.dp, 10.dp, 0.dp, bottomDp)
+                        .height(210.dp)
+                        .clickable(
+                            onClick = onClick,
+                            enabled = true
+                        )
+                        .border(
+                            1.dp,
+                            fontCol,
+                            RoundedCornerShape(8.dp, 8.dp, 8.dp, 8.dp)
+                        ),
+
+                    //set card elevation of the card
+
+                    backgroundColor = surfaceCol,
+                ) {
+                    Column(modifier = Modifier) {
+                        Row() {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .fillMaxWidth(0.46f)
+
+
+                            ) {
+                                //   Box(modifier=Modifier.fillMaxHeight().background(color=Color.Blue,shape= RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp))){
+                                Image(
+                                    painter = painterResource(id = itembg),
+                                    contentDescription = "cart_item_bg",
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .clip(
+                                            RoundedCornerShape(
+                                                topStart = 8.dp,
+                                                bottomStart = 8.dp
+                                            )
+                                        ),
+                                    contentScale = ContentScale.Crop
+                                )
+                                //   }
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize(0.8f)
+                                        .align(Alignment.Center)
+                                ) {
+                                    Image(
+                                        rememberImagePainter(
+                                            item.image_url,
+                                            builder = {
+                                                placeholder(R.drawable.white_circle_bg)
+                                            }
+                                        ),
+                                        contentDescription = null,
+                                        modifier = Modifier.align(Alignment.Center)
+                                    )
+                                }
+                            }
+                            Box(modifier = Modifier.fillMaxSize()) {
+                                Image(
+                                    painter = painterResource(id = ribbonbg),
+                                    contentDescription = "cart_item_bg",
+                                    modifier = Modifier
+                                        .padding(top=94.dp)
+                                        .fillMaxHeight(0.85f)
+                                        .clip(
+                                            RoundedCornerShape(
+                                                topEnd = 8.dp,
+                                                bottomEnd = 8.dp
+                                            )
+                                        ),
+                                    contentScale = ContentScale.Crop
+                                )
+                                Column(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .fillMaxWidth()
+                                ) {
+
+                                    Spacer(modifier = Modifier.height(10.dp))
+
+                                    Text(
+                                        text = item.material!!,
+                                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                                        color = fontCol, fontFamily = futura,
+                                        fontWeight = FontWeight(400),
+                                        fontSize = 20.sp,
+                                        lineHeight = 25.sp
+
+                                    )
+                                    Text(
+                                        text = item.name!!,
+                                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                                        fontWeight = FontWeight(300),
+                                        fontFamily = futura,
+
+
+                                        color =fontCol,
+                                        fontSize = 16.sp
+
+
+                                    )
+
+
+
+
+                                    Spacer(modifier = Modifier.height(55.dp))
+                                    Text(
+                                        text = "Rs. " + item.price!! + ".00/-",
+                                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                                        color = fontCol,
+                                        fontWeight = FontWeight(450),
+                                        fontSize = 20.sp,
+                                        fontFamily = futura,
+                                        lineHeight = 26.sp
+
+
+                                        //maxLines = 1,
+                                        //overflow = TextOverflow.Ellipsis,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+
 
     }
 

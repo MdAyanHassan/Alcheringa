@@ -622,10 +622,15 @@ class Events : Fragment() {
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun mapview(bottomSheetScaffoldState: BottomSheetScaffoldState, coroutineScope: CoroutineScope) {
+        //initial code was showing error
         val cameraPositionState = CameraPositionState(
-            position = CameraPosition.fromLatLngZoom(markerList[0].LatLng, 17f)
+            position = if (markerList.isNotEmpty() && markerList[0] != null) {
+                CameraPosition.fromLatLngZoom(markerList[0].LatLng, 17f)
+            } else {
+                // Provide a default position if markerList is empty or markerList[0] is null
+                CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 17f)
+            }
         )
-
 //        LaunchedEffect(key1 = true) {
 //            cameraPositionState.animate(
 //                update = CameraUpdateFactory.newCameraPosition(
