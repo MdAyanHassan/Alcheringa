@@ -118,7 +118,10 @@ class Schedule2024 : Fragment() {
             "Mini Auditorium","Auditorium","Audi Park",
             "Senate Hall", "Rocko Stage","Expo Stage"
             ,"Library","Library Shed","Library Basement",
-            "Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field"),
+            "Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field",
+            "Entire Campus"
+
+        ),
 
 
         "Lecture Halls" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5", "Core 1"),

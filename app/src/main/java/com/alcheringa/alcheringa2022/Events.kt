@@ -1,5 +1,6 @@
 package com.alcheringa.alcheringa2022
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -57,6 +58,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.BuildConfig
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.maps.android.compose.*
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -147,6 +153,7 @@ class Events : Fragment() {
         } catch (e: IllegalStateException){
             Log.d("Events", "No argument")
         }
+
 
 
     }
@@ -623,14 +630,17 @@ class Events : Fragment() {
     @Composable
     fun mapview(bottomSheetScaffoldState: BottomSheetScaffoldState, coroutineScope: CoroutineScope) {
         //initial code was showing error
-        val cameraPositionState = CameraPositionState(
-            position = if (markerList.isNotEmpty() && markerList[0] != null) {
-                CameraPosition.fromLatLngZoom(markerList[0].LatLng, 17f)
-            } else {
-                // Provide a default position if markerList is empty or markerList[0] is null
-                CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 17f)
-            }
-        )
+        val cameraPositionState by remember {
+            mutableStateOf(CameraPositionState(
+                position =
+                CameraPosition.fromLatLngZoom(
+                    LatLng(26.190638584006965, 91.69300641296921),
+                    17f
+                )
+
+            ))
+        }
+
 //        LaunchedEffect(key1 = true) {
 //            cameraPositionState.animate(
 //                update = CameraUpdateFactory.newCameraPosition(
@@ -639,6 +649,7 @@ class Events : Fragment() {
 //                durationMs = 1000
 //            )
 //        }
+
 
 
         GoogleMap(
@@ -661,6 +672,7 @@ class Events : Fragment() {
                 ),
                 maxZoomPreference = 18f,
                 minZoomPreference = 16f,
+                isBuildingEnabled = true,
 
 
             )
@@ -688,7 +700,8 @@ class Events : Fragment() {
                                 if(bottomSheetScaffoldState.bottomSheetState.isCollapsed){
                                     bottomSheetScaffoldState.bottomSheetState.expand()
                                 }
-                                cameraPositionState.animate(CameraUpdateFactory.newLatLng(it.position), durationMs = 500)
+//                                val newLatLng = LatLng(v.LatLng.latitude - 0.0009, v.LatLng.longitude)
+//                                cameraPositionState.animate(CameraUpdateFactory.newLatLng(newLatLng), durationMs = 500)
                             }
                             false
 
