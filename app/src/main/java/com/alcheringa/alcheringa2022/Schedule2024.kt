@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.BorderStroke
@@ -247,13 +248,17 @@ class Schedule2024 : Fragment() {
                 ) {
                     Column(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .wrapContentWidth()
+                            .wrapContentSize()
                             .clickable {
                                 datestate.value = 0
                                 selectedDayEvents = datestate0
                             }
-                            .padding(top = 20.dp),
+                            .background(
+                                if (datestate.value == 0) darkTealGreen else Color.Transparent,
+                                RoundedCornerShape(8.dp)
+                            )
+                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
@@ -263,24 +268,20 @@ class Schedule2024 : Fragment() {
                             color = colors.onBackground,
                             fontWeight = FontWeight.Medium
                         )
-                        if (datestate.value == 0) {
-                            Spacer(modifier = Modifier.height(7.dp))
-                            Icon(
-                                ImageVector.vectorResource(R.drawable.squiggle),
-                                null,
-                                tint = colors.onBackground
-                            )
-                        }
                     }
                     Column(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .wrapContentWidth()
+                            .wrapContentSize()
                             .clickable {
                                 datestate.value = 1
                                 selectedDayEvents = datestate1
                             }
-                            .padding(top = 20.dp),
+                            .background(
+                                if (datestate.value == 1) darkTealGreen else Color.Transparent,
+                                RoundedCornerShape(8.dp)
+                            )
+                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
@@ -290,24 +291,20 @@ class Schedule2024 : Fragment() {
                             color = colors.onBackground,
                             fontWeight = FontWeight.Medium
                         )
-                        if (datestate.value == 1) {
-                            Spacer(modifier = Modifier.height(7.dp))
-                            Icon(
-                                ImageVector.vectorResource(R.drawable.squiggle),
-                                null,
-                                tint = colors.onBackground
-                            )
-                        }
                     }
                     Column(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .wrapContentWidth()
+                            .wrapContentSize()
                             .clickable {
                                 datestate.value = 2
                                 selectedDayEvents = datestate2
                             }
-                            .padding(top = 20.dp),
+                            .background(
+                                if (datestate.value == 2) darkTealGreen else Color.Transparent,
+                                RoundedCornerShape(8.dp)
+                            )
+                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
@@ -317,24 +314,20 @@ class Schedule2024 : Fragment() {
                             color = colors.onBackground,
                             fontWeight = FontWeight.Medium
                         )
-                        if (datestate.value == 2) {
-                            Spacer(modifier = Modifier.height(7.dp))
-                            Icon(
-                                ImageVector.vectorResource(R.drawable.squiggle),
-                                null,
-                                tint = colors.onBackground
-                            )
-                        }
                     }
                     Column(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .wrapContentWidth()
+                            .wrapContentSize()
                             .clickable {
                                 datestate.value = 3
                                 selectedDayEvents = datestate3
                             }
-                            .padding(top = 20.dp),
+                            .background(
+                                if (datestate.value == 3) darkTealGreen else Color.Transparent,
+                                RoundedCornerShape(8.dp)
+                            )
+                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
@@ -344,14 +337,6 @@ class Schedule2024 : Fragment() {
                             color = colors.onBackground,
                             fontWeight = FontWeight.Medium
                         )
-                        if (datestate.value == 3) {
-                            Spacer(modifier = Modifier.height(7.dp))
-                            Icon(
-                                ImageVector.vectorResource(R.drawable.squiggle),
-                                null,
-                                tint = colors.onBackground
-                            )
-                        }
                     }
                 }
 
