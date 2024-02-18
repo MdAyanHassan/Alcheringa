@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -12,15 +13,50 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.BottomSheetScaffoldState
+import androidx.compose.material.BottomSheetState
+import androidx.compose.material.BottomSheetValue
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.runtime.*
+import androidx.compose.material.Text
+import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -31,7 +67,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontVariation.weight
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -46,14 +81,25 @@ import androidx.navigation.fragment.NavHostFragment
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
-import com.alcheringa.alcheringa2022.Model.*
+import com.alcheringa.alcheringa2022.Model.InformalModel
+import com.alcheringa.alcheringa2022.Model.eventWithLive
+import com.alcheringa.alcheringa2022.Model.utilityModel
+import com.alcheringa.alcheringa2022.Model.venue
+import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentEventsBinding
-
-import com.alcheringa.alcheringa2022.databinding.FragmentSchedule2024Binding
-import com.alcheringa.alcheringa2022.ui.theme.*
+import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
+import com.alcheringa.alcheringa2022.ui.theme.aileron
+import com.alcheringa.alcheringa2022.ui.theme.borderdarkpurple
+import com.alcheringa.alcheringa2022.ui.theme.containerPurple
+import com.alcheringa.alcheringa2022.ui.theme.darkTealGreen
+import com.alcheringa.alcheringa2022.ui.theme.futura
+import com.alcheringa.alcheringa2022.ui.theme.textbg
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.*
-
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.BuildConfig
 import com.google.firebase.firestore.FirebaseFirestore
@@ -63,6 +109,11 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.google.maps.android.compose.CameraPositionState
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -127,7 +178,7 @@ class Events : Fragment() {
     var selectedVenueEvents = mutableStateListOf<eventWithLive>()
     val selectedVenueInformals = mutableListOf<InformalModel>()
     var selectedVenue1 = mutableStateListOf<venue>(venue("", LatLng(26.191117262340942, 91.69295134231831), "", ""))
-
+    var locationenabled = mutableStateOf(false)
     var venueslist = mutableStateListOf<venue>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,7 +206,11 @@ class Events : Fragment() {
         }
 
 
-
+        if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            locationenabled.value = true
+        }
     }
 
 
@@ -315,12 +370,10 @@ class Events : Fragment() {
                                 val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                                 mapIntent.setPackage("com.google.android.apps.maps")
                                 startActivity(mapIntent)
-                            }
-
-                        ,
+                            },
 
 
-                    ) {
+                        ) {
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -365,7 +418,7 @@ class Events : Fragment() {
         if (list.isNotEmpty()) {
             Box(
                 modifier = Modifier.padding(
-                    horizontal = 24.dp  
+                    horizontal = 24.dp
                 )
             ) {
                 Text(
@@ -596,7 +649,7 @@ class Events : Fragment() {
             Box(
                 Modifier
                     .fillMaxSize()
-                    , contentAlignment = Alignment.Center
+                , contentAlignment = Alignment.Center
             ) {
                 mapview(bottomSheetScaffoldState, coroutineScope)
 
@@ -673,39 +726,40 @@ class Events : Fragment() {
                 maxZoomPreference = 18f,
                 minZoomPreference = 16f,
                 isBuildingEnabled = true,
+                isMyLocationEnabled = locationenabled.value
 
 
             )
         ) {
 
 
-                markerList.forEach { v ->
-                    Marker(
-                        state = MarkerState(
-                            position = v.LatLng
-                        ),
-                        icon = bitmapDescriptor(
-                            requireContext(),
-                            R.drawable.mapmarker
-                        ),
-                        title = v.name,
-                        snippet = v.des,
+            markerList.forEach { v ->
+                Marker(
+                    state = MarkerState(
+                        position = v.LatLng
+                    ),
+                    icon = bitmapDescriptor(
+                        requireContext(),
+                        R.drawable.mapmarker
+                    ),
+                    title = v.name,
+                    snippet = v.des,
 
-                        onClick = {
-                            selectedVenue1[0] = v
+                    onClick = {
+                        selectedVenue1[0] = v
 
-                            filterWithLocation()
+                        filterWithLocation()
 
-                            coroutineScope.launch{
-                                if(bottomSheetScaffoldState.bottomSheetState.isCollapsed){
-                                    bottomSheetScaffoldState.bottomSheetState.expand()
-                                }
+                        coroutineScope.launch{
+                            if(bottomSheetScaffoldState.bottomSheetState.isCollapsed){
+                                bottomSheetScaffoldState.bottomSheetState.expand()
+                            }
 //                                val newLatLng = LatLng(v.LatLng.latitude - 0.0009, v.LatLng.longitude)
 //                                cameraPositionState.animate(CameraUpdateFactory.newLatLng(newLatLng), durationMs = 500)
-                            }
-                            false
+                        }
+                        false
 
-                        },
+                    },
 //                        onInfoWindowClick = {
 //                            val gmmIntentUri =
 //                                Uri.parse("google.navigation:q=${v.LatLng.latitude},${v.LatLng.longitude}")
@@ -713,8 +767,8 @@ class Events : Fragment() {
 //                            mapIntent.setPackage("com.google.android.apps.maps")
 //                            startActivity(mapIntent)
 //                        },
-                    )
-                }
+                )
+            }
 
 
         }
