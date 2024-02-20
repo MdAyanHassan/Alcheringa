@@ -1281,6 +1281,11 @@ class Home : Fragment() {
 
                         }
 
+                        Spacer(modifier = Modifier.height(30.dp))
+
+
+                        AlcherCard(name = "Rupayan Daripa", content = "123456789")
+
 
                         //TODO: Replace with actual check
                         //if(homeViewModel.upcomingEventsLiveState.filter { data-> !(data.isLive.value) }.isNotEmpty()) {
@@ -1303,6 +1308,8 @@ class Home : Fragment() {
                             }
 
                         }
+
+
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -1895,7 +1902,9 @@ class Home : Fragment() {
 
                 Row(
                     horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
                 ) {
                     if (v != null) {
 
@@ -1944,7 +1953,8 @@ class Home : Fragment() {
                         }*/
                         Box(
                             modifier = Modifier
-                                .height(50.dp).weight(1f)
+                                .height(50.dp)
+                                .weight(1f)
                                 .border(
                                     1.dp,
                                     colors.onBackground,
@@ -1958,13 +1968,23 @@ class Home : Fragment() {
                                     shape = RoundedCornerShape(5.dp)
                                 )
                                 .clickable {
-                                    if( eventWithLive.eventdetail.type.replace(
-                                            "\\s".toRegex(),
-                                            ""
-                                        ).uppercase() == "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase() ){
-                                        startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(mun_reg_link)))
-                                    }
-                                    else{
+                                    if (eventWithLive.eventdetail.type
+                                            .replace(
+                                                "\\s".toRegex(),
+                                                ""
+                                            )
+                                            .uppercase() == "MODEL UNITED NATIONS"
+                                            .replace("\\s".toRegex(), "")
+                                            .uppercase()
+                                    ) {
+                                        startActivity(
+                                            Intent(Intent.ACTION_VIEW).setData(
+                                                Uri.parse(
+                                                    mun_reg_link
+                                                )
+                                            )
+                                        )
+                                    } else {
                                         startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://registration.alcheringa.in")))
                                     }
 
@@ -2009,7 +2029,8 @@ class Home : Fragment() {
 
                         Box(
                             modifier = Modifier
-                                .height(50.dp).weight(1f)
+                                .height(50.dp)
+                                .weight(1f)
                                 .border(
                                     1.dp,
                                     colors.onBackground,
@@ -2078,10 +2099,13 @@ class Home : Fragment() {
 
             }
         } else {
-            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)) {
                 Box(
                     modifier = Modifier
-                        .height(50.dp).weight(1f)
+                        .height(50.dp)
+                        .weight(1f)
                         .border(
                             1.dp,
                             colors.onBackground,
@@ -2145,7 +2169,8 @@ class Home : Fragment() {
                     Spacer(modifier = Modifier.width(30.dp))
                     Box(
                         modifier = Modifier
-                            .height(50.dp).weight(1f)
+                            .height(50.dp)
+                            .weight(1f)
                             .border(
                                 1.dp,
                                 colors.onBackground,
@@ -2722,7 +2747,8 @@ class Home : Fragment() {
                 ) {
                     Box(modifier = Modifier
                         .clickable {
-                            val navView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView) as ShadowIndicatorBottomNavigationView
+                            val navView =
+                                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView) as ShadowIndicatorBottomNavigationView
 //                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?
                             navView.onItemSelected(R.id.merch)
                             navView.selectedItemId = R.id.merch

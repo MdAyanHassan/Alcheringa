@@ -25,8 +25,8 @@
     </style>
 
     <style name="headerText">
-        <item name="android:textColor">@color/Black</item>
-        <item name="android:fontFamily">@font/starguard</item>
+        <item name="android:textColor">@color/lighterPurple</item>
+        <item name="android:fontFamily">@font/futuraptdemi</item>
         <item name="android:textSize">36sp</item>
     </style>
 
@@ -39,7 +39,8 @@
     </style>
 
     <style name="subText">
-        <item name="android:textColor">@color/MidBlack</item>
+        <item name="android:textColor">@color/IndianRed</item>
+        <item name="android:fontFamily">@font/futuraptmedium</item>
     </style>
 
     <style name="tertiaryText">

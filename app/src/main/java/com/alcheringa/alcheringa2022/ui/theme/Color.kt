@@ -61,3 +61,5 @@ var cart_button=Color(0xff979797)
 var grey = Color(0xff979797)
 var darkGrey = Color(0xff595959)
 var heartRed = Color(0xffC15160)
+
+var AlcherCardColor = Color(0xffFF7E35)
