@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.BorderStroke
@@ -117,7 +118,10 @@ class Schedule2024 : Fragment() {
             "Mini Auditorium","Auditorium","Audi Park",
             "Senate Hall", "Rocko Stage","Expo Stage"
             ,"Library","Library Shed","Library Basement",
-            "Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field"),
+            "Football Field", "Basketball Courts", "Volley Ball Court","Pronite Stage","Athletics Field",
+            "Entire Campus"
+
+        ),
 
 
         "Lecture Halls" to listOf("Lecture Hall 1", "Lecture Hall 2", "Lecture Hall 3", "Lecture Hall 4","Core 5", "Core 1"),
@@ -247,13 +251,17 @@ class Schedule2024 : Fragment() {
                 ) {
                     Column(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .wrapContentWidth()
+                            .wrapContentSize()
                             .clickable {
                                 datestate.value = 0
                                 selectedDayEvents = datestate0
                             }
-                            .padding(top = 20.dp),
+                            .background(
+                                if (datestate.value == 0) darkTealGreen else Color.Transparent,
+                                RoundedCornerShape(8.dp)
+                            )
+                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
@@ -263,24 +271,20 @@ class Schedule2024 : Fragment() {
                             color = colors.onBackground,
                             fontWeight = FontWeight.Medium
                         )
-                        if (datestate.value == 0) {
-                            Spacer(modifier = Modifier.height(7.dp))
-                            Icon(
-                                ImageVector.vectorResource(R.drawable.squiggle),
-                                null,
-                                tint = colors.onBackground
-                            )
-                        }
                     }
                     Column(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .wrapContentWidth()
+                            .wrapContentSize()
                             .clickable {
                                 datestate.value = 1
                                 selectedDayEvents = datestate1
                             }
-                            .padding(top = 20.dp),
+                            .background(
+                                if (datestate.value == 1) darkTealGreen else Color.Transparent,
+                                RoundedCornerShape(8.dp)
+                            )
+                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
@@ -290,24 +294,20 @@ class Schedule2024 : Fragment() {
                             color = colors.onBackground,
                             fontWeight = FontWeight.Medium
                         )
-                        if (datestate.value == 1) {
-                            Spacer(modifier = Modifier.height(7.dp))
-                            Icon(
-                                ImageVector.vectorResource(R.drawable.squiggle),
-                                null,
-                                tint = colors.onBackground
-                            )
-                        }
                     }
                     Column(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .wrapContentWidth()
+                            .wrapContentSize()
                             .clickable {
                                 datestate.value = 2
                                 selectedDayEvents = datestate2
                             }
-                            .padding(top = 20.dp),
+                            .background(
+                                if (datestate.value == 2) darkTealGreen else Color.Transparent,
+                                RoundedCornerShape(8.dp)
+                            )
+                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
@@ -317,24 +317,20 @@ class Schedule2024 : Fragment() {
                             color = colors.onBackground,
                             fontWeight = FontWeight.Medium
                         )
-                        if (datestate.value == 2) {
-                            Spacer(modifier = Modifier.height(7.dp))
-                            Icon(
-                                ImageVector.vectorResource(R.drawable.squiggle),
-                                null,
-                                tint = colors.onBackground
-                            )
-                        }
                     }
                     Column(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .wrapContentWidth()
+                            .wrapContentSize()
                             .clickable {
                                 datestate.value = 3
                                 selectedDayEvents = datestate3
                             }
-                            .padding(top = 20.dp),
+                            .background(
+                                if (datestate.value == 3) darkTealGreen else Color.Transparent,
+                                RoundedCornerShape(8.dp)
+                            )
+                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
@@ -344,14 +340,6 @@ class Schedule2024 : Fragment() {
                             color = colors.onBackground,
                             fontWeight = FontWeight.Medium
                         )
-                        if (datestate.value == 3) {
-                            Spacer(modifier = Modifier.height(7.dp))
-                            Icon(
-                                ImageVector.vectorResource(R.drawable.squiggle),
-                                null,
-                                tint = colors.onBackground
-                            )
-                        }
                     }
                 }
 

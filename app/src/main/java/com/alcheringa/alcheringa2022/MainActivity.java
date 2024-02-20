@@ -3,20 +3,26 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +34,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alcheringa.alcheringa2022.Database.DBHandler;
+import com.alcheringa.alcheringa2022.Model.eventWithLive;
+import com.alcheringa.alcheringa2022.Model.viewModelHome;
+import com.alcheringa.alcheringa2022.services.Retrofit_Class;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +47,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
    ShadowIndicatorBottomNavigationView bottomNavigationView;
@@ -52,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     public static int index;
     String shared_name, shared_photoUrl;
+    private viewModelHome homeViewModel;
+    List ll ;
     View tnc_page, privacy_page, about_page;
     TextView user_name, version, website;
     ImageView user_photo;
@@ -71,11 +90,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         shared_name = sharedPreferences.getString("name", "");
         shared_photoUrl = sharedPreferences.getString("photourl", "");
 
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(getApplication()));
+        homeViewModel = viewModelProvider.get(viewModelHome.class);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://test.alcheringa.in/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Retrofit_Class retrofit_class = retrofit.create(Retrofit_Class.class);
+
 
         dbHandler=new DBHandler(getApplicationContext());
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
         String email=firebaseAuth.getCurrentUser().getEmail();
+        Call<String> call = retrofit_class.getData("sabir@alcheringa.in");
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.i("EE", "Response successful");
+                homeViewModel.getPass(response.body(), "alcheringa24");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.i("EE", "Response failed:"+t.getMessage());
+            }
+        });
+
         NavHostFragment navHostFragment =
                  (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         NavController = navHostFragment.getNavController();
@@ -96,6 +139,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
 
 
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)!=
+                PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+        }
 
         version = findViewById(R.id.version);
         version.setText("V "+ com.google.firebase.BuildConfig.VERSION_NAME);

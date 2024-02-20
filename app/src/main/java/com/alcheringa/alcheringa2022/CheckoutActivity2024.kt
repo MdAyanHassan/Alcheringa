@@ -1007,78 +1007,74 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                             .offset(x = offsetRight1)
                                             .alpha(alpha)
                                     ) {
-                                        Column {
-                                            Text(
-                                                text = "Deliver To:",
-                                                fontSize = 14.sp,
-                                                fontFamily = futura,
-                                                color = greyColor
-                                            )
+                                        LazyColumn (
+                                        ){
+                                            item {
+                                                Text(
+                                                    text = "Deliver To:",
+                                                    fontSize = 14.sp,
+                                                    fontFamily = futura,
+                                                    color = greyColor
+                                                )
 
-                                            Spacer(modifier = Modifier.height(10.dp))
+                                                Spacer(modifier = Modifier.height(10.dp))
 
-                                            Text(
-                                                text = name!!,
-                                                color = colors.onBackground,
-                                                fontSize = 18.sp,
-                                                fontFamily = futura
-                                            )
+                                                Text(
+                                                    text = name!!,
+                                                    color = colors.onBackground,
+                                                    fontSize = 18.sp,
+                                                    fontFamily = futura
+                                                )
 
-                                            Spacer(modifier = Modifier.height(10.dp))
+                                                Spacer(modifier = Modifier.height(10.dp))
 
-                                            Text(
-                                                text = "$house, $road",
-                                                color = colors.onBackground,
-                                                fontSize = 14.sp,
-                                                fontFamily = futura
-                                            )
+                                                Text(
+                                                    text = "$house, $road",
+                                                    color = colors.onBackground,
+                                                    fontSize = 14.sp,
+                                                    fontFamily = futura
+                                                )
 
-                                            Spacer(modifier = Modifier.height(5.dp))
+                                                Spacer(modifier = Modifier.height(5.dp))
 
-                                            Text(
-                                                text = "$city, $state - $pincode",
-                                                color = colors.onBackground,
-                                                fontSize = 14.sp,
-                                                fontFamily = futura
-                                            )
+                                                Text(
+                                                    text = "$city, $state - $pincode",
+                                                    color = colors.onBackground,
+                                                    fontSize = 14.sp,
+                                                    fontFamily = futura
+                                                )
 
-                                            Spacer(modifier = Modifier.height(30.dp))
+                                                Spacer(modifier = Modifier.height(30.dp))
 
-                                            Text(
-                                                text = "Phone Number:",
-                                                color = greyColor,
-                                                fontSize = 14.sp,
-                                                fontFamily = futura
-                                            )
+                                                Text(
+                                                    text = "Phone Number:",
+                                                    color = greyColor,
+                                                    fontSize = 14.sp,
+                                                    fontFamily = futura
+                                                )
 
-                                            Spacer(modifier = Modifier.height(10.dp))
+                                                Spacer(modifier = Modifier.height(10.dp))
 
-                                            Text(
-                                                text = "$phone",
-                                                color = colors.onBackground,
-                                                fontSize = 18.sp,
-                                                fontFamily = futura
-                                            )
+                                                Text(
+                                                    text = "$phone",
+                                                    color = colors.onBackground,
+                                                    fontSize = 18.sp,
+                                                    fontFamily = futura
+                                                )
 
-                                            Spacer(modifier = Modifier.height(40.dp))
+                                                Spacer(modifier = Modifier.height(40.dp))
 
-                                            Text(
-                                                text = "Your Orders:",
-                                                color = colors.onBackground,
-                                                fontSize = 18.sp,
-                                                fontFamily = futura
-                                            )
+                                                Text(
+                                                    text = "Your Orders:",
+                                                    color = colors.onBackground,
+                                                    fontSize = 18.sp,
+                                                    fontFamily = futura
+                                                )
 
-                                            Spacer(modifier = Modifier.height(10.dp))
-
-                                            LazyColumn(
-                                            ) {
-                                                item {
-                                                    Spacer(modifier = Modifier.height(10.dp))
-                                                }
-                                                itemsIndexed(cartModelItems) { index, item ->
-                                                    Card(
-
+                                                Spacer(modifier = Modifier.height(10.dp))
+                                            }
+                                            itemsIndexed(cartModelItems){index, item ->
+                                                Card(
                                                         modifier = Modifier
                                                             .padding(0.dp, 0.dp, 0.dp, 10.dp)
                                                             .height(210.dp)
@@ -1363,14 +1359,9 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                                             }
                                                         }
                                                     }
-                                                }
-
-                                                item {
-                                                    Box(
-                                                        modifier = Modifier
-                                                            .height(180.dp)
-                                                    )
-                                                }
+                                            }
+                                            item { 
+                                                Spacer(modifier = Modifier.height(210.dp))
                                             }
                                         }
 
