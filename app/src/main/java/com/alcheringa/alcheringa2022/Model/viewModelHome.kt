@@ -1,28 +1,23 @@
 package com.alcheringa.alcheringa2022.Model
 
 import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
-import com.alcheringa.alcheringa2022.LoaderView
-import com.alcheringa.alcheringa2022.Model.eventdetail
-import com.alcheringa.alcheringa2022.Model.eventWithLive
+import com.alcheringa.alcheringa2022.GCM
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.security.AccessController.getContext
 import java.util.*
 
 fun <T> MutableLiveData<MutableList<T>>.addNewItem(item: T) {
@@ -78,6 +73,7 @@ class viewModelHome : ViewModel() {
     val informalList = mutableStateListOf<InformalModel>()
     val stalllist = mutableStateListOf<stallModel>()
     val venuesList = mutableStateListOf<venue>()
+    var passList = mutableStateListOf<passModel>()
 
 
 
@@ -241,7 +237,7 @@ class viewModelHome : ViewModel() {
 
     fun fetchlocaldbandupdateownevent(scheduleDatabase: ScheduleDatabase) {
         viewModelScope.launch {
-            val eventdlist = scheduleDatabase.getSchedule();
+            val eventdlist = scheduleDatabase.schedule
 
             OwnEventsWithLive.postValue(eventdlist)
         }
@@ -264,7 +260,7 @@ class viewModelHome : ViewModel() {
         }
     }
     fun getInformals(){
-        viewModelScope.launch(){
+        viewModelScope.launch {
             fb.collection("Informals").get().addOnSuccessListener { informals ->
 
                 informalList.clear()
@@ -329,6 +325,11 @@ class viewModelHome : ViewModel() {
         return OwnTime((min / 1440), ((min % 1440)) / 60, min % 60)
     }
 
+    fun getPass(ciphercontent: String, password: String) {
+        val decrypted = GCM.decrypt(ciphercontent)
+        val people: List<passModel> = Gson().fromJson(decrypted, object : TypeToken<List<passModel>>() {}.type)
+        passList.addAll(people)
+    }
 
 //    val featuredevents = listOf(
 //        eventdetail(
