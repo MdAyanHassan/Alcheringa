@@ -1,6 +1,7 @@
 package com.alcheringa.alcheringa2022
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -29,10 +30,12 @@ import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,6 +58,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.alcheringa.alcheringa2022.Model.eventWithLive
+import com.alcheringa.alcheringa2022.Model.passModel
 import com.alcheringa.alcheringa2022.ui.theme.AlcherCardColor
 import com.alcheringa.alcheringa2022.ui.theme.black
 import com.alcheringa.alcheringa2022.ui.theme.creamWhite
@@ -229,7 +233,7 @@ fun FeaturedEventCard(event: eventWithLive, modifier: Modifier){
 
 @Composable
 fun rememberQrBitmapPainter(
-    content: String,
+    id: String,
     size: Dp = 150.dp,
     padding: Dp = 4.dp
 ): BitmapPainter {
@@ -237,7 +241,7 @@ fun rememberQrBitmapPainter(
     val sizePx = with(density) { size.roundToPx() }
     val paddingPx = with(density) { padding.roundToPx() }
 
-    var bitmap by remember(content) {
+    var bitmap by remember(id) {
         mutableStateOf<Bitmap?>(null)
     }
 
@@ -254,7 +258,7 @@ fun rememberQrBitmapPainter(
 
             val bitmapMatrix = try {
                 aztecCodeWriter.encode(
-                    content, BarcodeFormat.AZTEC,
+                    id, BarcodeFormat.AZTEC,
                     sizePx , sizePx , encodeHints
                 )
             } catch(ex: WriterException){
@@ -303,7 +307,7 @@ fun rememberQrBitmapPainter(
 
 
 @Composable
-fun AlcherCard(name: String , content: String) {
+fun AlcherCard(name: String , id: String) {
 
     Box(
         modifier = Modifier.padding(horizontal = 16.dp)
@@ -376,7 +380,7 @@ fun AlcherCard(name: String , content: String) {
 
 
                     Image(
-                        painter = rememberQrBitmapPainter(content = content),
+                        painter = rememberQrBitmapPainter(id = id),
                         contentDescription = null,
                         modifier = Modifier.size(110.dp).align(Alignment.Center).padding(end = 25.dp)
                     )
@@ -397,5 +401,5 @@ fun AlcherCard(name: String , content: String) {
 @Preview
 @Composable
 fun AlcherCardView() {
-    AlcherCard(name = "Rupayan Daripa" , content = "123456789")
+    //AlcherCard(name = "Rupayan Daripa" , content = "123456789")
 }

@@ -192,5 +192,6 @@
     <color name="darkbar">#141414</color>
     <color name="whitebar">#EDECD9</color>
     <color name="creamWhite">#EDECD9</color>
+    <color name="lighterdarktealgreen">#FF4DCA9A</color>
 
 </resources>

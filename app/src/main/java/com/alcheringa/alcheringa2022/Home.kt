@@ -1,7 +1,6 @@
 package com.alcheringa.alcheringa2022
 
-
-import android.content.Context
+import androidx.compose.runtime.livedata.observeAsState
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -36,6 +35,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -64,6 +64,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -104,10 +105,11 @@ import com.alcheringa.alcheringa2022.Model.eventWithLive
 import com.alcheringa.alcheringa2022.Model.eventdetail
 import com.alcheringa.alcheringa2022.Model.merchModel
 import com.alcheringa.alcheringa2022.Model.ownEventBoxUiModel
+import com.alcheringa.alcheringa2022.Model.passModel
 import com.alcheringa.alcheringa2022.Model.removeAnItem
 import com.alcheringa.alcheringa2022.Model.viewModelHome
 import com.alcheringa.alcheringa2022.databinding.FragmentHomeBinding
-import com.alcheringa.alcheringa2022.services.Retrofit_Class
+import com.alcheringa.alcheringa2022.ui.theme.AlcherCardColor
 import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
 import com.alcheringa.alcheringa2022.ui.theme.aileron
 import com.alcheringa.alcheringa2022.ui.theme.black
@@ -132,6 +134,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import kotlin.math.abs
+import com.google.accompanist.pager.*
+import com.google.accompanist.pager.rememberPagerState
+
+
+
+
 
 
 /**
@@ -169,6 +177,8 @@ class Home : Fragment() {
 
     lateinit var eventfordes: eventWithLive
     lateinit var similarlist: MutableList<eventWithLive>
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -286,7 +296,8 @@ class Home : Fragment() {
 
 
         binding.compose1.setContent {
-            MyContent()
+
+            MyContent(homeViewModel.passList)
 
             loaderView = mutableStateOf(homeViewModel.allEventsWithLive.isEmpty())
 
@@ -1148,10 +1159,14 @@ class Home : Fragment() {
 //
 
 
-    @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+    @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
+        ExperimentalFoundationApi::class, ExperimentalPagerApi::class
+    )
     @Composable
-    fun MyContent() {
+    fun MyContent(passList: List<passModel>) {
         var artist: String by rememberSaveable { mutableStateOf("") }
+
+        val pagerState = rememberPagerState()
 
 
         // Declaring a Boolean value to
@@ -1164,6 +1179,13 @@ class Home : Fragment() {
         // Declaring Coroutine scope
         val coroutineScope = rememberCoroutineScope()
 
+        //val passList = remember { mutableStateOf<List<passModel>>(emptyList())}
+
+//        LaunchedEffect(Unit) {
+//            coroutineScope.launch {
+//                val passes =
+//            }
+//        }
         // Creating a Bottom Sheet
         Alcheringa2022Theme {
             BottomSheetScaffold(
@@ -1347,8 +1369,36 @@ class Home : Fragment() {
 
                         Spacer(modifier = Modifier.height(30.dp))
 
+                        if(passList.isNotEmpty()) {
+                            HorizontalPager(
+                                count = passList.size,
+                                state = pagerState
+                            ) {page ->
+                                val pass = passList[page]
+                                AlcherCard(name = pass.name, id = pass.id)
 
-                        AlcherCard(name = "Rupayan Daripa", content = "123456789")
+                            }
+
+                            HorizontalPagerIndicator(
+                                pagerState = pagerState,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                                    .padding(top = 16.dp),
+                                activeColor = AlcherCardColor
+
+
+                            )
+                        }
+
+
+
+
+                       // AlcherCard(name = passList.joinToString { it.name }, id = passList.joinToString { it.id })
+                        Log.d("passListInHome", passList.joinToString { it.toString() })
+
+
+
+
+
 
 
                         //TODO: Replace with actual check
@@ -1358,7 +1408,7 @@ class Home : Fragment() {
                                 modifier = Modifier.padding(
                                     start = 20.dp,
                                     bottom = 12.dp,
-                                    top = 36.dp
+                                    top = 30.dp
                                 ),
                             ) {
                                 Text(

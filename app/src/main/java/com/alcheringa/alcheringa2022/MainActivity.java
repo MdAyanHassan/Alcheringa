@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         homeViewModel = viewModelProvider.get(viewModelHome.class);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://test.alcheringa.in/api/")
+                .baseUrl("https://card.alcheringa.in/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -105,12 +105,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
         String email=firebaseAuth.getCurrentUser().getEmail();
-        Call<String> call = retrofit_class.getData("sabir@alcheringa.in");
+        Call<String> call = retrofit_class.getData("shivamgupta@iitg.ac.in");
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.i("EE", "Response successful");
-                homeViewModel.getPass(response.body(), "alcheringa24");
+                if(response.code() == 200) {
+                    homeViewModel.getPass(response.body(), "alcheringa24");
+                }
+
             }
 
             @Override

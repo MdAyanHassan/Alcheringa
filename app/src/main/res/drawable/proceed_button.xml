@@ -7,5 +7,10 @@
   <stroke
       android:width="2dp"
       android:color="@color/primaryCol" />
-  <solid android:color="@color/lighterPurple" />
+<!--  <solid android:color="@color/lighterPurple" />-->
+
+  <gradient
+    android:startColor="@color/lighterdarktealgreen"
+    android:endColor="@color/darkTealGreen"
+    android:angle="90"/>
 </shape>

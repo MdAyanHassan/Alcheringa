@@ -210,6 +210,10 @@ dependencies {
     implementation("com.github.omercemcicekli:CardStack:0.0.6")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation ("com.google.zxing:core:3.5.1")
+    implementation ("androidx.compose.runtime:runtime-livedata:<compose_version>")
+    implementation ("androidx.compose.runtime:runtime-rxjava2:<compose_version>")
+    implementation ("com.google.accompanist:accompanist-pager:<latest_version>")
+
 }
 repositories {
     mavenCentral()

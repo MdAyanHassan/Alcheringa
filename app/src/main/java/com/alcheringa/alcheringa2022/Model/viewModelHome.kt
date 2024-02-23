@@ -329,6 +329,7 @@ class viewModelHome : ViewModel() {
         val decrypted = GCM.decrypt(ciphercontent)
         val people: List<passModel> = Gson().fromJson(decrypted, object : TypeToken<List<passModel>>() {}.type)
         passList.addAll(people)
+        //Log.d("passList" , passList[0].toString())
     }
 
 //    val featuredevents = listOf(
