@@ -343,7 +343,7 @@ fun AlcherCard(name: String , id: String) {
                 Image(
                     painter = rememberQrBitmapPainter(id = id),
                     contentDescription = null,
-                    modifier = Modifier.size(105.dp).align(Alignment.Center).padding(end = 30.dp)
+                    modifier = Modifier.align(Alignment.Center).padding(end = 40.dp).height(100.dp).aspectRatio(0.5f)
                 )
             }
 
