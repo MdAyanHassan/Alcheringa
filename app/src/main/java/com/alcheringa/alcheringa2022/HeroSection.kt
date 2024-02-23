@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -321,8 +322,32 @@ fun AlcherCard(name: String , id: String) {
         ) {
 
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.align(Alignment.CenterEnd).offset(x = (110).dp)
             ) {
+
+                Image(
+                    painter = painterResource(id = R.drawable.vector__7_),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd).fillMaxHeight().aspectRatio(1.6f)
+//                            .graphicsLayer {
+//                                           this.rotationZ = -1f
+//                            }
+
+                    //.offset(x = (100).dp,)
+                    ,
+                    contentScale = ContentScale.Crop
+                )
+
+
+                Image(
+                    painter = rememberQrBitmapPainter(id = id),
+                    contentDescription = null,
+                    modifier = Modifier.size(105.dp).align(Alignment.Center).padding(end = 30.dp)
+                )
+            }
+
+
                 Column(
                     modifier = Modifier.align(Alignment.CenterStart)
                 ) {
@@ -364,28 +389,8 @@ fun AlcherCard(name: String , id: String) {
                 }
 
 
-                Box(
-                    modifier = Modifier.align(Alignment.CenterEnd).offset(x = (110).dp,)
-                ) {
-
-                    Image(
-                        painter = painterResource(id = R.drawable.vector__7_),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.CenterEnd).size(300.dp)
-                        //.offset(x = (100).dp,)
-                        ,
-                        contentScale = ContentScale.Crop
-                    )
 
 
-                    Image(
-                        painter = rememberQrBitmapPainter(id = id),
-                        contentDescription = null,
-                        modifier = Modifier.size(110.dp).align(Alignment.Center).padding(end = 25.dp)
-                    )
-                }
-            }
 
 
 
@@ -401,5 +406,5 @@ fun AlcherCard(name: String , id: String) {
 @Preview
 @Composable
 fun AlcherCardView() {
-    //AlcherCard(name = "Rupayan Daripa" , content = "123456789")
+    AlcherCard(name = "Rupayan Daripa" , id = "12345")
 }
