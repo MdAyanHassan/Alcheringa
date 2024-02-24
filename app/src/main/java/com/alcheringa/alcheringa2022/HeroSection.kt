@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -368,21 +369,23 @@ fun AlcherCard(name: String , id: String) {
                             painter = painterResource(id = R.drawable.vector_11),
                             contentDescription = null,
                             modifier = Modifier
-                                .width(150.dp)
-                                .height(60.dp),
+                                //.width(150.dp)
+                                .height(60.dp)
+                                .align(Alignment.CenterStart),
                             contentScale = ContentScale.Inside,
 
 
                             )
 
-                        Text(
+                        MarqueeText(
                             text = name,
                             color = creamWhite,
                             modifier = Modifier
                                 .padding(horizontal = 8.dp, vertical = 10.dp)
-                                .align(Alignment.CenterStart),
+                                .align(Alignment.CenterStart).width(130.dp),
                             fontSize = 18.sp,
-                            fontFamily = futura
+                            fontFamily = futura,
+                            gradientEdgeColor = Color.Transparent
                         )
 
                     }
