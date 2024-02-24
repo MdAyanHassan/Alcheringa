@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -40,6 +41,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
@@ -323,14 +325,18 @@ fun AlcherCard(name: String , id: String) {
         ) {
 
             Box(
-                modifier = Modifier.align(Alignment.CenterEnd).offset(x = (110).dp)
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .offset(x = (110).dp)
             ) {
 
                 Image(
                     painter = painterResource(id = R.drawable.vector__7_),
                     contentDescription = null,
                     modifier = Modifier
-                        .align(Alignment.TopEnd).fillMaxHeight().aspectRatio(1.6f)
+                        .align(Alignment.TopEnd)
+                        .fillMaxHeight()
+                        .aspectRatio(1.6f)
 //                            .graphicsLayer {
 //                                           this.rotationZ = -1f
 //                            }
@@ -344,7 +350,11 @@ fun AlcherCard(name: String , id: String) {
                 Image(
                     painter = rememberQrBitmapPainter(id = id),
                     contentDescription = null,
-                    modifier = Modifier.align(Alignment.Center).padding(end = 40.dp).height(100.dp).aspectRatio(0.5f)
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(end = 40.dp)
+                        .height(100.dp)
+                        .aspectRatio(0.5f)
                 )
             }
 
@@ -363,26 +373,18 @@ fun AlcherCard(name: String , id: String) {
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Box(
-
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .paint(painterResource(id = R.drawable.vector_11), contentScale = ContentScale.FillBounds)
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.vector_11),
-                            contentDescription = null,
-                            modifier = Modifier
-                                //.width(150.dp)
-                                .height(60.dp)
-                                .align(Alignment.CenterStart),
-                            contentScale = ContentScale.Inside,
-
-
-                            )
 
                         MarqueeText(
                             text = name,
                             color = creamWhite,
                             modifier = Modifier
-                                .padding(horizontal = 8.dp, vertical = 10.dp)
-                                .align(Alignment.CenterStart).width(130.dp),
+                                .padding(horizontal = 10.dp, vertical = 0.dp)
+                                .align(Alignment.CenterStart)
+                                .width(130.dp),
                             fontSize = 18.sp,
                             fontFamily = futura,
                             gradientEdgeColor = Color.Transparent

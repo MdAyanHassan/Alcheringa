@@ -1,6 +1,8 @@
 package com.alcheringa.alcheringa2022
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +43,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun StallCard(stallDetail: stallModel, onCardClick : () -> Unit) {
     Card(
@@ -60,10 +62,12 @@ fun StallCard(stallDetail: stallModel, onCardClick : () -> Unit) {
                     .fillMaxWidth()
                     .fillMaxHeight(0.8f)
             ){
-                Image(
-                    rememberImagePainter(data = stallDetail.imgurl),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                GlideImage(
+                    requestOptions = { RequestOptions.diskCacheStrategyOf(
+                        DiskCacheStrategy.AUTOMATIC)},
+                    imageModel = stallDetail.imgurl,
+                    contentDescription = "Stall",
+                    contentScale = ContentScale.FillBounds,
                     alignment = Alignment.Center
                 )
             }
@@ -80,6 +84,7 @@ fun StallCard(stallDetail: stallModel, onCardClick : () -> Unit) {
                     fontFamily = futura,
                     modifier = Modifier
                         .padding(start = 10.dp)
+                        .basicMarquee()
                 )
             }
         }

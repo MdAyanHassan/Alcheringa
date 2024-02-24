@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.i("EE", "Response successful");
+                Log.i("MainActivity", "Response successful");
                 if(response.code() == 200) {
                     homeViewModel.getPass(response.body(), "alcheringa24");
                 }
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.i("EE", "Response failed:"+t.getMessage());
+                Log.i("MainActivity", "Response failed:"+t.getMessage());
             }
         });
 
