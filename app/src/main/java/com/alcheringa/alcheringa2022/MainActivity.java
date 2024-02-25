@@ -90,9 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         shared_name = sharedPreferences.getString("name", "");
         shared_photoUrl = sharedPreferences.getString("photourl", "");
 
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(getApplication()));
-        homeViewModel = viewModelProvider.get(viewModelHome.class);
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://card.alcheringa.in/api/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -104,23 +101,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dbHandler=new DBHandler(getApplicationContext());
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
-        String email=firebaseAuth.getCurrentUser().getEmail();
-        Call<String> call = retrofit_class.getData("shivamgupta@iitg.ac.in");
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.i("MainActivity", "Response successful");
-                if(response.code() == 200) {
-                    homeViewModel.getPass(response.body(), "alcheringa24");
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.i("MainActivity", "Response failed:"+t.getMessage());
-            }
-        });
 
         NavHostFragment navHostFragment =
                  (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
@@ -142,11 +122,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
 
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
         ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)!=
                 PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
         }
 
         version = findViewById(R.id.version);

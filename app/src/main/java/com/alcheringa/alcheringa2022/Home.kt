@@ -1,6 +1,5 @@
 package com.alcheringa.alcheringa2022
 
-import androidx.compose.runtime.livedata.observeAsState
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -41,6 +40,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomSheetScaffold
@@ -126,6 +126,7 @@ import com.alcheringa.alcheringa2022.ui.theme.white
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.skydoves.landscapist.ShimmerParams
@@ -134,14 +135,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import kotlin.math.abs
-import com.google.accompanist.pager.*
-import com.google.accompanist.pager.rememberPagerState
-
-
-
-
-
-
 /**
  * A simple [Fragment] subclass.
  * Use the [Home.newInstance] factory method to
@@ -220,6 +213,10 @@ class Home : Fragment() {
 //        Log.d("vipin",eventslist.toString());
 //        homeViewModel.pushEvents(homeViewModel.AllEvents)
 
+        if (homeViewModel.passList.isEmpty()) {
+            homeViewModel.getPass()
+        }
+
 
     }
 
@@ -297,7 +294,7 @@ class Home : Fragment() {
 
         binding.compose1.setContent {
 
-            MyContent(homeViewModel.passList)
+            MyContent()
 
             loaderView = mutableStateOf(homeViewModel.allEventsWithLive.isEmpty())
 
@@ -1159,14 +1156,12 @@ class Home : Fragment() {
 //
 
 
-    @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
-        ExperimentalFoundationApi::class, ExperimentalPagerApi::class
-    )
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
     @Composable
-    fun MyContent(passList: List<passModel>) {
+    fun MyContent() {
         var artist: String by rememberSaveable { mutableStateOf("") }
 
-        val pagerState = rememberPagerState()
+
 
 
         // Declaring a Boolean value to
@@ -1367,33 +1362,46 @@ class Home : Fragment() {
 
                         }
 
-                        Spacer(modifier = Modifier.height(30.dp))
 
-                        if(passList.isNotEmpty()) {
+
+                        if(homeViewModel.passList.isNotEmpty()) {
+                            val pagerState = rememberPagerState(pageCount = { homeViewModel.passList.size })
+                            Spacer(modifier = Modifier.height(30.dp))
                             HorizontalPager(
-                                count = passList.size,
+
                                 state = pagerState
                             ) {page ->
-                                val pass = passList[page]
+                                val pass = homeViewModel.passList[page]
                                 AlcherCard(name = pass.name, id = pass.id)
 
                             }
 
-                            HorizontalPagerIndicator(
-                                pagerState = pagerState,
-                                modifier = Modifier.align(Alignment.CenterHorizontally)
-                                    .padding(top = 16.dp),
-                                activeColor = AlcherCardColor
-
-
-                            )
+                            if(homeViewModel.passList.size > 1){
+                                Row(
+                                    Modifier
+                                        .wrapContentHeight()
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    repeat(pagerState.pageCount) { iteration ->
+                                        val color = if (pagerState.currentPage == iteration) AlcherCardColor else Color.LightGray
+                                        Box(
+                                            modifier = Modifier
+                                                .padding(2.dp)
+                                                .clip(CircleShape)
+                                                .background(color)
+                                                .size(8.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
 
 
 
 
                        // AlcherCard(name = passList.joinToString { it.name }, id = passList.joinToString { it.id })
-                        Log.d("passListInHome", passList.joinToString { it.toString() })
 
 
 

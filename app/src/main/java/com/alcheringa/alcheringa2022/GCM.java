@@ -48,7 +48,6 @@ public class GCM {
     }
 
     public static String decrypt(String cipherContent) throws Exception {
-        String password = "alcheringa24";
         byte[] decode = Base64.getDecoder().decode(cipherContent.getBytes(UTF_8));
         ByteBuffer byteBuffer = ByteBuffer.wrap(decode);
 
@@ -62,7 +61,7 @@ public class GCM {
         byteBuffer.get(content);
 
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        SecretKey aesKeyFromPassword = getAESKeyFromPassword(password.toCharArray(), salt);
+        SecretKey aesKeyFromPassword = getAESKeyFromPassword("alcheringa24".toCharArray(), salt);
         cipher.init(Cipher.DECRYPT_MODE, aesKeyFromPassword, new GCMParameterSpec(TAG_LENGTH * 8, iv));
         byte[] plainText = cipher.doFinal(content);
         return new String(plainText, UTF_8);

@@ -1,6 +1,7 @@
 package com.alcheringa.alcheringa2022.Model
 
 import android.util.Log
+import androidx.camera.core.impl.utils.ContextUtil.getApplicationContext
 import androidx.compose.runtime.mutableStateListOf
 
 import androidx.compose.runtime.mutableStateOf
@@ -8,17 +9,26 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alcheringa.alcheringa2022.Database.DBHandler
 import com.alcheringa.alcheringa2022.Database.ScheduleDatabase
 import com.alcheringa.alcheringa2022.GCM
+import com.alcheringa.alcheringa2022.services.Retrofit_Class
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
+import javax.crypto.AEADBadTagException
 
 fun <T> MutableLiveData<MutableList<T>>.addNewItem(item: T) {
     val oldValue = this.value ?: mutableListOf()
@@ -325,10 +335,42 @@ class viewModelHome : ViewModel() {
         return OwnTime((min / 1440), ((min % 1440)) / 60, min % 60)
     }
 
-    fun getPass(ciphercontent: String, password: String) {
-        val decrypted = GCM.decrypt(ciphercontent)
-        val people: List<passModel> = Gson().fromJson(decrypted, object : TypeToken<List<passModel>>() {}.type)
-        passList.addAll(people)
+    fun getPass() {
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://card.alcheringa.in/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val retrofit_class = retrofit.create(Retrofit_Class::class.java)
+
+
+
+
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val email: String = firebaseAuth.currentUser?.email!!
+        val call = retrofit_class.getData(email)
+        call.enqueue(object : Callback<String?> {
+            override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                Log.i("EE", "Response successful")
+                if (response.code() == 200) {
+                    try {
+                        val decrypted = GCM.decrypt(response.body())
+                        val people: List<passModel> = Gson().fromJson(decrypted, object : TypeToken<List<passModel>>() {}.type)
+                        passList.addAll(people)
+                    }
+                    catch (e: AEADBadTagException){
+                        Log.i("EE", "Decryption error")
+                    }
+
+                }
+            }
+
+            override fun onFailure(call: Call<String?>, t: Throwable) {
+                Log.i("EE", "Response failed:" + t.message)
+            }
+        })
+
         //Log.d("passList" , passList[0].toString())
     }
 
