@@ -90,13 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         shared_name = sharedPreferences.getString("name", "");
         shared_photoUrl = sharedPreferences.getString("photourl", "");
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://card.alcheringa.in/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        Retrofit_Class retrofit_class = retrofit.create(Retrofit_Class.class);
-
 
         dbHandler=new DBHandler(getApplicationContext());
         firebaseFirestore=FirebaseFirestore.getInstance();
