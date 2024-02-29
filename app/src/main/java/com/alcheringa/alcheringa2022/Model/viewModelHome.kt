@@ -167,7 +167,7 @@ class viewModelHome : ViewModel() {
 
 
 
-                delay(5000)
+                delay(10000)
                 Log.d("livecheck", "done")
 
 

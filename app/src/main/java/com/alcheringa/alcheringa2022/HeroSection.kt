@@ -326,17 +326,15 @@ fun AlcherCard(name: String , id: String) {
                 .clip(RoundedCornerShape(5.dp))
         ) {
 
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .offset(x = (110).dp)
-            ) {
+            Box() {
 
 
                 Box(
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
+                        .fillMaxWidth()
                         .offset(x = (80).dp,)
+//                        .background(Color.Red)
                 ) {
 
                     Image(
@@ -344,7 +342,7 @@ fun AlcherCard(name: String , id: String) {
                         contentDescription = null,
                         modifier = Modifier
                             .align(Alignment.CenterEnd)
-                            .size(250.dp)
+                            .size(270.dp)
                         //.offset(x = (100).dp,)
                         ,
                         contentScale = ContentScale.Crop
@@ -355,9 +353,10 @@ fun AlcherCard(name: String , id: String) {
                         painter = rememberQrBitmapPainter(id = id),
                         contentDescription = null,
                         modifier = Modifier
-                            .size(110.dp)
-                            .align(Alignment.Center)
-                            .padding(end = 20.dp)
+                            .size(100.dp)
+                            .align(Alignment.CenterEnd)
+                            .offset(x = (-96).dp)
+//                            .background(Color.Red)
                     )
                 }
 
@@ -365,7 +364,8 @@ fun AlcherCard(name: String , id: String) {
 
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth(0.6f)
+                        .fillMaxWidth(0.55f)
+//                        .background(Color.Red)
                         .fillMaxHeight(),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {

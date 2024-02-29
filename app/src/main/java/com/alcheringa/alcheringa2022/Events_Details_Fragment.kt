@@ -427,7 +427,7 @@ class Events_Details_Fragment : Fragment() {
                     ).uppercase() == "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase() ){
                     val day1_link = "https://bit.ly/3OFUO3E"
                     val day2_link = "https://bit.ly/3wdV4k0"
-                    val day3_link = "https://bit.ly/48b0QQw"
+                    val day3_link = "https://drive.google.com/drive/folders/1ychbkhLl8Nt_oDZI3uo2w82jdhKlecqU"
 
                     val linkToDisplay = if(eventWithLive.eventdetail.artist.contains("Day 1", ignoreCase = true)) day1_link
                         else if (eventWithLive.eventdetail.artist.contains("Day 2", ignoreCase = true)) day2_link

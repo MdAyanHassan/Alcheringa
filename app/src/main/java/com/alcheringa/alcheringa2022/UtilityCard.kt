@@ -57,126 +57,117 @@ fun UtilityCard(utlt: utilityModel, onClick: () -> Unit) {
         )
     })
 
-    M = Modifier.clip(RoundedCornerShape(16.dp)).background(MaterialTheme.colors.background)
+    M = Modifier
+        .clip(RoundedCornerShape(4.dp)) // made changes 16.dp to 7.dp
         .wrapContentWidth()
         .border(
-            1.5f.dp,
-            color = MaterialTheme.colors.onBackground, RoundedCornerShape(16.dp)
+            1.dp,
+            color = MaterialTheme.colors.primary, RoundedCornerShape(4.dp)// made changes 16.dp to 7.dp
         )
 
 
 
-    val bm= Modifier.background(MaterialTheme.colors.background)
+    val bm= Modifier
         .graphicsLayer(translationY = animationProgress.value)
-        .width(220.dp)
+        .width(231.dp)
+        .clickable(
+            enabled = true,
+            onClick = onClick
+        )
 
     Box(
         modifier=bm)
     {
 
         Card(modifier = M.padding(0.dp),
-            shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
-            backgroundColor = MaterialTheme.colors.background,
+            shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp),
+            backgroundColor = MaterialTheme.colors.onBackground,
             elevation = 0.dp
 
 
         ){
 
-            Box(modifier = Modifier
-                .clickable(
-                    enabled = true,
-                    onClick = onClick
-                )
+            Box(
             ){
                 Column {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.Bottom
-                    ){
+                    Box(
+                        modifier = Modifier
+                            .width(231.dp)
+                            .height(194.dp),
+                    ) {
+                        Card(shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)) {
+                            GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(
+                                DiskCacheStrategy.AUTOMATIC)},modifier = Modifier,
+                                imageModel = utlt.imgUrl,
+                                contentDescription = "artist",
+                                contentScale = ContentScale.Crop,
 
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 0.dp, end = 16.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(modifier = Modifier
-                                .fillMaxWidth(0.27f)
-                                .aspectRatio(1f)
-                                .padding(0.dp)
-                                , contentAlignment = Alignment.Center
-                            ) {
-                                GlideImage( requestOptions = { RequestOptions.diskCacheStrategyOf(
-                                    DiskCacheStrategy.AUTOMATIC)},modifier = Modifier,
-                                    imageModel = utlt.imgUrl,
-                                    contentDescription = "utility",
-                                    contentScale = ContentScale.Crop,
+                                alignment = Alignment.Center,
+                                shimmerParams = ShimmerParams(
+                                    baseColor = if(isSystemInDarkTheme()) black else highWhite,
+                                    highlightColor = if(isSystemInDarkTheme()) highBlack else white,
+                                    durationMillis = 1500,
+                                    dropOff = 1f,
+                                    tilt = 20f
+                                ),
+                                failure = {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(), contentAlignment = Alignment.Center
+                                    ) {
 
-                                    alignment = Alignment.Center,
-                                    shimmerParams = ShimmerParams(
-                                        baseColor = if(isSystemInDarkTheme()) black else highWhite,
-                                        highlightColor = if(isSystemInDarkTheme()) highBlack else white,
-                                        durationMillis = 1500,
-                                        dropOff = 1f,
-                                        tilt = 20f
-                                    ),
-                                    failure = {
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .fillMaxHeight(), contentAlignment = Alignment.Center
-                                        ) {
-
-                                            val composition by rememberLottieComposition(
-                                                LottieCompositionSpec.RawRes(
-                                                    R.raw.failure
-                                                )
+                                        val composition by rememberLottieComposition(
+                                            LottieCompositionSpec.RawRes(
+                                                if (isSystemInDarkTheme())R.raw.comingsoondark else R.raw.comingsoonlight
                                             )
-                                            val progress by animateLottieCompositionAsState(
-                                                composition,
-                                                iterations = LottieConstants.IterateForever
-                                            )
-                                            LottieAnimation(
-                                                composition,
-                                                progress,
-                                                modifier = Modifier.fillMaxHeight()
-                                            )
-
-                                        }
+                                        )
+                                        val progress by animateLottieCompositionAsState(
+                                            composition,
+                                            iterations = LottieConstants.IterateForever
+                                        )
+                                        LottieAnimation(
+                                            composition,
+                                            progress,
+                                            modifier = Modifier.fillMaxHeight()
+                                        )
 
                                     }
-                                )
 
-
-                            }
-                            Column(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 16.dp, top = 12.dp)
-                            ) {
-                                MarqueeText(
-                                    text = utlt.name,
-                                    color = MaterialTheme.colors.onBackground,
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontFamily = aileron,
-                                    gradientEdgeColor = Color.Transparent
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                MarqueeText(
-                                    text = "Click to view location on map",
-                                    style = TextStyle(
-                                        color = colors.onBackground,
-                                        fontFamily = aileron,
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 12.sp
-                                    ),
-                                    gradientEdgeColor = Color.Transparent
-                                )
-                            }
-
+                                }
+                            )
                         }
+
+                    }
+
+//                Image(painter = painterResource(id = eventdetail.imgurl), contentDescription = "artist", contentScale = ContentScale.Crop)
+                    Column(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp),
+                        verticalArrangement = Arrangement.Top
+                    ){
+
+
+                        MarqueeText(
+                            text = utlt.name,
+                            color = MaterialTheme.colors.background,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Normal,
+                            fontFamily = futura,
+                            gradientEdgeColor = Color.Transparent
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        MarqueeText(
+                            text = utlt.description,
+                            style = TextStyle(
+                                color = MaterialTheme.colors.background,
+                                fontFamily = futura,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 14.sp
+                            ),
+                            gradientEdgeColor = Color.Transparent
+                        )
+
+
                     }
                 }
             }

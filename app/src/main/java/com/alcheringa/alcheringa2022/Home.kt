@@ -184,6 +184,10 @@ class Home : Fragment() {
 
         scheduleDatabase = ScheduleDatabase(context)
 
+        if (homeViewModel.allEventsWithLive.isEmpty()) {
+            homeViewModel.getAllEvents()
+        }
+
         if (homeViewModel.OwnEventsWithLiveState.isEmpty()) {
             homeViewModel.fetchlocaldbandupdateownevent(scheduleDatabase)
         }
@@ -195,14 +199,15 @@ class Home : Fragment() {
         if (homeViewModel.venuesList.isEmpty()){
             homeViewModel.getVenues()
         }
+        if (homeViewModel.venuesList.isEmpty()){
+            homeViewModel.getUtilities()
+        }
 
 
         if (homeViewModel.featuredEventsWithLivestate.isEmpty()) {
             homeViewModel.getfeaturedEvents()
         }
-        if (homeViewModel.allEventsWithLive.isEmpty()) {
-            homeViewModel.getAllEvents()
-        }
+
 //        homeViewModel.getMerchHome()
         if (homeViewModel.merchMerch.isEmpty()) {
             homeViewModel.getMerchMerch()
@@ -1575,6 +1580,66 @@ class Home : Fragment() {
                             }
                         }
 
+                        if (homeViewModel.utilityList.isNotEmpty()) {
+                            Box(
+                                modifier = Modifier.padding(
+                                    start = 20.dp,
+                                    bottom = 12.dp,
+                                    top = 36.dp
+                                ),
+                            ) {
+                                Text(
+
+                                    text = "Utilities",
+                                    fontFamily = futura,
+                                    fontWeight = FontWeight.Normal,
+                                    color = colors.onBackground,
+                                    fontSize = 22.sp
+                                )
+                            }
+                        }
+
+
+                        if(homeViewModel.utilityList.isNotEmpty()){
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+
+                            ) {
+                                LazyRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    contentPadding = PaddingValues(horizontal = 20.dp)
+                                ) {
+                                    items(homeViewModel.utilityList) { dataeach ->
+                                        context?.let {
+                                            UtilityCard(utlt = dataeach) {
+
+                                                if (dataeach.location != null){
+                                                    val gmmIntentUri =
+                                                        Uri.parse("google.navigation:q=${dataeach.location.latitude},${dataeach.location.longitude}")
+                                                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                                    mapIntent.setPackage("com.google.android.apps.maps")
+                                                    requireContext().startActivity(mapIntent)
+                                                }
+                                                else if (dataeach.link != ""){
+                                                    startActivity(
+                                                        Intent(Intent.ACTION_VIEW).setData(
+                                                            Uri.parse(
+                                                                dataeach.link
+                                                            )
+                                                        )
+                                                    )
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+
                         if (homeViewModel.informalList.isNotEmpty()) {
                             Box(
                                 modifier = Modifier.padding(
@@ -1965,7 +2030,7 @@ class Home : Fragment() {
                     ).uppercase() == "MODEL UNITED NATIONS".replace("\\s".toRegex(), "").uppercase() ){
                     val day1_link = "https://bit.ly/3OFUO3E"
                     val day2_link = "https://bit.ly/3wdV4k0"
-                    val day3_link = "https://bit.ly/48b0QQw"
+                    val day3_link = "https://drive.google.com/drive/folders/1ychbkhLl8Nt_oDZI3uo2w82jdhKlecqU"
 
                     val linkToDisplay = if(eventWithLive.eventdetail.artist.contains("Day 1", ignoreCase = true)) day1_link
                     else if (eventWithLive.eventdetail.artist.contains("Day 2", ignoreCase = true)) day2_link

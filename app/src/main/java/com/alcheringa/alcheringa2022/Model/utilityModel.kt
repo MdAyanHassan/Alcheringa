@@ -9,6 +9,9 @@ import kotlinx.parcelize.Parcelize
 
 data class utilityModel(
     val name: String = "",
-    val locations: List<GeoPoint> = emptyList(),
+    val description: String = "",
+    val location: GeoPoint? = null,
+    val type: String = "",
+    val link: String = "",
     val imgUrl: String = ""
     )

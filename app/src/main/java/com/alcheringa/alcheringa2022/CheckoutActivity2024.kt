@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -284,10 +285,9 @@ class CheckoutActivity2024 : AppCompatActivity() {
                     modifier = Modifier
                         .fillMaxSize()
                         .background(colors.background)
-                        .
-                        pointerInput(Unit) {
-                            detectTapGestures (
-                                onPress = {keyboardController?.hide()}
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onPress = { keyboardController?.hide() }
                             )
                         }
                 ) {
@@ -472,7 +472,10 @@ class CheckoutActivity2024 : AppCompatActivity() {
 
                                     ) {
                                         Column(
-                                            modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(bottom = 100.dp)
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .verticalScroll(rememberScrollState())
+                                                .padding(bottom = 100.dp)
 
                                         ) {
                                             Text(
@@ -1485,7 +1488,7 @@ class CheckoutActivity2024 : AppCompatActivity() {
                                                             colors.onBackground,
                                                             RoundedCornerShape(6.dp)
                                                         )
-                                                        .clickable (enabled = totalItems>0){
+                                                        .clickable(enabled = totalItems > 0) {
                                                             checkedState = 2
                                                             startPayment(total_amount.toInt())
                                                         }
@@ -1642,6 +1645,10 @@ class CheckoutActivity2024 : AppCompatActivity() {
 
 
                                 }
+                            }
+
+                            BackHandler {
+                                focusManager.clearFocus()
                             }
                         }
                     }

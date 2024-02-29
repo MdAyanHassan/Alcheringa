@@ -42,6 +42,29 @@
 -keep class com.google.android.gms.internal.** { *; }
 -keepclasseswithmembers class com.google.firebase.FirebaseException
 
+-keep @androidx.annotation.Keep public class *
+
+-dontwarn okio.**
+-dontwarn retrofit2.Platform$Java8
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+-keepclassmembers class rx.internal.util.unsafe.** {
+    long producerIndex;
+    long consumerIndex;
+}
+
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+-keep class com.google.gson.** { *; }
+-keep class com.google.inject.** { *; }
+
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
 -keepclassmembers class * {
     @android.webkit.JavascriptInterface <methods>;
     }
