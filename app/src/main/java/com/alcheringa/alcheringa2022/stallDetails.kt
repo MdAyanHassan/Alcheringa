@@ -245,26 +245,12 @@ class stallDetails : Fragment() {
                                         color = colors.onBackground
                                     )
                                     Text(
-                                        text = "Offer",
+                                        text = "Description",
                                         fontSize = 11.sp,
                                         color = colors.onBackground,
                                         fontFamily = futura,
                                         modifier = Modifier
                                             .padding(top = 9.dp, bottom = 5.dp)
-                                    )
-                                    Text(
-                                        text = stallDetails.description,
-                                        fontSize = 14.sp,
-                                        color = colors.onBackground,
-                                        fontFamily = futura
-                                    )
-                                    Text(
-                                        text = "Offer",
-                                        fontSize = 11.sp,
-                                        color = colors.onBackground,
-                                        fontFamily = futura,
-                                        modifier = Modifier
-                                            .padding(top = 15.dp, bottom = 5.dp)
                                     )
                                     Text(
                                         text = stallDetails.description,
@@ -310,60 +296,60 @@ class stallDetails : Fragment() {
                             }
 
                             Spacer(modifier = Modifier.height(30.dp))
-                            Box(
-                                modifier = Modifier
-                                    .border(
-                                        1.dp,
-                                        colors.onBackground,
-                                        shape = RoundedCornerShape(4.dp)
-                                    )
-                                    .background(
-                                        shape = RoundedCornerShape(4.dp),
-                                        brush = Brush.verticalGradient(
-                                            0f to lighterPurple,
-                                            1f to borderdarkpurple
-                                        )
-                                    )
-                                    .padding(horizontal = 15.dp, vertical = 3.dp)
-                                    .height(30.dp)
-                                    .wrapContentWidth()
-                                    .clickable {
-
-                                    },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .align(Alignment.Center),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        text = "Direction",
-                                        fontSize = 20.sp,
-                                        fontWeight = FontWeight.Medium,
-                                        fontFamily = futura,
-                                        color = creamWhite,
-                                    )
-
-                                    Spacer(modifier = Modifier.width(10.dp))
-
-                                    Divider(
-                                        color = creamWhite, modifier = Modifier
-                                            .height(20.dp)
-                                            .width(1.dp)
-                                    )
-
-                                    Spacer(modifier = Modifier.width(10.dp))
-
-                                    Image(
-                                        painter = painterResource(R.drawable.direction),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                }
-                            }
-                            Spacer(modifier = Modifier.height(40.dp))
+//                            Box(
+//                                modifier = Modifier
+//                                    .border(
+//                                        1.dp,
+//                                        colors.onBackground,
+//                                        shape = RoundedCornerShape(4.dp)
+//                                    )
+//                                    .background(
+//                                        shape = RoundedCornerShape(4.dp),
+//                                        brush = Brush.verticalGradient(
+//                                            0f to lighterPurple,
+//                                            1f to borderdarkpurple
+//                                        )
+//                                    )
+//                                    .padding(horizontal = 15.dp, vertical = 3.dp)
+//                                    .height(30.dp)
+//                                    .wrapContentWidth()
+//                                    .clickable {
+//
+//                                    },
+//                                contentAlignment = Alignment.Center
+//                            ) {
+//                                Row(
+//                                    modifier = Modifier
+//                                        .align(Alignment.Center),
+//                                    horizontalArrangement = Arrangement.Center,
+//                                    verticalAlignment = Alignment.CenterVertically
+//                                ) {
+//                                    Text(
+//                                        text = "Direction",
+//                                        fontSize = 20.sp,
+//                                        fontWeight = FontWeight.Medium,
+//                                        fontFamily = futura,
+//                                        color = creamWhite,
+//                                    )
+//
+//                                    Spacer(modifier = Modifier.width(10.dp))
+//
+//                                    Divider(
+//                                        color = creamWhite, modifier = Modifier
+//                                            .height(20.dp)
+//                                            .width(1.dp)
+//                                    )
+//
+//                                    Spacer(modifier = Modifier.width(10.dp))
+//
+//                                    Image(
+//                                        painter = painterResource(R.drawable.direction),
+//                                        contentDescription = null,
+//                                        modifier = Modifier.size(20.dp)
+//                                    )
+//                                }
+//                            }
+//                            Spacer(modifier = Modifier.height(40.dp))
 //                        Button(
 //                            onClick = { /*TODO*/ },
 //                            colors = ButtonDefaults.buttonColors(Color.Transparent),
