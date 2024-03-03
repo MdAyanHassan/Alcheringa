@@ -1,5 +1,7 @@
 package com.alcheringa.alcheringa2022
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -296,60 +298,64 @@ class stallDetails : Fragment() {
                             }
 
                             Spacer(modifier = Modifier.height(30.dp))
-//                            Box(
-//                                modifier = Modifier
-//                                    .border(
-//                                        1.dp,
-//                                        colors.onBackground,
-//                                        shape = RoundedCornerShape(4.dp)
-//                                    )
-//                                    .background(
-//                                        shape = RoundedCornerShape(4.dp),
-//                                        brush = Brush.verticalGradient(
-//                                            0f to lighterPurple,
-//                                            1f to borderdarkpurple
-//                                        )
-//                                    )
-//                                    .padding(horizontal = 15.dp, vertical = 3.dp)
-//                                    .height(30.dp)
-//                                    .wrapContentWidth()
-//                                    .clickable {
-//
-//                                    },
-//                                contentAlignment = Alignment.Center
-//                            ) {
-//                                Row(
-//                                    modifier = Modifier
-//                                        .align(Alignment.Center),
-//                                    horizontalArrangement = Arrangement.Center,
-//                                    verticalAlignment = Alignment.CenterVertically
-//                                ) {
-//                                    Text(
-//                                        text = "Direction",
-//                                        fontSize = 20.sp,
-//                                        fontWeight = FontWeight.Medium,
-//                                        fontFamily = futura,
-//                                        color = creamWhite,
-//                                    )
-//
-//                                    Spacer(modifier = Modifier.width(10.dp))
-//
-//                                    Divider(
-//                                        color = creamWhite, modifier = Modifier
-//                                            .height(20.dp)
-//                                            .width(1.dp)
-//                                    )
-//
-//                                    Spacer(modifier = Modifier.width(10.dp))
-//
-//                                    Image(
-//                                        painter = painterResource(R.drawable.direction),
-//                                        contentDescription = null,
-//                                        modifier = Modifier.size(20.dp)
-//                                    )
-//                                }
-//                            }
-//                            Spacer(modifier = Modifier.height(40.dp))
+                            Box(
+                                modifier = Modifier
+                                    .border(
+                                        1.dp,
+                                        colors.onBackground,
+                                        shape = RoundedCornerShape(4.dp)
+                                    )
+                                    .background(
+                                        shape = RoundedCornerShape(4.dp),
+                                        brush = Brush.verticalGradient(
+                                            0f to lighterPurple,
+                                            1f to borderdarkpurple
+                                        )
+                                    )
+                                    .padding(horizontal = 15.dp, vertical = 3.dp)
+                                    .height(30.dp)
+                                    .wrapContentWidth()
+                                    .clickable {
+                                        val gmmIntentUri =
+                                            Uri.parse("google.navigation:q=${stallDetails.LatLng.latitude},${stallDetails.LatLng.longitude}")
+                                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                        mapIntent.setPackage("com.google.android.apps.maps")
+                                        startActivity(mapIntent)
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .align(Alignment.Center),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "Direction",
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Medium,
+                                        fontFamily = futura,
+                                        color = creamWhite,
+                                    )
+
+                                    Spacer(modifier = Modifier.width(10.dp))
+
+                                    Divider(
+                                        color = creamWhite, modifier = Modifier
+                                            .height(20.dp)
+                                            .width(1.dp)
+                                    )
+
+                                    Spacer(modifier = Modifier.width(10.dp))
+
+                                    Image(
+                                        painter = painterResource(R.drawable.direction),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(40.dp))
 //                        Button(
 //                            onClick = { /*TODO*/ },
 //                            colors = ButtonDefaults.buttonColors(Color.Transparent),
