@@ -30,6 +30,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -39,6 +41,10 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.airbnb.lottie.animation.keyframe.BaseKeyframeAnimation;
 import com.bumptech.glide.Glide;
+import com.canhub.cropper.CropImageContract;
+import com.canhub.cropper.CropImageContractOptions;
+import com.canhub.cropper.CropImageOptions;
+import com.canhub.cropper.CropImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -49,8 +55,8 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageActivity;
 
 import java.io.IOException;
 import java.sql.Array;
@@ -353,7 +359,23 @@ public class ProfilePage extends AppCompatActivity{
 //    }
 
     private void startCrop(Uri imageURI) {
-        CropImage.activity(imageURI).setGuidelines(CropImageView.Guidelines.ON).setMultiTouchEnabled(true).start(this);
+        ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(
+                new CropImageContract(),
+                new ActivityResultCallback<CropImageView.CropResult>() {
+                    @Override
+                    public void onActivityResult(CropImageView.CropResult result) {
+                        if (result.isSuccessful()){
+                            Uri croppedImageUri = result.getUriContent();
+                            String croppedImageFilePath = result.getUriFilePath(ProfilePage.this, false);
+                        }
+                        else {
+                            Exception exception = result.getError();
+                        }
+                    }
+                }
+        );
+
+        cropImage.launch(new CropImageContractOptions(imageURI, new CropImageOptions()));
     }
 
     private void fill_user_details() {

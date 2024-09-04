@@ -109,8 +109,12 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
+import com.canhub.cropper.CropImage
+import com.canhub.cropper.CropImageActivity
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageContractOptions
+import com.canhub.cropper.CropImageOptions
+import com.canhub.cropper.CropImageView
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.Locale
@@ -773,8 +777,25 @@ class ProfileActivity: AppCompatActivity() {
     }
 
     private fun startCrop(imageURI: Uri) {
-        CropImage.activity(imageURI).setGuidelines(CropImageView.Guidelines.ON)
-            .setMultiTouchEnabled(true).start(this)
+        val cropImage = registerForActivityResult(CropImageContract()) { result ->
+            if (result.isSuccessful) {
+                // Use the cropped image URI.
+                val croppedImageUri = result.uriContent
+                val croppedImageFilePath = result.getUriFilePath(this) // optional usage
+                // Process the cropped image URI as needed.
+            } else {
+                // An error occurred.
+                val exception = result.error
+                // Handle the error.
+            }
+        }
+
+        cropImage.launch(
+            CropImageContractOptions(
+                uri = imageURI,
+                cropImageOptions = CropImageOptions()
+            )
+        )
     }
 
     private fun fill_user_details() {
