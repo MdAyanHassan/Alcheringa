@@ -8,6 +8,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.google.firebase.auth.FirebaseAuth
 
+// This activity simply presents the GreetingPage with login and signup button. Clicking them lands
+// us on Login and Signup pages respectively
+
 class Greeting_page : ComponentActivity() {
     var signupButton: Button? = null
     var Login_button: Button? = null
@@ -98,16 +101,6 @@ class Greeting_page : ComponentActivity() {
             startActivity(Intent(applicationContext, MainActivity::class.java))
             finish()
         }
-    }
-
-    override fun onResume() {
-//        videoView!!.resume()
-        super.onResume()
-    }
-
-    override fun onRestart() {
-//        videoView!!.start()
-        super.onRestart()
     }
 
     override fun onPause() {

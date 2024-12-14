@@ -43,6 +43,8 @@ import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSource
 
+// This composable display the video in loop and displays the login and sign up buttons
+
 @Composable
 fun GreetingPage(onLoginClick: () -> Unit, onSignupClick: () -> Unit ) {
     val context = LocalContext.current
@@ -60,7 +62,7 @@ fun GreetingPage(onLoginClick: () -> Unit, onSignupClick: () -> Unit ) {
                     defaultDataSourceFactory
                 )
                 val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(MediaItem.fromUri(Uri.parse("android.resource://" + context.packageName + "/" + R.raw.greeting_video)))
+                    .createMediaSource(mediaItem)
 
                 setMediaSource(source)
                 prepare()
@@ -68,7 +70,7 @@ fun GreetingPage(onLoginClick: () -> Unit, onSignupClick: () -> Unit ) {
     }
     exoPlayer.playWhenReady = true
     exoPlayer.videoScalingMode = C.VIDEO_SCALING_MODE_DEFAULT
-    exoPlayer.repeatMode = Player.REPEAT_MODE_ALL
+    exoPlayer.repeatMode = REPEAT_MODE_ALL
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
         DisposableEffect(
             AndroidView(factory = {
