@@ -22,7 +22,7 @@ class Greeting_page : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            GreetingPage(
+            GreetingPage2025(
                 onLoginClick = {
                     startActivity(
                         Intent(
