@@ -105,7 +105,6 @@ class Login : ComponentActivity() {
                 },
 
                 onBack = {
-                    /**TODO**/
                     goBack()
                 }
 

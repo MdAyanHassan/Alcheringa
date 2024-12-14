@@ -208,8 +208,8 @@ fun LoginScreen2025(
                 Text(
                     text = "Forgot Password",
                     style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        //fontWeight = FontWeight.Bold,
                         color = Color(0xFFFF77A8),
                         textAlign = TextAlign.Center,
                         fontFamily = FontFamily(
@@ -270,7 +270,7 @@ fun LoginScreen2025(
                     text = "Login",
                     style = TextStyle(
                         fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
+                        //fontWeight = FontWeight.Bold,
                         color = Color(0xFFFFF1E8),
                         textAlign = TextAlign.Center,
                         fontFamily = FontFamily(
@@ -352,8 +352,8 @@ fun LoginScreen2025(
                 Text(
                     text = "Privacy Policy",
                     style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        //fontWeight = FontWeight.Bold,
                         color = Color(0xFFFF77A8),
                         textAlign = TextAlign.Center,
                         fontFamily = FontFamily(
