@@ -16,8 +16,6 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
@@ -29,9 +27,11 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
@@ -40,6 +40,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -73,7 +75,6 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
-import java.lang.IllegalStateException
 import kotlin.math.absoluteValue
 
 // TODO: Rename parameter arguments, choose names that match
@@ -540,6 +541,7 @@ class MerchFragmentCompose : Fragment() {
         
 
         // Creating a Bottom Sheet
+
         Alcheringa2022Theme {
             BottomSheetScaffold(
 
@@ -548,7 +550,7 @@ class MerchFragmentCompose : Fragment() {
 
                     MerchBottomSheet(bottomSheetState = bottomSheetScaffoldState, index = index)
                                },
-                sheetShape = RoundedCornerShape(40.dp, 40.dp),
+//                sheetShape = RoundedCornerShape(40.dp, 40.dp),
                 sheetBackgroundColor = Color.Transparent,
                 sheetElevation = 0.dp,
                 sheetPeekHeight = 0.dp
@@ -558,18 +560,38 @@ class MerchFragmentCompose : Fragment() {
                 if(homeViewModel.merchMerch.isNotEmpty()) {
                     Column(
                         modifier = Modifier
-                            .padding(horizontal = 20.dp)
+                        //   .padding(horizontal = 20.dp)
                             .paint(
-                                painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                                painterResource(id = if (isSystemInDarkTheme()) R.drawable.merchbgg else R.drawable.merchbgg),
                                 contentScale = ContentScale.Crop
                             )
                     ) {
 
 
+                        Box(
+                            modifier = Modifier
+                                .height(73.dp)
+                                .fillMaxWidth()
+
+                        ) {
+                            Image(
+                                painter = painterResource(R.drawable.merchhead),
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize()
+                            )
+
+
+
+                        }
+
+                        Spacer(modifier = Modifier.height(25.dp))
 
                         LazyColumn(
                             //verticalArrangement = Arrangement.spacedBy(10.dp),
                         ) {
+
+
+
                             items(homeViewModel.merchMerch.size) { i ->
 
                                 merchGridItem2024(item = homeViewModel.merchMerch[i], onClick = {
@@ -856,43 +878,54 @@ class MerchFragmentCompose : Fragment() {
                 Card(
 
                     modifier = Modifier
-                        .padding(0.dp, 10.dp, 0.dp, bottomDp)
-                        .height(210.dp)
+
+                        .padding(15.dp, 10.dp, 15.dp, bottomDp)
+                        .height(297.dp)
                         .clickable(
                             onClick = onClick,
                             enabled = true
-                        )
-                        .border(
-                            1.dp,
-                            fontCol,
-                            RoundedCornerShape(8.dp, 8.dp, 8.dp, 8.dp)
+                        ).paint(
+                            painterResource(id = R.drawable.mercardbg)
                         ),
 
-                    //set card elevation of the card
+                    backgroundColor = Color.Transparent
 
-                    backgroundColor = surfaceCol,
+
+
+
+
                 ) {
-                    Column(modifier = Modifier) {
+
+
+
+
+
+
+
+
+
+
                         Row() {
+
                             Box(
                                 modifier = Modifier
-                                    .fillMaxHeight()
-                                    .fillMaxWidth(0.46f)
+                                    .fillMaxHeight(.80f)
+                                    .fillMaxWidth(0.56f).padding(start = 46.dp,top=39.dp)
 
 
                             ) {
                                 //   Box(modifier=Modifier.fillMaxHeight().background(color=Color.Blue,shape= RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp))){
                                 Image(
-                                    painter = painterResource(id = itembg),
+                                    painter = painterResource(id =R.drawable.merback),
                                     contentDescription = "cart_item_bg",
                                     modifier = Modifier
-                                        .fillMaxHeight()
-                                        .clip(
-                                            RoundedCornerShape(
-                                                topStart = 8.dp,
-                                                bottomStart = 8.dp
-                                            )
-                                        ),
+                                        .fillMaxHeight(),
+//                                        .clip(
+//                                            RoundedCornerShape(
+//                                                topStart = 8.dp,
+//                                                bottomStart = 8.dp
+//                                            )
+//                                        ),
                                     contentScale = ContentScale.Crop
                                 )
                                 //   }
@@ -914,46 +947,74 @@ class MerchFragmentCompose : Fragment() {
                                 }
                             }
                             Box(modifier = Modifier.fillMaxSize()) {
-                                Image(
-                                    painter = painterResource(id = ribbonbg),
-                                    contentDescription = "cart_item_bg",
-                                    modifier = Modifier
-                                        .padding(top=94.dp)
-                                        .fillMaxHeight(0.85f)
-                                        .clip(
-                                            RoundedCornerShape(
-                                                topEnd = 8.dp,
-                                                bottomEnd = 8.dp
-                                            )
-                                        ),
-                                    contentScale = ContentScale.Crop
-                                )
+//                                Image(
+//                                    painter = painterResource(id = ribbonbg),
+//                                    contentDescription = "cart_item_bg",
+//                                    modifier = Modifier
+//                                        .padding(top = 94.dp)
+//                                        .fillMaxHeight(0.85f)
+//                                        .clip(
+//                                            RoundedCornerShape(
+//                                                topEnd = 8.dp,
+//                                                bottomEnd = 8.dp
+//                                            )
+//                                        ),
+//                                    contentScale = ContentScale.Crop
+//                                )
                                 Column(
                                     modifier = Modifier
-                                        .padding(16.dp)
+                                       // .padding(16.dp)
                                         .fillMaxWidth()
                                 ) {
 
-                                    Spacer(modifier = Modifier.height(10.dp))
+                                    Spacer(modifier = Modifier.height(50.dp))
 
                                     Text(
                                         text = item.material!!,
-                                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                                        color = fontCol, fontFamily = futura,
-                                        fontWeight = FontWeight(400),
-                                        fontSize = 20.sp,
-                                        lineHeight = 25.sp
+
+                                        style = TextStyle(
+                                            fontSize = 24.sp,
+                                         //   fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFFFF1E8),
+                                            textAlign = TextAlign.Center,
+                                            fontFamily = FontFamily(
+                                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                            ),
+                                            shadow = Shadow(
+                                                color = Color(0xFF000000),
+                                                offset = Offset(6f, 4f)
+                                            )
+                                        ),
+
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(end=40.dp)
+
+
+
 
                                     )
+
+                                    Spacer(modifier = Modifier.width(10.dp))
                                     Text(
                                         text = item.name!!,
-                                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                                        fontWeight = FontWeight(300),
-                                        fontFamily = futura,
-
-
-                                        color =fontCol,
-                                        fontSize = 16.sp
+                                        style = TextStyle(
+                                            fontSize = 16.sp,
+                                            //   fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFFF77A8),
+                                            textAlign = TextAlign.Center,
+                                            fontFamily = FontFamily(
+                                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                            ),
+                                            shadow = Shadow(
+                                                color = Color(0xFF000000),
+                                                offset = Offset(6f, 4f)
+                                            )
+                                        ),
+                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                                            .padding(end=40.dp),
 
 
                                     )
@@ -961,15 +1022,25 @@ class MerchFragmentCompose : Fragment() {
 
 
 
-                                    Spacer(modifier = Modifier.height(55.dp))
+                                    Spacer(modifier = Modifier.height(20.dp))
+                                    Spacer(modifier = Modifier.width(10.dp))
                                     Text(
                                         text = "Rs. " + item.price!! + ".00/-",
+                                        style = TextStyle(
+                                            fontSize = 16.sp,
+                                               fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFFFF1E8),
+                                            textAlign = TextAlign.Center,
+                                            fontFamily = FontFamily(
+                                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                            ),
+                                            shadow = Shadow(
+                                                color = Color(0xFF000000),
+                                                offset = Offset(6f, 4f)
+                                            )
+                                        ),
                                         modifier = Modifier.align(Alignment.CenterHorizontally),
-                                        color = fontCol,
-                                        fontWeight = FontWeight(450),
-                                        fontSize = 20.sp,
-                                        fontFamily = futura,
-                                        lineHeight = 26.sp
 
 
                                         //maxLines = 1,
@@ -977,9 +1048,31 @@ class MerchFragmentCompose : Fragment() {
                                     )
                                 }
                             }
+
+
                         }
-                    }
+
+
+                    Image(
+                        painter = painterResource(R.drawable.limitedoffer),
+                        contentDescription = null,
+                        modifier = Modifier.height(30.dp).padding( start=50.dp,bottom = 44.dp).fillMaxWidth(.85f),
+                        Alignment.BottomEnd
+                    )
+
+//
+//                    Image(
+//                        painter = painterResource(R.drawable.atcbutton),
+//                        contentDescription = null,
+//                        modifier = Modifier.height(10.dp).padding( start=50.dp,bottom = 0.dp),
+//                        Alignment.BottomEnd
+//                    )
+//
+
+
+
                 }
+
 
 
 
@@ -1040,9 +1133,21 @@ class MerchFragmentCompose : Fragment() {
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = merch.material,
-                        fontFamily = futura,
-                        fontSize = 18.sp,
-                        color = colors.onBackground
+
+                        style = TextStyle(
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFFFF1E8),
+                            textAlign = TextAlign.Center,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                            ),
+                            shadow = Shadow(
+                                color = Color(0xFF000000),
+                                offset = Offset(6f, 4f)
+                            )
+                        )
                     )
                     Text(
                         text = merch.name,
@@ -1080,6 +1185,7 @@ class MerchFragmentCompose : Fragment() {
             shape = RoundedCornerShape(24.dp),
             backgroundColor = colors.background
         ) {
+
             Box(modifier = Modifier
                 .fillMaxSize()
                 .padding(vertical = 30.dp, horizontal = 20.dp)
@@ -1121,11 +1227,20 @@ class MerchFragmentCompose : Fragment() {
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
                         merch.name,
+
                         style = TextStyle(
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
-                            color = colors.onBackground
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFFFF1E8),
+                            textAlign = TextAlign.Center,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                            ),
+                            shadow = Shadow(
+                                color = Color(0xFF000000),
+                                offset = Offset(6f, 4f)
+                            )
                         ),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
@@ -1145,11 +1260,20 @@ class MerchFragmentCompose : Fragment() {
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         "Rs. "+ merch.price + ".00",
+
                         style = TextStyle(
-                            fontFamily = aileron,
-                            fontWeight = FontWeight.Bold,
                             fontSize = 20.sp,
-                            color = colors.onBackground
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFFFF1E8),
+                            textAlign = TextAlign.Center,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                            ),
+                            shadow = Shadow(
+                                color = Color(0xFF000000),
+                                offset = Offset(6f, 4f)
+                            )
                         ),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
@@ -1214,7 +1338,7 @@ class MerchFragmentCompose : Fragment() {
 //                                        .fillMaxHeight(0.8f)
 
 
-                            .padding(top = 120.dp)
+                           // .padding(top = 80.dp)
 //                                        .paint(
 //                                            painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
 //                                            contentScale = ContentScale.Crop
@@ -1232,13 +1356,13 @@ class MerchFragmentCompose : Fragment() {
 //                                        border = BorderStroke(2.dp, ),
 //                                        backgroundColor = colors.background,
                             modifier = Modifier
-                                .border(
-                                    width = 2.dp,
-                                    shape = RoundedCornerShape(16.dp, 16.dp),
-                                    color = colors.onBackground
-                                )
+//                                .border(
+//                                    width = 2.dp,
+//                                    color = colors.onBackground
+//                                )
                                 .paint(
-                                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                                    //for background
+                                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.cart_bg else R.drawable.cart_bg),
                                     contentScale = ContentScale.Crop
                                 )
                                 .fillMaxHeight(),
@@ -1253,64 +1377,120 @@ class MerchFragmentCompose : Fragment() {
 
 
 
-
                                 Image(
-                                    painter = painterResource(id = R.drawable.frame_15321),
+                                    painter = painterResource(id = R.drawable.product_image_bg),
                                     contentDescription = null,
                                     modifier = Modifier
                                         .align(Alignment.TopCenter)
                                         .fillMaxWidth()
-                                        .height(220.dp)
-                                        .clip(RoundedCornerShape(16.dp, 16.dp)),
+                                        .height(330.dp)
+                                        .padding(start = 20.dp, end = 20.dp, top = 20.dp)
+                                        ,
                                     contentScale = ContentScale.Crop
 
                                 )
 
-                                Spacer(modifier = Modifier.height(8.dp))
+                                Spacer(modifier = Modifier.height(140.dp))
+
                                 Column(
                                     Modifier
                                         .fillMaxWidth()
                                         .padding(
                                             bottom = 40.dp,
-                                            top = 230.dp
+                                            top = 360.dp
                                         ),
                                 )
                                 {
                                     Text(
                                         currentMerch.material,
                                         style = TextStyle(
-                                            fontFamily = aileron,
+                                            fontSize = 35.sp,
                                             fontWeight = FontWeight.Bold,
-                                            fontSize = 24.sp,
-                                            color = colors.onBackground
-                                        ),
-                                        modifier = Modifier.padding(start = 30.dp,end= 30.dp)
+                                            color = Color(0xFFFFF1E8),
+                                            textAlign = TextAlign.Center,
+                                            fontFamily = FontFamily(
+                                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                            ),
+                                            shadow = Shadow(
+                                                color = Color(0xFF000000),
+                                                offset = Offset(6f, 4f)
+                                            )
+                                        ) ,
+                                                modifier = Modifier.padding(start = 30.dp,end= 30.dp)
                                     )
+//                                    Text(
+//                                        currentMerch.material,
+//                                        style = TextStyle(
+//                                            fontFamily = aileron,
+//                                            fontWeight = FontWeight.Bold,
+//                                            fontSize = 24.sp,
+//                                            color = colors.onBackground
+//                                        ),
+//                                        modifier = Modifier.padding(start = 30.dp,end= 30.dp)
+//                                    )
 
                                     Spacer(modifier = Modifier.height(4.dp))
                                     Text(
                                         currentMerch.name,
                                         style = TextStyle(
-                                            fontFamily = aileron,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 14.sp,
-                                            color = colors.secondaryVariant
-                                        ),
+                                            fontSize = 18.sp,
+                                            //fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFFFA0C2),
+                                            textAlign = TextAlign.Center,
+                                            fontFamily = FontFamily(
+                                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                            ),
+                                            shadow = Shadow(
+                                                color = Color(0xFF7E2953),
+                                                offset = Offset(6f, 5f)
+                                            )
+                                        ) ,
                                         modifier = Modifier.padding(start = 30.dp,end= 30.dp)
                                     )
+
+//                                    Text(
+//                                        currentMerch.name,
+//                                        style = TextStyle(
+//                                            fontFamily = aileron,
+//                                            fontWeight = FontWeight.Normal,
+//                                            fontSize = 14.sp,
+//                                            color = colors.secondaryVariant
+//                                        ),
+//                                        modifier = Modifier.padding(start = 30.dp,end= 30.dp)
+//                                    )
 
                                     Spacer(modifier = Modifier.height(12.dp))
                                     Text(
                                         "Rs. " + currentMerch.price,
                                         style = TextStyle(
-                                            fontFamily = aileron,
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 32.sp,
-                                            color = colors.onBackground
-                                        ),
+                                            fontSize = 36.sp,
+                                            //fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFFFF1E8),
+                                            textAlign = TextAlign.Center,
+                                            fontFamily = FontFamily(
+                                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                            ),
+                                            shadow = Shadow(
+                                                color = Color(0xFF7E2953),
+                                                offset = Offset(6f, 5f)
+                                            )
+                                        ) ,
                                         modifier = Modifier.padding(start = 30.dp,end= 30.dp)
                                     )
-                                    Spacer(modifier = Modifier.height(24.dp))
+//                                    Text(
+//                                        "Rs. " + currentMerch.price,
+//                                        style = TextStyle(
+//                                            fontFamily = aileron,
+//                                            fontWeight = FontWeight.Bold,
+//                                            fontSize = 32.sp,
+//                                            color = colors.onBackground
+//                                        ),
+//                                        modifier = Modifier.padding(start = 30.dp,end= 30.dp)
+//                                    )
+                                    Spacer(modifier = Modifier.height(20.dp))
                                     Row(
                                         Modifier
                                             .fillMaxWidth()
@@ -1320,21 +1500,48 @@ class MerchFragmentCompose : Fragment() {
                                         Text(
                                             "Pick Your Size",
                                             style = TextStyle(
-                                                fontFamily = futura,
-                                                fontWeight = FontWeight.Bold,
-                                                fontSize = 14.sp,
-                                                color = colors.onBackground
-                                            ),
-//                                                            modifier = Modifier.padding(start = 30.dp,end= 30.dp)
+                                                fontSize = 19.sp,
+                                                //fontWeight = FontWeight.Bold,
+                                                color = Color(0xFFFFF1E8),
+                                                textAlign = TextAlign.Center,
+                                                fontFamily = FontFamily(
+                                                    Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                    Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                                ),
+                                                shadow = Shadow(
+                                                    color = Color(0xFF7E2953),
+                                                    offset = Offset(6f, 5f)
+                                                )
+                                            ) ,
+                                            modifier = Modifier.padding(start = 10.dp,end= 30.dp)
                                         )
+//                                        Text(
+//                                            "Pick Your Size",
+//                                            style = TextStyle(
+//                                                fontFamily = futura,
+//                                                fontWeight = FontWeight.Bold,
+//                                                fontSize = 14.sp,
+//                                                color = colors.onBackground
+//                                            )
+//                                            ,
+////                                                            modifier = Modifier.padding(start = 30.dp,end= 30.dp)
+//                                        )
+
                                         Text(
                                             "Size chart",
                                             style = TextStyle(
-                                                fontFamily = futura,
-                                                fontWeight = FontWeight.Bold,
-                                                fontSize = 14.sp,
-                                                color = if(isSystemInDarkTheme()) lighterGreen else darkerPurple,
-                                                textDecoration = TextDecoration.Underline
+                                                fontSize = 19.sp,
+                                                //fontWeight = FontWeight.Bold,
+                                                color = Color(0xFFFF77A8),
+                                                textAlign = TextAlign.Center,
+                                                fontFamily = FontFamily(
+                                                    Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                    Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                                ),
+                                                shadow = Shadow(
+                                                    color = Color(0xFF7E2953),
+                                                    offset = Offset(6f, 5f)
+                                                )
                                             ),
                                             modifier = Modifier.clickable {
                                                 //                                            val intent1 = Intent(requireContext(), SizeChartActivity::class.java)
@@ -1347,106 +1554,190 @@ class MerchFragmentCompose : Fragment() {
 
 
                                     }
-                                    Spacer(modifier = Modifier.height(20.dp))
+                                  //  Spacer(modifier = Modifier.height(20.dp))
+
+
                                     Card(
                                         Modifier
                                             .wrapContentHeight()
                                             .animateContentSize(),
-                                        shape = RoundedCornerShape(9.dp),
+                                       // shape = RoundedCornerShape(9.dp),
                                         backgroundColor = Color.Transparent,
                                         elevation = 0.dp
                                         /*border = BorderStroke(1.dp, colors.secondary)*/
                                     ) {
                                         Box() {
                                             Column() {
-                                                LazyRow(
-                                                    modifier = Modifier.height(42.dp),
-                                                    verticalAlignment = Alignment.CenterVertically
-                                                ) {
-                                                    itemsIndexed(sizes) { i, dataeach ->
-                                                        context?.let {
-                                                            var boxColor: Color =
-                                                                if (!isAvailable[i]) {
-                                                                    midWhite
-                                                                } /*else if (merchSize == dataeach) {
+
+                                                Row {
+
+
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .height(45.dp)
+                                                            .width(45.dp)
+                                                            .align(alignment = Alignment.Bottom)
+                                                            .padding(bottom = 9.dp)
+
+
+                                                    ) {
+                                                        Image(
+                                                            painter = painterResource(R.drawable.larrow),
+                                                            contentDescription = null,
+                                                            modifier = Modifier.fillMaxSize()
+                                                        )
+
+
+                                                    }
+
+                                                    Spacer(modifier = Modifier.width(5.dp))
+
+
+
+                                                    Column {
+
+
+                                                        LazyRow(
+                                                            modifier = Modifier
+                                                                .height(80.dp)
+                                                                .width(340.dp),
+                                                            // .padding(start = 30.dp, end = 30.dp),
+                                                            verticalAlignment = Alignment.CenterVertically
+                                                        ) {
+
+
+                                                            itemsIndexed(sizes) { i, dataeach ->
+                                                                context?.let {
+                                                                    var boxColor: Color =
+                                                                        if (!isAvailable[i]) {
+                                                                            midWhite
+                                                                        } /*else if (merchSize == dataeach) {
                                                                                 blu
                                                                             }*/ else {
-                                                                    Color.Transparent
-                                                                }
-                                                            txtCol =
-                                                                if (merchSize==dataeach) {
-                                                                    darkTealGreen
-                                                                } else {
-                                                                    colors.onBackground
-                                                                }
-
-                                                            Box(
-                                                                Modifier
-                                                                    .fillMaxHeight()
-                                                                    .fillParentMaxWidth(
-                                                                        0.2f
-                                                                    )
-                                                                    .clickable {
-                                                                        if (isAvailable[i]) {
-                                                                            if (merchSize == dataeach) {
-                                                                                merchSize =
-                                                                                    ""
-                                                                            } else {
-                                                                                merchSize =
-                                                                                    dataeach
-                                                                            }
-
+                                                                            Color.Transparent
                                                                         }
-                                                                    }
-                                                                    .background(
-                                                                        boxColor
-                                                                    )
-                                                                    /*.border(
+                                                                    txtCol =
+                                                                        if (merchSize == dataeach) {
+                                                                            darkTealGreen
+                                                                        } else {
+                                                                            colors.onBackground
+                                                                        }
+
+                                                                    Box(
+                                                                        Modifier
+                                                                            .fillMaxHeight()
+                                                                            .fillParentMaxWidth(
+                                                                                0.2f
+                                                                            )
+                                                                            .clickable {
+                                                                                if (isAvailable[i]) {
+                                                                                    if (merchSize == dataeach) {
+                                                                                        merchSize =
+                                                                                            ""
+                                                                                    } else {
+                                                                                        merchSize =
+                                                                                            dataeach
+                                                                                    }
+
+                                                                                }
+                                                                            }
+                                                                            .background(
+                                                                                boxColor
+                                                                            )
+                                                                            /*.border(
                                                                         0.5.dp,
                                                                         colors.secondary
                                                                     )*/
-                                                                    .padding(
-                                                                        horizontal = 4.dp
-                                                                    ),
-                                                                Alignment.TopCenter
-                                                            ) {
-                                                                Column(modifier = Modifier
-                                                                    .height(30.dp)
-                                                                    .width(40.dp)) {
-                                                                    Text(
-                                                                        dataeach,
-                                                                        style = TextStyle(
-                                                                            fontFamily = aileron,
-                                                                            fontWeight = FontWeight.Medium,
-                                                                            fontSize = 20.sp,
-                                                                            color = txtCol,
-                                                                            textAlign = TextAlign.Center
-                                                                        ),
-                                                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                                                                           ,
+                                                                        Alignment.Center
+                                                                    ) {
 
 
-                                                                    )
-
-                                                                    if(txtCol== darkTealGreen) {
-                                                                        Image(
-                                                                            painter = painterResource(R.drawable.squiggle),
-                                                                            contentDescription = null,
-                                                                            alignment = Alignment.BottomCenter,
+                                                                        Column(
                                                                             modifier = Modifier
-                                                                                .size(
-                                                                                    30.dp
+                                                                                .height(39.dp)
+                                                                                .width(68.dp)
+                                                                                .align(alignment = Alignment.BottomCenter)
+                                                                        ) {
+                                                                            Text(
+                                                                                dataeach,
+                                                                                color = if (txtCol == darkTealGreen) Color(0xFFFFF1E8) else Color(0xFF83769C),
+
+                                                                                style = TextStyle(
+                                                                                    fontSize = if (txtCol == darkTealGreen) 40.sp else 25.sp,
+
+                                                                                    //fontWeight = FontWeight.Bold,
+                                                                                    color = Color.White,
+                                                                                    textAlign = TextAlign.End,
+                                                                                    fontFamily = FontFamily(
+                                                                                        Font(
+                                                                                            R.font.alcher_pixel,
+                                                                                            FontWeight.Normal
+                                                                                        ),
+                                                                                        Font(
+                                                                                            R.font.alcher_pixel_bold,
+                                                                                            FontWeight.Bold
+                                                                                        ),
+                                                                                    ),
+                                                                                    shadow = Shadow(
+                                                                                        color = Color.Gray,
+                                                                                        offset = Offset(
+                                                                                            6f,
+                                                                                            5f
+                                                                                        )
+                                                                                    )
                                                                                 )
-                                                                                .align(
-                                                                                    Alignment.CenterHorizontally
-                                                                                )
-                                                                        )
+
+
+
+
+                                                                            )
+
+
+                                                                        }
+
                                                                     }
                                                                 }
+
                                                             }
                                                         }
+                                                        Canvas(modifier = Modifier
+                                                            .width(335.dp)
+                                                            .padding(bottom = 30.dp)) {
+                                                            drawLine(
+                                                                color = Color(
+                                                                    0xFFFF77A8
+                                                                ),
+                                                                start = Offset(
+                                                                    0f,
+                                                                    size.height / 2
+                                                                ),
+                                                                end = Offset(
+                                                                    size.width,
+                                                                    size.height / 2
+                                                                ),
+                                                                strokeWidth = 11f
+                                                            )
+                                                        }
                                                     }
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .height(45.dp)
+                                                            .width(45.dp)
+                                                            .align(alignment = Alignment.Bottom)
+                                                            .padding(bottom = 9.dp)
+                                                    ) {
+                                                        Image(
+                                                            painter = painterResource(R.drawable.rarrow),
+                                                            contentDescription = null,
+                                                            modifier = Modifier.fillMaxSize()
+                                                        )
 
+
+
+                                                     }
                                                 }
+
                                                 if (isSizeChartExpanded) {
                                                     val lengths = if(currentMerch.material.contains("oversized", ignoreCase = true))arrayListOf<String>("28", "30", "30.5", "31", "--")
                                                     else arrayListOf<String>("26", "27", "28", "29", "30")
@@ -1459,11 +1750,19 @@ class MerchFragmentCompose : Fragment() {
                                                     Text(
                                                         "Length (+/- 0.5in)",
                                                         style = TextStyle(
-                                                            fontFamily = futura,
-                                                            fontWeight = FontWeight.SemiBold,
-                                                            fontSize = 14.sp,
-                                                            color = colors.onBackground
-                                                        ),
+                                                            fontSize = 16.sp,
+                                                            //fontWeight = FontWeight.Bold,
+                                                            color = Color(0xFFFFF1E8),
+                                                            textAlign = TextAlign.Center,
+                                                            fontFamily = FontFamily(
+                                                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                                            ),
+                                                            shadow = Shadow(
+                                                                color = Color(0xFF7E2953),
+                                                                offset = Offset(6f, 5f)
+                                                            )
+                                                        ) ,
                                                         modifier = Modifier
                                                             .fillMaxWidth()
                                                             .padding(8.dp),
@@ -1526,12 +1825,19 @@ class MerchFragmentCompose : Fragment() {
                                                                         Text(
                                                                             dataeach,
                                                                             style = TextStyle(
-                                                                                fontFamily = aileron,
-                                                                                fontWeight = FontWeight.Medium,
-                                                                                fontSize = 20.sp,
-                                                                                color = txtCol,
-                                                                                textAlign = TextAlign.Center
-                                                                            ),
+                                                                                fontSize = 32.sp,
+                                                                                //fontWeight = FontWeight.Bold,
+                                                                                color = Color(0xFFFFF1E8),
+                                                                                textAlign = TextAlign.Center,
+                                                                                fontFamily = FontFamily(
+                                                                                    Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                                                    Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                                                                ),
+                                                                                shadow = Shadow(
+                                                                                    color = Color(0xFF7E2953),
+                                                                                    offset = Offset(6f, 5f)
+                                                                                )
+                                                                            ) ,
                                                                             modifier = Modifier.align(Alignment.CenterHorizontally)
 
 
@@ -1559,11 +1865,19 @@ class MerchFragmentCompose : Fragment() {
                                                     Text(
                                                         "Chest (+/- 0.5in)",
                                                         style = TextStyle(
-                                                            fontFamily = futura,
-                                                            fontWeight = FontWeight.SemiBold,
-                                                            fontSize = 14.sp,
-                                                            color = colors.onBackground
-                                                        ),
+                                                            fontSize = 16.sp,
+                                                            //fontWeight = FontWeight.Bold,
+                                                            color = Color(0xFFFFF1E8),
+                                                            textAlign = TextAlign.Center,
+                                                            fontFamily = FontFamily(
+                                                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                                            ),
+                                                            shadow = Shadow(
+                                                                color = Color(0xFF7E2953),
+                                                                offset = Offset(6f, 5f)
+                                                            )
+                                                        ) ,
                                                         modifier = Modifier
                                                             .fillMaxWidth()
                                                             .padding(8.dp),
@@ -1573,6 +1887,9 @@ class MerchFragmentCompose : Fragment() {
                                                         modifier = Modifier.height(42.dp),
                                                         verticalAlignment = Alignment.CenterVertically
                                                     ) {
+
+
+
                                                         itemsIndexed(widths) { i, dataeach ->
                                                             context?.let {
                                                                 boxColor =
@@ -1626,11 +1943,18 @@ class MerchFragmentCompose : Fragment() {
                                                                         Text(
                                                                             dataeach,
                                                                             style = TextStyle(
-                                                                                fontFamily = aileron,
-                                                                                fontWeight = FontWeight.Medium,
-                                                                                fontSize = 20.sp,
-                                                                                color = txtCol,
-                                                                                textAlign = TextAlign.Center
+                                                                                fontSize = 32.sp,
+                                                                                //fontWeight = FontWeight.Bold,
+                                                                                color = Color(0xFFFFF1E8),
+                                                                                textAlign = TextAlign.Center,
+                                                                                fontFamily = FontFamily(
+                                                                                    Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                                                    Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                                                                ),
+                                                                                shadow = Shadow(
+                                                                                    color = Color(0xFF7E2953),
+                                                                                    offset = Offset(6f, 5f)
+                                                                                )
                                                                             ),
                                                                             modifier = Modifier.align(Alignment.CenterHorizontally)
 
@@ -1638,18 +1962,18 @@ class MerchFragmentCompose : Fragment() {
                                                                         )
 
                                                                         if(txtCol== darkTealGreen) {
-                                                                            Image(
-                                                                                painter = painterResource(R.drawable.squiggle),
-                                                                                contentDescription = null,
-                                                                                alignment = Alignment.BottomCenter,
-                                                                                modifier = Modifier
-                                                                                    .size(
-                                                                                        30.dp
-                                                                                    )
-                                                                                    .align(
-                                                                                        Alignment.CenterHorizontally
-                                                                                    )
-                                                                            )
+//                                                                            Image(
+//                                                                                painter = painterResource(R.drawable.squiggle),
+//                                                                                contentDescription = null,
+//                                                                                alignment = Alignment.BottomCenter,
+//                                                                                modifier = Modifier
+//                                                                                    .size(
+//                                                                                        30.dp
+//                                                                                    )
+//                                                                                    .align(
+//                                                                                        Alignment.CenterHorizontally
+//                                                                                    )
+//                                                                            )
                                                                         }
                                                                     }
                                                                 }
@@ -1668,13 +1992,32 @@ class MerchFragmentCompose : Fragment() {
                                     Text(
                                         currentMerch.description,
                                         style = TextStyle(
-                                            fontFamily = aileron,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 14.sp,
-                                            color = colors.onBackground
-                                        ),
+                                            fontSize = 16.sp,
+                                            //fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFFFF1E8),
+                                            textAlign = TextAlign.Center,
+                                            fontFamily = FontFamily(
+                                                Font(R.font.alcher_pixel, FontWeight.Normal),
+                                                Font(R.font.alcher_pixel_bold, FontWeight.Bold),
+                                            ),
+                                            shadow = Shadow(
+                                                color = Color(0xFF7E2953),
+                                                offset = Offset(6f, 5f)
+                                            )
+                                        ) ,
                                         modifier = Modifier.padding(start = 30.dp,end= 30.dp)
                                     )
+
+//                                    Text(
+//                                        currentMerch.description,
+//                                        style = TextStyle(
+//                                            fontFamily = aileron,
+//                                            fontWeight = FontWeight.Normal,
+//                                            fontSize = 14.sp,
+//                                            color = colors.onBackground
+//                                        ),
+//                                        modifier = Modifier.padding(start = 30.dp,end= 30.dp)
+//                                    )
                                     Spacer(modifier = Modifier.height(32.dp))
 
 
@@ -1683,6 +2026,13 @@ class MerchFragmentCompose : Fragment() {
                                         .fillMaxWidth()) {
 
 
+
+
+
+                                        //
+
+
+                                        //
                                         Box(
                                             modifier = Modifier
                                                 .height(50.dp)
@@ -1731,55 +2081,25 @@ class MerchFragmentCompose : Fragment() {
 
 
                                         ) {
-                                            Row(
-                                                modifier = Modifier
-                                                    .align(
-                                                        Alignment.Center
-                                                    )
-                                                    .width(150.dp),
-                                                horizontalArrangement = Arrangement.Center
-                                            ) {
-                                                Text(
-                                                    text = "Buy Now",
-                                                    fontSize = 20.sp,
-                                                    fontWeight = FontWeight.SemiBold,
-                                                    fontFamily = aileron,
-                                                    color = creamWhite,
-                                                )
 
-                                                Spacer(modifier = Modifier.width(5.dp))
 
-                                                Divider(color = creamWhite , modifier = Modifier
-                                                    .height(25.dp)
-                                                    .width(1.dp))
-
-                                                Spacer(modifier = Modifier.width(5.dp))
 
                                                 Image(
-                                                    painter = painterResource(R.drawable.rupees),
+                                                    painter = painterResource(R.drawable.buynow),
                                                     contentDescription = null,
-                                                    modifier = Modifier.size(20.dp)
+                                                    modifier = Modifier.fillMaxSize()
                                                 )
-                                            }
+
                                         }
+
                                         Spacer(modifier = Modifier.width(30.dp))
 
                                         Box(
                                             modifier = Modifier
                                                 .height(50.dp)
                                                 .weight(1f)
-                                                .border(
-                                                    1.dp,
-                                                    colors.onBackground,
-                                                    shape = RoundedCornerShape(5.dp),
-                                                )
-                                                .background(
-                                                    brush = Brush.verticalGradient(
-                                                        0f to containerPurple,
-                                                        1f to borderdarkpurple
-                                                    ),
-                                                    shape = RoundedCornerShape(5.dp)
-                                                )
+
+
                                                 .clickable {
                                                     if (isInStock && merchSize != "") {
                                                         dbHandler.addNewitemIncart(
@@ -1820,36 +2140,13 @@ class MerchFragmentCompose : Fragment() {
 
 
                                         ) {
-                                            Row(
-                                                modifier = Modifier
-                                                    .align(
-                                                        Alignment.Center
-                                                    )
-                                                    .width(170.dp),
-                                                horizontalArrangement = Arrangement.Center
-                                            ) {
-                                                Text(
-                                                    text = "Add to Cart",
-                                                    fontSize = 20.sp,
-                                                    fontWeight = FontWeight.SemiBold,
-                                                    fontFamily = aileron,
-                                                    color = creamWhite,
-                                                )
-
-                                                Spacer(modifier = Modifier.width(5.dp))
-
-                                                Divider(color = creamWhite , modifier = Modifier
-                                                    .height(25.dp)
-                                                    .width(1.dp))
-
-                                                Spacer(modifier = Modifier.width(5.dp))
 
                                                 Image(
-                                                    painter = painterResource(R.drawable.add_to_cart),
+                                                    painter = painterResource(R.drawable.atc),
                                                     contentDescription = null,
-                                                    modifier = Modifier.size(20.dp)
+                                                    modifier = Modifier.fillMaxSize()
                                                 )
-                                            }
+
                                         }
 
                                     }

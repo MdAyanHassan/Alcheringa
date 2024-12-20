@@ -29,6 +29,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.alcheringa.alcheringa2022.ui.theme.Alcheringa2022Theme
+
 @Composable
 fun PassBuy()
 {
@@ -147,9 +149,19 @@ fun PassBuy()
                             RoundRectangle()
                         }
                     }
-                    Divider(thickness =1.3f.dp, modifier = Modifier.padding(20.dp,8.dp,20.dp,0.dp).fillMaxWidth().height(1.3f.dp), color = textColor)
-                    Divider(thickness = 1.3f.dp, modifier = Modifier.padding(20.dp,0.dp,20.dp,8.dp).align(Alignment.BottomEnd).fillMaxWidth().height(1.3f.dp), color =textColor)
-                    Divider(thickness = 1.3f.dp, modifier = Modifier.fillMaxHeight().padding(8.dp,20.dp,20.dp,20.dp).width(1.3f.dp), color = textColor)
+                    Divider(thickness =1.3f.dp, modifier = Modifier
+                        .padding(20.dp, 8.dp, 20.dp, 0.dp)
+                        .fillMaxWidth()
+                        .height(1.3f.dp), color = textColor)
+                    Divider(thickness = 1.3f.dp, modifier = Modifier
+                        .padding(20.dp, 0.dp, 20.dp, 8.dp)
+                        .align(Alignment.BottomEnd)
+                        .fillMaxWidth()
+                        .height(1.3f.dp), color =textColor)
+                    Divider(thickness = 1.3f.dp, modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(8.dp, 20.dp, 20.dp, 20.dp)
+                        .width(1.3f.dp), color = textColor)
 
                 }
             }
@@ -211,6 +223,14 @@ fun PassPrice(text:String,price:String,width: Dp,dashWidth:Dp,smallBoxHeight:Dp)
             Text(modifier = Modifier.padding(10.dp, 2.dp, 0.dp, 0.dp), text = price,color=textColor)
         }
         dashLine(dashWidth)
+    }
+}
+
+@Preview
+@Composable
+fun PassBuyPreview() {
+    Alcheringa2022Theme {
+        PassBuy()
     }
 }
 
