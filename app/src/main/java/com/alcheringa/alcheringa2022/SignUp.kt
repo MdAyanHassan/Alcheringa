@@ -63,7 +63,7 @@ class SignUp : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            SignUpScreen(
+            SignUpScreen2025(
                 onLoginHereClick ={
                     startActivity(
                         Intent(
@@ -90,7 +90,18 @@ class SignUp : ComponentActivity() {
 
                 },
                 signUp = {name , email , password ->
-                    StartCustomSignup( name,email,password )}
+                    StartCustomSignup( name,email,password )},
+                onBack = {
+                    goBack()
+                },
+                openPrivacyPolicy = {
+                    startActivity(
+                        Intent(
+                            applicationContext ,  PrivacyPolicy::class.java
+                        )
+                    )
+                },
+                loginWithApple = { /*TODO*/ }
             )
 
             if(loaderView.value){
@@ -147,12 +158,12 @@ class SignUp : ComponentActivity() {
         //video_load();
     }
 
-//    private fun goBack() {
-//        val intent = Intent(applicationContext, Greeting_page::class.java)
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-//        startActivity(intent)
-//        finish()
-//    }
+    private fun goBack() {
+        val intent = Intent(applicationContext, Greeting_page::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        startActivity(intent)
+        finish()
+    }
 
     private fun MicrosoftLogin() {
         loaderView.value = true

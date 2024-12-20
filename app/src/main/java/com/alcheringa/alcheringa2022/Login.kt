@@ -64,21 +64,30 @@ class Login : ComponentActivity() {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_login)
         setContent {
-            LoginScreen(
+            LoginScreen2025(
                 forgetPassword = {startActivity(
                     Intent(
                         applicationContext, ResetPassword::class.java
                     )
                 )},
-                signUpHere = {
+//                signUpHere = {
+//                    startActivity(
+//                        Intent(
+//                            applicationContext ,  SignUp::class.java
+//                        )
+//                    )
+//                },
+                openPrivacyPolicy = {
                     startActivity(
                         Intent(
-                            applicationContext ,  SignUp::class.java
+                            applicationContext ,  PrivacyPolicy::class.java
                         )
                     )
                 },
                 microsoftLogin = {MicrosoftLogin()},
                 googleLogin = {google_login_callback()},
+
+                appleLogin = { /**TODO**/ },
                 onEmailChange = {email ->
                                 Email = email
 
@@ -93,6 +102,10 @@ class Login : ComponentActivity() {
                             custom_Login_start(email , password)
                         }
                     }
+                },
+
+                onBack = {
+                    goBack()
                 }
 
             )

@@ -32,6 +32,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
+// This activity runs a splash screen using a video view and then takes us to main activity or
+// login activity depending on whether user is signed in or not
+
 public class Splash_Screen extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     FirebaseAuth firebaseAuth;
