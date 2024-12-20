@@ -119,8 +119,8 @@ fun CartLayout2025(
                     onFinish()
                 },
                 modifier = Modifier
-                    .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
-                    .size(40.dp)
+                    .padding(start = 10.dp, top = 4.dp, bottom = 4.dp)
+                    .size(48.dp)
             ) {
 
                 Icon(
@@ -146,7 +146,7 @@ fun CartLayout2025(
                 ),
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(8.dp)
+                    .padding(12.dp)
             )
         }
 
@@ -223,7 +223,7 @@ fun CartLayout2025(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.95f)
-                .padding(start = 20.dp, end = 20.dp, top = 15.dp, bottom = 15.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 5.dp, bottom = 15.dp)
         ) {
 
             LazyColumn(
@@ -238,7 +238,7 @@ fun CartLayout2025(
                             .fillMaxWidth()
                             .padding(top = 10.dp, bottom = bottomDp)
                             .paint(
-                                painterResource(id = R.drawable.product_cart_details_bg)
+                                painterResource(id = R.drawable.cart_item_new_bg)
                             ),
                         backgroundColor = Color.Transparent
                     ) {
@@ -253,7 +253,7 @@ fun CartLayout2025(
                                 data = item.image,
                                 builder = {
                                     placeholder(R.drawable.white_circle_bg)
-                                    error(R.drawable.ic_twitter)
+                                    //error(R.drawable.ic_twitter)
                                     crossfade(true)
                                 }
                             )
@@ -278,8 +278,8 @@ fun CartLayout2025(
                             Box(
                                 modifier = Modifier
                                     .fillMaxHeight()
-                                    .fillMaxWidth(0.5f)
-                                    .padding(8.dp)
+                                    .fillMaxWidth(0.45f)
+                                    .padding(start = 16.dp, bottom = 8.dp, top = 16.dp)
                                     .paint(
                                         painterResource(id = R.drawable.product_image_bg)
                                     )
