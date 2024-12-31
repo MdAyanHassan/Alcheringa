@@ -977,7 +977,7 @@ class MerchFragmentCompose : Fragment() {
                                          //   fontWeight = FontWeight.Bold,
                                             color = Color(0xFFFFF1E8),
                                             textAlign = TextAlign.Center,
-                                            fontFamily = FontFamily(
+                                            fontFamily  = FontFamily(
                                                 Font(R.font.alcher_pixel, FontWeight.Normal),
                                                 Font(R.font.alcher_pixel_bold, FontWeight.Bold),
                                             ),
