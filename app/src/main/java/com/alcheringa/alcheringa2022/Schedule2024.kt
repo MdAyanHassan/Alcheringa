@@ -71,8 +71,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -212,7 +215,7 @@ class Schedule2024 : Fragment() {
         Box(
             modifier = Modifier
                 .paint(
-                    painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+                    painterResource(id = R.drawable.cart_bg),
                     contentScale = ContentScale.Crop
                 )
         ){
@@ -231,23 +234,19 @@ class Schedule2024 : Fragment() {
 //                        strokeWidth = 1.dp.toPx()
 //                    )
 //                }
-                Divider(modifier = Modifier
-                    .height(2.dp)
-                    .background(darkTealGreen))
+//                Divider(modifier = Modifier
+//                    .height(2.dp)
+//                    .background(darkTealGreen))
                 // Day select Row
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(70.dp)
-                        .paint(
-                            painterResource(id = R.drawable.day_number_transparent),
-                            contentScale = ContentScale.FillBounds
-                        )
                         .padding(horizontal = 16.dp)
                     ,
 
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column(
                         modifier = Modifier
@@ -256,19 +255,22 @@ class Schedule2024 : Fragment() {
                                 datestate.value = 0
                                 selectedDayEvents = datestate0
                             }
-                            .background(
-                                if (datestate.value == 0) darkTealGreen else Color.Transparent,
-                                RoundedCornerShape(8.dp)
-                            )
-                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+//                            .background(
+//                                if (datestate.value == 0) darkTealGreen else Color.Transparent,
+//                                RoundedCornerShape(8.dp)
+//                            )
+//                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
                             .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
-                            text = "Day 0",
-                            fontSize = 18.sp,
-                            fontFamily = futura,
-                            color = colors.onBackground,
+                            text = "DAY 0",
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel),
+                                Font(R.font.alcher_pixel_bold)
+                            ),
+                            color = if (datestate.value == 0) Color(0xFFFFF1E8) else Color(0xFF83769C),
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -279,19 +281,22 @@ class Schedule2024 : Fragment() {
                                 datestate.value = 1
                                 selectedDayEvents = datestate1
                             }
-                            .background(
-                                if (datestate.value == 1) darkTealGreen else Color.Transparent,
-                                RoundedCornerShape(8.dp)
-                            )
-                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+//                            .background(
+//                                if (datestate.value == 1) darkTealGreen else Color.Transparent,
+//                                RoundedCornerShape(8.dp)
+//                            )
+//                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
                             .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
-                            text = "Day 1",
-                            fontSize = 18.sp,
-                            fontFamily = futura,
-                            color = colors.onBackground,
+                            text = "DAY 1",
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel),
+                                Font(R.font.alcher_pixel_bold)
+                            ),
+                            color = if (datestate.value == 1) Color(0xFFFFF1E8) else Color(0xFF83769C),
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -302,19 +307,22 @@ class Schedule2024 : Fragment() {
                                 datestate.value = 2
                                 selectedDayEvents = datestate2
                             }
-                            .background(
-                                if (datestate.value == 2) darkTealGreen else Color.Transparent,
-                                RoundedCornerShape(8.dp)
-                            )
-                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+//                            .background(
+//                                if (datestate.value == 2) darkTealGreen else Color.Transparent,
+//                                RoundedCornerShape(8.dp)
+//                            )
+//                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
                             .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
-                            text = "Day 2",
-                            fontSize = 18.sp,
-                            fontFamily = futura,
-                            color = colors.onBackground,
+                            text = "DAY 2",
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel),
+                                Font(R.font.alcher_pixel_bold)
+                            ),
+                            color = if (datestate.value == 2) Color(0xFFFFF1E8) else Color(0xFF83769C),
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -325,19 +333,22 @@ class Schedule2024 : Fragment() {
                                 datestate.value = 3
                                 selectedDayEvents = datestate3
                             }
-                            .background(
-                                if (datestate.value == 3) darkTealGreen else Color.Transparent,
-                                RoundedCornerShape(8.dp)
-                            )
-                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
+//                            .background(
+//                                if (datestate.value == 3) darkTealGreen else Color.Transparent,
+//                                RoundedCornerShape(8.dp)
+//                            )
+//                            .border(1.dp, colors.onBackground, RoundedCornerShape(8.dp))
                             .padding(horizontal = 12.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
                         Text(
-                            text = "Day 3",
-                            fontSize = 18.sp,
-                            fontFamily = futura,
-                            color = colors.onBackground,
+                            text = "DAY 3",
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel),
+                                Font(R.font.alcher_pixel_bold)
+                            ),
+                            color = if (datestate.value == 3) Color(0xFFFFF1E8) else Color(0xFF83769C),
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -372,53 +383,68 @@ class Schedule2024 : Fragment() {
                         ){
                             if (datestate.value == 0) {
                                 Text(
-                                    text = "07",
-                                    color = darkTealGreen,
-                                    fontSize = 22.sp,
-                                    fontFamily = futura,
+                                    text = "30",
+                                    color = Color(0xFFCA3562),
+                                    fontSize = 24.sp,
+                                    fontFamily = FontFamily(
+                                        Font(R.font.alcher_pixel),
+                                        Font(R.font.alcher_pixel_bold)
+                                    ),
                                     fontWeight = FontWeight.SemiBold
 
                                 )
                             }
                             else if (datestate.value == 1){
                                 Text(
-                                    text = "08",
-                                    color = darkTealGreen,
-                                    fontSize = 22.sp,
-                                    fontFamily = futura,
+                                    text = "31",
+                                    color = Color(0xFFCA3562),
+                                    fontSize = 24.sp,
+                                    fontFamily = FontFamily(
+                                        Font(R.font.alcher_pixel),
+                                        Font(R.font.alcher_pixel_bold)
+                                    ),
                                     fontWeight = FontWeight.SemiBold
                                 )
                             }
                             else if(datestate.value == 2){
                                 Text(
-                                    text = "09",
-                                    color = darkTealGreen,
-                                    fontSize = 22.sp,
-                                    fontFamily = futura,
+                                    text = "01",
+                                    color = Color(0xFFCA3562),
+                                    fontSize = 24.sp,
+                                    fontFamily = FontFamily(
+                                        Font(R.font.alcher_pixel),
+                                        Font(R.font.alcher_pixel_bold)
+                                    ),
                                     fontWeight = FontWeight.SemiBold
                                 )
                             }
                             else if (datestate.value == 3){
                                 Text(
-                                    text = "10",
-                                    color = darkTealGreen,
-                                    fontSize = 22.sp,
-                                    fontFamily = futura,
+                                    text = "02",
+                                    color = Color(0xFFCA3562),
+                                    fontSize = 24.sp,
+                                    fontFamily = FontFamily(
+                                        Font(R.font.alcher_pixel),
+                                        Font(R.font.alcher_pixel_bold)
+                                    ),
                                     fontWeight = FontWeight.SemiBold
                                 )
                             }
                             Text(
-                                text = "Mar",
-                                color = darkTealGreen,
-                                fontSize = 22.sp,
-                                fontFamily = futura,
+                                text = if (datestate.value == 0 || datestate.value == 1) "JAN" else "FEB",
+                                color = Color(0xFFCA3562),
+                                fontSize = 24.sp,
+                                fontFamily = FontFamily(
+                                    Font(R.font.alcher_pixel),
+                                    Font(R.font.alcher_pixel_bold)
+                                ),
                                 fontWeight = FontWeight.SemiBold
                             )
-                            Icon(
-                                ImageVector.vectorResource(R.drawable.squiggle),
-                                null,
-                                tint = darkTealGreen
-                            )
+//                            Icon(
+//                                ImageVector.vectorResource(R.drawable.squiggle),
+//                                null,
+//                                tint = darkTealGreen
+//                            )
                         }
                     }
 
@@ -428,10 +454,10 @@ class Schedule2024 : Fragment() {
                             .fillMaxHeight(),
                     ){
                         drawLine(
-                            color = onbackgroundcolor,
+                            color = Color(0xFF83769C),
                             start = Offset(size.width/2, 0f),
                             end = Offset(size.width/2, size.height),
-                            strokeWidth = 1.dp.toPx()
+                            strokeWidth = 3.dp.toPx()
                         )
                     }
 
@@ -475,17 +501,21 @@ class Schedule2024 : Fragment() {
                                     .clickable {
                                         expanded = !expanded
                                     }
-                                    .border(1.dp, colors.onBackground, RoundedCornerShape(4.dp))
+                                    .background(color = Color(0xFF1D2B53))
+                                    .border(2.dp, Color(0xFF7E2553))
                                     .padding(horizontal = 24.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
                                     text = selectedItem.value,
-                                    fontFamily = futura,
+                                    fontFamily = FontFamily(
+                                        Font(R.font.alcher_pixel),
+                                        Font(R.font.alcher_pixel_bold)
+                                    ),
                                     fontWeight = FontWeight.Medium,
-                                    fontSize = 18.sp,
-                                    color = colors.onBackground
+                                    fontSize = 22.sp,
+                                    color = Color(0xFFFFF1E8)
 
                                 )
 
@@ -496,7 +526,7 @@ class Schedule2024 : Fragment() {
                                     Divider(
                                         Modifier
                                             .fillMaxHeight()
-                                            .width(1.dp), color = colors.onBackground
+                                            .width(0.dp), color = colors.onBackground
                                     )
                                     Spacer(modifier = Modifier.width(24.dp))
 
@@ -523,7 +553,10 @@ class Schedule2024 : Fragment() {
                                         selectedItem.value = label
                                         expanded = false
                                     }) {
-                                        Text(text = label, color = colors.onBackground, fontFamily = futura, fontWeight = FontWeight.Medium)
+                                        Text(text = label, color = Color(0xFFFFF1E8), fontFamily = FontFamily(
+                                            Font(R.font.alcher_pixel),
+                                            Font(R.font.alcher_pixel_bold)
+                                        ), fontWeight = FontWeight.Medium)
                                     }
                                 }
                             }
@@ -552,10 +585,10 @@ class Schedule2024 : Fragment() {
                         .height(1.dp)
                 ){
                     drawLine(
-                        color = onbackgroundcolor,
+                        color = Color(0xFF83769C),
                         start = Offset(0f, size.height/2),
                         end = Offset(size.width, size.height/2),
-                        strokeWidth = 1.dp.toPx()
+                        strokeWidth = 3.dp.toPx()
                     )
                 }
 
@@ -608,9 +641,12 @@ class Schedule2024 : Fragment() {
                             ) {
                                 Text(
                                     text = "There is no event \nat the current location",
-                                    color = colors.onBackground,
-                                    fontSize = 20.sp,
-                                    fontFamily = futura
+                                    color = Color(0xFFFFF1E8),
+                                    fontSize = 22.sp,
+                                    fontFamily = FontFamily(
+                                        Font(R.font.alcher_pixel),
+                                        Font(R.font.alcher_pixel_bold)
+                                    )
                                 )
                             }
                         }
@@ -661,10 +697,10 @@ class Schedule2024 : Fragment() {
                     .height(616.dp + 44.dp)
             ){
                 drawLine(
-                    color = onbackgroundcolor,
+                    color = Color(0xFF83769C),
                     start = Offset(size.width, 0f),
                     end = Offset(size.width, size.height),
-                    strokeWidth = 1.dp.toPx()
+                    strokeWidth = 3.dp.toPx()
                 )
             }
 
@@ -701,7 +737,7 @@ class Schedule2024 : Fragment() {
                             horizontalAlignment = Alignment.End,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(end = 7.dp)
+                                .padding(end = 4.dp)
                         ) {
                             for (time in 8..11) {
                                 Row(
@@ -713,9 +749,12 @@ class Schedule2024 : Fragment() {
                                     Text(
                                         text = time.toString() + " am",
 
-                                        fontSize = 16.sp,
-                                        fontFamily = futura,
-                                        color = colors.onBackground,
+                                        fontSize = 20.sp,
+                                        fontFamily =  FontFamily(
+                                            Font(R.font.alcher_pixel),
+                                            Font(R.font.alcher_pixel_bold)
+                                        ),
+                                        color = Color(0xFFFFF1E8),
 
                                     )
                                 }
@@ -730,9 +769,12 @@ class Schedule2024 : Fragment() {
                             ) {
                                 Text(
                                     text = "12 pm",
-                                    fontSize = 16.sp,
-                                    fontFamily = futura,
-                                    color = colors.onBackground
+                                    fontSize = 20.sp,
+                                    fontFamily = FontFamily(
+                                        Font(R.font.alcher_pixel),
+                                        Font(R.font.alcher_pixel_bold)
+                                    ),
+                                    color = Color(0xFFFFF1E8)
                                 )
                             }
                             for (time in 1..10) {
@@ -744,9 +786,12 @@ class Schedule2024 : Fragment() {
                                 ) {
                                     Text(
                                         text = time.toString() + " pm",
-                                        fontSize = 16.sp,
-                                        fontFamily = futura,
-                                        color = colors.onBackground
+                                        fontSize = 20.sp,
+                                        fontFamily = FontFamily(
+                                            Font(R.font.alcher_pixel),
+                                            Font(R.font.alcher_pixel_bold)
+                                        ),
+                                        color = Color(0xFFFFF1E8)
                                     )
                                 }
                             }
@@ -761,7 +806,7 @@ class Schedule2024 : Fragment() {
 
                         ) {
                             drawCircle(
-                                color = darkTealGreen,
+                                color = Color(0xFFFFF1E8),
                                 radius = 18f,
                                 center = Offset(size.width, yOffset.value)
                             )
@@ -779,12 +824,14 @@ class Schedule2024 : Fragment() {
     }
     @Composable
     fun VenueSchedule(venue: String, scroll: ScrollState, eventList: List<eventWithLive>){
-        val horizontal_dash_color = if(isSystemInDarkTheme()){
-            containerPurple.copy(0.6f)
-        }
-        else{
-            containerPurple
-        }
+//        val horizontal_dash_color = if(isSystemInDarkTheme()){
+//            containerPurple.copy(0.6f)
+//        }
+//        else{
+//            containerPurple
+//        }
+
+        val horizontal_dash_color = Color(0xFF83769C)
 //        val yOffset = with(LocalDensity.current) { ((currentHour.value - 8f) * 44.dp.toPx()) + (currentMinute.value * (44.dp.toPx()/60f)) + 21.dp.toPx()}
         val cal = Calendar.getInstance()
 //        Canvas(
@@ -813,9 +860,12 @@ class Schedule2024 : Fragment() {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = venue,
-                    fontSize = 18.sp,
-                    fontFamily = futura,
-                    color = colors.onBackground,
+                    fontSize = 20.sp,
+                    fontFamily = FontFamily(
+                        Font(R.font.alcher_pixel),
+                        Font(R.font.alcher_pixel_bold)
+                    ),
+                    color = Color(0xFFFFF1E8),
                     fontWeight = FontWeight.Medium
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -890,7 +940,7 @@ class Schedule2024 : Fragment() {
                                         )
                                     )
                                     .background(
-                                        color = colors.background,
+                                        color = Color(0xFF1D2B53),
                                         shape = RoundedCornerShape(4.dp)
                                     )
                                     .clickable {
@@ -909,11 +959,14 @@ class Schedule2024 : Fragment() {
                             ) {
                                 Text(
                                     text = event.eventdetail.artist,
-                                    fontSize = 18.sp,
-                                    fontFamily = futura,
+                                    fontSize = 20.sp,
+                                    fontFamily = FontFamily(
+                                        Font(R.font.alcher_pixel),
+                                        Font(R.font.alcher_pixel_bold)
+                                    ),
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
-                                    color = colors.onBackground,
+                                    color = Color(0xFFFFF1E8),
                                     modifier = Modifier
                                         .padding(horizontal = 10.dp)
                                 )
@@ -921,22 +974,25 @@ class Schedule2024 : Fragment() {
                                 if (event.eventdetail.durationInMin/60 > 1) {
                                     Text(
                                         text = event.eventdetail.type,
-                                        fontSize = 14.sp,
-                                        fontFamily = futura,
+                                        fontSize = 16.sp,
+                                        fontFamily = FontFamily(
+                                            Font(R.font.alcher_pixel),
+                                            Font(R.font.alcher_pixel_bold)
+                                        ),
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
-                                        color = colors.onBackground
+                                        color = Color(0xFFFFF1E8)
                                     )
                                 }
                             }
-                            Image(
-                                painter = painterResource(id = R.drawable.card_background_transparent),
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(horizontal = 4.dp)
-                            )
+//                            Image(
+//                                painter = painterResource(id = R.drawable.card_background_transparent),
+//                                contentDescription = null,
+//                                contentScale = ContentScale.Crop,
+//                                modifier = Modifier
+//                                    .fillMaxSize()
+//                                    .padding(horizontal = 4.dp)
+//                            )
                         }
                     }
 
@@ -949,7 +1005,7 @@ class Schedule2024 : Fragment() {
                         ) {
 
                             drawLine(
-                                color = darkTealGreen,
+                                color = horizontal_dash_color,
                                 start = Offset(0f, yOffset.value),
                                 end = Offset(size.width, yOffset.value),
                                 strokeWidth = 2.5.dp.toPx()
@@ -982,4 +1038,9 @@ class Schedule2024 : Fragment() {
         return selectedDayEvents.filter { data-> data.eventdetail.venue.replace("\\s".toRegex(), "").uppercase()== venue.replace("\\s".toRegex(), "").uppercase()}
     }
 
+    @Preview
+    @Composable
+    fun MySchedulePreview() {
+        mySchedule()
+    }
 }

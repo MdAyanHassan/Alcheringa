@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NotificationActivity"
-    style="@style/Background">
+    android:background="@drawable/cart_bg">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:background="@drawable/topheaderbottomborder"
+        android:background="@drawable/cart_header_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,11 +21,12 @@
 
 
         <ImageButton
+            android:contentDescription="Go back"
+            android:scaleType="fitCenter"
             android:id="@+id/backbtn"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="16dp"
-            android:src="@drawable/backbtn2"
+            android:src="@drawable/back_button_art"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,12 +37,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Notifications"
-            android:fontFamily="@font/clash_display_700"
-            android:textColor="@color/lighterPurple"
-            android:layout_marginLeft="10dp"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/backbtn"
+            android:fontFamily="@font/alcher_pixel"
+            android:textColor="@color/screen_header_color"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="12dp"
+            android:textSize="24sp"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -76,19 +77,19 @@
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription=""
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/emptynotification" />
 
         <TextView
-            style="@style/tertiaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:fontFamily="@font/aileron_bold"
+            android:fontFamily="@font/alcher_pixel"
+            android:textColor="@color/standard_light_grey"
             android:text="No new notifications!"
             android:textAlignment="center"
             android:textSize="16sp" />

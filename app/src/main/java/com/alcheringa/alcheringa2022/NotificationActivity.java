@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -41,6 +42,13 @@ public class NotificationActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         list=new ArrayList<>();
+        list.add(
+                new NotificationData(
+                        "Title Sponsor",
+                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.",
+                        new Date(1609765L)
+                )
+        );
         notificationAdapter=new NotificationAdapter(this,list);
         recyclerView.setAdapter(notificationAdapter);
 
@@ -71,12 +79,12 @@ public class NotificationActivity extends AppCompatActivity {
                             documentSnapshot.getDate("Timestamp")
                     ));
                 }
-                if(!list.isEmpty()){findViewById(R.id.emptynotificationview).setVisibility(View.GONE);}
                 notificationAdapter.notifyDataSetChanged();
             }else{
                 Log.d(TAG, "Error getting documents", task.getException());
             }
 //            loaderView.setVisibility(View.GONE);
         });
+        if(!list.isEmpty()){findViewById(R.id.emptynotificationview).setVisibility(View.GONE);}
     }
 }
