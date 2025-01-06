@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -42,11 +43,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
@@ -83,22 +90,30 @@ class YourOrdersActivity: AppCompatActivity() {
 
                 Column(
                     modifier = Modifier
-                        .background(colors.background)
                         .fillMaxSize()
+                        .paint(
+                            painterResource(id = R.drawable.cart_bg),
+                            contentScale = ContentScale.FillBounds
+                        )
                 ) {
                     Row(
                         modifier = Modifier
                             .height(65.dp)
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
+                            .fillMaxWidth()
+                            .paint(
+                                painter = painterResource(id = R.drawable.cart_header_bg),
+                                contentScale = ContentScale.FillBounds
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Box(modifier = Modifier) {
                             Icon(
-                                painter = painterResource(id = R.drawable.cart_arrow),
+                                painter = painterResource(id = R.drawable.back_button_art),
                                 contentDescription = null,
-                                tint = lighterPurple,
+                                tint = Color.Unspecified,
                                 modifier = Modifier
-                                    .padding(start = 10.dp, end = 10.dp)
+                                    .padding(start = 8.dp, end = 8555.dp)
                                     .clickable {
                                         finish()
                                     }
@@ -107,52 +122,53 @@ class YourOrdersActivity: AppCompatActivity() {
                         }
                         Text(
                             text = "Orders",
-                            fontFamily = futura,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel),
+                                Font(R.font.alcher_pixel_bold)
+                            ),
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 22.sp,
-                            color = lighterPurple
+                            color = Color(0xFFFF77A8),
+                            modifier = Modifier.padding(end = 12.dp)
                         )
                     }
 
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(2.dp)
-                            .background(darkTealGreen)
-                    )
+//                    Divider(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(2.dp)
+//                            .background(darkTealGreen)
+//                    )
 
 
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 20.dp)
-                            .paint(
-                                painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
-                                contentScale = ContentScale.Crop
-                            ),
+//                            .paint(
+//                                painterResource(id = if (isSystemInDarkTheme()) R.drawable.background_texture_dark else R.drawable.background_texture_light),
+//                                contentScale = ContentScale.Crop
+//                            ),
                     ) {
                         if (yourOrders_modelList.isEmpty()) {
 
                             Text(
-                                text = "Opps! You haven't ordered yet!!",
-                                color = if(isSystemInDarkTheme()) creamWhite else darkBar,
+                                text = "Oops! You haven't ordered yet!!",
+                                fontFamily = FontFamily(
+                                    Font(R.font.alcher_pixel),
+                                    Font(R.font.alcher_pixel_bold)
+                                ),
+                                color = Color(0xFFFFF1E8),
                                 modifier = Modifier.align(Alignment.Center),
-                                fontSize = 20.sp
+                                fontSize = 22.sp
                             )
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .background(
-                                        Brush.verticalGradient(
-                                            0f to lighterPurple,
-                                            1f to borderdarkpurple
-                                        ),
-                                        shape = RoundedCornerShape(6.dp)
-                                    )
-                                    .border(
-                                        1.dp,
-                                        colors.onBackground,
-                                        RoundedCornerShape(6.dp)
+                                    .padding(vertical = 15.dp)
+                                    .paint(
+                                        painterResource(id = R.drawable.sign_in_button),
+                                        contentScale = ContentScale.Crop
                                     )
                                     .clickable {
                                         startActivity(
@@ -162,15 +178,17 @@ class YourOrdersActivity: AppCompatActivity() {
                                             )
                                         )
                                     }
-                                    .padding(vertical = 15.dp)
                                     .align(Alignment.BottomCenter),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 Text(
                                     text = "Start shopping",
-                                    color = lightBar,
-                                    fontSize = 22.sp,
-                                    fontFamily = futura
+                                    fontFamily = FontFamily(
+                                        Font(R.font.alcher_pixel),
+                                        Font(R.font.alcher_pixel_bold)
+                                    ),
+                                    color = Color(0xFFFFF1E8),
+                                    fontSize = 22.sp
                                 )
                             }
 
@@ -200,6 +218,21 @@ class YourOrdersActivity: AppCompatActivity() {
         }
     }
 
+    @Preview
+    @Composable
+    fun OrdersCardPreview() {
+        OrdersCard(orderDetail = OrdersModel(
+            status = "Placed",
+            merch_name = "Nike Air Max",
+            merch_type = "Shoes",
+            merch_quantity = "1",
+            merch_size = "XL",
+            price = "200",
+            delivery_date = "03-03-2025",
+            Image = ""
+        ))
+    }
+
     @OptIn(ExperimentalCoilApi::class)
     @Composable
     fun OrdersCard(orderDetail: OrdersModel){
@@ -208,9 +241,9 @@ class YourOrdersActivity: AppCompatActivity() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp)
-                    .background(colors.background, RoundedCornerShape(4.dp))
-                    .border(1.dp, lighterPurple, RoundedCornerShape(4.dp))
+                    .height(140.dp)
+//                    .background(colors.background, RoundedCornerShape(4.dp))
+                    .border(2.dp, Color(0xFF7E2553))
             ) {
                 Row(
                     modifier = Modifier
@@ -236,23 +269,48 @@ class YourOrdersActivity: AppCompatActivity() {
                     ) {
                         Text(
                             text = orderDetail.merch_name,
-                            color = MaterialTheme.colors.onBackground,
-                            fontSize = 18.sp,
-                            fontFamily = futura,
+                            color = Color(0xFFFFF1E8),
+                            fontSize = 22.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel),
+                                Font(R.font.alcher_pixel_bold)
+                            ),
+                            style = TextStyle(
+                                shadow = Shadow(color = Color.Black, offset = Offset(2f, 2f))
+                            ),
                             fontWeight = FontWeight.Medium,
                             modifier = Modifier
                                 .align(Alignment.Start)
+                                .padding(2.dp)
                         )
 
                         Text(
-                            text = "${orderDetail.merch_size}, ${orderDetail.merch_quantity} Qty",
-                            color = MaterialTheme.colors.onBackground,
-                            fontSize = 14.sp,
-                            fontFamily = futura,
+                            text = "Quantity: ${orderDetail.merch_quantity}",
+                            color = Color(0xFFFF77A8),
+                            fontSize = 18.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel),
+                                Font(R.font.alcher_pixel_bold)
+                            ),
                             modifier = Modifier
                                 .align(Alignment.Start)
+                                .padding(bottom = 2.dp, start = 2.dp, end = 2.dp)
                         )
-                        Spacer(modifier = Modifier.height(0.dp))
+
+                        Text(
+                            text = "Size: ${orderDetail.merch_size}",
+                            color = Color(0xFFFFF1E8),
+                            fontSize = 16.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.alcher_pixel),
+                                Font(R.font.alcher_pixel_bold)
+                            ),
+                            modifier = Modifier
+                                .align(Alignment.Start)
+                                .padding(bottom = 2.dp, start = 2.dp, end = 2.dp)
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
                         Row (
                             Modifier
                                 .fillMaxWidth(),
@@ -260,10 +318,14 @@ class YourOrdersActivity: AppCompatActivity() {
                         ){
                             Text(
                                 text = "Order Placed",
-                                color =  colors.onBackground,
-                                fontSize = 14.sp,
-                                fontFamily = futura,
-                                fontWeight = FontWeight.Medium
+                                color =  Color(0xFFFFF1E8),
+                                fontSize = 20.sp,
+                                fontFamily = FontFamily(
+                                    Font(R.font.alcher_pixel),
+                                    Font(R.font.alcher_pixel_bold)
+                                ),
+                                fontWeight = FontWeight.Medium,
+                                modifier = Modifier.padding(1.dp)
                             )
                         }
 
