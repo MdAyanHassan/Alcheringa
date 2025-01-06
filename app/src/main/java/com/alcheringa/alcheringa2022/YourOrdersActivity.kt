@@ -113,7 +113,7 @@ class YourOrdersActivity: AppCompatActivity() {
                                 contentDescription = null,
                                 tint = Color.Unspecified,
                                 modifier = Modifier
-                                    .padding(start = 8.dp, end = 8555.dp)
+                                    .padding(start = 8.dp, end = 8.dp)
                                     .clickable {
                                         finish()
                                     }
